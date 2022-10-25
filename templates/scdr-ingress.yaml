@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ .Values.labels.client }}-scdr-ingress
+  labels:
+    client: {{ .Values.labels.client }}
+    env: {{ .Values.labels.env }}
+    version: {{ .Values.labels.version }}
+    application: {{ .Values.labels.application }}
+  annotations:
+    {{- include "ingress.annotations" . | nindent 4 }}
+
+spec:
+  rules:
+    - host: {{ .Values.specs.hostname }}
+      http:
+        paths:
+          {{- range $k, $v := include "smilecdr.services" . | fromYaml }}
+          - path: {{ $v.fullPath }}
+            pathType: Prefix
+            backend:
+              service:
+                name: smilecdr-{{ $v.svcName }}
+                port:
+                  number: {{ $v.port }}
+          {{- end }}

@@ -1,0 +1,36 @@
+apiVersion: v1
+data:
+  cdr-config-Master.properties: |-
+    ################################################################################
+    # Node Configuration
+    ################################################################################
+    node.id                                                        =Masterdev
+    
+    # Broker options are EMBEDDED_ACTIVEMQ, REMOTE_ACTIVEMQ, KAFKA, NONE
+    {{ include "scdrcfg.messagebroker" . | nindent 4 }}
+
+    ################################################################################
+    # Other Modules are Configured Below
+    ################################################################################
+
+    # The following setting controls where module configuration is ultimately stored.
+    # When set to "DATABASE" (which is the default), the clustermgr configuration is
+    # always read but the other modules are stored in the database upon the first
+    # launch and their configuration is read from the database on subsequent
+    # launches. When set to "PROPERTIES", values in this file are always used.
+    #
+    # In other words, in DATABASE mode, the module definitions below this line are
+    # only used to seed the database upon the very first startup of the sytem, and
+    # will be ignored after that. In PROPERTIES mode, the module definitions below
+    # are read every time the system starts, and existing definitions and config are
+    # overwritten by what is in this file.
+    #
+    node.propertysource                                            =PROPERTIES
+
+    {{ include "smilecdr.modules.config" . | nindent 4 }}
+
+kind: ConfigMap
+metadata:
+  name: smilecdr-config-{{ .Values.labels.client }}
+  namespace: {{ .Release.Namespace }}
+  selfLink: /api/v1/namespaces/default/configmaps/{{ .Values.labels.client }}-smilecdr-config
