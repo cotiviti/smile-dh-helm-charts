@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: smilecdr-{{ .Values.labels.client }}
+  labels:
+    env: {{ .Values.labels.env }}
+    client: {{ .Values.labels.client }}
+    version: {{ .Values.labels.version }}
+    application: {{ .Values.labels.application }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      env: {{ .Values.labels.env }}
+      client: {{ .Values.labels.client }}
+      version: {{ .Values.labels.version }}
+      application: {{ .Values.labels.application }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        env: {{ .Values.labels.env }}
+        client: {{ .Values.labels.client }}
+        version: {{ .Values.labels.version }}
+        application: {{ .Values.labels.application }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "smilecdr.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "smilecdr.dbSecretName" . }}
+                  key: host
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "smilecdr.dbSecretName" . }}
+                  key: dbname
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "smilecdr.dbSecretName" . }}
+                  key: user
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "smilecdr.dbSecretName" . }}
+                  key: password
+          ports:
+            {{- range $k, $v := include "smilecdr.services" . | fromYaml }}
+            - name: {{ $v.svcName }}
+              containerPort: {{ $v.port }}
+              protocol: TCP
+            {{- end }}
+
+          volumeMounts:
+          - name: smilecdr-config-{{ .Values.labels.client }}
+            mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
+            subPath: cdr-config-Master.properties
+          - name: smilecdr-tls-cert-{{ .Values.labels.client }}
+            mountPath: "/etc/ssl/smile"
+            readOnly: true
+{{- include "smilecdr.fileVolumeMounts" . | nindent 10 }}
+      volumes:
+        - name: smilecdr-config-{{ .Values.labels.client }}
+          configMap: 
+            name: smilecdr-config-{{ .Values.labels.client }}
+        - name: smilecdr-tls-cert-{{ .Values.labels.client }}
+          secret:
+            secretName: cdr-dev-tls-cert
+{{- include "smilecdr.fileVolumes" . | nindent 8 }}
+      restartPolicy: Always
