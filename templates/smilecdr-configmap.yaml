@@ -1,4 +1,8 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: smilecdr-config-{{ .Values.labels.client }}
+  namespace: {{ .Release.Namespace }}
 data:
   cdr-config-Master.properties: |-
     ################################################################################
@@ -28,9 +32,3 @@ data:
     node.propertysource                                            =PROPERTIES
 
     {{ include "smilecdr.modules.config" . | nindent 4 }}
-
-kind: ConfigMap
-metadata:
-  name: smilecdr-config-{{ .Values.labels.client }}
-  namespace: {{ .Release.Namespace }}
-  selfLink: /api/v1/namespaces/default/configmaps/{{ .Values.labels.client }}-smilecdr-config
