@@ -83,7 +83,7 @@ spec:
 {{- include "smilecdr.fileVolumeMounts" . | nindent 10 }}
       volumes:
         - name: smilecdr-config-{{ .Values.labels.client }}
-          configMap: 
+          configMap:
             name: smilecdr-config-{{ .Values.labels.client }}
         - name: smilecdr-tls-cert-{{ .Values.labels.client }}
           secret:

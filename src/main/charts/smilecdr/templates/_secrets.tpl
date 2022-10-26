@@ -6,7 +6,7 @@ Helper functions to help with secret handling
   Can use a docker config auth file (.docker/config.json)
   Can use externally provisioned K8s Secret
 
-TODO: Support AWS Secrets & Configuration Provider 
+TODO: Support AWS Secrets & Configuration Provider
 */}}
 
 {{/*

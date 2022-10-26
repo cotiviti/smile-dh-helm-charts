@@ -9,7 +9,7 @@ data:
     # Node Configuration
     ################################################################################
     node.id                                                        =Masterdev
-    
+
     # Broker options are EMBEDDED_ACTIVEMQ, REMOTE_ACTIVEMQ, KAFKA, NONE
     {{ include "scdrcfg.messagebroker" . | nindent 4 }}
 
