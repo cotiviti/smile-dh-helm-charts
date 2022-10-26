@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: {{ .Release.Namespace }}
   name: smilecdr-{{ .Values.labels.client }}
+  namespace: {{ .Release.Namespace }}
   labels:
     env: {{ .Values.labels.env }}
     client: {{ .Values.labels.client }}

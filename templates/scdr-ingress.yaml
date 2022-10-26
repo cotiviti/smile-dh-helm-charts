@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  namespace: {{ .Release.Namespace }}
   name: {{ .Values.labels.client }}-scdr-ingress
+  namespace: {{ .Release.Namespace }}
   labels:
     client: {{ .Values.labels.client }}
     env: {{ .Values.labels.env }}
@@ -10,7 +10,6 @@ metadata:
     application: {{ .Values.labels.application }}
   annotations:
     {{- include "ingress.annotations" . | nindent 4 }}
-
 spec:
   rules:
     - host: {{ .Values.specs.hostname }}
