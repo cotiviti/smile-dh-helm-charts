@@ -30,9 +30,9 @@ spec:
         version: {{ .Values.labels.version }}
         application: {{ .Values.labels.application }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- with (include "dockerconfigjson.secretName" .) }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+        - name: {{ . }}
       {{- end }}
       serviceAccountName: {{ include "smilecdr.serviceAccountName" . }}
       securityContext:
