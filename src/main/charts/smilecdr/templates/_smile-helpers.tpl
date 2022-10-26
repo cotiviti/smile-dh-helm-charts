@@ -53,7 +53,7 @@ kubernetes.io/ingress.class: azure/application-gateway
 appgw.ingress.kubernetes.io/backend-protocol: http
 appgw.ingress.kubernetes.io/appgw-ssl-certificate: mysslcert
 appgw.ingress.kubernetes.io/cookie-based-affinity: "false"
-appgw.ingress.kubernetes.io/use-private-ip: "false" 
+appgw.ingress.kubernetes.io/use-private-ip: "false"
 appgw.ingress.kubernetes.io/health-probe-interval: '6'
 appgw.ingress.kubernetes.io/health-probe-timeout: '5'
 appgw.ingress.kubernetes.io/health-probe-status-codes: 200-401
