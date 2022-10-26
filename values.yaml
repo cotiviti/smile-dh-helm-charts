@@ -224,12 +224,26 @@ modules:
 #     configMapBaseName: smilecdr
 #     path: /home/smile/smilecdr/classes
 
-imagePullSecrets:
-  - name: scdr-docker-secrets
-
 replicaCount: 2
 image:
   repository: docker.smilecdr.com/smilecdr
+  # Override only if you have created a K8s docker config secret externally to this Helm Chart
+  # pullSecrets:
+  #   - name: scdr-docker-secrets
+  # If you specify credentials here, a K8s docker config secret will be auto generated.
+  # Do not use in production environments.
+  credentials:
+    # Choose one of jsonfile, values, secret
+    type: values
+    # type: jsonfile
+    # type: secret
+    values:
+      - registry: docker.com
+        username: user
+        password: pass
+    pullSecrets:
+      - name: scdr-docker-secretssss
+    jsonfile: "misc/docker-config.json"
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: '2021.08.R02'
