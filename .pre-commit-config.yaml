@@ -9,7 +9,7 @@ repos:
       - id: check-symlinks
       - id: check-json
       - id: check-yaml
-        exclude: templates/.*\.yaml
+        exclude: templates/.*\.yaml|output.yaml
       - id: detect-private-key
       - id: end-of-file-fixer
       - id: trailing-whitespace
@@ -25,3 +25,14 @@ repos:
         args:
           - --chart-search-root=src/main/charts
           - --template-files=./README.md.gotmpl
+  - repo: local
+    hooks:
+      - id: check_helm_outputs
+        name: check_helm_outputs
+        entry: scripts/check-outputs.sh ./src
+        language: script
+        pass_filenames: false
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v2.35.0
+    hooks:
+      - id: commitizen
