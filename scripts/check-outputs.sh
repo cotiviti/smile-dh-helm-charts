@@ -42,7 +42,7 @@ for CHART in ${CHARTS}; do
                 # printf "Comparing helm template output with expected output for ${CHART} chart using ${TEST_NAME} values file"
                 if [ -f "${DIR}/output.yaml" ]; then
                     # printf "  Do tha test!"
-                    DYFF_TEXT=$(helm template -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" | dyff between --omit-header --set-exit-code "${DIR}"/output.yaml -)
+                    DYFF_TEXT=$(helm template -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" | dyff between --omit-header --set-exit-code --ignore-order-changes "${DIR}"/output.yaml -)
                     DYFF_RES=$?
                     if [ "${DYFF_RES}" != "0" ]; then
                         if [ "${UPDATE}" == "1" ]; then
@@ -50,6 +50,8 @@ for CHART in ${CHARTS}; do
                         else
                             printf "Output differs for %s chart using %s values file." "${CHART}" "${TEST_NAME}"
                             printf "%s" "${DYFF_TEXT}"
+                            printf "For prettier output, you can run the following:\n"
+                            printf "  helm template -f %s/values.yaml %s/%s | dyff between %s/output.yaml -" "${DIR}" "${CHARTS_DIR}" "${CHART}" "${DIR}"
                             ERROR=1
                         fi
                     fi
