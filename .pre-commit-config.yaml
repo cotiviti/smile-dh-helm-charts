@@ -6,7 +6,7 @@ repos:
       - id: check-shebang-scripts-are-executable
       - id: check-case-conflict
       - id: check-merge-conflict
-      - id: check-symlinks
+      # - id: check-symlinks
       - id: check-json
       - id: check-yaml
         exclude: templates/.*\.yaml|output.yaml
