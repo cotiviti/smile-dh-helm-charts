@@ -9,7 +9,6 @@ Creates config snippets.
 
   {{- $modules := omit $.Values.modules "usedefaultmodules" -}}
   {{- $usedefaults := $.Values.modules.usedefaultmodules -}}
-  {{- $modules = dict "modules" $modules -}}
   {{- range $k, $v := $.Values.externalModuleDefinitions -}}
     {{/* This autodetects if it's a file that exists (Only relevant for default
     modules or when --include-files gets implemented in Helm).
