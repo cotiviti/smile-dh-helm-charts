@@ -1,0 +1,32 @@
+modules:
+  clustermgr:
+    name: Cluster Manager Configuration2
+    enabled: true
+    config:
+      db.driver: POSTGRES_9_4
+      db.url: jdbc:postgresql://#{env['DB_URL']}:5432/#{env['DB_DATABASE']}?sslmode=require
+      db.schema_update_mode:  UPDATE
+      stats.heartbeat_persist_frequency_ms: 15000
+      stats.stats_persist_frequency_ms: 60000
+      stats.stats_cleanup_frequency_ms: 300000
+      audit_log.request_headers_to_store: Content-Type,Host
+    configFromEnv:
+      db.username: DB_USER
+      db.password: DB_PASS
+
+  admin_web:
+    name: Web Admin
+    enabled: true
+    type: ADMIN_WEB
+    service:
+      enabled: true
+      svcName: admin-web
+      hostName: default
+    requires:
+      SECURITY_IN_UP: local_security
+    config:
+      context_path: ""
+      port: 9100
+      tls.enabled: false
+      https_forwarding_assumed: true
+      respect_forward_headers: true
