@@ -16,11 +16,11 @@ Creates config snippets.
     TODO: Add a warning if it's not a string. */}}
     {{- if ( $.Files.Get $v ) -}}
       {{- if not ( and ( eq $k "default" ) ( not $usedefaults )) -}}
-        {{- $_ := merge $modules $modules ( $.Files.Get $v | fromYaml ) -}}
+        {{- $_ := merge $modules ( $.Files.Get $v | fromYaml ).modules -}}
       {{- end -}}
     {{- else -}}
       {{- range $k2, $v2 := ( $v | fromYaml ) -}}
-        {{- $_ := merge $modules $modules $v2 -}}
+        {{- $_ := merge $modules $v2 -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
