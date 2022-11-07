@@ -42,10 +42,10 @@ for CHART in ${CHARTS}; do
                 # printf "Comparing helm template output with expected output for ${CHART} chart using ${TEST_NAME} values file"
                 if [ -f "${DIR}/output.yaml" ]; then
                     if [ -f "${DIR}/custom-modules.yaml" ]; then
-                        DYFF_TEXT=$(helm template --set-file externalModuleDefinitions.custom="${DIR}"/custom-modules.yaml -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" | dyff between --omit-header --set-exit-code --ignore-order-changes "${DIR}"/output.yaml -)
+                        DYFF_TEXT=$(helm template --namespace default --set-file externalModuleDefinitions.custom="${DIR}"/custom-modules.yaml -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" | dyff between --omit-header --set-exit-code --ignore-order-changes "${DIR}"/output.yaml -)
                         DYFF_RES=$?
                     else
-                        DYFF_TEXT=$(helm template -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" | dyff between --omit-header --set-exit-code --ignore-order-changes "${DIR}"/output.yaml -)
+                        DYFF_TEXT=$(helm template --namespace default -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" | dyff between --omit-header --set-exit-code --ignore-order-changes "${DIR}"/output.yaml -)
                         DYFF_RES=$?
                     fi
                     if [ "${DYFF_RES}" != "0" ]; then
@@ -70,10 +70,10 @@ for CHART in ${CHARTS}; do
                 if [ "${DO_UPDATE}" == "1" ]; then
                     if [ -f "${DIR}/custom-modules.yaml" ]; then
                         printf "Rendering new expected output for %schart using %s values file and custom modules file" "${CHART}" "${TEST_NAME}"
-                        helm template --set-file externalModuleDefinitions.custom="${DIR}"/custom-modules.yaml -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/output.yaml
+                        helm template --namespace default --set-file externalModuleDefinitions.custom="${DIR}"/custom-modules.yaml -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/output.yaml
                     else
                         printf "Rendering new expected output for %schart using %s values file" "${CHART}" "${TEST_NAME}"
-                        helm template -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/output.yaml
+                        helm template --namespace default -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/output.yaml
                     fi
                     if [ ! $? ]; then
                         printf " Rendering failed. Did the linting pass?"
