@@ -4,7 +4,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: scdr-docker-pull-secrets
-  namespace: pmp-test
+  namespace: default
 type: kubernetes.io/dockerconfigjson
 data:
   dockerconfigjson: eyJhdXRocyI6eyJkb2NrZXIuY29tIjp7ImF1dGgiOiJkWE5sY2pwd1lYTnoifX19
@@ -14,7 +14,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: smilecdr-config-internal
-  namespace: pmp-test
+  namespace: default
 data:
   cdr-config-Master.properties: |-
     ################################################################################
@@ -76,7 +76,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: smilecdr-admin-web
-  namespace: pmp-test
+  namespace: default
   labels:
     env: dev
     client: internal
@@ -102,7 +102,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: smilecdr-internal
-  namespace: pmp-test
+  namespace: default
   labels:
     env: dev
     client: internal
@@ -191,7 +191,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: internal-scdr-ingress
-  namespace: pmp-test
+  namespace: default
   labels:
     client: internal
     env: dev
