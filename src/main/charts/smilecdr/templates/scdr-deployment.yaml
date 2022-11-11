@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: smilecdr-{{ .Values.labels.client }}
+  name: {{ .Release.Name }}-scdr
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "smilecdr.labels" . | nindent 4 }}
@@ -64,20 +64,20 @@ spec:
               protocol: TCP
             {{- end }}
           volumeMounts:
-            - name: smilecdr-config-{{ .Values.labels.client }}
+            - name: scdr-config-{{ .Release.Name }}
               mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               subPath: cdr-config-Master.properties
-            - name: smilecdr-tls-cert-{{ .Values.labels.client }}
+            - name: scdr-tls-cert-{{ .Release.Name }}
               mountPath: "/etc/ssl/smile"
               readOnly: true
             {{- if .Values.mappedFiles -}}
               {{- include "smilecdr.fileVolumeMounts" .  | trim | nindent 12 }}
             {{- end }}
       volumes:
-        - name: smilecdr-config-{{ .Values.labels.client }}
+        - name: scdr-config-{{ .Release.Name }}
           configMap:
-            name: smilecdr-config-{{ .Values.labels.client }}
-        - name: smilecdr-tls-cert-{{ .Values.labels.client }}
+            name: {{ .Release.Name }}-scdr
+        - name: scdr-tls-cert-{{ .Release.Name }}
           secret:
             secretName: cdr-dev-tls-cert
         {{- if .Values.mappedFiles -}}

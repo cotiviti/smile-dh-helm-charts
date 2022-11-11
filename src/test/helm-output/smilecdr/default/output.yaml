@@ -23,7 +23,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: smilecdr-config-internal
+  name: release-name-scdr
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.2
@@ -194,7 +194,7 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: smilecdr-admin-json
+  name: release-name-scdr-svc-admin-json
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.2
@@ -223,7 +223,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: smilecdr-admin-web
+  name: release-name-scdr-svc-admin-web
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.2
@@ -252,7 +252,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: smilecdr-fhir
+  name: release-name-scdr-svc-fhir
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.2
@@ -281,7 +281,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: smilecdr-fhirweb
+  name: release-name-scdr-svc-fhirweb
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.2
@@ -310,7 +310,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: smilecdr-pkg-registry
+  name: release-name-scdr-svc-pkg-registry
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.2
@@ -339,7 +339,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: smilecdr-smart-auth
+  name: release-name-scdr-svc-smart-auth
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.2
@@ -368,7 +368,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: smilecdr-internal
+  name: release-name-scdr
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.2
@@ -458,17 +458,17 @@ spec:
               containerPort: 9200
               protocol: TCP
           volumeMounts:
-            - name: smilecdr-config-internal
+            - name: scdr-config-release-name
               mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               subPath: cdr-config-Master.properties
-            - name: smilecdr-tls-cert-internal
+            - name: scdr-tls-cert-release-name
               mountPath: "/etc/ssl/smile"
               readOnly: true
       volumes:
-        - name: smilecdr-config-internal
+        - name: scdr-config-release-name
           configMap:
-            name: smilecdr-config-internal
-        - name: smilecdr-tls-cert-internal
+            name: release-name-scdr
+        - name: scdr-tls-cert-release-name
           secret:
             secretName: cdr-dev-tls-cert
       restartPolicy: Always
@@ -477,7 +477,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: internal-scdr-ingress
+  name: release-name-scdr
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.2
@@ -501,42 +501,42 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: smilecdr-admin-json
+                name: release-name-scdr-svc-admin-json
                 port:
                   number: 9000
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: smilecdr-admin-web
+                name: release-name-scdr-svc-admin-web
                 port:
                   number: 9100
           - path: /fhir_request
             pathType: Prefix
             backend:
               service:
-                name: smilecdr-fhir
+                name: release-name-scdr-svc-fhir
                 port:
                   number: 8000
           - path: /fhirweb
             pathType: Prefix
             backend:
               service:
-                name: smilecdr-fhirweb
+                name: release-name-scdr-svc-fhirweb
                 port:
                   number: 8001
           - path: /package_registry
             pathType: Prefix
             backend:
               service:
-                name: smilecdr-pkg-registry
+                name: release-name-scdr-svc-pkg-registry
                 port:
                   number: 8002
           - path: /smartauth
             pathType: Prefix
             backend:
               service:
-                name: smilecdr-smart-auth
+                name: release-name-scdr-svc-smart-auth
                 port:
                   number: 9200
 ---

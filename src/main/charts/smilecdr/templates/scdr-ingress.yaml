@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Values.labels.client }}-scdr-ingress
+  name: {{ .Release.Name }}-scdr
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "smilecdr.labels" . | nindent 4 }}
@@ -17,7 +17,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: smilecdr-{{ $v.svcName }}
+                name: {{ $.Release.Name }}-scdr-svc-{{ $v.svcName }}
                 port:
                   number: {{ $v.port }}
           {{- end }}

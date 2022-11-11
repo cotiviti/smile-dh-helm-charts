@@ -23,7 +23,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: smilecdr-config-internal
+  name: release-name-scdr
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.2
@@ -91,7 +91,7 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: smilecdr-admin-web
+  name: release-name-scdr-svc-admin-web
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.2
@@ -120,7 +120,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: smilecdr-internal
+  name: release-name-scdr
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.2
@@ -195,17 +195,17 @@ spec:
               containerPort: 9100
               protocol: TCP
           volumeMounts:
-            - name: smilecdr-config-internal
+            - name: scdr-config-release-name
               mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               subPath: cdr-config-Master.properties
-            - name: smilecdr-tls-cert-internal
+            - name: scdr-tls-cert-release-name
               mountPath: "/etc/ssl/smile"
               readOnly: true
       volumes:
-        - name: smilecdr-config-internal
+        - name: scdr-config-release-name
           configMap:
-            name: smilecdr-config-internal
-        - name: smilecdr-tls-cert-internal
+            name: release-name-scdr
+        - name: scdr-tls-cert-release-name
           secret:
             secretName: cdr-dev-tls-cert
       restartPolicy: Always
@@ -214,7 +214,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: internal-scdr-ingress
+  name: release-name-scdr
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.2
@@ -238,7 +238,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: smilecdr-admin-web
+                name: release-name-scdr-svc-admin-web
                 port:
                   number: 9100
 ---
