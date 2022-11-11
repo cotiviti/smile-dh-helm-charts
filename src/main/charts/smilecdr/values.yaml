@@ -1,9 +1,3 @@
-name: smilecdr
-labels:
-  client: internal
-  application: smilecdr
-  env: dev
-  version: one
 
 database:
   # Either crunchypgo or external should be set to true. Not both.
@@ -33,6 +27,8 @@ specs:
   # Define a common root context path, if required.
   #rootPath: /
 
+# Extra labels
+labels: {}
 
 # Define modules to be used. Some of these will contain service definitions.
 # A service and an ingress rule will be created for modules that use services.
