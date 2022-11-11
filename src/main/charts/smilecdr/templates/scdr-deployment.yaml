@@ -4,20 +4,14 @@ metadata:
   name: smilecdr-{{ .Values.labels.client }}
   namespace: {{ .Release.Namespace }}
   labels:
-    env: {{ .Values.labels.env }}
-    client: {{ .Values.labels.client }}
-    version: {{ .Values.labels.version }}
-    application: {{ .Values.labels.application }}
+    {{- include "smilecdr.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      env: {{ .Values.labels.env }}
-      client: {{ .Values.labels.client }}
-      version: {{ .Values.labels.version }}
-      application: {{ .Values.labels.application }}
+      {{- include "smilecdr.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -25,10 +19,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        env: {{ .Values.labels.env }}
-        client: {{ .Values.labels.client }}
-        version: {{ .Values.labels.version }}
-        application: {{ .Values.labels.application }}
+        {{- include "smilecdr.labels" . | nindent 8 }}
     spec:
       {{- with (include "dockerconfigjson.secretName" .) }}
       imagePullSecrets:

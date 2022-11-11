@@ -3,6 +3,8 @@ kind: ConfigMap
 metadata:
   name: smilecdr-config-{{ .Values.labels.client }}
   namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "smilecdr.labels" . | nindent 4 }}
 data:
   cdr-config-Master.properties: |-
     ################################################################################

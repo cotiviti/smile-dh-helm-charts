@@ -4,10 +4,7 @@ metadata:
   name: {{ .Values.labels.client }}-scdr-ingress
   namespace: {{ .Release.Namespace }}
   labels:
-    client: {{ .Values.labels.client }}
-    env: {{ .Values.labels.env }}
-    version: {{ .Values.labels.version }}
-    application: {{ .Values.labels.application }}
+    {{- include "smilecdr.labels" . | nindent 4 }}
   annotations:
     {{- include "ingress.annotations" . | nindent 4 }}
 spec:

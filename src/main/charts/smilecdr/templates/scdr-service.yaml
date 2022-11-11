@@ -5,10 +5,7 @@ metadata:
   name: smilecdr-{{ $v.svcName }}
   namespace: {{ $.Release.Namespace }}
   labels:
-    env: {{ $.Values.labels.env }}
-    client: {{ $.Values.labels.client }}
-    version: {{ $.Values.labels.version }}
-    application: {{ $.Values.labels.application }}
+    {{- include "smilecdr.labels" $ | nindent 4 }}
   annotations:
     {{ if eq "azure-appgw" $.Values.ingress.type -}}
     {{- $path := printf "%sendpoint-health" (default "/" $.Values.specs.rootPath) -}}
@@ -27,9 +24,6 @@ spec:
       targetPort: {{ $v.port }}
       protocol: TCP
   selector:
-    env: {{ $.Values.labels.env }}
-    client: {{ $.Values.labels.client }}
-    version: {{ $.Values.labels.version }}
-    application: {{ $.Values.labels.application }}
+    {{- include "smilecdr.selectorLabels" $ | nindent 4 }}
 ---
 {{ end }}

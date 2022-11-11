@@ -5,6 +5,16 @@ kind: Secret
 metadata:
   name: scdr-docker-pull-secrets
   namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.2
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/managed-by: Helm
+    application: smilecdr
+    client: internal
+    env: dev
+    version: one
 type: kubernetes.io/dockerconfigjson
 data:
   dockerconfigjson: eyJhdXRocyI6eyJkb2NrZXIuY29tIjp7ImF1dGgiOiJkWE5sY2pwd1lYTnoifX19
@@ -15,6 +25,16 @@ kind: ConfigMap
 metadata:
   name: smilecdr-config-internal
   namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.2
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/managed-by: Helm
+    application: smilecdr
+    client: internal
+    env: dev
+    version: one
 data:
   cdr-config-Master.properties: |-
     ################################################################################
@@ -74,10 +94,15 @@ metadata:
   name: smilecdr-admin-web
   namespace: default
   labels:
-    env: dev
-    client: internal
-    version: one
+    helm.sh/chart: smilecdr-1.0.0-pre.2
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/managed-by: Helm
     application: smilecdr
+    client: internal
+    env: dev
+    version: one
   annotations:
     {}
 spec:
@@ -88,10 +113,8 @@ spec:
       targetPort: 9100
       protocol: TCP
   selector:
-    env: dev
-    client: internal
-    version: one
-    application: smilecdr
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
 ---
 # Source: smilecdr/templates/scdr-deployment.yaml
 apiVersion: apps/v1
@@ -100,25 +123,33 @@ metadata:
   name: smilecdr-internal
   namespace: default
   labels:
-    env: dev
-    client: internal
-    version: one
+    helm.sh/chart: smilecdr-1.0.0-pre.2
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/managed-by: Helm
     application: smilecdr
+    client: internal
+    env: dev
+    version: one
 spec:
   replicas: 2
   selector:
     matchLabels:
-      env: dev
-      client: internal
-      version: one
-      application: smilecdr
+      app.kubernetes.io/name: smilecdr
+      app.kubernetes.io/instance: release-name
   template:
     metadata:
       labels:
-        env: dev
-        client: internal
-        version: one
+        helm.sh/chart: smilecdr-1.0.0-pre.2
+        app.kubernetes.io/name: smilecdr
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/version: "2022.08.R03"
+        app.kubernetes.io/managed-by: Helm
         application: smilecdr
+        client: internal
+        env: dev
+        version: one
     spec:
       imagePullSecrets:
         - name: scdr-docker-pull-secrets
@@ -186,10 +217,15 @@ metadata:
   name: internal-scdr-ingress
   namespace: default
   labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.2
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/managed-by: Helm
+    application: smilecdr
     client: internal
     env: dev
     version: one
-    application: smilecdr
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -217,6 +253,10 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.08.R03"
     app.kubernetes.io/managed-by: Helm
+    application: smilecdr
+    client: internal
+    env: dev
+    version: one
   annotations:
     "helm.sh/hook": test
 spec:
