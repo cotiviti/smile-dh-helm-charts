@@ -446,7 +446,7 @@ metadata:
     app.kubernetes.io/version: "2022.08.R03"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   rules:

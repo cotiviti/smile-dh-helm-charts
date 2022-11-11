@@ -117,10 +117,17 @@ ingress:
   enabled: true
   # Select the cloud vendor and GW/NLB controller being used.
   # Currently supported values are:
-  # aws-lbc-nlb - AWS Load Balancer Controller (Network Load Balancer)
+  # nginx-ingress - Nginx Ingress Controller (Network Load Balancer when using AWS Load Balancer Controller)
+  # aws-lbc-alb - AWS Load Balancer Controller (Application Load Balancer)
   # azure-appgw - Azure Application Gateway
-  type: aws-lbc-nlb
-  #type: azure-appgw
+  # other - If it is none of the above, or unset, no default Ingress annotations will be created. It is up to
+  #         you to provide appropriate `extraAnnotations` below
+  type: nginx-ingress
+
+  # This chart assumes certain default Ingress Class names. If your environment has defined a different class
+  # name then override it here
+  #ingressClassNameOverride:
+
   # We won't define annotations here as they are defined in the helper template
   # annotations: {}
   # Define any extra annotations. Please keep cloud vendor specific annotations in the

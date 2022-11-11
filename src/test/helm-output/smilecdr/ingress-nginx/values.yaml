@@ -1,0 +1,5 @@
+# Note that this test is called "ingress-nginx" because "ingress-<type>" is the convention in this project.
+# The ingress provider is actually called "nginx-ingress"
+ingress:
+  enabled: true
+  type: nginx-ingress

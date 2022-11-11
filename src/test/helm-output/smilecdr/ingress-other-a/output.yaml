@@ -424,9 +424,6 @@ spec:
             - name: scdr-tls-cert-release-name
               mountPath: "/etc/ssl/smile"
               readOnly: true
-            - name: testfile-txt
-              mountPath: /home/smile/smilecdr/classes/testfile.txt
-              subPath: testfile.txt
       volumes:
         - name: scdr-config-release-name
           configMap:
@@ -434,9 +431,6 @@ spec:
         - name: scdr-tls-cert-release-name
           secret:
             secretName: cdr-dev-tls-cert
-        - name: testfile-txt
-          configMap:
-            name: release-name-smilecdr
       restartPolicy: Always
 ---
 # Source: smilecdr/templates/scdr-ingress.yaml
@@ -452,8 +446,8 @@ metadata:
     app.kubernetes.io/version: "2022.08.R03"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    other.ingress.controller.kubernetes.io/extra-annotation-1: "annotation1-value"
+    other.ingress.controller.kubernetes.io/extra-annotation-2: "annotation2-value"
 spec:
   rules:
     - host: smilecdr-example.local
