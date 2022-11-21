@@ -33,7 +33,7 @@ if [ "${DEBUG_MODE}" == "1" ]; then
     echo "*                                   *"
     echo "* Press a key to continue...        *"
     echo "*************************************"
-    read
+    read -r
     FORCE_UPDATE=1
     DEBUG_OPT="--debug"
     DEBUG_OPT_MSG="in debug mode "
