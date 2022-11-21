@@ -35,12 +35,8 @@ A Helm chart for Kubernetes
 | kafka.bootstrapAddress | string | `"kafka-example.local"` |  |
 | kafka.channelPrefix | string | `"SCDR-ENV-"` |  |
 | kafka.enabled | bool | `false` |  |
-| labels.application | string | `"smilecdr"` |  |
-| labels.client | string | `"internal"` |  |
-| labels.env | string | `"dev"` |  |
-| labels.version | string | `"one"` |  |
+| labels | object | `{}` |  |
 | modules.usedefaultmodules | bool | `true` |  |
-| name | string | `"smilecdr"` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
