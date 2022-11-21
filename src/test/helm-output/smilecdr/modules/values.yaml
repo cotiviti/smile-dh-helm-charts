@@ -1,0 +1,6 @@
+modules:
+  usedefaultmodules: false
+  clustermgr:
+    name: Modified Cluster Manager Configuration
+    config:
+      db.driver: POSTGRES_9_5
