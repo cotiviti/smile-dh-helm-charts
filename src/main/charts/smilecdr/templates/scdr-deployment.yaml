@@ -72,15 +72,16 @@ spec:
               containerPort: {{ $v.port }}
               protocol: TCP
             {{- end }}
-
           volumeMounts:
-          - name: smilecdr-config-{{ .Values.labels.client }}
-            mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
-            subPath: cdr-config-Master.properties
-          - name: smilecdr-tls-cert-{{ .Values.labels.client }}
-            mountPath: "/etc/ssl/smile"
-            readOnly: true
-{{- include "smilecdr.fileVolumeMounts" . | nindent 10 }}
+            - name: smilecdr-config-{{ .Values.labels.client }}
+              mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
+              subPath: cdr-config-Master.properties
+            - name: smilecdr-tls-cert-{{ .Values.labels.client }}
+              mountPath: "/etc/ssl/smile"
+              readOnly: true
+            {{- if .Values.mappedFiles -}}
+              {{- include "smilecdr.fileVolumeMounts" .  | trim | nindent 12 }}
+            {{- end }}
       volumes:
         - name: smilecdr-config-{{ .Values.labels.client }}
           configMap:
@@ -88,5 +89,7 @@ spec:
         - name: smilecdr-tls-cert-{{ .Values.labels.client }}
           secret:
             secretName: cdr-dev-tls-cert
-{{- include "smilecdr.fileVolumes" . | nindent 8 }}
+        {{- if .Values.mappedFiles -}}
+          {{- include "smilecdr.fileVolumes" .  | trim | nindent 8 }}
+        {{- end }}
       restartPolicy: Always

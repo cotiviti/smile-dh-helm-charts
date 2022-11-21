@@ -23,7 +23,7 @@ data:
     node.id                                                        =Masterdev
 
     # Broker options are EMBEDDED_ACTIVEMQ, REMOTE_ACTIVEMQ, KAFKA, NONE
-    
+
     module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
 
     ################################################################################
@@ -44,8 +44,6 @@ data:
     #
     node.propertysource                                            =PROPERTIES
 
-    
-    
     ################################################################################
     # ENDPOINT: Web Admin
     ################################################################################
@@ -56,11 +54,9 @@ data:
     module.admin_web.config.port 	= 9100
     module.admin_web.config.respect_forward_headers 	= true
     module.admin_web.config.tls.enabled 	= false
-    
     ################################################################################
     # Modified Cluster Manager Configuration
     ################################################################################
-    
     module.clustermgr.config.audit_log.request_headers_to_store 	= Content-Type,Host
     module.clustermgr.config.db.driver 	= POSTGRES_9_5
     module.clustermgr.config.db.schema_update_mode 	= UPDATE
@@ -167,15 +163,13 @@ spec:
             - name: admin-web
               containerPort: 9100
               protocol: TCP
-
           volumeMounts:
-          - name: smilecdr-config-internal
-            mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
-            subPath: cdr-config-Master.properties
-          - name: smilecdr-tls-cert-internal
-            mountPath: "/etc/ssl/smile"
-            readOnly: true
-          
+            - name: smilecdr-config-internal
+              mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
+              subPath: cdr-config-Master.properties
+            - name: smilecdr-tls-cert-internal
+              mountPath: "/etc/ssl/smile"
+              readOnly: true
       volumes:
         - name: smilecdr-config-internal
           configMap:
@@ -183,7 +177,6 @@ spec:
         - name: smilecdr-tls-cert-internal
           secret:
             secretName: cdr-dev-tls-cert
-        
       restartPolicy: Always
 ---
 # Source: smilecdr/templates/scdr-ingress.yaml

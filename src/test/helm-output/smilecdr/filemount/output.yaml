@@ -418,6 +418,9 @@ spec:
             - name: smilecdr-tls-cert-internal
               mountPath: "/etc/ssl/smile"
               readOnly: true
+            - name: testfile-txt
+              mountPath: /home/smile/smilecdr/classes/testfile.txt
+              subPath: testfile.txt
       volumes:
         - name: smilecdr-config-internal
           configMap:
@@ -425,6 +428,9 @@ spec:
         - name: smilecdr-tls-cert-internal
           secret:
             secretName: cdr-dev-tls-cert
+        - name: testfile-txt
+          configMap:
+            name: release-name-smilecdr
       restartPolicy: Always
 ---
 # Source: smilecdr/templates/scdr-ingress.yaml

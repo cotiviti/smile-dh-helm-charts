@@ -11,7 +11,8 @@ data:
     node.id                                                        =Masterdev
 
     # Broker options are EMBEDDED_ACTIVEMQ, REMOTE_ACTIVEMQ, KAFKA, NONE
-    {{ include "scdrcfg.messagebroker" . | nindent 4 }}
+
+{{ include "scdrcfg.messagebroker" . | indent 4 }}
 
     ################################################################################
     # Other Modules are Configured Below
@@ -31,4 +32,4 @@ data:
     #
     node.propertysource                                            =PROPERTIES
 
-    {{ include "smilecdr.modules.config" . | nindent 4 }}
+{{ include "smilecdr.modules.config" . | indent 4 }}
