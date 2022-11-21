@@ -23,7 +23,7 @@ data:
     node.id                                                        =Masterdev
 
     # Broker options are EMBEDDED_ACTIVEMQ, REMOTE_ACTIVEMQ, KAFKA, NONE
-
+    
     module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
 
     ################################################################################
@@ -44,8 +44,8 @@ data:
     #
     node.propertysource                                            =PROPERTIES
 
-
-
+    
+    
     ################################################################################
     # ENDPOINT: Web Admin
     ################################################################################
@@ -56,11 +56,11 @@ data:
     module.admin_web.config.port 	= 9100
     module.admin_web.config.respect_forward_headers 	= true
     module.admin_web.config.tls.enabled 	= false
-
+    
     ################################################################################
     # Modified Cluster Manager Configuration
     ################################################################################
-
+    
     module.clustermgr.config.audit_log.request_headers_to_store 	= Content-Type,Host
     module.clustermgr.config.db.driver 	= POSTGRES_9_5
     module.clustermgr.config.db.schema_update_mode 	= UPDATE
@@ -175,7 +175,7 @@ spec:
           - name: smilecdr-tls-cert-internal
             mountPath: "/etc/ssl/smile"
             readOnly: true
-
+          
       volumes:
         - name: smilecdr-config-internal
           configMap:
@@ -183,7 +183,7 @@ spec:
         - name: smilecdr-tls-cert-internal
           secret:
             secretName: cdr-dev-tls-cert
-
+        
       restartPolicy: Always
 ---
 # Source: smilecdr/templates/scdr-ingress.yaml
@@ -219,7 +219,7 @@ kind: Pod
 metadata:
   name: "release-name-smilecdr-test-connection"
   labels:
-    helm.sh/chart: smilecdr-0.1.1
+    helm.sh/chart: smilecdr-1.0.0-pre.1
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.08.R03"

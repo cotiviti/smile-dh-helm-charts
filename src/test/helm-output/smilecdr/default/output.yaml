@@ -23,7 +23,7 @@ data:
     node.id                                                        =Masterdev
 
     # Broker options are EMBEDDED_ACTIVEMQ, REMOTE_ACTIVEMQ, KAFKA, NONE
-
+    
     module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
 
     ################################################################################
@@ -44,8 +44,8 @@ data:
     #
     node.propertysource                                            =PROPERTIES
 
-
-
+    
+    
     ################################################################################
     # ENDPOINT: JSON Admin Services
     ################################################################################
@@ -58,7 +58,7 @@ data:
     module.admin_json.config.respect_forward_headers 	= true
     module.admin_json.config.security.http.basic.enabled 	= true
     module.admin_json.config.tls.enabled 	= false
-
+    
     ################################################################################
     # ENDPOINT: Web Admin
     ################################################################################
@@ -69,11 +69,11 @@ data:
     module.admin_web.config.port 	= 9100
     module.admin_web.config.respect_forward_headers 	= true
     module.admin_web.config.tls.enabled 	= false
-
+    
     ################################################################################
     # Cluster Manager Configuration
     ################################################################################
-
+    
     module.clustermgr.config.audit_log.request_headers_to_store 	= Content-Type,Host
     module.clustermgr.config.db.driver 	= POSTGRES_9_4
     module.clustermgr.config.db.schema_update_mode 	= UPDATE
@@ -83,7 +83,7 @@ data:
     module.clustermgr.config.stats.stats_persist_frequency_ms 	= 60000
     module.clustermgr.config.db.password 	= #{env['DB_PASS']}
     module.clustermgr.config.db.username 	= #{env['DB_USER']}
-
+    
     ################################################################################
     # ENDPOINT: FHIR Service
     ################################################################################
@@ -109,7 +109,7 @@ data:
     module.fhir_endpoint.config.threadpool.max 	= 10
     module.fhir_endpoint.config.threadpool.min 	= 2
     module.fhir_endpoint.config.tls.enabled 	= false
-
+    
     ################################################################################
     # ENDPOINT: FHIRWeb Console
     ################################################################################
@@ -124,14 +124,14 @@ data:
     module.fhirweb_endpoint.config.threadpool.max 	= 10
     module.fhirweb_endpoint.config.threadpool.min 	= 2
     module.fhirweb_endpoint.config.tls.enabled 	= false
-
+    
     ################################################################################
     # Local Storage Inbound Security
     ################################################################################
     module.local_security.type 	= SECURITY_IN_LOCAL
     module.local_security.config.password_encoding_type 	= BCRYPT_12_ROUND
     module.local_security.config.seed.users.file 	= classpath:/config_seeding/users.json
-
+    
     ################################################################################
     # ENDPOINT: Package Registry
     ################################################################################
@@ -145,7 +145,7 @@ data:
     module.package_registry.config.respect_forward_headers 	= true
     module.package_registry.config.security.http.basic.enabled 	= true
     module.package_registry.config.tls.enabled 	= false
-
+    
     ################################################################################
     # Database Configuration
     ################################################################################
@@ -161,7 +161,7 @@ data:
     module.persistence.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:5432/#{env['DB_DATABASE']}?sslmode=require
     module.persistence.config.db.password 	= #{env['DB_PASS']}
     module.persistence.config.db.username 	= #{env['DB_USER']}
-
+    
     ################################################################################
     # ENDPOINT: SMART Security
     ################################################################################
@@ -171,12 +171,12 @@ data:
     module.smart_auth.config.context_path 	= /smartauth
     module.smart_auth.config.https_forwarding_assumed 	= true
     module.smart_auth.config.issuer.url 	= https://smilecdr-example.local/smartauth
-
+    
     module.smart_auth.config.openid.signing.jwks_file 	= classpath:/smilecdr-demo.jwks
     module.smart_auth.config.port 	= 9200
     module.smart_auth.config.respect_forward_headers 	= true
     module.smart_auth.config.tls.enabled 	= false
-
+    
     ################################################################################
     # Subscription
     ################################################################################
@@ -432,7 +432,7 @@ spec:
           - name: smilecdr-tls-cert-internal
             mountPath: "/etc/ssl/smile"
             readOnly: true
-
+          
       volumes:
         - name: smilecdr-config-internal
           configMap:
@@ -440,7 +440,7 @@ spec:
         - name: smilecdr-tls-cert-internal
           secret:
             secretName: cdr-dev-tls-cert
-
+        
       restartPolicy: Always
 ---
 # Source: smilecdr/templates/scdr-ingress.yaml
@@ -511,7 +511,7 @@ kind: Pod
 metadata:
   name: "release-name-smilecdr-test-connection"
   labels:
-    helm.sh/chart: smilecdr-0.1.1
+    helm.sh/chart: smilecdr-1.0.0-pre.1
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.08.R03"
