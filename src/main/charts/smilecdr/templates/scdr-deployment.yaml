@@ -43,10 +43,11 @@ spec:
                   name: {{ include "smilecdr.dbSecretName" . }}
                   key: host
             - name: DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "smilecdr.dbSecretName" . }}
-                  key: dbname
+              value: smilecdr
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: {{ include "smilecdr.dbSecretName" . }}
+              #     key: dbname
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
@@ -64,23 +65,7 @@ spec:
               protocol: TCP
             {{- end }}
           volumeMounts:
-            - name: scdr-config-{{ .Release.Name }}
-              mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
-              subPath: cdr-config-Master.properties
-            - name: scdr-tls-cert-{{ .Release.Name }}
-              mountPath: "/etc/ssl/smile"
-              readOnly: true
-            {{- if .Values.mappedFiles -}}
-              {{- include "smilecdr.fileVolumeMounts" .  | trim | nindent 12 }}
-            {{- end }}
+            {{ include "smilecdr.volumeMounts" . | nindent 12 | trim }}
       volumes:
-        - name: scdr-config-{{ .Release.Name }}
-          configMap:
-            name: {{ .Release.Name }}-scdr
-        - name: scdr-tls-cert-{{ .Release.Name }}
-          secret:
-            secretName: cdr-dev-tls-cert
-        {{- if .Values.mappedFiles -}}
-          {{- include "smilecdr.fileVolumes" .  | trim | nindent 8 }}
-        {{- end }}
+        {{ include "smilecdr.volumes" . | nindent 8 | trim }}
       restartPolicy: Always

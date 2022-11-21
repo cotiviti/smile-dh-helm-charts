@@ -44,7 +44,7 @@ modules:
 externalModuleDefinitions:
   default: default-modules.yaml
 
-# mappedFiles:
+mappedFiles: {}
 #   testfile.txt:
 #     type: configMap
 #     configMapBaseName: smilecdr
@@ -63,22 +63,22 @@ replicaCount: 2
 image:
   repository: docker.smilecdr.com/smilecdr
   # Override only if you have created a K8s docker config secret externally to this Helm Chart
-  # pullSecrets:
-  #   - name: scdr-docker-secrets
   # If you specify credentials here, a K8s docker config secret will be auto generated.
   # Do not use in production environments.
   credentials:
-    # Choose one of jsonfile, values, secret
+    # Choose one of sscsi, extsecret, values
+    # type: sscsi
+    # provider: aws
+    # secretarn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
+    #
+    # type: extsecret
+    # pullSecrets:
+    #   - name: scdr-docker-secrets
     type: values
-    # type: jsonfile
-    # type: secret
     values:
       - registry: docker.com
         username: user
         password: pass
-    pullSecrets:
-      - name: scdr-docker-secretssss
-    jsonfile: "misc/docker-config.json"
   pullPolicy: IfNotPresent
   # Override the image tag. Default is the chart appVersion.
   tag: '2022.08.R03'

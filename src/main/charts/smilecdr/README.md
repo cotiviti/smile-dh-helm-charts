@@ -20,8 +20,6 @@ A Helm chart for Kubernetes
 | database.external.port | int | `5432` |  |
 | database.external.secretName | string | `"changeme"` |  |
 | externalModuleDefinitions.default | string | `"default-modules.yaml"` |  |
-| image.credentials.jsonfile | string | `"misc/docker-config.json"` |  |
-| image.credentials.pullSecrets[0].name | string | `"scdr-docker-secretssss"` |  |
 | image.credentials.type | string | `"values"` |  |
 | image.credentials.values[0].password | string | `"pass"` |  |
 | image.credentials.values[0].registry | string | `"docker.com"` |  |
@@ -36,6 +34,7 @@ A Helm chart for Kubernetes
 | kafka.channelPrefix | string | `"SCDR-ENV-"` |  |
 | kafka.enabled | bool | `false` |  |
 | labels | object | `{}` |  |
+| mappedFiles | object | `{}` |  |
 | modules.usedefaultmodules | bool | `true` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |

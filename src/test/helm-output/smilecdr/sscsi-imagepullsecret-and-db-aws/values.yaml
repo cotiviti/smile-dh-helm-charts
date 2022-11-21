@@ -1,0 +1,16 @@
+# This values file just tests secrets store csi with the AWS provider
+# Using database credentials and single db secret
+
+database:
+  crunchypgo:
+    enabled: false
+  external:
+    enabled: true
+    credentialsSource: sscsi-aws
+    secretarn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
+
+image:
+  credentials:
+    type: sscsi
+    provider: aws
+    secretarn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"

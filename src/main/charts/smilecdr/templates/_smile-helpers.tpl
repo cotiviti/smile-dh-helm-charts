@@ -63,20 +63,6 @@ Define SmileCDR DB Port
 {{- end -}}
 
 {{/*
-Define SmileCDR DB secret
-*/}}
-{{- define "smilecdr.dbSecretName" -}}
-{{- if .Values.database.crunchypgo.enabled -}}
-{{- $crunchyUserName := default "smilecdr" .Values.database.crunchypgo.userName -}}
-{{- printf "%s-pguser-%s" .Release.Name $crunchyUserName }}
-{{- else if and .Values.database.external.enabled -}}
-{{- default "changemepls" .Values.database.external.secretName -}}
-{{- else -}}
-{{- "changemepls" -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
 Define Ingress annotations
 This combines all default per-provider annotations
 (Specified by .Values.ingress.type) as well as any
