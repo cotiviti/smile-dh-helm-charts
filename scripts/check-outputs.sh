@@ -8,14 +8,15 @@
 
 # If you are making functional changes to the charts, call the script with the -u flag to update the "expected output" files.
 
-while getopts "u" flag; do
+while getopts "uf" flag; do
 case "$flag" in
     u) UPDATE=1;;
+    f) FORCE_UPDATE=1;;
     *) ;;
 esac
 done
 
-SRC_DIR="${*:$OPTIND:1}"
+SRC_DIR="${*:$OPTIND:2}"
 CHARTS_DIR="${SRC_DIR}/main/charts"
 CHART_TESTS_DIR="${SRC_DIR}/test/helm-output"
 
@@ -67,7 +68,7 @@ for CHART in ${CHARTS}; do
                         ERROR=1
                     fi
                 fi
-                if [ "${DO_UPDATE}" == "1" ]; then
+                if [ "${DO_UPDATE}" == "1" ] || [ "${FORCE_UPDATE}" == "1" ]; then
                     if [ -f "${DIR}/custom-modules.yaml" ]; then
                         printf "Rendering new expected output for %schart using %s values file and custom modules file" "${CHART}" "${TEST_NAME}"
                         helm template --namespace default --set-file externalModuleDefinitions.custom="${DIR}"/custom-modules.yaml -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/output.yaml

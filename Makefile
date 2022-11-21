@@ -1,4 +1,4 @@
-.PHONY: help run-all-tests build update-helm-outputs check-helm-outputs helm-lint
+.PHONY: help run-all-tests build helm-update-outputs helm-update-outputs-force helm-check-outputs helm-lint
 
 help:
 	    @echo "Smile Digital Healh helm charts"
@@ -6,8 +6,9 @@ help:
 	    @echo "Commands:"
 	    @echo "run-all-tests - run all tests, duh! Currently only runs check-helm-outputs"
 		@echo "build - TBD. Needs to update helm outputs, increment chart version etc"
-	    @echo "check-helm-outputs - run tests to make sure helm template gives expected output"
-		@echo "update-helm-outputs - update expected output files for helm template"
+	    @echo "helm-check-outputs - run tests to make sure helm template gives expected output"
+		@echo "helm-update-outputs - update expected output files for helm template if they differ semantically"
+		@echo "helm-update-outputs-force - force update of expected output files for helm template"
 		@echo "helm-lint - run helm lint on all charts"
 
 .DEFAULT_GOAL := help
@@ -16,10 +17,13 @@ run-all-tests: helm-lint check-helm-outputs
 
 build: update-helm-outputs
 
-update-helm-outputs:
+helm-update-outputs-force:
+	./scripts/check-outputs.sh -f ./src
+
+helm-update-outputs:
 	./scripts/check-outputs.sh -u ./src
 
-check-helm-outputs: helm-lint
+helm-check-outputs: helm-lint
 	./scripts/check-outputs.sh ./src
 
 helm-lint:
