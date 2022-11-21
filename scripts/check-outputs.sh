@@ -8,10 +8,11 @@
 
 # If you are making functional changes to the charts, call the script with the -u flag to update the "expected output" files.
 
-while getopts "uf" flag; do
+while getopts "ufd" flag; do
 case "$flag" in
     u) UPDATE=1;;
     f) FORCE_UPDATE=1;;
+    d) DEBUG_MODE=1;;
     *) ;;
 esac
 done
@@ -19,6 +20,24 @@ done
 SRC_DIR="${*:$OPTIND:2}"
 CHARTS_DIR="${SRC_DIR}/main/charts"
 CHART_TESTS_DIR="${SRC_DIR}/test/helm-output"
+
+DEBUG_OPT=""
+if [ "${DEBUG_MODE}" == "1" ]; then
+    echo "************** WARNING **************"
+    echo "*                                   *"
+    echo "***   You are using DEBUG mode!   ***"
+    echo "*                                   *"
+    echo "* This may render broken manifests! *"
+    echo "* Only use for troubleshooting      *"
+    echo "* rendering problems                *"
+    echo "*                                   *"
+    echo "* Press a key to continue...        *"
+    echo "*************************************"
+    read
+    FORCE_UPDATE=1
+    DEBUG_OPT="--debug"
+    DEBUG_OPT_MSG="in debug mode "
+fi
 
 while IFS= read -r -d '' DIR
 do
@@ -70,11 +89,11 @@ for CHART in ${CHARTS}; do
                 fi
                 if [ "${DO_UPDATE}" == "1" ] || [ "${FORCE_UPDATE}" == "1" ]; then
                     if [ -f "${DIR}/custom-modules.yaml" ]; then
-                        printf "Rendering new expected output for %schart using %s values file and custom modules file" "${CHART}" "${TEST_NAME}"
-                        helm template --namespace default --set-file externalModuleDefinitions.custom="${DIR}"/custom-modules.yaml -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/output.yaml
+                        printf "Rendering new expected output %sfor %s chart using %s values file and custom modules file\n" "${DEBUG_OPT_MSG}" "${CHART}" "${TEST_NAME}"
+                        helm template ${DEBUG_OPT} --namespace default --set-file externalModuleDefinitions.custom="${DIR}"/custom-modules.yaml -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/output.yaml
                     else
-                        printf "Rendering new expected output for %schart using %s values file" "${CHART}" "${TEST_NAME}"
-                        helm template --namespace default -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/output.yaml
+                        printf "Rendering new expected output %sfor %s chart using %s values file\n" "${DEBUG_OPT_MSG}" "${CHART}" "${TEST_NAME}"
+                        helm template ${DEBUG_OPT} --namespace default -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/output.yaml
                     fi
                     if [ ! $? ]; then
                         printf " Rendering failed. Did the linting pass?"
