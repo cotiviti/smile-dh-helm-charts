@@ -1,6 +1,41 @@
 {{/*
 Define extra details for SmileCDR
 */}}
+
+{{/*
+Define SmileCDR Node name
+Currently only supports a single node, so we can remove it
+  from the ConfigMap.
+If there are 0 cdrNodes entries, set default to Masterdev
+  this should not happen as we have the default values,
+  but leaving it in code in case.
+If there is 1 cdrNodes entry, set default to that value
+  as it's from the default values file.
+If there are 2 cdrNodes entries, custom values file has set
+  a new entry, so use that.
+If there are more than 2 cdrNodes entries, custom values, it
+  will be unpredictable until we support multiple nodes. For
+  now, it will just go through the range and use the last one.
+*/}}
+{{- define "smilecdr.nodeId" -}}
+  {{- $nodeId := "Masterdev" -}}
+  {{- if .Values.cdrNodes -}}
+    {{- if eq (len .Values.cdrNodes) 1 -}}
+      {{- range $key, $val := .Values.cdrNodes -}}
+        {{- $nodeId = $key -}}
+      {{- end -}}
+    {{- /* If 2 or more entries, use any value that is not Masterdev */ -}}
+    {{- else if gt (len .Values.cdrNodes) 1 -}}
+      {{- range $key, $val := .Values.cdrNodes -}}
+        {{- if ne $key "Masterdev" -}}
+          {{- $nodeId = $key -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- printf "%s" $nodeId -}}
+{{- end -}}
+
 {{/*
 Define SmileCDR DB Type
 */}}
