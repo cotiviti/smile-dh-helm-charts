@@ -1,3 +1,16 @@
+# [1.0.0-pre.4](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.3...v1.0.0-pre.4) (2022-11-21)
+
+
+### Features
+
+* **smilecdr:** update Ingress definition logic ([2271d57](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/2271d57ff5bd8aef792ca4310df86eb5913682cf))
+
+
+### BREAKING CHANGES
+
+* **smilecdr:** Now uses `nginx-ingress` instead of
+`aws-lbc-nlb` for specifying Nginx Ingress Controller
+
 # [1.0.0-pre.3](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.2...v1.0.0-pre.3) (2022-11-21)
 
 
