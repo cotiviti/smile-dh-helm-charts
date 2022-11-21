@@ -4,7 +4,19 @@ variables:
   RELEASE_BRANCHES_PATTERN: '/^(main)$/'
   PRE_RELEASE_BRANCHES_PATTERN: '/^(next|pre-release|beta|alpha)$/'
   ALL_RELEASE_BRANCHES_PATTERN: '/^(main|next|pre-release|beta|alpha)$/'
+  # Used to match against the auto-release commit. Used throughout, but there may be another way.
   RELEASE_COMMIT_MESSAGE: '/^chore\(auto-(pre)?release\)/'
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BEFORE_SHA == "0000000000000000000000000000000000000000"
+      when: never
+    - if: $CI_COMMIT_BRANCH
+    # We can try tags again later on...
+    # - if: $CI_COMMIT_BRANCH
 
 stages:
 - validate        # Run commit message checking, check for default tests
@@ -17,12 +29,6 @@ commit-check:
   stage: validate
   tags:
     - helm-ci
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    # - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
-    #   when: never
-    - when: always
   image:
     name: commitizen/commitizen:2.37.0
   script:
@@ -40,12 +46,6 @@ helm-lint:
   stage: test
   tags:
     - helm-ci
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    # - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
-    #   when: never
-    - when: always
   image:
     name: alpine/helm:3.10.1
     entrypoint: ["sh", "-c"]
@@ -59,12 +59,6 @@ helm-unit-test:
   stage: test
   tags:
     - helm-ci
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    # - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
-    #   when: never
-    - when: always
   image:
     name: alpine/helm:3.10.1
     entrypoint: ["sh", "-c"]
@@ -77,12 +71,6 @@ helm-output-check:
   stage: test
   tags:
     - helm-ci
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    # - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
-    #   when: never
-    - when: always
   image:
     name: alpine/helm:3.10.1
     entrypoint: ["sh", "-c"]
@@ -97,12 +85,6 @@ helm-docs-check:
   stage: test
   tags:
     - helm-ci
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    # - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
-    #   when: never
-    - when: always
   image:
     name: jnorwood/helm-docs:v1.11.0
     entrypoint: ["sh", "-c"]
@@ -117,12 +99,9 @@ helm-package:
   tags:
     - helm-ci
   rules:
-    - if: $CI_COMMIT_TAG
-      when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
     - if: $CI_COMMIT_REF_NAME =~ $ALL_RELEASE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
-    - when: never
   image:
     name: alpine/helm:3.10.1
     entrypoint: ["sh", "-c"]
@@ -142,12 +121,9 @@ publish:
     name: alpine
     # entrypoint: ["sh", "-c"]
   rules:
-    - if: $CI_COMMIT_TAG
-      when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
     - if: $CI_COMMIT_REF_NAME =~ $ALL_RELEASE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
-    - when: never
   before_script:
     - apk add bash curl
     # - 'helm repo add --username gitlab-ci-token --password ${CI_JOB_TOKEN} ${CI_PROJECT_NAME} ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/devel'
@@ -180,8 +156,7 @@ pre-release:
     - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/exec @semantic-release/git
     - cp -p .semver-release/.releaserc-pre.yml .releaserc.yml
   rules:
-    - if: $CI_COMMIT_TAG
-      when: never
+    # Don't run on the auto-release commit. There may be another way...
     - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
       when: never
     - if: $CI_COMMIT_REF_NAME =~ $PRE_RELEASE_BRANCHES_PATTERN
@@ -218,8 +193,6 @@ release:
     - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/exec @semantic-release/git
     - cp -p .semver-release/.releaserc-main.yml .releaserc.yml
   rules:
-    - if: $CI_COMMIT_TAG
-      when: never
     - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
       when: never
     - if: $CI_COMMIT_REF_NAME =~ $RELEASE_BRANCHES_PATTERN
