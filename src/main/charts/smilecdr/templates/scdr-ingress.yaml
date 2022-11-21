@@ -4,9 +4,9 @@ metadata:
   name: {{ .Release.Name }}-scdr
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "smilecdr.labels" . | nindent 4 }}
+    {{ include "smilecdr.labels" . | nindent 4 | trim }}
   annotations:
-    {{- include "ingress.annotations" . | nindent 4 }}
+    {{ include "ingress.annotations" . | nindent 4 | trim }}
 spec:
   rules:
     - host: {{ .Values.specs.hostname }}

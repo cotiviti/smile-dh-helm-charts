@@ -1,0 +1,8 @@
+# Note that this test is called "ingress-nginx-a" because "ingress-<type>" is the convention in this project.
+# The ingress provider is actually called "nginx-ingress"
+ingress:
+  enabled: true
+  type: nginx-ingress
+  extraAnnotations:
+    nginx.ingress.kubernetes.io/extra-annotation-1: annotation1-value
+    nginx.ingress.kubernetes.io/extra-annotation-2: annotation2-value

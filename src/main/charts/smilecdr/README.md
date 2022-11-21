@@ -31,7 +31,7 @@ A Helm chart for Kubernetes
 | image.tag | string | `"2022.08.R03"` |  |
 | ingress.enabled | bool | `true` |  |
 | ingress.extraAnnotations | object | `{}` |  |
-| ingress.type | string | `"aws-lbc-nlb"` |  |
+| ingress.type | string | `"nginx-ingress"` |  |
 | kafka.bootstrapAddress | string | `"kafka-example.local"` |  |
 | kafka.channelPrefix | string | `"SCDR-ENV-"` |  |
 | kafka.enabled | bool | `false` |  |
