@@ -1,6 +1,6 @@
 # smilecdr
 
-![Version: 1.0.0-pre.1](https://img.shields.io/badge/Version-1.0.0--pre.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2022.08.R03](https://img.shields.io/badge/AppVersion-2022.08.R03-informational?style=flat-square)
+![Version: 1.0.0-pre.2](https://img.shields.io/badge/Version-1.0.0--pre.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2022.08.R03](https://img.shields.io/badge/AppVersion-2022.08.R03-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 

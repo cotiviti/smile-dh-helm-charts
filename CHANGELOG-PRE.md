@@ -1,3 +1,10 @@
+# [1.0.0-pre.2](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.1...v1.0.0-pre.2) (2022-11-21)
+
+
+### Features
+
+* **smilecdr:** remove hard coded entries from ConfigMap ([b6a2fb5](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/b6a2fb56ae9324ef08976cf92487ba7b7f1e7f2c))
+
 # 1.0.0-pre.1 (2022-11-21)
 
 
