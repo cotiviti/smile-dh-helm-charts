@@ -1,3 +1,10 @@
+# [1.0.0-pre.5](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.4...v1.0.0-pre.5) (2022-11-21)
+
+
+### Features
+
+* **smilecdr:** add support for IRSA (IAM roles) ([509bbe3](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/509bbe389df8e2c908161eb11e9fca7a1df15755))
+
 # [1.0.0-pre.4](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.3...v1.0.0-pre.4) (2022-11-21)
 
 
