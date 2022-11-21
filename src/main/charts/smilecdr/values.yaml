@@ -54,6 +54,15 @@ externalModuleDefinitions:
 #     configMapBaseName: smilecdr
 #     path: /home/smile/smilecdr/classes
 
+# This is where we define multiple node configurations for SmileCDR
+# This is a developing feature and there may be breaking changes later on
+# For now, it only defines the name, which is used in the properties ConfigMap
+# It may later be used to define deployment-specific attributes.
+# @ignored
+cdrNodes:
+  Masterdev:
+    enabled: true # Not used yet.
+
 replicaCount: 2
 image:
   repository: docker.smilecdr.com/smilecdr
