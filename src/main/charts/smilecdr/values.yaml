@@ -55,7 +55,7 @@ modules:
       audit_log.request_headers_to_store: Content-Type,Host
     configFromEnv:
       db.username: DB_USER
-      db.password: DB_PASS 
+      db.password: DB_PASS
 
   persistence:
     name: Database Configuration
@@ -126,7 +126,7 @@ modules:
       tls.enabled: false
       https_forwarding_assumed: true
       respect_forward_headers: true
-  
+
   fhirweb_endpoint:
     name: FHIRWeb Console
     enabled: true
@@ -146,7 +146,7 @@ modules:
       anonymous.access.enabled: false
       https_forwarding_assumed: true
       respect_forward_headers: true
-  
+
   # Fhir Endpoint
   fhir_endpoint:
     name: FHIR Service
@@ -224,15 +224,29 @@ modules:
 #     configMapBaseName: smilecdr
 #     path: /home/smile/smilecdr/classes
 
-imagePullSecrets:
-  - name: scdr-docker-secrets
-
 replicaCount: 2
 image:
   repository: docker.smilecdr.com/smilecdr
+  # Override only if you have created a K8s docker config secret externally to this Helm Chart
+  # pullSecrets:
+  #   - name: scdr-docker-secrets
+  # If you specify credentials here, a K8s docker config secret will be auto generated.
+  # Do not use in production environments.
+  credentials:
+    # Choose one of jsonfile, values, secret
+    type: values
+    # type: jsonfile
+    # type: secret
+    values:
+      - registry: docker.com
+        username: user
+        password: pass
+    pullSecrets:
+      - name: scdr-docker-secretssss
+    jsonfile: "misc/docker-config.json"
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: '2021.08.R02'
+  # Override the image tag. Default is the chart appVersion.
+  tag: '2022.08.R03'
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -269,7 +283,7 @@ ingress:
   # Select the cloud vendor and GW/NLB controller being used.
   # Currently supported values are:
   # aws-lbc-nlb - AWS Load Balancer Controller (Network Load Balancer)
-  # azure-appgw - Azure Application Gateway 
+  # azure-appgw - Azure Application Gateway
   type: aws-lbc-nlb
   #type: azure-appgw
   # We won't define annotations here as they are defined in the helper template
