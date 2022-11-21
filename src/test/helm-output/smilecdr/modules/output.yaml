@@ -1,0 +1,242 @@
+---
+# Source: smilecdr/templates/scdr-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: scdr-docker-pull-secrets
+  namespace: default
+type: kubernetes.io/dockerconfigjson
+data:
+  dockerconfigjson: eyJhdXRocyI6eyJkb2NrZXIuY29tIjp7ImF1dGgiOiJkWE5sY2pwd1lYTnoifX19
+---
+# Source: smilecdr/templates/smilecdr-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: smilecdr-config-internal
+  namespace: default
+data:
+  cdr-config-Master.properties: |-
+    ################################################################################
+    # Node Configuration
+    ################################################################################
+    node.id                                                        =Masterdev
+
+    # Broker options are EMBEDDED_ACTIVEMQ, REMOTE_ACTIVEMQ, KAFKA, NONE
+
+    module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
+
+    ################################################################################
+    # Other Modules are Configured Below
+    ################################################################################
+
+    # The following setting controls where module configuration is ultimately stored.
+    # When set to "DATABASE" (which is the default), the clustermgr configuration is
+    # always read but the other modules are stored in the database upon the first
+    # launch and their configuration is read from the database on subsequent
+    # launches. When set to "PROPERTIES", values in this file are always used.
+    #
+    # In other words, in DATABASE mode, the module definitions below this line are
+    # only used to seed the database upon the very first startup of the sytem, and
+    # will be ignored after that. In PROPERTIES mode, the module definitions below
+    # are read every time the system starts, and existing definitions and config are
+    # overwritten by what is in this file.
+    #
+    node.propertysource                                            =PROPERTIES
+
+
+
+    ################################################################################
+    # ENDPOINT: Web Admin
+    ################################################################################
+    module.admin_web.type 	= ADMIN_WEB
+    module.admin_web.requires.SECURITY_IN_UP 	= local_security
+    module.admin_web.config.context_path 	= /
+    module.admin_web.config.https_forwarding_assumed 	= true
+    module.admin_web.config.port 	= 9100
+    module.admin_web.config.respect_forward_headers 	= true
+    module.admin_web.config.tls.enabled 	= false
+
+    ################################################################################
+    # Modified Cluster Manager Configuration
+    ################################################################################
+
+    module.clustermgr.config.audit_log.request_headers_to_store 	= Content-Type,Host
+    module.clustermgr.config.db.driver 	= POSTGRES_9_5
+    module.clustermgr.config.db.schema_update_mode 	= UPDATE
+    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:5432/#{env['DB_DATABASE']}?sslmode=require
+    module.clustermgr.config.stats.heartbeat_persist_frequency_ms 	= 15000
+    module.clustermgr.config.stats.stats_cleanup_frequency_ms 	= 300000
+    module.clustermgr.config.stats.stats_persist_frequency_ms 	= 60000
+    module.clustermgr.config.db.password 	= #{env['DB_PASS']}
+    module.clustermgr.config.db.username 	= #{env['DB_USER']}
+---
+# Source: smilecdr/templates/scdr-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: smilecdr-admin-web
+  namespace: default
+  labels:
+    env: dev
+    client: internal
+    version: one
+    application: smilecdr
+  annotations:
+    {}
+spec:
+  type: ClusterIP
+  ports:
+    - name: admin-web
+      port: 9100
+      targetPort: 9100
+      protocol: TCP
+  selector:
+    env: dev
+    client: internal
+    version: one
+    application: smilecdr
+---
+# Source: smilecdr/templates/scdr-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smilecdr-internal
+  namespace: default
+  labels:
+    env: dev
+    client: internal
+    version: one
+    application: smilecdr
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      env: dev
+      client: internal
+      version: one
+      application: smilecdr
+  template:
+    metadata:
+      labels:
+        env: dev
+        client: internal
+        version: one
+        application: smilecdr
+    spec:
+      imagePullSecrets:
+        - name: scdr-docker-pull-secrets
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: smilecdr
+          securityContext:
+            {}
+          image: docker.smilecdr.com/smilecdr:2022.08.R03
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: "2"
+              memory: 4Gi
+            requests:
+              cpu: "2"
+              memory: 4Gi
+          env:
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-pguser-smilecdr
+                  key: host
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-pguser-smilecdr
+                  key: dbname
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-pguser-smilecdr
+                  key: user
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-pguser-smilecdr
+                  key: password
+          ports:
+            - name: admin-web
+              containerPort: 9100
+              protocol: TCP
+
+          volumeMounts:
+          - name: smilecdr-config-internal
+            mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
+            subPath: cdr-config-Master.properties
+          - name: smilecdr-tls-cert-internal
+            mountPath: "/etc/ssl/smile"
+            readOnly: true
+
+      volumes:
+        - name: smilecdr-config-internal
+          configMap:
+            name: smilecdr-config-internal
+        - name: smilecdr-tls-cert-internal
+          secret:
+            secretName: cdr-dev-tls-cert
+
+      restartPolicy: Always
+---
+# Source: smilecdr/templates/scdr-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: internal-scdr-ingress
+  namespace: default
+  labels:
+    client: internal
+    env: dev
+    version: one
+    application: smilecdr
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  rules:
+    - host: smilecdr-example.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: smilecdr-admin-web
+                port:
+                  number: 9100
+---
+# Source: smilecdr/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "release-name-smilecdr-test-connection"
+  labels:
+    helm.sh/chart: smilecdr-0.1.1
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['smilecdr-admin_web:9100']
+      resources:
+        limits:
+          cpu: 10m
+          memory: 128Mi
+        requests:
+          cpu: 10m
+          memory: 128Mi
+  restartPolicy: Never
