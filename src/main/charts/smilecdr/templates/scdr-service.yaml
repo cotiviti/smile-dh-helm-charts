@@ -2,7 +2,13 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: smilecdr-{{ $v.svcName }}
   namespace: {{ $.Release.Namespace }}
+  labels:
+    env: {{ $.Values.labels.env }}
+    client: {{ $.Values.labels.client }}
+    version: {{ $.Values.labels.version }}
+    application: {{ $.Values.labels.application }}
   annotations:
     {{ if eq "azure-appgw" $.Values.ingress.type -}}
     {{- $path := printf "%sendpoint-health" (default "/" $.Values.specs.rootPath) -}}
@@ -13,12 +19,6 @@ metadata:
     {{- else -}}
     {}
     {{- end }}
-  name: smilecdr-{{ $v.svcName }}
-  labels:
-    env: {{ $.Values.labels.env }}
-    client: {{ $.Values.labels.client }}
-    version: {{ $.Values.labels.version }}
-    application: {{ $.Values.labels.application }}
 spec:
   type: {{ $.Values.service.type }}
   ports:

@@ -1,11 +1,15 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: smilecdr-config-{{ .Values.labels.client }}
+  namespace: {{ .Release.Namespace }}
 data:
   cdr-config-Master.properties: |-
     ################################################################################
     # Node Configuration
     ################################################################################
     node.id                                                        =Masterdev
-    
+
     # Broker options are EMBEDDED_ACTIVEMQ, REMOTE_ACTIVEMQ, KAFKA, NONE
     {{ include "scdrcfg.messagebroker" . | nindent 4 }}
 
@@ -28,9 +32,3 @@ data:
     node.propertysource                                            =PROPERTIES
 
     {{ include "smilecdr.modules.config" . | nindent 4 }}
-
-kind: ConfigMap
-metadata:
-  name: smilecdr-config-{{ .Values.labels.client }}
-  namespace: {{ .Release.Namespace }}
-  selfLink: /api/v1/namespaces/default/configmaps/{{ .Values.labels.client }}-smilecdr-config

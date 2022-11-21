@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: {{ .Release.Namespace }}
   name: smilecdr-{{ .Values.labels.client }}
+  namespace: {{ .Release.Namespace }}
   labels:
     env: {{ .Values.labels.env }}
     client: {{ .Values.labels.client }}
@@ -30,9 +30,9 @@ spec:
         version: {{ .Values.labels.version }}
         application: {{ .Values.labels.application }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- with (include "dockerconfigjson.secretName" .) }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+        - name: {{ . }}
       {{- end }}
       serviceAccountName: {{ include "smilecdr.serviceAccountName" . }}
       securityContext:
@@ -83,7 +83,7 @@ spec:
 {{- include "smilecdr.fileVolumeMounts" . | nindent 10 }}
       volumes:
         - name: smilecdr-config-{{ .Values.labels.client }}
-          configMap: 
+          configMap:
             name: smilecdr-config-{{ .Values.labels.client }}
         - name: smilecdr-tls-cert-{{ .Values.labels.client }}
           secret:
