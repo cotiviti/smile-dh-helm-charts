@@ -1,4 +1,4 @@
-.PHONY: help run-all-tests build helm-update-outputs helm-update-outputs-force helm-check-outputs helm-lint
+.PHONY: help run-all-tests build helm-update-outputs helm-update-outputs-debug helm-update-outputs-force helm-check-outputs helm-lint
 
 help:
 	    @echo "Smile Digital Healh helm charts"
@@ -9,6 +9,7 @@ help:
 	    @echo "helm-check-outputs - run tests to make sure helm template gives expected output"
 		@echo "helm-update-outputs - update expected output files for helm template if they differ semantically"
 		@echo "helm-update-outputs-force - force update of expected output files for helm template"
+		@echo "helm-update-outputs-debug - force update of expected output files for helm template in debug mode. This may produce invalid manifests!"
 		@echo "helm-lint - run helm lint on all charts"
 
 .DEFAULT_GOAL := help
@@ -16,6 +17,9 @@ help:
 run-all-tests: helm-lint check-helm-outputs
 
 build: update-helm-outputs
+
+helm-update-outputs-debug:
+	./scripts/check-outputs.sh -d ./src
 
 helm-update-outputs-force:
 	./scripts/check-outputs.sh -f ./src
@@ -30,4 +34,4 @@ helm-lint:
 	./scripts/lint-charts.sh ./src
 
 
-include Makefile-local
+-include Makefile-local

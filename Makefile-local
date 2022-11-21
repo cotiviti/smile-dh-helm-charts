@@ -1,5 +1,0 @@
-go:
-	helm template --set-file externalModuleDefinitions.custom=src/test/helm-output/smilecdr/modules/custom-modules.yaml -f src/test/helm-output/smilecdr/modules/values.yaml src/main/charts/smilecdr  > out.yaml 
-
-god:
-	helm template --debug --set-file externalModuleDefinitions.custom=src/test/helm-output/smilecdr/modules/custom-modules.yaml -f src/test/helm-output/smilecdr/modules/values.yaml src/main/charts/smilecdr  > out.yaml 
