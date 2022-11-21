@@ -8,7 +8,6 @@ to import it and pipe that through the fromYaml function like so:
 {{- range $k, $v := include "smilecdr.services" . | fromYaml }}
 */}}
 {{- define "smilecdr.fileVolumes" -}}
-
 {{- range $k, $v := .Values.mappedFiles -}}
 {{- if eq $v.type "configMap" -}}
 - name: {{ $k | replace "." "-" }}
@@ -19,7 +18,6 @@ to import it and pipe that through the fromYaml function like so:
 {{- end -}}
 
 {{- define "smilecdr.fileVolumeMounts" -}}
-
 {{- range $k, $v := .Values.mappedFiles -}}
 - name: {{ $k | replace "." "-" }}
   mountPath: {{ $v.path }}/{{ $k }}

@@ -6,7 +6,6 @@ Smile CDR Config Helpers
 Creates config snippets.
 */}}
 {{- define "smilecdr.modules.config" -}}
-
   {{- $modules := omit $.Values.modules "usedefaultmodules" -}}
   {{- $usedefaults := $.Values.modules.usedefaultmodules -}}
   {{- range $k, $v := $.Values.externalModuleDefinitions -}}
@@ -24,7 +23,6 @@ Creates config snippets.
       {{- end -}}
     {{- end -}}
   {{- end -}}
-
 {{- $services := include "smilecdr.services" . | fromYaml -}}
 {{- range $k, $v := $modules -}}
 {{- if $v.enabled -}}
@@ -35,36 +33,36 @@ Creates config snippets.
 {{- else -}}
 {{- $title = printf "# %s" $name -}}
 {{- end -}}
-{{- $moduleKey := printf "module.%s" $k }}
+{{- $moduleKey := printf "module.%s" $k -}}
 ################################################################################
 {{ $title }}
 ################################################################################
-{{/* Only add type key conditionally */}}
+{{- /* Only add type key conditionally */ -}}
 {{- if hasKey $v "type" }}
-{{- printf "%s.type \t= %s" $moduleKey $v.type -}}
-{{ end -}}
-{{/* Dependencies */}}
-{{- range $kReq, $vReq := $v.requires }}
+{{ printf "%s.type \t= %s" $moduleKey $v.type -}}
+{{- end -}}
+{{- /* Dependencies */ -}}
+{{ range $kReq, $vReq := $v.requires }}
 {{ printf "%s.requires.%s \t= %s" $moduleKey $kReq $vReq -}}
-{{ end -}}
-{{/* Module Configuration */}}
-{{- range $kConf, $vConf := $v.config }}
-{{/* Process Special Cases */}}
-{{- if eq $kConf "context_path" -}}
+{{- end -}}
+{{- /* Module Configuration */ -}}
+{{ range $kConf, $vConf := $v.config }}
+{{- /* Process Special Cases */ -}}
+{{ if eq $kConf "context_path" }}
 {{ printf "%s.config.%s \t= %s" $moduleKey $kConf (get $services $k).fullPath  -}}
-{{ else if eq $kConf "base_url.fixed" -}}
+{{ else if eq $kConf "base_url.fixed" }}
 {{ printf "%s.config.%s \t= https://%s%s" $moduleKey $kConf $.Values.specs.hostname (get $services $k).fullPath  -}}
-{{ else if eq $kConf "issuer.url" -}}
+{{ else if eq $kConf "issuer.url" }}
 {{ printf "%s.config.%s \t= https://%s%s" $moduleKey $kConf $.Values.specs.hostname (get $services $k).fullPath  -}}
-{{/* Process remaining config items */}}
-{{ else -}}
+{{- /* Process remaining config items */ -}}
+{{- else }}
 {{ printf "%s.config.%s \t= %s" $moduleKey $kConf (toYaml $vConf) -}}
-{{ end -}}
-{{ end -}}
-{{/* Process config items from env vars */}}
+{{- end -}}
+{{- end -}}
+{{- /* Process config items from env vars */ -}}
 {{- range $kConf, $vConf := $v.configFromEnv }}
 {{ printf "%s.config.%s \t= #{env['%s']}" $moduleKey $kConf $vConf -}}
 {{ end }}
-{{ end -}}
+{{ end }}
 {{- end -}}
 {{- end -}}
