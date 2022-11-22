@@ -40,7 +40,8 @@ Define SmileCDR DB secret
 {{- define "smilecdr.dbSecretName" -}}
   {{- if .Values.database.crunchypgo.enabled -}}
     {{- $crunchyUserName := default "smilecdr" .Values.database.crunchypgo.userName -}}
-    {{- printf "%s-pguser-%s" .Release.Name $crunchyUserName -}}
+    {{- $crunchyReleaseName := default .Release.Name .Values.database.crunchypgo.releaseName -}}
+    {{- printf "%s-pguser-%s" $crunchyReleaseName $crunchyUserName -}}
   {{- else if .Values.database.external.enabled -}}
     {{- if eq .Values.database.external.credentialsSource "k8s" -}}
       {{- .Values.database.external.secretName -}}
