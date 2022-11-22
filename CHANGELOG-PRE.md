@@ -1,3 +1,10 @@
+# [1.0.0-pre.6](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.5...v1.0.0-pre.6) (2022-11-22)
+
+
+### Features
+
+* **smilecdr:** add Secrets Store CSI support ([f8f23ba](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/f8f23ba2e3e8b6a87fc80d7cf04a7ae9a221782f))
+
 # [1.0.0-pre.5](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.4...v1.0.0-pre.5) (2022-11-21)
 
 
