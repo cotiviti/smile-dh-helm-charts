@@ -1,6 +1,6 @@
 # smilecdr
 
-![Version: 1.0.0-pre.7](https://img.shields.io/badge/Version-1.0.0--pre.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2022.08.R03](https://img.shields.io/badge/AppVersion-2022.08.R03-informational?style=flat-square)
+![Version: 1.0.0-pre.8](https://img.shields.io/badge/Version-1.0.0--pre.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2022.08.R03](https://img.shields.io/badge/AppVersion-2022.08.R03-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -39,7 +39,7 @@ A Helm chart for Kubernetes
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
-| replicaCount | int | `2` |  |
+| replicaCount | int | `1` |  |
 | resources.limits.cpu | string | `"2"` |  |
 | resources.limits.memory | string | `"4Gi"` |  |
 | resources.requests.cpu | string | `"2"` |  |

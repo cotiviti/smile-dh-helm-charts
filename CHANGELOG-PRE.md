@@ -1,3 +1,10 @@
+# [1.0.0-pre.8](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.7...v1.0.0-pre.8) (2022-11-22)
+
+
+### Features
+
+* **smilecdr:** set default replicas to 1 ([9788832](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/97888327632c91dccc784a3e4891d9fcad5d58dc))
+
 # [1.0.0-pre.7](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.6...v1.0.0-pre.7) (2022-11-22)
 
 
