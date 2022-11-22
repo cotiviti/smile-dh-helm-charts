@@ -59,7 +59,7 @@ cdrNodes:
   Masterdev:
     enabled: true # Not used yet.
 
-replicaCount: 2
+replicaCount: 1
 image:
   repository: docker.smilecdr.com/smilecdr
   # Override only if you have created a K8s docker config secret externally to this Helm Chart
