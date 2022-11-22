@@ -1,0 +1,6 @@
+# This values file tests if the Crunchy PGO Helm releaseName override works as expected
+
+database:
+  crunchypgo:
+    enabled: true
+    releaseName: db-release
