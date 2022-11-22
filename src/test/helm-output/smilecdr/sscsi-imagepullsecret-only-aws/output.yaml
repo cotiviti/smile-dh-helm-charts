@@ -1,20 +1,4 @@
 ---
-# Source: smilecdr/templates/scdr-image-pull-secret.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: release-name-scdr-image-pull-secrets
-  namespace: default
-  labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.5
-    app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.08.R03"
-    app.kubernetes.io/managed-by: Helm
-type: kubernetes.io/dockerconfigjson
-data:
-  dockerconfigjson: eyJhdXRocyI6eyJkb2NrZXIuY29tIjp7ImF1dGgiOiJkWE5sY2pwd1lYTnoifX19
----
 # Source: smilecdr/templates/smilecdr-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -419,10 +403,19 @@ spec:
               containerPort: 9200
               protocol: TCP
           volumeMounts:
+            - mountPath: /mnt/sscsi
+              name: release-name-scdr
+              readOnly: true
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
       volumes:
+        - csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: release-name-scdr
+          name: release-name-scdr
         - configMap:
             name: release-name-scdr
           name: scdr-config-release-name
@@ -441,8 +434,8 @@ metadata:
     app.kubernetes.io/version: "2022.08.R03"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    other.ingress.controller.kubernetes.io/extra-annotation-1: "annotation1-value"
-    other.ingress.controller.kubernetes.io/extra-annotation-2: "annotation2-value"
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   rules:
     - host: smilecdr-example.local
@@ -490,6 +483,27 @@ spec:
                 name: release-name-scdr-svc-smart-auth
                 port:
                   number: 9200
+---
+# Source: smilecdr/templates/scdr-secret-provider-class.yaml
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: release-name-scdr
+  namespace: default
+spec:
+  provider: aws
+  parameters:
+    objects: |
+      - jmesPath:
+        - objectAlias: dockerconfigjson
+          path: dockerconfigjson
+        objectName: arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname
+  secretObjects:
+  - data:
+    - key: .dockerconfigjson
+      objectName: dockerconfigjson
+    secretName: release-name-scdr-image-pull-secrets
+    type: kubernetes.io/dockerconfigjson
 ---
 # Source: smilecdr/templates/tests/test-connection.yaml
 apiVersion: v1

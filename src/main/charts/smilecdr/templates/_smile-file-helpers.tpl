@@ -3,24 +3,31 @@ Extract and define details of module configurations for use elsewhere in the cha
 */}}
 {{/*
 Define module endpoints
-*IMPORTANT* If using this in a parseable manner (say, within a range) you need
-to import it and pipe that through the fromYaml function like so:
-{{- range $k, $v := include "smilecdr.services" . | fromYaml }}
 */}}
-{{- define "smilecdr.fileVolumes" -}}
-{{- range $k, $v := .Values.mappedFiles -}}
-{{- if eq $v.type "configMap" -}}
+{{ define "smilecdr.fileVolumes" }}
+list:
+{{ if gt (len .Values.mappedFiles) 0 }}
+{{ range $k, $v := .Values.mappedFiles }}
+{{ if eq $v.type "configMap" }}
 - name: {{ $k | replace "." "-" }}
   configMap:
     name: {{ $.Release.Name }}-{{ $v.configMapBaseName }}
-{{- end -}}
-{{- end -}}
-{{- end -}}
+{{ end }}
+{{ end }}
+{{ else }}
+  []
+{{ end }}
+{{ end }}
 
-{{- define "smilecdr.fileVolumeMounts" -}}
-{{- range $k, $v := .Values.mappedFiles -}}
+{{ define "smilecdr.fileVolumeMounts" }}
+list:
+{{ if gt (len .Values.mappedFiles) 0 }}
+{{ range $k, $v := .Values.mappedFiles }}
 - name: {{ $k | replace "." "-" }}
   mountPath: {{ $v.path }}/{{ $k }}
   subPath: {{ $k }}
-{{- end -}}
-{{- end -}}
+{{ end }}
+{{ else }}
+  []
+{{ end }}
+{{ end }}

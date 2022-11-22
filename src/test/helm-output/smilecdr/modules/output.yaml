@@ -1,9 +1,9 @@
 ---
-# Source: smilecdr/templates/scdr-secret.yaml
+# Source: smilecdr/templates/scdr-image-pull-secret.yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: scdr-docker-pull-secrets
+  name: release-name-scdr-image-pull-secrets
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.5
@@ -132,7 +132,7 @@ spec:
         app.kubernetes.io/managed-by: Helm
     spec:
       imagePullSecrets:
-        - name: scdr-docker-pull-secrets
+        - name: release-name-scdr-image-pull-secrets
       serviceAccountName: default
       securityContext:
         {}
@@ -156,10 +156,11 @@ spec:
                   name: release-name-pguser-smilecdr
                   key: host
             - name: DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: release-name-pguser-smilecdr
-                  key: dbname
+              value: smilecdr
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: release-name-pguser-smilecdr
+              #     key: dbname
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
@@ -175,19 +176,13 @@ spec:
               containerPort: 9100
               protocol: TCP
           volumeMounts:
-            - name: scdr-config-release-name
-              mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
+            - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
+              name: scdr-config-release-name
               subPath: cdr-config-Master.properties
-            - name: scdr-tls-cert-release-name
-              mountPath: "/etc/ssl/smile"
-              readOnly: true
       volumes:
-        - name: scdr-config-release-name
-          configMap:
+        - configMap:
             name: release-name-scdr
-        - name: scdr-tls-cert-release-name
-          secret:
-            secretName: cdr-dev-tls-cert
+          name: scdr-config-release-name
       restartPolicy: Always
 ---
 # Source: smilecdr/templates/scdr-ingress.yaml
