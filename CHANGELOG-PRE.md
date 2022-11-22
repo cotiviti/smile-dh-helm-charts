@@ -1,3 +1,10 @@
+# [1.0.0-pre.7](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.6...v1.0.0-pre.7) (2022-11-22)
+
+
+### Features
+
+* **smilecdr:** add name override for CrunchyPGO ([110e133](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/110e1336c309adb3602f9103421f0693ca32424d))
+
 # [1.0.0-pre.6](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.5...v1.0.0-pre.6) (2022-11-22)
 
 
