@@ -1,3 +1,10 @@
+# [1.0.0-pre.9](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.8...v1.0.0-pre.9) (2022-11-23)
+
+
+### Features
+
+* **smilecdr:** automate setting JVMARGS ([6fcda8b](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/6fcda8b86ff8a67198b8fa208167ee9f6c5636f6))
+
 # [1.0.0-pre.8](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.7...v1.0.0-pre.8) (2022-11-22)
 
 
