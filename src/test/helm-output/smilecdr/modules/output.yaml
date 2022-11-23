@@ -147,8 +147,8 @@ spec:
               cpu: "2"
               memory: 4Gi
             requests:
-              cpu: "2"
-              memory: 4Gi
+              cpu: "1"
+              memory: 2Gi
           env:
             - name: DB_URL
               valueFrom:
@@ -171,6 +171,8 @@ spec:
                 secretKeyRef:
                   name: release-name-pguser-smilecdr
                   key: password
+            - name: JVMARGS
+              value: "-server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom"
           ports:
             - name: admin-web
               containerPort: 9100

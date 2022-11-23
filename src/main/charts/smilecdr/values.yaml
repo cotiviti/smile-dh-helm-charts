@@ -83,6 +83,13 @@ image:
   # Override the image tag. Default is the chart appVersion.
   tag: '2022.08.R03'
 
+jvm:
+  memoryFactor: 1
+  xms: true
+  args:
+    - "-Dsun.net.inetaddr.ttl=60"
+    - "-Djava.security.egd=file:/dev/./urandom"
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: false
@@ -139,10 +146,10 @@ resources:
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  limits:
-    cpu: "2"
-    memory: 4Gi
   requests:
+    cpu: "1"
+    memory: 2Gi
+  limits:
     cpu: "2"
     memory: 4Gi
 
