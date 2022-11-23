@@ -400,7 +400,7 @@ spec:
                   name: release-name-pguser-smilecdr
                   key: password
             - name: JVMARGS
-              value: "-server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom"
+              value: "-server -Xmx1638m -Dmyarg=SMILE"
           ports:
             - name: admin-json
               containerPort: 9000
@@ -421,16 +421,10 @@ spec:
               containerPort: 9200
               protocol: TCP
           volumeMounts:
-            - mountPath: /home/smile/smilecdr/classes/testfile.txt
-              name: testfile-txt
-              subPath: testfile.txt
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
       volumes:
-        - configMap:
-            name: release-name-smilecdr
-          name: testfile-txt
         - configMap:
             name: release-name-scdr
           name: scdr-config-release-name

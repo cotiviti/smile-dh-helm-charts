@@ -30,6 +30,10 @@ A Helm chart for Kubernetes
 | ingress.enabled | bool | `true` |  |
 | ingress.extraAnnotations | object | `{}` |  |
 | ingress.type | string | `"nginx-ingress"` |  |
+| jvm.args[0] | string | `"-Dsun.net.inetaddr.ttl=60"` |  |
+| jvm.args[1] | string | `"-Djava.security.egd=file:/dev/./urandom"` |  |
+| jvm.memoryFactor | int | `1` |  |
+| jvm.xms | bool | `true` |  |
 | kafka.bootstrapAddress | string | `"kafka-example.local"` |  |
 | kafka.channelPrefix | string | `"SCDR-ENV-"` |  |
 | kafka.enabled | bool | `false` |  |
@@ -42,8 +46,8 @@ A Helm chart for Kubernetes
 | replicaCount | int | `1` |  |
 | resources.limits.cpu | string | `"2"` |  |
 | resources.limits.memory | string | `"4Gi"` |  |
-| resources.requests.cpu | string | `"2"` |  |
-| resources.requests.memory | string | `"4Gi"` |  |
+| resources.requests.cpu | string | `"1"` |  |
+| resources.requests.memory | string | `"2Gi"` |  |
 | securityContext | object | `{}` |  |
 | service.extraAnnotations | object | `{}` |  |
 | service.type | string | `"ClusterIP"` |  |

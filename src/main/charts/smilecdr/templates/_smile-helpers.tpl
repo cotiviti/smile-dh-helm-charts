@@ -160,3 +160,65 @@ module.persistence.config.subscription.consumers_per_delivery_queue =5
 module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
 {{- end -}}
 {{- end -}}
+
+{{/*
+Smile CDR JVM settings helper
+Creates JVM .
+*/}}
+{{- define "smilecdr.jvmargs" -}}
+  {{- $jvmArgs := "-server" -}}
+  {{- $jvmHeapBytes := ( include "k8s.suffixToValue" .Values.resources.requests.memory ) -}}
+  {{- $jvmHeapBytes = mulf $jvmHeapBytes .Values.jvm.memoryFactor -}}
+  {{- $jvmHeapBytesString := ( include "k8s.bytesToJavaSuffix" $jvmHeapBytes ) -}}
+  {{- if .Values.jvm.xms -}}
+    {{- $jvmArgs = print $jvmArgs " -Xms" $jvmHeapBytesString  -}}
+  {{- end -}}
+  {{- $jvmArgs = print $jvmArgs " -Xmx" $jvmHeapBytesString  -}}
+  {{- range $v := .Values.jvm.args -}}
+  {{- $jvmArgs = print $jvmArgs " " $v -}}
+  {{- end -}}
+  {{- print $jvmArgs | quote -}}
+{{- end -}}
+
+{{/*
+K8s Quantity conversion
+Takes a value with suffix and converts it to the
+raw value
+*/}}
+{{- define "k8s.suffixToValue" -}}
+  {{- $inVal := . | toString -}}
+  {{- $rawVal := $inVal -}}
+  {{- if hasSuffix "Gi" $inVal -}}
+    {{- $rawVal = ( mulf 1024 1024 1024 ( trimSuffix "Gi" $inVal ) | float64 ) | int -}}
+  {{- else if hasSuffix "Mi" $inVal -}}
+    {{- $rawVal = ( mulf 1024 1024 ( trimSuffix "Mi" $inVal ) | float64 ) | int -}}
+  {{- else if hasSuffix "Ki" $inVal -}}
+    {{- $rawVal = ( mulf 1024 ( trimSuffix "Ki" $inVal ) | float64 ) | int -}}
+  {{- else if hasSuffix "G" $inVal -}}
+    {{- $rawVal = ( mulf 1000000000 ( trimSuffix "G" $inVal ) | float64 ) | int -}}
+  {{- else if hasSuffix "M" $inVal -}}
+    {{- $rawVal = ( mulf 1000000 ( trimSuffix "M" $inVal ) | float64 ) | int -}}
+  {{- else if hasSuffix "k" $inVal -}}
+    {{- $rawVal = ( mulf 1000 ( trimSuffix "k" $inVal ) | float64 ) | int -}}
+  {{- end -}}
+  {{- printf "%d" ( $rawVal | float64 | int ) -}}
+{{- end -}}
+
+{{/*
+K8s Quantity conversion
+Takes a value with suffix and converts it to the
+raw value
+*/}}
+{{- define "k8s.bytesToJavaSuffix" -}}
+  {{- $bytes := . | int -}}
+  {{- $Gi := mul 1024 1024 1024 -}}
+  {{- $Mi := mul 1024 1024 -}}
+  {{- $Ki := mul 1024 -}}
+  {{- $outBytes := $bytes -}}
+  {{- if gt $bytes $Mi -}}
+    {{- $outBytes = printf "%sm" (trunc 5 ( divf $bytes $Mi | int | toString )) -}}
+  {{- else if gt $bytes $Ki -}}
+    {{- $outBytes = printf "%sk" (trunc 5 ( divf $bytes $Ki | int | toString )) -}}
+  {{- end -}}
+  {{- printf "%s" ( $outBytes | toString ) -}}
+{{- end -}}

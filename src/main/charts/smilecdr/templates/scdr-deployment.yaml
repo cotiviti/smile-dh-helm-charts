@@ -58,6 +58,10 @@ spec:
                 secretKeyRef:
                   name: {{ include "smilecdr.dbSecretName" . }}
                   key: password
+            {{- with include "smilecdr.jvmargs" . }}
+            - name: JVMARGS
+              value: {{ . }}
+            {{- end }}
           ports:
             {{- range $k, $v := include "smilecdr.services" . | fromYaml }}
             - name: {{ $v.svcName }}
