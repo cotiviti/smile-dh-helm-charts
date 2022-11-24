@@ -35,13 +35,6 @@ commit-check:
     - export
     - cz check --rev-range HEAD
 
-# default-tests-check-job:
-#   stage: validate
-#   tags:
-#     - helm-ci
-#   script:
-#     - echo "Checking for default tests..."
-
 helm-lint:
   stage: test
   tags:
@@ -55,17 +48,17 @@ helm-lint:
     - echo "Linting Charts..."
     - ./scripts/lint-charts.sh ./src
 
-helm-unit-test:
-  stage: test
-  tags:
-    - helm-ci
-  image:
-    name: alpine/helm:3.10.1
-    entrypoint: ["sh", "-c"]
-  before_script:
-    - apk add bash jq yq
-  script:
-    - echo "Running Helm unit tests..."
+# Disabling as this does not actually do anything right now
+# other than waste GitLab runner resources
+# helm-unit-test:
+#   stage: test
+#   tags:
+#     - helm-ci
+#   image:
+#     name: alpine/helm:3.10.1
+#     entrypoint: ["sh", "-c"]
+#   script:
+#     - echo "Running Helm unit tests..."
 
 helm-output-check:
   stage: test
@@ -75,7 +68,7 @@ helm-output-check:
     name: alpine/helm:3.10.1
     entrypoint: ["sh", "-c"]
   before_script:
-    - apk add bash jq
+    - apk add bash jq yq
     - curl --silent --location https://git.io/JYfAY | bash
   script:
     - echo "Checking Helm outputs..."
@@ -147,7 +140,7 @@ pre-release:
     GIT_COMMITTER_NAME: smile-release-bot
     GIT_COMMITTER_EMAIL: smile-release-bot@smilecdr.com
   before_script:
-    - apk add bash curl jq git
+    - apk add bash curl jq yq git
     # Install helm & dyff as they are needed in check outputs script.
     - curl --silent --location https://get.helm.sh/helm-v3.10.1-linux-$(scripts/get-alpine-arch.sh helm).tar.gz | tar -xvzf - -C /usr/local/bin linux-$(scripts/get-alpine-arch.sh helm)/helm --strip-components 1
     - curl --silent --location https://git.io/JYfAY | bash
@@ -184,7 +177,7 @@ release:
     GIT_COMMITTER_NAME: smile-release-bot
     GIT_COMMITTER_EMAIL: smile-release-bot@smilecdr.com
   before_script:
-    - apk add bash curl jq git
+    - apk add bash curl jq yq git
     # Install helm & dyff as they are needed in check outputs script.
     - curl --silent --location https://get.helm.sh/helm-v3.10.1-linux-$(scripts/get-alpine-arch.sh helm).tar.gz | tar -xvzf - -C /usr/local/bin linux-$(scripts/get-alpine-arch.sh helm)/helm --strip-components 1
     - curl --silent --location https://git.io/JYfAY | bash
