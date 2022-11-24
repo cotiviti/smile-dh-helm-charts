@@ -8,11 +8,9 @@ Define module endpoints
 list:
 {{ if gt (len .Values.mappedFiles) 0 }}
 {{ range $k, $v := .Values.mappedFiles }}
-{{ if eq $v.type "configMap" }}
 - name: {{ $k | replace "." "-" }}
   configMap:
-    name: {{ $.Release.Name }}-{{ $v.configMapBaseName }}
-{{ end }}
+    name: {{ $.Release.Name }}-scdr-{{ $k | replace "." "-" }}
 {{ end }}
 {{ else }}
   []
@@ -24,10 +22,24 @@ list:
 {{ if gt (len .Values.mappedFiles) 0 }}
 {{ range $k, $v := .Values.mappedFiles }}
 - name: {{ $k | replace "." "-" }}
-  mountPath: {{ $v.path }}/{{ $k }}
+  mountPath: {{ default "/home/smile/smilecdr/classes" $v.path }}/{{ $k }}
   subPath: {{ $k }}
 {{ end }}
 {{ else }}
   []
 {{ end }}
 {{ end }}
+
+{{- define "smilecdr.fileConfigMaps" -}}
+{{- $fileCfgMaps := list -}}
+{{- if gt (len .Values.mappedFiles) 0 -}}
+  {{- range $k, $v := .Values.mappedFiles -}}
+    {{- if hasKey $v "data" -}}
+      {{- $fileCfgMaps = append $fileCfgMaps (dict "name" ( $k | replace "." "-") "data" $v.data) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if gt (len $fileCfgMaps) 0 -}}
+  {{- printf "list:\n%v" ($fileCfgMaps | toYaml) -}}
+{{- end -}}
+{{- end -}}

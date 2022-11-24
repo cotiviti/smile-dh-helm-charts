@@ -1,0 +1,9 @@
+# This is an empty Helm Values file, only used to verify 'default' Chart output.
+
+# Helm must be called with a `--set-files` option that matches the settings below
+# e.g.:
+#  --set-file mappedFiles.filename\\.ext.data=path/to/filename.ext
+
+mappedFiles:
+  filename.ext:
+    path: /home/smile/elsewhere
