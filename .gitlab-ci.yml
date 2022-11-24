@@ -50,7 +50,7 @@ helm-lint:
     name: alpine/helm:3.10.1
     entrypoint: ["sh", "-c"]
   before_script:
-    - apk add bash
+    - apk add bash jq yq
   script:
     - echo "Linting Charts..."
     - ./scripts/lint-charts.sh ./src
@@ -63,7 +63,7 @@ helm-unit-test:
     name: alpine/helm:3.10.1
     entrypoint: ["sh", "-c"]
   before_script:
-    - apk add bash
+    - apk add bash jq yq
   script:
     - echo "Running Helm unit tests..."
 

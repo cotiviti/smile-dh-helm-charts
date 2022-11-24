@@ -56,7 +56,92 @@ for CHART in ${CHARTS}; do
         while IFS= read -r -d '' DIR
         do
             DO_UPDATE=0
-            if [ -f "${DIR}/values.yaml" ]; then
+            if [ -f "${DIR}/testconfig.yaml" ]; then
+                DIR_NAME=$(basename "${DIR}")
+                TESTS_COUNT=0
+                TESTS_EXIST="$(yq -ojson "${DIR}/testconfig.yaml" | jq -rc '. | has("tests")')"
+                if [ "${TESTS_EXIST}" == "true" ]; then
+                    TESTS_COUNT=$(yq -ojson "${DIR}/testconfig.yaml" | jq -rc '.tests | length')
+                fi
+
+                if [ "${TESTS_COUNT}" -gt 0 ]; then
+                    TESTS="$(yq -ojson "${DIR}/testconfig.yaml" | jq -rc '.tests | keys[]')"
+                    for TEST_NAME in ${TESTS}; do
+                        HELMOPTS=""
+                        if [ "$(yq -ojson "${DIR}/testconfig.yaml" | jq -rc --arg TEST_NAME "${TEST_NAME}" '.tests[$TEST_NAME] | has("outputFile")')" == "true" ]; then
+                            OUTFILE=$(yq -ojson "${DIR}/testconfig.yaml" | jq -rc --arg TEST_NAME "${TEST_NAME}" '.tests[$TEST_NAME]["outputFile"]')
+                        else
+                            OUTFILE=output.yaml
+                        fi
+
+                        if [ "$(yq -ojson "${DIR}/testconfig.yaml" | jq --arg TEST_NAME "${TEST_NAME}" -rc '.tests[$TEST_NAME]["valueFiles"] | length')" -gt 0 ]; then
+                            for VALUES_FILE in $(yq -ojson "${DIR}/testconfig.yaml" | jq --arg TEST_NAME "${TEST_NAME}" -rc '.tests[$TEST_NAME]["valueFiles"][]'); do
+                                HELMOPTS="${HELMOPTS} -f ${DIR}/${VALUES_FILE}"
+                            done
+                        else
+                            HELMOPTS="${HELMOPTS} -f ${DIR}/values.yaml"
+                        fi
+
+                        if [ "$(yq -ojson "${DIR}/testconfig.yaml" | jq --arg TEST_NAME "${TEST_NAME}" -rc '.tests[$TEST_NAME]["set"] | length')" -gt 0 ]; then
+                            for SET in $(yq -ojson "${DIR}/testconfig.yaml" | jq --arg TEST_NAME "${TEST_NAME}" -rc '.tests[$TEST_NAME]["set"][]'); do
+                                KEY=$(echo "${SET}" | jq -rc '.key')
+                                VALUE=$(echo "${SET}" | jq -rc '.value')
+                                HELMOPTS="${HELMOPTS} --set ${KEY}=${VALUE}"
+                            done
+                        fi
+
+                        if [ "$(yq -ojson "${DIR}/testconfig.yaml" | jq --arg TEST_NAME "${TEST_NAME}" -rc '.tests[$TEST_NAME]["setFile"] | length')" -gt 0 ]; then
+                            for SET_FILE in $(yq -ojson "${DIR}/testconfig.yaml" | jq --arg TEST_NAME "${TEST_NAME}" -rc '.tests[$TEST_NAME]["setFile"][]'); do
+                                KEY=$(echo "${SET_FILE}" | jq -rc '.key')
+                                FILENAME=$(echo "${SET_FILE}" | jq -rc '.fileName')
+                                HELMOPTS="${HELMOPTS} --set-file ${KEY}=${DIR}/${FILENAME}"
+                            done
+                        fi
+                        # TODO: Check if HELMOPTS or OUTFILE is empty, and show error
+
+                        if [ -f "${DIR}/${OUTFILE}" ]; then
+                            # shellcheck disable=SC2086 # Intended splitting of HELMOPTS
+                            DYFF_TEXT=$(helm template --namespace default ${HELMOPTS} "${CHARTS_DIR}"/"${CHART}" | dyff between --omit-header --set-exit-code --ignore-order-changes "${DIR}"/"${OUTFILE}" -)
+                            DYFF_RES=$?
+
+                            if [ "${DYFF_RES}" != "0" ]; then
+                                if [ "${UPDATE}" == "1" ]; then
+                                    DO_UPDATE=1
+                                else
+                                    printf "Output differs for %s chart using %s values file." "${CHART}" "${TEST_NAME}"
+                                    printf "%s" "${DYFF_TEXT}"
+                                    printf "For prettier output, you can run the following:\n"
+                                    printf "  helm template --namespace default %s %s/%s | dyff between %s/%s -" "${HELMOPTS}" "${CHARTS_DIR}" "${CHART}" "${DIR}" "${OUTFILE}"
+                                    ERROR=1
+                                fi
+                            fi
+                        else
+                            if [ "${UPDATE}" == "1" ]; then
+                                DO_UPDATE=1
+                            else
+                                printf "  There is no expected output file for the %s Helm Chart using %s testconfig.yaml file.\n\n" "${CHART}" "${TEST_NAME}"
+                                ERROR=1
+                            fi
+                        fi
+
+                        if [ "${DO_UPDATE}" == "1" ] || [ "${FORCE_UPDATE}" == "1" ]; then
+                            printf "Rendering new expected output %sfor %s chart using %s.%s from testconfig.yaml file\n" "${DEBUG_OPT_MSG}" "${CHART}" "${DIR_NAME}" "${TEST_NAME}"
+                            if [ "${DEBUG_MODE}" == "1" ]; then
+                                printf "Helm command: \n\n helm template %s --namespace default %s %s/%s > %s/%s\n\n" "${DEBUG_OPT}" "${HELMOPTS}" "${CHARTS_DIR}" "${CHART}" "${DIR}" "${OUTFILE}"
+                            fi
+                            # shellcheck disable=SC2086 # Intended splitting of HELMOPTS
+                            helm template ${DEBUG_OPT} --namespace default ${HELMOPTS} "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/"${OUTFILE}"
+
+                            if [ ! $? ]; then
+                                printf " Rendering failed. Did the linting pass?"
+                                ERROR=2
+                            fi
+                        fi
+
+                    done
+                fi
+            # Default to pick up values.yaml if it exists and use old behaviour
+            elif [ -f "${DIR}/values.yaml" ]; then
                 (( COUNT++ ))
                 TEST_NAME=$(basename "${DIR}")
                 # printf "Comparing helm template output with expected output for ${CHART} chart using ${TEST_NAME} values file"
@@ -83,7 +168,7 @@ for CHART in ${CHARTS}; do
                     if [ "${UPDATE}" == "1" ]; then
                         DO_UPDATE=1
                     else
-                        printf "  There is no expected output file for the %s Helm Chart using %s values file." "${CHART}" "${TEST_NAME}"
+                        printf "  There is no expected output file for the %s Helm Chart using %s values file.\n\n" "${CHART}" "${TEST_NAME}"
                         ERROR=1
                     fi
                 fi
