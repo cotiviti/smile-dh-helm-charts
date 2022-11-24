@@ -132,12 +132,13 @@ for CHART in ${CHARTS}; do
                             # shellcheck disable=SC2086 # Intended splitting of HELMOPTS
                             helm template ${DEBUG_OPT} --namespace default ${HELMOPTS} "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/"${OUTFILE}"
 
+                            sed -i "" 's/[[:space:]]*$//' "${DIR}"/"${OUTFILE}"
+
                             if [ ! $? ]; then
                                 printf " Rendering failed. Did the linting pass?"
                                 ERROR=2
                             fi
                         fi
-
                     done
                 fi
             # Default to pick up values.yaml if it exists and use old behaviour
