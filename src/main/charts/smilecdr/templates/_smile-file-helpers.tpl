@@ -35,7 +35,7 @@ list:
 {{- if gt (len .Values.mappedFiles) 0 -}}
   {{- range $k, $v := .Values.mappedFiles -}}
     {{- if hasKey $v "data" -}}
-      {{- $fileCfgMaps = append $fileCfgMaps (dict "name" ( $k | replace "." "-") "data" $v.data) -}}
+      {{- $fileCfgMaps = append $fileCfgMaps (dict "name" ( $k ) "data" $v.data) -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
