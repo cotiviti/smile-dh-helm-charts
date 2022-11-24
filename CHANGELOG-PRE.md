@@ -1,3 +1,10 @@
+# [1.0.0-pre.10](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.9...v1.0.0-pre.10) (2022-11-24)
+
+
+### Features
+
+* **smilecdr:** support injecting files ([a823a7d](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/a823a7dd8f5b331344fdbd554d899c52e7db55ee))
+
 # [1.0.0-pre.9](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.8...v1.0.0-pre.9) (2022-11-23)
 
 
