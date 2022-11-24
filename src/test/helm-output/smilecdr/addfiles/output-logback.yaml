@@ -28,7 +28,7 @@ metadata:
     app.kubernetes.io/version: "2022.08.R03"
     app.kubernetes.io/managed-by: Helm
 data:
-  logback-xml: |-
+  logback.xml: |-
     <!--
     This file is not the default that comes with SmileCDR. It was injected by the Helm Chart
     Smile CDR uses the Logback framework for logging. For details on configuring this
