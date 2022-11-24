@@ -1,0 +1,12 @@
+{{- range $v := ( include "smilecdr.fileConfigMaps" . | fromYaml ).list -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $.Release.Name }}-scdr-{{ $v.name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "smilecdr.labels" $ | nindent 4 }}
+data:
+  {{ $v.name }}: |- {{ $v.data | nindent 4 }}
+---
+{{ end }}

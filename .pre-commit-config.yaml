@@ -9,7 +9,7 @@ repos:
       # - id: check-symlinks
       - id: check-json
       - id: check-yaml
-        exclude: templates/.*\.yaml|output.yaml
+        exclude: templates/.*\.yaml|output.*\.yaml
       - id: detect-private-key
       - id: end-of-file-fixer
       - id: trailing-whitespace
