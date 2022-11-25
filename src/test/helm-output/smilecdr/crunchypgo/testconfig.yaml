@@ -1,0 +1,9 @@
+tests:
+  releaseName:
+    outputFile: output-releaseName.yaml
+    valueFiles:
+    - values-releaseName.yaml
+  internalProvisioning:
+    outputFile: output-internalProvisioning.yaml
+    valueFiles:
+    - values-internalProvisioning.yaml
