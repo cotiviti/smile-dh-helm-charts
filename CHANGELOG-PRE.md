@@ -1,3 +1,10 @@
+# [1.0.0-pre.12](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.11...v1.0.0-pre.12) (2022-11-25)
+
+
+### Features
+
+* **smilecdr:** add support for deploying postgres ([0fc81b1](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/0fc81b1d99c95c3e319cab859d52af07774b7429))
+
 # [1.0.0-pre.11](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.10...v1.0.0-pre.11) (2022-11-24)
 
 

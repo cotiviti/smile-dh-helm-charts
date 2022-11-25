@@ -1,6 +1,6 @@
 # smilecdr
 
-![Version: 1.0.0-pre.11](https://img.shields.io/badge/Version-1.0.0--pre.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2022.08.R03](https://img.shields.io/badge/AppVersion-2022.08.R03-informational?style=flat-square)
+![Version: 1.0.0-pre.12](https://img.shields.io/badge/Version-1.0.0--pre.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2022.08.R03](https://img.shields.io/badge/AppVersion-2022.08.R03-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -13,7 +13,14 @@ A Helm chart for Kubernetes
 | autoscaling.maxReplicas | int | `4` |  |
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| database.crunchypgo.config.backupsSize | string | `"10Gi"` |  |
+| database.crunchypgo.config.instanceReplicas | int | `1` |  |
+| database.crunchypgo.config.instanceSize | string | `"10Gi"` |  |
+| database.crunchypgo.config.postgresVersion | int | `14` |  |
+| database.crunchypgo.config.users[0].databases[0] | string | `"smilecdr"` |  |
+| database.crunchypgo.config.users[0].name | string | `"smilecdr"` |  |
 | database.crunchypgo.enabled | bool | `true` |  |
+| database.crunchypgo.internal | bool | `false` |  |
 | database.external.credentialsSource | string | `"k8s"` |  |
 | database.external.dbType | string | `"postgres"` |  |
 | database.external.enabled | bool | `false` |  |
