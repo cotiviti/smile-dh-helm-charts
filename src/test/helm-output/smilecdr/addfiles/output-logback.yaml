@@ -28,7 +28,7 @@ metadata:
     app.kubernetes.io/version: "2022.08.R03"
     app.kubernetes.io/managed-by: Helm
 data:
-  logback.xml: |- 
+  logback.xml: |-
     <!--
     This file is not the default that comes with SmileCDR. It was injected by the Helm Chart
     Smile CDR uses the Logback framework for logging. For details on configuring this
@@ -36,13 +36,13 @@ data:
     https://smilecdr.com/docs/getting_started/system_logging.html
     -->
     <configuration scan="true" scanPeriod="30 seconds">
-    
+
             <!--
             LOG: CONSOLE
-    
+
             For non-Docker deployment: This is not generally visible during operation, unless the
             application is run using "bin/smilecdr run".
-    
+
             For Docker deployment: This is the the log that will appear in the docker log
             console.
             -->
@@ -55,7 +55,7 @@ data:
                     <includeCallerData>false</includeCallerData>
                     <appender-ref ref="STDOUT_SYNC" />
             </appender>
-    
+
             <!--
             LOG: smile-startup.log
             This file contains log entries written when the application is starting up
@@ -78,7 +78,7 @@ data:
                             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level M:%X{moduleId} R:%X{requestId} %logger{36} - %msg%n${log.stackfilter.pattern}</pattern>
                     </encoder>
             </appender>
-    
+
             <!--
             LOG: smile.log
             We create a file called smile.log that will have (by default) all INFO level
@@ -98,13 +98,13 @@ data:
                             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level M:%X{moduleId} R:%X{requestId} %logger{36} - %msg%n${log.stackfilter.pattern}</pattern>
                     </encoder>
             </appender>
-    
+
             <appender name="RUNTIME" class="ch.qos.logback.classic.AsyncAppender">
                     <discardingThreshold>0</discardingThreshold>
                     <includeCallerData>false</includeCallerData>
                     <appender-ref ref="RUNTIME_SYNC" />
             </appender>
-    
+
             <!--
             LOG: smile-error.log
             This file contains only errors generated during normal operation.
@@ -122,7 +122,7 @@ data:
                             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level M:%X{moduleId} R:%X{requestId} %logger{36} [%file:%line] %msg%n</pattern>
                     </encoder>
             </appender>
-    
+
             <!--
             The startup log only gets messages from ca.cdr.app.App, which
             logs startup and shutdown events
@@ -133,7 +133,7 @@ data:
                     <appender-ref ref="RUNTIME" />
                     <appender-ref ref="ERROR" />
             </logger>
-    
+
             <!--
             Send all remaining logs to a few places
             -->
@@ -142,7 +142,7 @@ data:
                     <appender-ref ref="RUNTIME" />
                     <appender-ref ref="ERROR" />
             </root>
-    
+
     </configuration>
 ---
 # Source: smilecdr/templates/smilecdr-configmap.yaml
