@@ -18,6 +18,7 @@ modules:
       stats.stats_cleanup_frequency_ms: 300000
       # Request headers to store in the audit log
       audit_log.request_headers_to_store: Content-Type,Host
+      seed_keystores.file: "classpath:/config_seeding/keystores.json"
     configFromEnv:
       db.username: DB_USER
       db.password: DB_PASS
@@ -36,6 +37,7 @@ modules:
       dao_config.allow_multiple_delete.enabled: false
       dao_config.allow_inline_match_url_references.enabled: false
       dao_config.allow_external_references.enabled: false
+      dao_config.inline_resource_storage_below_size: 4000
     configFromEnv:
       db.username: DB_USER
       db.password: DB_PASS
@@ -66,6 +68,7 @@ modules:
       seed.users.file: classpath:/config_seeding/users.json
       # This is required right now as the default is not being honored.
       # Can be removed if the default gets fixed. May be good to leave it explicit.
+      # Note: SmileCDR still chooses the wrong default as of `2022.11.R01`
       password_encoding_type: BCRYPT_12_ROUND
 
   subscription:
@@ -158,7 +161,7 @@ modules:
     config:
       context_path: smartauth
       port: 9200
-      openid.signing.jwks_file: classpath:/smilecdr-demo.jwks
+      openid.signing.keystore_id: default-keystore
       issuer.url: default
       tls.enabled: false
       https_forwarding_assumed: true

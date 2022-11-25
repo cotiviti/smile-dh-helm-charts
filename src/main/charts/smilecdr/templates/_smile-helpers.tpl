@@ -146,16 +146,9 @@ Message Broker (ActiveMQ vs Kafka)
 {{- if .Values.kafka.enabled -}}
 module.clustermgr.config.messagebroker.type                         =KAFKA
 module.clustermgr.config.kafka.bootstrap_address                    ={{ .Values.kafka.bootstrapAddress }}
-module.clustermgr.config.kafka.group_id                             =smilecdr
-module.clustermgr.config.kafka.auto_commit                          =false
-module.clustermgr.config.kafka.validate_topics_exist_before_use     =false
-module.clustermgr.config.kafka.ack_mode                             =MANUAL
-module.clustermgr.config.kafka.ssl.enabled                          =false
-module.clustermgr.config.kafka.security.protocol                    =SASL_SSL
-module.clustermgr.config.kafka.sasl.mechanism                       =PLAIN
 module.clustermgr.config.messagebroker.channel_naming.prefix        ={{ .Values.kafka.channelPrefix }}
-module.persistence.config.subscription.consumers_per_matching_queue =2
-module.persistence.config.subscription.consumers_per_delivery_queue =5
+module.clustermgr.config.kafka.consumer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-consumer-config.properties
+module.clustermgr.config.kafka.producer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-producer-config.properties
 {{- else -}}
 module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
 {{- end -}}

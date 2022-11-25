@@ -9,7 +9,7 @@ metadata:
     helm.sh/chart: smilecdr-1.0.0-pre.12
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
 data:
   cdr-config-Master.properties: |-
@@ -69,6 +69,7 @@ data:
     module.clustermgr.config.db.driver 	= POSTGRES_9_4
     module.clustermgr.config.db.schema_update_mode 	= UPDATE
     module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:5432/#{env['DB_DATABASE']}?sslmode=require
+    module.clustermgr.config.seed_keystores.file 	= classpath:/config_seeding/keystores.json
     module.clustermgr.config.stats.heartbeat_persist_frequency_ms 	= 15000
     module.clustermgr.config.stats.stats_cleanup_frequency_ms 	= 300000
     module.clustermgr.config.stats.stats_persist_frequency_ms 	= 60000
@@ -140,6 +141,7 @@ data:
     module.persistence.config.dao_config.allow_inline_match_url_references.enabled 	= false
     module.persistence.config.dao_config.allow_multiple_delete.enabled 	= false
     module.persistence.config.dao_config.expire_search_results_after_minutes 	= 60
+    module.persistence.config.dao_config.inline_resource_storage_below_size 	= 4000
     module.persistence.config.db.driver 	= POSTGRES_9_4
     module.persistence.config.db.hibernate.showsql 	= false
     module.persistence.config.db.hibernate_search.directory 	= ./database/lucene_fhir_persistence
@@ -156,7 +158,7 @@ data:
     module.smart_auth.config.context_path 	= /smartauth
     module.smart_auth.config.https_forwarding_assumed 	= true
     module.smart_auth.config.issuer.url 	= https://smilecdr-example.local/smartauth
-    module.smart_auth.config.openid.signing.jwks_file 	= classpath:/smilecdr-demo.jwks
+    module.smart_auth.config.openid.signing.keystore_id 	= default-keystore
     module.smart_auth.config.port 	= 9200
     module.smart_auth.config.respect_forward_headers 	= true
     module.smart_auth.config.tls.enabled 	= false
@@ -176,7 +178,7 @@ metadata:
     helm.sh/chart: smilecdr-1.0.0-pre.12
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -201,7 +203,7 @@ metadata:
     helm.sh/chart: smilecdr-1.0.0-pre.12
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -226,7 +228,7 @@ metadata:
     helm.sh/chart: smilecdr-1.0.0-pre.12
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -251,7 +253,7 @@ metadata:
     helm.sh/chart: smilecdr-1.0.0-pre.12
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -276,7 +278,7 @@ metadata:
     helm.sh/chart: smilecdr-1.0.0-pre.12
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -301,7 +303,7 @@ metadata:
     helm.sh/chart: smilecdr-1.0.0-pre.12
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -326,7 +328,7 @@ metadata:
     helm.sh/chart: smilecdr-1.0.0-pre.12
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -340,7 +342,7 @@ spec:
         helm.sh/chart: smilecdr-1.0.0-pre.12
         app.kubernetes.io/name: smilecdr
         app.kubernetes.io/instance: release-name
-        app.kubernetes.io/version: "2022.08.R03"
+        app.kubernetes.io/version: "2022.11.R01"
         app.kubernetes.io/managed-by: Helm
     spec:
       imagePullSecrets:
@@ -433,7 +435,7 @@ metadata:
     helm.sh/chart: smilecdr-1.0.0-pre.12
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     kubernetes.io/ingress.class: "nginx"
@@ -516,7 +518,7 @@ metadata:
     helm.sh/chart: smilecdr-1.0.0-pre.12
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.08.R03"
+    app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     "helm.sh/hook": test
