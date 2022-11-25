@@ -28,7 +28,7 @@ metadata:
     app.kubernetes.io/version: "2022.08.R03"
     app.kubernetes.io/managed-by: Helm
 data:
-  filename.ext: |- 
+  filename.ext: |-
     This is my file yeahhhhh
 ---
 # Source: smilecdr/templates/smilecdr-configmap.yaml

@@ -140,7 +140,7 @@ pre-release:
     GIT_COMMITTER_NAME: smile-release-bot
     GIT_COMMITTER_EMAIL: smile-release-bot@smilecdr.com
   before_script:
-    - apk add bash curl jq yq git
+    - apk add bash curl jq yq git sed
     # Install helm & dyff as they are needed in check outputs script.
     - curl --silent --location https://get.helm.sh/helm-v3.10.1-linux-$(scripts/get-alpine-arch.sh helm).tar.gz | tar -xvzf - -C /usr/local/bin linux-$(scripts/get-alpine-arch.sh helm)/helm --strip-components 1
     - curl --silent --location https://git.io/JYfAY | bash
@@ -177,7 +177,7 @@ release:
     GIT_COMMITTER_NAME: smile-release-bot
     GIT_COMMITTER_EMAIL: smile-release-bot@smilecdr.com
   before_script:
-    - apk add bash curl jq yq git
+    - apk add bash curl jq yq git sed
     # Install helm & dyff as they are needed in check outputs script.
     - curl --silent --location https://get.helm.sh/helm-v3.10.1-linux-$(scripts/get-alpine-arch.sh helm).tar.gz | tar -xvzf - -C /usr/local/bin linux-$(scripts/get-alpine-arch.sh helm)/helm --strip-components 1
     - curl --silent --location https://git.io/JYfAY | bash

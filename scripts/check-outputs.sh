@@ -132,7 +132,9 @@ for CHART in ${CHARTS}; do
                             # shellcheck disable=SC2086 # Intended splitting of HELMOPTS
                             helm template ${DEBUG_OPT} --namespace default ${HELMOPTS} "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/"${OUTFILE}"
 
-                            sed -i "" 's/[[:space:]]*$//' "${DIR}"/"${OUTFILE}"
+                            # Need to do it this way so it works on Mac workstations as well as on Linux GitLab runners
+                            sed -i.bak 's/[[:space:]]*$//' "${DIR}"/"${OUTFILE}"
+                            rm "${DIR}"/"${OUTFILE}".bak
 
                             if [ ! $? ]; then
                                 printf " Rendering failed. Did the linting pass?"
