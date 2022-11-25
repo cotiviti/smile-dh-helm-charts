@@ -5,6 +5,19 @@ database:
   # the correct credentials. See docs.
   crunchypgo:
     enabled: true
+    internal: false
+    config:
+      postgresVersion: 14
+      instanceReplicas: 1
+      instanceSize: 10Gi
+      backupsSize: 10Gi
+      users:
+        # Defining users here will cause the username and the database to be
+        # created using the Crunchy PGO.
+        - name: "smilecdr"
+          databases:
+            - smilecdr
+
     # Only change this if you change the SmileCDR username in postgresscluster.users
     # userName: smilecdr
   external:
