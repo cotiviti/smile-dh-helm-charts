@@ -1,3 +1,15 @@
+# [1.0.0-pre.13](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.12...v1.0.0-pre.13) (2022-11-25)
+
+
+### Features
+
+* **smilecdr:** update CDR version and modules ([116e187](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/116e187150326b59d974c2f2624c2a7daa922f12))
+
+
+### BREAKING CHANGES
+
+* **smilecdr:** - This updates the SmileCDR version
+
 # [1.0.0-pre.12](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.11...v1.0.0-pre.12) (2022-11-25)
 
 
