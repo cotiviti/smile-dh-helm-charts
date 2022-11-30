@@ -1,3 +1,11 @@
+# [1.0.0-pre.14](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.13...v1.0.0-pre.14) (2022-11-30)
+
+
+### Features
+
+* **smilecdr:** add readiness probe ([5a03100](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/5a031005cc9fda8622bc1c2b643d1e3ba156ad6c))
+* **smilecdr:** add startup probe ([65014ad](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/65014ad33e4225ece5106fd2d2485f1cd18816d6))
+
 # [1.0.0-pre.13](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.12...v1.0.0-pre.13) (2022-11-25)
 
 
