@@ -187,6 +187,9 @@ for CHART in ${CHARTS}; do
                         printf " Rendering failed. Did the linting pass?"
                         ERROR=2
                     fi
+                    # Need to do it this way so it works on Mac workstations as well as on Linux GitLab runners
+                    sed -i.bak 's/[[:space:]]*$//' "${DIR}"/output.yaml
+                    rm "${DIR}"/output.yaml.bak
                 fi
             fi
         done <   <(find "${CURRENT_CHART_TESTS_DIR}" -mindepth 1 -maxdepth 1 -type d -print0)
