@@ -4,4 +4,3 @@ modules:
   fhir_endpoint:
     config:
       endpoint_health.path: /differenthealthcheckpath
-
