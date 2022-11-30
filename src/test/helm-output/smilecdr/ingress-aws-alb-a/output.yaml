@@ -372,6 +372,20 @@ spec:
             {}
           image: "docker.smilecdr.com/smilecdr:2022.08.R03"
           imagePullPolicy: IfNotPresent
+          readinessProbe:
+            httpGet:
+              path: /fhir_request/endpoint-health
+              port: 8000
+            failureThreshold: 1
+            periodSeconds: 10
+          startupProbe:
+            exec:
+              command:
+              - /usr/bin/sh
+              - -c
+              - "/usr/bin/grep \"Smile, we're up and running! :)\" /home/smile/smilecdr/log/smile.log"
+            failureThreshold: 30
+            periodSeconds: 10
           resources:
             limits:
               cpu: "2"
