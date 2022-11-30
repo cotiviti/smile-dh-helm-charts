@@ -78,6 +78,14 @@ data:
     module.clustermgr.config.stats.stats_persist_frequency_ms 	= 60000
     module.clustermgr.config.db.password 	= #{env['DB_PASS']}
     module.clustermgr.config.db.username 	= #{env['DB_USER']}
+    ################################################################################
+    # ENDPOINT: FHIR Service
+    ################################################################################
+    module.fhir_endpoint.type 	= ENDPOINT_FHIR_REST_R4
+    module.fhir_endpoint.requires.PERSISTENCE_R4 	= persistence
+    module.fhir_endpoint.requires.SECURITY_IN_UP 	= local_security
+    module.fhir_endpoint.config.context_path 	= /fhir_request
+    module.fhir_endpoint.config.port 	= 8000
 ---
 # Source: smilecdr/templates/scdr-service.yaml
 apiVersion: v1
@@ -99,6 +107,31 @@ spec:
     - name: admin-web
       port: 9100
       targetPort: 9100
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+---
+# Source: smilecdr/templates/scdr-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-scdr-svc-fhir
+  namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.13
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    {}
+spec:
+  type: ClusterIP
+  ports:
+    - name: fhir
+      port: 8000
+      targetPort: 8000
       protocol: TCP
   selector:
     app.kubernetes.io/name: smilecdr
@@ -142,6 +175,12 @@ spec:
             {}
           image: "docker.smilecdr.com/smilecdr:2022.08.R03"
           imagePullPolicy: IfNotPresent
+          readinessProbe:
+            httpGet:
+              path: /fhir_request/endpoint-health
+              port: 8000
+            failureThreshold: 1
+            periodSeconds: 10
           resources:
             limits:
               cpu: "2"
@@ -176,6 +215,9 @@ spec:
           ports:
             - name: admin-web
               containerPort: 9100
+              protocol: TCP
+            - name: fhir
+              containerPort: 8000
               protocol: TCP
           volumeMounts:
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
@@ -214,6 +256,13 @@ spec:
                 name: release-name-scdr-svc-admin-web
                 port:
                   number: 9100
+          - path: /fhir_request
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-scdr-svc-fhir
+                port:
+                  number: 8000
 ---
 # Source: smilecdr/templates/tests/test-connection.yaml
 apiVersion: v1

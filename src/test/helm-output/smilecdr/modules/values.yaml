@@ -4,3 +4,18 @@ modules:
     name: Modified Cluster Manager Configuration
     config:
       db.driver: POSTGRES_9_5
+    # Fhir Endpoint
+  fhir_endpoint:
+    name: FHIR Service
+    enabled: true
+    type: ENDPOINT_FHIR_REST_R4
+    service:
+      enabled: true
+      svcName: fhir
+      hostName: default
+    requires:
+      PERSISTENCE_R4: persistence
+      SECURITY_IN_UP: local_security
+    config:
+      context_path: fhir_request
+      port: 8000

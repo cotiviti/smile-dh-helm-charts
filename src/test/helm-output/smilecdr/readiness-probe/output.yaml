@@ -1,19 +1,4 @@
 ---
-# Source: smilecdr/templates/scdr-service-account.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: release-name-smilecdr
-  namespace: default
-  labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.13
-    app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.11.R01"
-    app.kubernetes.io/managed-by: Helm
-  annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/example-role-name
----
 # Source: smilecdr/templates/scdr-image-pull-secret.yaml
 apiVersion: v1
 kind: Secret
@@ -119,6 +104,7 @@ data:
     module.fhir_endpoint.config.cors.enable 	= true
     module.fhir_endpoint.config.default_encoding 	= JSON
     module.fhir_endpoint.config.default_pretty_print 	= true
+    module.fhir_endpoint.config.endpoint_health.path 	= /differenthealthcheckpath
     module.fhir_endpoint.config.https_forwarding_assumed 	= true
     module.fhir_endpoint.config.port 	= 8000
     module.fhir_endpoint.config.request_validating.enabled 	= false
@@ -378,7 +364,7 @@ spec:
     spec:
       imagePullSecrets:
         - name: release-name-scdr-image-pull-secrets
-      serviceAccountName: release-name-smilecdr
+      serviceAccountName: default
       securityContext:
         {}
       containers:
@@ -389,7 +375,7 @@ spec:
           imagePullPolicy: IfNotPresent
           readinessProbe:
             httpGet:
-              path: /fhir_request/endpoint-health
+              path: /fhir_request/differenthealthcheckpath
               port: 8000
             failureThreshold: 1
             periodSeconds: 10
