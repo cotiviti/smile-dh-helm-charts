@@ -36,6 +36,14 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           readinessProbe:
             {{- include "smilecdr.readinessProbe" . | nindent 12 }}
+          startupProbe:
+            exec:
+              command:
+              - /usr/bin/sh
+              - -c
+              - "/usr/bin/grep \"Smile, we're up and running! :)\" /home/smile/smilecdr/log/smile.log"
+            failureThreshold: 30
+            periodSeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:

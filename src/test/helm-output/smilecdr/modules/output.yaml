@@ -181,6 +181,14 @@ spec:
               port: 8000
             failureThreshold: 1
             periodSeconds: 10
+          startupProbe:
+            exec:
+              command:
+              - /usr/bin/sh
+              - -c
+              - "/usr/bin/grep \"Smile, we're up and running! :)\" /home/smile/smilecdr/log/smile.log"
+            failureThreshold: 30
+            periodSeconds: 10
           resources:
             limits:
               cpu: "2"
