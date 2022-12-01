@@ -1,3 +1,10 @@
+# [1.0.0-pre.18](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.17...v1.0.0-pre.18) (2022-12-01)
+
+
+### Features
+
+* **smilecdr:** add autoscaling support ([6ff0f2f](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/6ff0f2fb33a1df6cd94d22872b5b67e8cf788120))
+
 # [1.0.0-pre.17](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.16...v1.0.0-pre.17) (2022-12-01)
 
 
