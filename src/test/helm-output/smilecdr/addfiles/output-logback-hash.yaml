@@ -15,6 +15,136 @@ type: kubernetes.io/dockerconfigjson
 data:
   dockerconfigjson: eyJhdXRocyI6eyJkb2NrZXIuY29tIjp7ImF1dGgiOiJkWE5sY2pwd1lYTnoifX19
 ---
+# Source: smilecdr/templates/scdr-file-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-scdr-logback-xml-3372bc1a3f2ea4de3dac94cb5c7b0c56af1899dde9d100d01095b7801d66ec70
+  namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.14
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/managed-by: Helm
+data:
+  logback.xml: |-
+    <!--
+    This file is not the default that comes with SmileCDR. It was injected by the Helm Chart
+    Smile CDR uses the Logback framework for logging. For details on configuring this
+    file, see:
+    https://smilecdr.com/docs/getting_started/system_logging.html
+    -->
+    <configuration scan="true" scanPeriod="30 seconds">
+
+            <!--
+            LOG: CONSOLE
+
+            For non-Docker deployment: This is not generally visible during operation, unless the
+            application is run using "bin/smilecdr run".
+
+            For Docker deployment: This is the the log that will appear in the docker log
+            console.
+            -->
+            <appender name="STDOUT_SYNC" class="ch.qos.logback.core.ConsoleAppender">
+                    <encoder>
+                            <pattern>%d{HH:mm:ss.SSS} [%thread] %highlight(%-5level) M:%X{moduleId} R:%X{requestId} %logger{36} - %msg%n${log.stackfilter.pattern}</pattern>
+                    </encoder>
+            </appender>
+            <appender name="STDOUT" class="ch.qos.logback.classic.AsyncAppender">
+                    <includeCallerData>false</includeCallerData>
+                    <appender-ref ref="STDOUT_SYNC" />
+            </appender>
+
+            <!--
+            LOG: smile-startup.log
+            This file contains log entries written when the application is starting up
+            and shutting down. No other data is written to this file.
+            -->
+            <appender name="STARTUP" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                            <level>INFO</level>
+                    </filter>
+                    <file>${smile.basedir}/log/smile-startup.log</file>
+                    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                            <fileNamePattern>${smile.basedir}/log/smile-startup.log.%i.gz</fileNamePattern>
+                            <minIndex>1</minIndex>
+                            <maxIndex>9</maxIndex>
+                    </rollingPolicy>
+                    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                            <maxFileSize>5MB</maxFileSize>
+                    </triggeringPolicy>
+                    <encoder>
+                            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level M:%X{moduleId} R:%X{requestId} %logger{36} - %msg%n${log.stackfilter.pattern}</pattern>
+                    </encoder>
+            </appender>
+
+            <!--
+            LOG: smile.log
+            We create a file called smile.log that will have (by default) all INFO level
+            messages. This file is written asynchronously using a blocking queue for better
+            performance.
+            -->
+            <appender name="RUNTIME_SYNC" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                            <level>INFO</level>
+                    </filter>
+                    <file>${smile.basedir}/log/smile.log</file>
+                    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                            <fileNamePattern>${smile.basedir}/log/smile.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+                            <maxHistory>30</maxHistory>
+                    </rollingPolicy>
+                    <encoder>
+                            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level M:%X{moduleId} R:%X{requestId} %logger{36} - %msg%n${log.stackfilter.pattern}</pattern>
+                    </encoder>
+            </appender>
+
+            <appender name="RUNTIME" class="ch.qos.logback.classic.AsyncAppender">
+                    <discardingThreshold>0</discardingThreshold>
+                    <includeCallerData>false</includeCallerData>
+                    <appender-ref ref="RUNTIME_SYNC" />
+            </appender>
+
+            <!--
+            LOG: smile-error.log
+            This file contains only errors generated during normal operation.
+            -->
+            <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                            <level>ERROR</level>
+                    </filter>
+                    <file>${smile.basedir}/log/smile-error.log</file>
+                    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                            <fileNamePattern>${smile.basedir}/log/smile-error.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+                            <maxHistory>30</maxHistory>
+                    </rollingPolicy>
+                    <encoder>
+                            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level M:%X{moduleId} R:%X{requestId} %logger{36} [%file:%line] %msg%n</pattern>
+                    </encoder>
+            </appender>
+
+            <!--
+            The startup log only gets messages from ca.cdr.app.App, which
+            logs startup and shutdown events
+            -->
+            <logger name="ca.cdr.app.App" additivity="false">
+                    <appender-ref ref="STARTUP"/>
+                    <appender-ref ref="STDOUT" />
+                    <appender-ref ref="RUNTIME" />
+                    <appender-ref ref="ERROR" />
+            </logger>
+
+            <!--
+            Send all remaining logs to a few places
+            -->
+            <root level="INFO">
+                    <appender-ref ref="STDOUT" />
+                    <appender-ref ref="RUNTIME" />
+                    <appender-ref ref="ERROR" />
+            </root>
+
+    </configuration>
+---
 # Source: smilecdr/templates/smilecdr-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -437,10 +567,16 @@ spec:
               containerPort: 9200
               protocol: TCP
           volumeMounts:
+            - mountPath: /home/smile/smilecdr/classes/logback.xml
+              name: logback-xml
+              subPath: logback.xml
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
       volumes:
+        - configMap:
+            name: release-name-scdr-logback-xml-3372bc1a3f2ea4de3dac94cb5c7b0c56af1899dde9d100d01095b7801d66ec70
+          name: logback-xml
         - configMap:
             name: release-name-scdr-e57ee60b499f7c59111947144f5ca570d82471f1bfaa828eff9b3805c063bf2e
           name: scdr-config-release-name
@@ -459,22 +595,8 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    alb.ingress.kubernetes.io/actions.ssl-redirect: "{\"Type\": \"redirect\", \"RedirectConfig\": { \"Protocol\": \"HTTPS\", \"Port\": \"443\", \"StatusCode\": \"HTTP_301\"}}"
-    alb.ingress.kubernetes.io/backend-protocol: "HTTP"
-    alb.ingress.kubernetes.io/extra-annotation-1: "annotation1-value"
-    alb.ingress.kubernetes.io/extra-annotation-2: "annotation2-value"
-    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "6"
-    alb.ingress.kubernetes.io/healthcheck-path: "/signin"
-    alb.ingress.kubernetes.io/healthcheck-port: "traffic-port"
-    alb.ingress.kubernetes.io/healthcheck-protocol: "HTTP"
-    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
-    alb.ingress.kubernetes.io/listen-ports: "[{\"HTTPS\":443}]"
-    alb.ingress.kubernetes.io/scheme: "internet-facing"
-    alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-2016-08"
-    alb.ingress.kubernetes.io/success-codes: "200-401"
-    alb.ingress.kubernetes.io/target-group-attributes: "stickiness.enabled=false,stickiness.lb_cookie.duration_seconds=300"
-    alb.ingress.kubernetes.io/target-type: "instance"
-    kubernetes.io/ingress.class: "alb"
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   rules:
     - host: smilecdr-example.local

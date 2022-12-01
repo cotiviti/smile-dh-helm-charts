@@ -19,7 +19,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr
+  name: release-name-scdr-6ab4b166e926c5a4f0578043acb5ef2417f7db578f99b78e9c669f28b7536fce
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.14
@@ -442,7 +442,7 @@ spec:
               subPath: cdr-config-Master.properties
       volumes:
         - configMap:
-            name: release-name-scdr
+            name: release-name-scdr-6ab4b166e926c5a4f0578043acb5ef2417f7db578f99b78e9c669f28b7536fce
           name: scdr-config-release-name
       restartPolicy: Always
 ---

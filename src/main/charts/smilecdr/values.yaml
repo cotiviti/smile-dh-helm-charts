@@ -73,6 +73,10 @@ cdrNodes:
     enabled: true # Not used yet.
 
 replicaCount: 1
+
+# Automatically do rolling deployment when configmaps or files are changed
+autoDeploy: true
+
 image:
   repository: docker.smilecdr.com/smilecdr
   # Override only if you have created a K8s docker config secret externally to this Helm Chart

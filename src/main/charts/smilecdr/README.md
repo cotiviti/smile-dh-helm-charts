@@ -9,6 +9,7 @@ A Helm chart for Kubernetes
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
+| autoDeploy | bool | `true` |  |
 | autoscaling.enabled | bool | `false` |  |
 | autoscaling.maxReplicas | int | `4` |  |
 | autoscaling.minReplicas | int | `1` |  |

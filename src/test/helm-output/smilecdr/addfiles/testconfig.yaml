@@ -23,3 +23,15 @@ tests:
     # Equivalent to: --set-file mappedFiles.logback\\.xml.data={path/to/}logback.xml
     - key: mappedFiles.logback\.xml.data
       fileName: logback.xml
+  logback-file-hash:
+    outputFile: output-logback-hash.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - values-logback-hash.yaml
+    # - extra-values.yaml
+    setFile:
+    # Equivalent to: --set-file mappedFiles.logback\\.xml.data={path/to/}logback.xml
+    - key: mappedFiles.logback\.xml.data
+      fileName: logback.xml
