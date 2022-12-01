@@ -529,6 +529,43 @@ spec:
                 port:
                   number: 9200
 ---
+# Source: smilecdr/templates/postgres.yaml
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: release-name-pg
+spec:
+  postgresVersion: 14
+  instances:
+    - name: "instance1"
+      replicas: 1
+      dataVolumeClaimSpec:
+        storageClassName: gp3-fast
+        accessModes:
+        - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "10Gi"
+      resources:
+        limits:
+          cpu: "1"
+          memory: "2Gi"
+  backups:
+    pgbackrest:
+      repos:
+      - name: repo1
+        volume:
+          volumeClaimSpec:
+            accessModes:
+            - "ReadWriteOnce"
+            resources:
+              requests:
+                storage: "10Gi"
+  users:
+    - databases:
+      - smilecdr
+      name: smilecdr
+---
 # Source: smilecdr/templates/tests/test-connection.yaml
 apiVersion: v1
 kind: Pod

@@ -56,7 +56,11 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "smilecdr.dbSecretName" . }}
+                  {{- if .Values.database.crunchypgo.config.pgBouncerConfig }}
+                  key: pgbouncer-host
+                  {{- else }}
                   key: host
+                  {{- end }}
             - name: DB_DATABASE
               value: smilecdr
               # valueFrom:

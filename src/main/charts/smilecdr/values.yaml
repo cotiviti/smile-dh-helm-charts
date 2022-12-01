@@ -9,8 +9,11 @@ database:
     config:
       postgresVersion: 14
       instanceReplicas: 1
+      instanceCPU: 1
+      instanceMemory: 2Gi
       instanceSize: 10Gi
       backupsSize: 10Gi
+      #storageClass: gp3-fast
       users:
         # Defining users here will cause the username and the database to be
         # created using the Crunchy PGO.

@@ -432,23 +432,23 @@ spec:
             - name: DB_URL
               valueFrom:
                 secretKeyRef:
-                  name: release-name-pguser-smilecdr
+                  name: release-name-pg-pguser-smilecdr
                   key: host
             - name: DB_DATABASE
               value: smilecdr
               # valueFrom:
               #   secretKeyRef:
-              #     name: release-name-pguser-smilecdr
+              #     name: release-name-pg-pguser-smilecdr
               #     key: dbname
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: release-name-pguser-smilecdr
+                  name: release-name-pg-pguser-smilecdr
                   key: user
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:
-                  name: release-name-pguser-smilecdr
+                  name: release-name-pg-pguser-smilecdr
                   key: password
             - name: JVMARGS
               value: "-server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom"

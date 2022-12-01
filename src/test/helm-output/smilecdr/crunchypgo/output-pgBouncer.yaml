@@ -418,7 +418,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: release-name-pg-pguser-smilecdr
-                  key: host
+                  key: pgbouncer-host
             - name: DB_DATABASE
               value: smilecdr
               # valueFrom:
@@ -528,6 +528,53 @@ spec:
                 name: release-name-scdr-svc-smart-auth
                 port:
                   number: 9200
+---
+# Source: smilecdr/templates/postgres.yaml
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: release-name-pg
+spec:
+  postgresVersion: 14
+  instances:
+    - name: "instance1"
+      replicas: 1
+      dataVolumeClaimSpec:
+        accessModes:
+        - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "10Gi"
+      resources:
+        limits:
+          cpu: "1"
+          memory: "2Gi"
+  backups:
+    pgbackrest:
+      repos:
+      - name: repo1
+        volume:
+          volumeClaimSpec:
+            accessModes:
+            - "ReadWriteOnce"
+            resources:
+              requests:
+                storage: "10Gi"
+  proxy:
+    pgBouncer:
+      config:
+        databases:
+          '*': host=smile-pg-primary port=5432 pool_size=100
+        global:
+          listen_backlog: "4096"
+          max_client_conn: "1000"
+          max_db_connections: "100"
+          pool_mode: transaction
+          server_reset_query_always: "1"
+  users:
+    - databases:
+      - smilecdr
+      name: smilecdr
 ---
 # Source: smilecdr/templates/tests/test-connection.yaml
 apiVersion: v1
