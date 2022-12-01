@@ -72,6 +72,8 @@ cdrNodes:
   Masterdev:
     enabled: true # Not used yet.
 
+# Number of replicas to deploy. Note that this setting is ignored if autoscaling
+# is enabled.
 replicaCount: 1
 
 # Automatically do rolling deployment when configmaps or files are changed
@@ -172,10 +174,12 @@ resources:
 
 autoscaling:
   enabled: false
+  # minReplicas: Recommend 1 for dev environments, 2 for prod or 3 for HA prod
+  # Should always start a new installation with 1, so it's the default
   minReplicas: 1
+  # Depends on peak workload requirements and available licensing
   maxReplicas: 4
   targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 

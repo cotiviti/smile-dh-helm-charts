@@ -1,0 +1,5 @@
+tests:
+  healthcheckPath:
+    outputFile: output.yaml
+    valueFiles:
+    - values.yaml
