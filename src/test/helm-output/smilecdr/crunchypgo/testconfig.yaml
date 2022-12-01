@@ -7,3 +7,11 @@ tests:
     outputFile: output-internalProvisioning.yaml
     valueFiles:
     - values-internalProvisioning.yaml
+  storageClass:
+    outputFile: output-storageClass.yaml
+    valueFiles:
+    - values-storageClass.yaml
+  pgBouncer:
+    outputFile: output-pgBouncer.yaml
+    valueFiles:
+    - values-pgBouncer.yaml
