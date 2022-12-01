@@ -10,7 +10,15 @@ list:
 {{ range $k, $v := .Values.mappedFiles }}
 - name: {{ $k | replace "." "-" }}
   configMap:
+    {{- if $.Values.autoDeploy }}
+      {{- if hasKey $v "data" }}
+    name: {{ $.Release.Name }}-scdr-{{ $k | replace "." "-" }}-{{ sha256sum ($v.data) }}
+      {{- else }}
     name: {{ $.Release.Name }}-scdr-{{ $k | replace "." "-" }}
+      {{- end }}
+    {{- else }}
+    name: {{ $.Release.Name }}-scdr-{{ $k | replace "." "-" }}
+    {{- end }}
 {{ end }}
 {{ else }}
   []
@@ -35,7 +43,7 @@ list:
 {{- if gt (len .Values.mappedFiles) 0 -}}
   {{- range $k, $v := .Values.mappedFiles -}}
     {{- if hasKey $v "data" -}}
-      {{- $fileCfgMaps = append $fileCfgMaps (dict "name" ( $k ) "data" $v.data) -}}
+      {{- $fileCfgMaps = append $fileCfgMaps (dict "name" ( $k ) "data" $v.data "hash" ( sha256sum $v.data )) -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
