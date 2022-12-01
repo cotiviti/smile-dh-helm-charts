@@ -1,3 +1,10 @@
+# [1.0.0-pre.19](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.18...v1.0.0-pre.19) (2022-12-01)
+
+
+### Features
+
+* **smilecdr:** add support for strimzi kafka ([27b8fb4](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/27b8fb4a4d61babec1934024874a4b4a2276b4a2))
+
 # [1.0.0-pre.18](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.17...v1.0.0-pre.18) (2022-12-01)
 
 
