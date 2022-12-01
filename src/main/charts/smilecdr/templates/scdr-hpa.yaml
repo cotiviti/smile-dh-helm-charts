@@ -1,0 +1,23 @@
+{{- if .Values.autoscaling.enabled -}}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Release.Name }}-scdr
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "smilecdr.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Release.Name }}-scdr
+  minReplicas: {{ default 1 .Values.autoscaling.minReplicas }}
+  maxReplicas: {{ default 4 .Values.autoscaling.maxReplicas }}
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: {{ default 80 .Values.autoscaling.targetCPUUtilizationPercentage }}
+{{- end -}}
