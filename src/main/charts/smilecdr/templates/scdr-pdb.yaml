@@ -1,0 +1,12 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Release.Name }}-scdr
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "smilecdr.labels" . | nindent 4 }}
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      {{- include "smilecdr.selectorLabels" . | nindent 6 }}
