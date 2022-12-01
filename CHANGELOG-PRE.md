@@ -1,3 +1,10 @@
+# [1.0.0-pre.17](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.16...v1.0.0-pre.17) (2022-12-01)
+
+
+### Features
+
+* **smilecdr:** configure rolling deployments ([daa9c4b](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/daa9c4b43ca9f59b1e26dc7a4a3a1da62d859e1d))
+
 # [1.0.0-pre.16](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.15...v1.0.0-pre.16) (2022-12-01)
 
 
