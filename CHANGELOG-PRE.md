@@ -1,3 +1,15 @@
+# [1.0.0-pre.22](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.21...v1.0.0-pre.22) (2022-12-01)
+
+
+### Bug Fixes
+
+* **smilecdr:** change crunchydata resource names ([654417b](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/654417b7a9dce46f84947d371fa4426b03bf7783))
+
+
+### Features
+
+* **smilecdr:** improve CrunchyData integration ([4289432](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/428943258417ada4c1dcdd7e9d75bb6cee0139fd))
+
 # [1.0.0-pre.21](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.20...v1.0.0-pre.21) (2022-12-01)
 
 
