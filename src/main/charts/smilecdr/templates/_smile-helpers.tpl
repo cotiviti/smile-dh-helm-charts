@@ -178,7 +178,10 @@ Creates JVM .
 */}}
 {{- define "smilecdr.jvmargs" -}}
   {{- $jvmArgs := "-server" -}}
-  {{- $jvmHeapBytes := ( include "k8s.suffixToValue" .Values.resources.requests.memory ) -}}
+  {{- $jvmHeapBytes := (default (mulf 2048 1024 ) ( include "k8s.suffixToValue" .Values.resources.limits.memory )) -}}
+  {{- if .Values.resources.requests.memory -}}
+    {{- $jvmHeapBytes = ( include "k8s.suffixToValue" .Values.resources.requests.memory ) -}}
+  {{- end -}}
   {{- $jvmHeapBytes = mulf $jvmHeapBytes .Values.jvm.memoryFactor -}}
   {{- $jvmHeapBytesString := ( include "k8s.bytesToJavaSuffix" $jvmHeapBytes ) -}}
   {{- if .Values.jvm.xms -}}

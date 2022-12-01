@@ -40,7 +40,7 @@ A Helm chart for Kubernetes
 | ingress.type | string | `"nginx-ingress"` |  |
 | jvm.args[0] | string | `"-Dsun.net.inetaddr.ttl=60"` |  |
 | jvm.args[1] | string | `"-Djava.security.egd=file:/dev/./urandom"` |  |
-| jvm.memoryFactor | int | `1` |  |
+| jvm.memoryFactor | float | `0.5` |  |
 | jvm.xms | bool | `true` |  |
 | labels | object | `{}` |  |
 | mappedFiles | object | `{}` |  |
@@ -68,10 +68,8 @@ A Helm chart for Kubernetes
 | podAnnotations | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
 | replicaCount | int | `1` |  |
-| resources.limits.cpu | string | `"2"` |  |
 | resources.limits.memory | string | `"4Gi"` |  |
 | resources.requests.cpu | string | `"1"` |  |
-| resources.requests.memory | string | `"2Gi"` |  |
 | securityContext | object | `{}` |  |
 | service.extraAnnotations | object | `{}` |  |
 | service.type | string | `"ClusterIP"` |  |
