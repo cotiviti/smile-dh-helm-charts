@@ -1,3 +1,10 @@
+# [1.0.0-pre.20](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.19...v1.0.0-pre.20) (2022-12-01)
+
+
+### Bug Fixes
+
+* **smilecdr:** remove image reference ([2b47fb5](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/2b47fb56be3397e0cf19899c0d5442fce6419311))
+
 # [1.0.0-pre.19](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.18...v1.0.0-pre.19) (2022-12-01)
 
 
