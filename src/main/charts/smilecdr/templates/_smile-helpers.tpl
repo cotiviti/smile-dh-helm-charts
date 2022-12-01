@@ -143,16 +143,34 @@ Creates config snippets.
 Message Broker (ActiveMQ vs Kafka)
 */}}
 {{- define "scdrcfg.messagebroker" -}}
-{{- if .Values.kafka.enabled -}}
-module.clustermgr.config.messagebroker.type                         =KAFKA
-module.clustermgr.config.kafka.bootstrap_address                    ={{ .Values.kafka.bootstrapAddress }}
-module.clustermgr.config.messagebroker.channel_naming.prefix        ={{ .Values.kafka.channelPrefix }}
+{{- $brokerType := "EMBEDDED_ACTIVEMQ" -}}
+{{- $kafkaBootstrap := "" -}}
+{{- $kafkaSSLEnabled := "false" -}}
+{{- if or .Values.messageBroker.strimzi.enabled .Values.messageBroker.external.enabled -}}
+   {{- if .Values.messageBroker.strimzi.enabled -}}
+    {{- $brokerType = "KAFKA" -}}
+    {{- if .Values.messageBroker.strimzi.config.tls -}}
+      {{- $kafkaBootstrap = printf "%s-kafka-bootstrap:9093" .Release.Name -}}
+      {{- $kafkaSSLEnabled = "true" -}}
+    {{- else -}}
+      {{- $kafkaBootstrap = printf "%s-kafka-bootstrap:9092" .Release.Name -}}
+    {{- end -}}
+  {{- else if eq .Values.messageBroker.external.type "kafka" -}}
+    {{- $brokerType = "KAFKA" -}}
+    {{- $kafkaBootstrap = .Values.messageBroker.external.bootstrapAddress -}}
+    {{- if .Values.messageBroker.external.tls -}}
+      {{- $kafkaSSLEnabled = "true" -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+module.clustermgr.config.messagebroker.type                         ={{ $brokerType }}
+{{- if eq $brokerType "KAFKA" }}
+module.clustermgr.config.kafka.bootstrap_address                    ={{ $kafkaBootstrap }}
+module.clustermgr.config.kafka.ssl.enabled                          ={{ $kafkaSSLEnabled }}
 module.clustermgr.config.kafka.consumer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-consumer-config.properties
 module.clustermgr.config.kafka.producer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-producer-config.properties
-{{- else -}}
-module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
-{{- end -}}
-{{- end -}}
+{{- end }}
+{{- end }}
 
 {{/*
 Smile CDR JVM settings helper

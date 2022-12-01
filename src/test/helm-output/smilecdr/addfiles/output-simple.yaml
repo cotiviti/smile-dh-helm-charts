@@ -54,7 +54,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-e57ee60b499f7c59111947144f5ca570d82471f1bfaa828eff9b3805c063bf2e
+  name: release-name-scdr-30a807909f0f47b2da856657bf9d9c56e67dfb89e60c0043d2c3dcb40f6cc03d
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.18
@@ -68,8 +68,6 @@ data:
     # Node Configuration
     ################################################################################
     node.id                                                        =Masterdev
-
-    # Broker options are EMBEDDED_ACTIVEMQ, REMOTE_ACTIVEMQ, KAFKA, NONE
 
     module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
 
@@ -488,7 +486,7 @@ spec:
             name: release-name-scdr-filename-ext-0e7f948f114eac80d8ae1572bd292df57d6de2faeb1e54586112c54567883a19
           name: filename-ext
         - configMap:
-            name: release-name-scdr-e57ee60b499f7c59111947144f5ca570d82471f1bfaa828eff9b3805c063bf2e
+            name: release-name-scdr-30a807909f0f47b2da856657bf9d9c56e67dfb89e60c0043d2c3dcb40f6cc03d
           name: scdr-config-release-name
       restartPolicy: Always
 ---

@@ -1,0 +1,4 @@
+# This values files enables provisioning Kafka using the Strimzi operator
+messageBroker:
+  strimzi:
+    enabled: true

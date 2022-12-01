@@ -34,141 +34,11 @@ type: kubernetes.io/dockerconfigjson
 data:
   dockerconfigjson: eyJhdXRocyI6eyJkb2NrZXIuY29tIjp7ImF1dGgiOiJkWE5sY2pwd1lYTnoifX19
 ---
-# Source: smilecdr/templates/scdr-file-configmap.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: release-name-scdr-logback-xml-3372bc1a3f2ea4de3dac94cb5c7b0c56af1899dde9d100d01095b7801d66ec70
-  namespace: default
-  labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.18
-    app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.11.R01"
-    app.kubernetes.io/managed-by: Helm
-data:
-  logback.xml: |-
-    <!--
-    This file is not the default that comes with SmileCDR. It was injected by the Helm Chart
-    Smile CDR uses the Logback framework for logging. For details on configuring this
-    file, see:
-    https://smilecdr.com/docs/getting_started/system_logging.html
-    -->
-    <configuration scan="true" scanPeriod="30 seconds">
-
-            <!--
-            LOG: CONSOLE
-
-            For non-Docker deployment: This is not generally visible during operation, unless the
-            application is run using "bin/smilecdr run".
-
-            For Docker deployment: This is the the log that will appear in the docker log
-            console.
-            -->
-            <appender name="STDOUT_SYNC" class="ch.qos.logback.core.ConsoleAppender">
-                    <encoder>
-                            <pattern>%d{HH:mm:ss.SSS} [%thread] %highlight(%-5level) M:%X{moduleId} R:%X{requestId} %logger{36} - %msg%n${log.stackfilter.pattern}</pattern>
-                    </encoder>
-            </appender>
-            <appender name="STDOUT" class="ch.qos.logback.classic.AsyncAppender">
-                    <includeCallerData>false</includeCallerData>
-                    <appender-ref ref="STDOUT_SYNC" />
-            </appender>
-
-            <!--
-            LOG: smile-startup.log
-            This file contains log entries written when the application is starting up
-            and shutting down. No other data is written to this file.
-            -->
-            <appender name="STARTUP" class="ch.qos.logback.core.rolling.RollingFileAppender">
-                    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-                            <level>INFO</level>
-                    </filter>
-                    <file>${smile.basedir}/log/smile-startup.log</file>
-                    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-                            <fileNamePattern>${smile.basedir}/log/smile-startup.log.%i.gz</fileNamePattern>
-                            <minIndex>1</minIndex>
-                            <maxIndex>9</maxIndex>
-                    </rollingPolicy>
-                    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-                            <maxFileSize>5MB</maxFileSize>
-                    </triggeringPolicy>
-                    <encoder>
-                            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level M:%X{moduleId} R:%X{requestId} %logger{36} - %msg%n${log.stackfilter.pattern}</pattern>
-                    </encoder>
-            </appender>
-
-            <!--
-            LOG: smile.log
-            We create a file called smile.log that will have (by default) all INFO level
-            messages. This file is written asynchronously using a blocking queue for better
-            performance.
-            -->
-            <appender name="RUNTIME_SYNC" class="ch.qos.logback.core.rolling.RollingFileAppender">
-                    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-                            <level>INFO</level>
-                    </filter>
-                    <file>${smile.basedir}/log/smile.log</file>
-                    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                            <fileNamePattern>${smile.basedir}/log/smile.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
-                            <maxHistory>30</maxHistory>
-                    </rollingPolicy>
-                    <encoder>
-                            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level M:%X{moduleId} R:%X{requestId} %logger{36} - %msg%n${log.stackfilter.pattern}</pattern>
-                    </encoder>
-            </appender>
-
-            <appender name="RUNTIME" class="ch.qos.logback.classic.AsyncAppender">
-                    <discardingThreshold>0</discardingThreshold>
-                    <includeCallerData>false</includeCallerData>
-                    <appender-ref ref="RUNTIME_SYNC" />
-            </appender>
-
-            <!--
-            LOG: smile-error.log
-            This file contains only errors generated during normal operation.
-            -->
-            <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-                    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-                            <level>ERROR</level>
-                    </filter>
-                    <file>${smile.basedir}/log/smile-error.log</file>
-                    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                            <fileNamePattern>${smile.basedir}/log/smile-error.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
-                            <maxHistory>30</maxHistory>
-                    </rollingPolicy>
-                    <encoder>
-                            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level M:%X{moduleId} R:%X{requestId} %logger{36} [%file:%line] %msg%n</pattern>
-                    </encoder>
-            </appender>
-
-            <!--
-            The startup log only gets messages from ca.cdr.app.App, which
-            logs startup and shutdown events
-            -->
-            <logger name="ca.cdr.app.App" additivity="false">
-                    <appender-ref ref="STARTUP"/>
-                    <appender-ref ref="STDOUT" />
-                    <appender-ref ref="RUNTIME" />
-                    <appender-ref ref="ERROR" />
-            </logger>
-
-            <!--
-            Send all remaining logs to a few places
-            -->
-            <root level="INFO">
-                    <appender-ref ref="STDOUT" />
-                    <appender-ref ref="RUNTIME" />
-                    <appender-ref ref="ERROR" />
-            </root>
-
-    </configuration>
----
 # Source: smilecdr/templates/smilecdr-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-30a807909f0f47b2da856657bf9d9c56e67dfb89e60c0043d2c3dcb40f6cc03d
+  name: release-name-scdr-96e838974e4e7f697d09f7270589dab30fcf51465d772de76c1693c2d17067af
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.18
@@ -183,7 +53,11 @@ data:
     ################################################################################
     node.id                                                        =Masterdev
 
-    module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
+    module.clustermgr.config.messagebroker.type                         =KAFKA
+    module.clustermgr.config.kafka.bootstrap_address                    =release-name-kafka-bootstrap:9093
+    module.clustermgr.config.kafka.ssl.enabled                          =true
+    module.clustermgr.config.kafka.consumer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-consumer-config.properties
+    module.clustermgr.config.kafka.producer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-producer-config.properties
 
     ################################################################################
     # Other Modules are Configured Below
@@ -589,18 +463,12 @@ spec:
               containerPort: 9200
               protocol: TCP
           volumeMounts:
-            - mountPath: /home/smile/smilecdr/classes/logback.xml
-              name: logback-xml
-              subPath: logback.xml
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
       volumes:
         - configMap:
-            name: release-name-scdr-logback-xml-3372bc1a3f2ea4de3dac94cb5c7b0c56af1899dde9d100d01095b7801d66ec70
-          name: logback-xml
-        - configMap:
-            name: release-name-scdr-30a807909f0f47b2da856657bf9d9c56e67dfb89e60c0043d2c3dcb40f6cc03d
+            name: release-name-scdr-96e838974e4e7f697d09f7270589dab30fcf51465d772de76c1693c2d17067af
           name: scdr-config-release-name
       restartPolicy: Always
 ---
@@ -666,6 +534,63 @@ spec:
                 name: release-name-scdr-svc-smart-auth
                 port:
                   number: 9200
+---
+# Source: smilecdr/templates/kafka-cluster.yaml
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: release-name
+  namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.18
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  kafka:
+    version: 3.3.1
+    replicas: 3
+    listeners:
+      - name: tls
+        port: 9093
+        type: internal
+        tls: true
+    config:
+      offsets.topic.replication.factor: 3
+      transaction.state.log.replication.factor: 3
+      transaction.state.log.min.isr: 1
+      default.replication.factor: 3
+      min.insync.replicas: 1
+      inter.broker.protocol.version: 3.3
+    storage:
+      type: jbod
+      volumes:
+      - id: 0
+        type: persistent-claim
+        size: 10Gi
+        deleteClaim: false
+    resources:
+      limits:
+        memory: 1Gi
+      requests:
+        cpu: "0.5"
+        memory: 1Gi
+  zookeeper:
+    replicas: 3
+    storage:
+      type: persistent-claim
+      size: 10Gi
+      deleteClaim: false
+    resources:
+      limits:
+        memory: 512Mi
+      requests:
+        cpu: 0.5
+        memory: 512Mi
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}
 ---
 # Source: smilecdr/templates/tests/test-connection.yaml
 apiVersion: v1
