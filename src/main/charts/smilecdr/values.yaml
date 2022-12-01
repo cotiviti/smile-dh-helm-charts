@@ -131,7 +131,35 @@ image:
   tag: ""
 
 jvm:
-  memoryFactor: 1
+  # As SmileCDR is a Java application, we need to pay special attention to the
+  # JVM memory settings and tuning.
+  # A Java application will use more memory than is specified in the `-Xmx` option,
+  # so setting it to the same as the l`imits.memory` setting almost guarantees that
+  # the pod will be evicted at some point with an OOM Killed error.
+  # The exact factor can be hard to determine as it will depend on factors such as
+  # the module configurations, required workload throughput and horizontal scaling
+  # factors.
+  # The `jvm.memoryFactor` setting will set `-Xmx` based on `resources.memory` if
+  # explicitly set, or fall back to `limits.memory` (Which ends up being the same
+  # as `requests.memory` if it was unset)
+  # For example:
+  #  * A setting of 0.5 means the `-Xmx` will be set to `0.5 * resources.memory` or
+  #    `0.5 * limits.memory`
+  #  * If `limits.memory` is set to `8Gi`, `-Xmx` will be set to `4096m`
+  #  * If `limits.memory` is set to `8Gi` and `resources.memory` is set to `4Gi`,
+  #    `-Xmx` will be set to `2048m`
+  # Conversion of Kubernetes style suffix to Java style suffixes is performed
+  # automatically
+
+  memoryFactor: 0.5
+
+  # If you have your memory settings set such that an OOM Kill event is likely as the
+  # JVM Heap grows, it may not become apparent until you reach some high workload
+  # spike, or after the heap grows over time. In these cases it can be troublesome
+  # to determine the cause.
+  # It is recommended to set -Xms to the same value as -Xmx. This way, any insufficient
+  # memory settings may be surfaced sooner. It results in a more stable and predictable
+  # environment.
   xms: true
   args:
     - "-Dsun.net.inetaddr.ttl=60"
@@ -189,16 +217,27 @@ ingress:
   extraAnnotations: {}
 
 resources:
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # As SmileCDR is a high performance JVM based application, special consideration needs to be given
+  # to the resource settings and JVM tuning parameters.
+  # Typical cloud best practices are to start small and increase as workload increases. This can be a
+  # challenging approach with an appliction such as SmileCDR if we are to avoid OOM Killed errors.
+  # You should start with a somewhat larger memory allocation and perform monitoring of your workload
+  # to determine real life memory usage. Then tune-down to a size that still gives a reasonable buffer
+  # for any workload spikes.
+  # These settings go hand-in-hand with the jvm.memoryFactor and jvm.xmx settings as any Java based
+  # application will use more memory than specified in -Xmx alone. See the jvm section for more detail
+  # on this.
   requests:
     cpu: "1"
-    memory: 2Gi
+    # As per best practice, limits.memory == requests.memory
+    # This is easily achieved by only setting limits.memory
+    # If requests.memory is undefined, Kubernetes sets it to match limits.memory
   limits:
-    cpu: "2"
+    # As per best practice, do not set limits.cpu
+    # This approach may be changed if there are per-core licensing concerns
+    # Note that this will cause a warning in some linters
     memory: 4Gi
+
 
 autoscaling:
   enabled: false

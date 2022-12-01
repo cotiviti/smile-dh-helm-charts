@@ -410,11 +410,9 @@ spec:
             periodSeconds: 10
           resources:
             limits:
-              cpu: "2"
               memory: 4Gi
             requests:
               cpu: "1"
-              memory: 2Gi
           env:
             - name: DB_URL
               valueFrom:
@@ -438,7 +436,7 @@ spec:
                   name: release-name-pguser-smilecdr
                   key: password
             - name: JVMARGS
-              value: "-server -Xmx1638m -Dmyarg=SMILE"
+              value: "-server -Xmx3276m -Dmyarg=SMILE"
           ports:
             - name: admin-json
               containerPort: 9000
