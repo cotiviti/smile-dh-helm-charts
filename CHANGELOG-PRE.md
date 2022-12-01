@@ -1,3 +1,10 @@
+# [1.0.0-pre.21](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.20...v1.0.0-pre.21) (2022-12-01)
+
+
+### Features
+
+* **smilecdr:** update JVM tuning params ([cc1f859](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/cc1f8591deb55f9491892995b632a45af44c0d84))
+
 # [1.0.0-pre.20](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.19...v1.0.0-pre.20) (2022-12-01)
 
 
