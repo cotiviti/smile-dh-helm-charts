@@ -3,7 +3,7 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  name: {{ $.Release.Name }}
+  name: {{ $.Release.Name }}-pg
 spec:
   postgresVersion: {{ required "You must set the version of Postgres to deploy." .postgresVersion }}
   {{- if .postGISVersion }}

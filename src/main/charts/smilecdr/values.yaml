@@ -9,6 +9,8 @@ database:
     config:
       postgresVersion: 14
       instanceReplicas: 1
+      instanceCPU: 1
+      instanceMemory: 2Gi
       instanceSize: 10Gi
       backupsSize: 10Gi
       users:

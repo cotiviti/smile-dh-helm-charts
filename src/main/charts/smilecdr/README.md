@@ -15,6 +15,8 @@ A Helm chart for Kubernetes
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | database.crunchypgo.config.backupsSize | string | `"10Gi"` |  |
+| database.crunchypgo.config.instanceCPU | int | `1` |  |
+| database.crunchypgo.config.instanceMemory | string | `"2Gi"` |  |
 | database.crunchypgo.config.instanceReplicas | int | `1` |  |
 | database.crunchypgo.config.instanceSize | string | `"10Gi"` |  |
 | database.crunchypgo.config.postgresVersion | int | `14` |  |
