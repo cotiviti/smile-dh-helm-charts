@@ -12,6 +12,11 @@ spec:
   selector:
     matchLabels:
       {{- include "smilecdr.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   template:
     metadata:
       {{- with .Values.podAnnotations }}
