@@ -183,8 +183,6 @@ data:
     ################################################################################
     node.id                                                        =Masterdev
 
-    # Broker options are EMBEDDED_ACTIVEMQ, REMOTE_ACTIVEMQ, KAFKA, NONE
-
     module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
 
     ################################################################################

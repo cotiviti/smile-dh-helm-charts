@@ -1,0 +1,5 @@
+tests:
+  strimzi:
+    outputFile: output-strimzi.yaml
+    valueFiles:
+    - values-strimzi.yaml

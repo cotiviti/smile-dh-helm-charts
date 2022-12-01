@@ -81,8 +81,6 @@ cdr-config-Master.properties: |-
   ################################################################################
   node.id                                                        ={{ include "smilecdr.nodeId" . }}
 
-  # Broker options are EMBEDDED_ACTIVEMQ, REMOTE_ACTIVEMQ, KAFKA, NONE
-
 {{ include "scdrcfg.messagebroker" . | indent 2 }}
 
   ################################################################################

@@ -29,11 +29,39 @@ database:
     dbType: postgres
     port: 5432
 
-kafka:
-  enabled: false
-  bootstrapAddress: kafka-example.local
+messageBroker:
+  strimzi:
+    enabled: false
+    config:
+      version: "3.3.1"
+      protocolVersion: "3.3"
+      tls: true
+      kafka:
+        replicas: 3
+        volumeSize: 10Gi
+        resources:
+          requests:
+            cpu: "0.5"
+            memory: 1Gi
+          limits:
+            memory: 1Gi
+      zookeeper:
+        replicas: 3
+        volumeSize: 10Gi
+        resources:
+          requests:
+            cpu: 0.5
+            memory: 512Mi
+          limits:
+            memory: 512Mi
+
+  external:
+    enabled: false
+    type: kafka
+    bootstrapAddress: kafka-example.local
+    tls: true
   channelPrefix: SCDR-ENV-
-  #TODO: More Kafka properties
+
 
 specs:
   hostname: smilecdr-example.local
