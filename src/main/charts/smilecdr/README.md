@@ -34,7 +34,7 @@ A Helm chart for Kubernetes
 | image.credentials.values[0].username | string | `"user"` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"docker.smilecdr.com/smilecdr"` |  |
-| image.tag | string | `"2022.08.R03"` |  |
+| image.tag | string | `""` |  |
 | ingress.enabled | bool | `true` |  |
 | ingress.extraAnnotations | object | `{}` |  |
 | ingress.type | string | `"nginx-ingress"` |  |
