@@ -1,3 +1,10 @@
+# [1.0.0-pre.15](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.14...v1.0.0-pre.15) (2022-12-01)
+
+
+### Features
+
+* **smilecdr:** add redeploy on config changes ([90e33ad](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/90e33ad5e725957e3c1cd039487e19e88548618d))
+
 # [1.0.0-pre.14](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.13...v1.0.0-pre.14) (2022-11-30)
 
 
