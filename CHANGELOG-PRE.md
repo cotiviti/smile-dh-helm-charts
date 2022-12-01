@@ -1,3 +1,10 @@
+# [1.0.0-pre.16](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.15...v1.0.0-pre.16) (2022-12-01)
+
+
+### Features
+
+* **smilecdr:** add pod disruption budget ([b8b46e4](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/b8b46e47213a40d29a47020aa3d18c07f4f88558))
+
 # [1.0.0-pre.15](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.14...v1.0.0-pre.15) (2022-12-01)
 
 
