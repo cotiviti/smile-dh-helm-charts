@@ -195,7 +195,7 @@ spec:
         - name: smilecdr
           securityContext:
             {}
-          image: "docker.smilecdr.com/smilecdr:2022.08.R03"
+          image: "docker.smilecdr.com/smilecdr:2022.11.R01"
           imagePullPolicy: IfNotPresent
           readinessProbe:
             httpGet:

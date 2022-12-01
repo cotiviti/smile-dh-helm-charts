@@ -128,7 +128,7 @@ image:
         password: pass
   pullPolicy: IfNotPresent
   # Override the image tag. Default is the chart appVersion.
-  tag: '2022.08.R03'
+  tag: ""
 
 jvm:
   memoryFactor: 1
