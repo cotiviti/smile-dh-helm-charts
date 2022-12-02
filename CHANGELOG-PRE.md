@@ -1,3 +1,10 @@
+# [1.0.0-pre.23](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.22...v1.0.0-pre.23) (2022-12-02)
+
+
+### Bug Fixes
+
+* **smilecdr:** allow quoted config entries ([f9d7e1f](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/f9d7e1f9b420926ee0a2d4a7db0960c10f8cf61d))
+
 # [1.0.0-pre.22](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.21...v1.0.0-pre.22) (2022-12-01)
 
 
