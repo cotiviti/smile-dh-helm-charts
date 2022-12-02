@@ -1,0 +1,10 @@
+tests:
+  customModules:
+    outputFile: output-customModules.yaml
+    valueFiles:
+    - custom-modules.yaml
+    - values-common.yaml
+  quotedConfigs:
+    outputFile: output-quotedConfigs.yaml
+    valueFiles:
+    - values-quotedConfigs.yaml

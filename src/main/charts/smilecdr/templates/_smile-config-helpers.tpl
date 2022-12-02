@@ -56,7 +56,7 @@ Creates config snippets.
 {{ printf "%s.config.%s \t= https://%s%s" $moduleKey $kConf $.Values.specs.hostname (get $services $k).fullPath  -}}
 {{- /* Process remaining config items */ -}}
 {{- else }}
-{{ printf "%s.config.%s \t= %s" $moduleKey $kConf (toYaml $vConf) -}}
+{{ printf "%s.config.%s \t= %v" $moduleKey $kConf $vConf -}}
 {{- end -}}
 {{- end -}}
 {{- /* Process config items from env vars */ -}}

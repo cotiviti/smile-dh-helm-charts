@@ -1,0 +1,563 @@
+---
+# Source: smilecdr/templates/scdr-pdb.yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: release-name-scdr
+  namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.22
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: smilecdr
+      app.kubernetes.io/instance: release-name
+---
+# Source: smilecdr/templates/scdr-image-pull-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: release-name-scdr-image-pull-secrets
+  namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.22
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/managed-by: Helm
+type: kubernetes.io/dockerconfigjson
+data:
+  dockerconfigjson: eyJhdXRocyI6eyJkb2NrZXIuY29tIjp7ImF1dGgiOiJkWE5sY2pwd1lYTnoifX19
+---
+# Source: smilecdr/templates/smilecdr-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-scdr-6b8573b9ba7d862e1f421a401f7eb7dc994718926bf854f5e3fc8753b58cf167
+  namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.22
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/managed-by: Helm
+data:
+  cdr-config-Master.properties: |-
+    ################################################################################
+    # Node Configuration
+    ################################################################################
+    node.id                                                        =Masterdev
+
+    module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
+
+    ################################################################################
+    # Other Modules are Configured Below
+    ################################################################################
+
+    # The following setting controls where module configuration is ultimately stored.
+    # When set to "DATABASE" (which is the default), the clustermgr configuration is
+    # always read but the other modules are stored in the database upon the first
+    # launch and their configuration is read from the database on subsequent
+    # launches. When set to "PROPERTIES", values in this file are always used.
+    #
+    # In other words, in DATABASE mode, the module definitions below this line are
+    # only used to seed the database upon the very first startup of the sytem, and
+    # will be ignored after that. In PROPERTIES mode, the module definitions below
+    # are read every time the system starts, and existing definitions and config are
+    # overwritten by what is in this file.
+    #
+    node.propertysource                                            =PROPERTIES
+
+    ################################################################################
+    # ENDPOINT: JSON Admin Services
+    ################################################################################
+    module.admin_json.type 	= ADMIN_JSON
+    module.admin_json.requires.SECURITY_IN_UP 	= local_security
+    module.admin_json.config.anonymous.access.enabled 	= true
+    module.admin_json.config.context_path 	= /json-admin
+    module.admin_json.config.https_forwarding_assumed 	= true
+    module.admin_json.config.port 	= 9000
+    module.admin_json.config.respect_forward_headers 	= true
+    module.admin_json.config.security.http.basic.enabled 	= true
+    module.admin_json.config.tls.enabled 	= false
+    ################################################################################
+    # ENDPOINT: Web Admin
+    ################################################################################
+    module.admin_web.type 	= ADMIN_WEB
+    module.admin_web.requires.SECURITY_IN_UP 	= local_security
+    module.admin_web.config.context_path 	= /
+    module.admin_web.config.https_forwarding_assumed 	= true
+    module.admin_web.config.port 	= 9100
+    module.admin_web.config.respect_forward_headers 	= true
+    module.admin_web.config.tls.enabled 	= false
+    ################################################################################
+    # Cluster Manager Configuration
+    ################################################################################
+    module.clustermgr.config.audit_log.request_headers_to_store 	= Content-Type,Host
+    module.clustermgr.config.db.driver 	= POSTGRES_9_4
+    module.clustermgr.config.db.schema_update_mode 	= UPDATE
+    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:5432/#{env['DB_DATABASE']}?sslmode=require
+    module.clustermgr.config.seed_keystores.file 	= classpath:/config_seeding/keystores.json
+    module.clustermgr.config.stats.heartbeat_persist_frequency_ms 	= 15000
+    module.clustermgr.config.stats.stats_cleanup_frequency_ms 	= 300000
+    module.clustermgr.config.stats.stats_persist_frequency_ms 	= 60000
+    module.clustermgr.config.db.password 	= #{env['DB_PASS']}
+    module.clustermgr.config.db.username 	= #{env['DB_USER']}
+    ################################################################################
+    # ENDPOINT: FHIR Service
+    ################################################################################
+    module.fhir_endpoint.type 	= ENDPOINT_FHIR_REST_R4
+    module.fhir_endpoint.requires.PERSISTENCE_R4 	= persistence
+    module.fhir_endpoint.requires.SECURITY_IN_UP 	= local_security
+    module.fhir_endpoint.config.anonymous.access.enabled 	= true
+    module.fhir_endpoint.config.base_url.fixed 	= https://smilecdr-example.local/fhir_request
+    module.fhir_endpoint.config.browser_highlight.enabled 	= true
+    module.fhir_endpoint.config.context_path 	= /fhir_request
+    module.fhir_endpoint.config.cors.enable 	= true
+    module.fhir_endpoint.config.default_encoding 	= JSON
+    module.fhir_endpoint.config.default_pretty_print 	= true
+    module.fhir_endpoint.config.https_forwarding_assumed 	= true
+    module.fhir_endpoint.config.port 	= 8000
+    module.fhir_endpoint.config.request_validating.enabled 	= false
+    module.fhir_endpoint.config.request_validating.fail_on_severity 	= ERROR
+    module.fhir_endpoint.config.request_validating.require_explicit_profile_definition.enabled 	= false
+    module.fhir_endpoint.config.request_validating.response_headers.enabled 	= false
+    module.fhir_endpoint.config.request_validating.tags.enabled 	= false
+    module.fhir_endpoint.config.respect_forward_headers 	= true
+    module.fhir_endpoint.config.security.http.basic.enabled 	= true
+    module.fhir_endpoint.config.threadpool.max 	= 10
+    module.fhir_endpoint.config.threadpool.min 	= 2
+    module.fhir_endpoint.config.tls.enabled 	= false
+    ################################################################################
+    # ENDPOINT: FHIRWeb Console
+    ################################################################################
+    module.fhirweb_endpoint.type 	= ENDPOINT_FHIRWEB
+    module.fhirweb_endpoint.requires.ENDPOINT_FHIR 	= fhir_endpoint
+    module.fhirweb_endpoint.requires.SECURITY_IN_UP 	= local_security
+    module.fhirweb_endpoint.config.anonymous.access.enabled 	= false
+    module.fhirweb_endpoint.config.context_path 	= /fhirweb
+    module.fhirweb_endpoint.config.https_forwarding_assumed 	= true
+    module.fhirweb_endpoint.config.port 	= 8001
+    module.fhirweb_endpoint.config.respect_forward_headers 	= true
+    module.fhirweb_endpoint.config.threadpool.max 	= 10
+    module.fhirweb_endpoint.config.threadpool.min 	= 2
+    module.fhirweb_endpoint.config.tls.enabled 	= false
+    ################################################################################
+    # Local Storage Inbound Security
+    ################################################################################
+    module.local_security.type 	= SECURITY_IN_LOCAL
+    module.local_security.config.password_encoding_type 	= BCRYPT_12_ROUND
+    module.local_security.config.seed.users.file 	= classpath:/config_seeding/users.json
+    ################################################################################
+    # ENDPOINT: Package Registry
+    ################################################################################
+    module.package_registry.type 	= ENDPOINT_PACKAGE_REGISTRY
+    module.package_registry.requires.PACKAGE_CACHE 	= persistence
+    module.package_registry.requires.SECURITY_IN_UP 	= local_security
+    module.package_registry.config.anonymous.access.enabled 	= true
+    module.package_registry.config.context_path 	= /package_registry
+    module.package_registry.config.https_forwarding_assumed 	= true
+    module.package_registry.config.port 	= 8002
+    module.package_registry.config.respect_forward_headers 	= true
+    module.package_registry.config.security.http.basic.enabled 	= true
+    module.package_registry.config.tls.enabled 	= false
+    ################################################################################
+    # Database Configuration
+    ################################################################################
+    module.persistence.type 	= PERSISTENCE_R4
+    module.persistence.config.dao_config.allow_external_references.enabled 	= false
+    module.persistence.config.dao_config.allow_inline_match_url_references.enabled 	= false
+    module.persistence.config.dao_config.allow_multiple_delete.enabled 	= false
+    module.persistence.config.dao_config.expire_search_results_after_minutes 	= 60
+    module.persistence.config.dao_config.inline_resource_storage_below_size 	= 4000
+    module.persistence.config.dao_config.tag_storage_mode 	= INLINE
+    module.persistence.config.db.connectionpool.maxtotal 	= 32
+    module.persistence.config.db.driver 	= POSTGRES_9_4
+    module.persistence.config.db.hibernate.showsql 	= false
+    module.persistence.config.db.hibernate_search.directory 	= ./database/lucene_fhir_persistence
+    module.persistence.config.db.schema_update_mode 	= UPDATE
+    module.persistence.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:5432/#{env['DB_DATABASE']}?sslmode=require
+    module.persistence.config.search_parameter_seeding.disable_patterns 	= *
+    module.persistence.config.seed_default_search_params 	= false
+    module.persistence.config.suppress_string_indexing_in_tokens 	= true
+    module.persistence.config.db.password 	= #{env['DB_PASS']}
+    module.persistence.config.db.username 	= #{env['DB_USER']}
+    ################################################################################
+    # ENDPOINT: SMART Security
+    ################################################################################
+    module.smart_auth.type 	= SECURITY_OUT_SMART
+    module.smart_auth.requires.CLUSTERMGR 	= clustermgr
+    module.smart_auth.requires.SECURITY_IN_UP 	= local_security
+    module.smart_auth.config.context_path 	= /smartauth
+    module.smart_auth.config.https_forwarding_assumed 	= true
+    module.smart_auth.config.issuer.url 	= https://smilecdr-example.local/smartauth
+    module.smart_auth.config.openid.signing.keystore_id 	= default-keystore
+    module.smart_auth.config.port 	= 9200
+    module.smart_auth.config.respect_forward_headers 	= true
+    module.smart_auth.config.tls.enabled 	= false
+    ################################################################################
+    # Subscription
+    ################################################################################
+    module.subscription.type 	= SUBSCRIPTION_MATCHER
+    module.subscription.requires.PERSISTENCE_ALL 	= persistence
+---
+# Source: smilecdr/templates/scdr-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-scdr-svc-admin-json
+  namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.22
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    {}
+spec:
+  type: ClusterIP
+  ports:
+    - name: admin-json
+      port: 9000
+      targetPort: 9000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+---
+# Source: smilecdr/templates/scdr-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-scdr-svc-admin-web
+  namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.22
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    {}
+spec:
+  type: ClusterIP
+  ports:
+    - name: admin-web
+      port: 9100
+      targetPort: 9100
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+---
+# Source: smilecdr/templates/scdr-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-scdr-svc-fhir
+  namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.22
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    {}
+spec:
+  type: ClusterIP
+  ports:
+    - name: fhir
+      port: 8000
+      targetPort: 8000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+---
+# Source: smilecdr/templates/scdr-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-scdr-svc-fhirweb
+  namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.22
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    {}
+spec:
+  type: ClusterIP
+  ports:
+    - name: fhirweb
+      port: 8001
+      targetPort: 8001
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+---
+# Source: smilecdr/templates/scdr-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-scdr-svc-pkg-registry
+  namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.22
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    {}
+spec:
+  type: ClusterIP
+  ports:
+    - name: pkg-registry
+      port: 8002
+      targetPort: 8002
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+---
+# Source: smilecdr/templates/scdr-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-scdr-svc-smart-auth
+  namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.22
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    {}
+spec:
+  type: ClusterIP
+  ports:
+    - name: smart-auth
+      port: 9200
+      targetPort: 9200
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+---
+# Source: smilecdr/templates/scdr-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-scdr
+  namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.22
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: smilecdr
+      app.kubernetes.io/instance: release-name
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: smilecdr-1.0.0-pre.22
+        app.kubernetes.io/name: smilecdr
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/version: "2022.11.R01"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      imagePullSecrets:
+        - name: release-name-scdr-image-pull-secrets
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: smilecdr
+          securityContext:
+            {}
+          image: "docker.smilecdr.com/smilecdr:2022.11.R01"
+          imagePullPolicy: IfNotPresent
+          readinessProbe:
+            httpGet:
+              path: /fhir_request/endpoint-health
+              port: 8000
+            failureThreshold: 1
+            periodSeconds: 10
+          startupProbe:
+            exec:
+              command:
+              - /usr/bin/sh
+              - -c
+              - "/usr/bin/grep \"Smile, we're up and running! :)\" /home/smile/smilecdr/log/smile.log"
+            failureThreshold: 30
+            periodSeconds: 10
+          resources:
+            limits:
+              memory: 4Gi
+            requests:
+              cpu: "1"
+          env:
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-pg-pguser-smilecdr
+                  key: host
+            - name: DB_DATABASE
+              value: smilecdr
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: release-name-pg-pguser-smilecdr
+              #     key: dbname
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-pg-pguser-smilecdr
+                  key: user
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-pg-pguser-smilecdr
+                  key: password
+            - name: JVMARGS
+              value: "-server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom"
+          ports:
+            - name: admin-json
+              containerPort: 9000
+              protocol: TCP
+            - name: admin-web
+              containerPort: 9100
+              protocol: TCP
+            - name: fhir
+              containerPort: 8000
+              protocol: TCP
+            - name: fhirweb
+              containerPort: 8001
+              protocol: TCP
+            - name: pkg-registry
+              containerPort: 8002
+              protocol: TCP
+            - name: smart-auth
+              containerPort: 9200
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
+              name: scdr-config-release-name
+              subPath: cdr-config-Master.properties
+      volumes:
+        - configMap:
+            name: release-name-scdr-6b8573b9ba7d862e1f421a401f7eb7dc994718926bf854f5e3fc8753b58cf167
+          name: scdr-config-release-name
+      restartPolicy: Always
+---
+# Source: smilecdr/templates/scdr-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-scdr
+  namespace: default
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.22
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  rules:
+    - host: smilecdr-example.local
+      http:
+        paths:
+          - path: /json-admin
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-scdr-svc-admin-json
+                port:
+                  number: 9000
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-scdr-svc-admin-web
+                port:
+                  number: 9100
+          - path: /fhir_request
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-scdr-svc-fhir
+                port:
+                  number: 8000
+          - path: /fhirweb
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-scdr-svc-fhirweb
+                port:
+                  number: 8001
+          - path: /package_registry
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-scdr-svc-pkg-registry
+                port:
+                  number: 8002
+          - path: /smartauth
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-scdr-svc-smart-auth
+                port:
+                  number: 9200
+---
+# Source: smilecdr/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "release-name-smilecdr-test-connection"
+  labels:
+    helm.sh/chart: smilecdr-1.0.0-pre.22
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['smilecdr-admin_web:9100']
+      resources:
+        limits:
+          cpu: 10m
+          memory: 128Mi
+        requests:
+          cpu: 10m
+          memory: 128Mi
+  restartPolicy: Never
