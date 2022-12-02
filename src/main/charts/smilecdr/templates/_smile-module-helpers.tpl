@@ -8,24 +8,11 @@ to import it and pipe that through the fromYaml function like so:
 {{- range $k, $v := include "smilecdr.services" . | fromYaml }}
 */}}
 {{- define "smilecdr.services" -}}
-
-  {{- $modules := omit $.Values.modules "usedefaultmodules" -}}
-  {{- $usedefaults := $.Values.modules.usedefaultmodules -}}
-  {{- range $k, $v := $.Values.externalModuleDefinitions -}}
-    {{/* This autodetects if it's a file that exists (Only relevant for default
-    modules or when --include-files gets implemented in Helm).
-    If it's nota file, we can assume it's the actual config, passed in by --set-file
-    TODO: Add a warning if it's not a string. */}}
-    {{- if ( $.Files.Get $v ) -}}
-      {{- if not ( and ( eq $k "default" ) ( not $usedefaults )) -}}
-        {{- $_ := merge $modules ( $.Files.Get $v | fromYaml ).modules -}}
-      {{- end -}}
-    {{- else -}}
-      {{- range $k2, $v2 := ( $v | fromYaml ) -}}
-        {{- $_ := merge $modules $v2 -}}
-      {{- end -}}
-    {{- end -}}
+  {{- $modules := dict -}}
+  {{- if $.Values.modules.usedefaultmodules -}}
+    {{- $modules = ( $.Files.Get "default-modules.yaml" | fromYaml ).modules -}}
   {{- end -}}
+  {{- $_ := mergeOverwrite $modules ( omit $.Values.modules "usedefaultmodules" ) -}}
 
 {{- range $k, $v := $modules -}}
 {{- if $v.enabled -}}
@@ -44,23 +31,11 @@ to import it and pipe that through the fromYaml function like so:
 
 
 {{- define "smilecdr.readinessProbe" -}}
-  {{- $modules := omit $.Values.modules "usedefaultmodules" -}}
-  {{- $usedefaults := $.Values.modules.usedefaultmodules -}}
-  {{- range $k, $v := $.Values.externalModuleDefinitions -}}
-    {{- /* This autodetects if it's a file that exists (Only relevant for default
-    modules or when --include-files gets implemented in Helm).
-    If it's nota file, we can assume it's the actual config, passed in by --set-file
-    TODO: Add a warning if it's not a string. */ -}}
-    {{- if ( $.Files.Get $v ) -}}
-      {{- if not ( and ( eq $k "default" ) ( not $usedefaults )) -}}
-        {{- $_ := merge $modules ( $.Files.Get $v | fromYaml ).modules -}}
-      {{- end -}}
-    {{- else -}}
-      {{- range $k2, $v2 := ( $v | fromYaml ) -}}
-        {{- $_ := merge $modules $v2 -}}
-      {{- end -}}
-    {{- end -}}
+  {{- $modules := dict -}}
+  {{- if $.Values.modules.usedefaultmodules -}}
+    {{- $modules = ( $.Files.Get "default-modules.yaml" | fromYaml ).modules -}}
   {{- end -}}
+  {{- $_ := mergeOverwrite $modules ( omit $.Values.modules "usedefaultmodules" ) -}}
   {{- range $k, $v := $modules -}}
     {{- /* If enabled and if it has an enabled endpoint. */ -}}
     {{- if $v.enabled -}}
