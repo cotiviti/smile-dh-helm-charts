@@ -52,31 +52,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
-            - name: DB_URL
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "smilecdr.dbSecretName" . }}
-                  {{- if .Values.database.crunchypgo.config.pgBouncerConfig }}
-                  key: pgbouncer-host
-                  {{- else }}
-                  key: host
-                  {{- end }}
-            - name: DB_DATABASE
-              value: smilecdr
-              # valueFrom:
-              #   secretKeyRef:
-              #     name: {{ include "smilecdr.dbSecretName" . }}
-              #     key: dbname
-            - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "smilecdr.dbSecretName" . }}
-                  key: user
-            - name: DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "smilecdr.dbSecretName" . }}
-                  key: password
+            {{- include "smilecdr.dbEnvVars" . | nindent 12 }}
             {{- with include "smilecdr.jvmargs" . }}
             - name: JVMARGS
               value: {{ . }}

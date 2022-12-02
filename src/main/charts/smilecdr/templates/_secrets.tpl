@@ -35,25 +35,6 @@ Create the name of the image pull secrets to use
 {{- end }}
 
 {{/*
-Define SmileCDR DB secret
-*/}}
-{{- define "smilecdr.dbSecretName" -}}
-  {{- if .Values.database.crunchypgo.enabled -}}
-    {{- $crunchyUserName := default "smilecdr" .Values.database.crunchypgo.userName -}}
-    {{- $crunchyReleaseName := default (printf "%s-pg" .Release.Name) .Values.database.crunchypgo.releaseName -}}
-    {{- printf "%s-pguser-%s" $crunchyReleaseName $crunchyUserName -}}
-  {{- else if .Values.database.external.enabled -}}
-    {{- if eq .Values.database.external.credentialsSource "k8s" -}}
-      {{- .Values.database.external.secretName -}}
-    {{- else if eq .Values.database.external.credentialsSource "sscsi-aws" -}}
-      {{- printf "%s-scdr-db" .Release.Name  -}}
-    {{- end -}}
-  {{- else -}}
-    {{- "changemepls" -}}
-  {{- end -}}
-{{- end -}}
-
-{{/*
 Generate plaintext docker/config.json text
 */}}
 {{- define "dockerconfigjson.plaintext" }}
@@ -106,13 +87,15 @@ Generate SecretProviderClass Objects
       {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
     {{- end -}}
   {{- end -}}
-  {{- if eq .Values.database.external.credentialsSource "sscsi-aws" -}}
-    {{- $sscsiObject := dict "objectName" .Values.database.external.secretarn -}}
-    {{- $jmesPathList := list (dict "path" "username" "objectAlias" "db-user") -}}
-    {{- $jmesPathList = append $jmesPathList (dict "path" "password" "objectAlias" "db-password") -}}
-    {{- $jmesPathList = append $jmesPathList (dict "path" "host" "objectAlias" "db-host") -}}
-    {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
-    {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
+  {{- if and .Values.database.external.enabled (eq .Values.database.external.credentialsSource "sscsi-aws") -}}
+    {{- range $v := .Values.database.external.databases -}}
+      {{- $sscsiObject := dict "objectName" (required "You must provide an AWS secret ARN for the DB credentials secret" $v.secretARN) -}}
+      {{- $jmesPathList := list (dict "path" "username" "objectAlias" "db-user") -}}
+      {{- $jmesPathList = append $jmesPathList (dict "path" "password" "objectAlias" "db-password") -}}
+      {{- $jmesPathList = append $jmesPathList (dict "path" "host" "objectAlias" "db-host") -}}
+      {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
+      {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
+    {{- end -}}
   {{- end -}}
   {{- range $v := $sscsiObjects -}}
     {{- printf "- %v\n" ($v | toYaml | indent 2 | trim) -}}
@@ -128,14 +111,16 @@ Generate SecretProviderClass Objects
     {{- $_ := set $sscsiSyncedSecret "data" (list $data) -}}
     {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
   {{- end -}}
-  {{- if eq .Values.database.external.credentialsSource "sscsi-aws" -}}
-    {{- $sscsiSyncedSecret := dict "secretName" (include "smilecdr.dbSecretName" .) -}}
-    {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
-    {{- $dataList := list (dict "key" "host" "objectName" "db-host") -}}
-    {{- $dataList = append $dataList (dict "key" "user" "objectName" "db-user") -}}
-    {{- $dataList = append $dataList (dict "key" "password" "objectName" "db-password") -}}
-    {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
-    {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
+  {{- if and .Values.database.external.enabled (eq .Values.database.external.credentialsSource "sscsi-aws") -}}
+    {{- range $v := .Values.database.external.databases -}}
+      {{- $sscsiSyncedSecret := dict "secretName" $v.secretName -}}
+      {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
+      {{- $dataList := list (dict "key" "host" "objectName" "db-host") -}}
+      {{- $dataList = append $dataList (dict "key" "user" "objectName" "db-user") -}}
+      {{- $dataList = append $dataList (dict "key" "password" "objectName" "db-password") -}}
+      {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
+      {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
+    {{- end -}}
   {{- end -}}
   {{- range $v := $sscsiSyncedSecrets -}}
     {{- printf "- %v\n" ($v | toYaml | indent 2 | trim) -}}

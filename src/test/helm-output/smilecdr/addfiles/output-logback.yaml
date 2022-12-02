@@ -181,7 +181,7 @@ data:
     ################################################################################
     # Node Configuration
     ################################################################################
-    node.id                                                        =Masterdev
+    node.id 	= Masterdev
 
     module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
 
@@ -201,8 +201,7 @@ data:
     # are read every time the system starts, and existing definitions and config are
     # overwritten by what is in this file.
     #
-    node.propertysource                                            =PROPERTIES
-
+    node.propertysource 	= PROPERTIES
     ################################################################################
     # ENDPOINT: JSON Admin Services
     ################################################################################
@@ -230,14 +229,14 @@ data:
     ################################################################################
     module.clustermgr.config.audit_log.request_headers_to_store 	= Content-Type,Host
     module.clustermgr.config.db.driver 	= POSTGRES_9_4
+    module.clustermgr.config.db.password 	= #{env['DB_PASS']}
     module.clustermgr.config.db.schema_update_mode 	= UPDATE
-    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:5432/#{env['DB_DATABASE']}?sslmode=require
+    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+    module.clustermgr.config.db.username 	= #{env['DB_USER']}
     module.clustermgr.config.seed_keystores.file 	= classpath:/config_seeding/keystores.json
     module.clustermgr.config.stats.heartbeat_persist_frequency_ms 	= 15000
     module.clustermgr.config.stats.stats_cleanup_frequency_ms 	= 300000
     module.clustermgr.config.stats.stats_persist_frequency_ms 	= 60000
-    module.clustermgr.config.db.password 	= #{env['DB_PASS']}
-    module.clustermgr.config.db.username 	= #{env['DB_USER']}
     ################################################################################
     # ENDPOINT: FHIR Service
     ################################################################################
@@ -308,9 +307,9 @@ data:
     module.persistence.config.db.driver 	= POSTGRES_9_4
     module.persistence.config.db.hibernate.showsql 	= false
     module.persistence.config.db.hibernate_search.directory 	= ./database/lucene_fhir_persistence
-    module.persistence.config.db.schema_update_mode 	= UPDATE
-    module.persistence.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:5432/#{env['DB_DATABASE']}?sslmode=require
     module.persistence.config.db.password 	= #{env['DB_PASS']}
+    module.persistence.config.db.schema_update_mode 	= UPDATE
+    module.persistence.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
     module.persistence.config.db.username 	= #{env['DB_USER']}
     ################################################################################
     # ENDPOINT: SMART Security
@@ -547,24 +546,28 @@ spec:
             - name: DB_URL
               valueFrom:
                 secretKeyRef:
-                  name: release-name-pg-pguser-smilecdr
                   key: host
+                  name: release-name-pg-pguser-smilecdr
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: release-name-pg-pguser-smilecdr
             - name: DB_DATABASE
-              value: smilecdr
-              # valueFrom:
-              #   secretKeyRef:
-              #     name: release-name-pg-pguser-smilecdr
-              #     key: dbname
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: release-name-pg-pguser-smilecdr
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: release-name-pg-pguser-smilecdr
                   key: user
+                  name: release-name-pg-pguser-smilecdr
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:
-                  name: release-name-pg-pguser-smilecdr
                   key: password
+                  name: release-name-pg-pguser-smilecdr
             - name: JVMARGS
               value: "-server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom"
           ports:
