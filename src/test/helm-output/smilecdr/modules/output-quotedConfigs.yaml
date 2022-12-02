@@ -38,7 +38,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-6b8573b9ba7d862e1f421a401f7eb7dc994718926bf854f5e3fc8753b58cf167
+  name: release-name-scdr-97752e6554b02f65572a43fed15de4cf3cec5c62d14b67ffada4c3fa8df232cc
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.23
@@ -114,7 +114,7 @@ data:
     module.fhir_endpoint.type 	= ENDPOINT_FHIR_REST_R4
     module.fhir_endpoint.requires.PERSISTENCE_R4 	= persistence
     module.fhir_endpoint.requires.SECURITY_IN_UP 	= local_security
-    module.fhir_endpoint.config.anonymous.access.enabled 	= true
+    module.fhir_endpoint.config.anonymous.access.enabled 	= false
     module.fhir_endpoint.config.base_url.fixed 	= https://smilecdr-example.local/fhir_request
     module.fhir_endpoint.config.browser_highlight.enabled 	= true
     module.fhir_endpoint.config.context_path 	= /fhir_request
@@ -467,7 +467,7 @@ spec:
               subPath: cdr-config-Master.properties
       volumes:
         - configMap:
-            name: release-name-scdr-6b8573b9ba7d862e1f421a401f7eb7dc994718926bf854f5e3fc8753b58cf167
+            name: release-name-scdr-97752e6554b02f65572a43fed15de4cf3cec5c62d14b67ffada4c3fa8df232cc
           name: scdr-config-release-name
       restartPolicy: Always
 ---

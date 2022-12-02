@@ -82,12 +82,6 @@ labels: {}
 modules:
   usedefaultmodules: true
 
-# Define modules in extra values files. This increases readability of the main
-# values file, as well as enabling more modular and automated addition of modules
-# without having to touch this file
-externalModuleDefinitions:
-  default: default-modules.yaml
-
 mappedFiles: {}
 #   testfile.txt:
 #     type: configMap

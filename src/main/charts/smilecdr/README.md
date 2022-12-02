@@ -29,7 +29,6 @@ A Helm chart for Kubernetes
 | database.external.enabled | bool | `false` |  |
 | database.external.port | int | `5432` |  |
 | database.external.secretName | string | `"changeme"` |  |
-| externalModuleDefinitions.default | string | `"default-modules.yaml"` |  |
 | image.credentials.type | string | `"values"` |  |
 | image.credentials.values[0].password | string | `"pass"` |  |
 | image.credentials.values[0].registry | string | `"docker.com"` |  |

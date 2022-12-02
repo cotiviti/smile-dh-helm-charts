@@ -6,23 +6,17 @@ Smile CDR Config Helpers
 Creates config snippets.
 */}}
 {{- define "smilecdr.modules.config" -}}
-  {{- $modules := omit $.Values.modules "usedefaultmodules" -}}
-  {{- $usedefaults := $.Values.modules.usedefaultmodules -}}
-  {{- range $k, $v := $.Values.externalModuleDefinitions -}}
-    {{/* This autodetects if it's a file that exists (Only relevant for default
-    modules or when --include-files gets implemented in Helm).
-    If it's nota file, we can assume it's the actual config, passed in by --set-file
-    TODO: Add a warning if it's not a string. */}}
-    {{- if ( $.Files.Get $v ) -}}
-      {{- if not ( and ( eq $k "default" ) ( not $usedefaults )) -}}
-        {{- $_ := merge $modules ( $.Files.Get $v | fromYaml ).modules -}}
-      {{- end -}}
-    {{- else -}}
-      {{- range $k2, $v2 := ( $v | fromYaml ) -}}
-        {{- $_ := merge $modules $v2 -}}
-      {{- end -}}
-    {{- end -}}
+  {{- $modules := dict -}}
+  {{- if $.Values.modules.usedefaultmodules -}}
+    {{- $modules = ( $.Files.Get "default-modules.yaml" | fromYaml ).modules -}}
+    {{- /* printf "defaults - %v\n\n" $modules */ -}}
   {{- end -}}
+{{- $_ := mergeOverwrite $modules ( omit $.Values.modules "usedefaultmodules" ) -}}
+{{- /* printf "\nbdc - %v\n\n" $.Values.modules */ -}}
+{{- /* deepCopy ( omit $.Values.modules "usedefaultmodules" ) | merge $modules */ -}}
+{{- /* printf "\nadc - %v\n\n" $.Values.modules */ -}}
+{{- /* printf "omit - %v\n\n" ( omit $.Values.modules "usedefaultmodules" ) */ -}}
+{{- /* printf "final - %v\n\n" $modules */ -}}
 {{- $services := include "smilecdr.services" . | fromYaml -}}
 {{- range $k, $v := $modules -}}
 {{- if $v.enabled -}}
