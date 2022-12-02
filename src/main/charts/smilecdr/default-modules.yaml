@@ -11,17 +11,15 @@ modules:
     config:
       # Valid options include H2_EMBEDDED, DERBY_EMBEDDED, MYSQL_5_7, MARIADB_10_1, POSTGRES_9_4, ORACLE_12C, MSSQL_2012
       db.driver: POSTGRES_9_4
-      db.url: jdbc:postgresql://#{env['DB_URL']}:5432/#{env['DB_DATABASE']}?sslmode=require
+      db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+      db.password: "#{env['DB_PASS']}"
+      db.username: "#{env['DB_USER']}"
       db.schema_update_mode:  UPDATE
       stats.heartbeat_persist_frequency_ms: 15000
       stats.stats_persist_frequency_ms: 60000
       stats.stats_cleanup_frequency_ms: 300000
-      # Request headers to store in the audit log
       audit_log.request_headers_to_store: Content-Type,Host
       seed_keystores.file: "classpath:/config_seeding/keystores.json"
-    configFromEnv:
-      db.username: DB_USER
-      db.password: DB_PASS
 
   persistence:
     name: Database Configuration
@@ -29,7 +27,9 @@ modules:
     type: PERSISTENCE_R4
     config:
       db.driver: POSTGRES_9_4
-      db.url: jdbc:postgresql://#{env['DB_URL']}:5432/#{env['DB_DATABASE']}?sslmode=require
+      db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+      db.password: "#{env['DB_PASS']}"
+      db.username: "#{env['DB_USER']}"
       db.hibernate.showsql: false
       db.hibernate_search.directory: ./database/lucene_fhir_persistence
       db.schema_update_mode: UPDATE
@@ -38,9 +38,6 @@ modules:
       dao_config.allow_inline_match_url_references.enabled: false
       dao_config.allow_external_references.enabled: false
       dao_config.inline_resource_storage_below_size: 4000
-    configFromEnv:
-      db.username: DB_USER
-      db.password: DB_PASS
 
   admin_json:
     name: JSON Admin Services

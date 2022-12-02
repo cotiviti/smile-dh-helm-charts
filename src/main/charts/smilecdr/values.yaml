@@ -14,12 +14,20 @@ database:
       instanceSize: 10Gi
       backupsSize: 10Gi
       #storageClass: gp3-fast
-      users:
-        # Defining users here will cause the username and the database to be
-        # created using the Crunchy PGO.
-        - name: "smilecdr"
-          databases:
-            - smilecdr
+      # users:
+      #   # Defining users here will cause the username and the database to be
+      #   # created using the Crunchy PGO.
+      #   - name: "smilecdr"
+      #     databases:
+      #       - clustermgr
+        # - name: "smilecdrpers"
+        #   databases:
+        #     - persistence
+    users:
+    - name: smilecdr
+      module: clustermgr
+    # - name: persistence
+    #   module: persistence
 
     # Only change this if you change the SmileCDR username in postgresscluster.users
     # userName: smilecdr
@@ -28,9 +36,23 @@ database:
     # credentialsSource can be k8s or AWS Secrets Manager. Others to be implemented later.
     credentialsSource: k8s
     # TODO: Explain how to configure secret.
-    secretName: changeme
-    dbType: postgres
-    port: 5432
+    databases:
+    - secretName: smilecdr
+      module: clustermgr
+      url:
+      dbType: postgres
+      port: 5432
+      dbname: cdr
+      user: username
+      passKey: password
+    # - secretName: smilecdr
+    #   module: clustermgr
+    #   urlKey: host
+    #   dbTypeKey: type
+    #   portKey: port
+    #   dbnameKey: dbname
+    #   userKey: user
+    #   passKey: password
 
 messageBroker:
   strimzi:

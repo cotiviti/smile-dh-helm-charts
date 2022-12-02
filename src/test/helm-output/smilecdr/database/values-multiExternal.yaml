@@ -1,0 +1,66 @@
+# This tests DB environments for multiple external DB
+
+database:
+  crunchypgo:
+    enabled: false
+  external:
+    enabled: true
+    databases:
+    - secretName: smilecdrSecret
+      module: clustermgr
+      url: thedatabaseurl
+      dbType: postgres
+      port: 5432
+      dbname: cdr
+      user: username
+      passKey: password
+    - secretName: smilecdrSecret2
+      module: persistence
+      urlKey: host
+      dbTypeKey: type
+      portKey: port
+      dbnameKey: dbname
+      userKey: user
+      passKey: password
+
+modules:
+  usedefaultmodules: false
+  clustermgr:
+    name: Cluster Manager Configuration
+    enabled: true
+    config:
+      db.driver: POSTGRES_9_4
+      db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+      db.password: "#{env['DB_PASS']}"
+      db.username: "#{env['DB_USER']}"
+
+  persistence:
+    name: Database Configuration
+    enabled: true
+    type: PERSISTENCE_R4
+    config:
+      db.driver: POSTGRES_9_4
+      db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+      db.password: "#{env['DB_PASS']}"
+      db.username: "#{env['DB_USER']}"
+  admin_web:
+    name: Web Admin
+    enabled: true
+    type: ADMIN_WEB
+    service:
+      enabled: true
+      svcName: admin-web
+      hostName: default
+    requires:
+      SECURITY_IN_UP: local_security
+    config:
+      context_path: ""
+      port: 9100
+      tls.enabled: false
+      https_forwarding_assumed: true
+      respect_forward_headers: true
+
+autoDeploy: false
+
+ingress:
+  enabled: false

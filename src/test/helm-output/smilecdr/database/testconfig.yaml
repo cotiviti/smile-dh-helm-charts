@@ -1,0 +1,25 @@
+tests:
+  singleExternal:
+    outputFile: output-singleExternal.yaml
+    valueFiles:
+    - values-singleExternal.yaml
+  multiExternal:
+    outputFile: output-multiExternal.yaml
+    valueFiles:
+    - values-multiExternal.yaml
+  singleExternalCrunchy:
+    outputFile: output-singleExternalCrunchy.yaml
+    valueFiles:
+    - values-singleExternalCrunchy.yaml
+  multiExternalCrunchy:
+    outputFile: output-multiExternalCrunchy.yaml
+    valueFiles:
+    - values-multiExternalCrunchy.yaml
+  singleInternalCrunchy:
+    outputFile: output-singleInternalCrunchy.yaml
+    valueFiles:
+    - values-singleInternalCrunchy.yaml
+  multiInternalCrunchy:
+    outputFile: output-multiInternalCrunchy.yaml
+    valueFiles:
+    - values-multiInternalCrunchy.yaml

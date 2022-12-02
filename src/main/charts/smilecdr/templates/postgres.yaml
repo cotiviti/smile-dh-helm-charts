@@ -141,9 +141,13 @@ spec:
   patroni:
 {{ toYaml .patroni | indent 4 }}
   {{- end }}
-  {{- if .users }}
+  {{- if hasKey $.Values.database.crunchypgo "users" }}
   users:
-{{ toYaml .users | indent 4 }}
+  {{- range $vUser := $.Values.database.crunchypgo.users }}
+  - name: {{ $vUser.name }}
+    databases:
+    - {{ printf "%s-db" (default $vUser.name $vUser.module ) }}
+  {{- end }}
   {{- end }}
   {{- if .service }}
   service:
