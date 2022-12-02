@@ -1,3 +1,10 @@
+# [1.0.0-pre.24](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.23...v1.0.0-pre.24) (2022-12-02)
+
+
+### Bug Fixes
+
+* **smilecdr:** improve modules include logic ([f7850d2](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/f7850d2d47dacd331b902f2cf4c2295e4b385265))
+
 # [1.0.0-pre.23](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.22...v1.0.0-pre.23) (2022-12-02)
 
 

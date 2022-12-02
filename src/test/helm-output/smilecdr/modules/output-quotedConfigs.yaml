@@ -6,7 +6,7 @@ metadata:
   name: release-name-scdr
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.23
+    helm.sh/chart: smilecdr-1.0.0-pre.24
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -25,7 +25,7 @@ metadata:
   name: release-name-scdr-image-pull-secrets
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.23
+    helm.sh/chart: smilecdr-1.0.0-pre.24
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -41,7 +41,7 @@ metadata:
   name: release-name-scdr-97752e6554b02f65572a43fed15de4cf3cec5c62d14b67ffada4c3fa8df232cc
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.23
+    helm.sh/chart: smilecdr-1.0.0-pre.24
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -213,7 +213,7 @@ metadata:
   name: release-name-scdr-svc-admin-json
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.23
+    helm.sh/chart: smilecdr-1.0.0-pre.24
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -238,7 +238,7 @@ metadata:
   name: release-name-scdr-svc-admin-web
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.23
+    helm.sh/chart: smilecdr-1.0.0-pre.24
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -263,7 +263,7 @@ metadata:
   name: release-name-scdr-svc-fhir
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.23
+    helm.sh/chart: smilecdr-1.0.0-pre.24
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -288,7 +288,7 @@ metadata:
   name: release-name-scdr-svc-fhirweb
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.23
+    helm.sh/chart: smilecdr-1.0.0-pre.24
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -313,7 +313,7 @@ metadata:
   name: release-name-scdr-svc-pkg-registry
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.23
+    helm.sh/chart: smilecdr-1.0.0-pre.24
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -338,7 +338,7 @@ metadata:
   name: release-name-scdr-svc-smart-auth
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.23
+    helm.sh/chart: smilecdr-1.0.0-pre.24
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -363,7 +363,7 @@ metadata:
   name: release-name-scdr
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.23
+    helm.sh/chart: smilecdr-1.0.0-pre.24
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -382,7 +382,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: smilecdr-1.0.0-pre.23
+        helm.sh/chart: smilecdr-1.0.0-pre.24
         app.kubernetes.io/name: smilecdr
         app.kubernetes.io/instance: release-name
         app.kubernetes.io/version: "2022.11.R01"
@@ -478,7 +478,7 @@ metadata:
   name: release-name-scdr
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.23
+    helm.sh/chart: smilecdr-1.0.0-pre.24
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -540,7 +540,7 @@ kind: Pod
 metadata:
   name: "release-name-smilecdr-test-connection"
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.23
+    helm.sh/chart: smilecdr-1.0.0-pre.24
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
