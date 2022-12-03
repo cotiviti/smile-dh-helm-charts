@@ -38,7 +38,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-e60596d28ca84d2a985248abe4e10865f3594c642f64d97cd48d8746ca6fcc82
+  name: release-name-scdr-d011d6bf069b21f0d23c90c7b21dcda95ef5619ed3c9ac9d4931205807be0e1d
   namespace: default
   labels:
     helm.sh/chart: smilecdr-1.0.0-pre.26
@@ -101,7 +101,7 @@ data:
     module.clustermgr.config.db.driver 	= POSTGRES_9_4
     module.clustermgr.config.db.password 	= #{env['DB_PASS']}
     module.clustermgr.config.db.schema_update_mode 	= UPDATE
-    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
     module.clustermgr.config.db.username 	= #{env['DB_USER']}
     module.clustermgr.config.seed_keystores.file 	= classpath:/config_seeding/keystores.json
     module.clustermgr.config.stats.heartbeat_persist_frequency_ms 	= 15000
@@ -179,7 +179,7 @@ data:
     module.persistence.config.db.hibernate_search.directory 	= ./database/lucene_fhir_persistence
     module.persistence.config.db.password 	= #{env['DB_PASS']}
     module.persistence.config.db.schema_update_mode 	= UPDATE
-    module.persistence.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+    module.persistence.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
     module.persistence.config.db.username 	= #{env['DB_USER']}
     ################################################################################
     # ENDPOINT: SMART Security
@@ -471,7 +471,7 @@ spec:
             name: release-name-scdr-testfile-txt
           name: testfile-txt
         - configMap:
-            name: release-name-scdr-e60596d28ca84d2a985248abe4e10865f3594c642f64d97cd48d8746ca6fcc82
+            name: release-name-scdr-d011d6bf069b21f0d23c90c7b21dcda95ef5619ed3c9ac9d4931205807be0e1d
           name: scdr-config-release-name
       restartPolicy: Always
 ---

@@ -11,7 +11,7 @@ modules:
     config:
       # Valid options include H2_EMBEDDED, DERBY_EMBEDDED, MYSQL_5_7, MARIADB_10_1, POSTGRES_9_4, ORACLE_12C, MSSQL_2012
       db.driver: POSTGRES_9_4
-      db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+      db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
       db.password: "#{env['DB_PASS']}"
       db.username: "#{env['DB_USER']}"
       db.schema_update_mode:  UPDATE
@@ -27,7 +27,7 @@ modules:
     type: PERSISTENCE_R4
     config:
       db.driver: POSTGRES_9_4
-      db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+      db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
       db.password: "#{env['DB_PASS']}"
       db.username: "#{env['DB_USER']}"
       db.hibernate.showsql: false
