@@ -1,3 +1,10 @@
+# [1.0.0-pre.26](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.25...v1.0.0-pre.26) (2022-12-03)
+
+
+### Bug Fixes
+
+* **smilecdr:** correct the field for image secrets ([2ddeef2](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/2ddeef2a10f176e231130e01c8bdc485875aad73))
+
 # [1.0.0-pre.25](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.24...v1.0.0-pre.25) (2022-12-02)
 
 
