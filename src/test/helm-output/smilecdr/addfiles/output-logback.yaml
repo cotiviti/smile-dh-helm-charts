@@ -231,7 +231,7 @@ data:
     module.clustermgr.config.db.driver 	= POSTGRES_9_4
     module.clustermgr.config.db.password 	= #{env['DB_PASS']}
     module.clustermgr.config.db.schema_update_mode 	= UPDATE
-    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
     module.clustermgr.config.db.username 	= #{env['DB_USER']}
     module.clustermgr.config.seed_keystores.file 	= classpath:/config_seeding/keystores.json
     module.clustermgr.config.stats.heartbeat_persist_frequency_ms 	= 15000
@@ -309,7 +309,7 @@ data:
     module.persistence.config.db.hibernate_search.directory 	= ./database/lucene_fhir_persistence
     module.persistence.config.db.password 	= #{env['DB_PASS']}
     module.persistence.config.db.schema_update_mode 	= UPDATE
-    module.persistence.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+    module.persistence.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
     module.persistence.config.db.username 	= #{env['DB_USER']}
     ################################################################################
     # ENDPOINT: SMART Security
