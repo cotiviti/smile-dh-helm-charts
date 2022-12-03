@@ -1,3 +1,10 @@
+# [1.0.0-pre.27](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.26...v1.0.0-pre.27) (2022-12-03)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix DB_PORT in default modules ([2239f60](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/2239f60ec6d3ea5bc21e77c20431bca03a0dae20))
+
 # [1.0.0-pre.26](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.25...v1.0.0-pre.26) (2022-12-03)
 
 
