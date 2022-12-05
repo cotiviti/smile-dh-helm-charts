@@ -25,7 +25,7 @@ installed in the cluster. Then specify sscsi as the type
 Create the name of the image pull secrets to use
 */}}
 {{- define "dockerconfigjson.secretName" -}}
-{{- if eq .Values.image.credentials.type "extsecret" }}
+{{- if eq (required "You must provide image repository credentials to use this Helm Chart" .Values.image.credentials.type) "extsecret" }}
 {{- with index .Values.image.credentials.pullSecrets 0 -}}
 {{- .name }}
 {{- end -}}
