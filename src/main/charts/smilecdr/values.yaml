@@ -11,26 +11,26 @@ image:
   pullPolicy: IfNotPresent
 
   ## @section Image Credentials
-  ## @param image.credentials.type Type of credentials. `values`, `secret` or `sscsi`
+  ## @param image.credentials.type Type of credentials. `sscsi`, `extsecret` or `values`
 
   ## @section Image Credentials (values)
   ## @param image.credentials.values[0].registry OCR registry these values are for
   ## @param image.credentials.values[0].username OCR registry username
   ## @param image.credentials.values[0].password OCR registry password
 
-  # --
-  credentials:
+  # -- You must provide image credentials of type `sscsi`, `extsecret` or `values`
+  credentials: {}
     # Choose one of sscsi, extsecret, values
     # type: sscsi
     # provider: aws
     # secretarn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
-    #
+
     # type: extsecret
     # pullSecrets:
     #   - name: scdr-docker-secrets
-    type: values
-    # -- List of OCI registry credentials
-    values: {}
+
+    # type: values
+    # values:
     # - registry: docker.com
     #   username: user
     #   password: pass

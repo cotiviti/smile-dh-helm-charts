@@ -722,8 +722,7 @@ This feature can be disabled if required by setting `autoDeploy` to `false`
 | database.external.databases[0].urlKey | string | `"url"` |  |
 | database.external.databases[0].userKey | string | `"user"` |  |
 | database.external.enabled | bool | `false` | Enable database external to K8s cluster |
-| image.credentials.type | string | `"values"` |  |
-| image.credentials.values | object | `{}` | List of OCI registry credentials |
+| image.credentials | object | `{}` | You must provide image credentials of type `sscsi`, `extsecret` or `values` |
 | image.pullPolicy | string | `"IfNotPresent"` | Image Pull Policy |
 | image.repository | string | `"docker.smilecdr.com/smilecdr"` | OCI repository with Smile CDR images |
 | image.tag | string | `""` | Smile CDR version to install. Default is the chart appVersion. |
