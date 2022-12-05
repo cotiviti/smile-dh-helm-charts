@@ -11,3 +11,8 @@ database:
     - secretARN: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
       secretName: k8sSecretName
       module: clustermgr
+
+# This defines the minimum required settings to use this Helm Chart.
+image:
+  credentials:
+    type: values

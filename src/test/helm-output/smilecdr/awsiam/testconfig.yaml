@@ -1,0 +1,10 @@
+tests:
+  default:
+    outputFile: output-awsiam.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - values.yaml
+    - values-awsiam.yaml
+    # - extra-values.yaml

@@ -3,3 +3,4 @@ tests:
     outputFile: output.yaml
     valueFiles:
     - values.yaml
+    - values-autoscaling.yaml

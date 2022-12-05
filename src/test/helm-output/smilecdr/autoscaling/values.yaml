@@ -1,4 +1,5 @@
-# This values file tests if the endpoint health path gets picked up in the readiness probe
+# This file defines the minimum required settings to use this Helm Chart.
 
-autoscaling:
-  enabled: true
+image:
+  credentials:
+    type: values

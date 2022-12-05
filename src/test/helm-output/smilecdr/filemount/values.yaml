@@ -5,3 +5,8 @@ mappedFiles:
     type: configMap
     configMapBaseName: smilecdr
     path: /home/smile/smilecdr/classes
+
+# This defines the minimum required settings to use this Helm Chart.
+image:
+  credentials:
+    type: values

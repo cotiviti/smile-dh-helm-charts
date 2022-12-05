@@ -4,3 +4,8 @@ ingress:
   extraAnnotations:
     alb.ingress.kubernetes.io/extra-annotation-1: annotation1-value
     alb.ingress.kubernetes.io/extra-annotation-2: annotation2-value
+
+# This defines the minimum required settings to use this Helm Chart.
+image:
+  credentials:
+    type: values
