@@ -103,7 +103,8 @@ for CHART in ${CHARTS}; do
                         if [ -f "${DIR}/${OUTFILE}" ]; then
                             # shellcheck disable=SC2086 # Intended splitting of HELMOPTS
                             HELM_OUTPUT=$(helm template --namespace default ${HELMOPTS} "${CHARTS_DIR}"/"${CHART}")
-                            if [ "$?" != "0" ]; then
+                            HELM_RES=$?
+                            if [ "${HELM_RES}" != "0" ]; then
                                 printf "Rendering template failed for test: %s.%s\n" "${DIR_NAME}" "${TEST_NAME}"
                             fi
                             DYFF_TEXT=$(echo "${HELM_OUTPUT}" | dyff between --omit-header --set-exit-code --ignore-order-changes "${DIR}"/"${OUTFILE}" -)
