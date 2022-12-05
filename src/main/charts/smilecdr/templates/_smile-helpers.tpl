@@ -243,7 +243,7 @@ Nginx Ingress Annotations
 Note: Most of the general annotations are defined in the
 nginx-ingress controller.
 */ -}}
-kubernetes.io/ingress.class: nginx
+kubernetes.io/ingress.class: {{ default "nginx" .Values.ingress.ingressClassNameOverride }}
 nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 {{- else if eq "aws-lbc-alb" .Values.ingress.type -}}
 {{- /*

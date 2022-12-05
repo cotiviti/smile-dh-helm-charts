@@ -1,4 +1,6 @@
 {{ if .Release.IsInstall }}
+Thank you for installing Smile CDR by Smile Digital Health!
+
                               ,.,;pppppQQQQQQQQppppppppppppp;,..
                       .s#################################SlSSS#######pp,
                  ;s######################################SlSSSSSSSS#######Np.
@@ -33,7 +35,6 @@
           '?GGGGSSSl#####################################SlSSSSSSSS###bb^
               ^"G8$$######################################llSll$GG"*^
                     ^^7T888888888888888#####88888888888TTT""^^
-
 
 Smile, we're up and running! :)
 

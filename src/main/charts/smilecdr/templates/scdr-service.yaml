@@ -17,7 +17,7 @@ metadata:
     {}
     {{- end }}
 spec:
-  type: {{ $.Values.service.type }}
+  type: {{ default "ClusterIP" ($.Values.service).type }}
   ports:
     - name: {{ $v.svcName }}
       port: {{ $v.port }}

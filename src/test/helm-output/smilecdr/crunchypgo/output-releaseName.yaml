@@ -1,3 +1,4 @@
+
 ---
 # Source: smilecdr/templates/scdr-pdb.yaml
 apiVersion: policy/v1
@@ -32,7 +33,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 type: kubernetes.io/dockerconfigjson
 data:
-  .dockerconfigjson: eyJhdXRocyI6eyJkb2NrZXIuY29tIjp7ImF1dGgiOiJkWE5sY2pwd1lYTnoifX19
+  .dockerconfigjson: eyJhdXRocyI6e319
 ---
 # Source: smilecdr/templates/smilecdr-configmap.yaml
 apiVersion: v1
