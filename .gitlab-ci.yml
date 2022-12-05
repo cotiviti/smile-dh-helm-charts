@@ -84,8 +84,19 @@ helm-docs-check:
   script:
     - helm-docs
       --chart-search-root=${CI_PROJECT_DIR}/src/main/charts
-      --template-files=./_templates.gotmpl
+      --template-files=docs/_templates.gotmpl
       --template-files=README.md.gotmpl
+
+helm-package-check:
+  stage: test
+  tags:
+    - helm-ci
+  image:
+    name: alpine/helm:3.10.1
+    entrypoint: ["sh", "-c"]
+  script:
+    - echo "Testing packaging of Helm Charts..."
+    - helm package src/main/charts/*
 
 helm-package:
   stage: package

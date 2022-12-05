@@ -35,7 +35,7 @@ helm-lint:
 	./scripts/lint-charts.sh ./src
 
 helm-docs:
-	helm-docs --chart-search-root=./src/main/charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
+	helm-docs --chart-search-root=./src/main/charts --template-files=docs/_templates.gotmpl --template-files=README.md.gotmpl
 
 
 -include Makefile-local
