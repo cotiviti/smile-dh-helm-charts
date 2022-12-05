@@ -1,5 +1,5 @@
-# This values file just tests the IRSA functionality
-serviceAccount:
-  create: true
-  annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/example-role-name
+# This file defines the minimum required settings to use this Helm Chart.
+
+image:
+  credentials:
+    type: values

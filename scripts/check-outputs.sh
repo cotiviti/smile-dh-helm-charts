@@ -67,6 +67,7 @@ for CHART in ${CHARTS}; do
                 if [ "${TESTS_COUNT}" -gt 0 ]; then
                     TESTS="$(yq -ojson "${DIR}/testconfig.yaml" | jq -rc '.tests | keys[]')"
                     for TEST_NAME in ${TESTS}; do
+                        (( COUNT++ ))
                         HELMOPTS=""
                         if [ "$(yq -ojson "${DIR}/testconfig.yaml" | jq -rc --arg TEST_NAME "${TEST_NAME}" '.tests[$TEST_NAME] | has("outputFile")')" == "true" ]; then
                             OUTFILE=$(yq -ojson "${DIR}/testconfig.yaml" | jq -rc --arg TEST_NAME "${TEST_NAME}" '.tests[$TEST_NAME]["outputFile"]')
@@ -101,7 +102,11 @@ for CHART in ${CHARTS}; do
 
                         if [ -f "${DIR}/${OUTFILE}" ]; then
                             # shellcheck disable=SC2086 # Intended splitting of HELMOPTS
-                            DYFF_TEXT=$(helm template --namespace default ${HELMOPTS} "${CHARTS_DIR}"/"${CHART}" | dyff between --omit-header --set-exit-code --ignore-order-changes "${DIR}"/"${OUTFILE}" -)
+                            HELM_OUTPUT=$(helm template --namespace default ${HELMOPTS} "${CHARTS_DIR}"/"${CHART}")
+                            if [ "$?" != "0" ]; then
+                                printf "Rendering template failed for test: %s.%s\n" "${DIR_NAME}" "${TEST_NAME}"
+                            fi
+                            DYFF_TEXT=$(echo "${HELM_OUTPUT}" | dyff between --omit-header --set-exit-code --ignore-order-changes "${DIR}"/"${OUTFILE}" -)
                             DYFF_RES=$?
 
                             if [ "${DYFF_RES}" != "0" ]; then
@@ -132,64 +137,16 @@ for CHART in ${CHARTS}; do
                             # shellcheck disable=SC2086 # Intended splitting of HELMOPTS
                             helm template ${DEBUG_OPT} --namespace default ${HELMOPTS} "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/"${OUTFILE}"
 
-                            # Need to do it this way so it works on Mac workstations as well as on Linux GitLab runners
-                            sed -i.bak 's/[[:space:]]*$//' "${DIR}"/"${OUTFILE}"
-                            rm "${DIR}"/"${OUTFILE}".bak
-
                             if [ ! $? ]; then
                                 printf " Rendering failed. Did the linting pass?"
                                 ERROR=2
+                            else
+                                # Need to do it this way so it works on Mac workstations as well as on Linux GitLab runners
+                                sed -i.bak 's/[[:space:]]*$//' "${DIR}"/"${OUTFILE}"
+                                rm "${DIR}"/"${OUTFILE}".bak
                             fi
                         fi
                     done
-                fi
-            # Default to pick up values.yaml if it exists and use old behaviour
-            elif [ -f "${DIR}/values.yaml" ]; then
-                (( COUNT++ ))
-                TEST_NAME=$(basename "${DIR}")
-                # printf "Comparing helm template output with expected output for ${CHART} chart using ${TEST_NAME} values file"
-                if [ -f "${DIR}/output.yaml" ]; then
-                    if [ -f "${DIR}/custom-modules.yaml" ]; then
-                        DYFF_TEXT=$(helm template --namespace default --set-file externalModuleDefinitions.custom="${DIR}"/custom-modules.yaml -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" | dyff between --omit-header --set-exit-code --ignore-order-changes "${DIR}"/output.yaml -)
-                        DYFF_RES=$?
-                    else
-                        DYFF_TEXT=$(helm template --namespace default -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" | dyff between --omit-header --set-exit-code --ignore-order-changes "${DIR}"/output.yaml -)
-                        DYFF_RES=$?
-                    fi
-                    if [ "${DYFF_RES}" != "0" ]; then
-                        if [ "${UPDATE}" == "1" ]; then
-                            DO_UPDATE=1
-                        else
-                            printf "Output differs for %s chart using %s values file." "${CHART}" "${TEST_NAME}"
-                            printf "%s" "${DYFF_TEXT}"
-                            printf "For prettier output, you can run the following:\n"
-                            printf "  helm template -f %s/values.yaml %s/%s | dyff between %s/output.yaml -" "${DIR}" "${CHARTS_DIR}" "${CHART}" "${DIR}"
-                            ERROR=1
-                        fi
-                    fi
-                else
-                    if [ "${UPDATE}" == "1" ]; then
-                        DO_UPDATE=1
-                    else
-                        printf "  There is no expected output file for the %s Helm Chart using %s values file.\n\n" "${CHART}" "${TEST_NAME}"
-                        ERROR=1
-                    fi
-                fi
-                if [ "${DO_UPDATE}" == "1" ] || [ "${FORCE_UPDATE}" == "1" ]; then
-                    if [ -f "${DIR}/custom-modules.yaml" ]; then
-                        printf "Rendering new expected output %sfor %s chart using %s values file and custom modules file\n" "${DEBUG_OPT_MSG}" "${CHART}" "${TEST_NAME}"
-                        helm template ${DEBUG_OPT} --namespace default --set-file externalModuleDefinitions.custom="${DIR}"/custom-modules.yaml -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/output.yaml
-                    else
-                        printf "Rendering new expected output %sfor %s chart using %s values file\n" "${DEBUG_OPT_MSG}" "${CHART}" "${TEST_NAME}"
-                        helm template ${DEBUG_OPT} --namespace default -f "${DIR}"/values.yaml "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/output.yaml
-                    fi
-                    if [ ! $? ]; then
-                        printf " Rendering failed. Did the linting pass?"
-                        ERROR=2
-                    fi
-                    # Need to do it this way so it works on Mac workstations as well as on Linux GitLab runners
-                    sed -i.bak 's/[[:space:]]*$//' "${DIR}"/output.yaml
-                    rm "${DIR}"/output.yaml.bak
                 fi
             fi
         done <   <(find "${CURRENT_CHART_TESTS_DIR}" -mindepth 1 -maxdepth 1 -type d -print0)

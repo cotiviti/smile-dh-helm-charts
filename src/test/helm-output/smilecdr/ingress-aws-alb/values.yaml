@@ -1,3 +1,8 @@
 ingress:
   enabled: true
   type: aws-lbc-alb
+
+# This defines the minimum required settings to use this Helm Chart.
+image:
+  credentials:
+    type: values

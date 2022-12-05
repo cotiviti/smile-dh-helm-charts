@@ -5,3 +5,8 @@ jvm:
   xms: false
   args:
     - "-Dmyarg=SMILE"
+
+# This defines the minimum required settings to use this Helm Chart.
+image:
+  credentials:
+    type: values

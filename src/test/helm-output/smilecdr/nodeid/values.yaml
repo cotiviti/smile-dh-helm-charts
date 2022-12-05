@@ -1,3 +1,8 @@
 # Check that the generated node.id in the ConfigMap can be updated
 cdrNodes:
   overriddenNodeId: {}
+
+# This defines the minimum required settings to use this Helm Chart.
+image:
+  credentials:
+    type: values

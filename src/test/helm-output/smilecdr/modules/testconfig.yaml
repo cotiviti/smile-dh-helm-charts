@@ -2,9 +2,11 @@ tests:
   customModules:
     outputFile: output-customModules.yaml
     valueFiles:
+    - values.yaml
     - custom-modules.yaml
     - values-common.yaml
   quotedConfigs:
     outputFile: output-quotedConfigs.yaml
     valueFiles:
+    - values.yaml
     - values-quotedConfigs.yaml

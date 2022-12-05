@@ -4,3 +4,8 @@ modules:
   fhir_endpoint:
     config:
       endpoint_health.path: /differenthealthcheckpath
+
+# This defines the minimum required settings to use this Helm Chart.
+image:
+  credentials:
+    type: values
