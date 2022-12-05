@@ -1,6 +1,10 @@
 # Smile CDR
 
-![Version: 1.0.0-pre.27](https://img.shields.io/badge/Version-1.0.0--pre.27-informational?style=flat-square) ![SmileCDRVersion: 2022.11.R01](https://img.shields.io/badge/Smile%20CDR%20Version-2022.11.R01-informational?style=flat-square)
+{{/* This displays the Chart Header as defined in the Chart Name */}}
+{{ template "chart.versionBadge" . }}{{ template "chart.cdrVersionBadge" . }}
+
+{{/* Warns if chart is deprecated  */}}
+{{ template "chart.deprecationWarning" . }}
 
 This chart provides a flexible and consistent process to deploy Smile CDR in a self-managed Kubernetes cluster.
 
@@ -694,58 +698,4 @@ to be restarted.
 
 This feature can be disabled if required by setting `autoDeploy` to `false`
 
-## Values
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| autoDeploy | bool | `true` | Enable or disable automatic deployment of changes to Smile CDR configuration |
-| autoscaling.enabled | bool | `false` | Enable or disable autoscaling |
-| autoscaling.maxReplicas | int | `4` | Depends on peak workload requirements and available licensing |
-| autoscaling.minReplicas | int | `1` | Recommend 1 for dev environments, 2 for prod or 3 for HA prod |
-| autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
-| database.crunchypgo.config.backupsSize | string | `"10Gi"` | PostgrSQL backups storage allocation |
-| database.crunchypgo.config.instanceCPU | int | `1` | PostgrSQL cpu allocation |
-| database.crunchypgo.config.instanceMemory | string | `"2Gi"` | PostgrSQL memory allocation |
-| database.crunchypgo.config.instanceReplicas | int | `2` | Number of Postgres instances to run (For HA) |
-| database.crunchypgo.config.instanceSize | string | `"10Gi"` | PostgrSQL storage allocation |
-| database.crunchypgo.config.postgresVersion | int | `14` | PostgreSQL version to use |
-| database.crunchypgo.enabled | bool | `true` | Enable database provisioned in-cluster via CrunchyData PGO |
-| database.crunchypgo.internal | bool | `false` | Create the Postgres database as part of this Helm Chart |
-| database.crunchypgo.users[0].module | string | `"clustermgr"` | Smile CDR module that will use this user/database |
-| database.crunchypgo.users[0].name | string | `"smilecdr"` |  |
-| database.external.credentialsSource | string | `"k8s"` | Source of DB secret for external database. Can be `k8s` or `sscsi-aws` |
-| database.external.databases[0].dbnameKey | string | `"dbname"` |  |
-| database.external.databases[0].module | string | `"clustermgr"` |  |
-| database.external.databases[0].passKey | string | `"password"` |  |
-| database.external.databases[0].portKey | string | `"port"` |  |
-| database.external.databases[0].secretName | string | `"smilecdr"` |  |
-| database.external.databases[0].urlKey | string | `"url"` |  |
-| database.external.databases[0].userKey | string | `"user"` |  |
-| database.external.enabled | bool | `false` | Enable database external to K8s cluster |
-| image.credentials.type | string | `"values"` |  |
-| image.credentials.values | object | `{}` | List of OCI registry credentials |
-| image.pullPolicy | string | `"IfNotPresent"` | Image Pull Policy |
-| image.repository | string | `"docker.smilecdr.com/smilecdr"` | OCI repository with Smile CDR images |
-| image.tag | string | `""` | Smile CDR version to install. Default is the chart appVersion. |
-| ingress.enabled | bool | `true` | Enable Ingress |
-| ingress.type | string | `"nginx-ingress"` | Ingress type (`nginx-ingress`,`aws-lbc-alb`,`azure-appgw`) |
-| jvm.args | list | `["-Dsun.net.inetaddr.ttl=60","-Djava.security.egd=file:/dev/./urandom"]` | Set extra JVM args |
-| jvm.memoryFactor | float | `0.5` | JVM HeapSize factor. `limits.memory` is multiplied this to calculate `-Xmx` |
-| jvm.xms | bool | `true` | Set JVM heap `-Xms` == `-Xmx` |
-| labels | object | `{}` | Extra labels to apply to all resources |
-| mappedFiles | object | `{}` | Map of file definitions to map into the Smile CDR instance |
-| messageBroker.channelPrefix | string | `"SCDR-ENV-"` | Topic Channel Prefix |
-| messageBroker.external.bootstrapAddress | string | `"kafka-example.local"` | External message broker bootstrap address |
-| messageBroker.external.enabled | bool | `false` | Enable external message broker |
-| messageBroker.external.tls | bool | `true` | External message broker TLS support |
-| messageBroker.external.type | string | `"kafka"` | External message broker type |
-| messageBroker.strimzi.enabled | bool | `false` | Enable provisioning of Kafka using Strimzi Operator |
-| modules.usedefaultmodules | bool | `true` | Enable or disable included default modules configuration |
-| replicaCount | int | `1` | Number of replicas to deploy. Note that this setting is ignored if autoscaling is enabled. Should always start a new installation with 1 |
-| resources.limits.memory | string | `"4Gi"` | Memory allocation |
-| resources.requests.cpu | string | `"1"` | CPU Requests |
-| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
-| serviceAccount.create | bool | `false` | Specifies whether a service account should be created |
-| serviceAccount.name | string | `""` | Autogenerated if not set |
-| specs.hostname | string | `"smilecdr-example.local"` | Hostname for Smile CDR instance |
-| specs.rootPath | string | `"/"` |  |
+{{ template "chart.valuesSection" . }}
