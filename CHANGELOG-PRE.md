@@ -1,3 +1,10 @@
+# [1.0.0-pre.28](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.27...v1.0.0-pre.28) (2022-12-06)
+
+
+### Features
+
+* **smilecdr:** make image secret required ([e068330](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/e068330a9e2b1b890b6008ab5790a5bfa0180c91))
+
 # [1.0.0-pre.28](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.27...v1.0.0-pre.28) (2022-12-05)
 
 
