@@ -1,0 +1,20 @@
+tests:
+  dbOnlyAWS:
+    outputFile: output-dbOnly-aws.yaml
+    valueFiles:
+    - values-dbOnly-aws.yaml
+
+  imagePullSecretAndDbAWS:
+    outputFile: output-imagepullsecret-and-db-aws.yaml
+    valueFiles:
+    - values-imagepullsecret-and-db-aws.yaml
+
+  imagePullSecretOnlyAWS:
+    outputFile: output-imagepullsecret-only-aws.yaml
+    valueFiles:
+    - values-imagepullsecret-only-aws.yaml
+
+  multipleSecretMultipleDbAWS:
+    outputFile: output-multipleSecretMultipleDb-aws.yaml
+    valueFiles:
+    - values-multipleSecretMultipleDb-aws.yaml

@@ -1,5 +1,5 @@
 # This values file just tests secrets store csi with the AWS provider
-# Using database credentials and single db secret
+# Only using single database credentials secret
 
 database:
   crunchypgo:
@@ -11,9 +11,14 @@ database:
     - secretARN: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
       secretName: k8sSecretName
       module: clustermgr
+      urlKey: host
+      portKey: port
+      dbname: cdr-clustermgr
+      userKey: username
+      passKey: password
 
+
+# This defines the minimum required settings to use this Helm Chart.
 image:
   credentials:
-    type: sscsi
-    provider: aws
-    secretarn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
+    type: values
