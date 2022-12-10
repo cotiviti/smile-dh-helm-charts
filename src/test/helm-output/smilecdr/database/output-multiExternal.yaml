@@ -185,7 +185,7 @@ spec:
             - name: CLUSTERMGR_DB_URL
               value: thedatabaseurl
             - name: CLUSTERMGR_DB_PORT
-              value: 5432
+              value: "5432"
             - name: CLUSTERMGR_DB_DATABASE
               value: cdr
             - name: CLUSTERMGR_DB_USER

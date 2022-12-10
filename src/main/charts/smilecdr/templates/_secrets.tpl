@@ -89,12 +89,40 @@ Generate SecretProviderClass Objects
   {{- end -}}
   {{- if and .Values.database.external.enabled (eq .Values.database.external.credentialsSource "sscsi-aws") -}}
     {{- range $v := .Values.database.external.databases -}}
-      {{- $sscsiObject := dict "objectName" (required "You must provide an AWS secret ARN for the DB credentials secret" $v.secretARN) -}}
-      {{- $jmesPathList := list (dict "path" "username" "objectAlias" "db-user") -}}
-      {{- $jmesPathList = append $jmesPathList (dict "path" "password" "objectAlias" "db-password") -}}
-      {{- $jmesPathList = append $jmesPathList (dict "path" "host" "objectAlias" "db-host") -}}
-      {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
-      {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
+
+      {{- /*
+        Make sure we don't define the same Object twice. If we are specifying the same ARN twice in the values
+        file we need to handle it differently.
+      */ -}}
+      {{- $uniqueArn := true -}}
+      {{- range $origlistvalue := $sscsiObjects -}}
+        {{- if eq $origlistvalue.objectName $v.secretARN -}}
+          {{- /* Not unique, so disable object creation further down */ -}}
+          {{- $uniqueArn = false -}}
+          {{- /* Merging keys is not possible unless we refactor how the key handling
+                 is done. Instead, for now at least, we will fail if the same secret
+                 ARN is used, to avoid unexpected failures */ -}}
+          {{- fail "You cannot specify the same AWS Secret ARN for multiple databases" -}}
+        {{- end -}}
+      {{- end -}}
+      {{- if $uniqueArn -}}
+        {{- $sscsiObject := dict "objectName" (required "You must provide `secretARN` for the DB credentials secret" $v.secretARN) -}}
+        {{- $jmesPathList := list (dict "path" (default "password" $v.passKey) "objectAlias" "db-password") -}}
+        {{- if hasKey $v "urlKey" -}}
+          {{- $jmesPathList = append $jmesPathList (dict "path" $v.urlKey "objectAlias" "db-host") -}}
+        {{- end -}}
+        {{- if hasKey $v "userKey" -}}
+          {{- $jmesPathList = append $jmesPathList (dict "path" $v.userKey "objectAlias" "db-user") -}}
+        {{- end -}}
+        {{- if hasKey $v "portKey" -}}
+          {{- $jmesPathList = append $jmesPathList (dict "path" $v.portKey "objectAlias" "db-port") -}}
+        {{- end -}}
+        {{- if hasKey $v "dbnameKey" -}}
+          {{- $jmesPathList = append $jmesPathList (dict "path" $v.dbnameKey "objectAlias" "db-dbname") -}}
+        {{- end -}}
+        {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
+        {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
   {{- range $v := $sscsiObjects -}}
@@ -113,11 +141,18 @@ Generate SecretProviderClass Objects
   {{- end -}}
   {{- if and .Values.database.external.enabled (eq .Values.database.external.credentialsSource "sscsi-aws") -}}
     {{- range $v := .Values.database.external.databases -}}
-      {{- $sscsiSyncedSecret := dict "secretName" $v.secretName -}}
+      {{- $sscsiSyncedSecret := dict "secretName" (required "You must provide `secretName` for the DB credentials secret" $v.secretName) -}}
       {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
-      {{- $dataList := list (dict "key" "host" "objectName" "db-host") -}}
-      {{- $dataList = append $dataList (dict "key" "user" "objectName" "db-user") -}}
-      {{- $dataList = append $dataList (dict "key" "password" "objectName" "db-password") -}}
+      {{- $dataList := list (dict "key" (default "password" $v.passKey) "objectName" "db-password") -}}
+      {{- if hasKey $v "urlKey" -}}
+        {{- $dataList = append $dataList (dict "key" $v.urlKey "objectName" "db-host") -}}
+      {{- end -}}
+      {{- if hasKey $v "userKey" -}}
+        {{- $dataList = append $dataList (dict "key" $v.userKey "objectName" "db-user") -}}
+      {{- end -}}
+      {{- if hasKey $v "portKey" -}}
+        {{- $dataList = append $dataList (dict "key" $v.portKey "objectName" "db-port") -}}
+      {{- end -}}
       {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
       {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
     {{- end -}}

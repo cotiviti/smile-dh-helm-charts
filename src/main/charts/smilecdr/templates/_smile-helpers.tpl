@@ -140,7 +140,7 @@ Environment variables for databases
       {{- /* Define and add DB_PORT */ -}}
       {{- $env := dict "name" (printf "%sDB_PORT" $envPrefix) -}}
       {{- if hasKey $v "port" -}}
-        {{- $_ := set $env "value" $v.port -}}
+        {{- $_ := set $env "value" (toString $v.port) -}}
       {{- else if hasKey $v "portKey" -}}
         {{- $keyMap = dict "key" $v.portKey -}}
         {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
