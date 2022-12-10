@@ -1,3 +1,10 @@
+# [1.0.0-pre.30](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.29...v1.0.0-pre.30) (2022-12-10)
+
+
+### Features
+
+* **smilecdr:** add argocd feature ([75a4874](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/75a4874bd2da5dede8630babe586143f4f1848b1))
+
 # [1.0.0-pre.29](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.28...v1.0.0-pre.29) (2022-12-10)
 
 
