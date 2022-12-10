@@ -1,0 +1,12 @@
+tests:
+  default:
+    outputFile: output.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - values.yaml
+    # - extra-values.yaml
+    setFile:
+    - key: mappedFiles.filename\.ext.data
+      fileName: filename.ext

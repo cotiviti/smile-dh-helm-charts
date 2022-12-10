@@ -698,4 +698,9 @@ to be restarted.
 
 This feature can be disabled if required by setting `autoDeploy` to `false`
 
+If you are using this feature in conjunction with ArgoCD, then previous versions of the `ConfigMap`
+will be deleted after you perform configuration changes. This interferes with the ability for the
+existing `ReplicaSet` to scale or self-heal.
+If running in ArgoCD, you should set `argocd.enabled` to true to prevent this issue.
+
 {{ template "chart.valuesSection" . }}
