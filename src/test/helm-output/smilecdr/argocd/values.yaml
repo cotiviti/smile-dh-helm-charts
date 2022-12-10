@@ -1,0 +1,11 @@
+# This file defines the minimum required settings to use this Helm Chart.
+
+image:
+  credentials:
+    type: values
+argocd:
+  enabled: true
+
+mappedFiles:
+  filename.ext:
+    path: /home/smile/elsewhere
