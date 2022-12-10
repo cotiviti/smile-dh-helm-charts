@@ -1,3 +1,10 @@
+# [1.0.0-pre.29](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.28...v1.0.0-pre.29) (2022-12-10)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix secret reference keys ([2f6411b](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/2f6411ba5b81fc7139d1335b6b4935405e27556f))
+
 # [1.0.0-pre.28](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.27...v1.0.0-pre.28) (2022-12-06)
 
 
