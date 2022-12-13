@@ -138,7 +138,7 @@ $ helm repo update
 This chart will install a base set of modules similar to a default installation of Smile CDR.
 Configuration of modules will be covered further down this guide.
 
-To use this chart, you need a values file to set some mandatory fields, such as `hostname`, DB details and image secrets location.
+To use this chart, you need a values file to set some mandatory fields to set the hostname, DB details and image secrets location.
 
 The following values file will work in any Kubernetes environment that has Nginx Ingress, CrunchyData PGO and a suitable Persistent Volume provider (For the database).
 You will need to update values specific to your environment.
@@ -283,13 +283,16 @@ requests.limits.cpu` if you are using Horizontal Pod Autoscaling.
 > **NOTE**: You can pass in extra JVM commandline options by adding them to the list `jvm.args`
 
 ### Database Configuration
-To use this chart, you must configure an external database. There are two ways to do this:
+To use this chart, you must configure a database. There are two ways to do this:
 * Use or provision an external database (or databases) using existing techniques/processes in your
   organisation. Any external database can be referenced in this chart and Smile CDR will be configured
   to use it.
 * As a quick-start convenience, support has been included to provision a PostgreSQL cluster locally in
   the Kubernetes cluster using the CrunchyData PostreSQL Operator. When enabling this option, the
   database(s) will be automatically created and Smile CDR will be configured to connect to it.
+
+If you do not specify one or the other, the chart will fail to render any output and will return a
+descriptive error instead
 
 > **WARNING**: Due to the ephemeral and stateless nature of Kubernetes Pods, there is no use case
 where it makes sense to provision Smile CDR using the internal H2 database. You are free to configure
@@ -714,7 +717,7 @@ If running in ArgoCD, you should set `argocd.enabled` to true to prevent this is
 | database.crunchypgo.config.instanceReplicas | int | `2` | Number of Postgres instances to run (For HA) |
 | database.crunchypgo.config.instanceSize | string | `"10Gi"` | PostgrSQL storage allocation |
 | database.crunchypgo.config.postgresVersion | int | `14` | PostgreSQL version to use |
-| database.crunchypgo.enabled | bool | `true` | Enable database provisioned in-cluster via CrunchyData PGO |
+| database.crunchypgo.enabled | bool | `false` | Enable database provisioned in-cluster via CrunchyData PGO |
 | database.crunchypgo.internal | bool | `false` | Create the Postgres database as part of this Helm Chart |
 | database.crunchypgo.users[0].module | string | `"clustermgr"` | Smile CDR module that will use this user/database |
 | database.crunchypgo.users[0].name | string | `"smilecdr"` |  |

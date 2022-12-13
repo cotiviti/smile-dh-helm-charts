@@ -6,6 +6,10 @@ image:
 argocd:
   enabled: true
 
+database:
+  crunchypgo:
+    enabled: true
+
 mappedFiles:
   filename.ext:
     path: /home/smile/elsewhere

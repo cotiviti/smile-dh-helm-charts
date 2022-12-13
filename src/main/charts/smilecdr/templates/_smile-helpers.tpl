@@ -187,6 +187,8 @@ Environment variables for databases
       {{- end -}}
       {{- $envVars = append $envVars $env -}}
     {{- end -}}
+  {{- else -}}
+    {{- fail "You must either configure an external database (`database.external.enabled: true`) or crunchypgo (`database.crunchypgo.enabled: true`)" -}}
   {{- end -}}
   {{- /* Render the environments */ -}}
   {{- if ne (len $envVars) 0 -}}

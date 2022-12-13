@@ -10,3 +10,7 @@ mappedFiles:
 image:
   credentials:
     type: values
+
+database:
+  crunchypgo:
+    enabled: true

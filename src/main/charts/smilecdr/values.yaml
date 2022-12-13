@@ -190,7 +190,7 @@ database:
 
   crunchypgo:
     # -- Enable database provisioned in-cluster via CrunchyData PGO
-    enabled: true
+    enabled: false
     # -- Create the Postgres database as part of this Helm Chart
     internal: false
 
