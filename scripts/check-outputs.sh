@@ -102,7 +102,7 @@ for CHART in ${CHARTS}; do
 
                         if [ -f "${DIR}/${OUTFILE}" ]; then
                             # shellcheck disable=SC2086 # Intended splitting of HELMOPTS
-                            HELM_OUTPUT=$(helm template --namespace default ${HELMOPTS} "${CHARTS_DIR}"/"${CHART}")
+                            HELM_OUTPUT=$(helm template --namespace default ${HELMOPTS} "${CHARTS_DIR}"/"${CHART}" | sed '/^.*helm\.sh\/chart.*$/d' )
                             HELM_RES=$?
                             if [ "${HELM_RES}" != "0" ]; then
                                 printf "Rendering template failed for test: %s.%s\n" "${DIR_NAME}" "${TEST_NAME}"
@@ -117,7 +117,7 @@ for CHART in ${CHARTS}; do
                                     printf "Output differs for %s chart using %s values file." "${CHART}" "${TEST_NAME}"
                                     printf "%s" "${DYFF_TEXT}"
                                     printf "For prettier output, you can run the following:\n"
-                                    printf "  helm template --namespace default %s %s/%s | dyff between %s/%s -" "${HELMOPTS}" "${CHARTS_DIR}" "${CHART}" "${DIR}" "${OUTFILE}"
+                                    printf "  helm template --namespace default %s %s/%s | sed '/^.*helm\.sh\/chart.*$/d' | dyff between %s/%s -" "${HELMOPTS}" "${CHARTS_DIR}" "${CHART}" "${DIR}" "${OUTFILE}"
                                     ERROR=1
                                 fi
                             fi
@@ -142,8 +142,12 @@ for CHART in ${CHARTS}; do
                                 printf " Rendering failed. Did the linting pass?"
                                 ERROR=2
                             else
-                                # Need to do it this way so it works on Mac workstations as well as on Linux GitLab runners
+                                # Need to run `sed` this way so it works on Mac workstations as well as on Linux GitLab runners
+                                # This `sed` command removes any trailing spaces
                                 sed -i.bak 's/[[:space:]]*$//' "${DIR}"/"${OUTFILE}"
+                                rm "${DIR}"/"${OUTFILE}".bak
+                                # This `sed` command removes the `helm.sh/chart` label from outputs.
+                                sed -i.bak '/^.*helm\.sh\/chart.*$/d' "${DIR}"/"${OUTFILE}"
                                 rm "${DIR}"/"${OUTFILE}".bak
                             fi
                         fi
