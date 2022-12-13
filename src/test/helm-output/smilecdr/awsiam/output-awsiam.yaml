@@ -6,7 +6,6 @@ metadata:
   name: release-name-scdr
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.30
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -25,7 +24,6 @@ metadata:
   name: release-name-smilecdr
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.30
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -40,7 +38,6 @@ metadata:
   name: release-name-scdr-image-pull-secrets
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.30
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -56,7 +53,6 @@ metadata:
   name: release-name-scdr-d011d6bf069b21f0d23c90c7b21dcda95ef5619ed3c9ac9d4931205807be0e1d
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.30
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -222,7 +218,6 @@ metadata:
   name: release-name-scdr-svc-admin-json
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.30
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -247,7 +242,6 @@ metadata:
   name: release-name-scdr-svc-admin-web
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.30
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -272,7 +266,6 @@ metadata:
   name: release-name-scdr-svc-fhir
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.30
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -297,7 +290,6 @@ metadata:
   name: release-name-scdr-svc-fhirweb
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.30
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -322,7 +314,6 @@ metadata:
   name: release-name-scdr-svc-pkg-registry
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.30
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -347,7 +338,6 @@ metadata:
   name: release-name-scdr-svc-smart-auth
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.30
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -372,7 +362,6 @@ metadata:
   name: release-name-scdr
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.30
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -391,7 +380,6 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: smilecdr-1.0.0-pre.30
         app.kubernetes.io/name: smilecdr
         app.kubernetes.io/instance: release-name
         app.kubernetes.io/version: "2022.11.R01"
@@ -491,7 +479,6 @@ metadata:
   name: release-name-scdr
   namespace: default
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.30
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
@@ -553,7 +540,6 @@ kind: Pod
 metadata:
   name: "release-name-smilecdr-test-connection"
   labels:
-    helm.sh/chart: smilecdr-1.0.0-pre.30
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "2022.11.R01"
