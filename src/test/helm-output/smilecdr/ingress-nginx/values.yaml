@@ -5,6 +5,10 @@ ingress:
   type: nginx-ingress
 
 # This defines the minimum required settings to use this Helm Chart.
+database:
+  crunchypgo:
+    enabled: true
+
 image:
   credentials:
     type: values

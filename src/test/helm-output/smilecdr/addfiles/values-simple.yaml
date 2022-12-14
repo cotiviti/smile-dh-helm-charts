@@ -4,6 +4,10 @@
 # e.g.:
 #  --set-file mappedFiles.filename\\.ext.data=path/to/filename.ext
 
+database:
+  crunchypgo:
+    enabled: true
+
 mappedFiles:
   filename.ext:
     path: /home/smile/elsewhere

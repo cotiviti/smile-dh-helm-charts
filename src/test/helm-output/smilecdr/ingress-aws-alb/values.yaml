@@ -3,6 +3,10 @@ ingress:
   type: aws-lbc-alb
 
 # This defines the minimum required settings to use this Helm Chart.
+database:
+  crunchypgo:
+    enabled: true
+
 image:
   credentials:
     type: values
