@@ -1,3 +1,10 @@
+# [1.0.0-pre.31](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.30...v1.0.0-pre.31) (2022-12-14)
+
+
+### Features
+
+* **smilecdr:** disable crunchypgo ([a2a4e32](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/a2a4e32f624a5d348d8bf03c5ebcd90dea8dd690))
+
 # [1.0.0-pre.30](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.29...v1.0.0-pre.30) (2022-12-10)
 
 
