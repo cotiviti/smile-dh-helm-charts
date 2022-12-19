@@ -210,3 +210,21 @@ release:
     paths:
       - "*.tgz"
     expire_in: 1 week
+
+include:
+  - template: Security/Secret-Detection.gitlab-ci.yml
+
+secret_detection:
+  extends: .secret-analyzer
+  stage: validate
+  tags:
+  - helm-ci
+  rules:
+    - if: $SECRET_DETECTION_DISABLED
+      when: never
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  script:
+    - /analyzer run
+  variables:
+    SECRET_DETECTION_HISTORIC_SCAN: "true"
