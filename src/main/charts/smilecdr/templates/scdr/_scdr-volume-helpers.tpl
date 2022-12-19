@@ -8,11 +8,11 @@ Define volumes and volume mounts based on combining:
 
 {{- define "smilecdr.volumes" -}}
   {{- $volumes := ( include "smilecdr.fileVolumes" . | fromYaml ).list -}}
-  {{- with ( include "sscsi.volume" . | fromYaml ).list -}}
+  {{- with ( include "sscsi.volumes" . | fromYaml ).list -}}
     {{- $volumes = concat $volumes . -}}
   {{- end -}}
   {{- $configMapVolume := dict "name" (printf "scdr-config-%s" .Release.Name) -}}
-  {{- $_ := set $configMapVolume "configMap" (dict "name" (printf "%s-scdr%s" .Release.Name (include "smilecdr.cdrConfigDataHash" . ) )) -}}
+  {{- $_ := set $configMapVolume "configMap" (dict "name" (printf "%s-scdr%s" .Release.Name (include "smilecdr.cdrConfigDataHashSuffix" . ) )) -}}
   {{- $volumes = concat $volumes (list ($configMapVolume)) -}}
   {{ range $v := $volumes }}
     {{- printf "- %v\n" ($v | toYaml | nindent 2 | trim ) -}}
@@ -21,7 +21,7 @@ Define volumes and volume mounts based on combining:
 
 {{ define "smilecdr.volumeMounts" }}
   {{- $volumeMounts := ( include "smilecdr.fileVolumeMounts" . | fromYaml ).list -}}
-  {{- with ( include "sscsi.volumeMount" . | fromYaml ).list -}}
+  {{- with ( include "sscsi.volumeMounts" . | fromYaml ).list -}}
     {{- $volumeMounts = concat $volumeMounts . -}}
   {{ end }}
   {{- $configMapVolumeMount := dict "name" (printf "scdr-config-%s" .Release.Name) -}}

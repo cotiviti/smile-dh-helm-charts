@@ -1,5 +1,5 @@
 ---
-# Source: smilecdr/templates/scdr-pdb.yaml
+# Source: smilecdr/templates/scdr/scdr-pdb.yaml
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
@@ -17,7 +17,7 @@ spec:
       app.kubernetes.io/name: smilecdr
       app.kubernetes.io/instance: release-name
 ---
-# Source: smilecdr/templates/scdr-image-pull-secret.yaml
+# Source: smilecdr/templates/scdr/scdr-image-pull-secret.yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -32,7 +32,7 @@ type: kubernetes.io/dockerconfigjson
 data:
   .dockerconfigjson: eyJhdXRocyI6e319
 ---
-# Source: smilecdr/templates/scdr-file-configmap.yaml
+# Source: smilecdr/templates/scdr/scdr-file-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -161,11 +161,11 @@ data:
 
     </configuration>
 ---
-# Source: smilecdr/templates/smilecdr-configmap.yaml
+# Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-d011d6bf069b21f0d23c90c7b21dcda95ef5619ed3c9ac9d4931205807be0e1d
+  name: release-name-scdr-Masterdev-node-d011d6bf069b21f0d23c90c7b21dcda95ef5619ed3c9ac9d4931205807be0e1d
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -326,7 +326,7 @@ data:
     module.subscription.type 	= SUBSCRIPTION_MATCHER
     module.subscription.requires.PERSISTENCE_ALL 	= persistence
 ---
-# Source: smilecdr/templates/scdr-service.yaml
+# Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -350,7 +350,7 @@ spec:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
 ---
-# Source: smilecdr/templates/scdr-service.yaml
+# Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -374,7 +374,7 @@ spec:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
 ---
-# Source: smilecdr/templates/scdr-service.yaml
+# Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -398,7 +398,7 @@ spec:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
 ---
-# Source: smilecdr/templates/scdr-service.yaml
+# Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -422,7 +422,7 @@ spec:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
 ---
-# Source: smilecdr/templates/scdr-service.yaml
+# Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -446,7 +446,7 @@ spec:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
 ---
-# Source: smilecdr/templates/scdr-service.yaml
+# Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -470,7 +470,7 @@ spec:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
 ---
-# Source: smilecdr/templates/scdr-deployment.yaml
+# Source: smilecdr/templates/scdr/scdr-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -593,7 +593,7 @@ spec:
           name: scdr-config-release-name
       restartPolicy: Always
 ---
-# Source: smilecdr/templates/scdr-ingress.yaml
+# Source: smilecdr/templates/scdr/scdr-ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

@@ -1,5 +1,5 @@
 ---
-# Source: smilecdr/templates/scdr-pdb.yaml
+# Source: smilecdr/templates/scdr/scdr-pdb.yaml
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
@@ -17,7 +17,7 @@ spec:
       app.kubernetes.io/name: smilecdr
       app.kubernetes.io/instance: release-name
 ---
-# Source: smilecdr/templates/scdr-image-pull-secret.yaml
+# Source: smilecdr/templates/scdr/scdr-image-pull-secret.yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -32,11 +32,11 @@ type: kubernetes.io/dockerconfigjson
 data:
   .dockerconfigjson: eyJhdXRocyI6e319
 ---
-# Source: smilecdr/templates/smilecdr-configmap.yaml
+# Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr
+  name: release-name-scdr-Masterdev-node
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -95,7 +95,7 @@ data:
     module.persistence.config.db.url 	= jdbc:postgresql://#{env['PERSISTENCE_DB_URL']}:#{env['PERSISTENCE_DB_PORT']/#{env['PERSISTENCE_DB_DATABASE']}?sslmode=require
     module.persistence.config.db.username 	= #{env['PERSISTENCE_DB_USER']}
 ---
-# Source: smilecdr/templates/scdr-service.yaml
+# Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -119,7 +119,7 @@ spec:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
 ---
-# Source: smilecdr/templates/scdr-deployment.yaml
+# Source: smilecdr/templates/scdr/scdr-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -230,7 +230,7 @@ spec:
           name: scdr-config-release-name
       restartPolicy: Always
 ---
-# Source: smilecdr/templates/scdr-ingress.yaml
+# Source: smilecdr/templates/scdr/scdr-ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
