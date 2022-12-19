@@ -1,0 +1,6 @@
+# You can include an allowlist table for a single rule to reduce false positives or ignore commits
+# with known/rotated secrets
+[rules.allowlist]
+# GitLeaks was giving a false positive for Smile CDR module settings that included the value `BCRYPT_12_ROUND`
+description = "Ignore BCRYPT_12_ROUND Smile CDR setting"
+regexes = ['''BCRYPT_12_ROUND''',]
