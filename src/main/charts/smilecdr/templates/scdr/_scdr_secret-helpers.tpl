@@ -39,14 +39,14 @@ Current providers supported:
 */}}
 
 {{- define "sscsi.enabled" -}}
-  {{ $sscsiEnabled := "false" }}
+  {{- $sscsiEnabled := "false" -}}
   {{/* Enabled if using sscsi for image pull or db secrets */}}
-  {{ if eq .Values.image.credentials.type "sscsi" }}
-    {{ $sscsiEnabled = "true" }}
-  {{ end }}
-  {{ if and .Values.database.external.enabled (eq .Values.database.external.credentialsSource "sscsi-aws") }}
-    {{ $sscsiEnabled = "true" }}
-  {{ end }}
+  {{- if eq .Values.image.credentials.type "sscsi" -}}
+    {{- $sscsiEnabled = "true" -}}
+  {{- end -}}
+  {{- if and .Values.database.external.enabled (eq ((.Values.database.external).credentials).type "sscsi") -}}
+    {{- $sscsiEnabled = "true" -}}
+  {{- end -}}
   {{- printf "%s" $sscsiEnabled -}}
 {{- end -}}
 
@@ -74,8 +74,8 @@ pod's filesystem
       */}}
     {{- end -}}
   {{- end -}}
-  {{- if .Values.database.external.enabled -}}
-    {{- if eq .Values.database.external.credentialsSource "sscsi-aws" -}}
+  {{- if and .Values.database.external.enabled (eq ((.Values.database.external).credentials).type "sscsi") -}}
+    {{- if eq ((.Values.database.external).credentials).provider "aws" -}}
       {{- range $v := .Values.database.external.databases -}}
         {{- /*
           Make sure we don't define the same Object twice. If we are specifying the same ARN twice in the values
@@ -111,12 +111,12 @@ pod's filesystem
           {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
         {{- end -}}
       {{- end -}}
+    {{/*
+    Define other providers here:
+    {{- else if eq ((.Values.database.external).credentials).provider "otherprovider" -}}
+    - add code to build $sscsiObject and append to $sscsiObjects
+    */}}
     {{- end -}}
-  {{/*
-  Define other providers here:
-  {{- else if eq .Values.database.external.credentialsSource "sscsi-otherprovider" -}}
-  - add code to build $sscsiObject and append to $sscsiObjects
-  */}}
   {{- end -}}
   {{/* Render the Secrets Store CSI objects*/}}
   {{- range $v := $sscsiObjects -}}
@@ -137,7 +137,7 @@ These are used to create Kubernetes Secrets that are synced to mounted SSCSI sec
     {{- $_ := set $sscsiSyncedSecret "data" (list $data) -}}
     {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
   {{- end -}}
-  {{- if and .Values.database.external.enabled (eq .Values.database.external.credentialsSource "sscsi-aws") -}}
+  {{- if and .Values.database.external.enabled (eq ((.Values.database.external).credentials).type "sscsi") -}}
     {{- range $v := .Values.database.external.databases -}}
       {{- $sscsiSyncedSecret := dict "secretName" (required "You must provide `secretName` for the DB credentials secret" $v.secretName) -}}
       {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}

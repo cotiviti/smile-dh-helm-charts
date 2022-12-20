@@ -135,7 +135,7 @@ autoscaling:
 
 ## @section External Database Configuration
 ## @param database.external.enabled Enable database external to K8s cluster
-## @param database.external.credentialsSource Source of DB secret for external database. Can be `k8s` or `sscsi-aws`
+## @param database.external.credentials Source of DB secret for external database. A map with `type` set to `sscsi` or `extsecret` and `provider` set to `aws`
 ## @param database.external.databases List of databases used by this Smile CDR installation
 ## @param database.external.databases.secretName Name of K8s secret with DB connection credentials
 ## @param database.external.databases.module The module that this database is used for
@@ -152,8 +152,10 @@ database:
   external:
     # -- Enable database external to K8s cluster
     enabled: false
-    # -- Source of DB secret for external database. Can be `k8s` or `sscsi-aws`
-    credentialsSource: k8s
+    credentials: {}
+    # Choose `sscsi` or `extsecret`
+    # type: sscsi
+    # provider: aws
     # @skip databases
     databases:
     - secretName: smilecdr
