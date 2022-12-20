@@ -51,10 +51,10 @@ specs:
 ## @param.jvm.xms Set JVM heap `-Xms` == `-Xmx`
 ## @param.jvm.args Set extra JVM args
 resources:
-  # As SmileCDR is a high performance Java based application, special consideration needs to be given
+  # As Smile CDR is a high performance Java based application, special consideration needs to be given
   # to the resource settings and JVM tuning parameters.
   # Typical cloud best practices are to start small and increase as workload increases. This can be a
-  # challenging approach with an appliction such as SmileCDR if we are to avoid OOM Killed errors.
+  # challenging approach with an appliction such as Smile CDR if we are to avoid OOM Killed errors.
   # You should start with a somewhat larger memory allocation and perform monitoring of your workload
   # to determine real life memory usage. Then tune-down to a size that still gives a reasonable buffer
   # for any workload spikes.
@@ -75,7 +75,7 @@ resources:
     memory: 4Gi
 
 jvm:
-  # As SmileCDR is a Java application, we need to pay special attention to the
+  # As Smile CDR is a Java application, we need to pay special attention to the
   # JVM memory settings and tuning.
   # A Java application will use more memory than is specified in the `-Xmx` option,
   # so setting it to the same as the l`imits.memory` setting almost guarantees that
@@ -219,7 +219,7 @@ database:
       module: clustermgr
 
 ## @skip cdrNodes
-# This is where we define multiple node configurations for SmileCDR
+# This is where we define multiple node configurations for Smile CDR
 # This is a developing feature and there may be breaking changes later on
 # For now, it only defines the name, which is used in the properties ConfigMap
 # It may later be used to define deployment-specific attributes.

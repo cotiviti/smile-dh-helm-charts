@@ -1,5 +1,5 @@
 <!--
-This file is not the default that comes with SmileCDR. It was injected by the Helm Chart
+This file is not the default that comes with Smile CDR. It was injected by the Helm Chart
 Smile CDR uses the Logback framework for logging. For details on configuring this
 file, see:
 https://smilecdr.com/docs/getting_started/system_logging.html

@@ -67,7 +67,7 @@ As such, we have included the following features when running on Amazon EKS (Oth
 
 ### Operational Efficiency Features
 * Zero-downtime configuration changes (Using rolling deployments)
-* Horizontal Auto-Acaling (Within bounds of Smile CDR licence) - to ensure cost effective use of compute resources
+* Horizontal Auto-Scaling (Within bounds of Smile CDR licence) - to ensure cost effective use of compute resources
 * Coming soon...
   * [Zero-downtime upgrades](https://smilecdr.com/docs/installation/upgrading.html#upgrading-a-cluster-of-servers-with-zero-downtime) with controllable manual/automatic schema upgrades
   * Management dashboard for consolidated logs and metrics gathering for all components in the deployment
@@ -96,7 +96,7 @@ In order to deploy Smile CDR using this chart, you will need the following:
 
 ### Minimum Requirements
 These dependencies are sufficient to get you started with deploying an instance for testing purposes.
-* Access to an OCR container repository with the required Smile CDR Docker images
+* Access to an OCI container repository with the required Smile CDR Docker images
 * Kubernetes Cluster that you have suitable permissions for
 * Sufficient spare compute resources on the Kubernetes cluster.
   * Minimum spare of 1 vCPU and 4GB memory for a 1 pod install of just Smile CDR
@@ -120,7 +120,7 @@ These dependencies are recommended in order to follow security best practices. T
   * Encrypted `etcd`
   * Storage Class with encryption enabled if using Postgres or Kafka
   * Enforce all pods should set resource requests
-* AWS IAM Role for the SmileCDR application.
+* AWS IAM Role for the Smile CDR application.
   * Should follow the [principle of least privilege](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#grant-least-privilege) and only have access to required AWS services
 * [Secrets Store CSI Driver](https://secrets-store-csi-driver.sigs.k8s.io/) + Provider
   * Only the [AWS Provider](https://github.com/aws/secrets-store-csi-driver-provider-aws) is supported at this time
@@ -198,7 +198,7 @@ and you will lose your database and backups. You can prevent this by using a cus
 
 ## Configuration
 We have tried to make this Helm Chart very flexible so that you can configure
-it to deploy SmileCDR in a way that works in your environment.
+it to deploy Smile CDR in a way that works in your environment.
 
 ### Default configuration
 Using the Helm values file described above, without any advanced configuration options, you will end up with:
@@ -248,7 +248,7 @@ To use this method, you need to:
 It can be hard to manage the security and rotation of passwords when being stored like this.
 
 ### Configure Resources
-As SmileCDR is a high performance Java based application, special consideration needs
+As Smile CDR is a high performance Java based application, special consideration needs
 to be given to the resource settings and JVM tuning parameters.
 
 Typical cloud best practices suggest starting small and increasing resources as workload increases.
@@ -310,7 +310,7 @@ To reference a database that is external to the cluster, you will need:
 * Network connectivity from the K8s cluster to your database.
 * A secret containing the connection credentials.
   * It is common practice to include all connection credentials in DB secrets, this way it becomes simple
-  to manage the database without having to reconfigure SmileCDR. e.g. when 'restoring' an RDS instance, the
+  to manage the database without having to reconfigure Smile CDR. e.g. when 'restoring' an RDS instance, the
   DB cluster name will typically change. If this is kept inside the secret (As it is with RDS when using AWS
   Secrets Manager) then any such change will be automatically applied.
   * The secret can be a plain Kubernetes secret that you provision externally, or it can be a secret in a
@@ -371,7 +371,7 @@ The `module` key is important here as it tells the Helm Chart logic which module
 If there is only one database (for external DBs) or user(for CrunchyData provisioned DB) listed here,
 then this database will be used for all modules.
 
-If you provide multiple databases/users, then the database will be used by the SmileCDR module that is
+If you provide multiple databases/users, then the database will be used by the Smile CDR module that is
 referenced by the `module` key for that database/user.
 
 With multiople databases, the above examples may look like this:
@@ -652,7 +652,7 @@ provided in the `messageBroker` section above will override any in the module de
 
 #### Provisioning Kafka with Strimzi
 If you have the Strimzi operator installed in your cluster, you can use the following values file
-fragment to automate provisioning of a Kafka cluster. Your SmileCDR instance will then be automatically
+fragment to automate provisioning of a Kafka cluster. Your Smile CDR instance will then be automatically
 configured to use this HA Kafka cluster.
 ```yaml
 messageBroker:

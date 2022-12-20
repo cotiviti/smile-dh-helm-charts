@@ -1,5 +1,5 @@
 {{/*
-Define SmileCDR DB Environment
+Define Smile CDR DB Environment
 Environment variables for databases
 */}}
 {{- define "smilecdr.dbEnvVars" -}}

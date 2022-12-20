@@ -1,7 +1,7 @@
 {{/*
 Define volumes and volume mounts based on combining:
 * Generated fileVolumes
-* SmileCDR properties file
+* Smile CDR properties file
 * Secrets Store CSI volumes
 * Any others can be added later
 */}}
