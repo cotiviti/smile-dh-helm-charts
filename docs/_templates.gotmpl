@@ -13,7 +13,7 @@ Smile Digital Health
 {{- define "chart.pre-release-header" -}}
   {{- $version := (lower (toString .Version)) -}}
   {{- if contains "pre" $version -}}
-    {{- printf "## ** PRE-RELEASE WARNING **\n" -}}
+    {{- printf "## <p style=\"text-align:center\">** PRE-RELEASE WARNING **</p>\n" -}}
     {{- printf "This is ***PRE-RELEASE*** version %s\n\n" $version -}}
     {{- template "chart.pre-release-text" . -}}
   {{- end -}}
