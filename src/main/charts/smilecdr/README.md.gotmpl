@@ -145,10 +145,19 @@ $ helm repo update
 This chart will install a base set of modules similar to a default installation of Smile CDR.
 Configuration of modules will be covered further down this guide.
 
-To use this chart, you need a values file to set some mandatory fields to set the hostname, DB details and image secrets location.
+To use this chart, you need a values file to set some mandatory fields to set the hostname, DB details
+and image secrets location.
 
-The following values file will work in any Kubernetes environment that has Nginx Ingress, CrunchyData PGO and a suitable Persistent Volume provider (For the database).
-You will need to update values specific to your environment.
+> **Note:** Try not to copy the default `values.yaml` file from the Helm Chart as a base. Even though this
+will work, the default values file is very long, which can make it hard to track the actual changes
+(vs default) that you have made to your environment. You also run the risk of overwriting upstream changes
+to the default values file which could cause unpredictable failures during upgrades using `helm upgrade`.
+Instead, try to start with a blank values file and only include the changes you need to make for your
+environment. <!-- See the section on **Values File Techniques** for more information. -->
+
+The following values file will work in any Kubernetes environment that has Nginx Ingress, CrunchyData PGO and a
+suitable Persistent Volume storage provider (For the database). You will need to update values specific to your
+environment and include credentials for a container repository that contains the Smile CDR Docker images.
 
 #### `my-values.yaml`
 ```yaml
@@ -217,6 +226,8 @@ Using the Helm values file described above, without any advanced configuration o
 All of the above can be modified and tuned to suit your needs as will be described below.
 
 ### Image Credentials
+In order to install Smile CDR using this chart, you need to provide credentials for a container
+registry that contains the Smile CDR Docker image.
 
 There are currently 3 ways to specify your OCI container registry credentials.
 
@@ -227,10 +238,13 @@ There are currently 3 ways to specify your OCI container registry credentials.
 |Values File|Low|Easiest|K8s secret created by chart. Password is in your code (Bad)|
 
 #### Secrets Store CSI Driver
+Currently, this chart only supports the Secrets Store CSI Driver with the AWS Secrets Manager provider
 To use this method, you need to:
 * Create a secret in AWS Secrets Manager
 * Create an IAM role that has read access to the secret and the KMS key used to encrypt it
+  * This role will also be used for any other AWS services that the Smile CDR application will need to access, so name it accordingly, e.g. `smile-role`
 * Create a trust policy for the IAM role so that it can be used with IRSA. Instructions [here](https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html)
+  * These instructions use the `eksctl` command which abstracts away some details into CloudFormation templates. Using something like Terraform would require different steps
 * Enable the `ServiceAccount` and reference the IAM role in the annotations. See the section below about Service Account Configuration for more details
 * Specify the `image.credentials.type` as `sscsi`
 * Specify the `image.credentials.provider` as `aws`
@@ -239,7 +253,7 @@ To use this method, you need to:
 #### Kubernetes Secret
 To use this method, you need to:
 * Create a Kubernetes secret of type `kubernetes.io/dockerconfigjson`
-* Specify the `image.credentials.type` as externalsecret
+* Specify the `image.credentials.type` as `externalsecret`
 * Reference the Secret name in `image.credentials.pullSecrets[0].name`
 
 #### Values File
@@ -249,6 +263,9 @@ To use this method, you need to:
 
 > **Warning**: This method is not recommended as it puts passwords into your Helm Values file.
 It can be hard to manage the security and rotation of passwords when being stored like this.
+
+If you do not specify image credentials, the chart will fail to render any output and will return a
+descriptive error instead
 
 ### Configure Resources
 As Smile CDR is a high performance Java based application, special consideration needs
@@ -304,27 +321,36 @@ descriptive error instead
 > **WARNING**: Due to the ephemeral and stateless nature of Kubernetes Pods, there is no use case
 where it makes sense to provision Smile CDR using the internal H2 database. You are free to configure
 your persistence module to do so, but every time the Pod restarts, it will start with an empty
-database and will do a new install. In addition to this, if you were to configure multiple replicas,
+database and will perform a fresh install of Smile CDR. In addition to this, if you were to configure multiple replicas,
 each Pod would appear as its own distinct Smile CDR install. As such, you should not configure Smile CDR
 in this fashion and you must instead provision some external database.
 
 #### Referencing Externally Provisioned Databases
 To reference a database that is external to the cluster, you will need:
 * Network connectivity from the K8s cluster to your database.
-* A secret containing the connection credentials.
+* A secret containing the connection credentials in a structured Json format.
   * It is common practice to include all connection credentials in DB secrets, this way it becomes simple
   to manage the database without having to reconfigure Smile CDR. e.g. when 'restoring' an RDS instance, the
   DB cluster name will typically change. If this is kept inside the secret (As it is with RDS when using AWS
-  Secrets Manager) then any such change will be automatically applied.
+  Secrets Manager) then any such change will be automatically applied. See
+  [here](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres)
+  for info on the schema used by AWS for this purpose.
   * The secret can be a plain Kubernetes secret that you provision externally, or it can be a secret in a
-  secure secrets vault. This is the preferred option. At this time, only AWS Secrets Manager is supported.
+  secure secrets vault. The latter is the preferred option for increased security and the ability to easily
+  rotate credentials. At this time, only AWS Secrets Manager is supported via the Secrets Store CSI Driver.
 
-If using AWS Secrets Manager, set the `credentialsSource` to `sscsi-aws`. If you have created a `Secret` object
-in Kubernetes, set it to `k8s`.
+If using AWS Secrets Manager, set the `credentials.type` to `sscsi` and `credentials.provider` to `aws`. If you have created a `Secret` object
+in Kubernetes, set it to `externalsecret`.
 
-Configure your secret as per the following yaml fragment, which will get all
-credential details from the secret. If the details fields are different in the provided secret, they can be
+##### Example Secret Configuration
+Assuming you are using AWS Secrets Manager, and you have the `url`, `port', `user` and `password` keys
+included in the secret, you should configure your secret as per the following yaml fragment.
+
+If the included fields are different in the provided secret, they can be
 specified with the `*Key` values to override the below defaults.
+
+The below are just examples, to show how the fields can be specified in different ways. You need to
+ensure that this matches the configuration of your secret and the fields it contains.
 #### `my-values.yaml`
 ```yaml
 database:
@@ -334,18 +360,20 @@ database:
     databases:
     - secretName: smilecdr
       module: clustermgr
-      urlKey: url
+      urlKey: url # this is the key name that holds the url/hostname in the secret
       portKey: port
       dbnameKey: dbname
       userKey: user
       passKey: password
 ```
-If the secret does not contain certain fields, they can be overriden like so:
+
+If a required field is not included in the secret, you can specify it in your values file like so.
+
 #### `my-values.yaml`
 ```yaml
 - secretName: smilecdr
   module: clustermgr
-  url: db-url
+  url: db-url # this is the actual url/hostname
   port: 5432
   dbname: dbname
   user: username
@@ -356,7 +384,7 @@ referenced secret.
 
 #### Using CrunchyData PGO Databases
 In order to use this feature, you will need to ensure that your K8s cluster has the CrunchyData PGO
-already installed.
+already installed (Instructions [here](https://access.crunchydata.com/documentation/postgres-operator/v5/installation/)).
 Simply enable this feature using the following yaml fragment for your database configuration:
 #### `my-values.yaml`
 ```yaml
@@ -370,14 +398,20 @@ storage. These defaults can be configured using `database.crunchypgo.config` key
 by default as it's a feature of the Operator.
 
 #### Configuring Multiple Databases
-The `module` key is important here as it tells the Helm Chart logic which module uses this database.
-If there is only one database (for external DBs) or user(for CrunchyData provisioned DB) listed here,
-then this database will be used for all modules.
+This chart has support to use multiple databases. It is recommended to configure Smile CDR this way, with
+a separate DB for the Cluster Manager and for any Persistence Modules.
 
-If you provide multiple databases/users, then the database will be used by the Smile CDR module that is
-referenced by the `module` key for that database/user.
+The `module` key is important here as it tells the Helm Chart which module uses this database.
+If there is only one database then it will be used for all modules.
+
+If you provide multiple databases, the `module` key specified in each one is used to determine which
+Smile CDR module it is used by.
 
 With multiople databases, the above examples may look like this:
+
+> **Note** The CrunchyData PGO is a little different in that it uses the concept of 'users' in the configuration
+to configure multiple databases. That is why we are specifying multiple users below in the **CrunchyData PGO** example.
+
 #### `my-values.yaml` (External Database)
 ```yaml
 database:
