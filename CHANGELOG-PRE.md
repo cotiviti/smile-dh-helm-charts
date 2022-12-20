@@ -1,3 +1,16 @@
+# [1.0.0-pre.32](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.31...v1.0.0-pre.32) (2022-12-20)
+
+
+### Features
+
+* **smilecdr:** change db secret config ([8069b77](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/8069b77d4920ef64154eca12d06c4c788241a831))
+
+
+### BREAKING CHANGES
+
+* **smilecdr:** Values file needs to be updated if using sscsi for DB
+secrets
+
 # [1.0.0-pre.31](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.30...v1.0.0-pre.31) (2022-12-14)
 
 
