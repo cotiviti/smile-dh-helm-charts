@@ -1,7 +1,7 @@
 ingress:
   enabled: true
   type: azure-appgw
-  extraAnnotations:
+  annotations:
     appgw.ingress.kubernetes.io/extra-annotation-1: annotation1-value
     appgw.ingress.kubernetes.io/extra-annotation-2: annotation2-value
 

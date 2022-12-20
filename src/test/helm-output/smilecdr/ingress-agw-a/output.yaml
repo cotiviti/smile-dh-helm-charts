@@ -473,6 +473,8 @@ metadata:
     appgw.ingress.kubernetes.io/appgw-ssl-certificate: "mysslcert"
     appgw.ingress.kubernetes.io/backend-protocol: "http"
     appgw.ingress.kubernetes.io/cookie-based-affinity: "false"
+    appgw.ingress.kubernetes.io/extra-annotation-1: "annotation1-value"
+    appgw.ingress.kubernetes.io/extra-annotation-2: "annotation2-value"
     appgw.ingress.kubernetes.io/health-probe-interval: "6"
     appgw.ingress.kubernetes.io/health-probe-status-codes: "200-401"
     appgw.ingress.kubernetes.io/health-probe-timeout: "5"
