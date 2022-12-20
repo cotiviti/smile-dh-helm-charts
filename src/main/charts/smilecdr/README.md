@@ -721,7 +721,7 @@ If running in ArgoCD, you should set `argocd.enabled` to true to prevent this is
 | database.crunchypgo.internal | bool | `false` | Create the Postgres database as part of this Helm Chart |
 | database.crunchypgo.users[0].module | string | `"clustermgr"` | Smile CDR module that will use this user/database |
 | database.crunchypgo.users[0].name | string | `"smilecdr"` |  |
-| database.external.credentialsSource | string | `"k8s"` | Source of DB secret for external database. Can be `k8s` or `sscsi-aws` |
+| database.external.credentials | object | `{}` |  |
 | database.external.databases[0].dbnameKey | string | `"dbname"` |  |
 | database.external.databases[0].module | string | `"clustermgr"` |  |
 | database.external.databases[0].passKey | string | `"password"` |  |
