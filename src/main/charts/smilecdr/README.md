@@ -7,6 +7,17 @@ This chart provides a flexible and consistent process to deploy Smile CDR in a s
 It is provided by Smile Digital Health as a starting point for creating a reference implementation of Smile CDR on K8s.
 It has been fully tested on Amazon EKS and has growing compatibility for Azure AKS.
 
+## ** PRE-RELEASE WARNING **
+This is ***PRE-RELEASE*** version 1.0.0-pre.32
+
+As this is a pre-release version of this chart, there may be **breaking changes** introduced without notice.
+
+Only use this version of the chart for evaluation or testing.
+
+Before performing a `helm upgrade` on your release, first get the current version using
+`helm list` and check the [Change Log](../../../CHANGELOG-PRE.md) for information on any
+breaking changes you may need to prepare for.
+
 ## Features
 This chart supports a number of features to help you install Smile CDR in a secure, reliable, cost effective and
 scalable manner with operational efficiency in mind. The provided features span multiple disciplines:
