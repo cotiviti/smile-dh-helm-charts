@@ -275,12 +275,9 @@ ingress:
   # name then override it here
   # ingressClassNameOverride: my-nginx
 
-  # We won't define annotations here as they are defined in the helper template
-  # annotations: {}
-  # Define any extra annotations. Please keep cloud vendor specific annotations in the
-  # helper template
+  # Define any extra ingress annotations here.
   # @ignore
-  extraAnnotations: {}
+  annotations: {}
 
 ## @section Service Account (IRSA)
 ## @param serviceAccount.create Specifies whether a service account should be created
