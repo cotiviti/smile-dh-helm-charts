@@ -470,7 +470,8 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    {}
+    other.ingress.controller.kubernetes.io/extra-annotation-1: "annotation1-value"
+    other.ingress.controller.kubernetes.io/extra-annotation-2: "annotation2-value"
 spec:
   rules:
     - host: smilecdr-example.local

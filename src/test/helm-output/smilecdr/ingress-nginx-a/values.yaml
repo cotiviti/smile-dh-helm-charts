@@ -3,7 +3,7 @@
 ingress:
   enabled: true
   type: nginx-ingress
-  extraAnnotations:
+  annotations:
     nginx.ingress.kubernetes.io/extra-annotation-1: annotation1-value
     nginx.ingress.kubernetes.io/extra-annotation-2: annotation2-value
 
