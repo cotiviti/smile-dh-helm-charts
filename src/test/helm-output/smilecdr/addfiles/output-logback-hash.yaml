@@ -36,7 +36,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-logback-xml-3372bc1a3f2ea4de3dac94cb5c7b0c56af1899dde9d100d01095b7801d66ec70
+  name: release-name-scdr-logback-xml-90b286ba2cb6ea7f008581aaeaebe5371f42a43822cde105b7e502d2b5ad1e2e
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -46,7 +46,7 @@ metadata:
 data:
   logback.xml: |-
     <!--
-    This file is not the default that comes with SmileCDR. It was injected by the Helm Chart
+    This file is not the default that comes with Smile CDR. It was injected by the Helm Chart
     Smile CDR uses the Logback framework for logging. For details on configuring this
     file, see:
     https://smilecdr.com/docs/getting_started/system_logging.html
@@ -586,7 +586,7 @@ spec:
               subPath: cdr-config-Master.properties
       volumes:
         - configMap:
-            name: release-name-scdr-logback-xml-3372bc1a3f2ea4de3dac94cb5c7b0c56af1899dde9d100d01095b7801d66ec70
+            name: release-name-scdr-logback-xml-90b286ba2cb6ea7f008581aaeaebe5371f42a43822cde105b7e502d2b5ad1e2e
           name: logback-xml
         - configMap:
             name: release-name-scdr-d011d6bf069b21f0d23c90c7b21dcda95ef5619ed3c9ac9d4931205807be0e1d

@@ -46,7 +46,7 @@ Smile, we've been upgraded! :)
 
 {{- end }}
 {{- if .Values.ingress.enabled }}
-  You can access your SmileCDR instance at:
+  You can access your Smile CDR instance at:
   https://{{ $.Values.specs.hostname }}{{ $.Values.specs.rootPath }}
 {{- else }}
   As ingress was not enabled, there is no way to access this instance.

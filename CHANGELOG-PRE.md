@@ -160,7 +160,7 @@ secrets
 
 ### BREAKING CHANGES
 
-* **smilecdr:** - This updates the SmileCDR version
+* **smilecdr:** - This updates the Smile CDR version
 
 # [1.0.0-pre.12](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.11...v1.0.0-pre.12) (2022-11-25)
 

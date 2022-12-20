@@ -106,7 +106,7 @@ module.clustermgr.config.kafka.producer.properties.file             =classpath:/
 {{- end }}
 
 {{/*
-Define SmileCDR Node name
+Define Smile CDR Node name
 Currently only supports a single node. This was implemented
   so that we can remove the hard coded entry from the ConfigMap.
 If there are 0 cdrNodes entries, set default to Masterdev
