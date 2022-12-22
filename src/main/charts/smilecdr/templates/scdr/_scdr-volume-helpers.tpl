@@ -12,7 +12,7 @@ Define volumes and volume mounts based on combining:
     {{- $volumes = concat $volumes . -}}
   {{- end -}}
   {{- $configMapVolume := dict "name" (printf "scdr-config-%s" .Release.Name) -}}
-  {{- $_ := set $configMapVolume "configMap" (dict "name" (printf "%s-scdr%s" .Release.Name (include "smilecdr.cdrConfigDataHashSuffix" . ) )) -}}
+  {{- $_ := set $configMapVolume "configMap" (dict "name" (printf "%s-scdr-%s-node%s" .Release.Name (include "smilecdr.nodeId" . | lower) (include "smilecdr.cdrConfigDataHashSuffix" . ) )) -}}
   {{- $volumes = concat $volumes (list ($configMapVolume)) -}}
   {{ range $v := $volumes }}
     {{- printf "- %v\n" ($v | toYaml | nindent 2 | trim ) -}}

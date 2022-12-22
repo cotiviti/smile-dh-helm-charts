@@ -589,7 +589,7 @@ spec:
             name: release-name-scdr-logback-xml
           name: logback-xml
         - configMap:
-            name: release-name-scdr
+            name: release-name-scdr-masterdev-node
           name: scdr-config-release-name
       restartPolicy: Always
 ---

@@ -459,7 +459,7 @@ spec:
               subPath: cdr-config-Master.properties
       volumes:
         - configMap:
-            name: release-name-scdr-36969412b4d120359b5bd117a0c94e836369bf84e73f89d5fc86a158b74e02f8
+            name: release-name-scdr-masterdev-node-36969412b4d120359b5bd117a0c94e836369bf84e73f89d5fc86a158b74e02f8
           name: scdr-config-release-name
       restartPolicy: Always
 ---
