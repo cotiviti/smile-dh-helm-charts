@@ -1,3 +1,10 @@
+# [1.0.0-pre.33](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.32...v1.0.0-pre.33) (2022-12-22)
+
+
+### Bug Fixes
+
+* **smilecdr:** force lower case in resource names ([6d1e4aa](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/6d1e4aa1ff27d7541f370859651047065eece060))
+
 # [1.0.0-pre.32](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.31...v1.0.0-pre.32) (2022-12-20)
 
 
