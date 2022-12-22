@@ -1,3 +1,10 @@
+# [1.0.0-pre.34](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.33...v1.0.0-pre.34) (2022-12-22)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix ConfigMap reference in volume ([5cc81e8](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/5cc81e8c016d7d708ab8d8df39b147665406eec4))
+
 # [1.0.0-pre.33](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.32...v1.0.0-pre.33) (2022-12-22)
 
 
