@@ -110,7 +110,7 @@ Outputs as Serialized Yaml. If you need to parse the output, include it like so:
       {{- $service := dict -}}
       {{- $_ := set $service "contextPath" $v.config.context_path -}}
       {{- $_ := set $service "fullPath" (printf "%s%s" (default "/" $.Values.specs.rootPath) $v.config.context_path) -}}
-      {{- $_ := set $service "svcName" $v.service.svcName -}}
+      {{- $_ := set $service "svcName" ($v.service.svcName | lower) -}}
       {{- $_ := set $service "port" $v.config.port -}}
       {{- $_ := set $services $k $service -}}
     {{- end -}}

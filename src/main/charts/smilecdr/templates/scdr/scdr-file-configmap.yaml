@@ -3,9 +3,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   {{- if $.Values.autoDeploy }}
-  name: {{ $.Release.Name }}-scdr-{{ $v.name | replace "." "-" }}-{{ $v.hash }}
+  name: {{ $.Release.Name }}-scdr-{{ $v.name | replace "." "-" | lower }}-{{ $v.hash }}
   {{- else }}
-  name: {{ $.Release.Name }}-scdr-{{ $v.name | replace "." "-" }}
+  name: {{ $.Release.Name }}-scdr-{{ $v.name | replace "." "-" | lower }}
   {{- end }}
   namespace: {{ $.Release.Namespace }}
   labels:

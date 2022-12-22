@@ -36,7 +36,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-Masterdev-node-f872e3f91e2b7f3583b09e476aadb7ad81b5fa20de0064733bf2ad499e0aaf60
+  name: release-name-scdr-masterdev-node-f872e3f91e2b7f3583b09e476aadb7ad81b5fa20de0064733bf2ad499e0aaf60
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
