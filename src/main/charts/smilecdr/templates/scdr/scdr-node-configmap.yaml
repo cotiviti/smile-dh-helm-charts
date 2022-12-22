@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-scdr-{{ include "smilecdr.nodeId" . }}-node{{ include "smilecdr.cdrConfigDataHashSuffix" . }}
+  name: {{ .Release.Name }}-scdr-{{ include "smilecdr.nodeId" . | lower }}-node{{ include "smilecdr.cdrConfigDataHashSuffix" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "smilecdr.labels" . | nindent 4 }}
