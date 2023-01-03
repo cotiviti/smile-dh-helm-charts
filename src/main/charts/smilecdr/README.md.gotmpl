@@ -135,10 +135,8 @@ These dependencies are recommended in order to follow security best practices. T
 
 ## Installation
 ### Install the Helm Chart repository:
-Currently, the Helm Chart repository is hosted in Smile Digital Health's private GitLab account.
-You will need a GitLab PAT (Personal Access Token) in order to install from this repository.
 ```shell
-$ helm repo add --username <gitlab username> smilecdr https://gitlab.com/api/v4/projects/40759898/packages/helm/devel
+$ helm repo add  smilecdr https://gitlab.com/api/v4/projects/40759898/packages/helm/devel
 $ helm repo update
 ```
 ### Create a Helm values file for your environment.
