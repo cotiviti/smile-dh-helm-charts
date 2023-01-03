@@ -7,7 +7,7 @@ This chart provides a flexible and consistent process to deploy Smile CDR in a s
 It is provided by Smile Digital Health as a starting point for creating a reference implementation of Smile CDR on K8s.
 It has been fully tested on Amazon EKS and has growing compatibility for Azure AKS.
 
-## <p style="text-align:center">** PRE-RELEASE WARNING **</p>
+## ** PRE-RELEASE WARNING **
 This is ***PRE-RELEASE*** version 1.0.0-pre.34
 
 As this is a pre-release version of this chart, there may be **breaking changes** introduced without notice.
@@ -140,7 +140,7 @@ These dependencies are recommended in order to follow security best practices. T
 ## Installation
 ### Install the Helm Chart repository:
 ```shell
-$ helm repo add  smilecdr https://gitlab.com/api/v4/projects/40759898/packages/helm/devel
+$ helm repo add  smiledh https://gitlab.com/api/v4/projects/40759898/packages/helm/devel
 $ helm repo update
 ```
 ### Create a Helm values file for your environment.
@@ -184,7 +184,7 @@ credentials. You should use a secret provider such as k8s or AWS Secrets Manager
 
 ### Install the Helm Chart
 ```shell
-$ helm upgrade -i my-smile-env --devel -f my-values.yaml smilecdr/smilecdr
+$ helm upgrade -i my-smile-env --devel -f my-values.yaml smiledh/smilecdr
 ```
 
 **Smile, we're up and running! :)**
@@ -466,7 +466,7 @@ We recommend defining them in one or more separate files, as this allows you
 to manage common settings as well as per-environment overlays. We will discuss this further
 down in the Advanced Configuration section below.
 
-Mapping existing configurations to values files is relatively straight forwards:
+Mapping existing configurations to values files is relatively straight forward:
 #### Identify the module configuration parameter.
 e.g. [Concurrent Bundle Validation](https://smilecdr.com/docs/configuration_categories/fhir_performance.html#property-concurrent-bundle-validation)
 Config.properties format:
@@ -573,7 +573,7 @@ modules:
 
 ### Install Smile CDR with extra modules definitions
 ```shell
-$ helm upgrade -i my-smile-env --devel -f my-values.yaml -f my-module-values.yaml smilecdr/smilecdr
+$ helm upgrade -i my-smile-env --devel -f my-values.yaml -f my-module-values.yaml smiledh/smilecdr
 ```
 
 ### Configuring Ingress
@@ -622,7 +622,7 @@ To pass in files, there are two things you need to do:
 
 To include a file in the deployment, use the following commandline option:
 ```bash
-helm upgrade -i my-smile-env --devel -f my-values.yaml --set-file mappedFiles.logback\\.xml.data=logback.xml smilecdr/smilecdr
+helm upgrade -i my-smile-env --devel -f my-values.yaml --set-file mappedFiles.logback\\.xml.data=logback.xml smiledh/smilecdr
 ```
 > **WARNING**: Pay special attention to the escaping required to include the period in the filename.
 You need to use `\\.` when running this from a shell. This is just the way this works.
