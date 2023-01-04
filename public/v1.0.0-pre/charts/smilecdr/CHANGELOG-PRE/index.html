@@ -1,0 +1,2695 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/charts/smilecdr/CHANGELOG-PRE/">
+      
+      
+        <link rel="prev" href="../smilecdr/">
+      
+      
+        <link rel="next" href="../../../quickstart/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
+    
+    
+      
+        <title>Changelog - Smile CDR Helm Charts</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.f56500e0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/colours.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#100-pre33-2022-12-22" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Smile CDR Helm Charts" class="md-header__button md-logo" aria-label="Smile CDR Helm Charts" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Smile CDR Helm Charts
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Changelog
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81-2.9-.295-5.7.083-8.4 1.11-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.09 18.09 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3 4.7 0 9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    smile-dh-helm-charts
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link md-tabs__link--active">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../quickstart/" class="md-tabs__link">
+        Quickstart
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../guide/" class="md-tabs__link">
+        User Guide
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../examples/" class="md-tabs__link">
+        Examples
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Smile CDR Helm Charts" class="md-nav__button md-logo" aria-label="Smile CDR Helm Charts" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Smile CDR Helm Charts
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81-2.9-.295-5.7.083-8.4 1.11-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.09 18.09 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3 4.7 0 9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    smile-dh-helm-charts
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../..">Home</a>
+          
+            <label for="__nav_1">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_2" type="checkbox" id="__nav_1_2" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../">Smile CDR</a>
+          
+            <label for="__nav_1_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Smile CDR" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_2">
+          <span class="md-nav__icon md-icon"></span>
+          Smile CDR
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../smilecdr/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Changelog
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Changelog
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre33-2022-12-22" class="md-nav__link">
+    1.0.0-pre.33 (2022-12-22)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.33 (2022-12-22)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre32-2022-12-20" class="md-nav__link">
+    1.0.0-pre.32 (2022-12-20)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.32 (2022-12-20)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breaking-changes" class="md-nav__link">
+    BREAKING CHANGES
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre31-2022-12-14" class="md-nav__link">
+    1.0.0-pre.31 (2022-12-14)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.31 (2022-12-14)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_1" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre30-2022-12-10" class="md-nav__link">
+    1.0.0-pre.30 (2022-12-10)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.30 (2022-12-10)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_2" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre29-2022-12-10" class="md-nav__link">
+    1.0.0-pre.29 (2022-12-10)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.29 (2022-12-10)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_1" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre28-2022-12-06" class="md-nav__link">
+    1.0.0-pre.28 (2022-12-06)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.28 (2022-12-06)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_3" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre28-2022-12-05" class="md-nav__link">
+    1.0.0-pre.28 (2022-12-05)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.28 (2022-12-05)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_4" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre27-2022-12-03" class="md-nav__link">
+    1.0.0-pre.27 (2022-12-03)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.27 (2022-12-03)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_2" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre26-2022-12-03" class="md-nav__link">
+    1.0.0-pre.26 (2022-12-03)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.26 (2022-12-03)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_3" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre25-2022-12-02" class="md-nav__link">
+    1.0.0-pre.25 (2022-12-02)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.25 (2022-12-02)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_5" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre24-2022-12-02" class="md-nav__link">
+    1.0.0-pre.24 (2022-12-02)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.24 (2022-12-02)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_4" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre23-2022-12-02" class="md-nav__link">
+    1.0.0-pre.23 (2022-12-02)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.23 (2022-12-02)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_5" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre22-2022-12-01" class="md-nav__link">
+    1.0.0-pre.22 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.22 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_6" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_6" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre21-2022-12-01" class="md-nav__link">
+    1.0.0-pre.21 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.21 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_7" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre20-2022-12-01" class="md-nav__link">
+    1.0.0-pre.20 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.20 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_7" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre19-2022-12-01" class="md-nav__link">
+    1.0.0-pre.19 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.19 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_8" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre18-2022-12-01" class="md-nav__link">
+    1.0.0-pre.18 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.18 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_9" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre17-2022-12-01" class="md-nav__link">
+    1.0.0-pre.17 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.17 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_10" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre16-2022-12-01" class="md-nav__link">
+    1.0.0-pre.16 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.16 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_11" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre15-2022-12-01" class="md-nav__link">
+    1.0.0-pre.15 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.15 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_12" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre14-2022-11-30" class="md-nav__link">
+    1.0.0-pre.14 (2022-11-30)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.14 (2022-11-30)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_13" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre13-2022-11-25" class="md-nav__link">
+    1.0.0-pre.13 (2022-11-25)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.13 (2022-11-25)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_14" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breaking-changes_1" class="md-nav__link">
+    BREAKING CHANGES
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre12-2022-11-25" class="md-nav__link">
+    1.0.0-pre.12 (2022-11-25)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.12 (2022-11-25)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_15" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre11-2022-11-24" class="md-nav__link">
+    1.0.0-pre.11 (2022-11-24)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.11 (2022-11-24)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_8" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre10-2022-11-24" class="md-nav__link">
+    1.0.0-pre.10 (2022-11-24)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.10 (2022-11-24)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_16" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre9-2022-11-23" class="md-nav__link">
+    1.0.0-pre.9 (2022-11-23)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.9 (2022-11-23)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_17" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre8-2022-11-22" class="md-nav__link">
+    1.0.0-pre.8 (2022-11-22)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.8 (2022-11-22)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_18" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre7-2022-11-22" class="md-nav__link">
+    1.0.0-pre.7 (2022-11-22)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.7 (2022-11-22)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_19" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre6-2022-11-22" class="md-nav__link">
+    1.0.0-pre.6 (2022-11-22)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.6 (2022-11-22)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_20" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre5-2022-11-21" class="md-nav__link">
+    1.0.0-pre.5 (2022-11-21)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.5 (2022-11-21)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_21" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre4-2022-11-21" class="md-nav__link">
+    1.0.0-pre.4 (2022-11-21)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.4 (2022-11-21)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_22" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breaking-changes_2" class="md-nav__link">
+    BREAKING CHANGES
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre3-2022-11-21" class="md-nav__link">
+    1.0.0-pre.3 (2022-11-21)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.3 (2022-11-21)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_23" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre2-2022-11-21" class="md-nav__link">
+    1.0.0-pre.2 (2022-11-21)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.2 (2022-11-21)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_24" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre1-2022-11-21" class="md-nav__link">
+    1.0.0-pre.1 (2022-11-21)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.1 (2022-11-21)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_25" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../quickstart/">Quickstart</a>
+          
+            <label for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Quickstart" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Quickstart
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart/requirements/" class="md-nav__link">
+        Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart/helm-repo/" class="md-nav__link">
+        Configure Helm Repository
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart/values-file/" class="md-nav__link">
+        Create Values File
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart/install-smilecdr/" class="md-nav__link">
+        Install Smile CDR
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../guide/">User Guide</a>
+          
+            <label for="__nav_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_2">
+          General
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="General" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          General
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/helm-repo/" class="md-nav__link">
+        Helm Repository Setup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/secrets/" class="md-nav__link">
+        Secrets Handling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/serviceaccount/" class="md-nav__link">
+        Service Accounts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/values-files-management/" class="md-nav__link">
+        Values Files
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../guide/smilecdr/">Smile CDR</a>
+          
+            <label for="__nav_3_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Smile CDR" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Smile CDR
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/smilecdr/requirements/" class="md-nav__link">
+        Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/smilecdr/install/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_3_4" type="checkbox" id="__nav_3_3_4" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_3_4">
+          Configuration
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Configuration" data-md-level="3">
+        <label class="md-nav__title" for="__nav_3_3_4">
+          <span class="md-nav__icon md-icon"></span>
+          Configuration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/smilecdr/database/" class="md-nav__link">
+        Database
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/smilecdr/ingress/" class="md-nav__link">
+        Ingress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/smilecdr/modules/" class="md-nav__link">
+        Smile CDR Modules
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/smilecdr/files/" class="md-nav__link">
+        Including Extra Files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/smilecdr/messagebroker/" class="md-nav__link">
+        Message Broker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/smilecdr/resources/" class="md-nav__link">
+        Resource Tuning
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/smilecdr/updating/" class="md-nav__link">
+        Applying Changes
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../examples/">Examples</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre33-2022-12-22" class="md-nav__link">
+    1.0.0-pre.33 (2022-12-22)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.33 (2022-12-22)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre32-2022-12-20" class="md-nav__link">
+    1.0.0-pre.32 (2022-12-20)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.32 (2022-12-20)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breaking-changes" class="md-nav__link">
+    BREAKING CHANGES
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre31-2022-12-14" class="md-nav__link">
+    1.0.0-pre.31 (2022-12-14)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.31 (2022-12-14)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_1" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre30-2022-12-10" class="md-nav__link">
+    1.0.0-pre.30 (2022-12-10)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.30 (2022-12-10)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_2" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre29-2022-12-10" class="md-nav__link">
+    1.0.0-pre.29 (2022-12-10)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.29 (2022-12-10)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_1" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre28-2022-12-06" class="md-nav__link">
+    1.0.0-pre.28 (2022-12-06)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.28 (2022-12-06)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_3" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre28-2022-12-05" class="md-nav__link">
+    1.0.0-pre.28 (2022-12-05)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.28 (2022-12-05)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_4" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre27-2022-12-03" class="md-nav__link">
+    1.0.0-pre.27 (2022-12-03)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.27 (2022-12-03)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_2" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre26-2022-12-03" class="md-nav__link">
+    1.0.0-pre.26 (2022-12-03)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.26 (2022-12-03)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_3" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre25-2022-12-02" class="md-nav__link">
+    1.0.0-pre.25 (2022-12-02)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.25 (2022-12-02)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_5" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre24-2022-12-02" class="md-nav__link">
+    1.0.0-pre.24 (2022-12-02)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.24 (2022-12-02)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_4" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre23-2022-12-02" class="md-nav__link">
+    1.0.0-pre.23 (2022-12-02)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.23 (2022-12-02)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_5" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre22-2022-12-01" class="md-nav__link">
+    1.0.0-pre.22 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.22 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_6" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_6" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre21-2022-12-01" class="md-nav__link">
+    1.0.0-pre.21 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.21 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_7" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre20-2022-12-01" class="md-nav__link">
+    1.0.0-pre.20 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.20 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_7" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre19-2022-12-01" class="md-nav__link">
+    1.0.0-pre.19 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.19 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_8" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre18-2022-12-01" class="md-nav__link">
+    1.0.0-pre.18 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.18 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_9" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre17-2022-12-01" class="md-nav__link">
+    1.0.0-pre.17 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.17 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_10" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre16-2022-12-01" class="md-nav__link">
+    1.0.0-pre.16 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.16 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_11" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre15-2022-12-01" class="md-nav__link">
+    1.0.0-pre.15 (2022-12-01)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.15 (2022-12-01)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_12" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre14-2022-11-30" class="md-nav__link">
+    1.0.0-pre.14 (2022-11-30)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.14 (2022-11-30)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_13" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre13-2022-11-25" class="md-nav__link">
+    1.0.0-pre.13 (2022-11-25)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.13 (2022-11-25)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_14" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breaking-changes_1" class="md-nav__link">
+    BREAKING CHANGES
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre12-2022-11-25" class="md-nav__link">
+    1.0.0-pre.12 (2022-11-25)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.12 (2022-11-25)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_15" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre11-2022-11-24" class="md-nav__link">
+    1.0.0-pre.11 (2022-11-24)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.11 (2022-11-24)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_8" class="md-nav__link">
+    Bug Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre10-2022-11-24" class="md-nav__link">
+    1.0.0-pre.10 (2022-11-24)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.10 (2022-11-24)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_16" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre9-2022-11-23" class="md-nav__link">
+    1.0.0-pre.9 (2022-11-23)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.9 (2022-11-23)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_17" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre8-2022-11-22" class="md-nav__link">
+    1.0.0-pre.8 (2022-11-22)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.8 (2022-11-22)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_18" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre7-2022-11-22" class="md-nav__link">
+    1.0.0-pre.7 (2022-11-22)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.7 (2022-11-22)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_19" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre6-2022-11-22" class="md-nav__link">
+    1.0.0-pre.6 (2022-11-22)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.6 (2022-11-22)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_20" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre5-2022-11-21" class="md-nav__link">
+    1.0.0-pre.5 (2022-11-21)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.5 (2022-11-21)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_21" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre4-2022-11-21" class="md-nav__link">
+    1.0.0-pre.4 (2022-11-21)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.4 (2022-11-21)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_22" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breaking-changes_2" class="md-nav__link">
+    BREAKING CHANGES
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre3-2022-11-21" class="md-nav__link">
+    1.0.0-pre.3 (2022-11-21)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.3 (2022-11-21)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_23" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre2-2022-11-21" class="md-nav__link">
+    1.0.0-pre.2 (2022-11-21)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.2 (2022-11-21)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_24" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-pre1-2022-11-21" class="md-nav__link">
+    1.0.0-pre.1 (2022-11-21)
+  </a>
+  
+    <nav class="md-nav" aria-label="1.0.0-pre.1 (2022-11-21)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_25" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+
+  <h1>Changelog</h1>
+
+<h2 id="100-pre33-2022-12-22"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.32...v1.0.0-pre.33">1.0.0-pre.33</a> (2022-12-22)<a class="headerlink" href="#100-pre33-2022-12-22" title="Permanent link">&para;</a></h2>
+<h3 id="bug-fixes">Bug Fixes<a class="headerlink" href="#bug-fixes" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> force lower case in resource names (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/6d1e4aa1ff27d7541f370859651047065eece060">6d1e4aa</a>)</li>
+</ul>
+<h2 id="100-pre32-2022-12-20"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.31...v1.0.0-pre.32">1.0.0-pre.32</a> (2022-12-20)<a class="headerlink" href="#100-pre32-2022-12-20" title="Permanent link">&para;</a></h2>
+<h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> change db secret config (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/8069b77d4920ef64154eca12d06c4c788241a831">8069b77</a>)</li>
+</ul>
+<h3 id="breaking-changes">BREAKING CHANGES<a class="headerlink" href="#breaking-changes" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> Values file needs to be updated if using sscsi for DB
+secrets</li>
+</ul>
+<h2 id="100-pre31-2022-12-14"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.30...v1.0.0-pre.31">1.0.0-pre.31</a> (2022-12-14)<a class="headerlink" href="#100-pre31-2022-12-14" title="Permanent link">&para;</a></h2>
+<h3 id="features_1">Features<a class="headerlink" href="#features_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> disable crunchypgo (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/a2a4e32f624a5d348d8bf03c5ebcd90dea8dd690">a2a4e32</a>)</li>
+</ul>
+<h2 id="100-pre30-2022-12-10"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.29...v1.0.0-pre.30">1.0.0-pre.30</a> (2022-12-10)<a class="headerlink" href="#100-pre30-2022-12-10" title="Permanent link">&para;</a></h2>
+<h3 id="features_2">Features<a class="headerlink" href="#features_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> add argocd feature (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/75a4874bd2da5dede8630babe586143f4f1848b1">75a4874</a>)</li>
+</ul>
+<h2 id="100-pre29-2022-12-10"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.28...v1.0.0-pre.29">1.0.0-pre.29</a> (2022-12-10)<a class="headerlink" href="#100-pre29-2022-12-10" title="Permanent link">&para;</a></h2>
+<h3 id="bug-fixes_1">Bug Fixes<a class="headerlink" href="#bug-fixes_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> fix secret reference keys (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/2f6411ba5b81fc7139d1335b6b4935405e27556f">2f6411b</a>)</li>
+</ul>
+<h2 id="100-pre28-2022-12-06"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.27...v1.0.0-pre.28">1.0.0-pre.28</a> (2022-12-06)<a class="headerlink" href="#100-pre28-2022-12-06" title="Permanent link">&para;</a></h2>
+<h3 id="features_3">Features<a class="headerlink" href="#features_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> make image secret required (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/e068330a9e2b1b890b6008ab5790a5bfa0180c91">e068330</a>)</li>
+</ul>
+<h2 id="100-pre28-2022-12-05"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.27...v1.0.0-pre.28">1.0.0-pre.28</a> (2022-12-05)<a class="headerlink" href="#100-pre28-2022-12-05" title="Permanent link">&para;</a></h2>
+<h3 id="features_4">Features<a class="headerlink" href="#features_4" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> make image secret required (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/2c2389be7a1533c951c52246de852fe81a7585a0">2c2389b</a>)</li>
+</ul>
+<h2 id="100-pre27-2022-12-03"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.26...v1.0.0-pre.27">1.0.0-pre.27</a> (2022-12-03)<a class="headerlink" href="#100-pre27-2022-12-03" title="Permanent link">&para;</a></h2>
+<h3 id="bug-fixes_2">Bug Fixes<a class="headerlink" href="#bug-fixes_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> fix DB_PORT in default modules (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/2239f60ec6d3ea5bc21e77c20431bca03a0dae20">2239f60</a>)</li>
+</ul>
+<h2 id="100-pre26-2022-12-03"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.25...v1.0.0-pre.26">1.0.0-pre.26</a> (2022-12-03)<a class="headerlink" href="#100-pre26-2022-12-03" title="Permanent link">&para;</a></h2>
+<h3 id="bug-fixes_3">Bug Fixes<a class="headerlink" href="#bug-fixes_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> correct the field for image secrets (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/2ddeef2a10f176e231130e01c8bdc485875aad73">2ddeef2</a>)</li>
+</ul>
+<h2 id="100-pre25-2022-12-02"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.24...v1.0.0-pre.25">1.0.0-pre.25</a> (2022-12-02)<a class="headerlink" href="#100-pre25-2022-12-02" title="Permanent link">&para;</a></h2>
+<h3 id="features_5">Features<a class="headerlink" href="#features_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> support multiple databases (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/e28bb131b5976e705eed227a6efd3b4cd48c325e">e28bb13</a>)</li>
+</ul>
+<h2 id="100-pre24-2022-12-02"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.23...v1.0.0-pre.24">1.0.0-pre.24</a> (2022-12-02)<a class="headerlink" href="#100-pre24-2022-12-02" title="Permanent link">&para;</a></h2>
+<h3 id="bug-fixes_4">Bug Fixes<a class="headerlink" href="#bug-fixes_4" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> improve modules include logic (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/f7850d2d47dacd331b902f2cf4c2295e4b385265">f7850d2</a>)</li>
+</ul>
+<h2 id="100-pre23-2022-12-02"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.22...v1.0.0-pre.23">1.0.0-pre.23</a> (2022-12-02)<a class="headerlink" href="#100-pre23-2022-12-02" title="Permanent link">&para;</a></h2>
+<h3 id="bug-fixes_5">Bug Fixes<a class="headerlink" href="#bug-fixes_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> allow quoted config entries (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/f9d7e1f9b420926ee0a2d4a7db0960c10f8cf61d">f9d7e1f</a>)</li>
+</ul>
+<h2 id="100-pre22-2022-12-01"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.21...v1.0.0-pre.22">1.0.0-pre.22</a> (2022-12-01)<a class="headerlink" href="#100-pre22-2022-12-01" title="Permanent link">&para;</a></h2>
+<h3 id="bug-fixes_6">Bug Fixes<a class="headerlink" href="#bug-fixes_6" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> change crunchydata resource names (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/654417b7a9dce46f84947d371fa4426b03bf7783">654417b</a>)</li>
+</ul>
+<h3 id="features_6">Features<a class="headerlink" href="#features_6" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> improve CrunchyData integration (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/428943258417ada4c1dcdd7e9d75bb6cee0139fd">4289432</a>)</li>
+</ul>
+<h2 id="100-pre21-2022-12-01"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.20...v1.0.0-pre.21">1.0.0-pre.21</a> (2022-12-01)<a class="headerlink" href="#100-pre21-2022-12-01" title="Permanent link">&para;</a></h2>
+<h3 id="features_7">Features<a class="headerlink" href="#features_7" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> update JVM tuning params (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/cc1f8591deb55f9491892995b632a45af44c0d84">cc1f859</a>)</li>
+</ul>
+<h2 id="100-pre20-2022-12-01"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.19...v1.0.0-pre.20">1.0.0-pre.20</a> (2022-12-01)<a class="headerlink" href="#100-pre20-2022-12-01" title="Permanent link">&para;</a></h2>
+<h3 id="bug-fixes_7">Bug Fixes<a class="headerlink" href="#bug-fixes_7" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> remove image reference (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/2b47fb56be3397e0cf19899c0d5442fce6419311">2b47fb5</a>)</li>
+</ul>
+<h2 id="100-pre19-2022-12-01"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.18...v1.0.0-pre.19">1.0.0-pre.19</a> (2022-12-01)<a class="headerlink" href="#100-pre19-2022-12-01" title="Permanent link">&para;</a></h2>
+<h3 id="features_8">Features<a class="headerlink" href="#features_8" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> add support for strimzi kafka (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/27b8fb4a4d61babec1934024874a4b4a2276b4a2">27b8fb4</a>)</li>
+</ul>
+<h2 id="100-pre18-2022-12-01"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.17...v1.0.0-pre.18">1.0.0-pre.18</a> (2022-12-01)<a class="headerlink" href="#100-pre18-2022-12-01" title="Permanent link">&para;</a></h2>
+<h3 id="features_9">Features<a class="headerlink" href="#features_9" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> add autoscaling support (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/6ff0f2fb33a1df6cd94d22872b5b67e8cf788120">6ff0f2f</a>)</li>
+</ul>
+<h2 id="100-pre17-2022-12-01"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.16...v1.0.0-pre.17">1.0.0-pre.17</a> (2022-12-01)<a class="headerlink" href="#100-pre17-2022-12-01" title="Permanent link">&para;</a></h2>
+<h3 id="features_10">Features<a class="headerlink" href="#features_10" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> configure rolling deployments (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/daa9c4b43ca9f59b1e26dc7a4a3a1da62d859e1d">daa9c4b</a>)</li>
+</ul>
+<h2 id="100-pre16-2022-12-01"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.15...v1.0.0-pre.16">1.0.0-pre.16</a> (2022-12-01)<a class="headerlink" href="#100-pre16-2022-12-01" title="Permanent link">&para;</a></h2>
+<h3 id="features_11">Features<a class="headerlink" href="#features_11" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> add pod disruption budget (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/b8b46e47213a40d29a47020aa3d18c07f4f88558">b8b46e4</a>)</li>
+</ul>
+<h2 id="100-pre15-2022-12-01"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.14...v1.0.0-pre.15">1.0.0-pre.15</a> (2022-12-01)<a class="headerlink" href="#100-pre15-2022-12-01" title="Permanent link">&para;</a></h2>
+<h3 id="features_12">Features<a class="headerlink" href="#features_12" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> add redeploy on config changes (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/90e33ad5e725957e3c1cd039487e19e88548618d">90e33ad</a>)</li>
+</ul>
+<h2 id="100-pre14-2022-11-30"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.13...v1.0.0-pre.14">1.0.0-pre.14</a> (2022-11-30)<a class="headerlink" href="#100-pre14-2022-11-30" title="Permanent link">&para;</a></h2>
+<h3 id="features_13">Features<a class="headerlink" href="#features_13" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> add readiness probe (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/5a031005cc9fda8622bc1c2b643d1e3ba156ad6c">5a03100</a>)</li>
+<li><strong>smilecdr:</strong> add startup probe (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/65014ad33e4225ece5106fd2d2485f1cd18816d6">65014ad</a>)</li>
+</ul>
+<h2 id="100-pre13-2022-11-25"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.12...v1.0.0-pre.13">1.0.0-pre.13</a> (2022-11-25)<a class="headerlink" href="#100-pre13-2022-11-25" title="Permanent link">&para;</a></h2>
+<h3 id="features_14">Features<a class="headerlink" href="#features_14" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> update CDR version and modules (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/116e187150326b59d974c2f2624c2a7daa922f12">116e187</a>)</li>
+</ul>
+<h3 id="breaking-changes_1">BREAKING CHANGES<a class="headerlink" href="#breaking-changes_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> - This updates the Smile CDR version</li>
+</ul>
+<h2 id="100-pre12-2022-11-25"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.11...v1.0.0-pre.12">1.0.0-pre.12</a> (2022-11-25)<a class="headerlink" href="#100-pre12-2022-11-25" title="Permanent link">&para;</a></h2>
+<h3 id="features_15">Features<a class="headerlink" href="#features_15" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> add support for deploying postgres (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/0fc81b1d99c95c3e319cab859d52af07774b7429">0fc81b1</a>)</li>
+</ul>
+<h2 id="100-pre11-2022-11-24"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.10...v1.0.0-pre.11">1.0.0-pre.11</a> (2022-11-24)<a class="headerlink" href="#100-pre11-2022-11-24" title="Permanent link">&para;</a></h2>
+<h3 id="bug-fixes_8">Bug Fixes<a class="headerlink" href="#bug-fixes_8" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> fix reference to configmap data (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/383fdd6f18780df4ad3f1b1a7a64fcf10c3ff379">383fdd6</a>)</li>
+</ul>
+<h2 id="100-pre10-2022-11-24"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.9...v1.0.0-pre.10">1.0.0-pre.10</a> (2022-11-24)<a class="headerlink" href="#100-pre10-2022-11-24" title="Permanent link">&para;</a></h2>
+<h3 id="features_16">Features<a class="headerlink" href="#features_16" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> support injecting files (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/a823a7dd8f5b331344fdbd554d899c52e7db55ee">a823a7d</a>)</li>
+</ul>
+<h2 id="100-pre9-2022-11-23"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.8...v1.0.0-pre.9">1.0.0-pre.9</a> (2022-11-23)<a class="headerlink" href="#100-pre9-2022-11-23" title="Permanent link">&para;</a></h2>
+<h3 id="features_17">Features<a class="headerlink" href="#features_17" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> automate setting JVMARGS (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/6fcda8b86ff8a67198b8fa208167ee9f6c5636f6">6fcda8b</a>)</li>
+</ul>
+<h2 id="100-pre8-2022-11-22"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.7...v1.0.0-pre.8">1.0.0-pre.8</a> (2022-11-22)<a class="headerlink" href="#100-pre8-2022-11-22" title="Permanent link">&para;</a></h2>
+<h3 id="features_18">Features<a class="headerlink" href="#features_18" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> set default replicas to 1 (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/97888327632c91dccc784a3e4891d9fcad5d58dc">9788832</a>)</li>
+</ul>
+<h2 id="100-pre7-2022-11-22"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.6...v1.0.0-pre.7">1.0.0-pre.7</a> (2022-11-22)<a class="headerlink" href="#100-pre7-2022-11-22" title="Permanent link">&para;</a></h2>
+<h3 id="features_19">Features<a class="headerlink" href="#features_19" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> add name override for CrunchyPGO (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/110e1336c309adb3602f9103421f0693ca32424d">110e133</a>)</li>
+</ul>
+<h2 id="100-pre6-2022-11-22"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.5...v1.0.0-pre.6">1.0.0-pre.6</a> (2022-11-22)<a class="headerlink" href="#100-pre6-2022-11-22" title="Permanent link">&para;</a></h2>
+<h3 id="features_20">Features<a class="headerlink" href="#features_20" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> add Secrets Store CSI support (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/f8f23ba2e3e8b6a87fc80d7cf04a7ae9a221782f">f8f23ba</a>)</li>
+</ul>
+<h2 id="100-pre5-2022-11-21"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.4...v1.0.0-pre.5">1.0.0-pre.5</a> (2022-11-21)<a class="headerlink" href="#100-pre5-2022-11-21" title="Permanent link">&para;</a></h2>
+<h3 id="features_21">Features<a class="headerlink" href="#features_21" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> add support for IRSA (IAM roles) (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/509bbe389df8e2c908161eb11e9fca7a1df15755">509bbe3</a>)</li>
+</ul>
+<h2 id="100-pre4-2022-11-21"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.3...v1.0.0-pre.4">1.0.0-pre.4</a> (2022-11-21)<a class="headerlink" href="#100-pre4-2022-11-21" title="Permanent link">&para;</a></h2>
+<h3 id="features_22">Features<a class="headerlink" href="#features_22" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> update Ingress definition logic (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/2271d57ff5bd8aef792ca4310df86eb5913682cf">2271d57</a>)</li>
+</ul>
+<h3 id="breaking-changes_2">BREAKING CHANGES<a class="headerlink" href="#breaking-changes_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> Now uses <code>nginx-ingress</code> instead of
+<code>aws-lbc-nlb</code> for specifying Nginx Ingress Controller</li>
+</ul>
+<h2 id="100-pre3-2022-11-21"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.2...v1.0.0-pre.3">1.0.0-pre.3</a> (2022-11-21)<a class="headerlink" href="#100-pre3-2022-11-21" title="Permanent link">&para;</a></h2>
+<h3 id="features_23">Features<a class="headerlink" href="#features_23" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> add back default tag functionality (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/46785e5ee54087a8ec4df2139f9630827f655d81">46785e5</a>)</li>
+<li><strong>smilecdr:</strong> add common labels to all resources (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/618ba2ed8a96fda736d52dc50519485237dbede8">618ba2e</a>)</li>
+<li><strong>smilecdr:</strong> normalize resource names (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/6ca25bdec998a081aa114eb598702ee6a1819570">6ca25bd</a>)</li>
+<li><strong>smilecdr:</strong> remove extra labels from default values (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/d9719344f890baaf8b939f1ef3d641f959775f22">d971934</a>)</li>
+</ul>
+<h2 id="100-pre2-2022-11-21"><a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.1...v1.0.0-pre.2">1.0.0-pre.2</a> (2022-11-21)<a class="headerlink" href="#100-pre2-2022-11-21" title="Permanent link">&para;</a></h2>
+<h3 id="features_24">Features<a class="headerlink" href="#features_24" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>smilecdr:</strong> remove hard coded entries from ConfigMap (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/b6a2fb56ae9324ef08976cf92487ba7b7f1e7f2c">b6a2fb5</a>)</li>
+</ul>
+<h1 id="100-pre1-2022-11-21">1.0.0-pre.1 (2022-11-21)<a class="headerlink" href="#100-pre1-2022-11-21" title="Permanent link">&para;</a></h1>
+<h3 id="features_25">Features<a class="headerlink" href="#features_25" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>repo:</strong> initial Commit (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/5f9846020a2da8d343f55e36e3fa896206717ef8">5f98460</a>), closes <a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/issues/68834381">#68834381</a></li>
+<li><strong>smilecdr:</strong> add external module files support (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/da374c1a97735a895c27356025650d00da2db4c8">da374c1</a>)</li>
+<li><strong>smilecdr:</strong> update application version (<a href="https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/commit/9b203f277955fb34831592fe064f19863765b2a1">9b203f2</a>)</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.indexes", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.5cf534bf.min.js"></script>
+      
+    
+  </body>
+</html>
