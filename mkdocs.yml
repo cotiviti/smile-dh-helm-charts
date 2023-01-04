@@ -1,0 +1,78 @@
+site_name: Smile CDR Helm Charts
+site_url: https://smilecdr-public.gitlab.io/smile-dh-helm-charts/
+docs_dir: 'docs'
+site_dir: public
+repo_url: https://gitlab.com/smilecdr-public/smile-dh-helm-charts
+repo_name: smile-dh-helm-charts
+extra:
+  version:
+    provider: mike
+theme:
+  name: material
+  features:
+  - navigation.sections
+  - navigation.tabs
+  - navigation.indexes
+  - navigation.expand
+  font:
+    test: Lato
+  icon:
+    repo: fontawesome/brands/gitlab
+markdown_extensions:
+- toc:
+    permalink: true
+    toc_depth: 3
+- pymdownx.highlight:
+    anchor_linenums: true
+- pymdownx.inlinehilite
+- pymdownx.snippets
+- pymdownx.superfences
+nav:
+  - Home:
+    - index.md
+    - 'Smile CDR':
+      - charts/smilecdr/index.md
+      - 'Overview': charts/smilecdr/smilecdr.md
+      - 'Changelog': charts/smilecdr/CHANGELOG-PRE.md
+  - Quickstart:
+    - quickstart/index.md
+    - 'Requirements': quickstart/requirements.md
+    - 'Configure Helm Repository': quickstart/helm-repo.md
+    - 'Create Values File': quickstart/values-file.md
+    - 'Install Smile CDR': quickstart/install-smilecdr.md
+  - 'User Guide':
+    - guide/index.md
+    - 'General':
+      - 'Helm Repository Setup': guide/helm-repo.md
+      - 'Secrets Handling': guide/secrets.md
+      - 'Service Accounts': guide/serviceaccount.md
+      - 'Values Files': guide/values-files-management.md
+    - 'Smile CDR':
+      - guide/smilecdr/index.md
+      - 'Requirements': guide/smilecdr/requirements.md
+      - 'Installation': guide/smilecdr/install.md
+      - 'Configuration':
+        - 'Database': guide/smilecdr/database.md
+        - 'Ingress': guide/smilecdr/ingress.md
+        - 'Smile CDR Modules': guide/smilecdr/modules.md
+        - 'Including Extra Files': guide/smilecdr/files.md
+        - 'Message Broker': guide/smilecdr/messagebroker.md
+        - 'Resource Tuning': guide/smilecdr/resources.md
+      - 'Applying Changes': guide/smilecdr/updating.md
+  - Examples:
+    - examples/index.md
+    # - 'Quickstart': examples/quickstart.md
+    # - 'Secure Credentials': examples/secure.md
+    # - 'Using Kubernetes Secrets': examples/k8ssecrets.md
+    # - 'Kafka': examples/kafka.md
+    # - 'Aurora Postgres': examples/aurora.md
+    # - 'Module Configuration': examples/modules.md
+    # - 'Custom Logging': examples/logback.md
+    # - 'Zero-outage config changes': examples/zocc.md
+    # - 'JVM fine tuning': examples/jvm.md
+    # - '': examples/.md
+    # - '': examples/.md
+
+extra_css:
+  - https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css
+  - stylesheets/colours.css
