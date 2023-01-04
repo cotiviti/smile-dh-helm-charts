@@ -27,9 +27,9 @@ repos:
           - --chart-search-root=src/main/charts
 
           # The `./` makes it relative to the chart-search-root set above
-          - --template-files=docs/_templates.gotmpl
+          - --template-files=helm-docs/_templates.gotmpl
 
-          # Repeating the flag adds this to the list, now [docs/_templates.gotmpl, README.md.gotmpl]
+          # Repeating the flag adds this to the list, now [helm-docs/_templates.gotmpl, README.md.gotmpl]
           # A base filename makes it relative to each chart directory found
           - --template-files=README.md.gotmpl
   - repo: local
