@@ -200,8 +200,8 @@ pages:
   - git fetch origin $PAGES_BRANCH && git -b checkout $PAGES_BRANCH origin/$PAGES_BRANCH || git checkout $PAGES_BRANCH || echo "Pages branch not deployed yet."
   - git checkout $CI_COMMIT_SHA
   script:
-  - mike deploy --rebase --prefix public -b $PAGES_BRANCH -u v1.0.0-pre latest
-  - mike set-default --rebase --prefix public -b $PAGES_BRANCH latest
+  - mike deploy --rebase --prefix public -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p -u v1.0.0-pre latest
+  - mike set-default --rebase --prefix public -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p latest
   - rm -rf public/
   - git checkout $PAGES_BRANCH -- public/
   artifacts:
