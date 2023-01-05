@@ -19,7 +19,7 @@ my-smile-env-scdr-5b449f8749-6ksnc   1/1     Running     2 (2m28s ago)   2m59s
 This demonstrates how the pod self-healed by restarting until the DB became available.
 
 At this point, your Smile CDR instance is up and can be accessed at the configured URL.
-You can try re-configuring it using the instructions in the [User Guide](../../guide/smilecdr/), or you can delete it like so:
+You can try re-configuring it using the instructions in the [User Guide](../guide/smilecdr/index.md), or you can delete it like so:
 ```shell
 $ helm delete my-smile-env
 ```

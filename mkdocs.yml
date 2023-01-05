@@ -1,9 +1,10 @@
-site_name: Smile CDR Helm Charts
+site_name: Smile Digital Health Helm Charts
 site_url: https://smilecdr-public.gitlab.io/smile-dh-helm-charts/
 docs_dir: 'docs'
 site_dir: public
 repo_url: https://gitlab.com/smilecdr-public/smile-dh-helm-charts
 repo_name: smile-dh-helm-charts
+# strict: true
 extra:
   version:
     provider: mike
@@ -61,8 +62,14 @@ nav:
       - 'Applying Changes': guide/smilecdr/updating.md
   - Examples:
     - examples/index.md
-    # - 'Quickstart': examples/quickstart.md
-    # - 'Secure Credentials': examples/secure.md
+    - 'Minimal Config': examples/minimal.md
+    - 'Single External Database': examples/external-db.md
+    - 'Multiple External Databases': examples/external-db-multi.md
+    - 'Simple Module Configuration': examples/modules-simple.md
+    - 'Advanced Module Configuration': examples/modules-advanced.md
+    - 'Adding Files': examples/extra-files.md
+    - 'Quickstart': examples/quickstart.md
+
     # - 'Using Kubernetes Secrets': examples/k8ssecrets.md
     # - 'Kafka': examples/kafka.md
     # - 'Aurora Postgres': examples/aurora.md

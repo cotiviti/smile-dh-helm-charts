@@ -3,7 +3,7 @@
 ## Prepare Values File
 To use the Smile CDR helm Chart, you will need to create a values file with some mandatory fields provided.
 
-Refer to the section on [Values Files Management](../../guide/values-files-management/) for more info on how to organise your values files. You can start out with one of the values files in the Examples section, or create your own from scratch using techniques from the configuration section.
+Refer to the section on [Values Files Management](../values-files-management.md) for more info on how to organise your values files. You can start out with one of the values files in the Examples section, or create your own from scratch using techniques from the configuration section.
 
 For the remainder of this section, we will assume the same values file that was used in the QuickStart guide.
 ## Install the Helm Chart
@@ -29,7 +29,8 @@ my-smile-env-scdr-5b449f8749-6ksnc   1/1     Running     2 (2m28s ago)   2m59s
 This demonstrates how the pod self-healed by restarting until the DB became available.
 
 At this point, your Smile CDR instance is up and can be accessed at the configured URL.
-You can try re-configuring it using the instructions in the [User Guide](../../guide/smilecdr/), or you can delete it like so:
+
+You can now continue to reconfigure it using this guide, or you can delete it like so:
 ```shell
 $ helm delete my-smile-env
 ```

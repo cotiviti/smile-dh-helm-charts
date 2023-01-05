@@ -1,6 +1,6 @@
 # Deploying changes
 
-When you make changes to the Helm Chart configuration, you need to apply them using the `helm update` command. This chart has been designed in such a way that there should not be any outages during updates.
+When you make changes to the Helm Chart configuration, you need to apply them using the `helm upgrade` command. This chart has been designed in such a way that there should not be any outages during updates.
 
 There are multiple components that a configuration can affect. Broadly, it can affect the configuration of the Smile CDR app itself, or it can affect the surrounding infrastructure.
 

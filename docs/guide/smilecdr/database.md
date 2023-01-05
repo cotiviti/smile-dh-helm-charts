@@ -34,7 +34,7 @@ To reference a database that is external to the cluster, you will need:
   * The secret can be a plain Kubernetes secret that you provision externally, or it can be a secret in a
   secure secrets vault. The latter is the preferred option for increased security and the ability to easily
   rotate credentials. At this time, only AWS Secrets Manager is supported via the Secrets Store CSI Driver.
-  See the [Secrets Handling](../guide/secrets) section for more info on this.
+  See the [Secrets Handling](../secrets.md) section for more info on this.
 
 If using AWS Secrets Manager, set the `credentials.type` to `sscsi` and `credentials.provider` to `aws`. If you have created a `Secret` object
 in Kubernetes, set it to `externalsecret`.
@@ -53,7 +53,9 @@ ensure that this matches the configuration of your secret and the fields it cont
 database:
   external:
     enabled: true
-    credentialsSource: sscsi-aws (or k8s)
+    credentials:
+      type: sscsi
+      provider: aws
     databases:
     - secretName: smilecdr
       module: clustermgr
@@ -114,7 +116,9 @@ to configure multiple databases. That is why we are specifying multiple users be
 database:
   external:
     enabled: true
-    credentialsSource: sscsi-aws (or k8s)
+    credentials:
+      type: sscsi
+      provider: aws
     databases:
     - secretName: smilecdr
       module: clustermgr

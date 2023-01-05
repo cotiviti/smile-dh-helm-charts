@@ -80,10 +80,10 @@ the `imagePullSecrets` stanza in the `Pod` spec. To do this, you need a Kubernet
 >**Note** For more information on using private container registries with
 Kubernetes, see the official documentation [here](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 
-As described in the [Secrets Handling](../secrets) section of these docs, we support multiple methods to provide secrets.
+As described in the [Secrets Handling](secrets.md) section of these docs, we support multiple methods to provide secrets.
 
 ### Configuring Repo Credentials using Secrets Store CSI Driver
-Before using this configuration in your values file, ensure that you have followed the appropriate section in the [Secrets Handling](../secrets/#secrets-store-csi-driver) guide to set up Secrets Store CSI, the AWS Provider, your AWS Secret, your IAM Role and configured the `ServiceAccount`.
+Before using this configuration in your values file, ensure that you have followed the appropriate section in the [Secrets Handling](secrets.md#secrets-store-csi-driver) guide to set up Secrets Store CSI, the AWS Provider, your AWS Secret, your IAM Role and configured the `ServiceAccount`.
 
 Once you have done that, you can enable it like so:
 
@@ -105,7 +105,7 @@ serviceAccount:
 ```
 
 ### Configuring Repo Credentials using Kubernetes Secret
-Before using this configuration, you need to create a Kubernetes `secret` of type `kubernetes.io/dockerconfigjson`. For more info on this, refer to the Kubernetes section in [Secrets Handling](../secrets/#kubernetes-secret).
+Before using this configuration, you need to create a Kubernetes `secret` of type `kubernetes.io/dockerconfigjson`. For more info on this, refer to the Kubernetes section in [Secrets Handling](secrets.md#kubernetes-secret).
 
 Once your Kubernetes `Secret` object is created, you can use it like so:
 

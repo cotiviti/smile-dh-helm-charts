@@ -41,12 +41,12 @@ Before you can use this method in your configuration, you will need to set up so
     * Your secret should be encrypted using an AWS CMK ([Customer Managed Key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)).
 * Create an IAM role and trust policy.
 * Enable the `ServiceAccount` and reference the IAM role in the annotations.
-* See the [Service Account Configuration section](../serviceaccount) for more details on setting this up.
+* See the [Service Account Configuration section](serviceaccount.md) for more details on setting this up.
 
 The way the secret is configured in your `values` file differs depending on the section of configuration. Please refer to the individual sections below for details:
 
-* [Image Repository Credentials](../helm-repo/#configuring-repo-credentials-using-secrets-store-csi-driver)
-* [Database Credentials](../smilecdr/database/#example-secret-configuration)
+* [Image Repository Credentials](helm-repo.md#configuring-repo-credentials-using-secrets-store-csi-driver)
+* [Database Credentials](smilecdr/database.md#example-secret-configuration)
 
 ### Kubernetes Secret
 

@@ -33,4 +33,4 @@ mappedFiles:
 ```
 As the result of the above, a `ConfigMap` will be created and mapped into the pod at
 `/home/smile/smilecdr/classes/logback.xml` using `Volume` and `VolumeMount` resources. If the
-content of the file is changed, then it will be automatically picked up on the next deployment. (See [Automatic Deployment of Config Changes](../updating/#automatic-deployment-of-config-changes) for more info on this)
+content of the file is changed, then it will be automatically picked up on the next deployment. (See [Automatic Deployment of Config Changes](updating.md#automatic-deployment-of-config-changes) for more info on this)
