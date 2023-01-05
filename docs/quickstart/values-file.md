@@ -5,7 +5,7 @@ To use the Smile CDR helm Chart, you will need to create a values file with some
 Do not copy the default `values.yaml` file from the Helm Chart, start from a fresh empty file
 instead.
 
-See the section on [Values Files Management](../../guide/values-files-management/) for more info on this.
+See the section on [Values Files Management](../guide/values-files-management.md) for more info on this.
 <!--The default values file is very long and may contain values that are not relevant or
 appropriate for your specific deployment. By creating your own values file, you can ensure
 that only the values that you need to override are included.

@@ -14,9 +14,9 @@ Only use this version of the chart for evaluation or testing.
 
 ## Getting Started
 
-To quickly see these charts in action, follow the guide in the [Quickstart](quickstart/) section.
+To quickly see these charts in action, follow the guide in the [Quickstart](quickstart/index.md) section.
 
 ## Configuration
 
 Full details on configuring the products using these charts are provided in the
-[User Guide](guide/) section.
+[User Guide](guide/index.md) section.
