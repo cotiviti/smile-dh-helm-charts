@@ -8,27 +8,25 @@
       
       
       
-        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/resources/">
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/quickstart/">
       
       
-        <link rel="prev" href="../messagebroker/">
+        <link rel="prev" href="../extra-files/">
       
       
-        <link rel="next" href="../updating/">
-      
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
     
     
       
-        <title>Resource Tuning - Smile Digital Health Helm Charts</title>
+        <title>Quickstart - Smile Digital Health Helm Charts</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.f56500e0.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.f56500e0.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.2505c338.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
       
       
 
@@ -46,9 +44,9 @@
     
       <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
     
-      <link rel="stylesheet" href="../../../stylesheets/colours.css">
+      <link rel="stylesheet" href="../../stylesheets/colours.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -73,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#configuring-compute-resources" class="md-skip">
+        <a href="#quickstart-configuration" class="md-skip">
           Skip to content
         </a>
       
@@ -91,7 +89,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+    <a href="../.." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -110,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Resource Tuning
+              Quickstart
             
           </span>
         </div>
@@ -188,7 +186,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         Home
       </a>
     </li>
@@ -204,8 +202,24 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../quickstart/" class="md-tabs__link">
+      <a href="../../quickstart/" class="md-tabs__link">
         Quickstart
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guide/" class="md-tabs__link">
+        User Guide
       </a>
     </li>
   
@@ -222,23 +236,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../" class="md-tabs__link md-tabs__link--active">
-        User Guide
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../examples/" class="md-tabs__link">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
         Examples
       </a>
     </li>
@@ -266,7 +264,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+    <a href="../.." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -316,7 +314,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../..">Home</a>
+          <a href="../..">Home</a>
           
             <label for="__nav_1">
               <span class="md-nav__icon md-icon"></span>
@@ -362,7 +360,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../charts/smilecdr/">Smile CDR</a>
+          <a href="../../charts/smilecdr/">Smile CDR</a>
           
             <label for="__nav_1_2">
               <span class="md-nav__icon md-icon"></span>
@@ -385,7 +383,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../charts/smilecdr/smilecdr/" class="md-nav__link">
+      <a href="../../charts/smilecdr/smilecdr/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -399,7 +397,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../charts/smilecdr/CHANGELOG-PRE/" class="md-nav__link">
+      <a href="../../charts/smilecdr/CHANGELOG-PRE/" class="md-nav__link">
         Changelog
       </a>
     </li>
@@ -453,7 +451,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../quickstart/">Quickstart</a>
+          <a href="../../quickstart/">Quickstart</a>
           
             <label for="__nav_2">
               <span class="md-nav__icon md-icon"></span>
@@ -476,7 +474,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../quickstart/requirements/" class="md-nav__link">
+      <a href="../../quickstart/requirements/" class="md-nav__link">
         Requirements
       </a>
     </li>
@@ -490,7 +488,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../quickstart/helm-repo/" class="md-nav__link">
+      <a href="../../quickstart/helm-repo/" class="md-nav__link">
         Configure Helm Repository
       </a>
     </li>
@@ -504,7 +502,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../quickstart/values-file/" class="md-nav__link">
+      <a href="../../quickstart/values-file/" class="md-nav__link">
         Create Values File
       </a>
     </li>
@@ -518,7 +516,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../quickstart/install-smilecdr/" class="md-nav__link">
+      <a href="../../quickstart/install-smilecdr/" class="md-nav__link">
         Install Smile CDR
       </a>
     </li>
@@ -538,14 +536,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
       
       
@@ -563,7 +559,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../">User Guide</a>
+          <a href="../../guide/">User Guide</a>
           
             <label for="__nav_3">
               <span class="md-nav__icon md-icon"></span>
@@ -624,7 +620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../helm-repo/" class="md-nav__link">
+      <a href="../../guide/helm-repo/" class="md-nav__link">
         Helm Repository Setup
       </a>
     </li>
@@ -638,7 +634,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../secrets/" class="md-nav__link">
+      <a href="../../guide/secrets/" class="md-nav__link">
         Secrets Handling
       </a>
     </li>
@@ -652,7 +648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../serviceaccount/" class="md-nav__link">
+      <a href="../../guide/serviceaccount/" class="md-nav__link">
         Service Accounts
       </a>
     </li>
@@ -666,7 +662,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../values-files-management/" class="md-nav__link">
+      <a href="../../guide/values-files-management/" class="md-nav__link">
         Values Files
       </a>
     </li>
@@ -685,16 +681,14 @@
               
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" checked>
       
       
       
@@ -716,7 +710,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../">Smile CDR</a>
+          <a href="../../guide/smilecdr/">Smile CDR</a>
           
             <label for="__nav_3_3">
               <span class="md-nav__icon md-icon"></span>
@@ -739,7 +733,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../requirements/" class="md-nav__link">
+      <a href="../../guide/smilecdr/requirements/" class="md-nav__link">
         Requirements
       </a>
     </li>
@@ -753,7 +747,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../install/" class="md-nav__link">
+      <a href="../../guide/smilecdr/install/" class="md-nav__link">
         Installation
       </a>
     </li>
@@ -765,14 +759,12 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3_4" type="checkbox" id="__nav_3_3_4" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_3_4" type="checkbox" id="__nav_3_3_4" checked>
       
       
       
@@ -809,7 +801,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../database/" class="md-nav__link">
+      <a href="../../guide/smilecdr/database/" class="md-nav__link">
         Database
       </a>
     </li>
@@ -823,7 +815,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ingress/" class="md-nav__link">
+      <a href="../../guide/smilecdr/ingress/" class="md-nav__link">
         Ingress
       </a>
     </li>
@@ -837,7 +829,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/" class="md-nav__link">
+      <a href="../../guide/smilecdr/modules/" class="md-nav__link">
         Smile CDR Modules
       </a>
     </li>
@@ -851,7 +843,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../files/" class="md-nav__link">
+      <a href="../../guide/smilecdr/files/" class="md-nav__link">
         Including Extra Files
       </a>
     </li>
@@ -865,7 +857,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../messagebroker/" class="md-nav__link">
+      <a href="../../guide/smilecdr/messagebroker/" class="md-nav__link">
         Message Broker
       </a>
     </li>
@@ -877,79 +869,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Resource Tuning
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../guide/smilecdr/resources/" class="md-nav__link">
         Resource Tuning
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#kubernetes-memory-requests-vs-limits" class="md-nav__link">
-    Kubernetes Memory Requests vs Limits
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#jvm-sizing" class="md-nav__link">
-    JVM Sizing
-  </a>
-  
-    <nav class="md-nav" aria-label="JVM Sizing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#jvm-heap-auto-sizing" class="md-nav__link">
-    JVM Heap Auto Sizing
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setting-heap-minimum-size" class="md-nav__link">
-    Setting Heap Minimum Size
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -968,7 +892,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../updating/" class="md-nav__link">
+      <a href="../../guide/smilecdr/updating/" class="md-nav__link">
         Applying Changes
       </a>
     </li>
@@ -995,12 +919,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
       
       
       
@@ -1028,7 +954,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../examples/">Examples</a>
+          <a href="../">Examples</a>
           
             <label for="__nav_4">
               <span class="md-nav__icon md-icon"></span>
@@ -1051,7 +977,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/minimal/" class="md-nav__link">
+      <a href="../minimal/" class="md-nav__link">
         Minimal Config
       </a>
     </li>
@@ -1065,7 +991,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/external-db/" class="md-nav__link">
+      <a href="../external-db/" class="md-nav__link">
         Single External Database
       </a>
     </li>
@@ -1079,7 +1005,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/external-db-multi/" class="md-nav__link">
+      <a href="../external-db-multi/" class="md-nav__link">
         Multiple External Databases
       </a>
     </li>
@@ -1093,7 +1019,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/modules-simple/" class="md-nav__link">
+      <a href="../modules-simple/" class="md-nav__link">
         Simple Module Configuration
       </a>
     </li>
@@ -1107,7 +1033,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/modules-advanced/" class="md-nav__link">
+      <a href="../modules-advanced/" class="md-nav__link">
         Advanced Module Configuration
       </a>
     </li>
@@ -1121,7 +1047,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/extra-files/" class="md-nav__link">
+      <a href="../extra-files/" class="md-nav__link">
         Adding Files
       </a>
     </li>
@@ -1133,11 +1059,59 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../../examples/quickstart/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Quickstart
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Quickstart
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#values-file" class="md-nav__link">
+    Values File
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1176,35 +1150,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#kubernetes-memory-requests-vs-limits" class="md-nav__link">
-    Kubernetes Memory Requests vs Limits
+  <a href="#requirements" class="md-nav__link">
+    Requirements
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#jvm-sizing" class="md-nav__link">
-    JVM Sizing
-  </a>
-  
-    <nav class="md-nav" aria-label="JVM Sizing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#jvm-heap-auto-sizing" class="md-nav__link">
-    JVM Heap Auto Sizing
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setting-heap-minimum-size" class="md-nav__link">
-    Setting Heap Minimum Size
+  <a href="#values-file" class="md-nav__link">
+    Values File
   </a>
   
 </li>
@@ -1228,35 +1182,38 @@
 
 
 
-<h1 id="configuring-compute-resources">Configuring Compute Resources<a class="headerlink" href="#configuring-compute-resources" title="Permanent link">&para;</a></h1>
-<h2 id="kubernetes-memory-requests-vs-limits">Kubernetes Memory Requests vs Limits<a class="headerlink" href="#kubernetes-memory-requests-vs-limits" title="Permanent link">&para;</a></h2>
-<p><code>requests.memory</code> will be set to the same value as <code>limits.memory</code> unless you override it.</p>
-<p>The values you should use for CPU resources will depend on the number of cores you are licenced for with Smile CDR. Your total cores can be calculated by <code>replicas * requests.limits.cpu</code>, or <code>autoscaling.maxReplicas * requests.limits.cpu</code> if you are using Horizontal Pod Autoscaling.</p>
-<h2 id="jvm-sizing">JVM Sizing<a class="headerlink" href="#jvm-sizing" title="Permanent link">&para;</a></h2>
-<p>As Smile CDR is a high performance Java based application, special consideration needs
-to be given to the resource settings and JVM tuning parameters.</p>
-<p>Typical cloud best practices suggest starting small and increasing resources as workload increases.
-We have tested Smile CDR in its default module configuration and determined that the max heap size
-should be no smaller than 2GB. When smaller than this, there are excessive GC events which is not ideal.</p>
-<blockquote>
-<p><strong>NOTE</strong>: If you reconfigure Smile CDR to have more modules, it may require more memory/cpu. If you
-split up the cluster into multiple nodes, then each node may be able to run with less memory/cpu,
-though total cluster may end up higher depending on your architecture.</p>
-</blockquote>
-<h3 id="jvm-heap-auto-sizing">JVM Heap Auto Sizing<a class="headerlink" href="#jvm-heap-auto-sizing" title="Permanent link">&para;</a></h3>
-<p>When running Java applications in Kubernetes, the <code>requests.memory</code> should be set much higher than the
-max heap size. Typically the Java heap size should be set to 50-75% of the total available memory.</p>
-<p>This Helm Chart will take the specified <code>limits.memory</code> and use <code>jvm.memoryFactor</code> to calculate the
-value for the Java heap size. By default, this value is <code>0.5</code>. With the default <code>limits.memory</code> of
-4Gib, the chart sets Java <code>-Xmx</code> to <code>2048m</code>.</p>
-<p>Setting this number higher will make more efficient use of memory resources in your K8s cluster, but may increase the likelihood of <code>OOM Killed</code> errors.</p>
-<h2 id="setting-heap-minimum-size">Setting Heap Minimum Size<a class="headerlink" href="#setting-heap-minimum-size" title="Permanent link">&para;</a></h2>
-<p>If you were to set <code>jvm.memoryFactor</code> to <code>1</code> your pod is almost guaranteed to be killed with such an error, but it will happen at an unpredictable time, once the currently allocated heap grows to a certain point. This can increase difficulty of troubleshooting due to the unpredictable timing. It may fail in a few minutes, or a few hours/days/weeks/never depending on the workload characteristics.</p>
-<p>To reduce the likelihood of such unpredictable <code>OOM Killed</code> errors, we recommend setting <code>-Xms</code> to be the same
-as <code>-Xmx</code>. This can be done by setting <code>jvm.xms</code> to <code>true</code></p>
-<blockquote>
-<p><strong>NOTE</strong>: You can pass in extra JVM commandline options by adding them to the list <code>jvm.args</code></p>
-</blockquote>
+<h1 id="quickstart-configuration">Quickstart Configuration<a class="headerlink" href="#quickstart-configuration" title="Permanent link">&para;</a></h1>
+<p>This is the configuration used in the <a href="../../quickstart/">Quickstart</a></p>
+<p>This will configure Smile CDR as follows:</p>
+<ul>
+<li>Default Smile CDR module configuraton</li>
+<li>Ingress configured for <code>smilecdr.mycompany.com</code> using NginX Ingress</li>
+<li>Docker registry credentials passed in via values file (Don't do this!)</li>
+<li>Postgres DB automatically created </li>
+</ul>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Nginx Ingress Controller must be installed, with TLS certificate</li>
+<li>DNS for <code>smilecdr.mycompany.com</code> needs to be exist and be pointing to the load balancer used by Nginx Ingress</li>
+<li>CrunchyData Operator must be installed</li>
+<li>Credentials to an image repository with the official Smile CDR images.</li>
+</ul>
+<h2 id="values-file">Values File<a class="headerlink" href="#values-file" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">specs</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">smilecdr.mycompany.com</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nt">image</span><span class="p">:</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.smilecdr.com/smilecdr</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">credentials</span><span class="p">:</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">values</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nt">values</span><span class="p">:</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">registry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.smilecdr.com</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;DOCKER_USERNAME&gt;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;DOCKER_PASSWORD&gt;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="nt">database</span><span class="p">:</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="nt">crunchypgo</span><span class="p">:</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="nt">internal</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
 
 
 
@@ -1294,10 +1251,10 @@ as <code>-Xmx</code>. This can be done by setting <code>jvm.xms</code> to <code>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.indexes", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.indexes", "navigation.expand"], "search": "../../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.5cf534bf.min.js"></script>
+      <script src="../../assets/javascripts/bundle.5cf534bf.min.js"></script>
       
     
   </body>
