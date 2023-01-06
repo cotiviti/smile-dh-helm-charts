@@ -8,18 +8,20 @@
       
       
       
-        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/quickstart/">
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/extra-files-helm/">
       
       
-        <link rel="prev" href="../extra-files-external/">
+        <link rel="prev" href="../modules-advanced/">
       
+      
+        <link rel="next" href="../extra-files-external/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
     
     
       
-        <title>Quickstart - Smile Digital Health Helm Charts</title>
+        <title>Adding Files using Helm - Smile Digital Health Helm Charts</title>
       
     
     
@@ -71,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#quickstart-configuration" class="md-skip">
+        <a href="#adding-files-using-helm" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Quickstart
+              Adding Files using Helm
             
           </span>
         </div>
@@ -1047,34 +1049,6 @@
               
   
   
-  
-    <li class="md-nav__item">
-      <a href="../extra-files-helm/" class="md-nav__link">
-        Adding Files using Helm
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../extra-files-external/" class="md-nav__link">
-        Adding Files using External
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
     
   
   
@@ -1087,12 +1061,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Quickstart
+          Adding Files using Helm
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Quickstart
+        Adding Files using Helm
       </a>
       
         
@@ -1124,10 +1098,45 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#extra-install-steps" class="md-nav__link">
+    Extra Install Steps
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extra-files-external/" class="md-nav__link">
+        Adding Files using External
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        Quickstart
+      </a>
     </li>
   
 
@@ -1179,6 +1188,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#extra-install-steps" class="md-nav__link">
+    Extra Install Steps
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1198,38 +1214,54 @@
 
 
 
-<h1 id="quickstart-configuration">Quickstart Configuration<a class="headerlink" href="#quickstart-configuration" title="Permanent link">&para;</a></h1>
-<p>This is the configuration used in the <a href="../../quickstart/">Quickstart</a></p>
+<h1 id="adding-files-using-helm">Adding Files Using Helm<a class="headerlink" href="#adding-files-using-helm" title="Permanent link">&para;</a></h1>
+<p>This example demonstrates passing in extra files to the deployment via the Helm Chart.</p>
+<p>It is based on the <a href="../minimal/">minimal</a> example.</p>
 <p>This will configure Smile CDR as follows:</p>
 <ul>
 <li>Default Smile CDR module configuraton</li>
 <li>Ingress configured for <code>smilecdr.mycompany.com</code> using NginX Ingress</li>
-<li>Docker registry credentials passed in via values file (Don't do this!)</li>
+<li>Docker registry credentials passed in via Secret Store CSI Driver using AWS Secrets Manager</li>
 <li>Postgres DB automatically created</li>
+<li>Custom <code>logback.xml</code> file will be included in the <code>classes</code> directory in Smile CDR</li>
 </ul>
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Nginx Ingress Controller must be installed, with TLS certificate</li>
 <li>DNS for <code>smilecdr.mycompany.com</code> needs to be exist and be pointing to the load balancer used by Nginx Ingress</li>
 <li>CrunchyData Operator must be installed</li>
-<li>Credentials to an image repository with the official Smile CDR images.</li>
+<li>Image repository credentials stored in AWS Secrets Manager</li>
+<li>AWS IAM Role configured to access AWS Secrets Manager</li>
+<li>Customized <code>logback.xml</code> file available in your configuration repo/folder</li>
 </ul>
 <h2 id="values-file">Values File<a class="headerlink" href="#values-file" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">specs</span><span class="p">:</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">smilecdr.mycompany.com</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nt">image</span><span class="p">:</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.smilecdr.com/smilecdr</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">credentials</span><span class="p">:</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">values</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nt">values</span><span class="p">:</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">registry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.smilecdr.com</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;DOCKER_USERNAME&gt;</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;DOCKER_PASSWORD&gt;</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="nt">database</span><span class="p">:</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="nt">crunchypgo</span><span class="p">:</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="nt">internal</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nt">image</span><span class="p">:</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.smilecdr.com/smilecdr</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nt">credentials</span><span class="p">:</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sscsi</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="nt">secretarn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname&quot;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="nt">serviceAccount</span><span class="p">:</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="nt">create</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="nt">eks.amazonaws.com/role-arn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:iam::123456789012:role/example-role-name&quot;</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="nt">database</span><span class="p">:</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="nt">crunchypgo</span><span class="p">:</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="nt">internal</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="nt">mappedFiles</span><span class="p">:</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">  </span><span class="nt">logback.xml</span><span class="p">:</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configMap</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/home/smile/smilecdr/classes</span>
 </code></pre></div>
+<h2 id="extra-install-steps">Extra Install Steps<a class="headerlink" href="#extra-install-steps" title="Permanent link">&para;</a></h2>
+<p>To use this feature, you must update your <code>helm upgrade</code> command to include <code>--set-file mappedFiles.logback\\.xml.data=logback.xml</code></p>
 
 
 

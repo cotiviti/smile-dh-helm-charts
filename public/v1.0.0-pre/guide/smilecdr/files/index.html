@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#mapping-files" class="md-skip">
+        <a href="#including-extra-files" class="md-skip">
           Skip to content
         </a>
       
@@ -885,16 +885,111 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#include-file-in-helm-deployment" class="md-nav__link">
-    Include File in Helm Deployment
+  <a href="#available-methods" class="md-nav__link">
+    Available Methods
   </a>
   
 </li>
       
         <li class="md-nav__item">
+  <a href="#choosing-which-method-to-use" class="md-nav__link">
+    Choosing Which Method To Use
+  </a>
+  
+    <nav class="md-nav" aria-label="Choosing Which Method To Use">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#helm-chart-method" class="md-nav__link">
+    Helm Chart Method
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external-pull-method" class="md-nav__link">
+    External Pull Method
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-both-methods" class="md-nav__link">
+    Using Both Methods:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-helm-chart-method" class="md-nav__link">
+    Using the Helm Chart Method
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the Helm Chart Method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#include-file-in-helm-deployment" class="md-nav__link">
+    Include File in Helm Deployment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#include-file-in-values-file" class="md-nav__link">
     Include File in Values File
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-external-pull-method" class="md-nav__link">
+    Using the External Pull Method
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the External Pull Method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    How It Works
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3-prerequisites" class="md-nav__link">
+    S3 Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-note-on-file-versioning" class="md-nav__link">
+    A Note On File Versioning
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-helm-values-file" class="md-nav__link">
+    Configure Helm Values File
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -987,6 +1082,8 @@
         
           
             
+          
+        
           
         
           
@@ -1101,8 +1198,22 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/extra-files/" class="md-nav__link">
-        Adding Files
+      <a href="../../../examples/extra-files-helm/" class="md-nav__link">
+        Adding Files using Helm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/extra-files-external/" class="md-nav__link">
+        Adding Files using External
       </a>
     </li>
   
@@ -1156,16 +1267,111 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#include-file-in-helm-deployment" class="md-nav__link">
-    Include File in Helm Deployment
+  <a href="#available-methods" class="md-nav__link">
+    Available Methods
   </a>
   
 </li>
       
         <li class="md-nav__item">
+  <a href="#choosing-which-method-to-use" class="md-nav__link">
+    Choosing Which Method To Use
+  </a>
+  
+    <nav class="md-nav" aria-label="Choosing Which Method To Use">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#helm-chart-method" class="md-nav__link">
+    Helm Chart Method
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external-pull-method" class="md-nav__link">
+    External Pull Method
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-both-methods" class="md-nav__link">
+    Using Both Methods:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-helm-chart-method" class="md-nav__link">
+    Using the Helm Chart Method
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the Helm Chart Method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#include-file-in-helm-deployment" class="md-nav__link">
+    Include File in Helm Deployment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#include-file-in-values-file" class="md-nav__link">
     Include File in Values File
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-external-pull-method" class="md-nav__link">
+    Using the External Pull Method
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the External Pull Method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    How It Works
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3-prerequisites" class="md-nav__link">
+    S3 Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-note-on-file-versioning" class="md-nav__link">
+    A Note On File Versioning
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-helm-values-file" class="md-nav__link">
+    Configure Helm Values File
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1188,31 +1394,75 @@
 
 
 
-<h1 id="mapping-files">Mapping files<a class="headerlink" href="#mapping-files" title="Permanent link">&para;</a></h1>
-<p>It is often required to add extra files into your Smile CDR instance. This could simply be to
-provide updated configuration changes (e.g. <code>logback.xml</code>) or to provide scripts to extend the
-functionality of Smile CDR.</p>
-<p>Rather than having to build a new Smile CDR container image with these files included, it is
-possible to include them using this Helm Chart.</p>
-<blockquote>
-<p><strong>NOTE</strong>: At this time, due to the way Kubernetes works, it is only possible to pass small (&lt;1MiB) files into Smile CDR using This
-method, so it is only suitable for configuration files and scripts. Larger files, such as <code>.jar</code>
-files, other binaries or large datasets are not supported using this method. There will be a solution for larger files in a future version of this chart.</p>
-</blockquote>
-<p>To pass in files, there are two things you need to do:
+<h1 id="including-extra-files">Including Extra Files<a class="headerlink" href="#including-extra-files" title="Permanent link">&para;</a></h1>
+<p>It is often required to include extra files into your Smile CDR instance. This could be to provide updated configuration changes (e.g. a modified <code>logback.xml</code>), provide <code>.js</code> scripts, <code>.jar</code> files and other libraries to extend the functionality of Smile CDR.</p>
+<p>Rather than having to build a custom Smile CDR container image to include these files, it is possible to include them using this Helm Chart.</p>
+<h2 id="available-methods">Available Methods<a class="headerlink" href="#available-methods" title="Permanent link">&para;</a></h2>
+<p>There are two mechanisms available to load files.</p>
+<ul>
+<li>Including files in the Helm deployment</li>
+<li>Pulling files from an external location</li>
+</ul>
+<p>Each of these mechanisms has its own advantages.</p>
+<h2 id="choosing-which-method-to-use">Choosing Which Method To Use<a class="headerlink" href="#choosing-which-method-to-use" title="Permanent link">&para;</a></h2>
+<h3 id="helm-chart-method">Helm Chart Method<a class="headerlink" href="#helm-chart-method" title="Permanent link">&para;</a></h3>
+<p>Using the <strong>Helm Chart</strong> method is ideal when:</p>
+<ul>
+<li>The files are text based and under 1MiB in size<ul>
+<li>Config files and small scripts are good examples</li>
+<li>Not ideal for binary files, even if small</li>
+</ul>
+</li>
+<li>You do not have many files to add<ul>
+<li>Although there is no limit, your configuration will get very hard to manage if you use too many</li>
+<li>Between 5 &amp; 10 would be a good limit, but this is just a suggestion</li>
+</ul>
+</li>
+<li>You don't have a mechanism in place to stage the files somewhere (i.e. Amazon S3)<ul>
+<li>This method provides a simple deployment solution as it has no external dependencies</li>
+</ul>
+</li>
+</ul>
+<h3 id="external-pull-method">External Pull Method<a class="headerlink" href="#external-pull-method" title="Permanent link">&para;</a></h3>
+<p>Using the <strong>External Pull</strong> method is ideal when:</p>
+<ul>
+<li>You have binary files or large files<ul>
+<li>Any file over 1MiB requires you use this method</li>
+</ul>
+</li>
+<li>You have many files<ul>
+<li>This mechanism will copy files recursively without clogging up your configuration</li>
+</ul>
+</li>
+<li>You are able to stage your files and file updates on Amazon S3<ul>
+<li>Currently only S3 is supported, but other external file sources will be added as required</li>
+</ul>
+</li>
+<li>You wish to pull files that are publically hosted (e.g. public <code>.jar</code> files)</li>
+</ul>
+<h3 id="using-both-methods">Using Both Methods:<a class="headerlink" href="#using-both-methods" title="Permanent link">&para;</a></h3>
+<p>Using both methods is possible too:</p>
+<ul>
+<li>If you had a set of <code>.jar</code> files and scripts being staged on S3, you could still add files using the
+Helm chart method if it makes for a simpler workflow</li>
+<li>Be wary that having it split up like this could make your configuration more confusing (i.e. <em>"Where was that file copied from again?"</em>)</li>
+<li>Files copied using the Helm Chart method will take precedence over any files copied from an external source.</li>
+</ul>
+<h2 id="using-the-helm-chart-method">Using the Helm Chart Method<a class="headerlink" href="#using-the-helm-chart-method" title="Permanent link">&para;</a></h2>
+<p>To pass in files using the Helm Chart, there are two things you need to do:
 1. Use a Helm commandline option to load the file into the deployment
 2. Reference and configure the file in your values file.</p>
-<h2 id="include-file-in-helm-deployment">Include File in Helm Deployment<a class="headerlink" href="#include-file-in-helm-deployment" title="Permanent link">&para;</a></h2>
+<h3 id="include-file-in-helm-deployment">Include File in Helm Deployment<a class="headerlink" href="#include-file-in-helm-deployment" title="Permanent link">&para;</a></h3>
 <p>To include a file in the deployment, use the following commandline option:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>helm<span class="w"> </span>upgrade<span class="w"> </span>-i<span class="w"> </span>my-smile-env<span class="w"> </span>--devel<span class="w"> </span>-f<span class="w"> </span>my-values.yaml<span class="w"> </span>--set-file<span class="w"> </span>mappedFiles.logback<span class="se">\\</span>.xml.data<span class="o">=</span>logback.xml<span class="w"> </span>smiledh/smilecdr
 </code></pre></div></p>
 <blockquote>
-<p><strong>WARNING</strong>: Pay special attention to the escaping required to include the period in the filename.
+<p><strong>WARNING:</strong> Pay special attention to the escaping required to include the period in the filename.
 You need to use <code>\\.</code> when running this from a shell. This is just the way this works.</p>
 </blockquote>
 <p>This will encode the file and load it into the provided values under the <code>mappedFiles.logback.xml.data</code>
 key.</p>
-<h2 id="include-file-in-values-file">Include File in Values File<a class="headerlink" href="#include-file-in-values-file" title="Permanent link">&para;</a></h2>
+<h3 id="include-file-in-values-file">Include File in Values File<a class="headerlink" href="#include-file-in-values-file" title="Permanent link">&para;</a></h3>
 <p>The included file also needs to be referenced from your values file so that the chart knows where to mount the file in the application's Pod:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">mappedFiles</span><span class="p">:</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">logback.xml</span><span class="p">:</span>
@@ -1221,6 +1471,107 @@ key.</p>
 As the result of the above, a <code>ConfigMap</code> will be created and mapped into the pod at
 <code>/home/smile/smilecdr/classes/logback.xml</code> using <code>Volume</code> and <code>VolumeMount</code> resources. If the
 content of the file is changed, then it will be automatically picked up on the next deployment. (See <a href="../updating/#automatic-deployment-of-config-changes">Automatic Deployment of Config Changes</a> for more info on this)</p>
+<h2 id="using-the-external-pull-method">Using the External Pull Method<a class="headerlink" href="#using-the-external-pull-method" title="Permanent link">&para;</a></h2>
+<p>The external pull method can be used to pull files from Amazon S3 or from public websites that publish resources (e.g. Maven).</p>
+<h3 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h3>
+<h4 id="shared-volumes">Shared Volumes<a class="headerlink" href="#shared-volumes" title="Permanent link">&para;</a></h4>
+<p>Pod-local shared volumes are used for the <code>classes</code> and <code>customerlib</code> directories so that the files can be copied there before the main Smile CDR container starts up.</p>
+<p>These volumes are only accessible to containers running inside the pods and are deleted when the pod is terminated so they are not accessible outside the pod's lifecycle.
+If the underlying Kubernetes node volume uses encrypted storage, then these volumes will also be encrypted.</p>
+<h4 id="init-containers">Init Containers<a class="headerlink" href="#init-containers" title="Permanent link">&para;</a></h4>
+<p>Kubernetes init containers are then used to pull files from S3, or some other location.</p>
+<p>It uses multiple Kubernetes <a href="https://kubernetes.io/docs/concepts/workloads/pods/init-containers/">init containers</a> to synchronize and pull files to these shared volumes during pod startup.</p>
+<p>This feature has been implemented to support Amazon S3 and curl. Other mechanisms may be introduced in a future version of this chart.</p>
+<p>The init containers are auto-configured based on the provided <code>copyFiles</code> settings. They function as follows:</p>
+<p><strong><code>init-sync-classes</code></strong></p>
+<ul>
+<li>This container copies the default files from the classes directory from the Smile CDR base image to a <code>classes</code> shared volume that is local to the pod</li>
+<li>The <code>init-pull-classes</code> container will overwrite any of these files with the same names</li>
+<li>This is a required step if you wish to retain the default files. As such, it's enabled by default</li>
+<li>If you require a 'clean' <code>classes</code> directory, this step can be disabled using <code>copyFiles.classes.disableSyncDefaults: true</code>.<ul>
+<li>If disabled, you will need to provide all <code>classes</code> files that are required for Smile CDR to start up (With the exception of the config properties file which is generated by this Helm Chart).</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> There is no <code>init-sync</code> container for the <code>customerlib</code> as there are no pre-existing files in that directory in the standard Smile CDR image. See the <code>init-pull-customerlib</code> section below for more info on this.</p>
+</blockquote>
+<p><strong><code>init-pull-classes-*</code></strong></p>
+<ul>
+<li>These containers copy files from the specified location to the <strong><em>classes</em></strong> shared volume</li>
+<li>Currently they support pulling files from Amazon S3 and downloading files from public websites using <code>curl</code>.</li>
+<li>Any files copied will be available to Smile CDR when it starts up</li>
+</ul>
+<p><strong><code>init-pull-customerlib-*</code></strong></p>
+<ul>
+<li>This container copies files from the specified location to the <strong><em>customerlib</em></strong> shared volume</li>
+<li>Currently they support pulling files from Amazon S3 and downloading files from public websites using <code>curl</code>.</li>
+<li>Any files copied will be available to Smile CDR when it starts up</li>
+<li>If you are using a custom Smile CDR image with files already copied into the <code>customerlib</code> directory, they will not be available to the Smile CDR if you have enabled this container<ul>
+<li>You should define your <code>customerlib</code> files in one place</li>
+<li>It makes the most sense to include them all via this mechanism so you can avoid the extra complexity of creating and hosting custom images</li>
+</ul>
+</li>
+</ul>
+<h3 id="s3-prerequisites">S3 Prerequisites<a class="headerlink" href="#s3-prerequisites" title="Permanent link">&para;</a></h3>
+<p>To pass in files from an Amazon S3 bucket, you need the following prerequisites in place:</p>
+<ul>
+<li>An S3 bucket with:<ul>
+<li>A folder containing your <code>classes</code> files</li>
+<li>A folder containing your <code>customerlib</code> files</li>
+<li>Ideally, these should be in a higher level folder to control versioning<ul>
+<li>e.g. <code>v1</code>, <code>v2</code> or a <code>UID</code></li>
+</ul>
+</li>
+<li>Bucket should not be publically accessible<ul>
+<li>It will work with public buckets too, but this is a bad security practice</li>
+</ul>
+</li>
+<li>Bucket should use encryption<ul>
+<li>Again, it will work without, but it's good security practice to encrypt everything by default</li>
+</ul>
+</li>
+<li>The mechanism to copy the files into this bucket is out of the scope of this Helm Chart</li>
+</ul>
+</li>
+<li>Service Account must be enabled and configured to use IRSA. See <a href="../../serviceaccount/">here</a> for more info on this</li>
+<li>The IAM Role used for the Service Account must have read access to the S3 bucket</li>
+</ul>
+<h3 id="a-note-on-file-versioning">A Note On File Versioning<a class="headerlink" href="#a-note-on-file-versioning" title="Permanent link">&para;</a></h3>
+<p>Though not required, it is reccommended to include some versioning structure in your S3 bucket.</p>
+<p>While already running pods cannot be affected by this (As they have already copied their files), any new pods that start up (e.g in scaling or reconciliation events) may be adversely affected if files have been unexpectedly changed or deleted.</p>
+<p>By including a new version whenever a given set of files is updated, previous deployments of the application will remain unaffected. This is also beneficial during rollbacks as the previous set of files will remain.</p>
+<p>This does introduce challenges of file duplication and managing multiple old versions. As the number of files included is typically low, this should not be of huge concern.</p>
+<h3 id="configure-helm-values-file">Configure Helm Values File<a class="headerlink" href="#configure-helm-values-file" title="Permanent link">&para;</a></h3>
+<p>To enable this feature, add the following snipped to your values file. Replace the bucket name and path to match your environment.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">copyFiles</span><span class="p">:</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">classes</span><span class="p">:</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">sources</span><span class="p">:</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="c1"># Copies files recursively from S3 to the classes directory</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="c1"># disableSyncDefaults: true &lt;- Optional. Use with caution! (See above)</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">      </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3-bucket-name</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path-to/classes</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">      </span><span class="c1"># Example versioned locations.</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">      </span><span class="c1"># path: /v1/classes</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">      </span><span class="c1"># path: /v1.1/classes</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">      </span><span class="c1"># path: /v2/classes</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">      </span><span class="c1"># path: /&lt;sha256-of-file-content&gt;/classes &lt;- You could generate a sha256 hash of the entire file contents.</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">      </span><span class="c1"># path: /&lt;UID&gt;/classes &lt;- You could generate a unique UID for each new version</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">  </span><span class="nt">customerlib</span><span class="p">:</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="nt">sources</span><span class="p">:</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="c1"># Copies files recursively from S3 to the customerlib directory</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">      </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3-bucket-name</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path-to/customerlib-src</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span><span class="c1"># Downloads a single file using curl to the customerlib directory (In this case, customerlib/elastic-apm/elastic-apm-agent-1.13.0.jar)</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">curl</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">      </span><span class="nt">fileName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">elastic-apm/elastic-apm-agent-1.13.0.jar</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://repo.maven.apache.org/maven2/co/elastic/apm/elastic-apm-agent/1.13.0/elastic-apm-agent-1.13.0.jar</span>
+</code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> The Service Account configurations have been left out for clarity. Please refer to the <a href="../../serviceaccount/">Service Account guide</a> for instructions on enabling IRSA and IAM roles.</p>
+</blockquote>
 
 
 

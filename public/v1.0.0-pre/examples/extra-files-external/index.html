@@ -8,18 +8,20 @@
       
       
       
-        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/quickstart/">
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/extra-files-external/">
       
       
-        <link rel="prev" href="../extra-files-external/">
+        <link rel="prev" href="../extra-files-helm/">
       
+      
+        <link rel="next" href="../quickstart/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
     
     
       
-        <title>Quickstart - Smile Digital Health Helm Charts</title>
+        <title>Adding Files using External - Smile Digital Health Helm Charts</title>
       
     
     
@@ -71,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#quickstart-configuration" class="md-skip">
+        <a href="#adding-files-configuration" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Quickstart
+              Adding Files using External
             
           </span>
         </div>
@@ -1061,20 +1063,6 @@
               
   
   
-  
-    <li class="md-nav__item">
-      <a href="../extra-files-external/" class="md-nav__link">
-        Adding Files using External
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
     
   
   
@@ -1087,12 +1075,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Quickstart
+          Adding Files using External
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Quickstart
+        Adding Files using External
       </a>
       
         
@@ -1128,6 +1116,20 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        Quickstart
+      </a>
     </li>
   
 
@@ -1198,37 +1200,68 @@
 
 
 
-<h1 id="quickstart-configuration">Quickstart Configuration<a class="headerlink" href="#quickstart-configuration" title="Permanent link">&para;</a></h1>
-<p>This is the configuration used in the <a href="../../quickstart/">Quickstart</a></p>
+<h1 id="adding-files-configuration">Adding Files Configuration<a class="headerlink" href="#adding-files-configuration" title="Permanent link">&para;</a></h1>
+<p>This example demonstrates passing in extra files to the deployment from external sources.</p>
+<p>It is based on the <a href="../minimal/">minimal</a> example.</p>
 <p>This will configure Smile CDR as follows:</p>
 <ul>
 <li>Default Smile CDR module configuraton</li>
 <li>Ingress configured for <code>smilecdr.mycompany.com</code> using NginX Ingress</li>
-<li>Docker registry credentials passed in via values file (Don't do this!)</li>
+<li>Docker registry credentials passed in via Secret Store CSI Driver using AWS Secrets Manager</li>
 <li>Postgres DB automatically created</li>
+<li>Custom <code>logback.xml</code> file will be included in the <code>classes</code> directory in Smile CDR, using Amazon S3</li>
+<li>Elastic APM <code>.jar</code> file will be included in the <code>customerlib</code> directory in Smile CDR, using curl</li>
 </ul>
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Nginx Ingress Controller must be installed, with TLS certificate</li>
 <li>DNS for <code>smilecdr.mycompany.com</code> needs to be exist and be pointing to the load balancer used by Nginx Ingress</li>
 <li>CrunchyData Operator must be installed</li>
-<li>Credentials to an image repository with the official Smile CDR images.</li>
+<li>Image repository credentials stored in AWS Secrets Manager</li>
+<li>Amazon S3 bucket with a customized <code>logback.xml</code> file copied to a <code>classes</code> folder</li>
+<li>AWS IAM Role configured to access:<ul>
+<li>AWS Secrets Manager</li>
+<li>Amazon S3 bucket</li>
+</ul>
+</li>
 </ul>
 <h2 id="values-file">Values File<a class="headerlink" href="#values-file" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">specs</span><span class="p">:</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">smilecdr.mycompany.com</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nt">image</span><span class="p">:</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.smilecdr.com/smilecdr</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">credentials</span><span class="p">:</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">values</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nt">values</span><span class="p">:</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">registry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.smilecdr.com</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;DOCKER_USERNAME&gt;</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;DOCKER_PASSWORD&gt;</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="nt">database</span><span class="p">:</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="nt">crunchypgo</span><span class="p">:</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="nt">internal</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nt">image</span><span class="p">:</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.smilecdr.com/smilecdr</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nt">credentials</span><span class="p">:</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sscsi</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="nt">secretarn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname&quot;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="nt">serviceAccount</span><span class="p">:</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="nt">create</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="nt">eks.amazonaws.com/role-arn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:iam::123456789012:role/example-role-name&quot;</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="nt">database</span><span class="p">:</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="nt">crunchypgo</span><span class="p">:</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="nt">internal</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="nt">copyFiles</span><span class="p">:</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">  </span><span class="nt">classes</span><span class="p">:</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">    </span><span class="nt">sources</span><span class="p">:</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="c1"># Copies files recursively from S3 to the classes directory</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">      </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3-bucket-name</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">      </span><span class="c1"># The below S3 bucket prefix must contain the custom logback.xml</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">      </span><span class="c1"># file, as well as any other needed files.</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path-to/classes</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">  </span><span class="nt">customerlib</span><span class="p">:</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">    </span><span class="nt">sources</span><span class="p">:</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="w">    </span><span class="c1"># Downloads a single file using curl to the customerlib directory</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">    </span><span class="c1"># (In this case, customerlib/elastic-apm/elastic-apm-agent-1.13.0.jar)</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">curl</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">      </span><span class="nt">fileName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">elastic-apm/elastic-apm-agent-1.13.0.jar</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://repo.maven.apache.org/maven2/co/elastic/apm/elastic-apm-agent/1.13.0/elastic-apm-agent-1.13.0.jar</span>
 </code></pre></div>
 
 

@@ -1042,6 +1042,8 @@
         
           
         
+          
+        
       
       
         
@@ -1140,8 +1142,22 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/extra-files/" class="md-nav__link">
-        Adding Files
+      <a href="../../../examples/extra-files-helm/" class="md-nav__link">
+        Adding Files using Helm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/extra-files-external/" class="md-nav__link">
+        Adding Files using External
       </a>
     </li>
   
@@ -1312,11 +1328,11 @@ cost effective and scalable manner with operational efficiency in mind.</p>
 <li>Flexible JVM tuning with sane defaults</li>
 <li>Adding small files (Up to 1Mb each - i.e. config files, scripts ect)</li>
 <li>Kafka configuration</li>
+<li><strong>NEW!!!</strong> File loading support - This allows you to include resources such as <code>.jar</code> files, long scripts etc into the Smile CDR pod, negating the need to build custom images or directly access the Pod to copy them in. Currently supports AWS S3</li>
 <li>Coming soon...<ul>
 <li>Flexible CDR Node configurations (i.e. <a href="https://smilecdr.com/docs/clustering/designing_a_cluster.html#sample-architecture">Smile CDR Cluster Design Sample Architecture</a>)</li>
-<li>File loading support - This will allow you to include resources such as <code>.jar</code> files,
-long scripts etc into the Smile CDR pod, negating the need to build custom images or directly access the Pod</li>
 <li>AWS IAM authentication for RDS databases</li>
+<li>File loading from sources other than S3</li>
 <li>MongoDB support</li>
 <li>User seeding</li>
 <li>OIDC seeding</li>
