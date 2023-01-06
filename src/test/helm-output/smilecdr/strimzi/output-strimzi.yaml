@@ -380,6 +380,8 @@ spec:
       serviceAccountName: default
       securityContext:
         {}
+      initContainers:
+        []
       containers:
         - name: smilecdr
           securityContext:

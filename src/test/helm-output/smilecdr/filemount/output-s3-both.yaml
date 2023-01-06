@@ -209,7 +209,7 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    appgw.ingress.kubernetes.io/health-probe-path: /json-admin/endpoint-health
+    {}
 spec:
   type: ClusterIP
   ports:
@@ -233,7 +233,7 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    appgw.ingress.kubernetes.io/health-probe-path: /endpoint-health
+    {}
 spec:
   type: ClusterIP
   ports:
@@ -257,7 +257,7 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    appgw.ingress.kubernetes.io/health-probe-path: /fhir_request/endpoint-health
+    {}
 spec:
   type: ClusterIP
   ports:
@@ -281,7 +281,7 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    appgw.ingress.kubernetes.io/health-probe-path: /fhirweb/endpoint-health
+    {}
 spec:
   type: ClusterIP
   ports:
@@ -305,7 +305,7 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    appgw.ingress.kubernetes.io/health-probe-path: /package_registry/endpoint-health
+    {}
 spec:
   type: ClusterIP
   ports:
@@ -329,7 +329,7 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    appgw.ingress.kubernetes.io/health-probe-path: /smartauth/endpoint-health
+    {}
 spec:
   type: ClusterIP
   ports:
@@ -377,7 +377,61 @@ spec:
       securityContext:
         {}
       initContainers:
-        []
+        - command:
+          - /usr/bin/sh
+          - -c
+          - /usr/bin/cp -rp /home/smile/smilecdr/classes/. /tmp/smilecdr-volumes/classes/
+          image: docker.smilecdr.com/smilecdr:2022.11.R01
+          imagePullPolicy: IfNotPresent
+          name: init-sync-classes
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/classes/
+            name: scdr-volume-classes
+        - args:
+          - s3
+          - cp
+          - s3://s3-bucket-name/path-to/classes
+          - /tmp/smilecdr-volumes/classes/
+          - --recursive
+          image: public.ecr.aws/aws-cli/aws-cli
+          imagePullPolicy: IfNotPresent
+          name: init-pull-classes-s3
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/classes/
+            name: scdr-volume-classes
+        - args:
+          - s3
+          - cp
+          - s3://s3-bucket-name/path-to/customerlib
+          - /tmp/smilecdr-volumes/customerlib/
+          - --recursive
+          image: public.ecr.aws/aws-cli/aws-cli
+          imagePullPolicy: IfNotPresent
+          name: init-pull-customerlib-s3
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/customerlib/
+            name: scdr-volume-customerlib
       containers:
         - name: smilecdr
           securityContext:
@@ -451,10 +505,20 @@ spec:
               containerPort: 9200
               protocol: TCP
           volumeMounts:
+            - mountPath: /home/smile/smilecdr/classes
+              name: scdr-volume-classes
+            - mountPath: /home/smile/smilecdr/customerlib
+              name: scdr-volume-customerlib
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
       volumes:
+        - emptyDir:
+            sizeLimit: 500Mi
+          name: scdr-volume-classes
+        - emptyDir:
+            sizeLimit: 500Mi
+          name: scdr-volume-customerlib
         - configMap:
             name: release-name-scdr-masterdev-node-d011d6bf069b21f0d23c90c7b21dcda95ef5619ed3c9ac9d4931205807be0e1d
           name: scdr-config-release-name
@@ -472,15 +536,8 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    appgw.ingress.kubernetes.io/appgw-ssl-certificate: "mysslcert"
-    appgw.ingress.kubernetes.io/backend-protocol: "http"
-    appgw.ingress.kubernetes.io/cookie-based-affinity: "false"
-    appgw.ingress.kubernetes.io/health-probe-interval: "6"
-    appgw.ingress.kubernetes.io/health-probe-status-codes: "200-401"
-    appgw.ingress.kubernetes.io/health-probe-timeout: "5"
-    appgw.ingress.kubernetes.io/override-frontend-port: "443"
-    appgw.ingress.kubernetes.io/use-private-ip: "false"
-    kubernetes.io/ingress.class: "azure/application-gateway"
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   rules:
     - host: smilecdr-example.local

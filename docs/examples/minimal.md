@@ -7,7 +7,7 @@ This will configure Smile CDR as follows:
 * Default Smile CDR module configuraton
 * Ingress configured for `smilecdr.mycompany.com` using NginX Ingress
 * Docker registry credentials passed in via Secret Store CSI Driver using AWS Secrets Manager
-* Postgres DB automatically created 
+* Postgres DB automatically created
 
 ## Requirements
 

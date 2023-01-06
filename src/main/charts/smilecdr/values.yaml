@@ -255,6 +255,22 @@ mappedFiles: {}
 #     configMapBaseName: smilecdr
 #     path: /home/smile/smilecdr/classes
 
+## @section Copying Extra Files into Smile CDR Pods from external location
+copyFiles: {}
+##  Copies files from S3 to the classes directory
+#   classes:
+#     syncDefaults: true
+#     source:
+#       type: s3
+#       bucket: s3-bucket-name
+#       path: /version/classes
+##  Copies files from S3 to the customerlib directory
+#   customerlib:
+#     source:
+#       type: s3
+#       bucket: s3-bucket-name
+#       path: /version/customerlib
+
 ## @section Ingress
 ## @param ingress.enabled Enable Ingress
 ## @param ingress.type Ingress type (`nginx-ingress`,`aws-lbc-alb`,`azure-appgw`)

@@ -25,3 +25,24 @@ periodSeconds: 10
     {{- end -}}
   {{- end -}}
 {{- end -}}
+
+{{/*
+Define all init containers
+
+Note:
+This template simply collates the init containers defined elsewhere to
+provide a single entry point.
+*/}}
+{{- define "smilecdr.initContainers" -}}
+  {{- $initContainers := list -}}
+  {{- /* fail (printf "%v" (include "smilecdr.initFileContainers" . | fromYamlArray )) */ -}}
+  {{- $initContainers = concat $initContainers (include "smilecdr.initFileContainers" . | fromYamlArray ) -}}
+  {{- /* Uncomment once migration containers (i.e. Zero Outage Upgrades) are implemented */ -}}
+  {{- /* $initContainers = append $initContainers (include "smilecdr.initMigrateContainers" . | fromYaml ) */ -}}
+  {{- /* fail (printf "%v" ($initContainers)) */ -}}
+  {{- if ne (len $initContainers) 0 -}}
+    {{- printf "%v" (toYaml $initContainers) -}}
+  {{- else -}}
+    {{- printf "[]" -}}
+  {{- end -}}
+{{- end -}}

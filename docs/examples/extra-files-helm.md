@@ -1,6 +1,6 @@
-# Adding Files Configuration
+# Adding Files Using Helm
 
-This example demonstrates passing in extra files to the deployment.
+This example demonstrates passing in extra files to the deployment via the Helm Chart.
 
 It is based on the [minimal](minimal.md) example.
 
