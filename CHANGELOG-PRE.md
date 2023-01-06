@@ -1,3 +1,10 @@
+# [1.0.0-pre.35](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.34...v1.0.0-pre.35) (2023-01-06)
+
+
+### Features
+
+* **smilecdr:** copy files from external location ([ea2710f](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/ea2710f406d43b610e7cfa41b2d8e9859f9536d2))
+
 # [1.0.0-pre.34](https://gitlab.com/smilecdr-techops/smile-dh-helm-charts/compare/v1.0.0-pre.33...v1.0.0-pre.34) (2022-12-22)
 
 
