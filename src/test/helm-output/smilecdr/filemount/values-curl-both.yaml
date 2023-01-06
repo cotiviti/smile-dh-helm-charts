@@ -1,0 +1,24 @@
+# This values file tests pulling `classes` files from S3 without preserving the original files
+
+copyFiles:
+  # Copies files from S3 to the classes directory
+  classes:
+    sources:
+    - type: curl
+      fileName: mydownloadedscript.js
+      url: https://website.com/path/to/file.js
+  # Copies files from S3 to the customerlib directory
+  customerlib:
+    sources:
+    - type: curl
+      fileName: mydownloadedlib.jar
+      url: https://website.com/path/to/file.jar
+
+# This defines the minimum required settings to use this Helm Chart.
+image:
+  credentials:
+    type: values
+
+database:
+  crunchypgo:
+    enabled: true

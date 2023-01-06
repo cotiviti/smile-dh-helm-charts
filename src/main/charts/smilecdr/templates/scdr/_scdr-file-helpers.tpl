@@ -41,6 +41,17 @@ Define fileVolumes for all mapped files
       {{- $fileVolumes = append $fileVolumes $fileVolume -}}
     {{- end -}}
   {{- end -}}
+  {{- /* Add init-sync shared volumes for classes and customerlib if enabled */ -}}
+  {{- if hasKey .Values.copyFiles "classes" -}}
+    {{- $fileVolume := dict "name" "scdr-volume-classes" -}}
+    {{- $_ := set $fileVolume "emptyDir" (dict "sizeLimit" "500Mi") -}}
+    {{- $fileVolumes = append $fileVolumes $fileVolume -}}
+  {{- end -}}
+  {{- if hasKey .Values.copyFiles "customerlib" -}}
+    {{- $fileVolume := dict "name" "scdr-volume-customerlib" -}}
+    {{- $_ := set $fileVolume "emptyDir" (dict "sizeLimit" "500Mi") -}}
+    {{- $fileVolumes = append $fileVolumes $fileVolume -}}
+  {{- end -}}
   {{- dict "list" $fileVolumes | toYaml -}}
 {{- end -}}
 
@@ -57,5 +68,98 @@ Define fileVolumeMounts for all mapped files
       {{- $fileVolumeMounts = append $fileVolumeMounts $fileVolumeMount -}}
     {{- end -}}
   {{- end -}}
+  {{- /* Add init-sync shared volumes for classes and customerlib if enabled */ -}}
+  {{- if hasKey .Values.copyFiles "classes" -}}
+    {{- $fileVolumeMount := dict "name" "scdr-volume-classes" -}}
+    {{- $_ := set $fileVolumeMount "mountPath" "/home/smile/smilecdr/classes" -}}
+    {{- $fileVolumeMounts = append $fileVolumeMounts $fileVolumeMount -}}
+  {{- end -}}
+  {{- if hasKey .Values.copyFiles "customerlib" -}}
+    {{- $fileVolumeMount := dict "name" "scdr-volume-customerlib" -}}
+    {{- $_ := set $fileVolumeMount "mountPath" "/home/smile/smilecdr/customerlib" -}}
+    {{- $fileVolumeMounts = append $fileVolumeMounts $fileVolumeMount -}}
+  {{- end -}}
   {{- dict "list" $fileVolumeMounts | toYaml -}}
+{{ end }}
+
+{{/*
+Define init-pull containers
+
+Note:
+We are defining volumeMounts for these init containers directly rather than in smilecdr.fileVolumeMounts
+because these init containers do not need any of the files mapped by configMaps.
+Volumes are defined in `smilecdr.fileVolumes`
+*/}}
+{{ define "smilecdr.initFileContainers" }}
+  {{- $initPullContainers := list -}}
+  {{- $initContainerResources := (dict "requests" (dict "cpu" "500m" "memory" "500Mi")) -}}
+  {{- $_ := set $initContainerResources "limits" (dict "cpu" "500m" "memory" "500Mi") -}}
+  {{- if hasKey .Values.copyFiles "classes" -}}
+    {{- if not (.Values.copyFiles.classes.disableSyncDefaults) -}}
+      {{- $imageSpec := dict "name" "init-sync-classes" -}}
+      {{- $_ := set $imageSpec "image" (printf "%s:%s" .Values.image.repository (default .Values.image.tag .Chart.AppVersion)) -}}
+      {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
+      {{- $_ := set $imageSpec "command" (list "/usr/bin/sh" "-c" "/usr/bin/cp -rp /home/smile/smilecdr/classes/. /tmp/smilecdr-volumes/classes/")  -}}
+      {{- $_ := set $imageSpec "resources" $initContainerResources -}}
+      {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
+      {{- $initPullContainers = append $initPullContainers $imageSpec -}}
+    {{- end -}}
+    {{- range $v := .Values.copyFiles.classes.sources -}}
+      {{- if eq $v.type "s3" -}}
+        {{- $bucket := required "You must specify an S3 bucket to copy classes files from." $v.bucket -}}
+        {{- $bucketPath := required "You must specify an S3 bucket path to copy classes files from." $v.path -}}
+        {{- $bucketFullPath := printf "s3://%s%s" $bucket $bucketPath -}}
+        {{- $imageSpec := dict "name" "init-pull-classes-s3" -}}
+        {{- $_ := set $imageSpec "image" "public.ecr.aws/aws-cli/aws-cli" -}}
+        {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
+        {{- $_ := set $imageSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/classes/" "--recursive" )  -}}
+        {{- $_ := set $imageSpec "resources" $initContainerResources -}}
+        {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
+        {{- $initPullContainers = append $initPullContainers $imageSpec -}}
+      {{- else if eq .type "curl" -}}
+        {{- $url := required "You must specify a URL to copy classes files from." .url -}}
+        {{- $fileName := required "You must specify a destination `fileName` for classes files." .fileName -}}
+        {{- $fileFullPath := printf "/tmp/smilecdr-volumes/classes/%s" $fileName -}}
+        {{- $imageSpec := dict "name" "init-pull-classes-curl" -}}
+        {{- $_ := set $imageSpec "image" "curlimages/curl" -}}
+        {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
+        {{- $_ := set $imageSpec "args" (list "-o" $fileFullPath "--create-dirs" $url )  -}}
+        {{- $_ := set $imageSpec "resources" $initContainerResources -}}
+        {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
+        {{- $initPullContainers = append $initPullContainers $imageSpec -}}
+      {{- else -}}
+        {{- fail "Currently only supports S3 or curl for pulling extra files" -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if hasKey .Values.copyFiles "customerlib" -}}
+    {{- range .Values.copyFiles.customerlib.sources -}}
+      {{- if eq .type "s3" -}}
+        {{- $bucket := required "You must specify an S3 bucket to copy customerlib files from." .bucket -}}
+        {{- $bucketPath := required "You must specify an S3 bucket path to copy customerlib files from." .path -}}
+        {{- $bucketFullPath := printf "s3://%s%s" $bucket $bucketPath -}}
+        {{- $imageSpec := dict "name" "init-pull-customerlib-s3" -}}
+        {{- $_ := set $imageSpec "image" "public.ecr.aws/aws-cli/aws-cli" -}}
+        {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
+        {{- $_ := set $imageSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/customerlib/" "--recursive" )  -}}
+        {{- $_ := set $imageSpec "resources" $initContainerResources -}}
+        {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/")) -}}
+        {{- $initPullContainers = append $initPullContainers $imageSpec -}}
+      {{- else if eq .type "curl" -}}
+        {{- $url := required "You must specify a URL to copy customerlib files from." .url -}}
+        {{- $fileName := required "You must specify a destination `fileName` for customerlib files." .fileName -}}
+        {{- $fileFullPath := printf "/tmp/smilecdr-volumes/customerlib/%s" $fileName -}}
+        {{- $imageSpec := dict "name" "init-pull-customerlib-curl" -}}
+        {{- $_ := set $imageSpec "image" "curlimages/curl" -}}
+        {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
+        {{- $_ := set $imageSpec "args" (list "-o" $fileFullPath "--create-dirs" $url )  -}}
+        {{- $_ := set $imageSpec "resources" $initContainerResources -}}
+        {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/")) -}}
+        {{- $initPullContainers = append $initPullContainers $imageSpec -}}
+      {{- else -}}
+        {{- fail "Currently only supports S3 or curl for pulling extra files" -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $initPullContainers | toYaml -}}
 {{ end }}

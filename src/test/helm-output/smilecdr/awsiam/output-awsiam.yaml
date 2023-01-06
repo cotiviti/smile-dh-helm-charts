@@ -390,6 +390,8 @@ spec:
       serviceAccountName: release-name-smilecdr
       securityContext:
         {}
+      initContainers:
+        []
       containers:
         - name: smilecdr
           securityContext:

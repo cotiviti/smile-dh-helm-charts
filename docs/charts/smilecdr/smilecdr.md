@@ -24,7 +24,6 @@ Included features fall into the following categories:
 * [Operational efficiency](#operational-efficiency-features)
     * Features to help you operate effectively
 
-
 ### Application Features
 This chart supports the following Smile CDR features *"out-of-the-box"*:
 
@@ -35,11 +34,11 @@ This chart supports the following Smile CDR features *"out-of-the-box"*:
 * Flexible JVM tuning with sane defaults
 * Adding small files (Up to 1Mb each - i.e. config files, scripts ect)
 * Kafka configuration
+* **NEW!!!** File loading support - This allows you to include resources such as `.jar` files, long scripts etc into the Smile CDR pod, negating the need to build custom images or directly access the Pod to copy them in. Currently supports AWS S3
 * Coming soon...
     * Flexible CDR Node configurations (i.e. [Smile CDR Cluster Design Sample Architecture](https://smilecdr.com/docs/clustering/designing_a_cluster.html#sample-architecture))
-    * File loading support - This will allow you to include resources such as `.jar` files,
-    long scripts etc into the Smile CDR pod, negating the need to build custom images or directly access the Pod
     * AWS IAM authentication for RDS databases
+    * File loading from sources other than S3
     * MongoDB support
     * User seeding
     * OIDC seeding

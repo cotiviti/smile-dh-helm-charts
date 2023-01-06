@@ -67,7 +67,8 @@ nav:
     - 'Multiple External Databases': examples/external-db-multi.md
     - 'Simple Module Configuration': examples/modules-simple.md
     - 'Advanced Module Configuration': examples/modules-advanced.md
-    - 'Adding Files': examples/extra-files.md
+    - 'Adding Files using Helm': examples/extra-files-helm.md
+    - 'Adding Files using External': examples/extra-files-external.md
     - 'Quickstart': examples/quickstart.md
 
     # - 'Using Kubernetes Secrets': examples/k8ssecrets.md

@@ -7,7 +7,7 @@ This will configure Smile CDR as follows:
 * Default Smile CDR module configuraton
 * Ingress configured for `smilecdr.mycompany.com` using NginX Ingress
 * Docker registry credentials passed in via values file (Don't do this!)
-* Postgres DB automatically created 
+* Postgres DB automatically created
 
 ## Requirements
 
