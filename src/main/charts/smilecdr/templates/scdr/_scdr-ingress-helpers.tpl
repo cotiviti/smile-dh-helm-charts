@@ -27,9 +27,8 @@ specified cloud provider
 {{- /*
 Azure Application Gateway Annotations (No Nginx Ingress)
 */ -}}
-kubernetes.io/ingress.class: azure/application-gateway
+kubernetes.io/ingress.class: {{ default "azure/application-gateway" .Values.ingress.ingressClassNameOverride }}
 appgw.ingress.kubernetes.io/backend-protocol: http
-appgw.ingress.kubernetes.io/appgw-ssl-certificate: mysslcert
 appgw.ingress.kubernetes.io/cookie-based-affinity: "false"
 appgw.ingress.kubernetes.io/use-private-ip: "false"
 appgw.ingress.kubernetes.io/health-probe-interval: '6'
@@ -49,7 +48,7 @@ nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 AWS Load Balancer Controller Annotations (ALB)
 Be sure to specify all required annotations
 */ -}}
-kubernetes.io/ingress.class: alb
+kubernetes.io/ingress.class: {{ default "alb" .Values.ingress.ingressClassNameOverride }}
 alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=false,stickiness.lb_cookie.duration_seconds=300
 alb.ingress.kubernetes.io/backend-protocol: HTTP
 alb.ingress.kubernetes.io/healthcheck-protocol: HTTP

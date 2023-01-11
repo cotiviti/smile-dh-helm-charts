@@ -209,9 +209,9 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    {}
+    appgw.ingress.kubernetes.io/health-probe-path: /json-admin/endpoint-health
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: admin-json
       port: 9000
@@ -233,9 +233,9 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    {}
+    appgw.ingress.kubernetes.io/health-probe-path: /endpoint-health
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: admin-web
       port: 9100
@@ -257,9 +257,9 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    {}
+    appgw.ingress.kubernetes.io/health-probe-path: /fhir_request/endpoint-health
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: fhir
       port: 8000
@@ -281,9 +281,9 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    {}
+    appgw.ingress.kubernetes.io/health-probe-path: /fhirweb/endpoint-health
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: fhirweb
       port: 8001
@@ -305,9 +305,9 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    {}
+    appgw.ingress.kubernetes.io/health-probe-path: /package_registry/endpoint-health
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: pkg-registry
       port: 8002
@@ -329,9 +329,9 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    {}
+    appgw.ingress.kubernetes.io/health-probe-path: /smartauth/endpoint-health
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: smart-auth
       port: 9200
@@ -472,10 +472,16 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/extra-annotation-1: "annotation1-value"
-    nginx.ingress.kubernetes.io/extra-annotation-2: "annotation2-value"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    appgw.ingress.kubernetes.io/backend-protocol: "http"
+    appgw.ingress.kubernetes.io/cookie-based-affinity: "false"
+    appgw.ingress.kubernetes.io/extra-annotation-1: "annotation1-value"
+    appgw.ingress.kubernetes.io/extra-annotation-2: "annotation2-value"
+    appgw.ingress.kubernetes.io/health-probe-interval: "6"
+    appgw.ingress.kubernetes.io/health-probe-status-codes: "200-401"
+    appgw.ingress.kubernetes.io/health-probe-timeout: "5"
+    appgw.ingress.kubernetes.io/override-frontend-port: "443"
+    appgw.ingress.kubernetes.io/use-private-ip: "false"
+    kubernetes.io/ingress.class: "azure/application-gateway"
 spec:
   rules:
     - host: smilecdr-example.local

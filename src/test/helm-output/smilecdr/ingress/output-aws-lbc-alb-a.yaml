@@ -211,7 +211,7 @@ metadata:
   annotations:
     {}
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: admin-json
       port: 9000
@@ -235,7 +235,7 @@ metadata:
   annotations:
     {}
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: admin-web
       port: 9100
@@ -259,7 +259,7 @@ metadata:
   annotations:
     {}
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: fhir
       port: 8000
@@ -283,7 +283,7 @@ metadata:
   annotations:
     {}
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: fhirweb
       port: 8001
@@ -307,7 +307,7 @@ metadata:
   annotations:
     {}
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: pkg-registry
       port: 8002
@@ -331,7 +331,7 @@ metadata:
   annotations:
     {}
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: smart-auth
       port: 9200
@@ -485,6 +485,8 @@ metadata:
     alb.ingress.kubernetes.io/success-codes: "200-401"
     alb.ingress.kubernetes.io/target-group-attributes: "stickiness.enabled=false,stickiness.lb_cookie.duration_seconds=300"
     alb.ingress.kubernetes.io/target-type: "instance"
+    appgw.ingress.kubernetes.io/extra-annotation-1: "annotation1-value"
+    appgw.ingress.kubernetes.io/extra-annotation-2: "annotation2-value"
     kubernetes.io/ingress.class: "alb"
 spec:
   rules:
