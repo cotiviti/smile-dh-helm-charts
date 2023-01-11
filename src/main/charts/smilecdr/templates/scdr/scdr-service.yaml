@@ -1,3 +1,7 @@
+{{- $defaultServiceType := "ClusterIP" -}}
+{{- if or (eq "aws-lbc-alb" $.Values.ingress.type) (eq "azure-appgw" $.Values.ingress.type) -}}
+  {{- $defaultServiceType = "NodePort" -}}
+{{- end -}}
 {{ range $k, $v := include "smilecdr.services" . | fromYaml }}
 apiVersion: v1
 kind: Service
@@ -17,7 +21,7 @@ metadata:
     {}
     {{- end }}
 spec:
-  type: {{ default "ClusterIP" ($.Values.service).type }}
+  type: {{ default $defaultServiceType ($.Values.service).type }}
   ports:
     - name: {{ $v.svcName }}
       port: {{ $v.port }}

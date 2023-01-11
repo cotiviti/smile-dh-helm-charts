@@ -211,7 +211,7 @@ metadata:
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /json-admin/endpoint-health
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: admin-json
       port: 9000
@@ -235,7 +235,7 @@ metadata:
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /endpoint-health
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: admin-web
       port: 9100
@@ -259,7 +259,7 @@ metadata:
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /fhir_request/endpoint-health
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: fhir
       port: 8000
@@ -283,7 +283,7 @@ metadata:
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /fhirweb/endpoint-health
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: fhirweb
       port: 8001
@@ -307,7 +307,7 @@ metadata:
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /package_registry/endpoint-health
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: pkg-registry
       port: 8002
@@ -331,7 +331,7 @@ metadata:
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /smartauth/endpoint-health
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: smart-auth
       port: 9200
@@ -472,7 +472,6 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    appgw.ingress.kubernetes.io/appgw-ssl-certificate: "mysslcert"
     appgw.ingress.kubernetes.io/backend-protocol: "http"
     appgw.ingress.kubernetes.io/cookie-based-affinity: "false"
     appgw.ingress.kubernetes.io/health-probe-interval: "6"

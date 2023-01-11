@@ -1,0 +1,15 @@
+# This file defines the minimum required settings to use this Helm Chart.
+
+image:
+  credentials:
+    type: values
+
+database:
+  crunchypgo:
+    enabled: true
+
+ingress:
+  type: aws-lbc-alb
+  annotations:
+    appgw.ingress.kubernetes.io/extra-annotation-1: annotation1-value
+    appgw.ingress.kubernetes.io/extra-annotation-2: annotation2-value

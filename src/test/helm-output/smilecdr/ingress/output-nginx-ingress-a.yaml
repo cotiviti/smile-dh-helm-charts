@@ -472,8 +472,10 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    other.ingress.controller.kubernetes.io/extra-annotation-1: "annotation1-value"
-    other.ingress.controller.kubernetes.io/extra-annotation-2: "annotation2-value"
+    appgw.ingress.kubernetes.io/extra-annotation-1: "annotation1-value"
+    appgw.ingress.kubernetes.io/extra-annotation-2: "annotation2-value"
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   rules:
     - host: smilecdr-example.local
