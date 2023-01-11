@@ -1,3 +1,10 @@
+# [1.0.0-pre.36](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.35...v1.0.0-pre.36) (2023-01-11)
+
+
+### Features
+
+* **smilecdr:** update ingress logic and docs ([affff39](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/affff3956865d817f14988ea420bc61e1b5f38ad))
+
 # [1.0.0-pre.35](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.34...v1.0.0-pre.35) (2023-01-06)
 
 
