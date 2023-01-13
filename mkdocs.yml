@@ -69,6 +69,7 @@ nav:
     - 'Advanced Module Configuration': examples/modules-advanced.md
     - 'Adding Files using Helm': examples/extra-files-helm.md
     - 'Adding Files using External': examples/extra-files-external.md
+    - 'Configure AWS Dependencies': examples/aws-dependencies.md
     - 'Quickstart': examples/quickstart.md
 
     # - 'Using Kubernetes Secrets': examples/k8ssecrets.md
