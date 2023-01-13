@@ -1406,6 +1406,9 @@
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="p">]</span>
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="p">}</span>
 </code></pre></div></p>
+<blockquote>
+<p><strong>Note:</strong> The <code>??????</code> is a wildcard that matches the random suffix added to an AWS Secrets Manager Secret. See <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#auth-and-access_examples_wildcard">here</a> for more info.</p>
+</blockquote>
 <ol>
 <li><strong>Create the IAM Policy</strong>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>aws<span class="w"> </span>iam<span class="w"> </span>create-policy<span class="w"> </span>--policy-name<span class="w"> </span>smilecdr-dockersecret-policy<span class="w"> </span>--policy-document<span class="w"> </span>file://my-policy.json
