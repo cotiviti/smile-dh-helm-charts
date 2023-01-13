@@ -17,7 +17,7 @@
         <link rel="next" href="../secrets/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.3">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.4">
     
     
       
@@ -25,7 +25,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.6b71719e.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.9c788c91.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
@@ -1066,6 +1066,8 @@
         
           
         
+          
+        
       
       
         
@@ -1180,6 +1182,20 @@
     <li class="md-nav__item">
       <a href="../../examples/extra-files-external/" class="md-nav__link">
         Adding Files using External
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/aws-dependencies/" class="md-nav__link">
+        Configure AWS Dependencies
       </a>
     </li>
   
@@ -1366,12 +1382,11 @@ In this case, there is no need to run the <code>helm repo</code> commands above.
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">  </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://gitlab.com/api/v4/projects/40759898/packages/helm/devel&quot;</span>
 </code></pre></div>
 <h2 id="provide-repo-credentials">Provide Repo Credentials<a class="headerlink" href="#provide-repo-credentials" title="Permanent link">&para;</a></h2>
-<p>As Smile CDR is not a free product, it is not possible to use it from our
-container repository without providing credentials.</p>
+<p>As Smile CDR is not a publicly available product, it is not possible to use it from the container repository without providing credentials.</p>
 <p>The same may be the case if you have custom Docker images for Smile CDR that you have built yourself and published to your own private container registry.</p>
 <p>In either case, you will need to provide credentials that can be used by Kubernetes to pull the image.</p>
 <p>In Kubernetes, to pull from a private container registry, you need to provide
-the <code>imagePullSecrets</code> stanza in the <code>Pod</code> spec. To do this, you need a Kubernetes
+the <code>imagePullSecrets</code> option in the <code>Pod</code> spec. To do this, you need a Kubernetes
 <code>Secret</code> object in the same namespace.</p>
 <blockquote>
 <p><strong>Note</strong> For more information on using private container registries with

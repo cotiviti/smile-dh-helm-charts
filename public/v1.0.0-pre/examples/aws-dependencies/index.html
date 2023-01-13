@@ -8,20 +8,20 @@
       
       
       
-        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/extra-files-external/">
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/aws-dependencies/">
       
       
-        <link rel="prev" href="../extra-files-helm/">
+        <link rel="prev" href="../extra-files-external/">
       
       
-        <link rel="next" href="../aws-dependencies/">
+        <link rel="next" href="../quickstart/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.4">
     
     
       
-        <title>Adding Files using External - Smile Digital Health Helm Charts</title>
+        <title>Configure AWS Dependencies - Smile Digital Health Helm Charts</title>
       
     
     
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#adding-files-configuration" class="md-skip">
+        <a href="#configuring-aws-dependencies" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Adding Files using External
+              Configure AWS Dependencies
             
           </span>
         </div>
@@ -1087,6 +1087,20 @@
               
   
   
+  
+    <li class="md-nav__item">
+      <a href="../extra-files-external/" class="md-nav__link">
+        Adding Files using External
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
     
   
   
@@ -1099,12 +1113,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Adding Files using External
+          Configure AWS Dependencies
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Adding Files using External
+        Configure AWS Dependencies
       </a>
       
         
@@ -1123,16 +1137,70 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
-    Requirements
+  <a href="#creating-iam-role-with-irsa" class="md-nav__link">
+    Creating IAM Role with IRSA
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating IAM Role with IRSA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iam-policy" class="md-nav__link">
+    IAM Policy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iam-role" class="md-nav__link">
+    IAM Role
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-iam-role-in-helm-values" class="md-nav__link">
+    Using IAM Role in Helm Values
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#values-file" class="md-nav__link">
-    Values File
+  <a href="#creating-aws-secrets-manager-secrets" class="md-nav__link">
+    Creating AWS Secrets Manager Secrets
   </a>
+  
+    <nav class="md-nav" aria-label="Creating AWS Secrets Manager Secrets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-secret" class="md-nav__link">
+    Create Secret
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-secret" class="md-nav__link">
+    Update Secret
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-the-secret" class="md-nav__link">
+    Use The Secret
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1140,20 +1208,6 @@
   
 </nav>
       
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../aws-dependencies/" class="md-nav__link">
-        Configure AWS Dependencies
-      </a>
     </li>
   
 
@@ -1206,16 +1260,70 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
-    Requirements
+  <a href="#creating-iam-role-with-irsa" class="md-nav__link">
+    Creating IAM Role with IRSA
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating IAM Role with IRSA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iam-policy" class="md-nav__link">
+    IAM Policy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iam-role" class="md-nav__link">
+    IAM Role
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-iam-role-in-helm-values" class="md-nav__link">
+    Using IAM Role in Helm Values
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#values-file" class="md-nav__link">
-    Values File
+  <a href="#creating-aws-secrets-manager-secrets" class="md-nav__link">
+    Creating AWS Secrets Manager Secrets
   </a>
+  
+    <nav class="md-nav" aria-label="Creating AWS Secrets Manager Secrets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-secret" class="md-nav__link">
+    Create Secret
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-secret" class="md-nav__link">
+    Update Secret
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-the-secret" class="md-nav__link">
+    Use The Secret
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1238,69 +1346,180 @@
 
 
 
-<h1 id="adding-files-configuration">Adding Files Configuration<a class="headerlink" href="#adding-files-configuration" title="Permanent link">&para;</a></h1>
-<p>This example demonstrates passing in extra files to the deployment from external sources.</p>
-<p>It is based on the <a href="../minimal/">minimal</a> example.</p>
-<p>This will configure Smile CDR as follows:</p>
+<h1 id="configuring-aws-dependencies">Configuring AWS Dependencies<a class="headerlink" href="#configuring-aws-dependencies" title="Permanent link">&para;</a></h1>
+<p>This example shows how you would install dependencies in an AWS environment.</p>
+<p>We will go over the creation of the following AWS resources in preparation for deploying Smile CDR using the Helm Chart.</p>
 <ul>
-<li>Default Smile CDR module configuraton</li>
-<li>Ingress configured for <code>smilecdr.mycompany.com</code> using NginX Ingress</li>
-<li>Docker registry credentials passed in via Secret Store CSI Driver using AWS Secrets Manager</li>
-<li>Postgres DB automatically created</li>
-<li>Custom <code>logback.xml</code> file will be included in the <code>classes</code> directory in Smile CDR, using Amazon S3</li>
-<li>Elastic APM <code>.jar</code> file will be included in the <code>customerlib</code> directory in Smile CDR, using curl</li>
-</ul>
-<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Nginx Ingress Controller must be installed, with TLS certificate</li>
-<li>DNS for <code>smilecdr.mycompany.com</code> needs to be exist and be pointing to the load balancer used by Nginx Ingress</li>
-<li>CrunchyData Operator must be installed</li>
-<li>Image repository credentials stored in AWS Secrets Manager</li>
-<li>Amazon S3 bucket with a customized <code>logback.xml</code> file copied to a <code>classes</code> folder</li>
-<li>AWS IAM Role configured to access:<ul>
+<li>IAM Role using IRSA</li>
 <li>AWS Secrets Manager</li>
-<li>Amazon S3 bucket</li>
 </ul>
-</li>
+<blockquote>
+<p><strong>Note:</strong> These resources are configured in a way that is not obvious to an AWS administrator that has not dealt with IRSA before, which is why we are including them here. For other AWS resources (Such as RDS, S3, Certificates Manager etc) conventional configurations can be used, so we do not cover them in this example at this time.</p>
+</blockquote>
+<p>You will need both of these if you are using the recommended method of storing your container registry secrets - <a href="../../guide/secrets/#secrets-store-csi-driver">using Secrets Store CSI Driver</a></p>
+<!-- * ACM (Certificate Manager) (Coming Soon)
+* RDS (Coming Soon)
+* S3 (Coming Soon) -->
+
+<h2 id="creating-iam-role-with-irsa">Creating IAM Role with IRSA<a class="headerlink" href="#creating-iam-role-with-irsa" title="Permanent link">&para;</a></h2>
+<p>To set up an IAM Role to be used by the application pods, we use IRSA (IAM Roles for Service Accounts). Detailed information and instructions for IRSA are located <a href="https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html">here</a></p>
+<p>In this example, we will be creating the role to work with an deployment of Smile CDR in a fictional EKS cluster with the following properties:</p>
+<ul>
+<li>Cluster Name <code>mycluster</code></li>
+<li>Namespace <code>smilecdr</code></li>
+<li>Helm Release Name <code>my-smile</code></li>
 </ul>
-<h2 id="values-file">Values File<a class="headerlink" href="#values-file" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">specs</span><span class="p">:</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">smilecdr.mycompany.com</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nt">image</span><span class="p">:</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.smilecdr.com/smilecdr</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nt">credentials</span><span class="p">:</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sscsi</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="nt">secretarn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname&quot;</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="nt">serviceAccount</span><span class="p">:</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="nt">create</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="nt">eks.amazonaws.com/role-arn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:iam::123456789012:role/example-role-name&quot;</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="nt">database</span><span class="p">:</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="nt">crunchypgo</span><span class="p">:</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="nt">internal</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="nt">copyFiles</span><span class="p">:</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">  </span><span class="nt">classes</span><span class="p">:</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">    </span><span class="nt">sources</span><span class="p">:</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="c1"># Copies files recursively from S3 to the classes directory</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">      </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3-bucket-name</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">      </span><span class="c1"># The below S3 bucket prefix must contain the custom logback.xml</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">      </span><span class="c1"># file, as well as any other needed files.</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path-to/classes</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">  </span><span class="nt">customerlib</span><span class="p">:</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">    </span><span class="nt">sources</span><span class="p">:</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="w">    </span><span class="c1"># Downloads a single file using curl to the customerlib directory</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">    </span><span class="c1"># (In this case, customerlib/elastic-apm/elastic-apm-agent-1.13.0.jar)</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">curl</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">      </span><span class="nt">fileName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">elastic-apm/elastic-apm-agent-1.13.0.jar</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://repo.maven.apache.org/maven2/co/elastic/apm/elastic-apm-agent/1.13.0/elastic-apm-agent-1.13.0.jar</span>
+<p>These are important as they will be referenced in the trust policy.</p>
+<h3 id="iam-policy">IAM Policy<a class="headerlink" href="#iam-policy" title="Permanent link">&para;</a></h3>
+<p>Before starting, you need to determine which AWS services need to be accessed by this role. Typical examples would be:</p>
+<ul>
+<li>AWS Secrets Manager - Used for storing credentials for container repository and database</li>
+<li>RDS - Required if Smile CDR is configured to use IAM authentication for RDS</li>
+<li>S3 - Required if you are including <a href="../extra-files-external/">extra files using the external</a> method</li>
+</ul>
+<p>You will need to keep these resources in mind when creating your IAM Policy.</p>
+<blockquote>
+<p><strong>Note:</strong> When creating IAM Policies, you should keep the principle of least privilege in mind and only allow the minimum required access for the resources needed. Avoid using wildcard entries for <code>actions</code> and <code>resources</code> where possible.</p>
+</blockquote>
+<p>In this example, we will create a policy that only has access to the container repository secret that we create <a href="#aws-secrets">below</a></p>
+<p>Following the AWS CLI instructions from <a href="https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html">here</a> we would do the following:</p>
+<ol>
+<li><strong>Create an IAM policy file</strong></li>
+</ol>
+<p>Create IAM Policy file with the following content:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nt">&quot;Version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">&quot;Statement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">            </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">            </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;secretsmanager:GetSecretValue&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">            </span><span class="nt">&quot;Resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;arn:aws:secretsmanager:us-east-1:&lt;accountid&gt;:secret:demo/dockerpull-??????&quot;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="p">},</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">            </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">            </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">                </span><span class="s2">&quot;kms:Encrypt&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">                </span><span class="s2">&quot;kms:Decrypt&quot;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">            </span><span class="p">],</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">            </span><span class="nt">&quot;Resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;arn:aws:kms:*:&lt;accountid&gt;:aws/secretsmanager&quot;</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="p">]</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="p">}</span>
+</code></pre></div></p>
+<ol>
+<li><strong>Create the IAM Policy</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>aws<span class="w"> </span>iam<span class="w"> </span>create-policy<span class="w"> </span>--policy-name<span class="w"> </span>smilecdr-dockersecret-policy<span class="w"> </span>--policy-document<span class="w"> </span>file://my-policy.json
+</code></pre></div></li>
+</ol>
+<h3 id="iam-role">IAM Role<a class="headerlink" href="#iam-role" title="Permanent link">&para;</a></h3>
+<p>When creating the IAM role, it needs to be associated with the Kubernetes service account via a trust policy. To do this, we need a few details in advance:</p>
+<p><strong>AWS Account number</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">account_id</span><span class="o">=</span><span class="k">$(</span>aws<span class="w"> </span>sts<span class="w"> </span>get-caller-identity<span class="w"> </span>--query<span class="w"> </span><span class="s2">&quot;Account&quot;</span><span class="w"> </span>--output<span class="w"> </span>text<span class="k">)</span>
+</code></pre></div></p>
+<p><strong>EKS cluster's OIDC provider</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">oidc_provider</span><span class="o">=</span><span class="k">$(</span>aws<span class="w"> </span>eks<span class="w"> </span>describe-cluster<span class="w"> </span>--name<span class="w"> </span>mycluster<span class="w"> </span>--region<span class="w"> </span><span class="nv">$AWS_REGION</span><span class="w"> </span>--query<span class="w"> </span><span class="s2">&quot;cluster.identity.oidc.issuer&quot;</span><span class="w"> </span>--output<span class="w"> </span>text<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;s/^https:\/\///&quot;</span><span class="k">)</span>
 </code></pre></div>
+<strong>Namespace and ServiceAccount Resource Names</strong></p>
+<p>In the case of this example, we are using the <code>smilecdr</code> namespace, with the <code>my-smile</code> release name as mentioned above. This will result in a Service Account with the name <code>my-smile-smilecdr</code>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">namespace</span><span class="o">=</span>smilecdr
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">service_account</span><span class="o">=</span>my-smile-smilecdr
+</code></pre></div></p>
+<ol>
+<li>
+<p>Create trust policy file</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>cat<span class="w"> </span>&gt;trust-relationship.json<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="s">{</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="s">&quot;Version&quot;: &quot;2012-10-17&quot;,</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="s">&quot;Statement&quot;: [</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="s">    {</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="s">    &quot;Effect&quot;: &quot;Allow&quot;,</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="s">    &quot;Principal&quot;: {</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="s">        &quot;Federated&quot;: &quot;arn:aws:iam::$account_id:oidc-provider/$oidc_provider&quot;</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="s">    },</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="s">    &quot;Action&quot;: &quot;sts:AssumeRoleWithWebIdentity&quot;,</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="s">    &quot;Condition&quot;: {</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="s">        &quot;StringEquals&quot;: {</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="s">        &quot;$oidc_provider:aud&quot;: &quot;sts.amazonaws.com&quot;,</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="s">        &quot;$oidc_provider:sub&quot;: &quot;system:serviceaccount:$namespace:$service_account&quot;</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="s">        }</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="s">    }</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="s">    }</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="s">]</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="s">}</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="s">EOF</span>
+</code></pre></div>
+</li>
+<li>
+<p>Create the IAM Role
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>aws<span class="w"> </span>iam<span class="w"> </span>create-role<span class="w"> </span>--role-name<span class="w"> </span>smilecdr-role<span class="w"> </span>--assume-role-policy-document<span class="w"> </span>file://trust-relationship.json<span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Smile CDR Application Role&quot;</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>Attach the IAM Policy to the role
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>aws<span class="w"> </span>iam<span class="w"> </span>attach-role-policy<span class="w"> </span>--role-name<span class="w"> </span>smilecdr-role<span class="w"> </span>--policy-arn<span class="o">=</span>arn:aws:iam::<span class="nv">$account_id</span>:policy/smilecdr-dockersecret-policy
+</code></pre></div></p>
+</li>
+</ol>
+<h2 id="using-iam-role-in-helm-values">Using IAM Role in Helm Values<a class="headerlink" href="#using-iam-role-in-helm-values" title="Permanent link">&para;</a></h2>
+<p>Configure your values file to use this role for the Service Account like so:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">serviceAccount</span><span class="p">:</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">create</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="nt">eks.amazonaws.com/role-arn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arn:aws:iam::&lt;account id&gt;:role/smilecdr-role</span>
+</code></pre></div></p>
+<p>Now, when you deploy Smile CDR, it will use the above IAM role whenever accessing AWS resources.</p>
+<h2 id="creating-aws-secrets-manager-secrets">Creating AWS Secrets Manager Secrets<a class="headerlink" href="#creating-aws-secrets-manager-secrets" title="Permanent link">&para;</a></h2>
+<p>Secrets can be a bit of a chicken-and-egg problem.</p>
+<p><em>If you want to avoid storing secrets in code, by using a secrets vault, how do you do this 'via code'?</em></p>
+<p>One mechanism is to get the vault software to generate a random secret, or rotate the secret after the initial creation. These are not always viable options, which is certainly the case for storing secrets to access external systems, such as a container registry.</p>
+<p>In this example, we will create the <code>docker pull</code> secret manually via the AWS CLI. You could just as easily deploy the secret using some other mechanism and then update it with the cli or with the AWS console.</p>
+<h3 id="create-secret">Create Secret<a class="headerlink" href="#create-secret" title="Permanent link">&para;</a></h3>
+<p>The value of Kubernetes <code>imagePullSecrets</code> needs to be of type <code>kubernetes.io/dockercfg</code> or <code>kubernetes.io/dockerconfigjson</code>.</p>
+<p>This essentially means the secret value is a Json string representing the Docker <code>config.json</code> file. As an AWS Secrets Manager secret consists of a Json map of secrets and values, we end up with a nested Json data structure.</p>
+<p>The easiest way to pass this to the AWS CLI command is to temporarily store the Json in a file which can be passed in to the <code>create-secret</code> command as a parameter.</p>
+<ol>
+<li>
+<p>Create the temporary password json file
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>cat<span class="w"> </span>&gt;tempsecret.json<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="s">{</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="s">  &quot;dockerconfigjson&quot;:{</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="s">    &quot;auths&quot;:{</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="s">      &quot;docker.smilecdr.com&quot;:{</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="s">        &quot;auth&quot;:$(echo -n &quot;user:password&quot; | base64)</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="s">      }</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="s">    }</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="s">  }</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="s">}</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="s">EOF</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>Create the Secrets Manager Secret
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>aws<span class="w"> </span>secretsmanager<span class="w"> </span>create-secret<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span>--name<span class="w"> </span><span class="s2">&quot;demo/dockerpull&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span>--secret-string<span class="w"> </span>file://tempsecret.json
+</code></pre></div></p>
+<blockquote>
+<p><strong>Note:</strong> The name <code>demo/dockerpull</code> is just an example. You may use any scheme that you like for secret names. If you have an existing standard, use that.</p>
+</blockquote>
+</li>
+<li>
+<p>Remove the temporary secret file
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>rm<span class="w"> </span>tempsecret.json
+</code></pre></div></p>
+</li>
+</ol>
+<h3 id="update-secret">Update Secret<a class="headerlink" href="#update-secret" title="Permanent link">&para;</a></h3>
+<p>Use the following to update the secret with a new value if required.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>aws<span class="w"> </span>secretsmanager<span class="w"> </span>update-secret<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span>--secret-id<span class="w"> </span><span class="s2">&quot;demo/dockerpull&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span>--secret-string<span class="w"> </span>file://tempsecret.json
+</code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> You need to update rather than delete and recreate, as AWS Secrets Manager implements a grace period on secrets deletion.</p>
+</blockquote>
+<h3 id="use-the-secret">Use The Secret<a class="headerlink" href="#use-the-secret" title="Permanent link">&para;</a></h3>
+<p>If the IAM Role, IAM Policies and Helm Values were all set up correctly as per the above steps, you will now be able to launch pods using images from the authenticated container repository.</p>
 
 
 
