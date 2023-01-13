@@ -65,6 +65,7 @@ Create IAM Policy file with the following content:
     ]
 }
 ```
+>**Note:** The `??????` is a wildcard that matches the random suffix added to an AWS Secrets Manager Secret. See [here](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#auth-and-access_examples_wildcard) for more info.
 
 2. **Create the IAM Policy**
 ```sh
