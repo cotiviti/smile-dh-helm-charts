@@ -40,3 +40,6 @@ serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/example-role-name
 ```
+
+## Examples
+Examples are available that show how you would correctly set up the IAM Policy, IAM Role, Trust Policy and Secret Manager dependencies. See [here](../examples/aws-dependencies.md)

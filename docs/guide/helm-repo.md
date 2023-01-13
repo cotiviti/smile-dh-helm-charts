@@ -66,15 +66,14 @@ dependencies:
 ```
 
 ## Provide Repo Credentials
-As Smile CDR is not a free product, it is not possible to use it from our
-container repository without providing credentials.
+As Smile CDR is not a publicly available product, it is not possible to use it from the container repository without providing credentials.
 
 The same may be the case if you have custom Docker images for Smile CDR that you have built yourself and published to your own private container registry.
 
 In either case, you will need to provide credentials that can be used by Kubernetes to pull the image.
 
 In Kubernetes, to pull from a private container registry, you need to provide
-the `imagePullSecrets` stanza in the `Pod` spec. To do this, you need a Kubernetes
+the `imagePullSecrets` option in the `Pod` spec. To do this, you need a Kubernetes
 `Secret` object in the same namespace.
 
 >**Note** For more information on using private container registries with
