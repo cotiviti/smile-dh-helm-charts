@@ -27,10 +27,9 @@ To reference a database that is external to the cluster, you will need:
 * A secret containing the connection credentials in a structured Json format.
   * It is common practice to include all connection credentials in DB secrets, this way it becomes simple
   to manage the database without having to reconfigure Smile CDR. e.g. when 'restoring' an RDS instance, the
-  DB cluster name will typically change. If this is kept inside the secret (As it is with RDS when using AWS
-  Secrets Manager) then any such change will be automatically applied. See
+  DB cluster name will typically change. By keeping these details inside the secret then any such change will be automatically applied without reconfiguring. See
   [here](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres)
-  for info on the schema used by AWS for this purpose.
+  for info on the schema used by AWS for this purpose. Note that an app restart will be required to pick up the new secret value.
   * The secret can be a plain Kubernetes secret that you provision externally, or it can be a secret in a
   secure secrets vault. The latter is the preferred option for increased security and the ability to easily
   rotate credentials. At this time, only AWS Secrets Manager is supported via the Secrets Store CSI Driver.
@@ -39,15 +38,11 @@ To reference a database that is external to the cluster, you will need:
 If using AWS Secrets Manager, set the `credentials.type` to `sscsi` and `credentials.provider` to `aws`. If you have created a `Secret` object
 in Kubernetes, set it to `externalsecret`.
 
-### Example Secret Configuration
-Assuming you are using AWS Secrets Manager, and you have the `url`, `port`, `user` and `password` keys
-included in the secret, you should configure your secret as per the following yaml fragment.
+### Example Secret Configurations
 
-If the included fields are different in the provided secret, they can be
-specified with the `*Key` values to override the below defaults.
+#### Using AWS Secret Json structure
+If you are using the above mentioned Json [structure](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres) (i.e. `engine`, `host`, `username`, `password`, `dbname` and `port`) in your secret, then you should simply configure your secret as per the following yaml fragment. Those default keys will be used to extract the credentials.
 
-The below are just examples, to show how the fields can be specified in different ways. You need to
-ensure that this matches the configuration of your secret and the fields it contains.
 #### `my-values.yaml`
 ```yaml
 database:
@@ -57,13 +52,31 @@ database:
       type: sscsi
       provider: aws
     databases:
-    - secretName: smilecdr
+    - secretName: clustermgrSecret
+      secretARN: arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret
       module: clustermgr
-      urlKey: url # this is the key name that holds the url/hostname in the secret
-      portKey: port
-      dbnameKey: dbname
-      userKey: user
-      passKey: password
+```
+> **Note:** `clustermgrSecret` can be any friendly name, it's not important. The Kubernetes `Secret` resource will be named using this value.
+#### Using Custom Secret Json structure
+If the Json keys in your secret are different than above, they can be overridden by specifying them with the `*Key` attributes to override the defaults.
+
+The below are just examples, to show how the Json keys can be overridden. You need to ensure that this matches the configuration of your secret and the keys it contains.
+#### `my-values.yaml`
+```yaml
+database:
+  external:
+    enabled: true
+    credentials:
+      type: sscsi
+      provider: aws
+    databases:
+    - secretName: clustermgrSecret
+      module: clustermgr
+      urlKey: url-key-name
+      portKey: port-key-name
+      dbnameKey: dbname-key-name
+      userKey: user-key-name
+      passKey: password-key-name
 ```
 
 If a required field is not included in the secret, you can specify it in your values file like so.

@@ -93,20 +93,14 @@ pod's filesystem
           {{- end -}}
         {{- end -}}
         {{- if $uniqueArn -}}
-          {{- $sscsiObject := dict "objectName" (required "You must provide `secretARN` for the DB credentials secret" $v.secretARN) -}}
-          {{- $jmesPathList := list (dict "path" (default "password" $v.passKey) "objectAlias" "db-password") -}}
-          {{- if hasKey $v "urlKey" -}}
-            {{- $jmesPathList = append $jmesPathList (dict "path" $v.urlKey "objectAlias" "db-host") -}}
-          {{- end -}}
-          {{- if hasKey $v "userKey" -}}
-            {{- $jmesPathList = append $jmesPathList (dict "path" $v.userKey "objectAlias" "db-user") -}}
-          {{- end -}}
-          {{- if hasKey $v "portKey" -}}
-            {{- $jmesPathList = append $jmesPathList (dict "path" $v.portKey "objectAlias" "db-port") -}}
-          {{- end -}}
-          {{- if hasKey $v "dbnameKey" -}}
-            {{- $jmesPathList = append $jmesPathList (dict "path" $v.dbnameKey "objectAlias" "db-dbname") -}}
-          {{- end -}}
+          {{- $sscsiObject := dict "objectName" (required "You must provide `secretARN` as well as `secretName` for the DB credentials secret" $v.secretARN) -}}
+          {{- $_ := set $sscsiObject "objectAlias" (required "You must provide `secretName` as well as `secretARN` for the DB credentials secret" $v.secretName) -}}
+          {{- $jmesPathList := list (dict "path" (default "password" $v.passKey) "objectAlias" (printf "%s-db-password" $v.secretName)) -}}
+          {{- $jmesPathList = append $jmesPathList (dict "path" (default "host" $v.urlKey) "objectAlias" (printf "%s-db-host" $v.secretName)) -}}
+          {{- $jmesPathList = append $jmesPathList (dict "path" (default "username" $v.userKey) "objectAlias" (printf "%s-db-user" $v.secretName)) -}}
+          {{- $jmesPathList = append $jmesPathList (dict "path" (default "port" $v.portKey) "objectAlias" (printf "%s-db-port" $v.secretName)) -}}
+          {{- $jmesPathList = append $jmesPathList (dict "path" (default "dbname" $v.dbnameKey) "objectAlias" (printf "%s-db-dbname" $v.secretName)) -}}
+          {{- $jmesPathList = append $jmesPathList (dict "path" (default "engine" $v.engineKey) "objectAlias" (printf "%s-db-engine" $v.secretName)) -}}
           {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
           {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
         {{- end -}}
@@ -141,16 +135,12 @@ These are used to create Kubernetes Secrets that are synced to mounted SSCSI sec
     {{- range $v := .Values.database.external.databases -}}
       {{- $sscsiSyncedSecret := dict "secretName" (required "You must provide `secretName` for the DB credentials secret" $v.secretName) -}}
       {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
-      {{- $dataList := list (dict "key" (default "password" $v.passKey) "objectName" "db-password") -}}
-      {{- if hasKey $v "urlKey" -}}
-        {{- $dataList = append $dataList (dict "key" $v.urlKey "objectName" "db-host") -}}
-      {{- end -}}
-      {{- if hasKey $v "userKey" -}}
-        {{- $dataList = append $dataList (dict "key" $v.userKey "objectName" "db-user") -}}
-      {{- end -}}
-      {{- if hasKey $v "portKey" -}}
-        {{- $dataList = append $dataList (dict "key" $v.portKey "objectName" "db-port") -}}
-      {{- end -}}
+      {{- $dataList := list (dict "key" (default "password" $v.passKey) "objectName" (printf "%s-db-password" $v.secretName)) -}}
+      {{- $dataList = append $dataList (dict "key" (default "host" $v.urlKey) "objectName" (printf "%s-db-host" $v.secretName)) -}}
+      {{- $dataList = append $dataList (dict "key" (default "username" $v.userKey) "objectName" (printf "%s-db-user" $v.secretName)) -}}
+      {{- $dataList = append $dataList (dict "key" (default "port" $v.portKey) "objectName" (printf "%s-db-port" $v.secretName)) -}}
+      {{- $dataList = append $dataList (dict "key" (default "dbname" $v.dbnameKey) "objectName" (printf "%s-db-dbname" $v.secretName)) -}}
+      {{- $dataList = append $dataList (dict "key" (default "engine" $v.engineKey) "objectName" (printf "%s-db-engine" $v.secretName)) -}}
       {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
       {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
     {{- end -}}
