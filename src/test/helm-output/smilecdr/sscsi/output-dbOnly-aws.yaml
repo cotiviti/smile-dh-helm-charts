@@ -407,7 +407,7 @@ spec:
             - name: DB_URL
               valueFrom:
                 secretKeyRef:
-                  key: host
+                  key: url
                   name: k8sSecretName
             - name: DB_PORT
               valueFrom:
@@ -419,7 +419,7 @@ spec:
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  key: username
+                  key: user
                   name: k8sSecretName
             - name: DB_PASS
               valueFrom:
@@ -539,25 +539,34 @@ spec:
   parameters:
     objects: |
       - jmesPath:
-        - objectAlias: db-password
+        - objectAlias: k8sSecretName-db-password
           path: password
-        - objectAlias: db-host
+        - objectAlias: k8sSecretName-db-host
           path: host
-        - objectAlias: db-user
+        - objectAlias: k8sSecretName-db-user
           path: username
-        - objectAlias: db-port
+        - objectAlias: k8sSecretName-db-port
           path: port
+        - objectAlias: k8sSecretName-db-dbname
+          path: dbname
+        - objectAlias: k8sSecretName-db-engine
+          path: engine
+        objectAlias: k8sSecretName
         objectName: arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname
   secretObjects:
   - data:
     - key: password
-      objectName: db-password
+      objectName: k8sSecretName-db-password
     - key: host
-      objectName: db-host
+      objectName: k8sSecretName-db-host
     - key: username
-      objectName: db-user
+      objectName: k8sSecretName-db-user
     - key: port
-      objectName: db-port
+      objectName: k8sSecretName-db-port
+    - key: dbname
+      objectName: k8sSecretName-db-dbname
+    - key: engine
+      objectName: k8sSecretName-db-engine
     secretName: k8sSecretName
     type: Opaque
 ---
