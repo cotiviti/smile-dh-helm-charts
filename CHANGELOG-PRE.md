@@ -1,3 +1,10 @@
+# [1.0.0-pre.37](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.36...v1.0.0-pre.37) (2023-01-26)
+
+
+### Bug Fixes
+
+* **smilecdr:** change objectAlias naming logic ([ade3f22](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/ade3f22fde28f2d32bbc6699cceb1697b866a33a))
+
 # [1.0.0-pre.36](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.35...v1.0.0-pre.36) (2023-01-11)
 
 
