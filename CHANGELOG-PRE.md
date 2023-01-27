@@ -1,3 +1,10 @@
+# [1.0.0-pre.39](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.38...v1.0.0-pre.39) (2023-01-27)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix key names in env vars ([81defae](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/81defaef33a5fa1f1cadfc4b14f68896f6b7cbff))
+
 # [1.0.0-pre.38](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.37...v1.0.0-pre.38) (2023-01-27)
 
 
