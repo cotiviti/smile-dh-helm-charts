@@ -191,31 +191,94 @@ spec:
                 secretKeyRef:
                   key: password
                   name: smilecdrSecret
-            - name: PERSISTENCE_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: smilecdrSecret2
-            - name: PERSISTENCE_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: smilecdrSecret2
-            - name: PERSISTENCE_DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: dbname
-                  name: smilecdrSecret2
-            - name: PERSISTENCE_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
-                  name: smilecdrSecret2
-            - name: PERSISTENCE_DB_PASS
+            - name: CLUSTERMGR2_DB_URL
+              value: thedatabasehost
+            - name: CLUSTERMGR2_DB_PORT
+              value: "5432"
+            - name: CLUSTERMGR2_DB_DATABASE
+              value: cdr
+            - name: CLUSTERMGR2_DB_USER
+              value: username
+            - name: CLUSTERMGR2_DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
                   name: smilecdrSecret2
+            - name: PERSISTENCE_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: smilecdrSecret3
+            - name: PERSISTENCE_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: smilecdrSecret3
+            - name: PERSISTENCE_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: smilecdrSecret3
+            - name: PERSISTENCE_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: smilecdrSecret3
+            - name: PERSISTENCE_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: smilecdrSecret3
+            - name: PERSISTENCE2_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: smilecdrSecret4
+            - name: PERSISTENCE2_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: smilecdrSecret4
+            - name: PERSISTENCE2_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: smilecdrSecret4
+            - name: PERSISTENCE2_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: smilecdrSecret4
+            - name: PERSISTENCE2_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: smilecdrSecret4
+            - name: PERSISTENCE3_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: smilecdrSecret5
+            - name: PERSISTENCE3_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: smilecdrSecret5
+            - name: PERSISTENCE3_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: smilecdrSecret5
+            - name: PERSISTENCE3_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: smilecdrSecret5
+            - name: PERSISTENCE3_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: smilecdrSecret5
             - name: JVMARGS
               value: "-server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom"
           ports:

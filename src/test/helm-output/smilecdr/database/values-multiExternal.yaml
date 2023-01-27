@@ -12,9 +12,17 @@ database:
       dbType: postgres
       port: 5432
       dbname: cdr
-      user: username
+      username: username
       passKey: password
     - secretName: smilecdrSecret2
+      module: clustermgr2
+      host: thedatabasehost
+      dbType: postgres
+      port: 5432
+      dbname: cdr
+      user: username
+      passKey: password
+    - secretName: smilecdrSecret3
       module: persistence
       urlKey: host
       dbTypeKey: type
@@ -22,6 +30,16 @@ database:
       dbnameKey: dbname
       userKey: user
       passKey: password
+    - secretName: smilecdrSecret4
+      module: persistence2
+      hostKey: host
+      dbTypeKey: type
+      portKey: port
+      dbnameKey: dbname
+      usernameKey: user
+      passKey: password
+    - secretName: smilecdrSecret5
+      module: persistence3
 
 modules:
   usedefaultmodules: false
