@@ -135,12 +135,12 @@ These are used to create Kubernetes Secrets that are synced to mounted SSCSI sec
     {{- range $v := .Values.database.external.databases -}}
       {{- $sscsiSyncedSecret := dict "secretName" (required "You must provide `secretName` for the DB credentials secret" $v.secretName) -}}
       {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
-      {{- $dataList := list (dict "key" (default "password" $v.passKey) "objectName" (printf "%s-db-password" $v.secretName)) -}}
-      {{- $dataList = append $dataList (dict "key" (default "host" $v.urlKey) "objectName" (printf "%s-db-host" $v.secretName)) -}}
-      {{- $dataList = append $dataList (dict "key" (default "username" $v.userKey) "objectName" (printf "%s-db-user" $v.secretName)) -}}
-      {{- $dataList = append $dataList (dict "key" (default "port" $v.portKey) "objectName" (printf "%s-db-port" $v.secretName)) -}}
-      {{- $dataList = append $dataList (dict "key" (default "dbname" $v.dbnameKey) "objectName" (printf "%s-db-dbname" $v.secretName)) -}}
-      {{- $dataList = append $dataList (dict "key" (default "engine" $v.engineKey) "objectName" (printf "%s-db-engine" $v.secretName)) -}}
+      {{- $dataList := list (dict "key" "password" "objectName" (printf "%s-db-password" $v.secretName)) -}}
+      {{- $dataList = append $dataList (dict "key" "host" "objectName" (printf "%s-db-host" $v.secretName)) -}}
+      {{- $dataList = append $dataList (dict "key" "username" "objectName" (printf "%s-db-user" $v.secretName)) -}}
+      {{- $dataList = append $dataList (dict "key" "port" "objectName" (printf "%s-db-port" $v.secretName)) -}}
+      {{- $dataList = append $dataList (dict "key" "dbname" "objectName" (printf "%s-db-dbname" $v.secretName)) -}}
+      {{- $dataList = append $dataList (dict "key" "engine" "objectName" (printf "%s-db-engine" $v.secretName)) -}}
       {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
       {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
     {{- end -}}
