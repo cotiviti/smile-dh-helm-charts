@@ -86,15 +86,23 @@ Environment variables for databases
       into the environment.
       */ -}}
 
-      {{- /* Define and add DB_URL */ -}}
+      {{- /* Define and add DB_URL
+             Accepts `url`, `urlKey`, `host` or `hostKey`
+      */ -}}
       {{- $env := dict "name" (printf "%sDB_URL" $envPrefix) -}}
       {{- if hasKey $v "url" -}}
         {{- $_ := set $env "value" $v.url -}}
+      {{- else if hasKey $v "host" -}}
+        {{- $_ := set $env "value" $v.host -}}
       {{- else if hasKey $v "urlKey" -}}
         {{- $keyMap = dict "key" $v.urlKey -}}
         {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
+      {{- else if hasKey $v "hostKey" -}}
+        {{- $keyMap = dict "key" $v.hostKey -}}
+        {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
+        {{- /* Defaults to `host` */ -}}
       {{- else -}}
-        {{- $keyMap = dict "key" "url" -}}
+        {{- $keyMap = dict "key" "host" -}}
         {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
       {{- end -}}
       {{- $envVars = append $envVars $env -}}
@@ -125,15 +133,22 @@ Environment variables for databases
       {{- end -}}
       {{- $envVars = append $envVars $env -}}
 
-      {{- /* Define and add DB_USER */ -}}
+      {{- /* Define and add DB_USER
+             Accepts `user`, `userKey`, `username` or `usernameKey`
+      */ -}}
       {{- $env := dict "name" (printf "%sDB_USER" $envPrefix) -}}
       {{- if hasKey $v "user" -}}
         {{- $_ := set $env "value" $v.user -}}
+      {{- else if hasKey $v "username" -}}
+        {{- $_ := set $env "value" $v.username -}}
       {{- else if hasKey $v "userKey" -}}
         {{- $keyMap = dict "key" $v.userKey -}}
         {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
+      {{- else if hasKey $v "usernameKey" -}}
+        {{- $keyMap = dict "key" $v.usernameKey -}}
+        {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
       {{- else -}}
-        {{- $keyMap = dict "key" "user" -}}
+        {{- $keyMap = dict "key" "username" -}}
         {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
       {{- end -}}
       {{- $envVars = append $envVars $env -}}
