@@ -1,3 +1,10 @@
+# [1.0.0-pre.38](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.37...v1.0.0-pre.38) (2023-01-27)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix key names in k8s secret ([b84760a](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/b84760aa4df7999c5c151eda437649511c11d88b))
+
 # [1.0.0-pre.37](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.36...v1.0.0-pre.37) (2023-01-26)
 
 
