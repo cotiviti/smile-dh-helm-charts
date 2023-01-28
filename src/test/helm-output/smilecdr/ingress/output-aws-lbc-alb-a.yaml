@@ -484,7 +484,7 @@ metadata:
     alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-2016-08"
     alb.ingress.kubernetes.io/success-codes: "200-401"
     alb.ingress.kubernetes.io/target-group-attributes: "stickiness.enabled=false,stickiness.lb_cookie.duration_seconds=300"
-    alb.ingress.kubernetes.io/target-type: "instance"
+    alb.ingress.kubernetes.io/target-type: "overridden-value"
     appgw.ingress.kubernetes.io/extra-annotation-1: "annotation1-value"
     appgw.ingress.kubernetes.io/extra-annotation-2: "annotation2-value"
     kubernetes.io/ingress.class: "alb"

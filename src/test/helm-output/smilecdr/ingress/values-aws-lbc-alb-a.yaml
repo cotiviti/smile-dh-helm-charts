@@ -9,7 +9,9 @@ database:
     enabled: true
 
 ingress:
+  enabled: true
   type: aws-lbc-alb
   annotations:
+    alb.ingress.kubernetes.io/target-type: overridden-value
     appgw.ingress.kubernetes.io/extra-annotation-1: annotation1-value
     appgw.ingress.kubernetes.io/extra-annotation-2: annotation2-value
