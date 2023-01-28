@@ -1,3 +1,10 @@
+# [1.0.0-pre.40](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.39...v1.0.0-pre.40) (2023-01-28)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix ingress annotation overrides ([78d254e](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/78d254e3f891a2ae03b9f181a2da9e965017269c))
+
 # [1.0.0-pre.39](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.38...v1.0.0-pre.39) (2023-01-27)
 
 
