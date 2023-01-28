@@ -7,7 +7,7 @@ annotations passed in via .Values.ingress.annotations
 {{- define "ingress.annotations" -}}
   {{- $includes := ( include "ingress.autoAnnotations" . | fromYaml) -}}
   {{- with .Values.ingress.annotations -}}
-    {{- $includes = merge $includes . -}}
+    {{- $includes = merge . $includes -}}
   {{- end -}}
   {{- if gt (len $includes ) 0 -}}
     {{- range $k, $v := $includes -}}

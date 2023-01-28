@@ -480,7 +480,7 @@ metadata:
     appgw.ingress.kubernetes.io/health-probe-status-codes: "200-401"
     appgw.ingress.kubernetes.io/health-probe-timeout: "5"
     appgw.ingress.kubernetes.io/override-frontend-port: "443"
-    appgw.ingress.kubernetes.io/use-private-ip: "false"
+    appgw.ingress.kubernetes.io/use-private-ip: "overridden-value"
     kubernetes.io/ingress.class: "azure/application-gateway"
 spec:
   rules:
