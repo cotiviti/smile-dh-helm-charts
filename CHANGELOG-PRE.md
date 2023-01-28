@@ -1,3 +1,10 @@
+# [1.0.0-pre.41](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.40...v1.0.0-pre.41) (2023-01-28)
+
+
+### Features
+
+* **smilecdr:** add support for Alpine3 base image ([dc7e960](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/dc7e960d3978723238fbd9e91bee565385b2a6f6))
+
 # [1.0.0-pre.40](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.39...v1.0.0-pre.40) (2023-01-28)
 
 
