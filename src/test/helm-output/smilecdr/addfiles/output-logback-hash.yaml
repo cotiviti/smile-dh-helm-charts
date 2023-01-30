@@ -8,7 +8,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/version: "2023.02.PRE-43"
     app.kubernetes.io/managed-by: Helm
 spec:
   maxUnavailable: 1
@@ -26,7 +26,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/version: "2023.02.PRE-43"
     app.kubernetes.io/managed-by: Helm
 type: kubernetes.io/dockerconfigjson
 data:
@@ -41,7 +41,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/version: "2023.02.PRE-43"
     app.kubernetes.io/managed-by: Helm
 data:
   logback.xml: |-
@@ -165,12 +165,12 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-masterdev-node-1db11d0e96fc7130e614da37a64b5ea06ee8ed8b0fcb11e34139873b41464be7
+  name: release-name-scdr-masterdev-node-37d7f068961ed6a0cdcaf1ff2f980d732e003305a3de886df8f2d102432e6957
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/version: "2023.02.PRE-43"
     app.kubernetes.io/managed-by: Helm
 data:
   cdr-config-Master.properties: |-
@@ -223,18 +223,33 @@ data:
     module.admin_web.config.respect_forward_headers 	= true
     module.admin_web.config.tls.enabled 	= false
     ################################################################################
+    # External Audit DB Config
+    ################################################################################
+    module.audit.type 	= AUDIT_LOG_PERSISTENCE
+    module.audit.config.db.driver 	= POSTGRES_9_4
+    module.audit.config.db.password 	= #{env['DB_PASS']}
+    module.audit.config.db.schema_update_mode 	= UPDATE
+    module.audit.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
+    module.audit.config.db.username 	= #{env['DB_USER']}
+    module.audit.config.stats.heartbeat_persist_frequency_ms 	= 15000
+    module.audit.config.stats.stats_cleanup_frequency_ms 	= 300000
+    module.audit.config.stats.stats_persist_frequency_ms 	= 60000
+    ################################################################################
     # Cluster Manager Configuration
     ################################################################################
+    module.clustermgr.config.audit_log.db.always_write_to_clustermgr 	= false
     module.clustermgr.config.audit_log.request_headers_to_store 	= Content-Type,Host
     module.clustermgr.config.db.driver 	= POSTGRES_9_4
     module.clustermgr.config.db.password 	= #{env['DB_PASS']}
     module.clustermgr.config.db.schema_update_mode 	= UPDATE
     module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
     module.clustermgr.config.db.username 	= #{env['DB_USER']}
+    module.clustermgr.config.retain_transaction_log_days 	= 7
     module.clustermgr.config.seed_keystores.file 	= classpath:/config_seeding/keystores.json
     module.clustermgr.config.stats.heartbeat_persist_frequency_ms 	= 15000
     module.clustermgr.config.stats.stats_cleanup_frequency_ms 	= 300000
     module.clustermgr.config.stats.stats_persist_frequency_ms 	= 60000
+    module.clustermgr.config.transactionlog.enabled 	= false
     ################################################################################
     # ENDPOINT: FHIR Service
     ################################################################################
@@ -275,6 +290,10 @@ data:
     module.fhirweb_endpoint.config.threadpool.min 	= 2
     module.fhirweb_endpoint.config.tls.enabled 	= false
     ################################################################################
+    # licence
+    ################################################################################
+    module.licence.type 	= LICENSE
+    ################################################################################
     # Local Storage Inbound Security
     ################################################################################
     module.local_security.type 	= SECURITY_IN_LOCAL
@@ -298,7 +317,7 @@ data:
     ################################################################################
     module.persistence.type 	= PERSISTENCE_R4
     module.persistence.config.dao_config.allow_external_references.enabled 	= false
-    module.persistence.config.dao_config.allow_inline_match_url_references.enabled 	= false
+    module.persistence.config.dao_config.allow_inline_match_url_references.enabled 	= true
     module.persistence.config.dao_config.allow_multiple_delete.enabled 	= false
     module.persistence.config.dao_config.expire_search_results_after_minutes 	= 60
     module.persistence.config.dao_config.inline_resource_storage_below_size 	= 4000
@@ -337,7 +356,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/version: "2023.02.PRE-43"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -361,7 +380,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/version: "2023.02.PRE-43"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -385,7 +404,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/version: "2023.02.PRE-43"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -409,7 +428,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/version: "2023.02.PRE-43"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -433,7 +452,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/version: "2023.02.PRE-43"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -457,7 +476,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/version: "2023.02.PRE-43"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -481,7 +500,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/version: "2023.02.PRE-43"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -499,7 +518,7 @@ spec:
       labels:
         app.kubernetes.io/name: smilecdr
         app.kubernetes.io/instance: release-name
-        app.kubernetes.io/version: "2022.11.R01"
+        app.kubernetes.io/version: "2023.02.PRE-43"
         app.kubernetes.io/managed-by: Helm
     spec:
       imagePullSecrets:
@@ -512,8 +531,15 @@ spec:
       containers:
         - name: smilecdr
           securityContext:
-            {}
-          image: "docker.smilecdr.com/smilecdr:2022.11.R01"
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "docker.smilecdr.com/smilecdr:2023.02.PRE-43"
           imagePullPolicy: IfNotPresent
           readinessProbe:
             httpGet:
@@ -588,13 +614,28 @@ spec:
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
+            - mountPath: /home/smile/smilecdr/tmp
+              name: scdr-volume-tmp
+            - mountPath: /home/smile/smilecdr/log
+              name: scdr-volume-log
+            - mountPath: /home/smile/smilecdr/activemq-data
+              name: scdr-volume-amq
       volumes:
         - configMap:
             name: release-name-scdr-logback-xml-90b286ba2cb6ea7f008581aaeaebe5371f42a43822cde105b7e502d2b5ad1e2e
           name: logback-xml
         - configMap:
-            name: release-name-scdr-masterdev-node-1db11d0e96fc7130e614da37a64b5ea06ee8ed8b0fcb11e34139873b41464be7
+            name: release-name-scdr-masterdev-node-37d7f068961ed6a0cdcaf1ff2f980d732e003305a3de886df8f2d102432e6957
           name: scdr-config-release-name
+        - emptyDir:
+            sizeLimit: 1Mi
+          name: scdr-volume-tmp
+        - emptyDir:
+            sizeLimit: 10Gi
+          name: scdr-volume-log
+        - emptyDir:
+            sizeLimit: 10Mi
+          name: scdr-volume-amq
       restartPolicy: Always
 ---
 # Source: smilecdr/templates/scdr/scdr-ingress.yaml
@@ -606,7 +647,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/version: "2023.02.PRE-43"
     app.kubernetes.io/managed-by: Helm
   annotations:
     kubernetes.io/ingress.class: "nginx"
@@ -667,7 +708,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2022.11.R01"
+    app.kubernetes.io/version: "2023.02.PRE-43"
     app.kubernetes.io/managed-by: Helm
   annotations:
     "helm.sh/hook": test

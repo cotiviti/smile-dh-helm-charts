@@ -71,6 +71,7 @@ database:
       provider: aws
     databases:
     - secretName: clustermgrSecret
+      secretARN: arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret
       module: clustermgr
       urlKey: url-key-name
       portKey: port-key-name
@@ -111,10 +112,10 @@ by default as it's a feature of the Operator.
 
 ## Configuring Multiple Databases
 This chart has support to use multiple databases. It is recommended to configure Smile CDR this way, with
-a separate DB for the Cluster Manager and for any Persistence Modules.
+a separate DB for the Cluster Manager, Audit logs and for any Persistence Modules.
 
 The `module` key is important here as it tells the Helm Chart which module uses this database.
-If there is only one database then it will be used for all modules.
+If there is only one database configured then it will be used for all modules.
 
 If you provide multiple databases, the `module` key specified in each one is used to determine which
 Smile CDR module it is used by.
@@ -135,6 +136,8 @@ database:
     databases:
     - secretName: smilecdr
       module: clustermgr
+    - secretName: smilecdr-audit
+      module: audit
     - secretName: smilecdr-pers
       module: persistence
 ```
@@ -147,11 +150,13 @@ database:
     users:
     - name: smilecdr
       module: clustermgr
+    - name: smilecdr-audit
+      module: audit
     - name: persistence
       module: persistence
 ```
-In both of the above examples, the `clustermgr` and `persistence` modules will both automatically
-have their own set of environment variables for DB connections as follows: `CLUSTERMGR_DB_*` and
+In both of the above examples, the `clustermgr`, `audit` and `persistence` modules will automatically
+have their own set of environment variables for DB connections as follows: `CLUSTERMGR_DB_*`, `AUDIT_DB_*` and
 `PERSISTENCE_DB_*`
 
 > **NOTE**: You do NOT need to update these environment variable references in your module

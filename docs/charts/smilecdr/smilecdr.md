@@ -10,7 +10,7 @@ AKS.
 This chart supports a number of features to help you install Smile CDR in a secure, reliable,
 cost effective and scalable manner with operational efficiency in mind.
 
-Included features fall into the following categories:
+<!-- Included features fall into the following categories:
 
 * [Application Features](#application-features)
     * Features directly related to the Smile CDR product
@@ -22,19 +22,21 @@ Included features fall into the following categories:
 * [Reliability Feature](#reliability-features)
     * Fault tolerance & HA features
 * [Operational efficiency](#operational-efficiency-features)
-    * Features to help you operate effectively
+    * Features to help you operate effectively -->
 
 ### Application Features
 This chart supports the following Smile CDR features *"out-of-the-box"*:
 
-* Uses the latest official Smile CDR Docker images
-    * Also supports some previous Smile CDR versions
-* ***Configuration-as-code*** management of all module definitions & settings
-* Support for multiple databases (i.e. Separate DB for cluster manager and one or more persistence DB)
+* Supports official Smile CDR Docker images
+    * Support for upcoming 2023.02 release which enhances container security posture
+    * Limited support for 2022.11 and older. See [CDR Versions](../../guide/smilecdr/cdrversions.md) section for more info
+* *****Configuration-as-code*** management of all module definitions & settings
+* Support for multiple databases (i.e. Separate DB for cluster manager, audit log and one or more persistence stores)
 * Flexible JVM tuning with sane defaults
-* Adding small files (Up to 1Mb each - i.e. config files, scripts ect)
+* Adding files to the Smile CDR pods. Eliminates need to build custom images or directly access the Pod to copy them in
+    * Small non-binary files up to 1Mb each via `ConfigMap` resources (i.e. config files, scripts etc)
+    * *****NEW*** Large & binary file loading support - This allows you to include resources such as `.jar` files and longer scripts etc into the Smile CDR pod. Currently supports AWS S3
 * Kafka configuration
-* **NEW!!!** File loading support - This allows you to include resources such as `.jar` files, long scripts etc into the Smile CDR pod, negating the need to build custom images or directly access the Pod to copy them in. Currently supports AWS S3
 * Coming soon...
     * Flexible CDR Node configurations (i.e. [Smile CDR Cluster Design Sample Architecture](https://smilecdr.com/docs/clustering/designing_a_cluster.html#sample-architecture))
     * AWS IAM authentication for RDS databases
@@ -84,6 +86,11 @@ As such, we have included the following features when running on Amazon EKS (Oth
 * [Secrets Store CSI Driver](https://secrets-store-csi-driver.sigs.k8s.io/) - Store secrets in a secure vault, and not in your code.
     * [AWS SSCSI Provider](https://github.com/aws/secrets-store-csi-driver-provider-aws) -
     (Uses [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/))
+* **NEW!!!** Enhanced pod security
+    * Pods run as non-root, non-privileged
+    * Privilege escalation disabled
+    * Read-only root filesystem
+    * All container security capabilities disabled
 * Coming soon...
     * Execution role support in other cloud providers
     * Support for other [SSCSI providers](https://secrets-store-csi-driver.sigs.k8s.io/providers.html)

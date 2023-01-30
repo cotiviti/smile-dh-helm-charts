@@ -10,9 +10,6 @@ modules:
       stats.stats_persist_frequency_ms: 60000
       stats.stats_cleanup_frequency_ms: 300000
       audit_log.request_headers_to_store: Content-Type,Host
-    configFromEnv:
-      db.username: DB_USER
-      db.password: DB_PASS
 
   admin_web:
     name: Web Admin

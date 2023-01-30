@@ -228,6 +228,7 @@ database:
 cdrNodes:
   Masterdev:
     enabled: true # Not used yet.
+    logsDirSize: 10Gi
     config:
       locked: true
       # This option lets you update configs in the console for troubleshooting/testing/experimenting.
@@ -382,17 +383,18 @@ podAnnotations: {}
 ## @skip podSecurityContext
 # @ignored
 podSecurityContext: {}
-  # fsGroup: 2000
 
 ## @skip securityContext
 # @ignored
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  privileged: false
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  readOnlyRootFilesystem: true
 
 ## @skip nodeSelector
 # @ignored

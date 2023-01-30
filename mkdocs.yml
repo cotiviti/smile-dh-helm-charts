@@ -51,6 +51,7 @@ nav:
     - 'Smile CDR':
       - guide/smilecdr/index.md
       - 'Requirements': guide/smilecdr/requirements.md
+      - 'Versions': guide/smilecdr/cdrversions.md
       - 'Installation': guide/smilecdr/install.md
       - 'Configuration':
         - 'Database': guide/smilecdr/database.md
@@ -69,6 +70,7 @@ nav:
     - 'Advanced Module Configuration': examples/modules-advanced.md
     - 'Adding Files using Helm': examples/extra-files-helm.md
     - 'Adding Files using External': examples/extra-files-external.md
+    - 'Use Previous Versions of Smile CDR': examples/previousrootversion.md
     - 'Configure AWS Dependencies': examples/aws-dependencies.md
     - 'Quickstart': examples/quickstart.md
 
