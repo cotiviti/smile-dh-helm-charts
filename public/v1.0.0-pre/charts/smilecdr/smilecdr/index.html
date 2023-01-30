@@ -814,6 +814,8 @@
         
           
         
+          
+        
       
       
         
@@ -856,6 +858,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../guide/smilecdr/cdrversions/" class="md-nav__link">
+        Versions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../guide/smilecdr/install/" class="md-nav__link">
         Installation
       </a>
@@ -877,7 +893,7 @@
       
         
       
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3_4" >
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3_5" >
       
       
         
@@ -895,13 +911,13 @@
         
       
       
-        <label class="md-nav__link" for="__nav_3_3_4" id="__nav_3_3_4_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_3_3_5" id="__nav_3_3_5_label" tabindex="0">
           Configuration
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_4_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_3_3_4">
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_3_5">
           <span class="md-nav__icon md-icon"></span>
           Configuration
         </label>
@@ -1066,6 +1082,8 @@
         
           
         
+          
+        
       
       
         
@@ -1180,6 +1198,20 @@
     <li class="md-nav__item">
       <a href="../../../examples/extra-files-external/" class="md-nav__link">
         Adding Files using External
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/previousrootversion/" class="md-nav__link">
+        Use Previous Versions of Smile CDR
       </a>
     </li>
   
@@ -1328,43 +1360,37 @@ AKS.</p>
 <h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
 <p>This chart supports a number of features to help you install Smile CDR in a secure, reliable,
 cost effective and scalable manner with operational efficiency in mind.</p>
-<p>Included features fall into the following categories:</p>
-<ul>
-<li><a href="#application-features">Application Features</a><ul>
-<li>Features directly related to the Smile CDR product</li>
-</ul>
-</li>
-<li><a href="#infrastructure-features">Infrastructure Features</a><ul>
-<li>Features related to deploying in Kubernetes</li>
-<li>Optional automated provisioning of external components</li>
-</ul>
-</li>
-<li><a href="#security-features">Security Features</a><ul>
-<li>Features to ensure safe handling of data and credentials</li>
-</ul>
-</li>
-<li><a href="#reliability-features">Reliability Feature</a><ul>
-<li>Fault tolerance &amp; HA features</li>
-</ul>
-</li>
-<li><a href="#operational-efficiency-features">Operational efficiency</a><ul>
-<li>Features to help you operate effectively</li>
-</ul>
-</li>
-</ul>
+<!-- Included features fall into the following categories:
+
+* [Application Features](#application-features)
+    * Features directly related to the Smile CDR product
+* [Infrastructure Features](#infrastructure-features)
+    * Features related to deploying in Kubernetes
+    * Optional automated provisioning of external components
+* [Security Features](#security-features)
+    * Features to ensure safe handling of data and credentials
+* [Reliability Feature](#reliability-features)
+    * Fault tolerance & HA features
+* [Operational efficiency](#operational-efficiency-features)
+    * Features to help you operate effectively -->
+
 <h3 id="application-features">Application Features<a class="headerlink" href="#application-features" title="Permanent link">&para;</a></h3>
 <p>This chart supports the following Smile CDR features <em>"out-of-the-box"</em>:</p>
 <ul>
-<li>Uses the latest official Smile CDR Docker images<ul>
-<li>Also supports some previous Smile CDR versions</li>
+<li>Supports official Smile CDR Docker images<ul>
+<li>Support for upcoming 2023.02 release which enhances container security posture</li>
+<li>Limited support for 2022.11 and older. See <a href="../../../guide/smilecdr/cdrversions/">CDR Versions</a> section for more info</li>
 </ul>
 </li>
-<li><strong><em>Configuration-as-code</em></strong> management of all module definitions &amp; settings</li>
-<li>Support for multiple databases (i.e. Separate DB for cluster manager and one or more persistence DB)</li>
+<li><strong><em>*</em>Configuration-as-code</strong>* management of all module definitions &amp; settings</li>
+<li>Support for multiple databases (i.e. Separate DB for cluster manager, audit log and one or more persistence stores)</li>
 <li>Flexible JVM tuning with sane defaults</li>
-<li>Adding small files (Up to 1Mb each - i.e. config files, scripts ect)</li>
+<li>Adding files to the Smile CDR pods. Eliminates need to build custom images or directly access the Pod to copy them in<ul>
+<li>Small non-binary files up to 1Mb each via <code>ConfigMap</code> resources (i.e. config files, scripts etc)</li>
+<li><strong><em>*</em>NEW</strong>* Large &amp; binary file loading support - This allows you to include resources such as <code>.jar</code> files and longer scripts etc into the Smile CDR pod. Currently supports AWS S3</li>
+</ul>
+</li>
 <li>Kafka configuration</li>
-<li><strong>NEW!!!</strong> File loading support - This allows you to include resources such as <code>.jar</code> files, long scripts etc into the Smile CDR pod, negating the need to build custom images or directly access the Pod to copy them in. Currently supports AWS S3</li>
 <li>Coming soon...<ul>
 <li>Flexible CDR Node configurations (i.e. <a href="https://smilecdr.com/docs/clustering/designing_a_cluster.html#sample-architecture">Smile CDR Cluster Design Sample Architecture</a>)</li>
 <li>AWS IAM authentication for RDS databases</li>
@@ -1423,6 +1449,13 @@ As such, we have included the following features when running on Amazon EKS (Oth
 <li><a href="https://secrets-store-csi-driver.sigs.k8s.io/">Secrets Store CSI Driver</a> - Store secrets in a secure vault, and not in your code.<ul>
 <li><a href="https://github.com/aws/secrets-store-csi-driver-provider-aws">AWS SSCSI Provider</a> -
 (Uses <a href="https://aws.amazon.com/secrets-manager/">AWS Secrets Manager</a>)</li>
+</ul>
+</li>
+<li><strong>NEW!!!</strong> Enhanced pod security<ul>
+<li>Pods run as non-root, non-privileged</li>
+<li>Privilege escalation disabled</li>
+<li>Read-only root filesystem</li>
+<li>All container security capabilities disabled</li>
 </ul>
 </li>
 <li>Coming soon...<ul>

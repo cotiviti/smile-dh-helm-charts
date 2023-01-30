@@ -66,6 +66,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/previousrootversion/</loc>
+         <lastmod>2023-01-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/quickstart/</loc>
          <lastmod>2023-01-30</lastmod>
          <changefreq>daily</changefreq>
@@ -97,6 +102,11 @@
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/</loc>
+         <lastmod>2023-01-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/cdrversions/</loc>
          <lastmod>2023-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
