@@ -1,0 +1,17 @@
+tests:
+  nodeid:
+    outputFile: output-nodeid.yaml
+    valueFiles:
+    - values-nodeid.yaml
+  security:
+    outputFile: output-security.yaml
+    valueFiles:
+    - values-security.yaml
+  unlocked:
+    outputFile: output-unlocked.yaml
+    valueFiles:
+    - values-unlocked.yaml
+  troubleshooting:
+    outputFile: output-troubleshooting.yaml
+    valueFiles:
+    - values-troubleshooting.yaml

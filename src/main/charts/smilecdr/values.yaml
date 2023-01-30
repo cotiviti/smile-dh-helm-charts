@@ -228,6 +228,15 @@ database:
 cdrNodes:
   Masterdev:
     enabled: true # Not used yet.
+    config:
+      locked: true
+      # This option lets you update configs in the console for troubleshooting/testing/experimenting.
+      # Your changes will be lost if the pod restarts or if another pod joins the cluster.
+      # It sets `config.Locked` to `false` and sets `node.propertysource` to `PROPERTIES_UNLOCKED`
+      # See the [Smile CDR Docs](https://smilecdr.com/docs/installation/installing_smile_cdr.html#module-property-source) for more info
+      troubleshooting: false
+    security:
+      strict: false
 
 ## @section Smile CDR Modules Configuration
 ## @param modules.usedefaultmodules Enable or disable included default modules configuration

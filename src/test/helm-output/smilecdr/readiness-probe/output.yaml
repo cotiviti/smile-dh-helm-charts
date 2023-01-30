@@ -36,7 +36,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-masterdev-node-4136ef4b08280e6bdbb8c26d6696e6bda2bf8fb8b26189289e52e1d1d1fcc2c3
+  name: release-name-scdr-masterdev-node-4925d21af8b4dee606243c15a758983ad7891291f277e1710a8f5fc751c816fd
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -49,6 +49,9 @@ data:
     # Node Configuration
     ################################################################################
     node.id 	= Masterdev
+    node.propertysource 	= PROPERTIES
+    node.config.locked 	= true
+    node.security.strict 	= false
 
     module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
 
@@ -68,7 +71,6 @@ data:
     # are read every time the system starts, and existing definitions and config are
     # overwritten by what is in this file.
     #
-    node.propertysource 	= PROPERTIES
     ################################################################################
     # ENDPOINT: JSON Admin Services
     ################################################################################
@@ -457,7 +459,7 @@ spec:
               subPath: cdr-config-Master.properties
       volumes:
         - configMap:
-            name: release-name-scdr-masterdev-node-4136ef4b08280e6bdbb8c26d6696e6bda2bf8fb8b26189289e52e1d1d1fcc2c3
+            name: release-name-scdr-masterdev-node-4925d21af8b4dee606243c15a758983ad7891291f277e1710a8f5fc751c816fd
           name: scdr-config-release-name
       restartPolicy: Always
 ---

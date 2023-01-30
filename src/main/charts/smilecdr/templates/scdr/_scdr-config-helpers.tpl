@@ -16,10 +16,18 @@ them all into a readable config file, complete with section headers.
   {{- $moduleText = printf "%s%s\n" $moduleText $separatorText -}}
   {{- $moduleText = printf "%s# Node Configuration\n" $moduleText -}}
   {{- $moduleText = printf "%s%s\n" $moduleText $separatorText -}}
-  {{- $moduleText = printf "%snode.id \t= %s\n\n" $moduleText (include "smilecdr.nodeId" .) -}}
+  {{- $moduleText = printf "%snode.id \t= %s\n" $moduleText (include "smilecdr.nodeId" .) -}}
+  {{- $nodeSettings := (include "smilecdr.nodeSettings" . | fromYaml) -}}
+  {{- if ((include "smilecdr.nodeSettings" . | fromYaml).config).troubleshooting -}}
+    {{- $moduleText = printf "%snode.propertysource \t= %s\n" $moduleText "PROPERTIES_UNLOCKED" -}}
+    {{- $moduleText = printf "%snode.config.locked \t= false\n" $moduleText -}}
+  {{- else -}}
+    {{- $moduleText = printf "%snode.propertysource \t= %s\n" $moduleText "PROPERTIES" -}}
+    {{- $moduleText = printf "%snode.config.locked \t= %v\n" $moduleText (ternary ($nodeSettings.config).locked true (and (hasKey $nodeSettings "config") (hasKey $nodeSettings.config "locked"))) -}}
+  {{- end -}}
+  {{- $moduleText = printf "%snode.security.strict \t= %v\n\n" $moduleText (default false (($nodeSettings).security).strict) -}}
   {{- $moduleText = printf "%s%s\n\n" $moduleText (include "scdrcfg.messagebroker" .) -}}
   {{- $moduleText = printf "%s%s\n" $moduleText (include "smilecdr.cdrConfigTextBlob" .) -}}
-  {{- $moduleText = printf "%snode.propertysource \t= %s\n" $moduleText "PROPERTIES" -}}
   {{/* Include all modules */}}
   {{- $moduleText = printf "%s%s" $moduleText (include "smilecdr.modules.config.text" .) -}}
   {{- printf "%s\n" $moduleText -}}
@@ -121,20 +129,34 @@ If there are more than 2 cdrNodes entries, custom values, it
   now, it will just go through the range and use the last one.
 */}}
 {{- define "smilecdr.nodeId" -}}
-  {{- $nodeId := "Masterdev" -}}
-  {{- if .Values.cdrNodes -}}
-    {{- if eq (len .Values.cdrNodes) 1 -}}
-      {{- range $key, $val := .Values.cdrNodes -}}
-        {{- $nodeId = $key -}}
-      {{- end -}}
-    {{- /* If 2 or more entries, use any value that is not Masterdev */ -}}
-    {{- else if gt (len .Values.cdrNodes) 1 -}}
-      {{- range $key, $val := .Values.cdrNodes -}}
-        {{- if ne $key "Masterdev" -}}
-          {{- $nodeId = $key -}}
-        {{- end -}}
-      {{- end -}}
+  {{- $nodeId := "" -}}
+  {{- with .Values.cdrNodes -}}
+    {{- $nodesMap := . -}}
+    {{- /* If 2 or more entries, remove Masterdev from map */ -}}
+    {{- if gt (len $nodesMap) 1 -}}
+      {{- $nodesMap = omit $nodesMap "Masterdev" -}}
+    {{- end -}}
+    {{- range $key, $val := $nodesMap -}}
+      {{- $nodeId = $key -}}
     {{- end -}}
   {{- end -}}
   {{- printf "%s" $nodeId -}}
+{{- end -}}
+
+{{- /*
+Temporary companion to "smilecdr.nodeId" until the multi-node feature is implemented.
+This is just to get per-node settings, such as logs dir size.
+*/ -}}
+{{- define "smilecdr.nodeSettings" -}}
+  {{- $nodeSettings := "" -}}
+  {{- with .Values.cdrNodes -}}
+    {{- $nodesMap := . -}}
+    {{- if gt (len $nodesMap) 1 -}}
+      {{- $nodesMap = omit $nodesMap "Masterdev" -}}
+    {{- end -}}
+    {{- range $key, $val := $nodesMap -}}
+      {{- $nodeSettings = deepCopy $val -}}
+    {{- end -}}
+  {{- end -}}
+  {{- printf "%v" ($nodeSettings | toYaml) -}}
 {{- end -}}

@@ -36,7 +36,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-masterdev-node-1db11d0e96fc7130e614da37a64b5ea06ee8ed8b0fcb11e34139873b41464be7
+  name: release-name-scdr-overriddennodeid-node-fdc05405af1cb59398e3068b1a17bca3009604e4091c3b9a1c9cd13d7b8bedc7
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -48,10 +48,10 @@ data:
     ################################################################################
     # Node Configuration
     ################################################################################
-    node.id 	= Masterdev
+    node.id 	= overriddenNodeId
     node.propertysource 	= PROPERTIES
     node.config.locked 	= true
-    node.security.strict 	= false
+    node.security.strict 	= true
 
     module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
 
@@ -213,7 +213,7 @@ metadata:
   annotations:
     {}
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - name: admin-json
       port: 9000
@@ -237,7 +237,7 @@ metadata:
   annotations:
     {}
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - name: admin-web
       port: 9100
@@ -261,7 +261,7 @@ metadata:
   annotations:
     {}
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - name: fhir
       port: 8000
@@ -285,7 +285,7 @@ metadata:
   annotations:
     {}
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - name: fhirweb
       port: 8001
@@ -309,7 +309,7 @@ metadata:
   annotations:
     {}
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - name: pkg-registry
       port: 8002
@@ -333,7 +333,7 @@ metadata:
   annotations:
     {}
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - name: smart-auth
       port: 9200
@@ -458,7 +458,7 @@ spec:
               subPath: cdr-config-Master.properties
       volumes:
         - configMap:
-            name: release-name-scdr-masterdev-node-1db11d0e96fc7130e614da37a64b5ea06ee8ed8b0fcb11e34139873b41464be7
+            name: release-name-scdr-overriddennodeid-node-fdc05405af1cb59398e3068b1a17bca3009604e4091c3b9a1c9cd13d7b8bedc7
           name: scdr-config-release-name
       restartPolicy: Always
 ---
@@ -474,20 +474,8 @@ metadata:
     app.kubernetes.io/version: "2022.11.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    alb.ingress.kubernetes.io/actions.ssl-redirect: "{\"Type\": \"redirect\", \"RedirectConfig\": { \"Protocol\": \"HTTPS\", \"Port\": \"443\", \"StatusCode\": \"HTTP_301\"}}"
-    alb.ingress.kubernetes.io/backend-protocol: "HTTP"
-    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "6"
-    alb.ingress.kubernetes.io/healthcheck-path: "/signin"
-    alb.ingress.kubernetes.io/healthcheck-port: "traffic-port"
-    alb.ingress.kubernetes.io/healthcheck-protocol: "HTTP"
-    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
-    alb.ingress.kubernetes.io/listen-ports: "[{\"HTTPS\":443}]"
-    alb.ingress.kubernetes.io/scheme: "internet-facing"
-    alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-2016-08"
-    alb.ingress.kubernetes.io/success-codes: "200-401"
-    alb.ingress.kubernetes.io/target-group-attributes: "stickiness.enabled=false,stickiness.lb_cookie.duration_seconds=300"
-    alb.ingress.kubernetes.io/target-type: "instance"
-    kubernetes.io/ingress.class: "alb"
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   rules:
     - host: smilecdr-example.local
