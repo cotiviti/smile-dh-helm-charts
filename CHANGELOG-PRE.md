@@ -1,3 +1,10 @@
+# [1.0.0-pre.42](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.41...v1.0.0-pre.42) (2023-01-30)
+
+
+### Features
+
+* **smilecdr:** add config locking options ([351d48d](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/351d48d5425ddac08d3e4601843ca281191bf7e2))
+
 # [1.0.0-pre.41](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.40...v1.0.0-pre.41) (2023-01-28)
 
 
