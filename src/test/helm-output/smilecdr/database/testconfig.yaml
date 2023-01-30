@@ -4,6 +4,11 @@ tests:
     valueFiles:
     - values.yaml
     - values-singleExternal.yaml
+  auditExternal:
+    outputFile: output-auditExternal.yaml
+    valueFiles:
+    - values.yaml
+    - values-auditExternal.yaml
   multiExternal:
     outputFile: output-multiExternal.yaml
     valueFiles:

@@ -23,4 +23,4 @@ These dependencies are sufficient to get you started with deploying an instance 
     * Allows you to install a PostgreSQL cluster as a part of the Smile CDR deployment
     * This is used for the Quickstart as it is the easiest way to get up and running without
       having to provision an external database and configure credentials and connectivity
-* Persistent Volume provider that can be used to create `PersistentVolume`s for the database
+* Persistent Volume provider that can be used to create `PersistentVolume` resources for the database

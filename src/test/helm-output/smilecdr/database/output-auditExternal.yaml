@@ -32,26 +32,11 @@ type: kubernetes.io/dockerconfigjson
 data:
   .dockerconfigjson: eyJhdXRocyI6e319
 ---
-# Source: smilecdr/templates/scdr/scdr-file-configmap.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: release-name-scdr-filename-ext-0e7f948f114eac80d8ae1572bd292df57d6de2faeb1e54586112c54567883a19
-  namespace: default
-  labels:
-    app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.02.PRE-43"
-    app.kubernetes.io/managed-by: Helm
-data:
-  filename.ext: |-
-    This is my file yeahhhhh
----
 # Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-masterdev-node-37d7f068961ed6a0cdcaf1ff2f980d732e003305a3de886df8f2d102432e6957
+  name: release-name-scdr-masterdev-node
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -113,10 +98,10 @@ data:
     ################################################################################
     module.audit.type 	= AUDIT_LOG_PERSISTENCE
     module.audit.config.db.driver 	= POSTGRES_9_4
-    module.audit.config.db.password 	= #{env['DB_PASS']}
+    module.audit.config.db.password 	= #{env['AUDIT_DB_PASS']}
     module.audit.config.db.schema_update_mode 	= UPDATE
-    module.audit.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
-    module.audit.config.db.username 	= #{env['DB_USER']}
+    module.audit.config.db.url 	= jdbc:postgresql://#{env['AUDIT_DB_URL']}:#{env['AUDIT_DB_PORT']}/#{env['AUDIT_DB_DATABASE']}?sslmode=require
+    module.audit.config.db.username 	= #{env['AUDIT_DB_USER']}
     module.audit.config.stats.heartbeat_persist_frequency_ms 	= 15000
     module.audit.config.stats.stats_cleanup_frequency_ms 	= 300000
     module.audit.config.stats.stats_persist_frequency_ms 	= 60000
@@ -126,10 +111,10 @@ data:
     module.clustermgr.config.audit_log.db.always_write_to_clustermgr 	= false
     module.clustermgr.config.audit_log.request_headers_to_store 	= Content-Type,Host
     module.clustermgr.config.db.driver 	= POSTGRES_9_4
-    module.clustermgr.config.db.password 	= #{env['DB_PASS']}
+    module.clustermgr.config.db.password 	= #{env['CLUSTERMGR_DB_PASS']}
     module.clustermgr.config.db.schema_update_mode 	= UPDATE
-    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
-    module.clustermgr.config.db.username 	= #{env['DB_USER']}
+    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['CLUSTERMGR_DB_URL']}:#{env['CLUSTERMGR_DB_PORT']}/#{env['CLUSTERMGR_DB_DATABASE']}?sslmode=require
+    module.clustermgr.config.db.username 	= #{env['CLUSTERMGR_DB_USER']}
     module.clustermgr.config.retain_transaction_log_days 	= 7
     module.clustermgr.config.seed_keystores.file 	= classpath:/config_seeding/keystores.json
     module.clustermgr.config.stats.heartbeat_persist_frequency_ms 	= 15000
@@ -210,10 +195,10 @@ data:
     module.persistence.config.db.driver 	= POSTGRES_9_4
     module.persistence.config.db.hibernate.showsql 	= false
     module.persistence.config.db.hibernate_search.directory 	= ./database/lucene_fhir_persistence
-    module.persistence.config.db.password 	= #{env['DB_PASS']}
+    module.persistence.config.db.password 	= #{env['PERSISTENCE_DB_PASS']}
     module.persistence.config.db.schema_update_mode 	= UPDATE
-    module.persistence.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
-    module.persistence.config.db.username 	= #{env['DB_USER']}
+    module.persistence.config.db.url 	= jdbc:postgresql://#{env['PERSISTENCE_DB_URL']}:#{env['PERSISTENCE_DB_PORT']}/#{env['PERSISTENCE_DB_DATABASE']}?sslmode=require
+    module.persistence.config.db.username 	= #{env['PERSISTENCE_DB_USER']}
     ################################################################################
     # ENDPOINT: SMART Security
     ################################################################################
@@ -447,31 +432,81 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: DB_URL
+            - name: CLUSTERMGR_DB_URL
               valueFrom:
                 secretKeyRef:
                   key: host
-                  name: release-name-pg-pguser-smilecdr
-            - name: DB_PORT
+                  name: clustermgrsecret
+            - name: CLUSTERMGR_DB_PORT
               valueFrom:
                 secretKeyRef:
                   key: port
-                  name: release-name-pg-pguser-smilecdr
-            - name: DB_DATABASE
+                  name: clustermgrsecret
+            - name: CLUSTERMGR_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: release-name-pg-pguser-smilecdr
-            - name: DB_USER
+                  name: clustermgrsecret
+            - name: CLUSTERMGR_DB_USER
               valueFrom:
                 secretKeyRef:
-                  key: user
-                  name: release-name-pg-pguser-smilecdr
-            - name: DB_PASS
+                  key: username
+                  name: clustermgrsecret
+            - name: CLUSTERMGR_DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: release-name-pg-pguser-smilecdr
+                  name: clustermgrsecret
+            - name: AUDIT_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: auditsecret
+            - name: AUDIT_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: auditsecret
+            - name: AUDIT_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: auditsecret
+            - name: AUDIT_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: auditsecret
+            - name: AUDIT_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: auditsecret
+            - name: PERSISTENCE_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: persistencesecret
+            - name: PERSISTENCE_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: persistencesecret
+            - name: PERSISTENCE_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: persistencesecret
+            - name: PERSISTENCE_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: persistencesecret
+            - name: PERSISTENCE_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: persistencesecret
             - name: JVMARGS
               value: "-server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom"
           ports:
@@ -494,9 +529,6 @@ spec:
               containerPort: 9200
               protocol: TCP
           volumeMounts:
-            - mountPath: /home/smile/elsewhere/filename.ext
-              name: filename-ext
-              subPath: filename.ext
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
@@ -508,10 +540,7 @@ spec:
               name: scdr-volume-amq
       volumes:
         - configMap:
-            name: release-name-scdr-filename-ext-0e7f948f114eac80d8ae1572bd292df57d6de2faeb1e54586112c54567883a19
-          name: filename-ext
-        - configMap:
-            name: release-name-scdr-masterdev-node-37d7f068961ed6a0cdcaf1ff2f980d732e003305a3de886df8f2d102432e6957
+            name: release-name-scdr-masterdev-node
           name: scdr-config-release-name
         - emptyDir:
             sizeLimit: 1Mi

@@ -21,6 +21,7 @@ To set up an IAM Role to be used by the application pods, we use IRSA (IAM Roles
 
 In this example, we will be creating the role to work with an deployment of Smile CDR in a fictional EKS cluster with the following properties:
 
+* AWS Region `us-east-1`
 * Cluster Name `mycluster`
 * Namespace `smilecdr`
 * Helm Release Name `my-smile`
@@ -44,28 +45,29 @@ Following the AWS CLI instructions from [here](https://docs.aws.amazon.com/eks/l
 
 1. **Create an IAM policy file**
 
-Create IAM Policy file with the following content:
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "secretsmanager:GetSecretValue",
-            "Resource": "arn:aws:secretsmanager:us-east-1:<accountid>:secret:demo/dockerpull-??????"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "kms:Encrypt",
-                "kms:Decrypt"
-            ],
-            "Resource": "arn:aws:kms:*:<accountid>:aws/secretsmanager"
-        }
-    ]
-}
-```
->**Note:** The `??????` is a wildcard that matches the random suffix added to an AWS Secrets Manager Secret. See [here](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#auth-and-access_examples_wildcard) for more info.
+    Create IAM Policy file with the following content:
+    ```json
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": "secretsmanager:GetSecretValue",
+                "Resource": "arn:aws:secretsmanager:us-east-1:<accountid>:secret:demo/dockerpull-??????"
+            },
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "kms:Encrypt",
+                    "kms:Decrypt"
+                ],
+                "Resource": "arn:aws:kms:*:<accountid>:aws/secretsmanager"
+            }
+        ]
+    }
+    ```
+
+    >**Note:** The `??????` is a wildcard that matches the random suffix added to an AWS Secrets Manager Secret. See [here](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#auth-and-access_examples_wildcard) for more info.
 
 2. **Create the IAM Policy**
 ```sh
@@ -83,7 +85,7 @@ account_id=$(aws sts get-caller-identity --query "Account" --output text)
 
 **EKS cluster's OIDC provider**
 ```sh
-oidc_provider=$(aws eks describe-cluster --name mycluster --region $AWS_REGION --query "cluster.identity.oidc.issuer" --output text | sed -e "s/^https:\/\///")
+oidc_provider=$(aws eks describe-cluster --name mycluster --region us-east-1 --query "cluster.identity.oidc.issuer" --output text | sed -e "s/^https:\/\///")
 ```
 **Namespace and ServiceAccount Resource Names**
 
@@ -157,15 +159,23 @@ This essentially means the secret value is a Json string representing the Docker
 The easiest way to pass this to the AWS CLI command is to temporarily store the Json in a file which can be passed in to the `create-secret` command as a parameter.
 
 1. Create the temporary password json file
+
+Update your user & password before running the below.
+
 ```sh
+cat >dockerconf.json <<EOF
+{
+  "auths":{
+    "docker.smilecdr.com":{
+      "auth": "$(echo -n "user:password" | base64)"
+    }
+  }
+}
+EOF
+
 cat >tempsecret.json <<EOF
 {
-  "dockerconfigjson":{
-    "auths":{
-      "docker.smilecdr.com":{
-        "auth":$(echo -n "user:password" | base64)
-      }
-    }
+  "dockerconfigjson": "$(cat dockerconf.json)"
   }
 }
 EOF
