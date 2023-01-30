@@ -1,3 +1,10 @@
+# [1.0.0-pre.43](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.42...v1.0.0-pre.43) (2023-01-30)
+
+
+### Features
+
+* **smilecdr:** add support for 2023.02 release ([7c583de](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/7c583dec7a70a9ba7f0677df1afcb175a2386f49))
+
 # [1.0.0-pre.42](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.41...v1.0.0-pre.42) (2023-01-30)
 
 
