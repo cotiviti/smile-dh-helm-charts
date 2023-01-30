@@ -178,6 +178,9 @@ data:
     # Node Configuration
     ################################################################################
     node.id 	= Masterdev
+    node.propertysource 	= PROPERTIES
+    node.config.locked 	= true
+    node.security.strict 	= false
 
     module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
 
@@ -197,7 +200,6 @@ data:
     # are read every time the system starts, and existing definitions and config are
     # overwritten by what is in this file.
     #
-    node.propertysource 	= PROPERTIES
     ################################################################################
     # ENDPOINT: JSON Admin Services
     ################################################################################
