@@ -1,3 +1,10 @@
+# [1.0.0-pre.45](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.44...v1.0.0-pre.45) (2023-02-09)
+
+
+### Features
+
+* **smilecdr:** add license support ([3c429d8](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/3c429d822754bceccebfb1783120b876cbcfc8b1))
+
 # [1.0.0-pre.44](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.43...v1.0.0-pre.44) (2023-02-09)
 
 
