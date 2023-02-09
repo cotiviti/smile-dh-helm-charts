@@ -47,6 +47,7 @@ The way the secret is configured in your `values` file differs depending on the 
 
 * [Image Repository Credentials](helm-repo.md#configuring-repo-credentials-using-secrets-store-csi-driver)
 * [Database Credentials](smilecdr/database.md#example-secret-configuration)
+* [Smile CDR License](smilecdr/cdr-license.md)
 
 ### Kubernetes Secret
 

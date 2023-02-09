@@ -42,7 +42,7 @@ Define fileVolumes for all mapped files
     {{- end -}}
   {{- end -}}
   {{- /* Add init-sync shared volumes for classes and customerlib if enabled */ -}}
-  {{- if hasKey .Values.copyFiles "classes" -}}
+  {{- if or (hasKey .Values.copyFiles "classes") (hasKey .Values "license") -}}
     {{- $fileVolume := dict "name" "scdr-volume-classes" -}}
     {{- $_ := set $fileVolume "emptyDir" (dict "sizeLimit" "500Mi") -}}
     {{- $fileVolumes = append $fileVolumes $fileVolume -}}
@@ -69,7 +69,7 @@ Define fileVolumeMounts for all mapped files
     {{- end -}}
   {{- end -}}
   {{- /* Add init-sync shared volumes for classes and customerlib if enabled */ -}}
-  {{- if hasKey .Values.copyFiles "classes" -}}
+  {{- if or (hasKey .Values.copyFiles "classes") (hasKey .Values "license") -}}
     {{- $fileVolumeMount := dict "name" "scdr-volume-classes" -}}
     {{- $_ := set $fileVolumeMount "mountPath" "/home/smile/smilecdr/classes" -}}
     {{- $fileVolumeMounts = append $fileVolumeMounts $fileVolumeMount -}}
@@ -94,8 +94,8 @@ Volumes are defined in `smilecdr.fileVolumes`
   {{- $initPullContainers := list -}}
   {{- $initContainerResources := (dict "requests" (dict "cpu" "500m" "memory" "500Mi")) -}}
   {{- $_ := set $initContainerResources "limits" (dict "cpu" "500m" "memory" "500Mi") -}}
-  {{- if hasKey .Values.copyFiles "classes" -}}
-    {{- if not (.Values.copyFiles.classes.disableSyncDefaults) -}}
+  {{- if or (hasKey .Values.copyFiles "classes") (hasKey .Values "license") -}}
+    {{- if not ((.Values.copyFiles.classes).disableSyncDefaults) -}}
       {{- $imageSpec := dict "name" "init-sync-classes" -}}
       {{- $_ := set $imageSpec "image" (printf "%s:%s" .Values.image.repository (default .Values.image.tag .Chart.AppVersion)) -}}
       {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
@@ -104,7 +104,7 @@ Volumes are defined in `smilecdr.fileVolumes`
       {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
       {{- $initPullContainers = append $initPullContainers $imageSpec -}}
     {{- end -}}
-    {{- range $v := .Values.copyFiles.classes.sources -}}
+    {{- range $v := (.Values.copyFiles.classes).sources -}}
       {{- if eq $v.type "s3" -}}
         {{- $bucket := required "You must specify an S3 bucket to copy classes files from." $v.bucket -}}
         {{- $bucketPath := required "You must specify an S3 bucket path to copy classes files from." $v.path -}}
@@ -160,6 +160,15 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- fail "Currently only supports S3 or curl for pulling extra files" -}}
       {{- end -}}
     {{- end -}}
+  {{- end -}}
+  {{- if hasKey .Values "license" -}}
+    {{- $imageSpec := dict "name" "copy-cdr-license" -}}
+    {{- $_ := set $imageSpec "image" "alpine:3" -}}
+    {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
+    {{- $_ := set $imageSpec "args" (list "cp" "/mnt/sscsi/license.jwt" "/tmp/smilecdr-volumes/classes/" )  -}}
+    {{- $_ := set $imageSpec "resources" $initContainerResources -}}
+    {{- $_ := set $imageSpec "volumeMounts" (append (include "smilecdr.volumeMounts" . | fromYamlArray) (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
+    {{- $initPullContainers = append $initPullContainers $imageSpec -}}
   {{- end -}}
   {{- $initPullContainers | toYaml -}}
 {{ end }}

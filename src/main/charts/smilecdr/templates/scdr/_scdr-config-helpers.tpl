@@ -26,6 +26,9 @@ them all into a readable config file, complete with section headers.
     {{- $moduleText = printf "%snode.config.locked \t= %v\n" $moduleText (ternary ($nodeSettings.config).locked true (and (hasKey $nodeSettings "config") (hasKey $nodeSettings.config "locked"))) -}}
   {{- end -}}
   {{- $moduleText = printf "%snode.security.strict \t= %v\n\n" $moduleText (default false (($nodeSettings).security).strict) -}}
+  {{- if hasKey .Values "license" -}}
+    {{- $moduleText = printf "%slicense.config.jwt_file \t= classpath:license.jwt\n" $moduleText -}}
+  {{- end -}}
   {{- $moduleText = printf "%s%s\n\n" $moduleText (include "scdrcfg.messagebroker" .) -}}
   {{- $moduleText = printf "%s%s\n" $moduleText (include "smilecdr.cdrConfigTextBlob" .) -}}
   {{/* Include all modules */}}

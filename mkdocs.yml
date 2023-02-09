@@ -58,6 +58,7 @@ nav:
         - 'Ingress': guide/smilecdr/ingress.md
         - 'Smile CDR Modules': guide/smilecdr/modules.md
         - 'Including Extra Files': guide/smilecdr/files.md
+        - 'Smile CDR License': guide/smilecdr/cdr-license.md
         - 'Message Broker': guide/smilecdr/messagebroker.md
         - 'Resource Tuning': guide/smilecdr/resources.md
       - 'Applying Changes': guide/smilecdr/updating.md
