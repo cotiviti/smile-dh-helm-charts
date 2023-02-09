@@ -399,9 +399,9 @@ spec:
         {}
       initContainers:
         - command:
-          - /usr/bin/sh
+          - /bin/sh
           - -c
-          - /usr/bin/cp -rp /home/smile/smilecdr/classes/. /tmp/smilecdr-volumes/classes/
+          - /bin/cp -rp /home/smile/smilecdr/classes/. /tmp/smilecdr-volumes/classes/
           image: docker.smilecdr.com/smilecdr:2023.02.PRE-43
           imagePullPolicy: IfNotPresent
           name: init-sync-classes
