@@ -1,3 +1,10 @@
+# [1.0.0-pre.44](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.43...v1.0.0-pre.44) (2023-02-09)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix paths for initcontainer ([ce17551](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/ce17551b893d14a613ffad8875839ff5086f3f07))
+
 # [1.0.0-pre.43](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.42...v1.0.0-pre.43) (2023-01-30)
 
 
