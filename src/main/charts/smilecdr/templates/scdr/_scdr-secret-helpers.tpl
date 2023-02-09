@@ -44,6 +44,9 @@ Current providers supported:
   {{- if eq .Values.image.credentials.type "sscsi" -}}
     {{- $sscsiEnabled = "true" -}}
   {{- end -}}
+  {{- if and (hasKey .Values "license") (eq .Values.license.type "sscsi") -}}
+    {{- $sscsiEnabled = "true" -}}
+  {{- end -}}
   {{- if and .Values.database.external.enabled (eq ((.Values.database.external).credentials).type "sscsi") -}}
     {{- $sscsiEnabled = "true" -}}
   {{- end -}}
@@ -112,6 +115,19 @@ pod's filesystem
     */}}
     {{- end -}}
   {{- end -}}
+  {{- if eq (.Values.license).type "sscsi" -}}
+    {{- if eq .Values.license.provider "aws" -}}
+      {{- $sscsiObject := dict "objectName" .Values.license.secretarn -}}
+      {{- $jmesPath := dict "path" "jwt" "objectAlias" "license.jwt" -}}
+      {{- $_ := set $sscsiObject "jmesPath" (list $jmesPath) -}}
+      {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
+      {{/*
+        Define other providers here:
+        {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
+        - add code to build $sscsiObject and append to $sscsiObjects
+      */}}
+    {{- end -}}
+  {{- end -}}
   {{/* Render the Secrets Store CSI objects*/}}
   {{- range $v := $sscsiObjects -}}
     {{- printf "- %v\n" ($v | toYaml | indent 2 | trim) -}}
@@ -144,6 +160,13 @@ These are used to create Kubernetes Secrets that are synced to mounted SSCSI sec
       {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
       {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
     {{- end -}}
+  {{- end -}}
+  {{- if eq (.Values.license).type "sscsi" -}}
+    {{- $sscsiSyncedSecret := dict "secretName" "cdrlicense" -}}
+    {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
+    {{- $data := dict "key" "jwt" "objectName" "license.jwt" -}}
+    {{- $_ := set $sscsiSyncedSecret "data" (list $data) -}}
+    {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
   {{- end -}}
   {{- range $v := $sscsiSyncedSecrets -}}
     {{- printf "- %v\n" ($v | toYaml | indent 2 | trim) -}}
