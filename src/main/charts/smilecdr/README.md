@@ -40,7 +40,7 @@ breaking changes you may need to prepare for.
     * Support for other [SSCSI providers](https://secrets-store-csi-driver.sigs.k8s.io/providers.html) may be implemented as required
 * Fault Tolerance & High Availability when running 2 or more Pods
 * Zero-downtime configuration changes
-* Horizontal Auto-Scaling (Within bounds of Smile CDR licence) - to ensure cost effective use of compute resources
+* Horizontal Auto-Scaling (Within bounds of Smile CDR license) - to ensure cost effective use of compute resources
 
 ### Automated dependency provisioning
 You can use this chart to configure and automatically deploy the following components.
@@ -108,7 +108,7 @@ The below section gives an overview of the default values available. Consult the
 | messageBroker.external.tls | bool | `true` | External message broker TLS support |
 | messageBroker.external.type | string | `"kafka"` | External message broker type |
 | messageBroker.strimzi.enabled | bool | `false` | Enable provisioning of Kafka using Strimzi Operator |
-| modules.usedefaultmodules | bool | `true` | Enable or disable included default modules configuration |
+| modules.useDefaultModules | bool | `true` | Enable or disable included default modules configuration |
 | replicaCount | int | `1` | Number of replicas to deploy. Note that this setting is ignored if autoscaling is enabled. Should always start a new installation with 1 |
 | resources.limits.memory | string | `"4Gi"` | Memory allocation |
 | resources.requests.cpu | string | `"1"` | CPU Requests |

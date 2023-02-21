@@ -88,7 +88,7 @@ Once you have done that, you can enable it like so:
 
 * Specify the `image.credentials.type` as `sscsi`
 * Specify the `image.credentials.provider` as `aws`
-* Specify the AWS Secret ARN in `image.credentials.secretarn`
+* Specify the AWS Secret ARN in `image.credentials.secretArn`
 
 It would look like this:
 ```yaml
@@ -96,7 +96,7 @@ image:
   credentials:
     type: sscsi
     provider: aws
-    secretarn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
+    secretArn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
 serviceAccount:
   create: true
   annotations:

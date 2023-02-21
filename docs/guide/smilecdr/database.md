@@ -53,7 +53,7 @@ database:
       provider: aws
     databases:
     - secretName: clustermgrSecret
-      secretARN: arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret
+      secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret
       module: clustermgr
 ```
 > **Note:** `clustermgrSecret` can be any friendly name, it's not important. The Kubernetes `Secret` resource will be named using this value.
@@ -71,7 +71,7 @@ database:
       provider: aws
     databases:
     - secretName: clustermgrSecret
-      secretARN: arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret
+      secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret
       module: clustermgr
       urlKey: url-key-name
       portKey: port-key-name

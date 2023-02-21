@@ -38,7 +38,7 @@ image:
   credentials:
     type: sscsi
     provider: aws
-    secretarn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
+    secretArn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
 
 securityContext:
   runAsNonRoot: false
@@ -61,7 +61,7 @@ modules:
   # populated in the smilecdr.services variable. These can be consumed by other
   # modules that reference them.
 
-  usedefaultmodules: false
+  useDefaultModules: false
 
   clustermgr:
     name: Cluster Manager Configuration

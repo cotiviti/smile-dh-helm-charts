@@ -1,5 +1,5 @@
 modules:
-  usedefaultmodules: false
+  useDefaultModules: false
   clustermgr:
     name: Modified Cluster Manager Configuration
     config:

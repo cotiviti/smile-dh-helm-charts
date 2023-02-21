@@ -66,7 +66,7 @@ pod's filesystem
   {{- $sscsiObjects := list -}}
   {{- if eq .Values.image.credentials.type "sscsi" -}}
     {{- if eq .Values.image.credentials.provider "aws" -}}
-      {{- $sscsiObject := dict "objectName" .Values.image.credentials.secretarn -}}
+      {{- $sscsiObject := dict "objectName" .Values.image.credentials.secretArn -}}
       {{- $jmesPath := dict "path" "dockerconfigjson" "objectAlias" "dockerconfigjson" -}}
       {{- $_ := set $sscsiObject "jmesPath" (list $jmesPath) -}}
       {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
@@ -86,7 +86,7 @@ pod's filesystem
         */ -}}
         {{- $uniqueArn := true -}}
         {{- range $origlistvalue := $sscsiObjects -}}
-          {{- if eq $origlistvalue.objectName $v.secretARN -}}
+          {{- if eq $origlistvalue.objectName $v.secretArn -}}
             {{- /* Not unique, so disable object creation further down */ -}}
             {{- $uniqueArn = false -}}
             {{- /* Merging keys is not possible unless we refactor how the key handling
@@ -96,8 +96,8 @@ pod's filesystem
           {{- end -}}
         {{- end -}}
         {{- if $uniqueArn -}}
-          {{- $sscsiObject := dict "objectName" (required "You must provide `secretARN` as well as `secretName` for the DB credentials secret" $v.secretARN) -}}
-          {{- $_ := set $sscsiObject "objectAlias" (required "You must provide `secretName` as well as `secretARN` for the DB credentials secret" $v.secretName) -}}
+          {{- $sscsiObject := dict "objectName" (required "You must provide `secretArn` as well as `secretName` for the DB credentials secret" $v.secretArn) -}}
+          {{- $_ := set $sscsiObject "objectAlias" (required "You must provide `secretName` as well as `secretArn` for the DB credentials secret" $v.secretName) -}}
           {{- $jmesPathList := list (dict "path" (default "password" $v.passKey) "objectAlias" (printf "%s-db-password" $v.secretName)) -}}
           {{- $jmesPathList = append $jmesPathList (dict "path" (default "host" $v.urlKey) "objectAlias" (printf "%s-db-host" $v.secretName)) -}}
           {{- $jmesPathList = append $jmesPathList (dict "path" (default "username" $v.userKey) "objectAlias" (printf "%s-db-user" $v.secretName)) -}}
@@ -117,7 +117,7 @@ pod's filesystem
   {{- end -}}
   {{- if eq (.Values.license).type "sscsi" -}}
     {{- if eq .Values.license.provider "aws" -}}
-      {{- $sscsiObject := dict "objectName" .Values.license.secretarn -}}
+      {{- $sscsiObject := dict "objectName" .Values.license.secretArn -}}
       {{- $jmesPath := dict "path" "jwt" "objectAlias" "license.jwt" -}}
       {{- $_ := set $sscsiObject "jmesPath" (list $jmesPath) -}}
       {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}

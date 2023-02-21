@@ -3,6 +3,10 @@ tests:
     outputFile: output-nodeid.yaml
     valueFiles:
     - values-nodeid.yaml
+  valuesNodeidWithName:
+    outputFile: output-nodeid-with-name.yaml
+    valueFiles:
+    - values-nodeid-with-name.yaml
   security:
     outputFile: output-security.yaml
     valueFiles:
