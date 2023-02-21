@@ -904,8 +904,62 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-smile-cdr-with-extra-modules-definitions" class="md-nav__link">
-    Install Smile CDR with extra modules definitions
+  <a href="#mapping-traditional-smile-cdr-configuration-to-helm" class="md-nav__link">
+    Mapping traditional Smile CDR configuration to Helm
+  </a>
+  
+    <nav class="md-nav" aria-label="Mapping traditional Smile CDR configuration to Helm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identify-the-module-configuration-parameter" class="md-nav__link">
+    Identify the module configuration parameter.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specify-them-in-th-values-yaml-file-format" class="md-nav__link">
+    Specify them in th values yaml file format:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-definition-considerations" class="md-nav__link">
+    Module definition considerations
+  </a>
+  
+    <nav class="md-nav" aria-label="Module definition considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disabling-included-default-module-definitios" class="md-nav__link">
+    Disabling included default module definitios
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#define-readiness-probe" class="md-nav__link">
+    Define Readiness Probe
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-smile-cdr-with-extra-modules-definition-files" class="md-nav__link">
+    Install Smile CDR with extra modules definition files
   </a>
   
 </li>
@@ -1247,8 +1301,62 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-smile-cdr-with-extra-modules-definitions" class="md-nav__link">
-    Install Smile CDR with extra modules definitions
+  <a href="#mapping-traditional-smile-cdr-configuration-to-helm" class="md-nav__link">
+    Mapping traditional Smile CDR configuration to Helm
+  </a>
+  
+    <nav class="md-nav" aria-label="Mapping traditional Smile CDR configuration to Helm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identify-the-module-configuration-parameter" class="md-nav__link">
+    Identify the module configuration parameter.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specify-them-in-th-values-yaml-file-format" class="md-nav__link">
+    Specify them in th values yaml file format:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-definition-considerations" class="md-nav__link">
+    Module definition considerations
+  </a>
+  
+    <nav class="md-nav" aria-label="Module definition considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disabling-included-default-module-definitios" class="md-nav__link">
+    Disabling included default module definitios
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#define-readiness-probe" class="md-nav__link">
+    Define Readiness Probe
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-smile-cdr-with-extra-modules-definition-files" class="md-nav__link">
+    Install Smile CDR with extra modules definition files
   </a>
   
 </li>
@@ -1288,19 +1396,20 @@ in separate files and include them using the <code>-f</code> command. This is po
 <p>We recommend defining them in one or more separate files, as this allows you
 to manage common settings as well as per-environment overlays. We will discuss this further
 down in the Advanced Configuration section below.</p>
+<h2 id="mapping-traditional-smile-cdr-configuration-to-helm">Mapping traditional Smile CDR configuration to Helm<a class="headerlink" href="#mapping-traditional-smile-cdr-configuration-to-helm" title="Permanent link">&para;</a></h2>
 <p>Mapping existing configurations to values files is relatively straight forwards:</p>
-<h4 id="identify-the-module-configuration-parameter">Identify the module configuration parameter.<a class="headerlink" href="#identify-the-module-configuration-parameter" title="Permanent link">&para;</a></h4>
+<h3 id="identify-the-module-configuration-parameter">Identify the module configuration parameter.<a class="headerlink" href="#identify-the-module-configuration-parameter" title="Permanent link">&para;</a></h3>
 <p>e.g. <a href="https://smilecdr.com/docs/configuration_categories/fhir_performance.html#property-concurrent-bundle-validation">Concurrent Bundle Validation</a>
 Config.properties format:
 <code>module.persistence.config.dao_config.concurrent_bundle_validation = false</code></p>
-<h4 id="specify-them-in-th-values-yaml-file-format">Specify them in th values yaml file format:<a class="headerlink" href="#specify-them-in-th-values-yaml-file-format" title="Permanent link">&para;</a></h4>
+<h3 id="specify-them-in-th-values-yaml-file-format">Specify them in th values yaml file format:<a class="headerlink" href="#specify-them-in-th-values-yaml-file-format" title="Permanent link">&para;</a></h3>
 <p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">modules</span><span class="p">:</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">persistence</span><span class="p">:</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">      </span><span class="nt">dao_config.concurrent_bundle_validation</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;false&quot;</span>
 </code></pre></div>
 The same effective mapping can be used for any module configurations supported by Smile CDR.</p>
-<h4 id="module-definition-considerations">Module definition considerations<a class="headerlink" href="#module-definition-considerations" title="Permanent link">&para;</a></h4>
+<h2 id="module-definition-considerations">Module definition considerations<a class="headerlink" href="#module-definition-considerations" title="Permanent link">&para;</a></h2>
 <p>Here are some additional fields/considerations that need to be included in your module definitions files:</p>
 <ul>
 <li>Though not strictly required by the <code>yaml</code> spec, all values should be quoted.
@@ -1313,7 +1422,7 @@ The same effective mapping can be used for any module configurations supported b
 <li>DB credentials/details can be referenced from your module configurations via <code>DB_XXX</code> environment variables.</li>
 </ul>
 <p>Any configurations you specify will merge with the defaults, priority going to the values file.</p>
-<h4 id="disabling-included-default-module-definitios">Disabling included default module definitios<a class="headerlink" href="#disabling-included-default-module-definitios" title="Permanent link">&para;</a></h4>
+<h3 id="disabling-included-default-module-definitios">Disabling included default module definitios<a class="headerlink" href="#disabling-included-default-module-definitios" title="Permanent link">&para;</a></h3>
 <p>If you wish to disable any of the default modules, we recommend you disable all default modules and define
 your own from scratch. This way it will be easier to determine the exact modules you have defined just by
 looking at your values files.
@@ -1389,9 +1498,27 @@ Smile CDR with the <code>clustermgr</code>, <code>persistence</code>, <code>loca
 </code></pre></div>
 </details>
 
-<h3 id="install-smile-cdr-with-extra-modules-definitions">Install Smile CDR with extra modules definitions<a class="headerlink" href="#install-smile-cdr-with-extra-modules-definitions" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>helm<span class="w"> </span>upgrade<span class="w"> </span>-i<span class="w"> </span>my-smile-env<span class="w"> </span>--devel<span class="w"> </span>-f<span class="w"> </span>my-values.yaml<span class="w"> </span>-f<span class="w"> </span>my-module-values.yaml<span class="w"> </span>smiledh/smilecdr
+<h3 id="define-readiness-probe">Define Readiness Probe<a class="headerlink" href="#define-readiness-probe" title="Permanent link">&para;</a></h3>
+<p>As Kubernetes only supports a single readiness probe per container, you need to define which endpoint module Kubernetes should use to consider the 'readiness' of your installation.</p>
+<p>The default modules included with this chart are configured so that the <code>fhir_endpoint</code> module is used for the readiness probe. This is done by setting the <code>enableReadinessProbe</code> key to <code>true</code> in the module definition.</p>
+<p>If you wish to use a different module for the readiness probe, you must disable it for the <code>fhir_endpoint</code> module and enable it for the module of your choice. e.g.</p>
+<h4 id="my-module-valuesyaml_1"><code>my-module-values.yaml</code><a class="headerlink" href="#my-module-valuesyaml_1" title="Permanent link">&para;</a></h4>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">modules</span><span class="p">:</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">fhir_endpoint</span><span class="p">:</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">enableReadinessProbe</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">my_fhir_endpoint</span><span class="p">:</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nt">enableReadinessProbe</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </code></pre></div>
+Alternatively, you may disable the included default modules as described above, and then enable the probe on one of your custom defined modules.</p>
+<blockquote>
+<p><strong>Note:</strong> You must enable the readiness probe for exactly one endpoint module. If you specify none, or more than one, the Helm Chart will return an error.</p>
+</blockquote>
+<h2 id="install-smile-cdr-with-extra-modules-definition-files">Install Smile CDR with extra modules definition files<a class="headerlink" href="#install-smile-cdr-with-extra-modules-definition-files" title="Permanent link">&para;</a></h2>
+<p>When splitting your configuration into multiple <code>values</code> files, pass them in to your <code>helm upgrade</code> commandline like so:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>helm<span class="w"> </span>upgrade<span class="w"> </span>-i<span class="w"> </span>my-smile-env<span class="w"> </span>--devel<span class="w"> </span>-f<span class="w"> </span>my-values.yaml<span class="w"> </span>-f<span class="w"> </span>my-module-values.yaml<span class="w"> </span>smiledh/smilecdr
+</code></pre></div></p>
 
 
 
