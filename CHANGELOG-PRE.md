@@ -1,3 +1,16 @@
+# [1.0.0-pre.47](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.46...v1.0.0-pre.47) (2023-02-21)
+
+
+### Bug Fixes
+
+* **smilecdr:** correct spelling of license ([25dd99a](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/25dd99a52fb054aa8e6662ff871a3a11f4657203))
+* **smilecdr:** use camelCase for `useDefaultModules` ([a0178ac](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/a0178ac5e576cb03f3ce8235fc4ceef738914606))
+
+
+### BREAKING CHANGES
+
+* **smilecdr:** This change affects the default module configuration.
+
 # [1.0.0-pre.46](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.45...v1.0.0-pre.46) (2023-02-21)
 
 
