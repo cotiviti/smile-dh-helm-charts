@@ -44,7 +44,7 @@ Current providers supported:
   {{- if eq .Values.image.credentials.type "sscsi" -}}
     {{- $sscsiEnabled = "true" -}}
   {{- end -}}
-  {{- if and (hasKey .Values "license") (eq .Values.license.type "sscsi") -}}
+  {{- if and (hasKey .Values "license") (eq (.Values.license).type "sscsi") -}}
     {{- $sscsiEnabled = "true" -}}
   {{- end -}}
   {{- if and .Values.database.external.enabled (eq ((.Values.database.external).credentials).type "sscsi") -}}

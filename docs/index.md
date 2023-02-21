@@ -11,6 +11,14 @@ Currently, the only chart available is for the core [Smile CDR](https://www.smil
 As such, there may still be **breaking changes** introduced without notice.
 
 Only use this version of the chart for evaluation or testing.
+## Required Helm Version
+
+To avoid unexpected issues, we recommend using the latest version of Helm v3.
+
+These Helm Charts have been developed and tested using Helm `>=3.10.1, <4.0.0`.
+
+>**Warning:**
+Using older versions may cause backwards compatibility issues.
 
 ## Getting Started
 
