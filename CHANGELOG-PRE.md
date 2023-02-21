@@ -1,3 +1,10 @@
+# [1.0.0-pre.49](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.48...v1.0.0-pre.49) (2023-02-21)
+
+
+### Bug Fixes
+
+* **smilecdr:** use provided tag for initcontainer ([2f68eb6](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/2f68eb6b449fee56a4964b2a204ef5703434f39f))
+
 # [1.0.0-pre.48](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.47...v1.0.0-pre.48) (2023-02-21)
 
 
