@@ -1,3 +1,10 @@
+# [1.0.0-pre.50](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.49...v1.0.0-pre.50) (2023-02-21)
+
+
+### Features
+
+* **smilecdr:** allow extra env vars and volumes ([9d53ec8](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/9d53ec82acb326792837881ba00a05d047da8a4f))
+
 # [1.0.0-pre.49](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.48...v1.0.0-pre.49) (2023-02-21)
 
 
