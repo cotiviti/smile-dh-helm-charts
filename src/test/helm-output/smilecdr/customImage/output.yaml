@@ -398,51 +398,7 @@ spec:
       securityContext:
         {}
       initContainers:
-        - command:
-          - /bin/sh
-          - -c
-          - /bin/cp -rp /home/smile/smilecdr/classes/. /tmp/smilecdr-volumes/classes/
-          image: docker.smilecdr.com/smilecdr:2023.02.RC4
-          imagePullPolicy: IfNotPresent
-          name: init-sync-classes
-          resources:
-            limits:
-              cpu: 500m
-              memory: 500Mi
-            requests:
-              cpu: 500m
-              memory: 500Mi
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-              - ALL
-            privileged: false
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 1000
-          volumeMounts:
-          - mountPath: /tmp/smilecdr-volumes/classes/
-            name: scdr-volume-classes
-        - args:
-          - s3
-          - cp
-          - s3://s3-bucket-name/path-to/classes
-          - /tmp/smilecdr-volumes/classes/
-          - --recursive
-          image: public.ecr.aws/aws-cli/aws-cli
-          imagePullPolicy: IfNotPresent
-          name: init-pull-classes-s3
-          resources:
-            limits:
-              cpu: 500m
-              memory: 500Mi
-            requests:
-              cpu: 500m
-              memory: 500Mi
-          volumeMounts:
-          - mountPath: /tmp/smilecdr-volumes/classes/
-            name: scdr-volume-classes
+        []
       containers:
         - name: smilecdr
           securityContext:
@@ -454,7 +410,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2023.02.RC4"
+          image: "custom.image/repo/image:custom-tag"
           imagePullPolicy: IfNotPresent
           readinessProbe:
             httpGet:
@@ -523,8 +479,6 @@ spec:
               containerPort: 9200
               protocol: TCP
           volumeMounts:
-            - mountPath: /home/smile/smilecdr/classes
-              name: scdr-volume-classes
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
@@ -535,9 +489,6 @@ spec:
             - mountPath: /home/smile/smilecdr/activemq-data
               name: scdr-volume-amq
       volumes:
-        - emptyDir:
-            sizeLimit: 500Mi
-          name: scdr-volume-classes
         - configMap:
             name: release-name-scdr-masterdev-node-8c81351d3765304f68a5b4d0f51641a737e9599155475d881f74c34dc2ab0137
           name: scdr-config-release-name

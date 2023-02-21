@@ -402,7 +402,7 @@ spec:
           - /bin/sh
           - -c
           - /bin/cp -rp /home/smile/smilecdr/classes/. /tmp/smilecdr-volumes/classes/
-          image: docker.smilecdr.com/smilecdr:2023.02.RC4
+          image: custom.image/repo/image:custom-tag
           imagePullPolicy: IfNotPresent
           name: init-sync-classes
           resources:
@@ -454,7 +454,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2023.02.RC4"
+          image: "custom.image/repo/image:custom-tag"
           imagePullPolicy: IfNotPresent
           readinessProbe:
             httpGet:
