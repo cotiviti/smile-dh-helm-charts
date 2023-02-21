@@ -20,7 +20,7 @@ Add a snippet in your values file like so
 license:
   type: sscsi
   provider: aws
-  secretarn: arn:aws:secretsmanager:us-east-1:111111111111:secret:my-smile-license
+  secretArn: arn:aws:secretsmanager:us-east-1:111111111111:secret:my-smile-license
 ```
 
 ## Alternative method

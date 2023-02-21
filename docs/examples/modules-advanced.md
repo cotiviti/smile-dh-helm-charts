@@ -41,7 +41,7 @@ image:
   credentials:
     type: sscsi
     provider: aws
-    secretarn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
+    secretArn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
 
 serviceAccount:
   create: true
@@ -165,7 +165,7 @@ image:
   credentials:
     type: sscsi
     provider: aws
-    secretarn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
+    secretArn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
 
 serviceAccount:
   create: true
@@ -178,7 +178,7 @@ database:
     internal: true
 
 modules:
-  usedefaultmodules: false
+  useDefaultModules: false
 ```
 
 **values-clustermgr.yaml**
