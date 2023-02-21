@@ -54,7 +54,7 @@ database:
     internal: true
 
 modules:
-  usedefaultmodules: false
+  useDefaultModules: false
 
   clustermgr:
     name: Cluster Manager Configuration

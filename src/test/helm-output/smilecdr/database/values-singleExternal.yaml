@@ -16,7 +16,7 @@ database:
       passKey: password
 
 modules:
-  usedefaultmodules: false
+  useDefaultModules: false
   clustermgr:
     name: Cluster Manager Configuration
     enabled: true

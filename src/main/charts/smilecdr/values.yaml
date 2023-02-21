@@ -240,7 +240,7 @@ cdrNodes:
       strict: false
 
 ## @section Smile CDR Modules Configuration
-## @param modules.usedefaultmodules Enable or disable included default modules configuration
+## @param modules.useDefaultModules Enable or disable included default modules configuration
 ## @param autoDeploy Enable or disable automatic deployment of changes to Smile CDR configuration
 # Define modules to be used. Some of these will contain service definitions.
 # A service and an ingress rule will be created for modules that use services.
@@ -249,7 +249,7 @@ cdrNodes:
 # modules that reference them.
 modules:
   # -- Enable or disable included default modules configuration
-  usedefaultmodules: true
+  useDefaultModules: true
 
 # Automatically do rolling deployment when configmaps or files are changed
 # -- Enable or disable automatic deployment of changes to Smile CDR configuration

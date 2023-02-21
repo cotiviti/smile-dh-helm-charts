@@ -8,13 +8,13 @@ Consume this elsewhere in the chart by unserializing it like so:
 {{- $modules := include "smilecdr.modules" . | fromYaml -}}
 */}}
 {{- define "smilecdr.modules" -}}
-  {{/* Include all default modules unless usedefaultmodules is disabled */}}
+  {{/* Include all default modules unless useDefaultModules is disabled */}}
   {{- $modules := dict -}}
-  {{- if $.Values.modules.usedefaultmodules -}}
+  {{- if $.Values.modules.useDefaultModules -}}
     {{- $modules = ( $.Files.Get "default-modules.yaml" | fromYaml ).modules -}}
   {{- end -}}
   {{- /* Include any user-defined module overrides, omitting the defaultmosules flag */ -}}
-  {{- $_ := mergeOverwrite $modules ( omit $.Values.modules "usedefaultmodules" ) -}}
+  {{- $_ := mergeOverwrite $modules ( omit $.Values.modules "useDefaultModules" ) -}}
   {{/* Return as serialized Yaml */}}
   {{- $modules | toYaml -}}
 {{- end -}}
