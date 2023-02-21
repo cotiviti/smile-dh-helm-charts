@@ -220,10 +220,7 @@ database:
 
 ## @skip cdrNodes
 # This is where we define multiple node configurations for Smile CDR
-# This is a developing feature and there may be breaking changes later on
-# For now, it only defines the name, which is used in the properties ConfigMap
-# It may later be used to define deployment-specific attributes.
-# Do not change any of these values.
+# This is a developing feature and there may be breaking changes later on.
 # @ignored
 cdrNodes:
   masterdev:
@@ -239,6 +236,21 @@ cdrNodes:
       troubleshooting: false
     security:
       strict: false
+
+## @section Extra Environment Variables
+## @param extraEnvVars map of environment variables to be passed directly to Smile CDR container spec.
+# Define extra environment variables to pass in to the Smile CDR container.
+extraEnvVars: {}
+
+## @section Extra Volumes
+## @param extraVolumes map of volumes to be passed directly to Smile CDR container spec.
+# Define extra volumes to pass in to the Smile CDR container.
+extraVolumes: {}
+
+## @section Extra Volume mounts
+## @param extraEnvVars map of volume mounts to be passed directly to Smile CDR container spec.
+# Define extra volume mounts to pass in to the Smile CDR container.
+extraVolumeMounts: {}
 
 ## @section Smile CDR Modules Configuration
 ## @param modules.useDefaultModules Enable or disable included default modules configuration

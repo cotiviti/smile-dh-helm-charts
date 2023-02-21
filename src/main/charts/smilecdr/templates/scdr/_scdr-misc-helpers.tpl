@@ -27,6 +27,27 @@ periodSeconds: 10
 {{- end -}}
 
 {{/*
+Define Smile CDR environment variables
+
+Note:
+This template simply collates the environment variables defined elsewhere to
+provide a single entry point.
+*/}}
+{{- define "smilecdr.envVars" -}}
+  {{- $envVars := list -}}
+  {{- /* Include DB env vars */ -}}
+  {{- $envVars = concat $envVars (include "smilecdr.dbEnvVars" . | fromYamlArray ) -}}
+  {{- /* Include global extra env vars */ -}}
+  {{- with .Values.extraEnvVars -}}
+    {{- $envVars = concat $envVars . -}}
+  {{- end -}}
+  {{- /* Render the environments */ -}}
+  {{- if ne (len $envVars) 0 -}}
+    {{- printf "%v" (toYaml $envVars) -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
 Define all init containers
 
 Note:

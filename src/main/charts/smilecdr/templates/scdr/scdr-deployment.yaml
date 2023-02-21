@@ -54,7 +54,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
-            {{- include "smilecdr.dbEnvVars" . | nindent 12 }}
+            {{- include "smilecdr.envVars" . | nindent 12 }}
             {{- with include "smilecdr.jvmargs" . }}
             - name: JVMARGS
               value: {{ . }}
