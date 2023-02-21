@@ -30,13 +30,13 @@ To reference a database that is external to the cluster, you will need:
   DB cluster name will typically change. By keeping these details inside the secret then any such change will be automatically applied without reconfiguring. See
   [here](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres)
   for info on the schema used by AWS for this purpose. Note that an app restart will be required to pick up the new secret value.
-  * The secret can be a plain Kubernetes secret that you provision externally, or it can be a secret in a
+  * The secret can be a Kubernetes `Secret` object that you provision through some external mechanism, or it can be a secret in a
   secure secrets vault. The latter is the preferred option for increased security and the ability to easily
-  rotate credentials. At this time, only AWS Secrets Manager is supported via the Secrets Store CSI Driver.
+  rotate credentials. At this time, the only supported secrets vault is AWS Secrets Manager, using the Secrets Store CSI Driver.
   See the [Secrets Handling](../secrets.md) section for more info on this.
 
 If using AWS Secrets Manager, set the `credentials.type` to `sscsi` and `credentials.provider` to `aws`. If you have created a `Secret` object
-in Kubernetes, set it to `externalsecret`.
+in Kubernetes through some othert mechanism, set `credentials.type` to `k8sSecret`.
 
 ### Example Secret Configurations
 

@@ -104,18 +104,18 @@ serviceAccount:
 ```
 
 ### Configuring Repo Credentials using Kubernetes Secret
-Before using this configuration, you need to create a Kubernetes `secret` of type `kubernetes.io/dockerconfigjson`. For more info on this, refer to the Kubernetes section in [Secrets Handling](secrets.md#kubernetes-secret).
+Before using this configuration, you need to create a Kubernetes `Secret` object of type `kubernetes.io/dockerconfigjson`. For more info on this, refer to the Kubernetes section in [Secrets Handling](secrets.md#kubernetes-secret).
 
-Once your Kubernetes `Secret` object is created, you can use it like so:
+Once this `Secret` object is created, you can use it like so:
 
-* Specify the `image.credentials.type` as `externalsecret`
+* Specify the `image.credentials.type` as `k8sSecret`
 * Reference the Secret name in `image.credentials.pullSecrets[0].name`
 
 It would look like this in your custom values file:
 ```yaml
 image:
   credentials:
-    type: externalsecret
+    type: k8sSecret
     pullSecrets:
-    - name: mysecretname
+    - name: myK8sSecretName
 ```
