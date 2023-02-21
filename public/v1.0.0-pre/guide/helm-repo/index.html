@@ -1460,18 +1460,18 @@ Kubernetes, see the official documentation <a href="https://kubernetes.io/docs/t
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="nt">eks.amazonaws.com/role-arn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:iam::123456789012:role/example-role-name&quot;</span>
 </code></pre></div></p>
 <h3 id="configuring-repo-credentials-using-kubernetes-secret">Configuring Repo Credentials using Kubernetes Secret<a class="headerlink" href="#configuring-repo-credentials-using-kubernetes-secret" title="Permanent link">&para;</a></h3>
-<p>Before using this configuration, you need to create a Kubernetes <code>secret</code> of type <code>kubernetes.io/dockerconfigjson</code>. For more info on this, refer to the Kubernetes section in <a href="../secrets/#kubernetes-secret">Secrets Handling</a>.</p>
-<p>Once your Kubernetes <code>Secret</code> object is created, you can use it like so:</p>
+<p>Before using this configuration, you need to create a Kubernetes <code>Secret</code> object of type <code>kubernetes.io/dockerconfigjson</code>. For more info on this, refer to the Kubernetes section in <a href="../secrets/#kubernetes-secret">Secrets Handling</a>.</p>
+<p>Once this <code>Secret</code> object is created, you can use it like so:</p>
 <ul>
-<li>Specify the <code>image.credentials.type</code> as <code>externalsecret</code></li>
+<li>Specify the <code>image.credentials.type</code> as <code>k8sSecret</code></li>
 <li>Reference the Secret name in <code>image.credentials.pullSecrets[0].name</code></li>
 </ul>
 <p>It would look like this in your custom values file:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">image</span><span class="p">:</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">credentials</span><span class="p">:</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">externalsecret</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k8sSecret</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nt">pullSecrets</span><span class="p">:</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysecretname</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myK8sSecretName</span>
 </code></pre></div></p>
 
 

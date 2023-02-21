@@ -1357,13 +1357,13 @@ in this fashion and you must instead provision some external database.</p>
   DB cluster name will typically change. By keeping these details inside the secret then any such change will be automatically applied without reconfiguring. See
   <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres">here</a>
   for info on the schema used by AWS for this purpose. Note that an app restart will be required to pick up the new secret value.</li>
-<li>The secret can be a plain Kubernetes secret that you provision externally, or it can be a secret in a
+<li>The secret can be a Kubernetes <code>Secret</code> object that you provision through some external mechanism, or it can be a secret in a
   secure secrets vault. The latter is the preferred option for increased security and the ability to easily
-  rotate credentials. At this time, only AWS Secrets Manager is supported via the Secrets Store CSI Driver.
+  rotate credentials. At this time, the only supported secrets vault is AWS Secrets Manager, using the Secrets Store CSI Driver.
   See the <a href="../../secrets/">Secrets Handling</a> section for more info on this.</li>
 </ul>
 <p>If using AWS Secrets Manager, set the <code>credentials.type</code> to <code>sscsi</code> and <code>credentials.provider</code> to <code>aws</code>. If you have created a <code>Secret</code> object
-in Kubernetes, set it to <code>externalsecret</code>.</p>
+in Kubernetes through some othert mechanism, set <code>credentials.type</code> to <code>k8sSecret</code>.</p>
 <h3 id="example-secret-configurations">Example Secret Configurations<a class="headerlink" href="#example-secret-configurations" title="Permanent link">&para;</a></h3>
 <h4 id="using-aws-secret-json-structure">Using AWS Secret Json structure<a class="headerlink" href="#using-aws-secret-json-structure" title="Permanent link">&para;</a></h4>
 <p>If you are using the above mentioned Json <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres">structure</a> (i.e. <code>engine</code>, <code>host</code>, <code>username</code>, <code>password</code>, <code>dbname</code> and <code>port</code>) in your secret, then you should simply configure your secret as per the following yaml fragment. Those default keys will be used to extract the credentials.</p>
