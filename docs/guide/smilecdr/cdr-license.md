@@ -23,10 +23,12 @@ license:
   secretArn: arn:aws:secretsmanager:us-east-1:111111111111:secret:my-smile-license
 ```
 
-## Alternative method
+## Alternative methods
 
 If you do not wish to use the above method, you can also include your license file using the existing method for including files as described in the [Including Extra Files](./files.md) section of this guide.
 
 If you use this method, you will also need to update your [module configuration](./modules.md) so that `license.config.jwt_file` points to the correct file.
+
+This chart does not currently support providing the licence directly via Kubernetes `Secret` objects.
 
 > **WARNING:** Be aware that your license should be considered sensitive material. If you do use this method, your license may show up in your infrastructure logs that are used to provision this Helm Chart.

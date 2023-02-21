@@ -11,21 +11,21 @@ image:
   pullPolicy: IfNotPresent
 
   ## @section Image Credentials
-  ## @param image.credentials.type Type of credentials. `sscsi`, `extsecret` or `values`
+  ## @param image.credentials.type Type of credentials. `sscsi`, `k8sSecret` or `values`
 
   ## @section Image Credentials (values)
   ## @param image.credentials.values[0].registry OCR registry these values are for
   ## @param image.credentials.values[0].username OCR registry username
   ## @param image.credentials.values[0].password OCR registry password
 
-  # -- You must provide image credentials of type `sscsi`, `extsecret` or `values`
+  # -- You must provide image credentials of type `sscsi`, `k8sSecret` or `values`
   credentials: {}
-    # Choose one of sscsi, extsecret, values
+    # Choose one of sscsi, k8sSecret, values
     # type: sscsi
     # provider: aws
     # secretarn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
 
-    # type: extsecret
+    # type: k8sSecret
     # pullSecrets:
     #   - name: scdr-docker-secrets
 
@@ -135,7 +135,7 @@ autoscaling:
 
 ## @section External Database Configuration
 ## @param database.external.enabled Enable database external to K8s cluster
-## @param database.external.credentials Source of DB secret for external database. A map with `type` set to `sscsi` or `extsecret` and `provider` set to `aws`
+## @param database.external.credentials Source of DB secret for external database. A map with `type` set to `sscsi` or `k8sSecret` and `provider` set to `aws`
 ## @param database.external.databases List of databases used by this Smile CDR installation
 ## @param database.external.databases.secretName Name of K8s secret with DB connection credentials
 ## @param database.external.databases.module The module that this database is used for
@@ -153,7 +153,7 @@ database:
     # -- Enable database external to K8s cluster
     enabled: false
     credentials: {}
-    # Choose `sscsi` or `extsecret`
+    # Choose `sscsi` or `k8sSecret`
     # type: sscsi
     # provider: aws
     # @skip databases
