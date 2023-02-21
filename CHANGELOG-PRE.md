@@ -1,3 +1,10 @@
+# [1.0.0-pre.48](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.47...v1.0.0-pre.48) (2023-02-21)
+
+
+### Features
+
+* **smilecdr:** update k8s secrets mechanism ([0733b5d](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/0733b5d3f3b5f4fcec4be4ce121bb230948e4ce6))
+
 # [1.0.0-pre.47](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.46...v1.0.0-pre.47) (2023-02-21)
 
 

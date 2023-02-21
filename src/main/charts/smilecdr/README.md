@@ -1,6 +1,6 @@
 # Smile CDR
 
-![Version: 1.0.0-pre.47](https://img.shields.io/badge/Version-1.0.0--pre.47-informational?style=flat-square) ![Smile CDR Version: 2023.02.RC4](https://img.shields.io/badge/Smile%20CDR%20Version-2023.02.RC4-informational?style=flat-square)
+![Version: 1.0.0-pre.48](https://img.shields.io/badge/Version-1.0.0--pre.48-informational?style=flat-square) ![Smile CDR Version: 2023.02.RC4](https://img.shields.io/badge/Smile%20CDR%20Version-2023.02.RC4-informational?style=flat-square)
 
 This chart provides a flexible and consistent process to deploy Smile CDR in a self-managed Kubernetes cluster.
 
@@ -8,7 +8,7 @@ It is provided by Smile Digital Health as a starting point for creating a refere
 It has been fully tested on Amazon EKS and has growing compatibility for Azure AKS.
 
 ## ** PRE-RELEASE WARNING **
-This is ***PRE-RELEASE*** version 1.0.0-pre.47
+This is ***PRE-RELEASE*** version 1.0.0-pre.48
 
 As this is a pre-release version of this chart, there may be **breaking changes** introduced without notice.
 
