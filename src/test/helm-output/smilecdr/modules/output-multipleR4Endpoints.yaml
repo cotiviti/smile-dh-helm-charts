@@ -36,7 +36,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-masterdev-node
+  name: release-name-scdr-masterdev-node-0bfbc322e8c7bcb197fbda7dbaeae300cfa04c1c6c722d88e9af62d8e92b831c
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -82,20 +82,31 @@ data:
     module.admin_web.config.respect_forward_headers 	= true
     module.admin_web.config.tls.enabled 	= false
     ################################################################################
-    # Cluster Manager Configuration
+    # Modified Cluster Manager Configuration
     ################################################################################
-    module.clustermgr.config.db.driver 	= POSTGRES_9_4
-    module.clustermgr.config.db.password 	= #{env['DB_PASS']}
-    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
-    module.clustermgr.config.db.username 	= #{env['DB_USER']}
+    module.clustermgr.config.audit_log.request_headers_to_store 	= Content-Type,Host
+    module.clustermgr.config.db.driver 	= POSTGRES_9_5
+    module.clustermgr.config.db.schema_update_mode 	= UPDATE
+    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:5432/#{env['DB_DATABASE']}?sslmode=require
+    module.clustermgr.config.stats.heartbeat_persist_frequency_ms 	= 15000
+    module.clustermgr.config.stats.stats_cleanup_frequency_ms 	= 300000
+    module.clustermgr.config.stats.stats_persist_frequency_ms 	= 60000
     ################################################################################
-    # Database Configuration
+    # ENDPOINT: FHIR Service
     ################################################################################
-    module.persistence.type 	= PERSISTENCE_R4
-    module.persistence.config.db.driver 	= POSTGRES_9_4
-    module.persistence.config.db.password 	= #{env['DB_PASS']}
-    module.persistence.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
-    module.persistence.config.db.username 	= #{env['DB_USER']}
+    module.fhir_endpoint.type 	= ENDPOINT_FHIR_REST_R4
+    module.fhir_endpoint.requires.PERSISTENCE_R4 	= persistence
+    module.fhir_endpoint.requires.SECURITY_IN_UP 	= local_security
+    module.fhir_endpoint.config.context_path 	= /fhir_request
+    module.fhir_endpoint.config.port 	= 8000
+    ################################################################################
+    # ENDPOINT: FHIR Service
+    ################################################################################
+    module.fhir_endpoint2.type 	= ENDPOINT_FHIR_REST_R4
+    module.fhir_endpoint2.requires.PERSISTENCE_R4 	= persistence
+    module.fhir_endpoint2.requires.SECURITY_IN_UP 	= local_security
+    module.fhir_endpoint2.config.context_path 	= /fhir_request2
+    module.fhir_endpoint2.config.port 	= 8002
 ---
 # Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
@@ -116,6 +127,54 @@ spec:
     - name: admin-web
       port: 9100
       targetPort: 9100
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+---
+# Source: smilecdr/templates/scdr/scdr-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-scdr-svc-fhir
+  namespace: default
+  labels:
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2023.02.RC4"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    {}
+spec:
+  type: ClusterIP
+  ports:
+    - name: fhir
+      port: 8000
+      targetPort: 8000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+---
+# Source: smilecdr/templates/scdr/scdr-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-scdr-svc-fhir2
+  namespace: default
+  labels:
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2023.02.RC4"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    {}
+spec:
+  type: ClusterIP
+  ports:
+    - name: fhir2
+      port: 8002
+      targetPort: 8002
       protocol: TCP
   selector:
     app.kubernetes.io/name: smilecdr
@@ -173,8 +232,8 @@ spec:
           imagePullPolicy: IfNotPresent
           readinessProbe:
             httpGet:
-              path: //endpoint-health
-              port: 9100
+              path: /fhir_request/endpoint-health
+              port: 8000
             failureThreshold: 1
             periodSeconds: 10
           startupProbe:
@@ -192,23 +251,41 @@ spec:
               cpu: "1"
           env:
             - name: DB_URL
-              value: thedatabaseurl
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: release-name-pg-pguser-smilecdr
             - name: DB_PORT
-              value: "5432"
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: release-name-pg-pguser-smilecdr
             - name: DB_DATABASE
-              value: cdr
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: release-name-pg-pguser-smilecdr
             - name: DB_USER
-              value: username
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: release-name-pg-pguser-smilecdr
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: smilecdrSecret
+                  name: release-name-pg-pguser-smilecdr
             - name: JVMARGS
               value: "-server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom"
           ports:
             - name: admin-web
               containerPort: 9100
+              protocol: TCP
+            - name: fhir
+              containerPort: 8000
+              protocol: TCP
+            - name: fhir2
+              containerPort: 8002
               protocol: TCP
           volumeMounts:
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
@@ -222,7 +299,7 @@ spec:
               name: scdr-volume-amq
       volumes:
         - configMap:
-            name: release-name-scdr-masterdev-node
+            name: release-name-scdr-masterdev-node-0bfbc322e8c7bcb197fbda7dbaeae300cfa04c1c6c722d88e9af62d8e92b831c
           name: scdr-config-release-name
         - emptyDir:
             sizeLimit: 1Mi
@@ -261,6 +338,20 @@ spec:
                 name: release-name-scdr-svc-admin-web
                 port:
                   number: 9100
+          - path: /fhir_request
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-scdr-svc-fhir
+                port:
+                  number: 8000
+          - path: /fhir_request2
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-scdr-svc-fhir2
+                port:
+                  number: 8002
 ---
 # Source: smilecdr/templates/tests/test-connection.yaml
 apiVersion: v1

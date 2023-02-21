@@ -33,6 +33,7 @@ modules:
     name: Web Admin
     enabled: true
     type: ADMIN_WEB
+    enableReadinessProbe: true
     service:
       enabled: true
       svcName: admin-web

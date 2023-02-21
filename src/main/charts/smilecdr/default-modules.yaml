@@ -120,6 +120,7 @@ modules:
     name: FHIR Service
     enabled: true
     type: ENDPOINT_FHIR_REST_R4
+    enableReadinessProbe: true
     service:
       enabled: true
       svcName: fhir

@@ -17,12 +17,14 @@ We recommend defining them in one or more separate files, as this allows you
 to manage common settings as well as per-environment overlays. We will discuss this further
 down in the Advanced Configuration section below.
 
+## Mapping traditional Smile CDR configuration to Helm
+
 Mapping existing configurations to values files is relatively straight forwards:
-#### Identify the module configuration parameter.
+### Identify the module configuration parameter.
 e.g. [Concurrent Bundle Validation](https://smilecdr.com/docs/configuration_categories/fhir_performance.html#property-concurrent-bundle-validation)
 Config.properties format:
 `module.persistence.config.dao_config.concurrent_bundle_validation = false`
-#### Specify them in th values yaml file format:
+### Specify them in th values yaml file format:
 ```yaml
 modules:
   persistence:
@@ -30,7 +32,7 @@ modules:
       dao_config.concurrent_bundle_validation: "false"
 ```
 The same effective mapping can be used for any module configurations supported by Smile CDR.
-#### Module definition considerations
+## Module definition considerations
 Here are some additional fields/considerations that need to be included in your module definitions files:
 
 * Though not strictly required by the `yaml` spec, all values should be quoted.
@@ -44,7 +46,7 @@ Here are some additional fields/considerations that need to be included in your 
 
 Any configurations you specify will merge with the defaults, priority going to the values file.
 
-#### Disabling included default module definitios
+### Disabling included default module definitios
 If you wish to disable any of the default modules, we recommend you disable all default modules and define
 your own from scratch. This way it will be easier to determine the exact modules you have defined just by
 looking at your values files.
@@ -123,7 +125,30 @@ modules:
 ```
 </details>
 
-### Install Smile CDR with extra modules definitions
+### Define Readiness Probe
+As Kubernetes only supports a single readiness probe per container, you need to define which endpoint module Kubernetes should use to consider the 'readiness' of your installation.
+
+The default modules included with this chart are configured so that the `fhir_endpoint` module is used for the readiness probe. This is done by setting the `enableReadinessProbe` key to `true` in the module definition.
+
+If you wish to use a different module for the readiness probe, you must disable it for the `fhir_endpoint` module and enable it for the module of your choice. e.g.
+
+#### `my-module-values.yaml`
+
+```yaml
+modules:
+  fhir_endpoint:
+    enableReadinessProbe: false
+  my_fhir_endpoint:
+    enableReadinessProbe: true
+    enabled: true
+    ...
+```
+Alternatively, you may disable the included default modules as described above, and then enable the probe on one of your custom defined modules.
+
+>**Note:** You must enable the readiness probe for exactly one endpoint module. If you specify none, or more than one, the Helm Chart will return an error.
+## Install Smile CDR with extra modules definition files
+
+When splitting your configuration into multiple `values` files, pass them in to your `helm upgrade` commandline like so:
 ```shell
 $ helm upgrade -i my-smile-env --devel -f my-values.yaml -f my-module-values.yaml smiledh/smilecdr
 ```

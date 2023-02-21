@@ -172,7 +172,11 @@ spec:
           image: "docker.smilecdr.com/smilecdr:2023.02.RC4"
           imagePullPolicy: IfNotPresent
           readinessProbe:
-
+            httpGet:
+              path: //endpoint-health
+              port: 9100
+            failureThreshold: 1
+            periodSeconds: 10
           startupProbe:
             exec:
               command:

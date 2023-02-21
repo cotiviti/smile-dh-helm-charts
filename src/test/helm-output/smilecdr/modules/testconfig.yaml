@@ -10,3 +10,9 @@ tests:
     valueFiles:
     - values.yaml
     - values-quotedConfigs.yaml
+  multipleR4Endpoints:
+    outputFile: output-multipleR4Endpoints.yaml
+    valueFiles:
+    - values.yaml
+    - custom-modules.yaml
+    - values-multipleR4Endpoints.yaml
