@@ -226,7 +226,8 @@ database:
 # Do not change any of these values.
 # @ignored
 cdrNodes:
-  Masterdev:
+  masterdev:
+    name: Masterdev
     enabled: true # Not used yet.
     logsDirSize: 10Gi
     config:

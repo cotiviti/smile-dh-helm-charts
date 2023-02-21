@@ -135,12 +135,12 @@ If there are more than 2 cdrNodes entries, custom values, it
   {{- $nodeId := "" -}}
   {{- with .Values.cdrNodes -}}
     {{- $nodesMap := . -}}
-    {{- /* If 2 or more entries, remove Masterdev from map */ -}}
+    {{- /* If 2 or more entries, remove masterdev from map */ -}}
     {{- if gt (len $nodesMap) 1 -}}
-      {{- $nodesMap = omit $nodesMap "Masterdev" -}}
+      {{- $nodesMap = omit $nodesMap "masterdev" -}}
     {{- end -}}
     {{- range $key, $val := $nodesMap -}}
-      {{- $nodeId = $key -}}
+      {{- $nodeId = default $key $val.name -}}
     {{- end -}}
   {{- end -}}
   {{- printf "%s" $nodeId -}}
@@ -155,7 +155,7 @@ This is just to get per-node settings, such as logs dir size.
   {{- with .Values.cdrNodes -}}
     {{- $nodesMap := . -}}
     {{- if gt (len $nodesMap) 1 -}}
-      {{- $nodesMap = omit $nodesMap "Masterdev" -}}
+      {{- $nodesMap = omit $nodesMap "masterdev" -}}
     {{- end -}}
     {{- range $key, $val := $nodesMap -}}
       {{- $nodeSettings = deepCopy $val -}}
