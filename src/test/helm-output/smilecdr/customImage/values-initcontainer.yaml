@@ -1,0 +1,20 @@
+# This file defines the minimum required settings to use this Helm Chart.
+
+image:
+  credentials:
+    type: values
+  repository: custom.image/repo/image
+  tag: "custom-tag"
+
+copyFiles:
+  # Copies files from S3 to the classes directory
+  classes:
+    #syncDefaults: false
+    sources:
+    - type: s3
+      bucket: s3-bucket-name
+      path: /path-to/classes
+
+database:
+  crunchypgo:
+    enabled: true

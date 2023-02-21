@@ -97,9 +97,10 @@ Volumes are defined in `smilecdr.fileVolumes`
   {{- if or (hasKey .Values.copyFiles "classes") (hasKey .Values "license") -}}
     {{- if not ((.Values.copyFiles.classes).disableSyncDefaults) -}}
       {{- $imageSpec := dict "name" "init-sync-classes" -}}
-      {{- $_ := set $imageSpec "image" (printf "%s:%s" .Values.image.repository (default .Values.image.tag .Chart.AppVersion)) -}}
-      {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
+      {{- $_ := set $imageSpec "image" (printf "%s:%s" .Values.image.repository (default .Chart.AppVersion .Values.image.tag)) -}}
+      {{- $_ := set $imageSpec "imagePullPolicy" .Values.image.pullPolicy -}}
       {{- $_ := set $imageSpec "command" (list "/bin/sh" "-c" "/bin/cp -rp /home/smile/smilecdr/classes/. /tmp/smilecdr-volumes/classes/")  -}}
+      {{- $_ := set $imageSpec "securityContext" .Values.securityContext -}}
       {{- $_ := set $imageSpec "resources" $initContainerResources -}}
       {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
       {{- $initPullContainers = append $initPullContainers $imageSpec -}}

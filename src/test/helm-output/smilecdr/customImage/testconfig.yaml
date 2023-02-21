@@ -1,0 +1,9 @@
+tests:
+  default:
+    outputFile: output.yaml
+    valueFiles:
+    - values.yaml
+  initcontainer:
+    outputFile: output-initcontainer.yaml
+    valueFiles:
+    - values-initcontainer.yaml
