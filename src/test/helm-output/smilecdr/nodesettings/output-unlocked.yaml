@@ -36,7 +36,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-overriddennodeid-node-4b331aa2e281fab55c69ac0544639b98ba9994ae2c02234da7f032f3ea7ef470
+  name: release-name-scdr-overriddennodeid-node-b523faabdba4bcbabcad731d8e5d369ba095bfc9e4da5d995cc8c91f7c66dd23
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -161,9 +161,9 @@ data:
     module.fhirweb_endpoint.config.threadpool.min 	= 2
     module.fhirweb_endpoint.config.tls.enabled 	= false
     ################################################################################
-    # licence
+    # license
     ################################################################################
-    module.licence.type 	= LICENSE
+    module.license.type 	= LICENSE
     ################################################################################
     # Local Storage Inbound Security
     ################################################################################
@@ -490,7 +490,7 @@ spec:
               name: scdr-volume-amq
       volumes:
         - configMap:
-            name: release-name-scdr-overriddennodeid-node-4b331aa2e281fab55c69ac0544639b98ba9994ae2c02234da7f032f3ea7ef470
+            name: release-name-scdr-overriddennodeid-node-b523faabdba4bcbabcad731d8e5d369ba095bfc9e4da5d995cc8c91f7c66dd23
           name: scdr-config-release-name
         - emptyDir:
             sizeLimit: 1Mi

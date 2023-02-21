@@ -40,7 +40,7 @@ breaking changes you may need to prepare for.
     * Support for other [SSCSI providers](https://secrets-store-csi-driver.sigs.k8s.io/providers.html) may be implemented as required
 * Fault Tolerance & High Availability when running 2 or more Pods
 * Zero-downtime configuration changes
-* Horizontal Auto-Scaling (Within bounds of Smile CDR licence) - to ensure cost effective use of compute resources
+* Horizontal Auto-Scaling (Within bounds of Smile CDR license) - to ensure cost effective use of compute resources
 
 ### Automated dependency provisioning
 You can use this chart to configure and automatically deploy the following components.

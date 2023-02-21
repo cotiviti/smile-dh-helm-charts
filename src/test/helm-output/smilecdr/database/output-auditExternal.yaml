@@ -161,9 +161,9 @@ data:
     module.fhirweb_endpoint.config.threadpool.min 	= 2
     module.fhirweb_endpoint.config.tls.enabled 	= false
     ################################################################################
-    # licence
+    # license
     ################################################################################
-    module.licence.type 	= LICENSE
+    module.license.type 	= LICENSE
     ################################################################################
     # Local Storage Inbound Security
     ################################################################################
