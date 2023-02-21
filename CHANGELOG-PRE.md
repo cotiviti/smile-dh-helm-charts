@@ -1,3 +1,10 @@
+# [1.0.0-pre.46](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.45...v1.0.0-pre.46) (2023-02-21)
+
+
+### Bug Fixes
+
+* **smilecdr:** remove short-circuit dependency ([9af24c2](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/9af24c2c3f9bde89f8d26b44735f3ead36a51bdd))
+
 # [1.0.0-pre.45](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.44...v1.0.0-pre.45) (2023-02-09)
 
 
