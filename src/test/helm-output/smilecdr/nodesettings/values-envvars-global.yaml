@@ -1,0 +1,26 @@
+# Check that the generated node.id in the ConfigMap can be updated
+# cdrNodes:
+#   overriddenNodeId: {}
+
+# Manually specified environment variables to map into container
+extraEnvVars:
+- name: EXTSVC_API_USER
+  valueFrom:
+    secretKeyRef:
+      key: user
+      name: extsvc-access
+- name: EXTSVC_API_PASS
+  valueFrom:
+    secretKeyRef:
+      key: pwd
+      name: extsvc-access
+
+
+# This defines the minimum required settings to use this Helm Chart.
+database:
+  crunchypgo:
+    enabled: true
+
+image:
+  credentials:
+    type: values

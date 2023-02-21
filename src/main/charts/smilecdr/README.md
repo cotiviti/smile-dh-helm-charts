@@ -91,6 +91,9 @@ The below section gives an overview of the default values available. Consult the
 | database.external.databases[0].urlKey | string | `"url"` |  |
 | database.external.databases[0].userKey | string | `"user"` |  |
 | database.external.enabled | bool | `false` | Enable database external to K8s cluster |
+| extraEnvVars | object | `{}` |  |
+| extraVolumeMounts | object | `{}` |  |
+| extraVolumes | object | `{}` |  |
 | image.credentials | object | `{}` | You must provide image credentials of type `sscsi`, `k8sSecret` or `values` |
 | image.pullPolicy | string | `"IfNotPresent"` | Image Pull Policy |
 | image.repository | string | `"docker.smilecdr.com/smilecdr"` | OCI repository with Smile CDR images |

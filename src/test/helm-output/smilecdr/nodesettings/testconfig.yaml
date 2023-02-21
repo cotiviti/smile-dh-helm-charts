@@ -19,3 +19,11 @@ tests:
     outputFile: output-troubleshooting.yaml
     valueFiles:
     - values-troubleshooting.yaml
+  envvarsGlobal:
+    outputFile: output-envvars-global.yaml
+    valueFiles:
+    - values-envvars-global.yaml
+  volumesGlobal:
+    outputFile: output-volumes-global.yaml
+    valueFiles:
+    - values-volumes-global.yaml
