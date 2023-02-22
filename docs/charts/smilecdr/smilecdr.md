@@ -28,7 +28,7 @@ cost effective and scalable manner with operational efficiency in mind.
 This chart supports the following Smile CDR features *"out-of-the-box"*:
 
 * Supports official Smile CDR Docker images
-    * Support for upcoming 2023.02 release which enhances container security posture
+    * Support for 2023.02.R01 release which enhances container security posture
     * Limited support for 2022.11 and older. See [CDR Versions](../../guide/smilecdr/cdrversions.md) section for more info
 * *****Configuration-as-code*** management of all module definitions & settings
 * Support for multiple databases (i.e. Separate DB for cluster manager, audit log and one or more persistence stores)
