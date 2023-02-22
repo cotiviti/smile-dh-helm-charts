@@ -144,9 +144,11 @@ spec:
   {{- if hasKey $.Values.database.crunchypgo "users" }}
   users:
   {{- range $vUser := $.Values.database.crunchypgo.users }}
+  {{- $myList := list (printf "%s-db" (default $vUser.name $vUser.module)) -}}
+  {{- $databases := ternary ($vUser.databases) ($myList) (hasKey $vUser "databases" ) }}
   - name: {{ $vUser.name }}
     databases:
-    - {{ printf "%s-db" (default $vUser.name $vUser.module ) }}
+  {{- toYaml $databases | nindent 4 -}}
   {{- end }}
   {{- end }}
   {{- if .service }}
