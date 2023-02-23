@@ -30,9 +30,7 @@ a container repository that contains the Smile CDR Docker images.
 
 > **WARNING**: The following method of providing Docker credentials in the values file is insecure
 and only shown in this quick-start demonstration to show the chart in action.
-You should instead use an alternative such as an external secret vault.
-At the very least, provision the Kubernetes Secret object in a separate process that does not
-store the secret anywhere in code.
+You should instead use an alternative such as an external secret vault. See the [secrets](../guide/secrets.md) section for more info.
 
 **`my-values.yaml` file**
 ```yaml
@@ -40,12 +38,11 @@ specs:
   hostname: smilecdr.mycompany.com
 image:
   repository: docker.smilecdr.com/smilecdr
-  credentials:
-    type: values
-    values:
-    - registry: docker.smilecdr.com
-      username: <DOCKER_USERNAME>
-      password: <DOCKER_PASSWORD>
+  imagePullSecrets:
+  - type: values
+    registry: docker.smilecdr.com
+    username: <DOCKER_USERNAME>
+    password: <DOCKER_PASSWORD>
 database:
   crunchypgo:
     enabled: true

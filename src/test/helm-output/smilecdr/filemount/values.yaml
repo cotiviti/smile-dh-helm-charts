@@ -7,9 +7,6 @@ mappedFiles:
     path: /home/smile/smilecdr/classes
 
 # This defines the minimum required settings to use this Helm Chart.
-image:
-  credentials:
-    type: values
 
 database:
   crunchypgo:

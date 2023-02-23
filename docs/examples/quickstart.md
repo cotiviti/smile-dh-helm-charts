@@ -22,12 +22,11 @@ specs:
   hostname: smilecdr.mycompany.com
 image:
   repository: docker.smilecdr.com/smilecdr
-  credentials:
-    type: values
-    values:
-    - registry: docker.smilecdr.com
-      username: <DOCKER_USERNAME>
-      password: <DOCKER_PASSWORD>
+  imagePullSecrets:
+  - type: values
+    registry: docker.smilecdr.com
+    username: <DOCKER_USERNAME>
+    password: <DOCKER_PASSWORD>
 database:
   crunchypgo:
     enabled: true

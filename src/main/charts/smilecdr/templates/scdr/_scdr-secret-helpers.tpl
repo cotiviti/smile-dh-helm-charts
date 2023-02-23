@@ -17,19 +17,82 @@ installed in the cluster. Then specify sscsi as the type
 */}}
 
 {{/*
-Create the name of the image pull secrets to use
+Create list of image pull secrets to use.
+Sets up default parameters so this can easily
+be used elsewhere in the chart
 */}}
-{{- define "dockerconfigjson.secretName" -}}
-{{- if eq (required "You must provide image repository credentials to use this Helm Chart" .Values.image.credentials.type) "k8sSecret" }}
-{{- with index .Values.image.credentials.pullSecrets 0 -}}
-{{- .name }}
-{{- end -}}
-{{- else }}
-{{- printf "%s-scdr-image-pull-secrets" .Release.Name }}
-{{- end }}
-{{- end }}
+{{- define "imagePullSecrets" -}}
+  {{- $imagePullSecrets := list -}}
+  {{- range $i, $v := .Values.image.imagePullSecrets -}}
+    {{- $name := printf "%s-scdr-image-pull-secrets" $.Release.Name -}}
+    {{- $type := default "k8sSecret" .type -}}
+    {{- if eq $type "k8sSecret" -}}
+      {{- $name = .name -}}
+      {{- $secretDict := dict "name" $name "type" "k8sSecret" -}}
+      {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
+    {{- else if eq $type "sscsi" -}}
+      {{- $provider := required (printf "You must specify a provider when using sscsi for imagePullSecret %s" $name ) .provider -}}
+      {{- $secretArn := required (printf "You must specify a secretArn when using sscsi for imagePullSecret %s" $name ) .secretArn -}}
+      {{- $nameSuffix := "" -}}
+      {{- if gt (len $.Values.image.imagePullSecrets) 1 -}}
+        {{- $nameSuffix = printf "-%s" (trunc 8 (sha256sum $secretArn)) -}}
+      {{- end -}}
+      {{- $name = ternary .nameOverride (printf "%s%s" $name $nameSuffix) (hasKey . "nameOverride") -}}
+      {{- $secretDict := dict "name" $name "type" "sscsi" "provider" $provider "secretArn" $secretArn -}}
+      {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
+    {{- else if eq $type "values" -}}
+      {{- $registry := required (printf "You must specify a registry when using values for imagePullSecret %s" $name ) .registry -}}
+      {{- $username := required (printf "You must specify a username when using values for imagePullSecret %s" $name ) .username -}}
+      {{- $password := required (printf "You must specify a password when using values for imagePullSecret %s" $name ) .password -}}
+      {{- $nameSuffix := "" -}}
+      {{- if gt (len $.Values.image.imagePullSecrets) 1 -}}
+        {{- $nameSuffix = printf "-%s" (trunc 8 (sha256sum $registry)) -}}
+      {{- end -}}
+      {{- $name = ternary .nameOverride (printf "%s%s" $name $nameSuffix) (hasKey . "nameOverride") -}}
+      {{- $secretDict := dict "name" $name "type" "values" "registry" $registry "username" $username "password" $password -}}
+      {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
+    {{- end -}}
+  {{- end -}}
 
-{{/*  */}}
+  {{- /* Begin Deprecation Warning */ -}}
+  {{- /* `image.credentials.type` is deprecated */ -}}
+  {{- with (.Values.image.credentials) -}}
+    {{- $name := printf "%s-scdr-image-pull-secrets" $.Release.Name -}}
+    {{- if eq .type "k8sSecret" -}}
+      {{- /* The legacy implementation only used the first secret in the list */ -}}
+      {{- $name = (index .pullSecrets 0).name -}}
+      {{- $secretDict := dict "name" $name "type" "k8sSecret" -}}
+      {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
+    {{- else if eq .type "sscsi" -}}
+      {{- $secretDict := dict "name" $name "type" "sscsi" "provider" .provider "secretArn" .secretArn -}}
+      {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
+    {{- else if eq .type "values" -}}
+      {{- $secretDict := dict "name" $name "type" "values" "registry" (default "docker.smilecdr.com" .registry) "username" (default "docker-user" .username) "password" (default "pass" .password) -}}
+      {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
+    {{- end -}}
+  {{- end -}}
+  {{- /* End Deprecation Warning */ -}}
+
+  {{- if ne (len $imagePullSecrets) 0 -}}
+    {{- toYaml $imagePullSecrets -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
+Concise version of the image pull secrets list, for use in podSpec
+Re-creates list, only using the 'name' keys for each entry.
+*/}}
+{{- define "imagePullSecretsList" -}}
+  {{- $list := list -}}
+  {{- range $v := (include "imagePullSecrets" . | fromYamlArray ) -}}
+    {{- $list = append $list (dict "name" $v.name ) -}}
+  {{- end -}}
+  {{- if ne (len $list) 0 -}}
+    {{- printf "%v" (toYaml $list) -}}
+  {{- else -}}
+    {{- printf "[]" -}}
+  {{- end -}}
+{{- end -}}
 
 {{/*
 The following helpers are used to create configurations and volume mounts for
@@ -41,8 +104,10 @@ Current providers supported:
 {{- define "sscsi.enabled" -}}
   {{- $sscsiEnabled := "false" -}}
   {{/* Enabled if using sscsi for image pull or db secrets */}}
-  {{- if eq .Values.image.credentials.type "sscsi" -}}
-    {{- $sscsiEnabled = "true" -}}
+  {{- range (include "imagePullSecrets" . | fromYamlArray) -}}
+    {{- if eq .type "sscsi" -}}
+      {{- $sscsiEnabled = "true" -}}
+    {{- end -}}
   {{- end -}}
   {{- if and (hasKey .Values "license") (eq (.Values.license).type "sscsi") -}}
     {{- $sscsiEnabled = "true" -}}
@@ -64,19 +129,21 @@ pod's filesystem
 */}}
 {{- define "sscsi.objects" -}}
   {{- $sscsiObjects := list -}}
-  {{- if eq .Values.image.credentials.type "sscsi" -}}
-    {{- if eq .Values.image.credentials.provider "aws" -}}
-      {{- $sscsiObject := dict "objectName" .Values.image.credentials.secretArn -}}
-      {{- $jmesPath := dict "path" "dockerconfigjson" "objectAlias" "dockerconfigjson" -}}
-      {{- $_ := set $sscsiObject "jmesPath" (list $jmesPath) -}}
-      {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
-      {{/*
-        Define other providers here:
-        {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
-        - add code to build $sscsiObject and append to $sscsiObjects
-      */}}
-    {{- end -}}
-  {{- end -}}
+  {{- range (include "imagePullSecrets" . | fromYamlArray) -}}
+    {{- if eq .type "sscsi" -}}
+      {{- if eq .provider "aws" -}}
+        {{- $sscsiObject := dict "objectName" .secretArn -}}
+        {{- $jmesPath := dict "path" "dockerconfigjson" "objectAlias" .name -}}
+        {{- $_ := set $sscsiObject "jmesPath" (list $jmesPath) -}}
+        {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
+        {{/*
+          Define other providers here:
+          {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
+          - add code to build $sscsiObject and append to $sscsiObjects
+        */}}
+      {{- end -}}
+    {{- end -}}  
+  {{- end -}}  
   {{- if and .Values.database.external.enabled (eq ((.Values.database.external).credentials).type "sscsi") -}}
     {{- if eq ((.Values.database.external).credentials).provider "aws" -}}
       {{- range $v := .Values.database.external.databases -}}
@@ -140,12 +207,14 @@ These are used to create Kubernetes Secrets that are synced to mounted SSCSI sec
 */}}
 {{- define "sscsi.secretObjects" -}}
   {{- $sscsiSyncedSecrets := list -}}
-  {{- if eq .Values.image.credentials.type "sscsi" -}}
-    {{- $sscsiSyncedSecret := dict "secretName" (include "dockerconfigjson.secretName" .) -}}
-    {{- $_ := set $sscsiSyncedSecret "type" "kubernetes.io/dockerconfigjson" -}}
-    {{- $data := dict "key" ".dockerconfigjson" "objectName" "dockerconfigjson" -}}
-    {{- $_ := set $sscsiSyncedSecret "data" (list $data) -}}
-    {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
+  {{- range (include "imagePullSecrets" . | fromYamlArray) -}}
+    {{- if eq .type "sscsi" -}}
+      {{- $sscsiSyncedSecret := dict "secretName" .name -}}
+      {{- $_ := set $sscsiSyncedSecret "type" "kubernetes.io/dockerconfigjson" -}}
+      {{- $data := dict "key" ".dockerconfigjson" "objectName" .name -}}
+      {{- $_ := set $sscsiSyncedSecret "data" (list $data) -}}
+      {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
+    {{- end -}}  
   {{- end -}}
   {{- if and .Values.database.external.enabled (eq ((.Values.database.external).credentials).type "sscsi") -}}
     {{- range $v := .Values.database.external.databases -}}

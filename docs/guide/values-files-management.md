@@ -1,5 +1,5 @@
 # Managing Values Files
-As explained in the quick start, you should configure your instance of Smile CDR using Helm Values Files.
+You should configure your instance of Smile CDR using separate Helm `values` files for different configurations.
 
 ## Create New Values Files
 It is generally recommended to create a new, empty values file rather than copying the default values.yaml file from the Helm chart. The default values file can be lengthy and may contain values that are not relevant or suitable for your specific deployment.

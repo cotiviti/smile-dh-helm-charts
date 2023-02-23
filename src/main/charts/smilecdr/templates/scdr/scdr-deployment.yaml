@@ -26,10 +26,8 @@ spec:
       labels:
         {{- include "smilecdr.labels" . | nindent 8 }}
     spec:
-      {{- with (include "dockerconfigjson.secretName" .) }}
       imagePullSecrets:
-        - name: {{ . }}
-      {{- end }}
+        {{- include "imagePullSecretsList" . | nindent 8 }}
       serviceAccountName: {{ include "smilecdr.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}

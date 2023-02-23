@@ -23,7 +23,3 @@ extraVolumeMounts:
 database:
   crunchypgo:
     enabled: true
-
-image:
-  credentials:
-    type: values
