@@ -1,3 +1,10 @@
+# [1.0.0-pre.53](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.52...v1.0.0-pre.53) (2023-02-26)
+
+
+### Features
+
+* **smilecdr:** add init-sync for customerlib ([099cb57](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/099cb575baee438b383a008dde1b0937dc95a24d))
+
 # [1.0.0-pre.52](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.51...v1.0.0-pre.52) (2023-02-22)
 
 
