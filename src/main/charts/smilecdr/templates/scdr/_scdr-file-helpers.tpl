@@ -134,6 +134,16 @@ Volumes are defined in `smilecdr.fileVolumes`
     {{- end -}}
   {{- end -}}
   {{- if hasKey .Values.copyFiles "customerlib" -}}
+    {{- if not ((.Values.copyFiles.customerlib).disableSyncDefaults) -}}
+      {{- $imageSpec := dict "name" "init-sync-customerlib" -}}
+      {{- $_ := set $imageSpec "image" (printf "%s:%s" .Values.image.repository (default .Chart.AppVersion .Values.image.tag)) -}}
+      {{- $_ := set $imageSpec "imagePullPolicy" .Values.image.pullPolicy -}}
+      {{- $_ := set $imageSpec "command" (list "/bin/sh" "-c" "/bin/cp -rp /home/smile/smilecdr/customerlib/. /tmp/smilecdr-volumes/customerlib/")  -}}
+      {{- $_ := set $imageSpec "securityContext" .Values.securityContext -}}
+      {{- $_ := set $imageSpec "resources" $initContainerResources -}}
+      {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/")) -}}
+      {{- $initPullContainers = append $initPullContainers $imageSpec -}}
+    {{- end -}}
     {{- range .Values.copyFiles.customerlib.sources -}}
       {{- if eq .type "s3" -}}
         {{- $bucket := required "You must specify an S3 bucket to copy customerlib files from." .bucket -}}

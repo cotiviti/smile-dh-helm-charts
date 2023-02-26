@@ -398,6 +398,32 @@ spec:
       securityContext:
         {}
       initContainers:
+        - command:
+          - /bin/sh
+          - -c
+          - /bin/cp -rp /home/smile/smilecdr/customerlib/. /tmp/smilecdr-volumes/customerlib/
+          image: docker.smilecdr.com/smilecdr:2023.02.R01
+          imagePullPolicy: IfNotPresent
+          name: init-sync-customerlib
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/customerlib/
+            name: scdr-volume-customerlib
         - args:
           - s3
           - cp
