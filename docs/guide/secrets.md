@@ -7,7 +7,7 @@ At Smile Digital Health, we take security very seriously, so we have designed th
 ### Use Temporary Credentials
 Where possible, use of long-lived credentials should be avoided. This is a general best-practice for cloud based environments that typically relies on underlying cloud provider technologies.
 
-For example, on AWS the best practice is to [use temporary credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-workloads-use-roles) using IAM Instance Profiles and [IAM Roles For Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) (IRSA). 
+For example, on AWS the best practice is to [use temporary credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-workloads-use-roles) using IAM Instance Profiles and [IAM Roles For Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) (IRSA).
 
 ### Don't Store Secrets in your Configuration Code
 There are some scenarios where long-lived secret values still need to be used in this Helm Chart. These secret values may be required at the Kubernetes level, such as when pulling container images from private repositories, or at the application level, such as when connecting to databases or other external systems that require authentication.

@@ -1,3 +1,4 @@
+{{ include "chartWarnings" . }}
 {{ if .Release.IsInstall }}
 Thank you for installing Smile CDR by Smile Digital Health!
 
@@ -39,15 +40,16 @@ Thank you for installing Smile CDR by Smile Digital Health!
 Smile, we're up and running! :)
 
 {{- else if .Release.IsUpgrade }}
-
-
-Smile, we've been upgraded! :)
-
-
+**************************************
+*** Smile, we've been upgraded! :) ***
+**************************************
 {{- end }}
 {{- if .Values.ingress.enabled }}
+
   You can access your Smile CDR instance at:
+
   https://{{ $.Values.specs.hostname }}{{ $.Values.specs.rootPath }}
 {{- else }}
+
   As ingress was not enabled, there is no way to access this instance.
 {{- end }}
