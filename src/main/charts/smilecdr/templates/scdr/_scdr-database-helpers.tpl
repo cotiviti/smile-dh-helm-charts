@@ -61,6 +61,11 @@ Environment variables for databases
 
     {{- end -}}
   {{- else if .Values.database.external.enabled -}}
+    {{- /* Check to see if supported credentials type is being used */ -}}
+    {{- $credentialsType := default "k8sSecret" (.Values.database.external.credentials).type -}}
+    {{- if not (contains $credentialsType "sscsi k8sSecret")  -}}
+      {{- fail (printf "Secrets of type `%s` are not supported. Please use `sscsi` or `k8sSecret`" $credentialsType) -}}
+    {{- end -}}
     {{- range $v := .Values.database.external.databases -}}
       {{- $secretName := $v.secretName -}}
       {{- $module := required "You must provide a modulename that uses the DB secret" $v.module -}}
