@@ -75,3 +75,26 @@ provide a single entry point.
     {{- printf "[]" -}}
   {{- end -}}
 {{- end -}}
+
+{{/*
+Generate Helm Chart Warnings
+
+Use this for generating deprecation notices and other warnings about the configuration being used.
+*/}}
+{{- define "chartWarnings" -}}
+  {{- $warningMessage := "" -}}
+  {{- /* Check for using old image pull credentials */ -}}
+  {{- if hasKey .Values.image "credentials" -}}
+    {{- $warningMessage = printf "%s\n\nDEPRECATED: `image.credentials`" $warningMessage -}}
+    {{- $warningMessage = printf "%s\n The use of `image.credentials` has been deprecated. Support for this will be" $warningMessage -}}
+    {{- $warningMessage = printf "%s\n removed in a future version of the Helm Chart. Please use `image.pullSecrets` instead." $warningMessage -}}
+    {{- $warningMessage = printf "%s\n Refer to the docs for more info on how to configure image pull secrets." $warningMessage -}}
+  {{- end -}}
+  {{- /* If there are any warnings, output them with a nice header. */ -}}
+  {{- if ne (len $warningMessage) 0 -}}
+    {{- $warningMessage = printf "\n***************************%s" $warningMessage -}}
+    {{- $warningMessage = printf "\n*** HELM CHART WARNINGS ***%s" $warningMessage -}}
+    {{- $warningMessage = printf "\n***************************%s" $warningMessage -}}
+    {{- $warningMessage -}}
+  {{- end -}}
+{{- end -}}

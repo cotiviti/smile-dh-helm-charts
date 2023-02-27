@@ -64,6 +64,8 @@ be used elsewhere in the chart
       {{- $secretDict := dict "name" $name "type" "k8sSecret" -}}
       {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
     {{- else if eq .type "sscsi" -}}
+      {{- $provider := required (printf "You must specify a provider when using sscsi for imagePullSecret %s" $name ) .provider -}}
+      {{- $secretArn := required (printf "You must specify a secretArn when using sscsi for imagePullSecret %s" $name ) .secretArn -}}
       {{- $secretDict := dict "name" $name "type" "sscsi" "provider" .provider "secretArn" .secretArn -}}
       {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
     {{- else if eq .type "values" -}}
@@ -141,30 +143,40 @@ pod's filesystem
           {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
           - add code to build $sscsiObject and append to $sscsiObjects
         */}}
+      {{- else -}}
+        {{- fail (printf "The '%s' Secrets Store CSI provider is not currently supported." .provider) -}}
       {{- end -}}
-    {{- end -}}  
-  {{- end -}}  
+    {{- end -}}
+  {{- end -}}
   {{- if and .Values.database.external.enabled (eq ((.Values.database.external).credentials).type "sscsi") -}}
     {{- if eq ((.Values.database.external).credentials).provider "aws" -}}
       {{- range $v := .Values.database.external.databases -}}
         {{- /*
-          Make sure we don't define the same Object twice. If we are specifying the same ARN twice in the values
+          Make sure we don't define the same Object twice. If we are specifying the same ARN or secretName twice in the values
           file we need to handle it differently.
         */ -}}
-        {{- $uniqueArn := true -}}
+        {{- $unique := true -}}
         {{- range $origlistvalue := $sscsiObjects -}}
-          {{- if eq $origlistvalue.objectName $v.secretArn -}}
+          {{- if eq $origlistvalue.objectName (required "You must provide `secretArn` as well as `secretName` for the DB credentials secret" $v.secretArn) -}}
             {{- /* Not unique, so disable object creation further down */ -}}
-            {{- $uniqueArn = false -}}
+            {{- $unique = false -}}
             {{- /* Merging keys is not possible unless we refactor how the key handling
                   is done. Instead, for now at least, we will fail if the same secret
                   ARN is used, to avoid unexpected failures */ -}}
             {{- fail "You cannot specify the same AWS Secret ARN for multiple databases" -}}
           {{- end -}}
+          {{- if eq $origlistvalue.objectAlias (required "You must provide `secretName` as well as `secretArn` for the DB credentials secret" $v.secretName) -}}
+            {{- /* Not unique, so disable object creation further down */ -}}
+            {{- $unique = false -}}
+            {{- /* Merging keys is not possible unless we refactor how the key handling
+                  is done. Instead, for now at least, we will fail if the same secret
+                  ARN is used, to avoid unexpected failures */ -}}
+            {{- fail "You cannot specify the same K8s secretName for multiple databases" -}}
+          {{- end -}}
         {{- end -}}
-        {{- if $uniqueArn -}}
-          {{- $sscsiObject := dict "objectName" (required "You must provide `secretArn` as well as `secretName` for the DB credentials secret" $v.secretArn) -}}
-          {{- $_ := set $sscsiObject "objectAlias" (required "You must provide `secretName` as well as `secretArn` for the DB credentials secret" $v.secretName) -}}
+        {{- if $unique -}}
+          {{- $sscsiObject := dict "objectName" $v.secretArn -}}
+          {{- $_ := set $sscsiObject "objectAlias" $v.secretName -}}
           {{- $jmesPathList := list (dict "path" (default "password" $v.passKey) "objectAlias" (printf "%s-db-password" $v.secretName)) -}}
           {{- $jmesPathList = append $jmesPathList (dict "path" (default "host" $v.urlKey) "objectAlias" (printf "%s-db-host" $v.secretName)) -}}
           {{- $jmesPathList = append $jmesPathList (dict "path" (default "username" $v.userKey) "objectAlias" (printf "%s-db-user" $v.secretName)) -}}
@@ -180,6 +192,8 @@ pod's filesystem
     {{- else if eq ((.Values.database.external).credentials).provider "otherprovider" -}}
     - add code to build $sscsiObject and append to $sscsiObjects
     */}}
+    {{- else -}}
+      {{- fail (printf "The '%s' Secrets Store CSI provider is not currently supported." ((.Values.database.external).credentials).provider) -}}
     {{- end -}}
   {{- end -}}
   {{- if eq (.Values.license).type "sscsi" -}}
@@ -193,6 +207,8 @@ pod's filesystem
         {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
         - add code to build $sscsiObject and append to $sscsiObjects
       */}}
+    {{- else -}}
+      {{- fail (printf "The '%s' Secrets Store CSI provider is not currently supported." .Values.license.provider) -}}
     {{- end -}}
   {{- end -}}
   {{/* Render the Secrets Store CSI objects*/}}
@@ -214,7 +230,7 @@ These are used to create Kubernetes Secrets that are synced to mounted SSCSI sec
       {{- $data := dict "key" ".dockerconfigjson" "objectName" .name -}}
       {{- $_ := set $sscsiSyncedSecret "data" (list $data) -}}
       {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
-    {{- end -}}  
+    {{- end -}}
   {{- end -}}
   {{- if and .Values.database.external.enabled (eq ((.Values.database.external).credentials).type "sscsi") -}}
     {{- range $v := .Values.database.external.databases -}}
