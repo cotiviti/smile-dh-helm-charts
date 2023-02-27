@@ -27,8 +27,8 @@ specs:
 
 image:
   repository: docker.smilecdr.com/smilecdr
-  credentials:
-    type: sscsi
+  imagePullSecrets:
+  - type: sscsi
     provider: aws
     secretArn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
 

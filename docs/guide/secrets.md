@@ -4,16 +4,20 @@ Secrets management can be a hard subject to get right. Unfortunately, the ***eas
 At Smile Digital Health, we take security very seriously, so we have designed these Helm Charts in a way that follows best practices, to reduce the likelihood of such compromises.
 
 ## Secrets Best Practices
-There are multiple areas in these Helm Charts where secret values need to be used.
-These secret values may be required at the Kubernetes level, such as when pulling container images from private repositories, or at the application level, such as when connecting to databases or other external systems that require authentication.
+### Use Temporary Credentials
+Where possible, use of long-lived credentials should be avoided. This is a general best-practice for cloud based environments that typically relies on underlying cloud provider technologies.
+
+For example, on AWS the best practice is to [use temporary credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-workloads-use-roles) using IAM Instance Profiles and [IAM Roles For Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) (IRSA). 
 
 ### Don't Store Secrets in your Configuration Code
-While it is easy to create secrets, such as passwords or API keys, in code to simplify provisioning and automation, it is generally considered bad practice to include them because it can compromise the security of your system.
+There are some scenarios where long-lived secret values still need to be used in this Helm Chart. These secret values may be required at the Kubernetes level, such as when pulling container images from private repositories, or at the application level, such as when connecting to databases or other external systems that require authentication.
 
-If the code containing the secrets is somehow made publicly available, anyone with access to the code can potentially gain access to the protected resources. Additionally, if the code is shared among multiple team members, it can be difficult to keep track of who has access to the secrets and when they were last rotated.
+While it is easy to create secrets (such as passwords or API keys) in code, to simplify provisioning and automation, it is generally considered bad practice to do so because it can compromise the security of your system.
+
+If the code containing the secrets is somehow leaked, protected resources may be compromised. Additionally, if the code is shared among multiple team members, it can be difficult to control who has access to the secrets and when they were last rotated.
 
 ### Use Secrets Management Tools
-It is generally more secure to use a secrets management tool to store and manage secrets separately from the code. This way, secrets can be more easily rotated and access can be tightly controlled.
+It is recommended to use a secrets management tool to store and manage secrets separately from code. This way, secrets can easily be rotated and access can be tightly controlled.
 
 Various secrets management tools are available that allow you to store secrets in a secure, centralized location and control access to them through granular permissions. This helps ensure that only authorized personnel have access to sensitive information and helps prevent accidental disclosure of secrets.
 
@@ -53,10 +57,10 @@ The way the secret is configured in your `values` file differs depending on the 
 
 Alternatively, you can create the Kubernetes `Secret` object through some other method. Although it avoids the secret data being included in your code, it does not provide a centralized location to store, manage and controll access to secrets.
 
-Be wary of including custom Kubernetes `Secret` manifests alongside your Helm values files. Although this is a convenient way to provision them, it just re-introduces the problem of secrets residing in your code, which is what we are trying to avoid.
+Be wary of including custom Kubernetes `Secret` manifests alongside your Helm values files. Although this is a convenient way to provision them, it just re-introduces the problem of secrets residing in your code, which should be avoided.
 
 ### Values File
 
 Finally, we do support providing credentials in the values file itself. This is not a recommended solution and really only intended as a ***quickstart*** method to allow for quick experimentation with the charts.
 
-We may block this functionality in future versions of the charts as it can lead to insecure habits/practices forming.
+>**WARNING:** This is not a recommended approach as it is insecure. This functionality may be removed in future versions of the charts as it can lead to insecure habits/practices forming.

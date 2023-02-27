@@ -8,15 +8,8 @@ bad habits forming.
 Generate plaintext docker/config.json text
 */}}
 {{- define "dockerconfigjson.plaintext" }}
-  {{- if eq .Values.image.credentials.type "values"}}
-    {{- print "{\"auths\":{" }}
-      {{- range $index, $item := .Values.image.credentials.values }}
-        {{- if $index }}
-        {{- print "," }}
-        {{- end }}
-        {{- printf "\"%s\":{\"auth\":\"%s\"}" (default "https://index.docker.io/v1/" $item.registry) (printf "%s:%s" $item.username $item.password | b64enc) }}
-      {{- end }}
-    {{- print "}}" }}
+  {{- if eq .type "values"}}
+    {{- printf "{\"auths\":{\"%s\":{\"auth\":\"%s\"}}}" (default "https://index.docker.io/v1/" .registry) (printf "%s:%s" .username .password | b64enc) }}
   {{- end }}
 {{- end }}
 

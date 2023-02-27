@@ -11,29 +11,26 @@ image:
   pullPolicy: IfNotPresent
 
   ## @section Image Credentials
-  ## @param image.credentials.type Type of credentials. `sscsi`, `k8sSecret` or `values`
+  ## @param image.credentials.type Type of credentials. `sscsi` or `k8sSecret`
 
   ## @section Image Credentials (values)
-  ## @param image.credentials.values[0].registry OCR registry these values are for
-  ## @param image.credentials.values[0].username OCR registry username
-  ## @param image.credentials.values[0].password OCR registry password
+  ## @param image.credentials.values[0].registry container registry these values are for
+  ## @param image.credentials.values[0].username container registry username
+  ## @param image.credentials.values[0].password container registry password
 
-  # -- You must provide image credentials of type `sscsi`, `k8sSecret` or `values`
-  credentials: {}
-    # Choose one of sscsi, k8sSecret, values
-    # type: sscsi
-    # provider: aws
-    # secretarn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
+  # -- For private registries, you must provide image credentials. These can be regular references to K8s `Secret` resources, or they can use Secrets Store CSI Driver (sscsi).
+  # -- If using sscsi, specify `type`, `provider` and `secretArn`. K8s `Secret` resources will be auto generated.
+  # -- If not using sscsi, you can pass in standard 'k8s' imagePullSecrets definitions
+  # -- You may leave undefined if using ECR and your worker nodes have instance profiles with an appropriate IAM role to access the registry.
+  imagePullSecrets: []
+    # A list of sscsi or k8sSecret definitions
+    # - type: sscsi
+    #   provider: aws
+    #   secretArn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
+    #   nameOverride: name (Optional)
 
-    # type: k8sSecret
-    # pullSecrets:
-    #   - name: scdr-docker-secrets
-
-    # type: values
-    # values:
-    # - registry: docker.com
-    #   username: user
-    #   password: pass
+    # - name: name
+    #   type: k8sSecret
 
 ## @section Public URL
 ## @param specs.hostname Hostname for Smile CDR instance
