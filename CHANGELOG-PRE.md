@@ -1,3 +1,10 @@
+# [1.0.0-pre.54](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.53...v1.0.0-pre.54) (2023-02-27)
+
+
+### Bug Fixes
+
+* **smilecdr:** follow redirects for curl ([698d045](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/698d04529675f60788839002c9f1a5c55f3718d9))
+
 # [1.0.0-pre.53](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.52...v1.0.0-pre.53) (2023-02-26)
 
 
