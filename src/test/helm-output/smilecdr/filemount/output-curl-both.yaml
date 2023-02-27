@@ -427,6 +427,7 @@ spec:
         - args:
           - -o
           - /tmp/smilecdr-volumes/classes/mydownloadedscript.js
+          - --location
           - --create-dirs
           - https://website.com/path/to/file.js
           image: curlimages/curl
@@ -471,6 +472,7 @@ spec:
         - args:
           - -o
           - /tmp/smilecdr-volumes/customerlib/mydownloadedlib.jar
+          - --location
           - --create-dirs
           - https://website.com/path/to/file.jar
           image: curlimages/curl

@@ -124,7 +124,7 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- $imageSpec := dict "name" "init-pull-classes-curl" -}}
         {{- $_ := set $imageSpec "image" "curlimages/curl" -}}
         {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
-        {{- $_ := set $imageSpec "args" (list "-o" $fileFullPath "--create-dirs" $url )  -}}
+        {{- $_ := set $imageSpec "args" (list "-o" $fileFullPath "--location" "--create-dirs" $url )  -}}
         {{- $_ := set $imageSpec "resources" $initContainerResources -}}
         {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
         {{- $initPullContainers = append $initPullContainers $imageSpec -}}
@@ -163,7 +163,7 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- $imageSpec := dict "name" "init-pull-customerlib-curl" -}}
         {{- $_ := set $imageSpec "image" "curlimages/curl" -}}
         {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
-        {{- $_ := set $imageSpec "args" (list "-o" $fileFullPath "--create-dirs" $url )  -}}
+        {{- $_ := set $imageSpec "args" (list "-o" $fileFullPath "--location" "--create-dirs" $url )  -}}
         {{- $_ := set $imageSpec "resources" $initContainerResources -}}
         {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/")) -}}
         {{- $initPullContainers = append $initPullContainers $imageSpec -}}
