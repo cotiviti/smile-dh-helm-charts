@@ -1,6 +1,6 @@
 # Smile CDR
 
-![Version: 1.0.0-pre.54](https://img.shields.io/badge/Version-1.0.0--pre.54-informational?style=flat-square) ![Smile CDR Version: 2023.02.R01](https://img.shields.io/badge/Smile%20CDR%20Version-2023.02.R01-informational?style=flat-square)
+![Version: 1.0.0-pre.55](https://img.shields.io/badge/Version-1.0.0--pre.55-informational?style=flat-square) ![Smile CDR Version: 2023.02.R01](https://img.shields.io/badge/Smile%20CDR%20Version-2023.02.R01-informational?style=flat-square)
 
 This chart provides a flexible and consistent process to deploy Smile CDR in a self-managed Kubernetes cluster.
 
@@ -8,7 +8,7 @@ It is provided by Smile Digital Health as a starting point for creating a refere
 It has been fully tested on Amazon EKS and has growing compatibility for Azure AKS.
 
 ## ** PRE-RELEASE WARNING **
-This is ***PRE-RELEASE*** version 1.0.0-pre.54
+This is ***PRE-RELEASE*** version 1.0.0-pre.55
 
 As this is a pre-release version of this chart, there may be **breaking changes** introduced without notice.
 
@@ -94,7 +94,7 @@ The below section gives an overview of the default values available. Consult the
 | extraEnvVars | object | `{}` |  |
 | extraVolumeMounts | object | `{}` |  |
 | extraVolumes | object | `{}` |  |
-| image.credentials | object | `{}` | You must provide image credentials of type `sscsi`, `k8sSecret` or `values` |
+| image.imagePullSecrets | list | `[]` | You may leave undefined if using ECR and your worker nodes have instance profiles with an appropriate IAM role to access the registry. |
 | image.pullPolicy | string | `"IfNotPresent"` | Image Pull Policy |
 | image.repository | string | `"docker.smilecdr.com/smilecdr"` | OCI repository with Smile CDR images |
 | image.tag | string | `""` | Smile CDR version to install. Default is the chart appVersion. |

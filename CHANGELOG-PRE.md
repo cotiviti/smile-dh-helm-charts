@@ -1,3 +1,16 @@
+# [1.0.0-pre.55](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.54...v1.0.0-pre.55) (2023-02-27)
+
+
+### Features
+
+* **smilecdr:** refactor image pull secrets ([c7d376c](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/c7d376ceca98ae14f275227a4430a3e1e8063306)), closes [#78](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/issues/78)
+
+
+### BREAKING CHANGES
+
+* **smilecdr:** Deprecation warning - Values files must be updated to use
+`image.imagePullSecrets` instead of `image.credentials`.
+
 # [1.0.0-pre.54](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.53...v1.0.0-pre.54) (2023-02-27)
 
 
