@@ -1,3 +1,10 @@
+# [1.0.0-pre.56](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.55...v1.0.0-pre.56) (2023-02-27)
+
+
+### Features
+
+* **smilecdr:** improve warnings for chart errors ([b50e54e](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/b50e54ec10caf01a537e96d8d630f227272efcdc))
+
 # [1.0.0-pre.55](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.54...v1.0.0-pre.55) (2023-02-27)
 
 
