@@ -51,6 +51,8 @@ be used elsewhere in the chart
       {{- $name = ternary .nameOverride (printf "%s%s" $name $nameSuffix) (hasKey . "nameOverride") -}}
       {{- $secretDict := dict "name" $name "type" "values" "registry" $registry "username" $username "password" $password -}}
       {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
+    {{- else -}}
+      {{- fail (printf "Secrets of type `%s` are not supported. Please use `sscsi` or `k8sSecret`" $type) -}}
     {{- end -}}
   {{- end -}}
 
@@ -58,19 +60,22 @@ be used elsewhere in the chart
   {{- /* `image.credentials.type` is deprecated */ -}}
   {{- with (.Values.image.credentials) -}}
     {{- $name := printf "%s-scdr-image-pull-secrets" $.Release.Name -}}
-    {{- if eq .type "k8sSecret" -}}
+    {{- $type := default "k8sSecret" .type -}}
+    {{- if eq $type "k8sSecret" -}}
       {{- /* The legacy implementation only used the first secret in the list */ -}}
       {{- $name = (index .pullSecrets 0).name -}}
       {{- $secretDict := dict "name" $name "type" "k8sSecret" -}}
       {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
-    {{- else if eq .type "sscsi" -}}
+    {{- else if eq $type "sscsi" -}}
       {{- $provider := required (printf "You must specify a provider when using sscsi for imagePullSecret %s" $name ) .provider -}}
       {{- $secretArn := required (printf "You must specify a secretArn when using sscsi for imagePullSecret %s" $name ) .secretArn -}}
       {{- $secretDict := dict "name" $name "type" "sscsi" "provider" .provider "secretArn" .secretArn -}}
       {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
-    {{- else if eq .type "values" -}}
+    {{- else if eq $type "values" -}}
       {{- $secretDict := dict "name" $name "type" "values" "registry" (default "docker.smilecdr.com" .registry) "username" (default "docker-user" .username) "password" (default "pass" .password) -}}
       {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
+    {{- else -}}
+      {{- fail (printf "Secrets of type `%s` are not supported. Please use `sscsi` or `k8sSecret`" $type) -}}
     {{- end -}}
   {{- end -}}
   {{- /* End Deprecation Warning */ -}}
@@ -144,7 +149,7 @@ pod's filesystem
           - add code to build $sscsiObject and append to $sscsiObjects
         */}}
       {{- else -}}
-        {{- fail (printf "The '%s' Secrets Store CSI provider is not currently supported." .provider) -}}
+        {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported." .provider) -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
@@ -193,7 +198,7 @@ pod's filesystem
     - add code to build $sscsiObject and append to $sscsiObjects
     */}}
     {{- else -}}
-      {{- fail (printf "The '%s' Secrets Store CSI provider is not currently supported." ((.Values.database.external).credentials).provider) -}}
+      {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported." ((.Values.database.external).credentials).provider) -}}
     {{- end -}}
   {{- end -}}
   {{- if eq (.Values.license).type "sscsi" -}}
@@ -208,7 +213,7 @@ pod's filesystem
         - add code to build $sscsiObject and append to $sscsiObjects
       */}}
     {{- else -}}
-      {{- fail (printf "The '%s' Secrets Store CSI provider is not currently supported." .Values.license.provider) -}}
+      {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported." .Values.license.provider) -}}
     {{- end -}}
   {{- end -}}
   {{/* Render the Secrets Store CSI objects*/}}
