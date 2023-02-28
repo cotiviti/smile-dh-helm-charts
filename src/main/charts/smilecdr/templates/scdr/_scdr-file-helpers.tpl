@@ -99,7 +99,7 @@ Volumes are defined in `smilecdr.fileVolumes`
       {{- $imageSpec := dict "name" "init-sync-classes" -}}
       {{- $_ := set $imageSpec "image" (printf "%s:%s" .Values.image.repository (default .Chart.AppVersion .Values.image.tag)) -}}
       {{- $_ := set $imageSpec "imagePullPolicy" .Values.image.pullPolicy -}}
-      {{- $_ := set $imageSpec "command" (list "/bin/sh" "-c" "/bin/cp -rp /home/smile/smilecdr/classes/. /tmp/smilecdr-volumes/classes/")  -}}
+      {{- $_ := set $imageSpec "command" (list "/bin/sh" "-c" "/bin/cp -Rvp /home/smile/smilecdr/classes/* /tmp/smilecdr-volumes/classes/")  -}}
       {{- $_ := set $imageSpec "securityContext" .Values.securityContext -}}
       {{- $_ := set $imageSpec "resources" $initContainerResources -}}
       {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
@@ -114,6 +114,7 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- $_ := set $imageSpec "image" "public.ecr.aws/aws-cli/aws-cli" -}}
         {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
         {{- $_ := set $imageSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/classes/" "--recursive" )  -}}
+        {{- $_ := set $imageSpec "securityContext" $.Values.securityContext -}}
         {{- $_ := set $imageSpec "resources" $initContainerResources -}}
         {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
         {{- $initPullContainers = append $initPullContainers $imageSpec -}}
@@ -125,6 +126,7 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- $_ := set $imageSpec "image" "curlimages/curl" -}}
         {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
         {{- $_ := set $imageSpec "args" (list "-o" $fileFullPath "--location" "--create-dirs" $url )  -}}
+        {{- $_ := set $imageSpec "securityContext" $.Values.securityContext -}}
         {{- $_ := set $imageSpec "resources" $initContainerResources -}}
         {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
         {{- $initPullContainers = append $initPullContainers $imageSpec -}}
@@ -138,7 +140,7 @@ Volumes are defined in `smilecdr.fileVolumes`
       {{- $imageSpec := dict "name" "init-sync-customerlib" -}}
       {{- $_ := set $imageSpec "image" (printf "%s:%s" .Values.image.repository (default .Chart.AppVersion .Values.image.tag)) -}}
       {{- $_ := set $imageSpec "imagePullPolicy" .Values.image.pullPolicy -}}
-      {{- $_ := set $imageSpec "command" (list "/bin/sh" "-c" "/bin/cp -rp /home/smile/smilecdr/customerlib/. /tmp/smilecdr-volumes/customerlib/")  -}}
+      {{- $_ := set $imageSpec "command" (list "/bin/sh" "-c" "/bin/cp -Rvp /home/smile/smilecdr/customerlib/* /tmp/smilecdr-volumes/customerlib/")  -}}
       {{- $_ := set $imageSpec "securityContext" .Values.securityContext -}}
       {{- $_ := set $imageSpec "resources" $initContainerResources -}}
       {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/")) -}}
@@ -153,6 +155,7 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- $_ := set $imageSpec "image" "public.ecr.aws/aws-cli/aws-cli" -}}
         {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
         {{- $_ := set $imageSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/customerlib/" "--recursive" )  -}}
+        {{- $_ := set $imageSpec "securityContext" $.Values.securityContext -}}
         {{- $_ := set $imageSpec "resources" $initContainerResources -}}
         {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/")) -}}
         {{- $initPullContainers = append $initPullContainers $imageSpec -}}
@@ -164,6 +167,7 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- $_ := set $imageSpec "image" "curlimages/curl" -}}
         {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
         {{- $_ := set $imageSpec "args" (list "-o" $fileFullPath "--location" "--create-dirs" $url )  -}}
+        {{- $_ := set $imageSpec "securityContext" $.Values.securityContext -}}
         {{- $_ := set $imageSpec "resources" $initContainerResources -}}
         {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/")) -}}
         {{- $initPullContainers = append $initPullContainers $imageSpec -}}
@@ -177,6 +181,7 @@ Volumes are defined in `smilecdr.fileVolumes`
     {{- $_ := set $imageSpec "image" "alpine:3" -}}
     {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
     {{- $_ := set $imageSpec "args" (list "cp" "/mnt/sscsi/license.jwt" "/tmp/smilecdr-volumes/classes/" )  -}}
+    {{- $_ := set $imageSpec "securityContext" .Values.securityContext -}}
     {{- $_ := set $imageSpec "resources" $initContainerResources -}}
     {{- $_ := set $imageSpec "volumeMounts" (append (include "smilecdr.volumeMounts" . | fromYamlArray) (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
     {{- $initPullContainers = append $initPullContainers $imageSpec -}}
