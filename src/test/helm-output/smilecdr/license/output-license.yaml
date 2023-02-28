@@ -387,7 +387,7 @@ spec:
         - command:
           - /bin/sh
           - -c
-          - /bin/cp -rp /home/smile/smilecdr/classes/. /tmp/smilecdr-volumes/classes/
+          - /bin/cp -Rvp /home/smile/smilecdr/classes/* /tmp/smilecdr-volumes/classes/
           image: docker.smilecdr.com/smilecdr:2023.02.R01
           imagePullPolicy: IfNotPresent
           name: init-sync-classes
@@ -424,6 +424,15 @@ spec:
             requests:
               cpu: 500m
               memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
           volumeMounts:
           - mountPath: /home/smile/smilecdr/classes
             name: scdr-volume-classes

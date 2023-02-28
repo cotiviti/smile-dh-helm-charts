@@ -399,6 +399,15 @@ spec:
             requests:
               cpu: 500m
               memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
           volumeMounts:
           - mountPath: /tmp/smilecdr-volumes/classes/
             name: scdr-volume-classes
