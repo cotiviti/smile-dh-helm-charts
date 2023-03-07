@@ -947,8 +947,76 @@
       
         <li class="md-nav__item">
   <a href="#configuring-external-message-broker" class="md-nav__link">
-    Configuring external message broker.
+    Configuring external message broker
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-smile-cdr-kafka-settings" class="md-nav__link">
+    Configuring Smile CDR Kafka settings
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuring Smile CDR Kafka settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tls-connectivity" class="md-nav__link">
+    TLS Connectivity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    Authentication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consumer-producer-properties" class="md-nav__link">
+    Consumer &amp; Producer properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topic-auto-creation" class="md-nav__link">
+    Topic Auto Creation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#topic-pre-provisioning" class="md-nav__link">
+    Topic Pre-Provisioning
+  </a>
+  
+    <nav class="md-nav" aria-label="Topic Pre-Provisioning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#admin-pod" class="md-nav__link">
+    Admin Pod
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strimzi_1" class="md-nav__link">
+    Strimzi
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1268,8 +1336,76 @@
       
         <li class="md-nav__item">
   <a href="#configuring-external-message-broker" class="md-nav__link">
-    Configuring external message broker.
+    Configuring external message broker
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-smile-cdr-kafka-settings" class="md-nav__link">
+    Configuring Smile CDR Kafka settings
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuring Smile CDR Kafka settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tls-connectivity" class="md-nav__link">
+    TLS Connectivity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    Authentication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consumer-producer-properties" class="md-nav__link">
+    Consumer &amp; Producer properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topic-auto-creation" class="md-nav__link">
+    Topic Auto Creation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#topic-pre-provisioning" class="md-nav__link">
+    Topic Pre-Provisioning
+  </a>
+  
+    <nav class="md-nav" aria-label="Topic Pre-Provisioning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#admin-pod" class="md-nav__link">
+    Admin Pod
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strimzi_1" class="md-nav__link">
+    Strimzi
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1315,24 +1451,260 @@
 <p>Much like with the database configuration, you can use an externally provisioned message broker, or
 you can have this chart provision Kafka for you if you have the Strimzi Operator installed in your
 cluster.</p>
-<h2 id="configuring-external-message-broker">Configuring external message broker.<a class="headerlink" href="#configuring-external-message-broker" title="Permanent link">&para;</a></h2>
-<p>You can use the <code>messageBroker.external</code> section to configure an external message broker like so:
+<h2 id="configuring-external-message-broker">Configuring external message broker<a class="headerlink" href="#configuring-external-message-broker" title="Permanent link">&para;</a></h2>
+<p>Use the <code>messageBroker.external</code> section to configure an external message broker like so:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">messageBroker</span><span class="p">:</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">external</span><span class="p">:</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kafka</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">bootstrapAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kafka-example.local</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">tls</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">connection</span><span class="p">:</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tls</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="nt">bootstrapAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kafka-example.myorg.com:9098</span>
 </code></pre></div>
-You can also do some of the message broker tuning in the <code>clustermgr</code> module. The configurations
-provided in the <code>messageBroker</code> section above will override any in the module definition.</p>
+<h2 id="configuring-smile-cdr-kafka-settings">Configuring Smile CDR Kafka settings<a class="headerlink" href="#configuring-smile-cdr-kafka-settings" title="Permanent link">&para;</a></h2>
+<p>While you can configure any of the message broker settings available in the <code>clustermgr</code> module, some of them are defined automatically by this Helm Chart.</p>
+<h3 id="tls-connectivity">TLS Connectivity<a class="headerlink" href="#tls-connectivity" title="Permanent link">&para;</a></h3>
+<p>When connecting to Kafka clusters, it is advised to use TLS connections. If you provide a <code>bootstrapAddress</code> for a TLS enabled Kafka listener, then Smile CDR will be automatically configured to connect to it using TLS.</p>
+<p>The connection type is specified using <code>messageBroker.external.config.connection.type</code>. If not provided, the default of <code>tls</code> will be used.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">messageBroker</span><span class="p">:</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">external</span><span class="p">:</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">      </span><span class="nt">connection</span><span class="p">:</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tls</span>
+</code></pre></div>
+If you wish to run without enabling encryption for testing purposes, you can also specify <code>plaintext</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">messageBroker</span><span class="p">:</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">external</span><span class="p">:</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">      </span><span class="nt">connection</span><span class="p">:</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">plaintext</span>
+</code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> You cannot use mTLS or IAM authentication methods if you disable TLS</p>
+</blockquote>
+<h4 id="using-custom-certificate-authority">Using Custom Certificate Authority<a class="headerlink" href="#using-custom-certificate-authority" title="Permanent link">&para;</a></h4>
+<p>If your external Kafka cluster is configured with a TLS certificate that is signed with a public Certificate Authority (CA) then no further steps are required.</p>
+<p>However, if you need to provide a custom CA certificate, you can do so by providing a <code>caCert</code> configuration in the connection settings.</p>
+<p>This certificate can be provided using either the <code>k8sSecret</code> or <code>sscsi</code> secret mechanisms. See the <a href="../../secrets/">secrets</a> section for more info.</p>
+<p><strong>Using <code>k8sSecret</code></strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">messageBroker</span><span class="p">:</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">external</span><span class="p">:</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">      </span><span class="nt">connection</span><span class="p">:</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tls</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="nt">caCert</span><span class="p">:</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k8sSecret</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">          </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-kafka-ca-cert</span>
+</code></pre></div></p>
+<p><strong>Using <code>sscsi</code></strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">messageBroker</span><span class="p">:</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">external</span><span class="p">:</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">      </span><span class="nt">connection</span><span class="p">:</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tls</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="nt">caCert</span><span class="p">:</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sscsi</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">          </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">          </span><span class="nt">secretArn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arn:aws:secretsmanager:us-east-1:012345678901:secret:kafkacacert</span>
+</code></pre></div>
+<strong>CA Cert Secret Format</strong></p>
+<p>The certificate passed in to the chart must have 2 values, with the appropriate keys.</p>
+<table>
+<thead>
+<tr>
+<th>Key name</th>
+<th>Key value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ca.p12</td>
+<td>Trust store containing the CA certificate. Must be provided in the PKCS12 (<code>.p12</code>) format</td>
+</tr>
+<tr>
+<td>ca.password</td>
+<td>Password for verifying the contents of the trust store.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">&para;</a></h3>
+<p>This chart currently supports either Mutual TLS (mTLS) or IAM authentication, depending on the type of Kafka cluster that is being used.</p>
+<table>
+<thead>
+<tr>
+<th>Cluster Type</th>
+<th>mTLS</th>
+<th>IAM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>External (Generic)</td>
+<td>Y</td>
+<td>N</td>
+</tr>
+<tr>
+<td>Amazon MSK</td>
+<td>Y (With Private CA)</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>In-cluster (Strimzi)</td>
+<td>Y (Default)</td>
+<td>N</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note:</strong> Other authentication mechanisms may be added at a later date.</p>
+</blockquote>
+<h4 id="configuring-mtls">Configuring mTLS<a class="headerlink" href="#configuring-mtls" title="Permanent link">&para;</a></h4>
+<p>To configure mTLS authentication you need to do the following</p>
+<ul>
+<li>Configure Kafka cluster for mTLS.</li>
+<li>Have access to the client certificate for the configured user.</li>
+<li>Configure the connection type to use TLS (See <a href="#tls-connectivity">above</a>).</li>
+</ul>
+<p>Now you can provide the client certificate using <code>k8sSecret</code> or <code>sscsi</code> as follows:</p>
+<p><strong>Using <code>k8sSecret</code></strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">messageBroker</span><span class="p">:</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">external</span><span class="p">:</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">      </span><span class="nt">connection</span><span class="p">:</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tls</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">        </span><span class="nt">caCert</span><span class="p">:</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k8sSecret</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">          </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-kafka-ca-cert</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">      </span><span class="nt">authentication</span><span class="p">:</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tls</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">        </span><span class="nt">userCert</span><span class="p">:</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k8sSecret</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">          </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-kafka-client-cert</span>
+</code></pre></div></p>
+<p><strong>Using <code>sscsi</code></strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">messageBroker</span><span class="p">:</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">external</span><span class="p">:</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">      </span><span class="nt">connection</span><span class="p">:</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tls</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">        </span><span class="nt">caCert</span><span class="p">:</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sscsi</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">          </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">          </span><span class="nt">secretArn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arn:aws:secretsmanager:us-east-1:012345678901:secret:kafkacacert</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">      </span><span class="nt">authentication</span><span class="p">:</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tls</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">        </span><span class="nt">userCert</span><span class="p">:</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sscsi</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">          </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">          </span><span class="nt">secretArn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arn:aws:secretsmanager:us-east-1:012345678901:secret:kafkaclientcert</span>
+</code></pre></div></p>
+<p><strong>User Cert Secret Format</strong></p>
+<p>The user certificate passed in to the chart must have 2 values, with the appropriate keys.</p>
+<table>
+<thead>
+<tr>
+<th>Key name</th>
+<th>Key value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>user.p12</td>
+<td>Trust store containing the user certificate and private key. Must be provided in the PKCS12 (<code>.p12</code>) format</td>
+</tr>
+<tr>
+<td>user.password</td>
+<td>Password for decrypting the private key.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="consumer-producer-properties">Consumer &amp; Producer properties<a class="headerlink" href="#consumer-producer-properties" title="Permanent link">&para;</a></h3>
+<p>Custom consumer properties and producer properties can be configured using the <code>messageBroker.clientConfiguration</code> section as follows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">messageBroker</span><span class="p">:</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">clientConfiguration</span><span class="p">:</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">consumerProperties</span><span class="p">:</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">      </span><span class="nt">max.poll.records</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="nt">producerProperties</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+</code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> By default, the consumer properties are configured with the Kafka documented defaults prior to Kafka 3.0</p>
+</blockquote>
+<h3 id="topic-auto-creation">Topic Auto Creation<a class="headerlink" href="#topic-auto-creation" title="Permanent link">&para;</a></h3>
+<p>By default, the <code>auto.create.topics.enable</code> Kafka broker setting is often set to <code>true</code>. With this setting enabled, Kafka will automatically create topics when consumers or producers try to use a topic.</p>
+<p>As a best practice, this setting should be changed to <code>false</code> in production environments. When doing this, any required topics should be created through some other process.</p>
+<p>If your Kafka cluster has topic auto creation disabled, you should set the <a href="https://smilecdr.com/docs/configuration_categories/clustermgr_kafka.html#property-validate-kafka-topics-exist-before-use"><code>kafka.validate_topics_exist_before_use</code></a> option in Smile CDR. See <a href="https://smilecdr.com/docs/installation/kafka.html">here</a> for more information on these Kafka settings in Smile CDR.</p>
+<p>As a convenience, this option is auto-configured based on various settings. By default, if using an external Kafka cluster, this option is disabled and creating Subscriptions will work without any manual intervention.</p>
+<h4 id="amazon-msk-serverless">Amazon MSK Serverless<a class="headerlink" href="#amazon-msk-serverless" title="Permanent link">&para;</a></h4>
+<p>Although Amazon MSK allows <code>auto.create.topics.enable</code> to be set to <code>true</code> (You need to use a [Custom Configuration[(https://docs.aws.amazon.com/msk/latest/developerguide/msk-configuration-properties.html)]), this is not the case for Amazon MSK Serverless. In this case, you must create topics using another mechanism. It is advisable in this case to also set the above mentioned topic validation option in Smile CDR.</p>
+<h4 id="strimzi">Strimzi<a class="headerlink" href="#strimzi" title="Permanent link">&para;</a></h4>
+<p>If using the Strimzi Operator and configuring this Helm Chart to deploy the Kafka cluster, it is possible to also define the required topics in the values file. When doing this, the <code>auto.create.topics.enable</code> will be automatically set to <code>false</code> to prevent collisions between topics created by the broker and topics created by the Strimzi Operator. The <code>kafka.validate_topics_exist_before_use</code> Smile CDR configuration will also be set to <code>true</code>.</p>
+<h2 id="topic-pre-provisioning">Topic Pre-Provisioning<a class="headerlink" href="#topic-pre-provisioning" title="Permanent link">&para;</a></h2>
+<p>If you are using a Kafka cluster with <code>auto.create.topics.enable</code> to be set to <code>false</code> as mentioned above, then you will need to create the topics using some other process.
+If you do not already have a process in place for creating Kafka topics, then there are a couple of options.</p>
+<ul>
+<li>Follow the official Kafka documentation for creating topics.</br>This usually involves using a workstation or server with the Kafka binaries and configuration to talk to your Kafka cluster. This can be a tricky process, depending on network security requirements and connectivity/authentication configuration.</li>
+<li>Use a declarative approach to Kafka topic management. Your topics will be defined in code and can be applied to the Kafka cluster in a highly repeatable fashion.</li>
+</ul>
+<p>If using either of the above techniques, the default configuration of Smile CDR deployed by this Helm Chart will reqire the following two topics to be created:</p>
+<ul>
+<li><code>batch2.work.notification.Masterdev.persistence</code></li>
+<li><code>subscription.matching.Masterdev.persistence</code></li>
+</ul>
+<p>If you change the <code>nodeId</code> (in <code>cdrNodes</code>) or alter the default module configuration, the above names may change and would need to be determined for your configuration.</p>
+<p>As a convenience, this Helm Chart provides methods to help with this.</p>
+<h3 id="admin-pod">Admin Pod<a class="headerlink" href="#admin-pod" title="Permanent link">&para;</a></h3>
+<p>This <strong><em>experimental</em></strong> feature will let you create a <code>Kafka Admin</code> pod in the same namespace as your Smile CDR instance. It can be enabled as follows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">messageBroker</span><span class="p">:</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">adminPod</span><span class="p">:</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<p>When enabled, there will be a new deployment created that creates a single ephemeral pod. This pod is automatically configured to use the same connectivity (Including required certificates) as the main Smile CDR pods.</p>
+<p>You can use this pod to inspect the Kafka cluster, or perform tasks such as creating/deleting topics. This is a convenience feature that should only be used during the development phase and not be used in production environments.</p>
+<ul>
+<li>
+<p>Connect to the Kafka Admin pod
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span>&lt;admin-pod-name&gt;<span class="w"> </span>--<span class="w"> </span>sh
+</code></pre></div></p>
+</li>
+<li>
+<p>Check available topics
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>./bin/kafka-topics.sh<span class="w"> </span>--list
+</code></pre></div></p>
+</li>
+<li>
+<p>Connect to the Kafka Admin pod
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>./bin/kafka-consumer-groups.sh<span class="w"> </span>--describe<span class="w"> </span>--group<span class="w"> </span>smilecdr
+</code></pre></div></p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> You do not need to provide a config file or bootstrap address on the command-line as it is auto configured.</p>
+</blockquote>
+<h3 id="strimzi_1">Strimzi<a class="headerlink" href="#strimzi_1" title="Permanent link">&para;</a></h3>
+<p>If using the Strimzi Operator, you can define topics in a declarative fashion using the <code>messageBroker.topics</code> section.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">messageBroker</span><span class="p">:</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">topics</span><span class="p">:</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="nt">batch2</span><span class="p">:</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;batch2.work.notification.Masterdev.persistence&quot;</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">      </span><span class="nt">partitions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="nt">subscription</span><span class="p">:</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;subscription.matching.Masterdev.persistence&quot;</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">      </span><span class="nt">partitions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</code></pre></div>
+<p>When using this method, the Helm Chart will create a <code>KafkaTopic</code> resource for each of the provided topics. The topics will then be created automatically by the Strimzi Topic Operator. The Kafka brokers will be configured with <code>auto.create.topics.enable</code> set to <code>false</code> as per best practice.</p>
+<p>Using this method allows you to define the configuration of your topics in code for increased repeatability and reliability.</p>
+<p>You can disable topic auto creation by Strimzi by setting <code>messageBroker.manageTopics</code> to <code>false</code>.</p>
+<blockquote>
+<p><strong>Note:</strong> Please be aware that if you create topics directly in Kafka (either using the Admin Pod or if auto topic creation is enabled) then the Strimzi Topic Operator will create <code>KafkaTopic</code> resources to match the topics in the Strimzi-managed Kafka cluster.</p>
+</blockquote>
 <h2 id="provisioning-kafka-with-strimzi">Provisioning Kafka with Strimzi<a class="headerlink" href="#provisioning-kafka-with-strimzi" title="Permanent link">&para;</a></h2>
 <p>If you have the Strimzi Operator installed in your cluster, you can use the following values file
 section to automate provisioning of a Kafka cluster. Your Smile CDR instance will then be automatically
-configured to use this HA Kafka cluster.
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">messageBroker</span><span class="p">:</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">strimzi</span><span class="p">:</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+configured to use this Kafka cluster.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">messageBroker</span><span class="p">:</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">strimzi</span><span class="p">:</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div></p>
 <h3 id="configuring-kafka-via-strimzi">Configuring Kafka via Strimzi<a class="headerlink" href="#configuring-kafka-via-strimzi" title="Permanent link">&para;</a></h3>
 <p>With the configuration provided above, you will have a production-like Kafka cluster with the followinf configuration:</p>
@@ -1349,33 +1721,38 @@ configured to use this HA Kafka cluster.
 <li>10GiB storage</li>
 </ul>
 </li>
+<li>TLS connection enabled by default</li>
+<li>mTLS authentication enabled by default</li>
 </ul>
 <p>All of the Kafka configurations can be configured using <code>messageBroker.strimzi.config</code> like so:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">messageBroker</span><span class="p">:</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">strimzi</span><span class="p">:</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.3.1&quot;</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="nt">protocolVersion</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.3&quot;</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">      </span><span class="nt">tls</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">      </span><span class="nt">kafka</span><span class="p">:</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">        </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="nt">volumeSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20Gi</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4Gi</span>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">          </span><span class="nt">limits</span><span class="p">:</span>
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4Gi</span>
-<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">      </span><span class="nt">zookeeper</span><span class="p">:</span>
-<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">        </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">        </span><span class="nt">volumeSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10Gi</span>
-<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
-<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
-<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
-<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">512Mi</span>
-<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">          </span><span class="nt">limits</span><span class="p">:</span>
-<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">512Mi</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nt">messageBroker</span><span class="p">:</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="nt">strimzi</span><span class="p">:</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">      </span><span class="nt">connection</span><span class="p">:</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tls</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">      </span><span class="nt">authentication</span><span class="p">:</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tls</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.3.1&quot;</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">      </span><span class="nt">protocolVersion</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.3&quot;</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">      </span><span class="nt">kafka</span><span class="p">:</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">        </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="w">        </span><span class="nt">volumeSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20Gi</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4Gi</span>
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="w">          </span><span class="nt">limits</span><span class="p">:</span>
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4Gi</span>
+<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a><span class="w">      </span><span class="nt">zookeeper</span><span class="p">:</span>
+<a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="w">        </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="w">        </span><span class="nt">volumeSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10Gi</span>
+<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a><span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+<a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">512Mi</span>
+<a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a><span class="w">          </span><span class="nt">limits</span><span class="p">:</span>
+<a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">512Mi</span>
 </code></pre></div>
 <p>For more details on how to configure Kafka using Strimzi, please consult the Strimzi Operator documentation <a href="https://strimzi.io/docs/operators/latest/configuring.html">here</a></p>
 
