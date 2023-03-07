@@ -1,0 +1,57 @@
+tests:
+  strimziDefault:
+    outputFile: output-strimzi.yaml
+    valueFiles:
+    - values-strimzi.yaml
+  strimziCreateTopics:
+    outputFile: output-strimzitopics.yaml
+    valueFiles:
+    - values-strimzi-topics.yaml
+  strimziPlaintext:
+    outputFile: output-strimzi-plaintext.yaml
+    valueFiles:
+    - values-strimzi-plaintext.yaml
+  strimziMTls:
+    outputFile: output-strimzi-mtls.yaml
+    valueFiles:
+    - values-strimzi-mtls.yaml
+  strimziTlsNoAuth:
+    outputFile: output-strimzi-tls-noauth.yaml
+    valueFiles:
+    - values-strimzi-tls-noauth.yaml
+  externalK8sSecretMTls:
+    outputFile: output-external-k8s-secret-mtls.yaml
+    valueFiles:
+    - values-external-k8s-secret-mtls.yaml
+  externalK8sSecretTls:
+    outputFile: output-external-k8s-secret-tls.yaml
+    valueFiles:
+    - values-external-k8s-secret-tls.yaml
+  externalSscsiMTls:
+    outputFile: output-external-sscsi-mtls.yaml
+    valueFiles:
+    - values-external-sscsi-mtls.yaml
+  externalSscsiTls:
+    outputFile: output-external-sscsi-tls.yaml
+    valueFiles:
+    - values-external-sscsi-tls.yaml
+  externalIam:
+    outputFile: output-external-iam.yaml
+    valueFiles:
+    - values-external-iam.yaml
+  adminIam:
+    outputFile: output-admin-iam.yaml
+    valueFiles:
+    - values-admin-iam.yaml
+  adminStrimzi:
+    outputFile: output-admin-strimzi.yaml
+    valueFiles:
+    - values-admin-strimzi.yaml
+  adminSscsi:
+    outputFile: output-admin-sscsi.yaml
+    valueFiles:
+    - values-admin-sscsi.yaml
+  admink8sSecret:
+    outputFile: output-admin-k8s-secret.yaml
+    valueFiles:
+    - values-admin-k8s-secret.yaml
