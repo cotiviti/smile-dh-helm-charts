@@ -1,3 +1,21 @@
+# [1.0.0-pre.59](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.58...v1.0.0-pre.59) (2023-03-07)
+
+
+### Features
+
+* **smilecdr:** add Kafka admin pod ([c9f0493](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/c9f0493fb94e98af7d8cb8bd88f0a98b8725b927))
+* **smilecdr:** rework Kafka configuration ([d27a00b](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/d27a00b3dd09d42bf62e27d07f957344e978d551))
+* **smilecdr:** update consumer properties ([c1978e5](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/c1978e59d8bb088b433917da5edcd78db1b4d2f0))
+
+
+### BREAKING CHANGES
+
+* **smilecdr:** This affects the default consumer properties
+configured in Smile CDR.
+* **smilecdr:** Existing Kafka/Strimzi configurations have changed. As
+they were previously untested, the required changes may be unpredictable.
+Please refer to the docs to configure Kafka.
+
 # [1.0.0-pre.58](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.57...v1.0.0-pre.58) (2023-02-28)
 
 
