@@ -443,7 +443,7 @@ spec:
                   key: password
                   name: release-name-pg-pguser-smilecdr
             - name: JVMARGS
-              value: "-server -Xmx3276m -Dmyarg=SMILE"
+              value: -server -Xmx3276m -Dmyarg=SMILE
           ports:
             - name: admin-json
               containerPort: 9000

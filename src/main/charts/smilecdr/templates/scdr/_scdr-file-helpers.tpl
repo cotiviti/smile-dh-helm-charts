@@ -20,9 +20,7 @@ quietly ignored.
     {{- end -}}
   {{- end -}}
 {{- end -}}
-{{- if gt (len $fileCfgMaps) 0 -}}
-  {{- printf "list:\n%v" ($fileCfgMaps | toYaml) -}}
-{{- end -}}
+{{- $fileCfgMaps | toYaml -}}
 {{- end -}}
 
 {{/*
@@ -52,7 +50,7 @@ Define fileVolumes for all mapped files
     {{- $_ := set $fileVolume "emptyDir" (dict "sizeLimit" "500Mi") -}}
     {{- $fileVolumes = append $fileVolumes $fileVolume -}}
   {{- end -}}
-  {{- dict "list" $fileVolumes | toYaml -}}
+  {{- $fileVolumes | toYaml -}}
 {{- end -}}
 
 {{/*
@@ -79,7 +77,7 @@ Define fileVolumeMounts for all mapped files
     {{- $_ := set $fileVolumeMount "mountPath" "/home/smile/smilecdr/customerlib" -}}
     {{- $fileVolumeMounts = append $fileVolumeMounts $fileVolumeMount -}}
   {{- end -}}
-  {{- dict "list" $fileVolumeMounts | toYaml -}}
+  {{- $fileVolumeMounts | toYaml -}}
 {{ end }}
 
 {{/*
@@ -176,6 +174,9 @@ Volumes are defined in `smilecdr.fileVolumes`
       {{- end -}}
     {{- end -}}
   {{- end -}}
+
+  {{- /* Define init containers for license copying.
+         Sync container was already defined above if there was a license. */ -}}
   {{- if hasKey .Values "license" -}}
     {{- $imageSpec := dict "name" "copy-cdr-license" -}}
     {{- $_ := set $imageSpec "image" "alpine:3" -}}

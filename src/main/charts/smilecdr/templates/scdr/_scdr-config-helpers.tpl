@@ -75,10 +75,10 @@ Generate a suffix that represents the SHA256 hash of the configMap
 data if autoDeploy is enabled. Used for naming the configMap.
 */}}
 {{- define "smilecdr.cdrConfigDataHashSuffix" -}}
-{{- if .Values.autoDeploy -}}
-  {{- $data := ( include "smilecdr.cdrConfigData" .) -}}
-  {{- printf "-%s" (sha256sum $data) -}}
-{{- end -}}
+  {{- if .Values.autoDeploy -}}
+    {{- $data := ( include "smilecdr.cdrConfigData" .) -}}
+    {{- printf "-%s" (sha256sum $data) -}}
+  {{- end -}}
 {{- end -}}
 
 {{/*
@@ -143,7 +143,7 @@ If there are more than 2 cdrNodes entries, custom values, it
       {{- $nodeId = default $key $val.name -}}
     {{- end -}}
   {{- end -}}
-  {{- printf "%s" $nodeId -}}
+  {{- $nodeId -}}
 {{- end -}}
 
 {{- /*
@@ -161,5 +161,5 @@ This is just to get per-node settings, such as logs dir size.
       {{- $nodeSettings = deepCopy $val -}}
     {{- end -}}
   {{- end -}}
-  {{- printf "%v" ($nodeSettings | toYaml) -}}
+  {{- $nodeSettings | toYaml -}}
 {{- end -}}

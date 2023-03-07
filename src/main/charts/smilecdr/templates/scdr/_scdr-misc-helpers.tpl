@@ -46,13 +46,12 @@ provide a single entry point.
   {{- /* Include DB env vars */ -}}
   {{- $envVars = concat $envVars (include "smilecdr.dbEnvVars" . | fromYamlArray ) -}}
   {{- /* Include global extra env vars */ -}}
-  {{- with .Values.extraEnvVars -}}
-    {{- $envVars = concat $envVars . -}}
+  {{- $envVars = concat $envVars .Values.extraEnvVars -}}
+  {{- /* Include JVM settings */ -}}
+  {{- with (include "smilecdr.jvmargs" . ) -}}
+    {{- $envVars = append $envVars (dict "name" "JVMARGS" "value" .) -}}
   {{- end -}}
-  {{- /* Render the environments */ -}}
-  {{- if ne (len $envVars) 0 -}}
-    {{- printf "%v" (toYaml $envVars) -}}
-  {{- end -}}
+  {{- $envVars | toYaml -}}
 {{- end -}}
 
 {{/*
@@ -64,16 +63,18 @@ provide a single entry point.
 */}}
 {{- define "smilecdr.initContainers" -}}
   {{- $initContainers := list -}}
-  {{- /* fail (printf "%v" (include "smilecdr.initFileContainers" . | fromYamlArray )) */ -}}
-  {{- $initContainers = concat $initContainers (include "smilecdr.initFileContainers" . | fromYamlArray ) -}}
+
+  {{- /* Special handling is required for using `concat` on lists that could remain empty.
+      This is due to an unresolved bug in the sprig library: https://github.com/helm/helm/issues/10699
+      If you `concat` multiple lists, the `toYaml` function will ultimately convert it to `null`
+      instead of `[]`, causing linting errors.  */ -}}
+
+  {{- with (include "smilecdr.initFileContainers" . | fromYamlArray ) -}}
+    {{- $initContainers = concat $initContainers . -}}
+  {{- end -}}
   {{- /* Uncomment once migration containers (i.e. Zero Outage Upgrades) are implemented */ -}}
   {{- /* $initContainers = append $initContainers (include "smilecdr.initMigrateContainers" . | fromYaml ) */ -}}
-  {{- /* fail (printf "%v" ($initContainers)) */ -}}
-  {{- if ne (len $initContainers) 0 -}}
-    {{- printf "%v" (toYaml $initContainers) -}}
-  {{- else -}}
-    {{- printf "[]" -}}
-  {{- end -}}
+  {{- toYaml $initContainers -}}
 {{- end -}}
 
 {{/*

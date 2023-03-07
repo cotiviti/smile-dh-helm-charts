@@ -53,10 +53,6 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
             {{- include "smilecdr.envVars" . | nindent 12 }}
-            {{- with include "smilecdr.jvmargs" . }}
-            - name: JVMARGS
-              value: {{ . }}
-            {{- end }}
           ports:
             {{- range $k, $v := include "smilecdr.services" . | fromYaml }}
             - name: {{ $v.svcName }}
