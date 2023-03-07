@@ -82,38 +82,58 @@ data if autoDeploy is enabled. Used for naming the configMap.
 {{- end -}}
 
 {{/*
+Generate a suffix that represents the SHA256 hash of the provided
+data if autoDeploy is enabled. Used for naming configMaps.
+You must pass in a map with the root `Values` map and `data` to be hashed.
+*/}}
+{{- define "smilecdr.getConfigMapNameHashSuffix" -}}
+  {{- if .Values.autoDeploy -}}
+    {{- printf "-%s" (trunc 40 (sha256sum .data)) -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
 Message Broker Config Snippet (ActiveMQ vs Kafka)
 TODO: Needs some rework. Specifically, a few Kafka config settings
 are hard-coded in here.
 */}}
 {{- define "scdrcfg.messagebroker" -}}
-{{- $brokerType := "EMBEDDED_ACTIVEMQ" -}}
-{{- $kafkaBootstrap := "" -}}
-{{- $kafkaSSLEnabled := "false" -}}
-{{- if or .Values.messageBroker.strimzi.enabled .Values.messageBroker.external.enabled -}}
-   {{- if .Values.messageBroker.strimzi.enabled -}}
-    {{- $brokerType = "KAFKA" -}}
-    {{- if .Values.messageBroker.strimzi.config.tls -}}
-      {{- $kafkaBootstrap = printf "%s-kafka-bootstrap:9093" .Release.Name -}}
-      {{- $kafkaSSLEnabled = "true" -}}
-    {{- else -}}
-      {{- $kafkaBootstrap = printf "%s-kafka-bootstrap:9092" .Release.Name -}}
-    {{- end -}}
-  {{- else if eq .Values.messageBroker.external.type "kafka" -}}
-    {{- $brokerType = "KAFKA" -}}
-    {{- $kafkaBootstrap = .Values.messageBroker.external.bootstrapAddress -}}
-    {{- if .Values.messageBroker.external.tls -}}
-      {{- $kafkaSSLEnabled = "true" -}}
-    {{- end -}}
-  {{- end -}}
-{{- end -}}
-module.clustermgr.config.messagebroker.type                         ={{ $brokerType }}
-{{- if eq $brokerType "KAFKA" }}
-module.clustermgr.config.kafka.bootstrap_address                    ={{ $kafkaBootstrap }}
-module.clustermgr.config.kafka.ssl.enabled                          ={{ $kafkaSSLEnabled }}
+{{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
+  {{- if or $kafkaConfig.enabled -}}
+module.clustermgr.config.messagebroker.type                         =KAFKA
+module.clustermgr.config.kafka.bootstrap_address                    =#{env['KAFKA_BOOTSTRAP_ADDRESS']}
+module.clustermgr.config.kafka.ssl.enabled                          =#{env['KAFKA_SSL_ENABLED']}
 module.clustermgr.config.kafka.consumer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-consumer-config.properties
 module.clustermgr.config.kafka.producer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-producer-config.properties
-{{- end }}
+    {{- if not $kafkaConfig.autoCreateTopics }}
+module.clustermgr.config.kafka.validate_topics_exist_before_use     =true
+    {{- end }}
+    {{- if eq $kafkaConfig.connection.type "tls" }}
+      {{- if eq $kafkaConfig.authentication.type "iam" }}
+module.clustermgr.config.kafka.security.protocol                    =SASL_SSL
+      {{- else }}
+module.clustermgr.config.kafka.security.protocol                    =SSL
+      {{- end }}
+      {{- if $kafkaConfig.publicca }}
+module.clustermgr.config.kafka.ssl.truststore.location              =#{null}
+module.clustermgr.config.kafka.ssl.truststore.password              =#{null}
+      {{- else }}
+module.clustermgr.config.kafka.ssl.truststore.location              =/home/smile/smilecdr/classes/client_certificates/kafka-ca-cert.p12
+module.clustermgr.config.kafka.ssl.truststore.password              =#{env['KAFKA_BROKER_CA_CERT_PWD']}
+      {{- end }}
+    {{- end }}
+    {{- if eq $kafkaConfig.authentication.type "tls" }}
+module.clustermgr.config.kafka.ssl.keystore.location                =/home/smile/smilecdr/classes/client_certificates/kafka-client-cert.p12
+module.clustermgr.config.kafka.ssl.keystore.password                =#{env['KAFKA_CLIENT_CERT_PWD']}
+module.clustermgr.config.kafka.ssl.key.password                     =#{null}
+    {{- else if eq $kafkaConfig.authentication.type "iam" }}
+module.clustermgr.config.kafka.ssl.keystore.location                =#{null}
+module.clustermgr.config.kafka.ssl.keystore.password                =#{null}
+module.clustermgr.config.kafka.ssl.key.password                     =#{null}
+    {{- end }}
+  {{- else -}}
+module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
+  {{- end }}
 {{- end }}
 
 {{/*

@@ -1,0 +1,38 @@
+{{- $strimziConfig := (include "kafka.strimzi.config" .) | fromYaml -}}
+{{- $kafkaAuthenticationType := (($strimziConfig).authentication).type -}}
+{{- if eq $kafkaAuthenticationType "tls" -}}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  name: {{ .Release.Name }}-kafka-user
+  labels:
+    strimzi.io/cluster:  {{ .Release.Name }}
+spec:
+  authentication:
+    type: tls
+  authorization:
+    type: simple
+    acls:
+      # TODO: Scope down the access
+      # Will depend on whether topics are auto created or not.
+      - resource:
+          type: cluster
+        operations:
+          - All
+      # - resource:
+      #     type: topic
+      #     name: "*"
+      #     patternType: literal
+      #   operations:
+      #     - All
+      #     - Read
+      #     - Write
+      #     - Create
+      # - resource:
+      #     type: group
+      #     name: my-group
+      #     patternType: literal
+      #   operations:
+      #     - Read
+---
+{{ end }}

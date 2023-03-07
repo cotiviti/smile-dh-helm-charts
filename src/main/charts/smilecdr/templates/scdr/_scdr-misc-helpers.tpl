@@ -45,6 +45,8 @@ provide a single entry point.
   {{- $envVars := list -}}
   {{- /* Include DB env vars */ -}}
   {{- $envVars = concat $envVars (include "smilecdr.dbEnvVars" . | fromYamlArray ) -}}
+  {{- /* Include kafka env vars - This is for key store passwords, if required */ -}}
+  {{- $envVars = concat $envVars (include "kafka.envVars" . | fromYamlArray ) -}}
   {{- /* Include global extra env vars */ -}}
   {{- $envVars = concat $envVars .Values.extraEnvVars -}}
   {{- /* Include JVM settings */ -}}

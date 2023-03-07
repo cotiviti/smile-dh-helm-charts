@@ -1,0 +1,22 @@
+{{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
+{{- if $kafkaConfig.enabled -}}
+{{- $consumerPropertiesData := include "kafka.consumer.properties.text" . -}}
+{{- $producerPropertiesData := include "kafka.producer.properties.text" . -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ printf "%s-kafka-client-properties-%s-node%s" .Release.Name (include "smilecdr.nodeId" . | lower) (include "smilecdr.getConfigMapNameHashSuffix" (dict "Values" .Values "data" (printf "%s/n%s" $consumerPropertiesData $producerPropertiesData))) }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "smilecdr.labels" $ | nindent 4 }}
+  {{- if ($.Values.argocd).enabled }}
+  annotations:
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+    argocd.argoproj.io/sync-options: Prune=false
+  {{- end }}
+data:
+  consumer.properties: |-
+    {{- printf $consumerPropertiesData | nindent 4 }}
+  producer.properties: |-
+    {{- printf $producerPropertiesData | nindent 4 -}}
+{{- end -}}
