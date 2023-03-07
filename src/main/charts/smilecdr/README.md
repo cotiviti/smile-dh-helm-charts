@@ -109,7 +109,7 @@ The below section gives an overview of the default values available. Consult the
 | messageBroker.clientConfiguration.consumerProperties."heartbeat.interval.ms" | int | `3000` |  |
 | messageBroker.clientConfiguration.consumerProperties."max.poll.interval.ms" | int | `300000` |  |
 | messageBroker.clientConfiguration.consumerProperties."max.poll.records" | int | `20` |  |
-| messageBroker.clientConfiguration.consumerProperties."session.timeout.ms" | int | `6000` |  |
+| messageBroker.clientConfiguration.consumerProperties."session.timeout.ms" | int | `10000` |  |
 | messageBroker.clientConfiguration.producerProperties | object | `{}` |  |
 | messageBroker.external.config.authentication.type | string | `"tls"` |  |
 | messageBroker.external.config.authentication.userCert | object | `{}` |  |
