@@ -50,7 +50,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-kafka-client-properties-masterdev-node-d8b20ab149a9bd7fff32d7c0d81d951bd3328ac7
+  name: release-name-kafka-client-properties-masterdev-node-09ae19ab298f0bb03f532c604c5e725837d7fb44
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -64,7 +64,7 @@ data:
     heartbeat.interval.ms=3000
     max.poll.interval.ms=300000
     max.poll.records=20
-    session.timeout.ms=6000
+    session.timeout.ms=10000
     sasl.mechanism=AWS_MSK_IAM
     sasl.jaas.config=software.amazon.msk.auth.iam.IAMLoginModule required;
     sasl.client.callback.handler.class=software.amazon.msk.auth.iam.IAMClientCallbackHandler
@@ -707,7 +707,7 @@ spec:
             sizeLimit: 500Mi
           name: scdr-volume-customerlib
         - configMap:
-            name: release-name-kafka-client-properties-masterdev-node-d8b20ab149a9bd7fff32d7c0d81d951bd3328ac7
+            name: release-name-kafka-client-properties-masterdev-node-09ae19ab298f0bb03f532c604c5e725837d7fb44
           name: kafka-client-config
         - configMap:
             name: release-name-scdr-masterdev-node-1cd64bb85062fda1ae78d208557ae32f0bb323bef0d5a036fd6457b5a00d278b

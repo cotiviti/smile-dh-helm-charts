@@ -51,7 +51,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-kafka-client-properties-masterdev-node-c7e58151229a6fb7c655f69ecec786e6913e49b7
+  name: release-name-kafka-client-properties-masterdev-node-7695d206d8bb43caabd0d31555b8a1dd01291f2c
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -65,7 +65,7 @@ data:
     heartbeat.interval.ms=3000
     max.poll.interval.ms=300000
     max.poll.records=20
-    session.timeout.ms=6000
+    session.timeout.ms=10000
   producer.properties: |-
     # Kafka producer properties auto generated from Helm Chart. Do not edit manually!
 ---
@@ -662,7 +662,7 @@ spec:
               name: scdr-volume-log
       volumes:
         - configMap:
-            name: release-name-kafka-client-properties-masterdev-node-c7e58151229a6fb7c655f69ecec786e6913e49b7
+            name: release-name-kafka-client-properties-masterdev-node-7695d206d8bb43caabd0d31555b8a1dd01291f2c
           name: kafka-client-config
         - name: kafka-broker-ca-cert
           secret:

@@ -424,11 +424,11 @@ messageBroker:
       # session.timeout.ms: 420000 # 7 minutes
       # max.poll.interval.ms: 3600000 # 60 minutes
       # max.poll.records: 200 # Only grab 200 records at a time
-      # New recommended values
-      heartbeat.interval.ms: 3000 # 3 seconds (default)
-      session.timeout.ms: 6000 # 10 seconds (default)
-      max.poll.interval.ms: 300000 # 5 minutes (default)
-      max.poll.records: 20 # Only grab 200 records at a time
+      # New recommended values (Kafka default values prior to Kafka 3.0)
+      heartbeat.interval.ms: 3000 # 3 seconds
+      session.timeout.ms: 10000 # 10 seconds
+      max.poll.interval.ms: 300000 # 5 minutes
+      max.poll.records: 20 # Only grab 20 records at a time
     producerProperties: {}
 
 ## @section Extra labels
