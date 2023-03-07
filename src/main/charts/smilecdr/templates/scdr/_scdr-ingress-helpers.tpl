@@ -5,12 +5,13 @@ This combines all default per-provider annotations
 annotations passed in via .Values.ingress.annotations
 */}}
 {{- define "ingress.annotations" -}}
-  {{- $includes := ( include "ingress.autoAnnotations" . | fromYaml) -}}
+  {{- $annotations := ( include "ingress.autoAnnotations" . | fromYaml) -}}
   {{- with .Values.ingress.annotations -}}
-    {{- $includes = merge . $includes -}}
+    {{- $annotations = merge . $annotations -}}
   {{- end -}}
-  {{- if gt (len $includes ) 0 -}}
-    {{- range $k, $v := $includes -}}
+  {{- /* TODO: Find a more elegant way to fix the quoting here */ -}}
+  {{- if gt (len $annotations ) 0 -}}
+    {{- range $k, $v := $annotations -}}
       {{- printf "%s: %v\n" $k ($v | quote) -}}
     {{- end -}}
   {{- else -}}

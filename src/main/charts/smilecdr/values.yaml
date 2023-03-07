@@ -237,7 +237,7 @@ cdrNodes:
 ## @section Extra Environment Variables
 ## @param extraEnvVars map of environment variables to be passed directly to Smile CDR container spec.
 # Define extra environment variables to pass in to the Smile CDR container.
-extraEnvVars: {}
+extraEnvVars: []
 
 ## @section Extra Volumes
 ## @param extraVolumes map of volumes to be passed directly to Smile CDR container spec.
@@ -277,17 +277,17 @@ mappedFiles: {}
 
 ## @section Copying Extra Files into Smile CDR Pods from external location
 copyFiles: {}
-##  Copies files from S3 to the classes directory
+##  Copies files using curl to the classes directory
 #   classes:
 #     syncDefaults: true
-#     source:
-#       type: s3
-#       bucket: s3-bucket-name
-#       path: /version/classes
+#     sources:
+#     - type: curl
+#       url: https://github.com/pathe/to/releases/download/required-package.jar
+#       filename: required-package.jar
 ##  Copies files from S3 to the customerlib directory
 #   customerlib:
-#     source:
-#       type: s3
+#     sources:
+#     - type: s3
 #       bucket: s3-bucket-name
 #       path: /version/customerlib
 

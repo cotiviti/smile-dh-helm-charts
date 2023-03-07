@@ -21,7 +21,7 @@ Creates JVM args based on:
   {{- range $v := .Values.jvm.args -}}
   {{- $jvmArgs = print $jvmArgs " " $v -}}
   {{- end -}}
-  {{- print $jvmArgs | quote -}}
+  {{- $jvmArgs -}}
 {{- end -}}
 
 {{/*
@@ -45,7 +45,7 @@ converts it to the raw bytes value
   {{- else if hasSuffix "k" $inVal -}}
     {{- $rawVal = ( mulf 1000 ( trimSuffix "k" $inVal ) | float64 ) | int -}}
   {{- end -}}
-  {{- printf "%d" ( $rawVal | float64 | int ) -}}
+  {{- $rawVal | float64 | int -}}
 {{- end -}}
 
 {{/*
@@ -63,5 +63,5 @@ Takes a raw bytes value and adds a Java style suffix (`k` or `m`)
   {{- else if gt $bytes $Ki -}}
     {{- $outBytes = printf "%sk" (trunc 5 ( divf $bytes $Ki | int | toString )) -}}
   {{- end -}}
-  {{- printf "%s" ( $outBytes | toString ) -}}
+  {{- $outBytes | toString -}}
 {{- end -}}

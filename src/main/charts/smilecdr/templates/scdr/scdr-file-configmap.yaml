@@ -1,4 +1,4 @@
-{{- range $v := ( include "smilecdr.fileConfigMaps" . | fromYaml ).list -}}
+{{- range $v := ( include "smilecdr.fileConfigMaps" . | fromYamlArray ) -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:

@@ -91,7 +91,7 @@ The below section gives an overview of the default values available. Consult the
 | database.external.databases[0].urlKey | string | `"url"` |  |
 | database.external.databases[0].userKey | string | `"user"` |  |
 | database.external.enabled | bool | `false` | Enable database external to K8s cluster |
-| extraEnvVars | object | `{}` |  |
+| extraEnvVars | list | `[]` |  |
 | extraVolumeMounts | object | `{}` |  |
 | extraVolumes | object | `{}` |  |
 | image.imagePullSecrets | list | `[]` | You may leave undefined if using ECR and your worker nodes have instance profiles with an appropriate IAM role to access the registry. |

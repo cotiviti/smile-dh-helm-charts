@@ -94,11 +94,7 @@ Re-creates list, only using the 'name' keys for each entry.
   {{- range $v := (include "imagePullSecrets" . | fromYamlArray ) -}}
     {{- $list = append $list (dict "name" $v.name ) -}}
   {{- end -}}
-  {{- if ne (len $list) 0 -}}
-    {{- printf "%v" (toYaml $list) -}}
-  {{- else -}}
-    {{- printf "[]" -}}
-  {{- end -}}
+  {{- $list | toYaml -}}
 {{- end -}}
 
 {{/*
@@ -111,8 +107,8 @@ Current providers supported:
 {{- define "sscsi.enabled" -}}
   {{- $sscsiEnabled := "false" -}}
   {{/* Enabled if using sscsi for image pull or db secrets */}}
-  {{- range (include "imagePullSecrets" . | fromYamlArray) -}}
-    {{- if eq .type "sscsi" -}}
+  {{- range $v := (include "imagePullSecrets" . | fromYamlArray) -}}
+    {{- if eq $v.type "sscsi" -}}
       {{- $sscsiEnabled = "true" -}}
     {{- end -}}
   {{- end -}}
@@ -122,7 +118,7 @@ Current providers supported:
   {{- if and .Values.database.external.enabled (eq ((.Values.database.external).credentials).type "sscsi") -}}
     {{- $sscsiEnabled = "true" -}}
   {{- end -}}
-  {{- printf "%s" $sscsiEnabled -}}
+  {{- $sscsiEnabled -}}
 {{- end -}}
 
 {{- define "sscsi.secretProviderClassName" -}}
@@ -136,11 +132,12 @@ pod's filesystem
 */}}
 {{- define "sscsi.objects" -}}
   {{- $sscsiObjects := list -}}
-  {{- range (include "imagePullSecrets" . | fromYamlArray) -}}
-    {{- if eq .type "sscsi" -}}
-      {{- if eq .provider "aws" -}}
-        {{- $sscsiObject := dict "objectName" .secretArn -}}
-        {{- $jmesPath := dict "path" "dockerconfigjson" "objectAlias" .name -}}
+  {{- /* Include SSCSI Objects for Image Pull Secrets */ -}}
+  {{- range $v := (include "imagePullSecrets" . | fromYamlArray) -}}
+    {{- if eq $v.type "sscsi" -}}
+      {{- if eq $v.provider "aws" -}}
+        {{- $sscsiObject := dict "objectName" $v.secretArn -}}
+        {{- $jmesPath := dict "path" "dockerconfigjson" "objectAlias" $v.name -}}
         {{- $_ := set $sscsiObject "jmesPath" (list $jmesPath) -}}
         {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
         {{/*
@@ -149,10 +146,11 @@ pod's filesystem
           - add code to build $sscsiObject and append to $sscsiObjects
         */}}
       {{- else -}}
-        {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported." .provider) -}}
+        {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported." $v.provider) -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
+  {{- /* Include SSCSI Objects for External Database Credentials */ -}}
   {{- if and .Values.database.external.enabled (eq ((.Values.database.external).credentials).type "sscsi") -}}
     {{- if eq ((.Values.database.external).credentials).provider "aws" -}}
       {{- range $v := .Values.database.external.databases -}}
@@ -216,10 +214,7 @@ pod's filesystem
       {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported." .Values.license.provider) -}}
     {{- end -}}
   {{- end -}}
-  {{/* Render the Secrets Store CSI objects*/}}
-  {{- range $v := $sscsiObjects -}}
-    {{- printf "- %v\n" ($v | toYaml | indent 2 | trim) -}}
-  {{- end -}}
+  {{- $sscsiObjects | toYaml -}}
 {{- end -}}
 
 {{/*
@@ -228,11 +223,11 @@ These are used to create Kubernetes Secrets that are synced to mounted SSCSI sec
 */}}
 {{- define "sscsi.secretObjects" -}}
   {{- $sscsiSyncedSecrets := list -}}
-  {{- range (include "imagePullSecrets" . | fromYamlArray) -}}
-    {{- if eq .type "sscsi" -}}
-      {{- $sscsiSyncedSecret := dict "secretName" .name -}}
+  {{- range $v := (include "imagePullSecrets" . | fromYamlArray) -}}
+    {{- if eq $v.type "sscsi" -}}
+      {{- $sscsiSyncedSecret := dict "secretName" $v.name -}}
       {{- $_ := set $sscsiSyncedSecret "type" "kubernetes.io/dockerconfigjson" -}}
-      {{- $data := dict "key" ".dockerconfigjson" "objectName" .name -}}
+      {{- $data := dict "key" ".dockerconfigjson" "objectName" $v.name -}}
       {{- $_ := set $sscsiSyncedSecret "data" (list $data) -}}
       {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
     {{- end -}}
@@ -258,9 +253,7 @@ These are used to create Kubernetes Secrets that are synced to mounted SSCSI sec
     {{- $_ := set $sscsiSyncedSecret "data" (list $data) -}}
     {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
   {{- end -}}
-  {{- range $v := $sscsiSyncedSecrets -}}
-    {{- printf "- %v\n" ($v | toYaml | indent 2 | trim) -}}
-  {{- end -}}
+  {{- $sscsiSyncedSecrets | toYaml -}}
 {{- end -}}
 
 {{/*
@@ -275,7 +268,7 @@ secrets in to pods
     {{- $sscsiVolume := dict "name" (include "sscsi.secretProviderClassName" .) "csi" $csi -}}
     {{- $sscsiVolumes = append $sscsiVolumes $sscsiVolume -}}
   {{- end -}}
-  {{- dict "list" $sscsiVolumes | toYaml -}}
+  {{- $sscsiVolumes | toYaml -}}
 {{- end -}}
 
 {{/*
@@ -290,5 +283,5 @@ mount secrets in to pods
     {{- $_ := set $sscsiVolumeMount "readOnly" true -}}
     {{- $sscsiVolumeMounts = append $sscsiVolumeMounts $sscsiVolumeMount -}}
   {{- end -}}
-  {{- dict "list" $sscsiVolumeMounts | toYaml -}}
+  {{- $sscsiVolumeMounts | toYaml -}}
 {{ end }}
