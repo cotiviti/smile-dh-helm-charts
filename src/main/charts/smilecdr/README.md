@@ -105,12 +105,24 @@ The below section gives an overview of the default values available. Consult the
 | jvm.xms | bool | `true` | Set JVM heap `-Xms` == `-Xmx` |
 | labels | object | `{}` | Extra labels to apply to all resources |
 | mappedFiles | object | `{}` | Map of file definitions to map into the Smile CDR instance |
-| messageBroker.channelPrefix | string | `"SCDR-ENV-"` | Topic Channel Prefix |
-| messageBroker.external.bootstrapAddress | string | `"kafka-example.local"` | External message broker bootstrap address |
-| messageBroker.external.enabled | bool | `false` | Enable external message broker |
-| messageBroker.external.tls | bool | `true` | External message broker TLS support |
+| messageBroker.adminPod.enabled | bool | `false` |  |
+| messageBroker.clientConfiguration.consumerProperties."heartbeat.interval.ms" | int | `3000` |  |
+| messageBroker.clientConfiguration.consumerProperties."max.poll.interval.ms" | int | `300000` |  |
+| messageBroker.clientConfiguration.consumerProperties."max.poll.records" | int | `20` |  |
+| messageBroker.clientConfiguration.consumerProperties."session.timeout.ms" | int | `6000` |  |
+| messageBroker.clientConfiguration.producerProperties | object | `{}` |  |
+| messageBroker.external.config.authentication.type | string | `"tls"` |  |
+| messageBroker.external.config.authentication.userCert | object | `{}` |  |
+| messageBroker.external.config.connection.caCert | object | `{}` | Mandatory: External message broker bootstrap address bootstrapAddress: kafka-example1.local, kafka-example2.local |
+| messageBroker.external.config.connection.type | string | `"tls"` |  |
+| messageBroker.external.enabled | bool | `false` |  |
 | messageBroker.external.type | string | `"kafka"` | External message broker type |
+| messageBroker.manageTopics | bool | `true` |  |
 | messageBroker.strimzi.enabled | bool | `false` | Enable provisioning of Kafka using Strimzi Operator |
+| messageBroker.topics.batch2.name | string | `"batch2.work.notification.Masterdev.persistence"` |  |
+| messageBroker.topics.batch2.partitions | int | `10` |  |
+| messageBroker.topics.subscription.name | string | `"subscription.matching.Masterdev.persistence"` |  |
+| messageBroker.topics.subscription.partitions | int | `10` |  |
 | modules.useDefaultModules | bool | `true` | Enable or disable included default modules configuration |
 | replicaCount | int | `1` | Number of replicas to deploy. Note that this setting is ignored if autoscaling is enabled. Should always start a new installation with 1 |
 | resources.limits.memory | string | `"4Gi"` | Memory allocation |

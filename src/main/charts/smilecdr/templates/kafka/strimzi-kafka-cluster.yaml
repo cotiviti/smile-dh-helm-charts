@@ -1,0 +1,64 @@
+{{- $strimziConfig := (include "kafka.strimzi.config" . | fromYaml) -}}
+{{- if $strimziConfig.enabled -}}
+{{- $kafkaConnectionType := $strimziConfig.connection.type -}}
+{{- $kafkaAuthenticationType := $strimziConfig.authentication.type -}}
+{{- $kafkaReplicas := $strimziConfig.kafka.replicas | int -}}
+{{- $minInSyncReplicas := $strimziConfig.kafka.minInSyncReplicas -}}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "smilecdr.labels" . | nindent 4 }}
+spec:
+  kafka:
+    version: {{ $strimziConfig.version }}
+    replicas: {{ $strimziConfig.kafka.replicas }}
+    listeners:
+      {{- if eq $kafkaConnectionType "tls" }}
+      - name: tls
+        port: 9093
+        type: internal
+        tls: true
+        {{- if eq $kafkaAuthenticationType "tls" }}
+        authentication:
+          type: tls
+        {{- end }}
+      {{- else if eq $kafkaConnectionType "plaintext" }}
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+      {{- end }}
+    {{- if eq $kafkaAuthenticationType "tls" }}
+    authorization:
+      type: simple
+      {{- with $strimziConfig.superUsers }}
+      superUsers:
+        {{- . | toYaml | nindent 6 }}
+      {{- end }}
+    {{- end }}
+    config:
+      {{- $strimziConfig.config | toYaml | nindent 6 }}
+    storage:
+      type: jbod
+      volumes:
+      - id: 0
+        type: persistent-claim
+        size: {{ $strimziConfig.kafka.volumeSize }}
+        deleteClaim: false
+    resources:
+      {{- toYaml $strimziConfig.kafka.resources | nindent 6 }}
+  zookeeper:
+    replicas: {{ $strimziConfig.zookeeper.replicas }}
+    storage:
+      type: persistent-claim
+      size: {{ $strimziConfig.zookeeper.volumeSize }}
+      deleteClaim: false
+    resources:
+      {{- toYaml $strimziConfig.zookeeper.resources | nindent 6 }}
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}
+{{- end -}}

@@ -1,0 +1,16 @@
+# This values files enables provisioning Kafka using the Strimzi operator
+messageBroker:
+  manageTopics: false
+  strimzi:
+    enabled: true
+    config:
+      connection:
+        type: tls
+      authentication:
+        type: tls
+
+# This defines the minimum required settings to use this Helm Chart.
+
+database:
+  crunchypgo:
+    enabled: true

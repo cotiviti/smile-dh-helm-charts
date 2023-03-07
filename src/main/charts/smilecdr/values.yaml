@@ -342,25 +342,49 @@ serviceAccount:
 ## @param.messageBroker.channelPrefix Topic Channel Prefix
 
 messageBroker:
-  # -- Topic Channel Prefix
-  channelPrefix: SCDR-ENV-
   external:
-    # -- Enable external message broker
     enabled: false
     # -- External message broker type
     type: kafka
-    # -- External message broker bootstrap address
-    bootstrapAddress: kafka-example.local
-    # -- External message broker TLS support
-    tls: true
+    config:
+      connection:
+        type: tls # Default to `tls`. Optional. Can set to `plaintext`
+        # -- Mandatory: External message broker bootstrap address
+        # bootstrapAddress: kafka-example1.local, kafka-example2.local
+        caCert: {} # Optional. If not specified, then assume public CA. (i.e. for MSK)
+          # type: sscsi # Or k8sSecret or public
+          # provider: aws
+          # secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:kafkacacert
+          # Mandatory if `type: k8sSecret`, otherwise ignored.
+          # secretName: pre-existing-secret
+
+      authentication:
+        # Default is `tls` for mTLS. Use `iam` for IAM or `none` for no auth
+        # If using `tls` or `iam`, `connection.type` MUST be set to `tls`
+        # Using `iam` implies using MSK, although you can still use `tls` with MSK if you have an AWS Private CA
+        type: tls
+        userCert: {} # Mandatory if `authentication.type: tls`. Ignored if using `iam`.
+          # type: sscsi # Or k8sSecret
+          # provider: aws
+          # secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:kafkaclientcert
+          # Mandatory if `type: k8sSecret`, otherwise ignored.
+          # secretName: pre-existing-secret
   strimzi:
     # -- Enable provisioning of Kafka using Strimzi Operator
-    enabled: false
+    enabled: false # Can only enable `strimzi` or `external`, not both.
     # @ignore
     config:
+      # To make this 'just work' and in a secure manner, we are currently opinionated
+      # and will only support automatic configuration of mTLS.
+      connection:
+        type: tls # Default to `tls`.
+      authentication:
+        type: tls # Default to `tls`.
+        # Creation of user is implicit when using mTLS, so no user auth is required, unless
+        # we wish to start creating extra users for management/monitoring. As this is a single
+        # tenancy solution only, user will have full access to all topics.
       version: "3.3.1"
       protocolVersion: "3.3"
-      tls: true
       kafka:
         replicas: 3
         volumeSize: 10Gi
@@ -379,6 +403,33 @@ messageBroker:
             memory: 512Mi
           limits:
             memory: 512Mi
+  manageTopics: true
+  topics:
+    # Using map instead of list as it becomes easier to merge/override settings for individual topics later on.
+    batch2:
+      name: "batch2.work.notification.Masterdev.persistence"
+      partitions: 10
+    subscription:
+      name: "subscription.matching.Masterdev.persistence"
+      partitions: 10
+  adminPod:
+    enabled: false
+  clientConfiguration:
+    # The Helm Chart will need to configure values in the properties files, which will override the defaults.
+    # Passing in your own properties files will interfere with this mechanism. To avoid this, your Kafka
+    # consumer/producer properties should be defined here instead.
+    consumerProperties:
+      # Taken from the default `cdr-kafka-consumer-config.properties`
+      # heartbeat.interval.ms: 120000 # 2 minutes
+      # session.timeout.ms: 420000 # 7 minutes
+      # max.poll.interval.ms: 3600000 # 60 minutes
+      # max.poll.records: 200 # Only grab 200 records at a time
+      # New recommended values
+      heartbeat.interval.ms: 3000 # 3 seconds (default)
+      session.timeout.ms: 6000 # 10 seconds (default)
+      max.poll.interval.ms: 300000 # 5 minutes (default)
+      max.poll.records: 20 # Only grab 200 records at a time
+    producerProperties: {}
 
 ## @section Extra labels
 ## @param labels Extra labels to apply to all resources

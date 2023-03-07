@@ -11,6 +11,10 @@ Define volumes and volume mounts based on combining:
   {{- with ( include "sscsi.volumes" . | fromYamlArray ) -}}
     {{- $volumes = concat $volumes . -}}
   {{- end -}}
+  {{- /* Include any volumes required by Kafka (Certificates and settings files) */ -}}
+  {{- with ( include "kafka.volumes" . | fromYamlArray ) -}}
+    {{- $volumes = concat $volumes . -}}
+  {{- end -}}
   {{- $configMapVolume := dict "name" (printf "scdr-config-%s" .Release.Name) -}}
   {{- $_ := set $configMapVolume "configMap" (dict "name" (printf "%s-scdr-%s-node%s" .Release.Name (include "smilecdr.nodeId" . | lower) (include "smilecdr.cdrConfigDataHashSuffix" . ) )) -}}
   {{- $volumes = append $volumes $configMapVolume -}}
@@ -37,6 +41,9 @@ Define volumes and volume mounts based on combining:
 {{ define "smilecdr.volumeMounts" }}
   {{- $volumeMounts := ( include "smilecdr.fileVolumeMounts" . | fromYamlArray ) -}}
   {{- with ( include "sscsi.volumeMounts" . | fromYamlArray ) -}}
+    {{- $volumeMounts = concat $volumeMounts . -}}
+  {{ end }}
+  {{- with ( include "kafka.volumeMounts" . | fromYamlArray ) -}}
     {{- $volumeMounts = concat $volumeMounts . -}}
   {{- end -}}
   {{- $configMapVolumeMount := dict "name" (printf "scdr-config-%s" .Release.Name) -}}
