@@ -4,7 +4,7 @@ By default, this Helm Chart supports the latest published version of the Smile C
 > **WARNING** - Pre-release versions of this Helm Chart may default to pre-release versions of Smile CDR
 
 ## Current Version
-Versions `v1.0.0-pre.52` and newer of the chart support `2023.02.R01` and newer.
+Versions `v1.0.0-pre.52` and newer of the chart support the latest production release of Smile CDR - `2023.02.R03`.
 
 This version included some major changes from previous versions that cause some incompatibility.
 

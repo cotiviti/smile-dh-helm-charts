@@ -1,3 +1,145 @@
+# [1.0.0-pre.59](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.58...v1.0.0-pre.59) (2023-03-07)
+
+
+### Features
+
+* **smilecdr:** add Kafka admin pod ([c9f0493](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/c9f0493fb94e98af7d8cb8bd88f0a98b8725b927))
+* **smilecdr:** rework Kafka configuration ([d27a00b](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/d27a00b3dd09d42bf62e27d07f957344e978d551))
+* **smilecdr:** update consumer properties ([c1978e5](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/c1978e59d8bb088b433917da5edcd78db1b4d2f0))
+
+
+### BREAKING CHANGES
+
+* **smilecdr:** This affects the default consumer properties
+configured in Smile CDR.
+* **smilecdr:** Existing Kafka/Strimzi configurations have changed. As
+they were previously untested, the required changes may be unpredictable.
+Please refer to the docs to configure Kafka.
+
+# [1.0.0-pre.58](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.57...v1.0.0-pre.58) (2023-02-28)
+
+
+### Bug Fixes
+
+* **smilecdr:** update initContainer configurations ([c974af5](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/c974af5e398db2b840cded466ca68eb6dea38d9f))
+
+# [1.0.0-pre.57](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.56...v1.0.0-pre.57) (2023-02-27)
+
+
+### Features
+
+* **smilecdr:** improve secrets error handling ([8df9476](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/8df9476ca34df796cbc833b9ff67e9bc8d4c6f35))
+
+# [1.0.0-pre.56](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.55...v1.0.0-pre.56) (2023-02-27)
+
+
+### Features
+
+* **smilecdr:** improve warnings for chart errors ([b50e54e](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/b50e54ec10caf01a537e96d8d630f227272efcdc))
+
+# [1.0.0-pre.55](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.54...v1.0.0-pre.55) (2023-02-27)
+
+
+### Features
+
+* **smilecdr:** refactor image pull secrets ([c7d376c](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/c7d376ceca98ae14f275227a4430a3e1e8063306)), closes [#78](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/issues/78)
+
+
+### BREAKING CHANGES
+
+* **smilecdr:** Deprecation warning - Values files must be updated to use
+`image.imagePullSecrets` instead of `image.credentials`.
+
+# [1.0.0-pre.54](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.53...v1.0.0-pre.54) (2023-02-27)
+
+
+### Bug Fixes
+
+* **smilecdr:** follow redirects for curl ([698d045](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/698d04529675f60788839002c9f1a5c55f3718d9))
+
+# [1.0.0-pre.53](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.52...v1.0.0-pre.53) (2023-02-26)
+
+
+### Features
+
+* **smilecdr:** add init-sync for customerlib ([099cb57](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/099cb575baee438b383a008dde1b0937dc95a24d))
+
+# [1.0.0-pre.52](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.51...v1.0.0-pre.52) (2023-02-22)
+
+
+### Features
+
+* **smilecdr:** update to latest Smile CDR version ([d9c0240](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/d9c02408149cafe4c3e8c4dfea3ca30eb6d46041))
+
+# [1.0.0-pre.51](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.50...v1.0.0-pre.51) (2023-02-21)
+
+
+### Features
+
+* **smilecdr:** improve readiness probe definition ([25273a9](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/25273a9e00fc4d406856edd4c347798e29a50404))
+
+# [1.0.0-pre.50](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.49...v1.0.0-pre.50) (2023-02-21)
+
+
+### Features
+
+* **smilecdr:** allow extra env vars and volumes ([9d53ec8](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/9d53ec82acb326792837881ba00a05d047da8a4f))
+
+# [1.0.0-pre.49](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.48...v1.0.0-pre.49) (2023-02-21)
+
+
+### Bug Fixes
+
+* **smilecdr:** use provided tag for initcontainer ([2f68eb6](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/2f68eb6b449fee56a4964b2a204ef5703434f39f))
+
+# [1.0.0-pre.48](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.47...v1.0.0-pre.48) (2023-02-21)
+
+
+### Features
+
+* **smilecdr:** update k8s secrets mechanism ([0733b5d](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/0733b5d3f3b5f4fcec4be4ce121bb230948e4ce6))
+
+# [1.0.0-pre.47](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.46...v1.0.0-pre.47) (2023-02-21)
+
+
+### Bug Fixes
+
+* **smilecdr:** correct spelling of license ([25dd99a](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/25dd99a52fb054aa8e6662ff871a3a11f4657203))
+* **smilecdr:** use camelCase for `useDefaultModules` ([a0178ac](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/a0178ac5e576cb03f3ce8235fc4ceef738914606))
+
+
+### BREAKING CHANGES
+
+* **smilecdr:** This change affects the default module configuration.
+
+# [1.0.0-pre.46](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.45...v1.0.0-pre.46) (2023-02-21)
+
+
+### Bug Fixes
+
+* **smilecdr:** remove short-circuit dependency ([9af24c2](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/9af24c2c3f9bde89f8d26b44735f3ead36a51bdd))
+
+# [1.0.0-pre.45](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.44...v1.0.0-pre.45) (2023-02-09)
+
+
+### Features
+
+* **smilecdr:** add license support ([3c429d8](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/3c429d822754bceccebfb1783120b876cbcfc8b1))
+
+# [1.0.0-pre.44](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.43...v1.0.0-pre.44) (2023-02-09)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix paths for initcontainer ([ce17551](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/ce17551b893d14a613ffad8875839ff5086f3f07))
+
+# [1.0.0-pre.43](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.42...v1.0.0-pre.43) (2023-01-30)
+
+
+### Features
+
+* **smilecdr:** add support for 2023.02 release ([7c583de](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/7c583dec7a70a9ba7f0677df1afcb175a2386f49))
+
 # [1.0.0-pre.42](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.41...v1.0.0-pre.42) (2023-01-30)
 
 
