@@ -95,7 +95,7 @@ This chart currently supports either Mutual TLS (mTLS) or IAM authentication, de
 
 >**Note:** Other authentication mechanisms may be added at a later date.
 
-#### Configuring mTLS
+### mTLS Authentication
 To configure mTLS authentication you need to do the following
 
 * Configure Kafka cluster for mTLS.
@@ -148,6 +148,32 @@ The user certificate passed in to the chart must have 2 values, with the appropr
 |--------|----------|
 |user.p12|Trust store containing the user certificate and private key. Must be provided in the PKCS12 (`.p12`) format|
 |user.password|Password for decrypting the private key.|
+
+### IAM Authentication (Amazon MSK only)
+If you are using Amazon MSK as your message broker, IAM is the preferred method of authentication.
+
+Before configuring Smile CDR to use this authentication method, you need to ensure that the following pre-requisites are in place:
+
+* Configure IRSA for the Smile CDR application. See the [Service Accounts](../serviceaccount.md) section for more info on this.
+* Ensure that your Smile CDR IAM role has a suitable MSK authorization policy attached. See the [AWS Documentation](https://docs.aws.amazon.com/msk/latest/developerguide/iam-access-control.html#create-iam-access-control-policies) for more information on how to create a suitable IAM authorization policy for MSK.
+
+**Client Configuration**
+The AWS documentation details the steps to configure clients to use IAM. This requires configuration is automatically applied when enabling IAM in this Helm Chart.
+
+To enable IAM authentication:
+```yaml
+messageBroker:
+  external:
+    enabled: true
+    config:
+      connection:
+        type: tls
+        bootstrapAddress: my-msk-bootstrap-address1.amazon.com:9098
+      authentication:
+        type: iam
+```
+
+>**Note:** You do not need to provide a trust certificate as Amazon MSK uses endpoints with publically signed TLS certificates
 
 ### Consumer & Producer properties
 Custom consumer properties and producer properties can be configured using the `messageBroker.clientConfiguration` section as follows:
