@@ -158,7 +158,7 @@ Before configuring Smile CDR to use this authentication method, you need to ensu
 * Ensure that your Smile CDR IAM role has a suitable MSK authorization policy attached. See the [AWS Documentation](https://docs.aws.amazon.com/msk/latest/developerguide/iam-access-control.html#create-iam-access-control-policies) for more information on how to create a suitable IAM authorization policy for MSK.
 
 **Client Configuration**
-The AWS documentation details the steps to configure clients to use IAM. This requires configuration is automatically applied when enabling IAM in this Helm Chart.
+The AWS documentation details the steps to configure clients to use IAM. This required configuration is automatically applied when enabling IAM in this Helm Chart and there is nothing further to do.
 
 To enable IAM authentication:
 ```yaml
