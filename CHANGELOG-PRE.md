@@ -1,3 +1,10 @@
+# [1.0.0-pre.61](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.60...v1.0.0-pre.61) (2023-03-15)
+
+
+### Features
+
+* **smilecdr:** add HL7v2 support ([05d5579](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/05d5579c1e61ad01a0edb549f53aad6119da6cf4))
+
 # [1.0.0-pre.60](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.59...v1.0.0-pre.60) (2023-03-08)
 
 
