@@ -1,0 +1,28 @@
+# This file defines the minimum required settings to use this Helm Chart.
+
+database:
+  crunchypgo:
+    enabled: true
+
+modules:
+  hlendpoint:
+    name: hl7v2
+    enabled: true
+    type: ENDPOINT_HL7V2_IN
+    service:
+      enabled: true
+      svcName: hl7v2
+      hostName: hl7v2.example.com
+    requires:
+      PERSISTENCE_ALL: persistence
+    config:
+      port: 8008
+      store_original_message: true
+      transport: HL7_OVER_HTTP
+      create_message_header: true
+      intermediate_logging_enabled: true
+      hl7v2_fhir_mapper_pv1.parse_providers: true
+      hl7v2_fhir_mapper_contained_resource.use_standalone_gt1_related_person: true
+      hl7v2_fhir_mapper_pv1.treat_pv1_3_and_6_patient_locations_as_atomic: true
+      hl7v2_fhir_mapper_contained_resource.use_standalone_pid18_patient_account: true
+      hl7v2_fhir_mapper_contained_resource.use_standalone_nk113_associated_party: true

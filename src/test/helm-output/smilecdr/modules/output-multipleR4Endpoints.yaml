@@ -316,27 +316,27 @@ spec:
     - host: smilecdr-example.local
       http:
         paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: release-name-scdr-svc-admin-web
-                port:
-                  number: 9100
-          - path: /fhir_request
-            pathType: Prefix
-            backend:
-              service:
-                name: release-name-scdr-svc-fhir
-                port:
-                  number: 8000
-          - path: /fhir_request2
-            pathType: Prefix
-            backend:
-              service:
-                name: release-name-scdr-svc-fhir2
-                port:
-                  number: 8002
+        - backend:
+            service:
+              name: release-name-scdr-svc-admin-web
+              port:
+                number: 9100
+          path: /
+          pathType: Prefix
+        - backend:
+            service:
+              name: release-name-scdr-svc-fhir
+              port:
+                number: 8000
+          path: /fhir_request
+          pathType: Prefix
+        - backend:
+            service:
+              name: release-name-scdr-svc-fhir2
+              port:
+                number: 8002
+          path: /fhir_request2
+          pathType: Prefix
 ---
 # Source: smilecdr/templates/tests/test-connection.yaml
 apiVersion: v1

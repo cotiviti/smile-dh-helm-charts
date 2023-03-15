@@ -109,8 +109,13 @@ Outputs as Serialized Yaml. If you need to parse the output, include it like so:
       {{/* Creating each module key, if enabled and if it has an enabled endpoint. */}}
       {{- $service := dict -}}
       {{- $_ := set $service "contextPath" $v.config.context_path -}}
-      {{- $_ := set $service "fullPath" (printf "%s%s" (default "/" $.Values.specs.rootPath) $v.config.context_path) -}}
+      {{- $_ := set $service "fullPath" (printf "%s%s" (default "/" $.Values.specs.rootPath) (default "" $v.config.context_path)) -}}
       {{- $_ := set $service "svcName" ($v.service.svcName | lower) -}}
+      {{- if or (not (hasKey $v.service "hostName")) (eq $v.service.hostName "default") -}}
+        {{- $_ := set $service "hostName" ($.Values.specs.hostname | lower) -}}
+      {{- else -}}
+        {{- $_ := set $service "hostName" ($v.service.hostName | lower) -}}
+      {{- end -}}
       {{- $_ := set $service "port" $v.config.port -}}
       {{- $_ := set $services $k $service -}}
     {{- end -}}

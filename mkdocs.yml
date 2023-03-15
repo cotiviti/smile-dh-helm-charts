@@ -61,6 +61,7 @@ nav:
         - 'Smile CDR License': guide/smilecdr/cdr-license.md
         - 'Message Broker': guide/smilecdr/messagebroker.md
         - 'Resource Tuning': guide/smilecdr/resources.md
+        - 'Configuring HL7V2': guide/smilecdr/hl7v2.md
       - 'Applying Changes': guide/smilecdr/updating.md
   - Examples:
     - examples/index.md

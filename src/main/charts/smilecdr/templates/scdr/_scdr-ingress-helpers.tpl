@@ -65,3 +65,26 @@ alb.ingress.kubernetes.io/target-type: instance
 alb.ingress.kubernetes.io/scheme: internet-facing
 {{- end -}}
 {{- end -}}
+
+{{- define "ingress.hosts" -}}
+  {{- $hosts := list -}}
+
+    {{- range $k, $v := include "smilecdr.services" . | fromYaml -}}
+      {{- $hosts = append $hosts (dict "host" $v.hostName) -}}
+    {{- end -}}
+    {{- $hosts = uniq $hosts -}}
+
+    {{- range $vHost := $hosts -}}
+      {{- $currentHost := dict -}}
+      {{- $hostPaths := list -}}
+      {{- range $kSvc, $vSvc := include "smilecdr.services" $ | fromYaml -}}
+        {{- if eq $vSvc.hostName $vHost.host -}}
+          {{- $serviceObject := dict "name" (printf "%s-scdr-svc-%s" $.Release.Name $vSvc.svcName) "port" (dict "number" $vSvc.port) -}}
+          {{- $pathObject := dict "path" $vSvc.fullPath "pathType" "Prefix" "backend" (dict "service" $serviceObject) -}}
+          {{- $hostPaths = append $hostPaths $pathObject -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $_ := set $vHost "http" (dict "paths" $hostPaths) -}}
+    {{- end -}}
+  {{- $hosts | toYaml -}}
+{{- end -}}
