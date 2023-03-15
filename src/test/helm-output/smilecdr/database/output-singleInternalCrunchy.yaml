@@ -251,13 +251,13 @@ spec:
     - host: smilecdr-example.local
       http:
         paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: release-name-scdr-svc-admin-web
-                port:
-                  number: 9100
+        - backend:
+            service:
+              name: release-name-scdr-svc-admin-web
+              port:
+                number: 9100
+          path: /
+          pathType: Prefix
 ---
 # Source: smilecdr/templates/crunchypgo/postgres.yaml
 apiVersion: postgres-operator.crunchydata.com/v1beta1

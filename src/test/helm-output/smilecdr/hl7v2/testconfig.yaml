@@ -1,0 +1,9 @@
+tests:
+  hl7OverHttp:
+    outputFile: output-hl7-over-http.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - values-hl7-over-http.yaml
+    # - extra-values.yaml

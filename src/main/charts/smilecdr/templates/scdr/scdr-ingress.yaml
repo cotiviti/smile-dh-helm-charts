@@ -9,15 +9,4 @@ metadata:
     {{ include "ingress.annotations" . | nindent 4 | trim }}
 spec:
   rules:
-    - host: {{ .Values.specs.hostname }}
-      http:
-        paths:
-          {{- range $k, $v := include "smilecdr.services" . | fromYaml }}
-          - path: {{ $v.fullPath }}
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ $.Release.Name }}-scdr-svc-{{ $v.svcName }}
-                port:
-                  number: {{ $v.port }}
-          {{- end }}
+    {{- include "ingress.hosts" . | nindent 4 }}
