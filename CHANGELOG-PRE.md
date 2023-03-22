@@ -1,3 +1,10 @@
+# [1.0.0-pre.62](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.61...v1.0.0-pre.62) (2023-03-22)
+
+
+### Bug Fixes
+
+* **smilecdr:** use correct labels for Kafka admin ([fce2935](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/fce2935fbd4237240a36ea67ae2d085fcf97d2fa))
+
 # [1.0.0-pre.61](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.60...v1.0.0-pre.61) (2023-03-15)
 
 
