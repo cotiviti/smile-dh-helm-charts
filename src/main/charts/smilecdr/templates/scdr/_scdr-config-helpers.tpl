@@ -27,7 +27,7 @@ them all into a readable config file, complete with section headers.
   {{- end -}}
   {{- $moduleText = printf "%snode.security.strict \t= %v\n\n" $moduleText (default false (($nodeSettings).security).strict) -}}
   {{- if hasKey .Values "license" -}}
-    {{- $moduleText = printf "%slicense.config.jwt_file \t= classpath:license.jwt\n" $moduleText -}}
+    {{- $moduleText = printf "%smodule.license.config.jwt_file \t= classpath:license.jwt\n" $moduleText -}}
   {{- end -}}
   {{- $moduleText = printf "%s%s\n\n" $moduleText (include "scdrcfg.messagebroker" .) -}}
   {{- $moduleText = printf "%s%s\n" $moduleText (include "smilecdr.cdrConfigTextBlob" .) -}}

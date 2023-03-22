@@ -21,7 +21,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-masterdev-node-629a57cc6153f17780f1d5dd8b606337317f8575585936e788347d661aaea468
+  name: release-name-scdr-masterdev-node-52af34f86b582fa376d9140724db10e1a073585a44caa09565c2113287b8c4f1
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -38,7 +38,7 @@ data:
     node.config.locked 	= true
     node.security.strict 	= false
 
-    license.config.jwt_file 	= classpath:license.jwt
+    module.license.config.jwt_file 	= classpath:license.jwt
     module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
 
     ################################################################################
@@ -555,7 +555,7 @@ spec:
               secretProviderClass: release-name-scdr
           name: release-name-scdr
         - configMap:
-            name: release-name-scdr-masterdev-node-629a57cc6153f17780f1d5dd8b606337317f8575585936e788347d661aaea468
+            name: release-name-scdr-masterdev-node-52af34f86b582fa376d9140724db10e1a073585a44caa09565c2113287b8c4f1
           name: scdr-config-release-name
         - emptyDir:
             sizeLimit: 1Mi
