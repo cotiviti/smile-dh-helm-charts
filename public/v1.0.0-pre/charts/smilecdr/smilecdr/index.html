@@ -425,11 +425,11 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    Features
+  <a href="#feature-matrix" class="md-nav__link">
+    Feature Matrix
   </a>
   
-    <nav class="md-nav" aria-label="Features">
+    <nav class="md-nav" aria-label="Feature Matrix">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -469,13 +469,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#changelog" class="md-nav__link">
-    Changelog
-  </a>
   
 </li>
       
@@ -1311,11 +1304,11 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    Features
+  <a href="#feature-matrix" class="md-nav__link">
+    Feature Matrix
   </a>
   
-    <nav class="md-nav" aria-label="Features">
+    <nav class="md-nav" aria-label="Feature Matrix">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1358,13 +1351,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#changelog" class="md-nav__link">
-    Changelog
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1388,8 +1374,8 @@
 <p>It is provided by Smile Digital Health to help reduce the effort and complexity of installing Smile CDR
 on Kubernetes. It has been well tested on Amazon EKS and has growing compatibility for Azure
 AKS.</p>
-<h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
-<p>This chart supports a number of features to help you install Smile CDR in a secure, reliable,
+<h2 id="feature-matrix">Feature Matrix<a class="headerlink" href="#feature-matrix" title="Permanent link">&para;</a></h2>
+<p>The Smile CDR Helm Chart supports a number of features to help you install Smile CDR in a secure, reliable,
 cost effective and scalable manner with operational efficiency in mind.</p>
 <!-- Included features fall into the following categories:
 
@@ -1406,32 +1392,191 @@ cost effective and scalable manner with operational efficiency in mind.</p>
     * Features to help you operate effectively -->
 
 <h3 id="application-features">Application Features<a class="headerlink" href="#application-features" title="Permanent link">&para;</a></h3>
-<p>This chart supports the following Smile CDR features <em>"out-of-the-box"</em>:</p>
-<ul>
-<li>Supports official Smile CDR Docker images<ul>
-<li>Uses latest Smile CDR release, <code>2023.02.R03</code></li>
-<li>Limited support for <code>2022.11</code> and older. See <a href="../../../guide/smilecdr/cdrversions/">CDR Versions</a> section for more info</li>
-</ul>
-</li>
-<li><strong><em>*</em>Configuration-as-code</strong>* management of all module definitions &amp; settings</li>
-<li>Support for multiple databases (i.e. Separate DB for cluster manager, audit log and one or more persistence stores)</li>
-<li>Flexible JVM tuning with sane defaults</li>
-<li>Adding files to the Smile CDR pods. Eliminates need to build custom images or directly access the Pod to copy them in<ul>
-<li>Small non-binary files up to 1Mb each via <code>ConfigMap</code> resources (i.e. config files, scripts etc)</li>
-<li><strong><em>*</em>NEW</strong>* Large &amp; binary file loading support - This allows you to include resources such as <code>.jar</code> files and longer scripts etc into the Smile CDR pod. Currently supports AWS S3</li>
-</ul>
-</li>
-<li>Kafka configuration</li>
-<li>Coming soon...<ul>
-<li>Flexible CDR Node configurations (i.e. <a href="https://smilecdr.com/docs/clustering/designing_a_cluster.html#sample-architecture">Smile CDR Cluster Design Sample Architecture</a>)</li>
-<li>AWS IAM authentication for RDS databases</li>
-<li>File loading from sources other than S3</li>
-<li>MongoDB support</li>
-<li>User seeding</li>
-<li>OIDC seeding</li>
-</ul>
-</li>
-</ul>
+<p>This following table shows you the Smile CDR features that are currently supported by this Helm Chart <strong><em>"out-of-the-box"</em></strong>, which platform (AWS EKS / Azure AKS) they are supported on and the required Smile CDR and Helm Chart versions:</p>
+<table>
+<thead>
+<tr>
+<th>Smile CDR Feature</th>
+<th>EKS</th>
+<th>AKS</th>
+<th>Notes</th>
+<th>Smile CDR Version</th>
+<th>Helm Chart Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Install Smile CDR <code>2023.02</code></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span></td>
+<td>Smile CDR <code>2023.02</code> is the minimum supported version.<br><a href="../../../guide/smilecdr/install/">Helm Install Guide</a></td>
+<td><code>2023.02.R03</code></td>
+<td><code>v1.0.0-pre63</code></td>
+</tr>
+<tr>
+<td>Minor version upgrades</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span></td>
+<td>Upgrade by overriding image tag.<br><a href="https://smilecdr.com/docs/installation/upgrading.html#upgrading-an-existing-installation">Smile CDR Upgrades</a></td>
+<td><code>2023.02.R03</code></td>
+<td><code>v1.0.0-pre63</code></td>
+</tr>
+<tr>
+<td>Single <code>Node</code> clustering</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span></td>
+<td>Single Node here means single congfiguration. You can still run multiple instances/processes for performance and reliability.<br><a href="https://smilecdr.com/docs/clustering/designing_a_cluster.html">Smile CDR Clustering</a></td>
+<td><code>2023.02.R03</code></td>
+<td><code>v1.0.0-pre63</code></td>
+</tr>
+<tr>
+<td>Cluster Scaling</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span></td>
+<td>Horizontal Pod Autoscaling may be enabled. You need sufficient licenced core allocation if using autoscaling.<br><a href="https://smilecdr.com/docs/clustering/designing_a_cluster.html#adding-and-removing-processes">Smile CDR Scaling</a></td>
+<td><code>2023.02.R03</code></td>
+<td><code>v1.0.0-pre63</code></td>
+</tr>
+<tr>
+<td>Configuration of CDR Modules</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span></td>
+<td>All modules can be configured and updated with zero downtime.<br><a href="../../../guide/smilecdr/modules/">Module Configuration using Helm Chart</a></td>
+<td><code>2023.02.R03</code></td>
+<td><code>v1.0.0-pre63</code></td>
+</tr>
+<tr>
+<td>Postgres Database</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span></td>
+<td>Supports multiple databases. i.e. for Clustermgr, Persistence, Audit etc.<br><a href="../../../guide/smilecdr/database/">Database Configuration using Helm Chart</a></td>
+<td><code>2023.02.R03</code></td>
+<td><code>v1.0.0-pre63</code></td>
+</tr>
+<tr>
+<td>JVM Tuning</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span></td>
+<td><a href="../../../guide/smilecdr/resources/">Resource Tuning using Helm Chart</a></td>
+<td><code>2023.02.R03</code></td>
+<td><code>v1.0.0-pre63</code></td>
+</tr>
+<tr>
+<td>Kafka Message Broker</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span></td>
+<td><a href="../../../guide/smilecdr/messagebroker/">Message Broker Configuration using Helm Chart</a></td>
+<td><code>2023.02.R03</code></td>
+<td><code>v1.0.0-pre63</code></td>
+</tr>
+<tr>
+<td>Add files to <code>classpath</code> or <code>customerlib</code></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span></td>
+<td><a href="../../../guide/smilecdr/files/">Including Files using Helm Chart</a></td>
+<td><code>2023.02.R03</code></td>
+<td><code>v1.0.0-pre63</code></td>
+</tr>
+<tr>
+<td>HL7 v2.x with <code>HL7_OVER_HTTP</code></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span></td>
+<td><a href="../../../guide/smilecdr/hl7v2/">Configuring HL7 v2.x Endpoint using Helm Chart</a></td>
+<td><code>2023.02.R03</code></td>
+<td><code>v1.0.0-pre63</code></td>
+</tr>
+<tr>
+<td>License Module</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span></td>
+<td><a href="../../../guide/smilecdr/cdr-license/">Configuring License using Helm Chart</a></td>
+<td><code>2023.02.R03</code></td>
+<td><code>v1.0.0-pre63</code></td>
+</tr>
+</tbody>
+</table>
+<p>The following Smile CDR features are not currently supported:</p>
+<table>
+<thead>
+<tr>
+<th>Smile CDR Feature</th>
+<th>Notes</th>
+<th>GitLab Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Install Smile CDR <code>2022.11</code> and lower</td>
+<td>Fundamental container security changes were made in <code>2023.02.R01</code>, so this Helm Chart does not officially support lower versions. See <a href="../../../guide/smilecdr/cdrversions/">CDR Versions</a> section for more info</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>Zero Downtime Upgrades</td>
+<td>Support planned to be added. See Smile CDR Docs for info on Zero Downtime Upgrades <a href="https://smilecdr.com/docs/installation/upgrading.html#upgrading-a-cluster-of-servers-with-zero-downtime">here</a></td>
+<td><a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/17">GitLab Issue</a></td>
+</tr>
+<tr>
+<td>Flexible Multi-Node cluster configurations</td>
+<td>Support planned to be added. See Smile CDR Docs for info on Multi-Node clusters <a href="https://smilecdr.com/docs/clustering/designing_a_cluster.html#multi-node-clusters">here</a></td>
+<td><a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/1">GitLab Issue</a></td>
+</tr>
+<tr>
+<td>Pre-Seeding Users</td>
+<td><a href="https://smilecdr.com/docs/installation/pre_seeding.html#users">Smile CDR Docs</a></td>
+<td><a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/92">GitLab Issue</a></td>
+</tr>
+<tr>
+<td>Pre-Seeding OIDC Servers</td>
+<td><a href="https://smilecdr.com/docs/installation/pre_seeding.html#oidc-servers">Smile CDR Docs</a></td>
+<td><a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/92">GitLab Issue</a></td>
+</tr>
+<tr>
+<td>Pre-Seeding OIDC Clients</td>
+<td><a href="https://smilecdr.com/docs/installation/pre_seeding.html#oidc-clients">Smile CDR Docs</a></td>
+<td><a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/92">GitLab Issue</a></td>
+</tr>
+<tr>
+<td>Pre-Seeding OIDC Keystores</td>
+<td><a href="https://smilecdr.com/docs/installation/pre_seeding.html#keystores">Smile CDR Docs</a></td>
+<td><a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/92">GitLab Issue</a></td>
+</tr>
+<tr>
+<td>Pre-Seeding Packages</td>
+<td><a href="https://smilecdr.com/docs/installation/pre_seeding.html#packages">Smile CDR Docs</a></td>
+<td><a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/92">GitLab Issue</a></td>
+</tr>
+<tr>
+<td>Pre-Seeding FHIR Resources</td>
+<td><a href="https://smilecdr.com/docs/installation/pre_seeding.html#packages">Smile CDR Docs</a></td>
+<td><a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/92">GitLab Issue</a></td>
+</tr>
+<tr>
+<td>IAM Auth for RDS Databases</td>
+<td>Support for IAM database auth to be added</td>
+<td><a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/82">GitLab Issue</a></td>
+</tr>
+<tr>
+<td>MSSQL Databases</td>
+<td>Support for MS SQL databases to be added</td>
+<td><a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/93">GitLab Issue</a></td>
+</tr>
+<tr>
+<td>Oracle Databases</td>
+<td>Support for Oracle databases to be added</td>
+<td><a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/93">GitLab Issue</a></td>
+</tr>
+<tr>
+<td>MongoDB Databases</td>
+<td>Support for MongoDB databases to be added</td>
+<td><a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/91">GitLab Issue</a></td>
+</tr>
+<tr>
+<td>ActiveMQ Message Broker</td>
+<td>Support not currently planned</td>
+<td>NA</td>
+</tr>
+</tbody>
+</table>
 <h3 id="infrastructure-features">Infrastructure Features<a class="headerlink" href="#infrastructure-features" title="Permanent link">&para;</a></h3>
 <h4 id="app-networking">App Networking<a class="headerlink" href="#app-networking" title="Permanent link">&para;</a></h4>
 <ul>
@@ -1513,7 +1658,6 @@ As such, we have included the following features when running on Amazon EKS (Oth
 </ul>
 </li>
 </ul>
-<h2 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h2>
 
 
 
