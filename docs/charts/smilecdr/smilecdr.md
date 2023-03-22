@@ -6,8 +6,8 @@ It is provided by Smile Digital Health to help reduce the effort and complexity 
 on Kubernetes. It has been well tested on Amazon EKS and has growing compatibility for Azure
 AKS.
 
-## Features
-This chart supports a number of features to help you install Smile CDR in a secure, reliable,
+## Feature Matrix
+The Smile CDR Helm Chart supports a number of features to help you install Smile CDR in a secure, reliable,
 cost effective and scalable manner with operational efficiency in mind.
 
 <!-- Included features fall into the following categories:
@@ -25,25 +25,42 @@ cost effective and scalable manner with operational efficiency in mind.
     * Features to help you operate effectively -->
 
 ### Application Features
-This chart supports the following Smile CDR features *"out-of-the-box"*:
 
-* Supports official Smile CDR Docker images
-    * Uses latest Smile CDR release, `2023.02.R03`
-    * Limited support for `2022.11` and older. See [CDR Versions](../../guide/smilecdr/cdrversions.md) section for more info
-* *****Configuration-as-code*** management of all module definitions & settings
-* Support for multiple databases (i.e. Separate DB for cluster manager, audit log and one or more persistence stores)
-* Flexible JVM tuning with sane defaults
-* Adding files to the Smile CDR pods. Eliminates need to build custom images or directly access the Pod to copy them in
-    * Small non-binary files up to 1Mb each via `ConfigMap` resources (i.e. config files, scripts etc)
-    * *****NEW*** Large & binary file loading support - This allows you to include resources such as `.jar` files and longer scripts etc into the Smile CDR pod. Currently supports AWS S3
-* Kafka configuration
-* Coming soon...
-    * Flexible CDR Node configurations (i.e. [Smile CDR Cluster Design Sample Architecture](https://smilecdr.com/docs/clustering/designing_a_cluster.html#sample-architecture))
-    * AWS IAM authentication for RDS databases
-    * File loading from sources other than S3
-    * MongoDB support
-    * User seeding
-    * OIDC seeding
+This following table shows you the Smile CDR features that are currently supported by this Helm Chart ***"out-of-the-box"***, which platform (AWS EKS / Azure AKS) they are supported on and the required Smile CDR and Helm Chart versions:
+
+|Smile CDR Feature|EKS|AKS|Notes| Smile CDR Version |Helm Chart Version|
+|-----------------|---|-----|-----|-------------------|------------------|
+|Install Smile CDR `2023.02` |:material-check:|:material-close:|Smile CDR `2023.02` is the minimum supported version.<br>[Helm Install Guide](../../guide/smilecdr/install.md)|`2023.02.R03`|`v1.0.0-pre63`|
+|Minor version upgrades|:material-check:|:material-close:|Upgrade by overriding image tag.<br>[Smile CDR Upgrades](https://smilecdr.com/docs/installation/upgrading.html#upgrading-an-existing-installation)|`2023.02.R03`|`v1.0.0-pre63`|
+|Single `Node` clustering|:material-check:|:material-close:|Single Node here means single congfiguration. You can still run multiple instances/processes for performance and reliability.<br>[Smile CDR Clustering](https://smilecdr.com/docs/clustering/designing_a_cluster.html)|`2023.02.R03`|`v1.0.0-pre63`|
+|Cluster Scaling|:material-check:|:material-close:|Horizontal Pod Autoscaling may be enabled. You need sufficient licenced core allocation if using autoscaling.<br>[Smile CDR Scaling](https://smilecdr.com/docs/clustering/designing_a_cluster.html#adding-and-removing-processes)|`2023.02.R03`|`v1.0.0-pre63`|
+|Configuration of CDR Modules|:material-check:|:material-close:|All modules can be configured and updated with zero downtime.<br>[Module Configuration using Helm Chart](../../guide/smilecdr/modules.md)|`2023.02.R03`|`v1.0.0-pre63`|
+|Postgres Database|:material-check:|:material-close:|Supports multiple databases. i.e. for Clustermgr, Persistence, Audit etc.<br>[Database Configuration using Helm Chart](../../guide/smilecdr/database.md)|`2023.02.R03`|`v1.0.0-pre63`|
+|JVM Tuning|:material-check:|:material-close:|[Resource Tuning using Helm Chart](../../guide/smilecdr/resources.md)|`2023.02.R03`|`v1.0.0-pre63`|
+|Kafka Message Broker|:material-check:|:material-close:|[Message Broker Configuration using Helm Chart](../../guide/smilecdr/messagebroker.md)|`2023.02.R03`|`v1.0.0-pre63`|
+|Add files to `classpath` or `customerlib`|:material-check:|:material-close:|[Including Files using Helm Chart](../../guide/smilecdr/files.md)|`2023.02.R03`|`v1.0.0-pre63`|
+|HL7 v2.x with `HL7_OVER_HTTP`|:material-check:|:material-close:|[Configuring HL7 v2.x Endpoint using Helm Chart](../../guide/smilecdr/hl7v2.md)|`2023.02.R03`|`v1.0.0-pre63`|
+|License Module|:material-check:|:material-close:|[Configuring License using Helm Chart](../../guide/smilecdr/cdr-license.md)|`2023.02.R03`|`v1.0.0-pre63`|
+
+
+The following Smile CDR features are not currently supported:
+
+| Smile CDR Feature | Notes | GitLab Issue |
+|-------------------|-------|--------------|
+|Install Smile CDR `2022.11` and lower | Fundamental container security changes were made in `2023.02.R01`, so this Helm Chart does not officially support lower versions. See [CDR Versions](../../guide/smilecdr/cdrversions.md) section for more info|NA|
+|Zero Downtime Upgrades|Support planned to be added. See Smile CDR Docs for info on Zero Downtime Upgrades [here](https://smilecdr.com/docs/installation/upgrading.html#upgrading-a-cluster-of-servers-with-zero-downtime)|[GitLab Issue](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/17)|
+|Flexible Multi-Node cluster configurations|Support planned to be added. See Smile CDR Docs for info on Multi-Node clusters [here](https://smilecdr.com/docs/clustering/designing_a_cluster.html#multi-node-clusters)|[GitLab Issue](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/1)|
+|Pre-Seeding Users| [Smile CDR Docs](https://smilecdr.com/docs/installation/pre_seeding.html#users)|[GitLab Issue](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/92)|
+|Pre-Seeding OIDC Servers| [Smile CDR Docs](https://smilecdr.com/docs/installation/pre_seeding.html#oidc-servers)|[GitLab Issue](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/92)|
+|Pre-Seeding OIDC Clients| [Smile CDR Docs](https://smilecdr.com/docs/installation/pre_seeding.html#oidc-clients)|[GitLab Issue](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/92)|
+|Pre-Seeding OIDC Keystores| [Smile CDR Docs](https://smilecdr.com/docs/installation/pre_seeding.html#keystores)|[GitLab Issue](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/92)|
+|Pre-Seeding Packages| [Smile CDR Docs](https://smilecdr.com/docs/installation/pre_seeding.html#packages)|[GitLab Issue](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/92)|
+|Pre-Seeding FHIR Resources| [Smile CDR Docs](https://smilecdr.com/docs/installation/pre_seeding.html#packages)|[GitLab Issue](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/92)|
+|IAM Auth for RDS Databases| Support for IAM database auth to be added |[GitLab Issue](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/82)|
+|MSSQL Databases| Support for MS SQL databases to be added |[GitLab Issue](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/93)|
+|Oracle Databases| Support for Oracle databases to be added |[GitLab Issue](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/93)|
+|MongoDB Databases| Support for MongoDB databases to be added |[GitLab Issue](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/91)|
+|ActiveMQ Message Broker| Support not currently planned | NA |
 
 ### Infrastructure Features
 #### App Networking
@@ -110,5 +127,3 @@ As such, we have included the following features when running on Amazon EKS (Oth
 * Coming soon...
     * [Zero-downtime upgrades](https://smilecdr.com/docs/installation/upgrading.html#upgrading-a-cluster-of-servers-with-zero-downtime) with controllable manual/automatic schema upgrades
     * Management dashboard for consolidated logs and metrics gathering for all components in the deployment
-
-## Changelog
