@@ -1,3 +1,24 @@
+# [1.0.0-pre.62](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.61...v1.0.0-pre.62) (2023-03-22)
+
+
+### Bug Fixes
+
+* **smilecdr:** use correct labels for Kafka admin ([fce2935](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/fce2935fbd4237240a36ea67ae2d085fcf97d2fa))
+
+# [1.0.0-pre.61](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.60...v1.0.0-pre.61) (2023-03-15)
+
+
+### Features
+
+* **smilecdr:** add HL7v2 support ([05d5579](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/05d5579c1e61ad01a0edb549f53aad6119da6cf4))
+
+# [1.0.0-pre.60](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.59...v1.0.0-pre.60) (2023-03-08)
+
+
+### Features
+
+* **smilecdr:** update to latest Smile CDR version ([db1caae](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/db1caaede8a95a4e82f3e62d0ee24f55494b278f))
+
 # [1.0.0-pre.59](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.58...v1.0.0-pre.59) (2023-03-07)
 
 
