@@ -86,6 +86,19 @@ Use this for generating deprecation notices and other warnings about the configu
 */}}
 {{- define "chartWarnings" -}}
   {{- $warningMessage := "" -}}
+  {{- /* Check for using unsupported database propertysource mode */ -}}
+  {{- if ((include "smilecdr.nodeSettings" . | fromYaml).config).database -}}
+    {{- $warningMessage = printf "%s\n\nWARNING: `config.database` is enabled" $warningMessage -}}
+    {{- $warningMessage = printf "%s\n This mode is unsupported and not recommended for use when deploying using Helm" $warningMessage -}}
+    {{- $warningMessage = printf "%s\n Possible side effects that you may encounter with this mode enabled are:" $warningMessage -}}
+    {{- $warningMessage = printf "%s\n  * If modules are added or altered in the console, the environment will" $warningMessage -}}
+    {{- $warningMessage = printf "%s\n    be in a state of drift compared to the Helm Chart values." $warningMessage -}}
+    {{- $warningMessage = printf "%s\n  * It will not be possible to update certain module configurations that" $warningMessage -}}
+    {{- $warningMessage = printf "%s\n    affect the supporting infrastructure (i.e. context roots, ports, databases)" $warningMessage -}}
+    {{- $warningMessage = printf "%s\n  * In the event of drift occurring, reverting this mode to `disabled` may then " $warningMessage -}}
+    {{- $warningMessage = printf "%s\n    lead to unpredictable behaviour that could result in modules being " $warningMessage -}}
+    {{- $warningMessage = printf "%s\n    incorrectly configured, resulting to critical system faults." $warningMessage -}}
+  {{- end -}}
   {{- /* Check for using old image pull credentials */ -}}
   {{- if hasKey .Values.image "credentials" -}}
     {{- $warningMessage = printf "%s\n\nDEPRECATED: `image.credentials`" $warningMessage -}}

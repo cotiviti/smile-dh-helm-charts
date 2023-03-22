@@ -61,12 +61,12 @@ nav:
       - 'Configuration':
         - 'Database': guide/smilecdr/database.md
         - 'Ingress': guide/smilecdr/ingress.md
-        - 'Smile CDR Modules': guide/smilecdr/modules.md
+        - 'Modules': guide/smilecdr/modules.md
         - 'Including Extra Files': guide/smilecdr/files.md
-        - 'Smile CDR License': guide/smilecdr/cdr-license.md
+        - 'License Module': guide/smilecdr/cdr-license.md
         - 'Message Broker': guide/smilecdr/messagebroker.md
         - 'Resource Tuning': guide/smilecdr/resources.md
-        - 'Configuring HL7V2': guide/smilecdr/hl7v2.md
+        - 'HL7V2 Endpoint Module': guide/smilecdr/hl7v2.md
       - 'Applying Changes': guide/smilecdr/updating.md
   - Examples:
     - examples/index.md

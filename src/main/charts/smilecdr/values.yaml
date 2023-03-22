@@ -226,11 +226,25 @@ cdrNodes:
     logsDirSize: 10Gi
     config:
       locked: true
+      #
+      # troubleshooting:
       # This option lets you update configs in the console for troubleshooting/testing/experimenting.
       # Your changes will be lost if the pod restarts or if another pod joins the cluster.
       # It sets `config.Locked` to `false` and sets `node.propertysource` to `PROPERTIES_UNLOCKED`
       # See the [Smile CDR Docs](https://smilecdr.com/docs/installation/installing_smile_cdr.html#module-property-source) for more info
       troubleshooting: false
+      #
+      # database:
+      # This mode is unsupported and not recommended for use when deploying using Helm
+      # It will set the properties mode to `DATABASE`.
+      # If modules are added or altered in the console, the environment will be in a state of
+      # drift compared to the Helm Chart values.
+      # In this mode, it will not be possible to update certain module configurations that affect
+      # the supporting infrastructure (i.e. context roots, ports, databases)
+      # In the event of drift occurring, reverting this mode to `disabled` may then lead to unpredictable behaviour
+      # that could result in modules being incorrectly configured, resulting to critical system
+      # faults.
+      #database: false
     security:
       strict: false
 
