@@ -1,3 +1,28 @@
+{{/*
+Common labels for Kafka Admin pod
+*/}}
+{{- define "kafka.admin.labels" -}}
+helm.sh/chart: {{ include "smilecdr.chart" . }}
+{{ include "kafka.admin.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- if .Values.labels -}}
+{{ with .Values.labels }}
+{{ toYaml . }}
+{{- end }}
+{{- end -}}
+{{- end }}
+
+{{/*
+Selector labels for Kafka Admin pod
+*/}}
+{{- define "kafka.admin.selectorLabels" -}}
+app.kubernetes.io/name: {{ printf "%s-kafka-admin" (include "smilecdr.name" .)  }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
 {{- /*
 Define env vars that will be used for Kafka certificate
 passwords

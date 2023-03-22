@@ -17,6 +17,36 @@ spec:
       app.kubernetes.io/name: smilecdr
       app.kubernetes.io/instance: release-name
 ---
+# Source: smilecdr/templates/kafka/kafka-admin-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-kafka-admin
+  namespace: default
+  labels:
+    app.kubernetes.io/name: smilecdr-kafka-admin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2023.02.R03"
+    app.kubernetes.io/managed-by: Helm
+data:
+  client.properties.template: |-
+    # Kafka consumer properties auto generated from Helm Chart. Do not edit manually!
+
+    security.protocol=SSL
+    ssl.truststore.location=/home/smile/smilecdr/classes/client_certificates/kafka-ca-cert.p12
+    ssl.truststore.password=${KAFKA_BROKER_CA_CERT_PWD}
+    ssl.keystore.location=/home/smile/smilecdr/classes/client_certificates/kafka-client-cert.p12
+    ssl.keystore.password=${KAFKA_CLIENT_CERT_PWD}
+  entrypoint.sh: |-
+    #!/bin/sh
+    mkdir -p /opt/kafka/custom-config/
+    # This creates a config file for use by Kafka CLI commands
+    /usr/bin/envsubst < /tmp/templates/client.properties.template > /opt/kafka/custom-config/client.properties
+    # Modify the kafka-run-class to include the above config file and the bootstrap address from the environment.
+    # It seems there is no built-in way to auto configure these details in Kafka...
+    /bin/sed -i -E 's/(\$KAFKA_OPTS \"\$@\")$/\1 --command-config \/opt\/kafka\/custom-config\/client.properties --bootstrap-server \${KAFKA_BOOTSTRAP_ADDRESS}/g' /opt/kafka/bin/kafka-run-class.sh
+    sleep 360000
+---
 # Source: smilecdr/templates/kafka/kafka-properties-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -378,6 +408,103 @@ spec:
   selector:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
+---
+# Source: smilecdr/templates/kafka/kafka-admin-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-kafka-admin
+  namespace: default
+  labels:
+    app.kubernetes.io/name: smilecdr-kafka-admin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2023.02.R03"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: smilecdr-kafka-admin
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: smilecdr-kafka-admin
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/version: "2023.02.R03"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      imagePullSecrets:
+        []
+      serviceAccountName: default
+      securityContext:
+        {}
+      initContainers:
+        []
+      containers:
+        - name: kafka-admin
+          image: quay.io/strimzi/kafka:0.33.2-kafka-3.4.0
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 0
+          command:
+          - '/bin/sh'
+          - '/tmp/entrypoint.sh'
+          env:
+          - name: KAFKA_BOOTSTRAP_ADDRESS
+            value: test1-kafka-bootstrap:9093, test2-kafka-bootstrap:9093
+          - name: KAFKA_SSL_ENABLED
+            value: "true"
+          - name: KAFKA_BROKER_CA_CERT_PWD
+            valueFrom:
+              secretKeyRef:
+                key: ca.password
+                name: release-name-kafka-ca-cert
+          - name: KAFKA_CLIENT_CERT_PWD
+            valueFrom:
+              secretKeyRef:
+                key: user.password
+                name: release-name-kafka-user-cert
+          - name: CLASSPATH
+            value: /opt/kafka/classes/aws-msk-iam-auth-1.1.6-all.jar
+          volumeMounts:
+            - mountPath: /tmp/templates/client.properties.template
+              name: kafka-admin
+              subPath: client.properties.template
+            - mountPath: /tmp/entrypoint.sh
+              name: kafka-admin
+              subPath: entrypoint.sh
+            - mountPath: /home/smile/smilecdr/classes/client_certificates/kafka-ca-cert.p12
+              name: kafka-broker-ca-cert
+              readOnly: true
+              subPath: ca.p12
+            - mountPath: /home/smile/smilecdr/classes/client_certificates/kafka-client-cert.p12
+              name: kafka-client-cert
+              readOnly: true
+              subPath: user.p12
+            - mountPath: /opt/kafka/classes
+              name: admin-classpath
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+      volumes:
+        - configMap:
+            name: release-name-kafka-admin
+          name: kafka-admin
+        - name: kafka-broker-ca-cert
+          secret:
+            secretName: release-name-kafka-ca-cert
+        - name: kafka-client-cert
+          secret:
+            secretName: release-name-kafka-user-cert
+        - emptyDir:
+            sizeLimit: 20Mi
+          name: admin-classpath
+      restartPolicy: Always
 ---
 # Source: smilecdr/templates/scdr/scdr-deployment.yaml
 apiVersion: apps/v1
