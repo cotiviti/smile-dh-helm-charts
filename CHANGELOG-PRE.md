@@ -1,3 +1,10 @@
+# [1.0.0-pre.63](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.62...v1.0.0-pre.63) (2023-03-22)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix licence module settings ([ceab69d](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/ceab69d596e8986b7d74cc0cd821351ecb7c3c9f))
+
 # [1.0.0-pre.62](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.61...v1.0.0-pre.62) (2023-03-22)
 
 
