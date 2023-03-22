@@ -18,7 +18,10 @@ them all into a readable config file, complete with section headers.
   {{- $moduleText = printf "%s%s\n" $moduleText $separatorText -}}
   {{- $moduleText = printf "%snode.id \t= %s\n" $moduleText (include "smilecdr.nodeId" .) -}}
   {{- $nodeSettings := (include "smilecdr.nodeSettings" . | fromYaml) -}}
-  {{- if ((include "smilecdr.nodeSettings" . | fromYaml).config).troubleshooting -}}
+  {{- if ((include "smilecdr.nodeSettings" . | fromYaml).config).database -}}
+    {{- $moduleText = printf "%snode.propertysource \t= %s\n" $moduleText "DATABASE" -}}
+    {{- $moduleText = printf "%snode.config.locked \t= false\n" $moduleText -}}
+  {{- else if ((include "smilecdr.nodeSettings" . | fromYaml).config).troubleshooting -}}
     {{- $moduleText = printf "%snode.propertysource \t= %s\n" $moduleText "PROPERTIES_UNLOCKED" -}}
     {{- $moduleText = printf "%snode.config.locked \t= false\n" $moduleText -}}
   {{- else -}}

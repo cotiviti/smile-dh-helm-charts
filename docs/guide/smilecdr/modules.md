@@ -24,7 +24,7 @@ Mapping existing configurations to values files is relatively straight forwards:
 e.g. [Concurrent Bundle Validation](https://smilecdr.com/docs/configuration_categories/fhir_performance.html#property-concurrent-bundle-validation)
 Config.properties format:
 `module.persistence.config.dao_config.concurrent_bundle_validation = false`
-### Specify them in th values yaml file format:
+### Specify them in the values yaml file format:
 ```yaml
 modules:
   persistence:
@@ -152,3 +152,62 @@ When splitting your configuration into multiple `values` files, pass them in to 
 ```shell
 $ helm upgrade -i my-smile-env --devel -f my-values.yaml -f my-module-values.yaml smiledh/smilecdr
 ```
+
+## Experimental/Unsupported Features
+
+There are scenarios where you may wish to update Smile CDR module configurations directly in the Web console.
+
+* You need to do some realtime troubleshooting that requires live updates of module configuration
+* You are working in a *development* environment and you do not have a suitable code pipeline in place to enable fast iteration of changes
+
+In these cases, there are two settings that you can use to update configuration live in the Smile CDR Web Admin console.
+Using these settings will alter the values of `config.Locked` and `node.propertysource` in the resulting Smile CDR configuration.
+Refer to the [Smile CDR Docs](https://smilecdr.com/docs/installation/installing_smile_cdr.html#module-property-source) for more info on property sources.
+
+### Troubleshooting Mode
+
+You may enable troubleshooting mode for a given Smile CDR Node as follows:
+>**Note:** If you have defined a different configuration, please alter the code below accordingly.
+
+```yaml
+cdrNodes:
+  masterdev:
+    config:
+      troubleshooting: true
+```
+Enabling this option lets you update module configurations in the console for troubleshooting/testing/experimenting.
+
+* Your changes will be lost if the pod restarts or if another pod joins the cluster.
+* It sets `config.Locked` to `false` and sets `node.propertysource` to `PROPERTIES_UNLOCKED`
+
+### Database Mode
+
+The troubleshooting mode may not meet your requirements in some scenarios:
+
+* You need these changes to persist for a longer time period and your underlying compute resources could be interrupted. For example:
+    * You are using ephemeral compute resources such as AWS EC2 Spot instances which can go away with short notice.
+    * Your infrastructure needs to be scaled down when not actively working on it.
+* You wish to restart the Smile CDR pods while maintaining your manual configuration changes.
+* New Kubernetes Pods may come online (If you are testing HPA or HA, for example.)
+
+In these scenarios, it would be a more robust solution to regularly mirror your configuration changes to your Helm `values` file and reconcile.
+
+In the event that this is not possible, and your manually entered configurations must persist in the above scenarios, you may use the `database` mode as follows:
+>**Note:** If you have defined a different configuration, please alter the code below accordingly.
+
+```yaml
+cdrNodes:
+  masterdev:
+    config:
+      database: true
+```
+
+When enabling this mode, consider the following:
+
+* This is an ***experimental*** feature and is unsupported. Use at your own risk.
+* It sets `config.Locked` to `false` and sets `node.propertysource` to `DATABASE`
+* The Helm Chart will still create surrounding Kubernetes resources (Ingress, Service, Extra files, Mapped secrets etc) based on the contents of the Helm `values` file.
+* If you add a new module from the Smile CDR Web console and that module has an endpoint configuration, you will **not** be able to access it. No Ingress or Service objects will be created.
+* Any changes made in the Smile CDR Web console that do not match the Helm `values` settings will lead to configuration drift that may cause unpredictable behaviour.
+* In the event of such drift occurring, reverting this mode to `disabled` may then lead to unpredictable behaviour that could result in modules being incorrectly configured, resulting to critical system or data integrity faults.
+>***!!!DO NOT USE THIS EXPERIMENTAL UNSUPPORTED FEATURE IN NON-DEVELOPMENT ENVIRONMENTS!!!***

@@ -27,3 +27,7 @@ tests:
     outputFile: output-volumes-global.yaml
     valueFiles:
     - values-volumes-global.yaml
+  props-database:
+    outputFile: output-props-database.yaml
+    valueFiles:
+    - values-props-database.yaml
