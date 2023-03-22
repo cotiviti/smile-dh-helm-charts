@@ -5,7 +5,7 @@ metadata:
   name: {{ $.Release.Name }}-kafka-admin
   namespace: {{ $.Release.Namespace }}
   labels:
-    {{- include "smilecdr.labels" $ | nindent 4 }}
+    {{- include "kafka.admin.labels" $ | nindent 4 }}
   {{- if ($.Values.argocd).enabled }}
   annotations:
     argocd.argoproj.io/compare-options: IgnoreExtraneous
