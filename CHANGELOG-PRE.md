@@ -1,3 +1,10 @@
+# [1.0.0-pre.64](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.63...v1.0.0-pre.64) (2023-03-22)
+
+
+### Features
+
+* **smilecdr:** add database properties mode ([bb0b614](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/bb0b614c641c4f18b71a1f2dae7df17e799ea64b))
+
 # [1.0.0-pre.63](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.62...v1.0.0-pre.63) (2023-03-22)
 
 
