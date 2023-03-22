@@ -21,7 +21,7 @@
     
     
       
-        <title>Smile CDR Modules - Smile Digital Health Helm Charts</title>
+        <title>Modules - Smile Digital Health Helm Charts</title>
       
     
     
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Smile CDR Modules
+              Modules
             
           </span>
         </div>
@@ -882,12 +882,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Smile CDR Modules
+          Modules
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Smile CDR Modules
+        Modules
       </a>
       
         
@@ -921,8 +921,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#specify-them-in-th-values-yaml-file-format" class="md-nav__link">
-    Specify them in th values yaml file format:
+  <a href="#specify-them-in-the-values-yaml-file-format" class="md-nav__link">
+    Specify them in the values yaml file format:
   </a>
   
 </li>
@@ -966,6 +966,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#experimentalunsupported-features" class="md-nav__link">
+    Experimental/Unsupported Features
+  </a>
+  
+    <nav class="md-nav" aria-label="Experimental/Unsupported Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting-mode" class="md-nav__link">
+    Troubleshooting Mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database-mode" class="md-nav__link">
+    Database Mode
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -996,7 +1023,7 @@
   
     <li class="md-nav__item">
       <a href="../cdr-license/" class="md-nav__link">
-        Smile CDR License
+        License Module
       </a>
     </li>
   
@@ -1038,7 +1065,7 @@
   
     <li class="md-nav__item">
       <a href="../hl7v2/" class="md-nav__link">
-        Configuring HL7V2
+        HL7V2 Endpoint Module
       </a>
     </li>
   
@@ -1332,8 +1359,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#specify-them-in-th-values-yaml-file-format" class="md-nav__link">
-    Specify them in th values yaml file format:
+  <a href="#specify-them-in-the-values-yaml-file-format" class="md-nav__link">
+    Specify them in the values yaml file format:
   </a>
   
 </li>
@@ -1374,6 +1401,33 @@
   <a href="#install-smile-cdr-with-extra-modules-definition-files" class="md-nav__link">
     Install Smile CDR with extra modules definition files
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#experimentalunsupported-features" class="md-nav__link">
+    Experimental/Unsupported Features
+  </a>
+  
+    <nav class="md-nav" aria-label="Experimental/Unsupported Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting-mode" class="md-nav__link">
+    Troubleshooting Mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database-mode" class="md-nav__link">
+    Database Mode
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1418,7 +1472,7 @@ down in the Advanced Configuration section below.</p>
 <p>e.g. <a href="https://smilecdr.com/docs/configuration_categories/fhir_performance.html#property-concurrent-bundle-validation">Concurrent Bundle Validation</a>
 Config.properties format:
 <code>module.persistence.config.dao_config.concurrent_bundle_validation = false</code></p>
-<h3 id="specify-them-in-th-values-yaml-file-format">Specify them in th values yaml file format:<a class="headerlink" href="#specify-them-in-th-values-yaml-file-format" title="Permanent link">&para;</a></h3>
+<h3 id="specify-them-in-the-values-yaml-file-format">Specify them in the values yaml file format:<a class="headerlink" href="#specify-them-in-the-values-yaml-file-format" title="Permanent link">&para;</a></h3>
 <p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">modules</span><span class="p">:</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">persistence</span><span class="p">:</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">config</span><span class="p">:</span>
@@ -1535,6 +1589,63 @@ Alternatively, you may disable the included default modules as described above, 
 <p>When splitting your configuration into multiple <code>values</code> files, pass them in to your <code>helm upgrade</code> commandline like so:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>helm<span class="w"> </span>upgrade<span class="w"> </span>-i<span class="w"> </span>my-smile-env<span class="w"> </span>--devel<span class="w"> </span>-f<span class="w"> </span>my-values.yaml<span class="w"> </span>-f<span class="w"> </span>my-module-values.yaml<span class="w"> </span>smiledh/smilecdr
 </code></pre></div></p>
+<h2 id="experimentalunsupported-features">Experimental/Unsupported Features<a class="headerlink" href="#experimentalunsupported-features" title="Permanent link">&para;</a></h2>
+<p>There are scenarios where you may wish to update Smile CDR module configurations directly in the Web console.</p>
+<ul>
+<li>You need to do some realtime troubleshooting that requires live updates of module configuration</li>
+<li>You are working in a <em>development</em> environment and you do not have a suitable code pipeline in place to enable fast iteration of changes</li>
+</ul>
+<p>In these cases, there are two settings that you can use to update configuration live in the Smile CDR Web Admin console.
+Using these settings will alter the values of <code>config.Locked</code> and <code>node.propertysource</code> in the resulting Smile CDR configuration.
+Refer to the <a href="https://smilecdr.com/docs/installation/installing_smile_cdr.html#module-property-source">Smile CDR Docs</a> for more info on property sources.</p>
+<h3 id="troubleshooting-mode">Troubleshooting Mode<a class="headerlink" href="#troubleshooting-mode" title="Permanent link">&para;</a></h3>
+<p>You may enable troubleshooting mode for a given Smile CDR Node as follows:</p>
+<blockquote>
+<p><strong>Note:</strong> If you have defined a different configuration, please alter the code below accordingly.</p>
+</blockquote>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">cdrNodes</span><span class="p">:</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">masterdev</span><span class="p">:</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">      </span><span class="nt">troubleshooting</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+Enabling this option lets you update module configurations in the console for troubleshooting/testing/experimenting.</p>
+<ul>
+<li>Your changes will be lost if the pod restarts or if another pod joins the cluster.</li>
+<li>It sets <code>config.Locked</code> to <code>false</code> and sets <code>node.propertysource</code> to <code>PROPERTIES_UNLOCKED</code></li>
+</ul>
+<h3 id="database-mode">Database Mode<a class="headerlink" href="#database-mode" title="Permanent link">&para;</a></h3>
+<p>The troubleshooting mode may not meet your requirements in some scenarios:</p>
+<ul>
+<li>You need these changes to persist for a longer time period and your underlying compute resources could be interrupted. For example:<ul>
+<li>You are using ephemeral compute resources such as AWS EC2 Spot instances which can go away with short notice.</li>
+<li>Your infrastructure needs to be scaled down when not actively working on it.</li>
+</ul>
+</li>
+<li>You wish to restart the Smile CDR pods while maintaining your manual configuration changes.</li>
+<li>New Kubernetes Pods may come online (If you are testing HPA or HA, for example.)</li>
+</ul>
+<p>In these scenarios, it would be a more robust solution to regularly mirror your configuration changes to your Helm <code>values</code> file and reconcile.</p>
+<p>In the event that this is not possible, and your manually entered configurations must persist in the above scenarios, you may use the <code>database</code> mode as follows:</p>
+<blockquote>
+<p><strong>Note:</strong> If you have defined a different configuration, please alter the code below accordingly.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">cdrNodes</span><span class="p">:</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">masterdev</span><span class="p">:</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">      </span><span class="nt">database</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<p>When enabling this mode, consider the following:</p>
+<ul>
+<li>This is an <strong><em>experimental</em></strong> feature and is unsupported. Use at your own risk.</li>
+<li>It sets <code>config.Locked</code> to <code>false</code> and sets <code>node.propertysource</code> to <code>DATABASE</code></li>
+<li>The Helm Chart will still create surrounding Kubernetes resources (Ingress, Service, Extra files, Mapped secrets etc) based on the contents of the Helm <code>values</code> file.</li>
+<li>If you add a new module from the Smile CDR Web console and that module has an endpoint configuration, you will <strong>not</strong> be able to access it. No Ingress or Service objects will be created.</li>
+<li>Any changes made in the Smile CDR Web console that do not match the Helm <code>values</code> settings will lead to configuration drift that may cause unpredictable behaviour.</li>
+<li>In the event of such drift occurring, reverting this mode to <code>disabled</code> may then lead to unpredictable behaviour that could result in modules being incorrectly configured, resulting to critical system or data integrity faults.<blockquote>
+<p><strong><em>!!!DO NOT USE THIS EXPERIMENTAL UNSUPPORTED FEATURE IN NON-DEVELOPMENT ENVIRONMENTS!!!</em></strong></p>
+</blockquote>
+</li>
+</ul>
 
 
 
