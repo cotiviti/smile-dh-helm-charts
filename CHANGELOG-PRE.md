@@ -1,3 +1,10 @@
+# [1.0.0-pre.65](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.64...v1.0.0-pre.65) (2023-03-23)
+
+
+### Bug Fixes
+
+* **smilecdr:** add preStop delay ([2d31c8c](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/2d31c8c6603bdc23240d7851b7fd4a76f9e39db9))
+
 # [1.0.0-pre.64](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.63...v1.0.0-pre.64) (2023-03-22)
 
 
