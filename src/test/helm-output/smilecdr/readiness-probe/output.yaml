@@ -385,6 +385,7 @@ spec:
         {}
       initContainers:
         []
+      terminationGracePeriodSeconds: "60"
       containers:
         - name: smilecdr
           securityContext:
@@ -404,6 +405,10 @@ spec:
               port: 8000
             failureThreshold: 1
             periodSeconds: 10
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sleep", "30"]
           startupProbe:
             exec:
               command:
