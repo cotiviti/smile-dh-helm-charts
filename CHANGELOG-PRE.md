@@ -1,3 +1,10 @@
+# [1.0.0-pre.66](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.65...v1.0.0-pre.66) (2023-03-27)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix value for grace period ([54686f7](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/54686f7dfc6680b57748c57b6a94ae73ff31850c))
+
 # [1.0.0-pre.65](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.64...v1.0.0-pre.65) (2023-03-23)
 
 
