@@ -472,7 +472,7 @@ spec:
           volumeMounts:
           - mountPath: /tmp/smilecdr-volumes/customerlib/
             name: scdr-volume-customerlib
-      terminationGracePeriodSeconds: "60"
+      terminationGracePeriodSeconds: 60
       containers:
         - name: smilecdr
           securityContext:

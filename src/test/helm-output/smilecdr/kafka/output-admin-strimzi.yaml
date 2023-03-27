@@ -543,7 +543,7 @@ spec:
         {}
       initContainers:
         []
-      terminationGracePeriodSeconds: "60"
+      terminationGracePeriodSeconds: 60
       containers:
         - name: smilecdr
           securityContext:
