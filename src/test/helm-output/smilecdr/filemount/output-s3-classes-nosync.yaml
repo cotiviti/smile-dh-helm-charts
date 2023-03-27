@@ -411,7 +411,7 @@ spec:
           volumeMounts:
           - mountPath: /tmp/smilecdr-volumes/classes/
             name: scdr-volume-classes
-      terminationGracePeriodSeconds: "60"
+      terminationGracePeriodSeconds: 60
       containers:
         - name: smilecdr
           securityContext:
