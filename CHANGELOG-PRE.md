@@ -1,3 +1,10 @@
+# [1.0.0-pre.67](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.66...v1.0.0-pre.67) (2023-03-28)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix kafka configs with IAM auth ([170a14c](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/170a14c3c7cfb288f92edbcc35edca1366404191))
+
 # [1.0.0-pre.66](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.65...v1.0.0-pre.66) (2023-03-27)
 
 
