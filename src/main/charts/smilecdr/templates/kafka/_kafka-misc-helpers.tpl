@@ -295,6 +295,11 @@ Define Kafka producer properties file
     {{- range $k, $v := .Values.messageBroker.clientConfiguration.producerProperties -}}
       {{- $props = printf "%s\n%s=%d" $props $k (int $v) -}}
     {{- end -}}
+    {{- if eq $kafkaConfig.authentication.type "iam" -}}
+      {{- $props = printf "%s\n%s=%s" $props "sasl.mechanism" "AWS_MSK_IAM" -}}
+      {{- $props = printf "%s\n%s=%s" $props "sasl.jaas.config" "software.amazon.msk.auth.iam.IAMLoginModule required;" -}}
+      {{- $props = printf "%s\n%s=%s" $props "sasl.client.callback.handler.class" "software.amazon.msk.auth.iam.IAMClientCallbackHandler" -}}
+    {{- end -}}
   {{- end -}}
   {{- $props -}}
 {{- end -}}

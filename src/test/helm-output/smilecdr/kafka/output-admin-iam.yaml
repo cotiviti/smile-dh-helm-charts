@@ -50,7 +50,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-kafka-client-properties-masterdev-node-09ae19ab298f0bb03f532c604c5e725837d7fb44
+  name: release-name-kafka-client-properties-masterdev-node-5de6c5ffb3ecfc2e7684ae9e526ed39c72f62931
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -70,6 +70,10 @@ data:
     sasl.client.callback.handler.class=software.amazon.msk.auth.iam.IAMClientCallbackHandler
   producer.properties: |-
     # Kafka producer properties auto generated from Helm Chart. Do not edit manually!
+
+    sasl.mechanism=AWS_MSK_IAM
+    sasl.jaas.config=software.amazon.msk.auth.iam.IAMLoginModule required;
+    sasl.client.callback.handler.class=software.amazon.msk.auth.iam.IAMClientCallbackHandler
 ---
 # Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
@@ -712,7 +716,7 @@ spec:
             sizeLimit: 500Mi
           name: scdr-volume-customerlib
         - configMap:
-            name: release-name-kafka-client-properties-masterdev-node-09ae19ab298f0bb03f532c604c5e725837d7fb44
+            name: release-name-kafka-client-properties-masterdev-node-5de6c5ffb3ecfc2e7684ae9e526ed39c72f62931
           name: kafka-client-config
         - configMap:
             name: release-name-scdr-masterdev-node-1cd64bb85062fda1ae78d208557ae32f0bb323bef0d5a036fd6457b5a00d278b
