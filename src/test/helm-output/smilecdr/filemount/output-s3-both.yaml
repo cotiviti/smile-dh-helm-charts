@@ -493,6 +493,8 @@ spec:
           volumeMounts:
           - mountPath: /tmp/smilecdr-volumes/customerlib/
             name: scdr-volume-customerlib
+          - mountPath: /.aws
+            name: aws-cli
       terminationGracePeriodSeconds: 60
       containers:
         - name: smilecdr
