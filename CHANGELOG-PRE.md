@@ -1,3 +1,10 @@
+# [1.0.0-pre.69](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.68...v1.0.0-pre.69) (2023-04-05)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix s3 copy for customerlib ([66ea90a](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/66ea90a2c13efc909bf62354475783670bed77ec))
+
 # [1.0.0-pre.68](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.67...v1.0.0-pre.68) (2023-04-05)
 
 
