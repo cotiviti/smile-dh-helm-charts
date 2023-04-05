@@ -1,3 +1,10 @@
+# [1.0.0-pre.68](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.67...v1.0.0-pre.68) (2023-04-05)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix s3 copy with readonly rootfs ([f7a6a12](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/f7a6a12ab103e4b8cd82f94e5b393896134c14de))
+
 # [1.0.0-pre.67](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.66...v1.0.0-pre.67) (2023-03-28)
 
 
