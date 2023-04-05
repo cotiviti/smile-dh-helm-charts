@@ -154,7 +154,7 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- $_ := set $imageSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/classes/" "--recursive" )  -}}
         {{- $_ := set $imageSpec "securityContext" $.Values.securityContext -}}
         {{- $_ := set $imageSpec "resources" $initContainerResources -}}
-        {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
+        {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/") (dict "name" "aws-cli" "mountPath" "/.aws")) -}}
         {{- $initPullContainers = append $initPullContainers $imageSpec -}}
       {{- else if eq $v.type "curl" -}}
         {{- $url := required "You must specify a URL to copy classes files from." $v.url -}}

@@ -134,6 +134,29 @@ To pass in files from an Amazon S3 bucket, you need the following prerequisites 
 * Service Account must be enabled and configured to use IRSA. See [here](../serviceaccount.md) for more info on this
 * The IAM Role used for the Service Account must have read access to the S3 bucket
 
+??? note "Required IAM policy actions for S3 copyFile configurations"
+
+
+    ```
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "ListObjectsInBucket",
+                "Effect": "Allow",
+                "Action": ["s3:ListBucket"],
+                "Resource": ["arn:aws:s3:::bucket-name"]
+            },
+            {
+                "Sid": "AllObjectActions",
+                "Effect": "Allow",
+                "Action": ["s3:GetObject"], ## or s3:GetObjectVersion
+                "Resource": ["arn:aws:s3:::bucket-name/*"]
+            }
+        ]
+    }
+    ```
+
 ### A Note On File Versioning
 Though not required, it is reccommended to include some versioning structure in your S3 bucket.
 
