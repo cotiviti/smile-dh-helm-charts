@@ -549,6 +549,9 @@ spec:
         - emptyDir:
             sizeLimit: 10Mi
           name: scdr-volume-amq
+        - emptyDir:
+            sizeLimit: 1Mi
+          name: aws-cli
       restartPolicy: Always
 ---
 # Source: smilecdr/templates/scdr/scdr-ingress.yaml

@@ -30,6 +30,21 @@ Define volumes and volume mounts based on combining:
       {{- $_ := set $amqVolume "emptyDir" (dict "sizeLimit" "10Mi") -}}
       {{- $volumes = append $volumes $amqVolume -}}
     {{- end -}}
+    {{- $fileSources := (include "smilecdr.classes.sources" . | fromYamlArray ) -}}
+    {{- $fileSources = concat $fileSources (include "smilecdr.customerlib.sources" . | fromYamlArray ) -}}
+    {{- if gt (len $fileSources) 0 -}}
+      {{- $hasS3Sources := false -}}
+      {{- range $v := $fileSources -}}
+        {{- if eq $v.type "s3" -}}
+          {{- $hasS3Sources = true -}}
+        {{- end -}}
+      {{- end -}}
+      {{- if $hasS3Sources -}}
+        {{- $awsCliVolume := dict "name" "aws-cli" -}}
+        {{- $_ := set $awsCliVolume "emptyDir" (dict "sizeLimit" "1Mi") -}}
+        {{- $volumes = append $volumes $awsCliVolume -}}
+      {{- end -}}
+    {{- end -}}
   {{- end -}}
   {{- /* Include global extra volumes */ -}}
   {{- with .Values.extraVolumes -}}

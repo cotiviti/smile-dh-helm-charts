@@ -9,9 +9,9 @@ copyFiles:
   classes:
     #syncDefaults: false
     sources:
-    - type: s3
-      bucket: s3-bucket-name
-      path: /path-to/classes
+    - type: curl
+      fileName: file.jar
+      url: https://source.example.com/file.jar
 
 database:
   crunchypgo:

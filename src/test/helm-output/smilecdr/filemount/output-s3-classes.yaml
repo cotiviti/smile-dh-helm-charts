@@ -437,6 +437,8 @@ spec:
           volumeMounts:
           - mountPath: /tmp/smilecdr-volumes/classes/
             name: scdr-volume-classes
+          - mountPath: /.aws
+            name: aws-cli
       terminationGracePeriodSeconds: 60
       containers:
         - name: smilecdr
@@ -549,6 +551,9 @@ spec:
         - emptyDir:
             sizeLimit: 10Mi
           name: scdr-volume-amq
+        - emptyDir:
+            sizeLimit: 1Mi
+          name: aws-cli
       restartPolicy: Always
 ---
 # Source: smilecdr/templates/scdr/scdr-ingress.yaml
