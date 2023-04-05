@@ -198,7 +198,7 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- $_ := set $imageSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/customerlib/" "--recursive" )  -}}
         {{- $_ := set $imageSpec "securityContext" $.Values.securityContext -}}
         {{- $_ := set $imageSpec "resources" $initContainerResources -}}
-        {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/")) -}}
+        {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/") (dict "name" "aws-cli" "mountPath" "/.aws")) -}}
         {{- $initPullContainers = append $initPullContainers $imageSpec -}}
       {{- else if eq .type "curl" -}}
         {{- $url := required "You must specify a URL to copy customerlib files from." $v.url -}}

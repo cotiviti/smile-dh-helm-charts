@@ -148,7 +148,7 @@ To pass in files from an Amazon S3 bucket, you need the following prerequisites 
                 "Resource": ["arn:aws:s3:::bucket-name"]
             },
             {
-                "Sid": "AllObjectActions",
+                "Sid": "GetObjectActions",
                 "Effect": "Allow",
                 "Action": ["s3:GetObject"], ## or s3:GetObjectVersion
                 "Resource": ["arn:aws:s3:::bucket-name/*"]
