@@ -1,0 +1,1703 @@
+{
+    "helpticket": [
+        {
+            "id": 1,
+            "title": "Change my email",
+            "body": "In order to change your email please submit a ticket. Our support team will approve the request and make the desired changes.",
+            "status": "published",
+            "position": 0
+        },
+        {
+            "id": 3,
+            "title": "Help with a claim",
+            "body": "Our customer support team can help you with a claim. Please specify the claim id and the problem when submitting a ticket.",
+            "status": "published",
+            "position": 1
+        },
+        {
+            "id": 2,
+            "title": "Change my demographics",
+            "body": "Our customer support team can help you change your demographics. Please specify the desired changes when submitting a ticket.",
+            "status": "published",
+            "position": 2
+        },
+        {
+            "id": 18,
+            "title": "RX Vacation Request Form",
+            "body": "Our customer support team can help you with your Vacation Prescription Request. Please complete and upload the form when submitting your ticket.",
+            "status": "draft",
+            "position": 4
+        },
+        {
+            "id": 19,
+            "title": "HIPAA Authorized Representative",
+            "body": "Our customer support team can help you update your HIPAA authorized representatives. Please complete and upload the form when submitting your ticket.",
+            "status": "draft",
+            "position": 5
+        },
+        {
+            "id": 20,
+            "title": "Other insurance company information",
+            "body": "Our customer support team can help update your policy if you have another insurance carrier. Please complete and upload the form, including a copy of the front and back of the other insurance company’s ID card when submitting your ticket.",
+            "status": "draft",
+            "position": 6
+        },
+        {
+            "id": 21,
+            "title": "Order Member ID Card",
+            "body": "Our customer support team can help you order new member ID card.",
+            "status": "draft",
+            "position": 7
+        }
+    ],
+    "partners": [
+        {
+            "id": 4,
+            "status": "published",
+            "name": "Optum Live and Work Well",
+            "description": "Optum® is a recognized leader specializing in provider behavioral health care and substance use disorder services and provides our mental health and substance use benefits. With Optum®, members have access to over 203,000 in-network clinicians and 3,000 in-network facilities in more than 6,300 locations nationwide. These In-Network providers are easy to locate 24 hours-a-day, 7 days-a-week by either using our online provider locator or by calling Optum’s toll free number at 877-468-1016.",
+            "url": "https://nalchbp2.b2clogin.com/nalchbp2.onmicrosoft.com/B2C_1A_signup_signin_saml_optum/generic/login?EntityID=uhg.stage.lww&RelayState=https://sr-smsc-stg.liveandworkwell.com/services/pfsso",
+            "url_name": "View Mental Health Claims"
+        },
+        {
+            "id": 2,
+            "status": "published",
+            "name": "CVS CareMark",
+            "description": "Our pharmacy benefit manager, CVS Caremark®, is a leader in the healthcare industry. The NALC CareSelect Network is a large nationwide network that offers more than 68,000 retail pharmacies. The NALC CareSelect Network includes most large retail chain drug stores. Through the CVS website, you can locate a network pharmacy, reorder prescription medication, and access the prescription drug cost calculator.",
+            "samlendpoint": "https://www.caremark.com/",
+            "url": "https://nalchbp2.b2clogin.com/nalchbp2.onmicrosoft.com/B2C_1A_signup_signin_saml_cvs/generic/login?EntityID=SP_CVS_SmileCDR",
+            "url_name": "View Pharmacy Claims"
+        },
+        {
+            "id": 3,
+            "status": "published",
+            "name": "AmWell",
+            "description": "NALCHBP Telehealth makes it easy to virtually connect to physicians using the AmWell network of providers. All physicians are U.S. trained and board certified and available to help with your urgent care needs 24-hours a day, 7-days a week.",
+            "url": "https://nalchbp2.b2clogin.com/nalchbp2.onmicrosoft.com/B2C_1A_signup_signin_saml_amwell/generic/login",
+            "url_name": "Access Telehealth Services"
+        },
+        {
+            "id": 1,
+            "status": "published",
+            "name": "Cigna",
+            "description": "The Cigna HealthCare Shared Administration OAP network for the NALC Health Benefit Plan has over 23,000 participating facilities, 3.4 million family doctors and specialists, 9,435 general acute care hospitals and 170 transplant facilities. This network is accredited by the National Committee of Quality Assurance (NCQA) assuring you a choice of quality health care providers who meet all of Cigna’s rigorous credentialing standards. Choosing to use providers in the network means lower out of pocket costs for you and your family. Cigna also provides many important wellness programs for our members such as Healthy Rewards, Healthy Pregnancies, Healthy Babies, a 24-hour Health Information Line, and a disease management program. The CDHP and Value Option Plans are administered by Cigna Healthcare.",
+            "url": "https://nalchbp2.b2clogin.com/nalchbp2.onmicrosoft.com/B2C_1A_signup_signin_saml_cigna/generic/login",
+            "url_name": "View Provider Directory"
+        }
+    ],
+    "phonenumbers": [
+        {
+            "id": 1,
+            "name": "Health Benefit Plan:",
+            "contactcard": 1,
+            "phonenumber": "1-703-729-4677"
+        },
+        {
+            "id": 2,
+            "name": "Customer Service:",
+            "contactcard": 1,
+            "phonenumber": "1-888-636-6252"
+        },
+        {
+            "id": 3,
+            "name": "Durable Medical Equipment:",
+            "contactcard": 1,
+            "phonenumber": "1-888-636-6252"
+        },
+        {
+            "id": 4,
+            "name": "Fraud Hot Line:",
+            "contactcard": 1,
+            "phonenumber": "1-888-636-6252"
+        },
+        {
+            "id": 5,
+            "name": "Smoking Cessation Program:",
+            "contactcard": null,
+            "phonenumber": "1-866-784-8454"
+        },
+        {
+            "id": 6,
+            "name": null,
+            "contactcard": null,
+            "phonenumber": "1800-0293-101241"
+        }
+    ],
+    "admintabs": [
+        {
+            "id": 1,
+            "status": "published",
+            "columns": [
+                {
+                    "id": "1",
+                    "displaycolumn": "memberId",
+                    "display": "Member #",
+                    "datatype": "string"
+                },
+                {
+                    "id": "2",
+                    "displaycolumn": "lastLogin",
+                    "display": "Last Login",
+                    "datatype": "date"
+                },
+                {
+                    "id": "3",
+                    "displaycolumn": "fullName",
+                    "display": "Full Name",
+                    "datatype": "string"
+                },
+                {
+                    "id": "5",
+                    "displaycolumn": "email",
+                    "display": "Email",
+                    "datatype": "string"
+                },
+                {
+                    "id": "6",
+                    "displaycolumn": "dob",
+                    "display": "Date of Birth",
+                    "datatype": "date"
+                },
+                {
+                    "id": "7",
+                    "displaycolumn": "status",
+                    "display": "Status",
+                    "datatype": "string"
+                },
+                {
+                    "id": "8",
+                    "displaycolumn": "menu",
+                    "datatype": "string",
+                    "display": "Menu"
+                }
+            ],
+            "show": true,
+            "type": "Members",
+            "menuitems": [
+                {
+                    "id": "1",
+                    "label": "View as Member"
+                }
+            ],
+            "sort": 1
+        },
+        {
+            "id": 2,
+            "status": "published",
+            "columns": [
+                {
+                    "id": "1",
+                    "displaycolumn": "fullName",
+                    "display": "Full Name",
+                    "datatype": "string"
+                },
+                {
+                    "id": "2",
+                    "displaycolumn": "email",
+                    "display": "Email",
+                    "datatype": "string"
+                },
+                {
+                    "id": "3",
+                    "displaycolumn": "dob",
+                    "display": "Date of Birth",
+                    "datatype": "date"
+                },
+                {
+                    "id": "4",
+                    "displaycolumn": "role",
+                    "display": "Role",
+                    "datatype": "string"
+                }
+            ],
+            "show": true,
+            "type": "Administrators",
+            "menuitems": null,
+            "sort": 2
+        },
+        {
+            "id": 3,
+            "status": "published",
+            "columns": [
+                {
+                    "id": 1,
+                    "displaycolumn": "creationDate",
+                    "display": "Creatio Date",
+                    "datatype": "string"
+                },
+                {
+                    "id": 2,
+                    "displaycolumn": "memberName",
+                    "display": "MemberName",
+                    "datatype": "string"
+                },
+                {
+                    "id": 3,
+                    "displaycolumn": "taskId",
+                    "display": "Task ID",
+                    "datatype": "string"
+                },
+                {
+                    "id": 4,
+                    "displaycolumn": "taskType",
+                    "display": "Task Type",
+                    "datatype": "string"
+                },
+                {
+                    "id": 5,
+                    "displaycolumn": "lastUpdated",
+                    "display": "Last Updated",
+                    "datatype": "string"
+                },
+                {
+                    "id": 6,
+                    "displaycolumn": "status",
+                    "display": "Status",
+                    "datatype": "string"
+                }
+            ],
+            "show": true,
+            "type": "Data Transfer",
+            "menuitems": null,
+            "sort": 3
+        }
+    ],
+    "datatransferattestation": [
+        {
+            "id": 1,
+            "legal_attestation": "<p dir=\"auto\" data-sourcepos=\"19:1-19:347\">To assume that individuals are properly informed of their rights and risks in connection with the disclosure of their personal health information, this Attestation meets the standards described by the United States Centers for Medicare &amp; Medicaid Services (CMS) Interoperability and Patient Access final rule (<a class=\"gfm gfm-issue has-tooltip\" title=\"Issue in Jira\" href=\"https://simpaticois.atlassian.net/browse/CMS-9115?atlOrigin=eyJpIjoiY2QyZTJiZDRkNGZhNGZlMWI3NzRkNTBmZmVlNzNiZTkiLCJwIjoianN3LWdpdGxhYi1pbnQifQ\" data-project=\"29100219\" data-external-issue=\"CMS-9115\" data-reference-type=\"external_issue\" data-container=\"body\" data-placement=\"top\">CMS-9115</a>-F) in the Federal Register.</p>\n<p dir=\"auto\" data-sourcepos=\"21:1-21:253\">To ensure appropriate access to personal health information, <strong><em>The customer</em></strong>&nbsp;is requesting that all Health Data Transfer Users attest to the statements below (hereinafter referred to as the &ldquo;Attestation&rdquo;) with respect to the use of this feature.</p>\n<p dir=\"auto\" data-sourcepos=\"23:1-23:331\">The purpose of the Attestation is to protect the privacy and security of health plan members&rsquo; (hereinafter referred to as &ldquo;Members\") personal health information and ensure that Health Data Transfer uses Patients&rsquo; personal health information (PHI) responsibly if granted access to the Patient Access API provided by Smile CDR.</p>\n<p dir=\"auto\" data-sourcepos=\"25:1-25:280\">By attesting to the Attestation, the Member acknowledges that the Attestation is legally binding, and non-compliance may incur action from the Federal Trade Commission (FTC) or other government agencies to enforce these commitments and the rights of Patients in the United States.</p>\n<p dir=\"auto\" data-sourcepos=\"27:1-28:64\">The Attestation will pass to the benefit of and be binding upon the respective heirs, executors, administrators, successors, and permitted assigns of the Member.</p>\n<p dir=\"auto\" data-sourcepos=\"30:1-30:11\">Attestation</p>\n<p dir=\"auto\" data-sourcepos=\"32:1-32:62\">I attest to the following statements as applicable to the App:</p>\n<ol dir=\"auto\" data-sourcepos=\"34:1-37:12\">\n<li data-sourcepos=\"34:1-34:102\">I authorize&nbsp;access and transfer my Personal Health Information on my behalf.</li>\n<li data-sourcepos=\"35:1-35:100\">I understand the purpose for disclosing this personal health information to the customer.</li>\n<li data-sourcepos=\"36:1-37:12\">I have read and agreed to the affirmatively shared privacy policy that includes and describes, at a minimum, the following important information:</li>\n</ol>\n<ul dir=\"auto\" data-sourcepos=\"38:1-46:0\">\n<li data-sourcepos=\"38:1-40:31\">How a Member's health information may be accessed, exchanged, or used by any person or other entity, including whether the Patient's health information may be shared or sold at any time (including in the future);</li>\n<li data-sourcepos=\"41:1-44:83\">A requirement for express consent from a Member before the Patient's health information is accessed, exchanged, or used, including receiving express consent before a Patient's health information is shared or sold (other than disclosures required by law or disclosures necessary in connection with the sale of the application or a similar transaction);</li>\n<li data-sourcepos=\"45:1-46:0\">How a Member can revoke consent for access to their data.</li>\n</ul>\n<p dir=\"auto\" data-sourcepos=\"47:1-48:68\">The term &ldquo;affirmatively shared&rsquo; is defined as a Patient who has taken action to indicate they saw the App&rsquo;s privacy policy, such as a click or checked one more box.</p>\n<p dir=\"auto\" data-sourcepos=\"50:1-50:56\">| have read and affirmatively attest to the Attestation.</p>"
+        }
+    ],
+    "modules": [
+        {
+            "id": 1,
+            "show": true,
+            "position": 1,
+            "status": "published",
+            "modulename": "claims",
+            "submodules": {
+                "admin": true,
+                "staff": true,
+                "everyone": true
+            },
+            "emails": null
+        },
+        {
+            "id": 2,
+            "show": true,
+            "position": 2,
+            "status": "published",
+            "modulename": "labs",
+            "submodules": null,
+            "emails": null
+        },
+        {
+            "id": 4,
+            "show": true,
+            "position": 0,
+            "status": "published",
+            "modulename": "dashboard",
+            "submodules": {
+                "myBenefits": true,
+                "usageYearToDate": true,
+                "overview": true,
+                "ourPartners": false,
+                "contactUs": true
+            },
+            "emails": null
+        },
+        {
+            "id": 5,
+            "show": true,
+            "position": 3,
+            "status": "published",
+            "modulename": "health-notes",
+            "submodules": null,
+            "emails": null
+        },
+        {
+            "id": 6,
+            "show": false,
+            "position": 4,
+            "status": "published",
+            "modulename": "medications",
+            "submodules": null,
+            "emails": null
+        },
+        {
+            "id": 7,
+            "show": true,
+            "position": 5,
+            "status": "published",
+            "modulename": "providers",
+            "submodules": {
+                "0": {
+                    "name": "providers",
+                    "translation_name": "PROVIDERS.PROVIDERS"
+                },
+                "1": {
+                    "name": "specialties",
+                    "translation_name": "PROVIDERS.SPECIALTIES"
+                }
+            },
+            "emails": null
+        },
+        {
+            "id": 9,
+            "show": true,
+            "position": 7,
+            "status": "published",
+            "modulename": "help",
+            "submodules": null,
+            "emails": [
+                {
+                    "email": "brucewaynetest123+John2021@gmail.com"
+                },
+                {
+                    "email": "brucewaynetest123+brianna02@gmail.com"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "show": true,
+            "position": 6,
+            "status": "published",
+            "modulename": "health-plan-data-transfer",
+            "submodules": null,
+            "emails": null
+        }
+    ],
+    "translate_en": [
+        {
+            "id": 1,
+            "translate_json": {
+                "SYMBOLS": {
+                    "DASH": "----",
+                    "DATE_DASH": "--/--/----"
+                },
+                "AUTH": {
+                    "SMILE": "Member Access Portal",
+                    "MEMBER_ACCESS_PORTAL": "",
+                    "TAG_LINE": "",
+                    "SYNOPSIS": "This portal is compliant with the Health Insurance Portability and Accountability Act (HIPAA) and ensures the privacy and security of your information.",
+                    "LOGIN": "Enter",
+                    "ADMIN_LOGIN": "Admin Login",
+                    "TERMS": "Terms of Service",
+                    "PRIVACY": "Privacy Policy",
+                    "UPDATE_EMAIL": "Update Email:",
+                    "UPDATE_PASSWORD": "Update Password:",
+                    "OLD_PASSWORD": "Old Password:",
+                    "NEW_PASSWORD": "New Password:",
+                    "CONFIRM_PASSWORD": "Confirm Password:",
+                    "MEMBER": "Member:",
+                    "STAFF": "Staff:",
+                    "TERMS_AND_PRIVACY": {
+                        "BACK": "Back",
+                        "STAFF": "Staff",
+                        "MEMBER": "Member",
+                        "SELECT": "Select:",
+                        "UPDATED": "Updated ",
+                        "TERMS": "Terms of Service for ",
+                        "PRIVACY": "Privacy Policy for "
+                    },
+                    "VERSION": "Version "
+                },
+                "ADMIN": {
+                    "MEMBER_ACCESS_PORTAL": "Admin Panel Member Portal",
+                    "SYNOPSIS": "In this portal, as an admin, you can manage your members and provide customer support.",
+                    "SHOW": "Show",
+                    "ENTRIES": "entries",
+                    "LOOK_UP_MEMBER": {
+                        "MEMBERS": "Members",
+                        "ADMINISTRATORS": "Administrators",
+                        "DATA_TRANSFER": "Data Transfer",
+                        "PERSONAL_REPRESENTATIVES": "Personal Representatives",
+                        "PR_SEARCH": "PR Search",
+                        "MEMBER_SEARCH": "Member Search",
+                        "VIEW_AS_MEMBER": "View as Member",
+                        "VIEW_AS_PR": "View as PR",
+                        "EDIT_ACCOUNT_STATUS": "Edit Account Status",
+                        "VIEW_MEMBER_SETTINGS": "View Member Settings",
+                        "VIEW_MEMBER_INBOX": "View Member Inbox",
+                        "AZURE_ICON": "Azure active directory icon",
+                        "AZURE_AD": "Azure AD",
+                        "MEMBER_FILTER_FORM": {
+                            "FIRST_NAME": "First Name",
+                            "FIRST_NAME_PLACEHOLDER": "ex. Thomas (#&\" not allowed)",
+                            "LAST_NAME": "Last Name",
+                            "LAST_NAME_PLACEHOLDER": "ex. Lee (#&\" not allowed)",
+                            "MEMBER_ID": "Member ID",
+                            "MEMBER_ID_PLACEHOLDER": "ex. 123232 (#&\" not allowed)",
+                            "PERSONAL_REPRESENTATIVE_ID": "Personal Rep ID",
+                            "PERSONAL_REPRESENTATIVE_ID_PLACEHOLDER": "ex. 123232 (#&\" not allowed)",
+                            "SEARCH": "Search",
+                            "CLEAR": "Clear",
+                            "ERROR": "You must enter a valid search parameter (#&\" not allowed)."
+                        },
+                        "MEMBER_RESULT_TABLE": {
+                            "MEMBER_ID": "Member ID",
+                            "PR_ID": "PR ID #",
+                            "FULL_NAME": "Full Name",
+                            "USER_NAME": "User Name",
+                            "EMAIL": "Email",
+                            "DOB": "Date of Birth",
+                            "ROLE": "Role",
+                            "LAST_LOGIN": "Last Login",
+                            "STATUS": "Status",
+                            "PREVIOUS": "Previous",
+                            "NEXT": "Next",
+                            "SHOWING_RESULTS_STRING": "Showing {{ min }} to {{ max }} of {{ total }} entries",
+                            "NO_RESULT": "Begin search to display results.",
+                            "NO_RESULT_ERROR": "No results found"
+                        },
+                        "MEMBER_RESULT_MENU_ACTIONS": {
+                            "VIEW_AS_A_MEMBER": "View as a Member",
+                            "VIEW_AS_A_PERSONAL_REP": "View as a Personal Rep",
+                            "VIEW_CONSENT_RECORDS": "View Consent Records"
+                        },
+                        "REGISTERED": "Registered",
+                        "NOT_REGISTERED": "Not Registered",
+                        "SUSPENDED": "Supspended",
+                        "LOCKED": "Locked",
+                        "NO_PATIENT_RECORD": "No Patient Record",
+                        "UNDEFINED": "Undefined"
+                    },
+                    "MEMBER_INFO": {
+                        "MEMBER_INFO": "Member Info",
+                        "FIRST_LAST_NAME": "Name",
+                        "MEMBER_ID": "Member ID",
+                        "EMAIL": "Email Address",
+                        "DOB": "Date of Birth"
+                    },
+                    "CREATE_CONSENT": "Create Consent Record",
+                    "VIEW_CONSENTS": "Consent Records",
+                    "CREATE_CONSENTS": "Create Consent Records",
+                    "VIEW_CONSENTS_FOR_MEMBER": "Consent records for ",
+                    "NOTIFICATIONS": "Notifications",
+                    "NOTIFICATION_SUCCESS": "Notification sent Successfully",
+                    "MANAGE_NOTIFICATIONS": "Manage Notifications",
+                    "MANAGE_TICKETS": "Manage Tickets",
+                    "NOTIFICATION_TITLE": "Notification Title:",
+                    "NOTIFICATION_MESSAGE": "Enter your message here:",
+                    "NOTIFICATION_LINK": "Link (optional):",
+                    "SEND": "Send",
+                    "CONSENT": {
+                        "CONSENTS_RESULT_TABLE": {
+                            "ID": "Consent ID",
+                            "FULL_NAME": "Name",
+                            "RELATIONSHIP": "Relationship",
+                            "START_DATE": "Start Date",
+                            "END_DATE": "End Date",
+                            "DOB": "Date of Birth",
+                            "STATUS": "Status",
+                            "PHONE_NUMBER": "Phone Number",
+                            "SHOWING_RESULTS_STRING": "Showing {{ max }} of {{ total }} entries",
+                            "NO_RESULT": "There are no consent records for this member.",
+                            "ACTIVE": "Active",
+                            "REVOKED": "Revoked",
+                            "EXPIRED": "Expired",
+                            "CONSENT_RESULT_MENU_ACTIONS": {
+                                "REVOKE_CONSENT": "Revoke Consent",
+                                "MODIFY_CONSENT": "Modify Consent"
+                            }
+                        },
+                        "CREATE_CONSENT_RECORD": "Create Consent Record",
+                        "SEARCH_AUTH_REP": "Search Personal Representative",
+                        "CREATE_NEW_AUTH_REP": "+ Create New Personal Rep",
+                        "AUTH_REP_SEARCH": {
+                            "NAME": "Name",
+                            "NAME_PLACEHOLDER": "ex. Banks, Thomas (#&\" not allowed)",
+                            "SEARCH": "Search",
+                            "CLEAR": "Clear",
+                            "ERROR": "The search parameter must be more than 2 characters."
+                        },
+                        "AUTH_REP_RESULT_TABLE": {
+                            "MEMBER_ID": "ID",
+                            "FULL_NAME": "Full Name",
+                            "DOB": "Date of Birth",
+                            "PHONE_NUMBER": "Phone Number",
+                            "EMAIL": "Email",
+                            "PREVIOUS": "Previous",
+                            "NEXT": "Next",
+                            "SHOWING_RESULTS_STRING": "Showing {{ min }} to {{ max }} of {{ total }} entries",
+                            "NO_RESULT": "Begin search to display results."
+                        },
+                        "REVIEW": "Review",
+                        "CANCEL": "Cancel",
+                        "CREATE": "Create",
+                        "ERROR": "This field is required.",
+                        "ERROR_EMAIL": "Please enter a valid email address.",
+                        "ERROR_PHONE": "Please enter a valid phone number.",
+                        "ERROR_ADDRESS": "Please enter a valid address.",
+                        "ERROR_CITY": "Please enter a valid city.",
+                        "ERROR_STATE": "Please enter a valid state.",
+                        "CONFIRM_ERROR": "An error has occured and the consent was not saved, please try again later.",
+                        "EDIT_CONSENT_RECORD": "Edit Consent Record",
+                        "SELECT_OR_CREATE_A_PERSONAL_REP": "Select or Create A Personal Representative",
+                        "CREATE_CONSENT": {
+                            "DATE_OF_REQUEST": "Date of Request",
+                            "DATE_OF_BIRTH": "Date of Birth",
+                            "START_DATE": "Start Date",
+                            "END_DATE": "End Date",
+                            "DATE_RANGE_PLACEHOLDER": "Select date range",
+                            "RELATIONSHIP_TO_MEMBER": "Relationship to Member",
+                            "LAST_NAME": "Last Name",
+                            "FIRST_NAME": "First Name",
+                            "EMAIL_ADDRESS": "Email Address",
+                            "EMAIL_PLACEHOLDER": "ex. info@email.com",
+                            "PHONE_NUMBER": "Phone Number",
+                            "PHONE_NUMBER_PLACEHOLDER": "ex. XXX-XXX-XXXX",
+                            "ADDRESS": "Address",
+                            "CITY": "City",
+                            "STATE": "State",
+                            "ZIP": "Zip Code",
+                            "ZIP_EXTENSION": "Zip+4 (optional)",
+                            "ERROR": {
+                                "ZIP": "Please enter a valid Zip Code.",
+                                "ZIP_EXTENSION": "Please enter a valid Extension."
+                            }
+                        },
+                        "MODAL": {
+                            "MODIFY_CONSENT": "Modify Consent Record",
+                            "END_DATE": "End Date",
+                            "RELATIONSHIP": "Relationship"
+                        }
+                    },
+                    "DATA_TRANSFER": {
+                        "DATA_TRANSFER_DATA": {
+                            "CREATION_DATE": "Creation Date",
+                            "MEMBER_NAME": "Member Name",
+                            "TASK_ID": "Task ID",
+                            "TASK_TYPE": "Task Type",
+                            "LAST_UPDATED": "Last Updated",
+                            "STATUS": "Status"
+                        },
+                        "TASK_DETAILS": {
+                            "TASK_DETAILS_TITLE": "Task Details",
+                            "STATUS_UPDATE_SUCCESS": "Status updated"
+                        }
+                    },
+                    "LOOK_UP_DATA_TRANSFER": {
+                        "DATA_TRANSFER_FILTER_FORM": {
+                            "TASK_ID": "Task ID",
+                            "TASK_STATUS": "Status",
+                            "TASK_TYPE": "Task Type",
+                            "DATE": "Filter By Date"
+                        }
+                    }
+                },
+                "NOT_FOUND": {
+                    "TITLE": "Page Not Found - please try again",
+                    "TEXT": "Oops! We can't seem to find the page you are looking for.",
+                    "GO_TO_HOMEPAGE": "Go To Homepage",
+                    "GO_BACK": "Go Back"
+                },
+                "CHANGE_EMAIL_LOADING": {
+                    "UPDATED_MESSAGE": " has been changed. Please wait 30 seconds for update to take effect and login again to continue.",
+                    "TITLE": "Chang email address",
+                    "COUNTER": "Login ({{ countdown }}s)",
+                    "LOGIN": "Login"
+                },
+                "CUSTOM_CONTENT": {
+                    "UPDATED_ON": "Updated on"
+                },
+                "GLOBAL": {
+                    "LAST_3_MONTHS": "Last 3 Months",
+                    "LAST_6_MONTHS": "Last 6 Months",
+                    "LAST_12_MONTHS": "Last 12 Months",
+                    "LAST_24_MONTHS": "Last 24 Months",
+                    "LAST_36_MONTHS": "Last 36 Months",
+                    "LAST_60_MONTHS": "Last 60 Months",
+                    "WITHIN_10_MILES": "Within 10 miles",
+                    "WITHIN_20_MILES": "Within 20 miles",
+                    "WITHIN_50_MILES": "Within 50 miles",
+                    "WITHIN_100_MILES": "Within 100 miles",
+                    "MORE_THAN_100_MILES": "More than 100 miles",
+                    "MILES_UNIT": "mi",
+                    "CUSTOM_DATE_RANGE": "Custom",
+                    "APPLY_FILTERS": "Apply Filters",
+                    "CLEAR_FILTERS": "Clear Filters",
+                    "DATE_RANGE": "Date Range:",
+                    "FROM": " from ",
+                    "TO": " to ",
+                    "SHOWING_PAGES": "Showing: ",
+                    "OF": " of ",
+                    "VIEW_DETAILS": "View Details",
+                    "NO_NAME": "No name available.",
+                    "CLICK_HERE": "click here.",
+                    "MEDICAID_ID_LABEL": "MEDICAID ID",
+                    "CNDS_NUMBER_LABEL": "CNDS ID",
+                    "MEMBER_ID_LABEL": "MEMBER ID",
+                    "PERSONAL_REP_ID": "PERSONAL REP ID"
+                },
+                "NAVBAR": {
+                    "EN": "English",
+                    "ES": "Spanish",
+                    "PROFILE": "My Profile",
+                    "SETTINGS": "Settings",
+                    "PROFILE_SETTINGS": "Your profile and settings",
+                    "LOGOUT": "Logout",
+                    "INBOX": "Inbox",
+                    "NOTIFICATION_TITLE": "Email Changed",
+                    "NOTIFICATION_SUCCESS": "Email has been changed from {{ oldmail }} to {{ newmail }}."
+                },
+                "SIDENAVBAR": {
+                    "HOME": "Home",
+                    "MY_PROFILE": "Profile",
+                    "HEALTH_NOTES": "Notes",
+                    "LABS": "Labs",
+                    "CLAIMS": "Claims",
+                    "PROVIDERS": "Providers",
+                    "PROVIDER_DIRECTORY": "Provider Directory",
+                    "HEALTH_RECORDS": "Records",
+                    "SELECT_MEMBER": "Select member",
+                    "COLLAPSE_SIDEBAR": "Collapse sidebar",
+                    "SETTINGS": "Settings",
+                    "HELP": "Help",
+                    "HEALTH-PLAN-DATA-TRANSFER": "Health Plan Data Transfer"
+                },
+                "SUBNAVBAR": {
+                    "HEALTH_RECORDS": {
+                        "TITLE": "Health Records",
+                        "MEDICATIONS": "Medications",
+                        "VISIT_HISTORY": "Visit History"
+                    },
+                    "HEALTH_NOTES": {
+                        "TITLE": "Health Notes",
+                        "PROFILE": "Profile",
+                        "PERSONAL_INFO": "Personal Info",
+                        "CONTACTS": "Contacts",
+                        "HEALTH_HABITS": "Health Habits",
+                        "LIFESTYLE_PREFERENCES": "Lifestyle Preferences",
+                        "MEDICAL_HISTORY": "Medical History",
+                        "FAMILY_MEMBER_HISTORY": "Family History"
+                    }
+                },
+                "DASHBOARD": {
+                    "WELCOME": "Welcome, ",
+                    "WELCOME_NO_COMMA": "Welcome",
+                    "MY_BENEFITS": "MY BENEFITS",
+                    "MEMBER": "Member:",
+                    "MEMBER_ID": "Member ID:",
+                    "CURRENT_PLAN": "Current Plan",
+                    "EFFECTIVE_DATE": "Effective Date:",
+                    "END_DATE": "End Date:",
+                    "VIEW_PLAN_DETAILS": "View my plan details",
+                    "USAGE_YEAR_TO_DATE": "USAGE YEAR TO DATE - ",
+                    "RECENT_CLAIMS": "RECENT CLAIMS - ",
+                    "OVERVIEW": "OVERVIEW",
+                    "OUR_PARTNERS": "OUR PARTNERS",
+                    "CONTACT_US": "CONTACT US",
+                    "RELATED_RESOURCES": "RELATED RESOURCES",
+                    "VIEW_MORE": "View More",
+                    "CLAIM_NUMBER": "Claim Number",
+                    "DATE_OF_SERVICE": "Date of Service",
+                    "PROVIDER": "Provider",
+                    "TOTAL_BILLED": "Total Billed",
+                    "PLAN_PAID": "Plan Paid",
+                    "MEMBER_LIABILITY": "Member Liability",
+                    "NOTHING_TO_SHOW": "Nothing to show",
+                    "READ_MORE": "Read More",
+                    "READ_LESS": "Read Less",
+                    "NO_BENEFITS": "No benefits information available.",
+                    "VIEWING_AS": "Viewing as: "
+                },
+                "ALL_CLAIMS": {
+                    "CLAIMS_FOR": "Claims for ",
+                    "CLAIMS_INFO": "",
+                    "YTD_INFO": "To view your Deductible and Out-of-Pocket Amounts Applied Year To Date, ",
+                    "CLAIM_NUMBER": "Claim Number",
+                    "CLAIM_DETAIL_NUMBER": "Claim Detail Number",
+                    "CLAIM_ID_PLACEHOLDER": "ex. 123455",
+                    "PROVIDER": "Provider",
+                    "PROVIDER_PLACEHOLDER": "ex. Rhythm Technologies",
+                    "PAYEE": "Payee",
+                    "PAYEE_PLACEHOLDER": "ex. Dr. Thomas Lee",
+                    "FILTER_DATE": "Filter by date of service range",
+                    "DATE_OF_SERVICE": "Date of Service",
+                    "SERVICE_DATE": "Service Date",
+                    "CLAIM_RECEIVED_DATE": "Claim Received Date",
+                    "SERVICE_PAID_DATE": "Processed Date",
+                    "TOTAL_BILLED": "Total billed:",
+                    "PLAN_PAID": "Plan paid:",
+                    "YOUR_BILL": "Patient Liability:",
+                    "YOUR_BILL_MEMBER": "Member Liabilty",
+                    "NO_RESULTS": "No matching results were found.",
+                    "ADJUDICATED_AMOUNT": "Adjudicated Amount:"
+                },
+                "CLAIM_DETAILS": {
+                    "RETURN_TO": "Return to Claims for ",
+                    "EXPLANATION_OF_BENEFITS": "Explanation of Benefits",
+                    "CLAIM_DETAILS": "Claim Details",
+                    "CLAIM_NUMBER": "Claim Number",
+                    "BENEFICIARY_NAME": "Beneficiary Name",
+                    "PATIENT_NAME": "Patient Name",
+                    "MEMBER_NAME": "Member Name",
+                    "MEMBER_ID": "Member ID",
+                    "BENEFIT_PLAN_ID": "Benefit Plan ID",
+                    "BENEFIT_PLAN_NAME": "Benefit Plan Name",
+                    "PLAN_NAME": "Plan Name",
+                    "GROUP_NAME": "Group Name",
+                    "GROUP_ID": "Group ID",
+                    "ENROLLMENT_DATE": "Enrollment Date",
+                    "PROVIDER": "Provider",
+                    "PROVIDER_NPI": "Provider NPI",
+                    "DATE_OF_SERVICE": "Date of Service",
+                    "SERVICE_DATE": "Service Date",
+                    "CLAIM_RECEIVED_DATE": "Claim Received Date",
+                    "PAYEE_NAME": "Payee Name",
+                    "CLAIM_DETAIL_NUMBER": "Claim Detail Number",
+                    "STATUS": "Status",
+                    "PAID_DATE": "Processed Date",
+                    "OTHER_PLANS": "Other Plans",
+                    "PLACE_OF_SERVICE": "Place of Service",
+                    "PLACE_OF_SERVICE_ID": "Place of Service ID",
+                    "PAID": "PAID",
+                    "DENIED": "DENIED",
+                    "PROCESSED": "Processed",
+                    "ACTIVE": "Active",
+                    "CLAIM_BREAKDOWN": "Claim Breakdown",
+                    "TOTAL_CLAIM_CHARGE_BILLED": "Total claim charge billed to Payer:",
+                    "TOTAL_BILLED": "Total Billed:",
+                    "PAID_BY_OTHER_INSURER": "Paid by other insurer:",
+                    "LESS_PROVIDER_OFFSET": "Less provider offset:",
+                    "TOTAL_AMOUNT_DISALLOWED": "Total amount disallowed:",
+                    "TOTAL_AMOUNT_PAID": "Total amount paid:",
+                    "COPAY_AMOUNT": "Copay amount:",
+                    "MEMBER_PAID_DEDUCTIBLE": "Deductible amount:",
+                    "CO_INSURANCE_LIABILTY_AMOUNT": "Coinsurance amount:",
+                    "CLAIM_NON_COVERED_AMOUNT": "Claim non-covered amount:",
+                    "LESS_PRECERT_PENALTY": "Precert Penalty:",
+                    "PATIENT_RESPONSIBILITY_TOTAL": "Patient Responsibility total:",
+                    "SERVICES": "Services",
+                    "LINE_NUMBER": "Line number",
+                    "DIAGNOSIS_AT_ADMISSION": "Diagnosis at admission",
+                    "DIAGNOSIS": "Diagnosis",
+                    "NO_DIAGNOSIS": "No Diagnoses to display",
+                    "NO_DISPLAY": "No display",
+                    "NO_DESCRIPTION": "No Description",
+                    "PROCEDURE": "Procedure",
+                    "PROCEDURE_CODE": "Procedure Code",
+                    "REVENUE": "Revenue Code",
+                    "REMARK_CODES": "Remark Codes",
+                    "ADJUDICATION_REASON": "Adjudication Reason",
+                    "BILLED": "Billed:",
+                    "DISALLOWED": "Disallowed:",
+                    "PLAN_PAID": "Plan paid:",
+                    "COINSURANCE": "Co-insurance:",
+                    "COPAYMENT": "Copayment:",
+                    "DEDUCTIBLE": "Deductible:",
+                    "BILL": "Patient Liability:",
+                    "BILL_MEMBER": "Member Liability:",
+                    "NO_PROCEDURE": "No Procedures to display",
+                    "NO_REVENUE": "No Revenues to display",
+                    "NO_DISPLAY_TEXT": "No display text",
+                    "UNIT_BILLED": "Unit Billed",
+                    "AUTHORIZE_UNITS": "Authorized Units",
+                    "ADJUDICATED_AMOUNT": "Adjudicated Amount"
+                },
+                "YTD": {
+                    "RETURN_TO": "Return to previous page",
+                    "SELECT_YEAR": "Select Year",
+                    "NO_YTD_ANNUAL": "We couldn't find information about your spending amounts for ",
+                    "NO_BENEFIT_ANNUAL": "We couldn't find information about your benefit amounts for ",
+                    "CALENDAR_YEAR_DEDUCTIBLE": "Calendar Year Deductible",
+                    "PPO_NON_PPO_DEDUCTIBLES": "PPO/Non PPO Deductibles",
+                    "PPO_NON_PPO_CALENDAR_YEAR_DEDUCTIBLE": "PPO/Non-PPO Calendar Year Deductible",
+                    "USAGE_FOR": "Usage for",
+                    "PPO_CATASTROPHIC_PROVISION": "PPO Catastrophic Provision",
+                    "PPO_NON_PPO_CATASTROPHIC_PROVISION": "PPO/Non-PPO Catastrophic Provision",
+                    "YOUR": "Your ",
+                    "FAMILY": "Family "
+                },
+                "SETTINGS": {
+                    "DOWNLOAD": "Download",
+                    "DOWNLOAD_FAIL": "No download available",
+                    "DOWNLOAD_ALL_DATA_AS_FHIR_BUNDLE": "Download all data as FHIR Bundle:",
+                    "DOWNLOAD_EOB_DATA_AS_PDF": "Download EOB data as PDF:",
+                    "DOWNLOAD_NOT_AVAILABLE": "Download is unavailable on mobile at this time.",
+                    "REDIRECT_TO": "Redirect to",
+                    "PASSWORD_RESET": "Password reset",
+                    "MANAGE_PERMISSIONS": "Manage Permissions",
+                    "UPDATE_PASSWORD": "Update Password",
+                    "UPDATE_EMAIL": "Update Email",
+                    "CURRENT_EMAIL": "Current email",
+                    "DOWNLOAD_DATA": "Download Data",
+                    "ALL_SETTINGS": "All Settings",
+                    "DEMOGRAPHIC_DATA": "Demographic Data",
+                    "ACCOUNT_SETTINGS": "Account Settings",
+                    "ACCOUNT_SETTINGS_FOR": "Settings for",
+                    "SHARE_PREFERENCES": "Share Preferences",
+                    "NO_SHARE_PREFERENCES": "No share preferences.",
+                    "MY_ACCESS": "My Access",
+                    "NO_ACCESS:": "No access settings to see.",
+                    "RECORDS_I_HAVE_ACCESS_TO": "Records I have access to:",
+                    "SHARED": "Shared",
+                    "NOT_SHARED": "Not Shared",
+                    "AGE": "Age: ",
+                    "ACCESS": "Access",
+                    "NO_ACCESS": "No Access",
+                    "EXP": "Exp: ",
+                    "NONE": "None",
+                    "PLAN_OWNER": "Plan Owner",
+                    "UPDATE_EMAIL_BODY": "In order to change your email address please contact us. We're here to help 24 hours a day. Call us for general questions about coverage, how to help a loved one get care, to receive help for a mental or behavioural health emergency, and more."
+                },
+                "USER_PROFILE": {
+                    "PROFILE": "Profile for "
+                },
+                "HEALTH_NOTES": {
+                    "NO_RESULTS": "No Lab Results to Show",
+                    "MED_HISTORY_NO_RESULT": "Nothing to show",
+                    "HEALTH_NOTES_FOR": "Personal Health Notes for",
+                    "EDIT": "Edit",
+                    "SAVE": "Save",
+                    "PRINT": "Print",
+                    "CANCEL": "Cancel",
+                    "ADD_MORE": "Add More",
+                    "ADD": "Add",
+                    "DELETE": "Delete",
+                    "ENTER_CONDITION_PLACEHOLDER": "Enter a condition here",
+                    "ENTER_PROCEDURE_PLACEHOLDER": "Enter a procedure here",
+                    "ENTER_MEDICATION_PLACEHOLDER": "Enter a medication here",
+                    "ENTER_VITAMIN_PLACEHOLDER": "Enter a vitamin here",
+                    "ENTER_IMMUNIZATION_PLACEHOLDER": "Enter an immunization",
+                    "ENTER_ALLERGY_PLACEHOLDER": "Enter an allergy here",
+                    "ENTER_DESCRIPTION": "Enter description",
+                    "SUCCESS": "Success",
+                    "NOTIFICATION_SUCCESS": "The record has been updated successfully.",
+                    "SAVE_SUCCESS": "Form has been saved successfully.",
+                    "NAME": "NAME",
+                    "DATE_OF_BIRTH": "DATE OF BIRTH",
+                    "EMAIL": "EMAIL",
+                    "MEMBER_ID": "MEMBER ID",
+                    "GENDER": "GENDER",
+                    "ADDRESS": "ADDRESS",
+                    "PHONE_NUMBERS": "PHONE NUMBER(S)",
+                    "HOME": "Home",
+                    "SECONDARY": "Secondary",
+                    "CELL": "Cell",
+                    "WORK": "Work",
+                    "PERSONAL_INFO": "Personal Info",
+                    "PLACE_OF_BIRTH": "PLACE OF BIRTH",
+                    "HAIR_COLOR": "HAIR COLOR",
+                    "HEIGHT": "HEIGHT",
+                    "RACE": "RACE",
+                    "MARITAL_STATUS": "MARITAL STATUS",
+                    "LIVING_WILL_ON_FILE": "LIVING WILL ON FILE",
+                    "AGE": "AGE",
+                    "EYE_COLOR": "EYE COLOR",
+                    "WEIGHT": "WEIGHT",
+                    "BLOOD_TYPE": "BLOOD TYPE",
+                    "NUMBER_OF_KIDS": "NUMBER OF KIDS",
+                    "BMI": "BMI (Body Mass Index)",
+                    "CONTACTS": "Contacts",
+                    "CONTACT": "CONTACT",
+                    "FIRST_NAME": "FIRST NAME",
+                    "LAST_NAME": "LAST NAME",
+                    "TYPE_OF_CONTACT": "TYPE OF CONTACT",
+                    "EMAIL_ADDRESS": "EMAIL ADDRESS",
+                    "PHONE_NUMBER": "PHONE NUMBER",
+                    "HEALTH_HABITS": "Health Habits",
+                    "SMOKING": "SMOKING",
+                    "ALCOHOL_DRINKING": "ALCOHOL DRINKING",
+                    "EXERCISE": "EXERCISE",
+                    "ACTIVITIES": "ACTIVITIES",
+                    "EATING_HABITS": "Eating Habits",
+                    "WATER_INTAKE": "WATER INTAKE",
+                    "BEVERAGE_INTAKE": "BEVERAGE INTAKE",
+                    "VEGETABLE_INTAKE": "VEGETABLE INTAKE",
+                    "GRAINS_INTAKE": "GRAINS INTAKE",
+                    "MEAT_INTAKE": "MEAT INTAKE",
+                    "DAIRY_INTAKE": "DAIRY INTAKE",
+                    "EATING_OUT": "EATING OUT",
+                    "VITAMINS_INTAKE": "VITAMINS INTAKE",
+                    "MEAL_REPLACEMENT": "MEAL REPLACEMENT",
+                    "MEDICAL_HISTORY": "Medical History",
+                    "CONDITIONS": "MEDICAL CONDITIONS",
+                    "ADD_CONDITIONS": "Add Medical Conditions",
+                    "SURGERIES_AND_PROCEDURES": "SURGERIES AND PROCEDURES",
+                    "ADD_SURGERIES_AND_PROCEDURES": "Add Surgeries and Procedures",
+                    "IMMUNIZATION_SUMMARY": "IMMUNIZATION SUMMARY",
+                    "ADD_IMMUNIZATION": "Add Immunization",
+                    "KNOWN_DRUG_ALLERGY": "KNOWN DRUG ALLERGIES",
+                    "ADD_ALLERGY_RELATED_MEDICATIONS": "Add Allergy Related Medications",
+                    "ADD_MEDICATIONS": "Add Medications",
+                    "ALLERGY": "KNOWN ALLERGIES",
+                    "ADD_ALLERGY": "Add Allergies",
+                    "PRESCRIPTIONS_MEDICATIONS": "PRESCRIPTIONS/MEDICATIONS",
+                    "DOSAGE": "Dosage: ",
+                    "PROCEDURE_DATE": "Procedure Date: ",
+                    "NOTHING_TO_SHOW": "Nothing to show",
+                    "CLINICAL_CONTACTS": "CLINICS, HOSPITALS, PHYSICIANS & PHARMACY",
+                    "VITAMINS_AND_OTC_MEDICATIONS": "VITAMINS AND OTC MEDICATIONS",
+                    "ADD_VITAMINS_AND_OTC": "Add Vitamins and OTC Meds",
+                    "FAMILY_MEMBER_HISTORY": "Family History",
+                    "FAMILY_MEMBERS": "FAMILY MEMBERS",
+                    "FULL_NAME": "FULL NAME",
+                    "RELATIONSHIP": "RELATIONSHIP",
+                    "LIVING/DECEASED": "LIVING/DECEASED",
+                    "LIVING": "Living",
+                    "DECEASED": "Deceased",
+                    "DECEASED_AGE": "DECEASED AGE",
+                    "SUMMARY_OF_CONDITIONS": "SUMMARY OF CONDITIONS",
+                    "MEMBER": "MEMBER"
+                },
+                "LABS": {
+                    "LABS_FOR": "Labs for",
+                    "RETURN_TO": "Return to Labs for",
+                    "ORDERING_PHYSICIAN": "Ordering Physician",
+                    "ORDERING_PHYSICIAN_PLACEHOLDER": "ex. John Smith",
+                    "LAB_VENDOR": "Lab Vendor",
+                    "LAB_VENDOR_PLACEHOLDER": "ex. Life Labs",
+                    "STATUS": "Status",
+                    "ABNORMAL": "ABNORMAL",
+                    "ABNORMAL_LOWERCASE": "Abnormal",
+                    "TEST_NAMES": "Test Names",
+                    "TEST_NAMES_PLACEHOLDER": "ex. Triglycerides",
+                    "DATE_FILTER": "Filter by date of service range",
+                    "NO_RESULTS": "No Lab Results to Show",
+                    "DATE_OF_SERVICE": "Date of Service",
+                    "ORDERING_PHYSICIAN_NAME": "Ordering Physician Name",
+                    "VIEW_DETAILS": "View Details",
+                    "NORMAL": "NORMAL",
+                    "DATE_RANGE": "Date Range:",
+                    "FROM": " from ",
+                    "TO": " to ",
+                    "PLUS": "+ ",
+                    "MORE": " MORE",
+                    "SHOWING_PAGES": "Showing: ",
+                    "OF": " of ",
+                    "NO_TEST_RESULTS": "N/A",
+                    "NO_TEST_RESULTS_FOR_DISPLAY": "No individual tests for display",
+                    "SPECIMEN_NUMBER": "Specimen Number",
+                    "RESULT_DATE": "Result Date",
+                    "ORDER_DATE": "Order Date",
+                    "RESULTS": "Results"
+                },
+                "LABS_DETAILS": {
+                    "LAB_DETAIL": "Lab Detail",
+                    "PATIENT_NAME": "Patient Name",
+                    "GENDER": "Gender",
+                    "DATE_OF_BIRTH": "Date of Birth",
+                    "MEMBER_ID": "Member ID",
+                    "PHYSICIAN_NAME": "Physician Name",
+                    "CIGNA_PHYSICIAN_NUMBER": "Cigna Physician Number",
+                    "PHYSICIAN_UPIN": "Physician UPIN",
+                    "PHYSICIAN_TAX_ID": "Physician Tax ID",
+                    "LAB_INFO": "Lab Info",
+                    "TEST": "Test",
+                    "UNITS": "Units",
+                    "RESULTS": "Results",
+                    "RANGE": "Range",
+                    "COMMENTS": "Comments: "
+                },
+                "ALL_MEDICATIONS": {
+                    "MEDICATIONS": "Medications",
+                    "MEDICATION": "Medication",
+                    "QUANTITY": "Quantity",
+                    "PRACT_NAME": "Prescribing Practitioner Name",
+                    "PHARMACY": "Pharmacy",
+                    "NO_ACTIVE": "There are currently no records of active medications.",
+                    "NO_INACTIVE": "There are no records of inactive medications."
+                },
+                "MEDICATIONS": {
+                    "MEDICATION_DETAILS": "Medication Details",
+                    "PRESCRIPTION_DETAILS": "Prescription Details",
+                    "PRESCRIBER_INFORMATION": "Prescriber Information",
+                    "DOSAGE_INSTRUCTION": "Dosage Instruction",
+                    "INGREDIENTS": "Ingredients",
+                    "CODE": "Code",
+                    "FORM": "Form",
+                    "ENCOUNTER": "Encounter",
+                    "VIEW_ENCOUNTER": "View Encounter",
+                    "NPI": "NPI",
+                    "NAME": "Name",
+                    "ADDRESS": "Address",
+                    "EFFECTIVE_DATE": "Effective Date",
+                    "RX_STATUS": "Rx Status",
+                    "NOTE": "Note",
+                    "REASON_CODE": "Reason Code",
+                    "REPEATS_ALLOWED": "Number of Repeats Allowed",
+                    "QUANTITY": "Quantity",
+                    "SUPPLY": "Days Supply",
+                    "ADDITIONAL_INSTRUCTION": "Additional Instruction",
+                    "PATIENT_INSTRUCTION": "Patient Instruction",
+                    "AS_NEEDED": "As Needed",
+                    "SITE": "Site",
+                    "ROUTE": "Route",
+                    "DOSE_RATE": "Dose & Rate",
+                    "METHOD": "Method",
+                    "SUBSTITUTION": "Substitution",
+                    "SELF-PRESCRIBED": "(self-prescribed)"
+                },
+                "PROVIDERS": {
+                    "PROVIDERS": "Providers",
+                    "CARD": {
+                        "DOCTOR_TYPE": "Doctor's Type",
+                        "DOCTOR_NAME": "Doctor's Name",
+                        "HEALTH_FACILITY": "Health Facilities"
+                    },
+                    "COMPARE_PROVIDERS": "Compare providers",
+                    "COMPARE_WITH_PROVIDERS": "Compare with other providers",
+                    "SHOWING_RESULTS_STRING": "Showing: {{ min }}-{{ max }} of {{ total }}",
+                    "PROVIDER_DIRECTORY": "Provider Directory",
+                    "PROVIDER_ADDRESS": "Provider address",
+                    "KEYWORD_SEARCH": "Keyword Search",
+                    "KEYWORD_PLACEHOLDER": "Name, Facility, Specialty, or Condition",
+                    "SEARCH_PLACEHOLDER_PRACTITIONER": "Enter a Practitioner name or ID",
+                    "SEARCH_PLACEHOLDER_FACILITY": "Enter the Name of a Facility, Clinic, Pharmacy or Organization",
+                    "SEARCH_PLACEHOLDER_SERVICE": "Enter a Service Type",
+                    "LOCATION": "Location",
+                    "LOCATION_PLACEHOLDER": "ZIP Code",
+                    "TYPE": "Type",
+                    "DISTANCE": "Distance",
+                    "PRACTITIONER": "Practitioner",
+                    "FACILITY": "Facility",
+                    "SERVICE": "Service",
+                    "SEARCH": "Search",
+                    "SEARCH_BY": "Search by",
+                    "ADD_TO_DIRECTORY": "Add to my directory",
+                    "SHOWING": "Showing",
+                    "VIEW_DETAILS": "View details",
+                    "FILTER": "Filter",
+                    "FILTERS": "Filters",
+                    "FILTER_RESULTS": "Filter results",
+                    "LOCATION_REQUIRED": "Include a location to refine results.",
+                    "TEXT_REQUIRED": "Search text required.",
+                    "IN_NETWORK": "In-network",
+                    "SERVICES": "Services",
+                    "SPECIALTIES": "Specialties",
+                    "LEARN": "Learn More",
+                    "NO_RESULTS": "No matching results were found. Please adjust the filter.",
+                    "CLEAR_FILTERS": "Clear Filters",
+                    "GENDER": "Gender",
+                    "MALE": "Male",
+                    "FEMALE": "Female",
+                    "ALL": "All",
+                    "IN-NETWORK": "In-Network Only",
+                    "NEW_MEMBERS": "Accepting New Members",
+                    "VIRTUAL_VISITS": "Offers Virtual Visits",
+                    "SORT": "Sort By",
+                    "BEST_MATCH": "Best Match",
+                    "A_Z": "A-Z(Last Name/Office)",
+                    "Z_A": "Z-A(Last Name/Office)",
+                    "LANGUAGE": "Language",
+                    "LANGUAGE_PLACEHOLDER": "Select a Language",
+                    "PLAN": "Plan",
+                    "PLAN_PLACEHOLDER": "Filter by Plan",
+                    "DAYS": "Select day of the week",
+                    "TIMES": "Select start and end time",
+                    "SPECIALTY": "Specialty",
+                    "SPECIALITY_PLACEHOLDER": "Select a Speciality"
+                },
+                "PROVIDER_DETAILS": {
+                    "PRACT_DETAILS": "Practitioner Details",
+                    "ORG_LOCATIONS": "Organizations and Locations",
+                    "ORG_DETAILS": "Organizations Details",
+                    "LOCATION_DETAILS": "Location Details",
+                    "HEALTH_SERVICES": "Health Services",
+                    "SERVICE_DETAILS": "Service Details",
+                    "LOCATIONS": "Locations",
+                    "NEW_PATIENTS": "Accepting New Patients",
+                    "APPOINTMENT": "Appointment Required",
+                    "PHYSICAL": "Physical",
+                    "VIRTUAL": "Virtual",
+                    "VISITS": "Visits",
+                    "PLAN_INFO": "Plan Information",
+                    "NETWORK_DETAILS": "Network Details",
+                    "HEALTH_PLAN": "Health Plan",
+                    "NPI": "National Provider Identifier",
+                    "TELECOM": "Telecom",
+                    "ADDRESS": "Address",
+                    "GENDER": "Gender",
+                    "QUALIFICATION": "Qualification",
+                    "LANGUAGE": "Language",
+                    "NAME": "Name",
+                    "AFFILIATION_CODE": "Affiliation Code",
+                    "ID": "ID",
+                    "TYPE": "Type",
+                    "CATEGORY": "Category",
+                    "SPECIALITY": "Specialty",
+                    "ORGANIZATION_ID": "Organization ID",
+                    "CONTACT": "Contact",
+                    "IDENTIFIER": "Identifier",
+                    "PLAN": "Plan",
+                    "PLAN_TYPE": "Plan Type",
+                    "COVERAGE_AREA": "Coverage Area"
+                },
+                "HELP": {
+                    "TITLE": "How can we help you?",
+                    "FAQ": "FAQ",
+                    "SUBMIT_TICKET": "Submit Ticket",
+                    "LIVE_CHAT": "Live Chat",
+                    "CREATE_NEW_TICKET": "Create a new ticket",
+                    "WHAT_ISSUE": "What kind of issue are you having?",
+                    "SUBMIT_A_TICKET": "Submit a ticket",
+                    "ERROR": "Please fill out a message to submit a ticket.",
+                    "TOPIC": "Topic:",
+                    "MESSAGE": "Message:",
+                    "DESCRIPTION_PLACEHOLDER": "Enter description",
+                    "ATTACH_FILES": "Attach files",
+                    "CANCEL": "Cancel",
+                    "SUBMIT": "Submit",
+                    "INBOX": "Inbox for",
+                    "TICKET": "Ticket #",
+                    "NEW_MESSAGE": "New Message Received",
+                    "NEW_MESSAGE_BODY": "Agent has replied to your ticket. Click to view message and submit a reply.",
+                    "OPEN": "Open",
+                    "OPEN_BODY": "Ticket is currently open.",
+                    "TICKET_SUBMITTED": "Ticket Submitted",
+                    "TICKET_UNREAD": "Unread",
+                    "TICKET_SUBMITTED_BODY": "Your ticket has been submitted, our support team will get back to you within 24 hours.",
+                    "TICKET_CLOSED": "Ticket Closed",
+                    "TICKET_CLOSED_BODY": "This ticket has been resolved. Click to view the history of the case.",
+                    "TICKET_UNDEFINED": "Message deleted by admin",
+                    "REPLY_RECEIVED": "You have received a reply",
+                    "YOUR_REPLY": "Your reply",
+                    "YOU_REPLIED": "You replied",
+                    "REPLY": "Reply",
+                    "TODAY": "Today",
+                    "NEW_TICKET": "New Ticket",
+                    "DELETE": "Delete",
+                    "SEND": "Send",
+                    "NO_TICKETS": "No Tickets",
+                    "NO_TICKETS_BODY": "Click \"New Ticket\" to submit a ticket to our agents for help.",
+                    "SUBMISSION_ERROR": "There was an error submitting your reply - please try again or visit our Contact Us section on the Dashboard.",
+                    "DOWNLOAD_FILES": "Click on a form below to download:"
+                },
+                "DATA_TRANSFER": {
+                    "IMPORT_MODULE": "Health Plan Data Transfer",
+                    "REQUEST_HEALTH_PLAN": "Request Data Transfer",
+                    "TRANSFERS": "Requests",
+                    "STATUS_SUCCESS": "Success",
+                    "STATUS_PENDING": "Pending",
+                    "STATUS_FAIL": "Fail",
+                    "TABLE": {
+                        "ORDER_NUMBER": "Order Number",
+                        "NAME": "Name",
+                        "PAYER": "Payer",
+                        "TYPE": "Type",
+                        "TIME_OF_REQ": "Time of Request",
+                        "STATUS": "Status",
+                        "NO_RESULT": "No results found"
+                    },
+                    "REQUEST_NEW_PAYER": {
+                        "TITLE": "Request New Payer",
+                        "SUB_TITLE": "Complete this form to request your Previous Payer be added into our system.",
+                        "BACK_LINK": "Return to Health Plan Data Transfer",
+                        "FORM": {
+                            "NAME": "Name of Previous Insurer",
+                            "URL": "URL of Previous Insurer (Optional)",
+                            "FIRSTNAME": "First Name",
+                            "LASTNAME": "Last Name",
+                            "EMAIL": "Email Address",
+                            "PHONE": "Primary Phone Contact",
+                            "NAME_PLACEHOLDER": "Previous Insurer Name",
+                            "URL_PLACEHOLDER": "http://",
+                            "FIRST_NAME_PLACEHOLDER": "John",
+                            "LAST_NAME_PLACEHOLDER": "Doe",
+                            "EMAIL_PLACEHOLDER": "john.doe@email.com",
+                            "PHONE_PLACEHOLDER": "(XXX) XXX - XXXX",
+                            "SUBMIT": "Submit Request",
+                            "REQUIRED": "This field is required",
+                            "FIRST_NAME_REQUIRED": "First name is required",
+                            "LAST_NAME_REQUIRED": "Last name is required",
+                            "EMAIL_REQUIRED": "Email address is required",
+                            "EMAIL_PATTERN_ERROR": "Please enter a valid email address",
+                            "PHONE_REQUIRED": "Primary phone contact is required",
+                            "PHONE_PATTERN_ERROR": "Must be a valid phone number eg (XXX) XXX-XXXX",
+                            "PREVIOUS_PAYER_REQUIRED": "Previous insurer is required"
+                        }
+                    },
+                    "ADMIN": {
+                        "BACK_LINK": "Return to Data Transfer",
+                        "DETAILS": "Details",
+                        "MEMBER_INFO": "Member Information",
+                        "MEMBER_NAME": "Member Name",
+                        "MEMBER_ID": "Member ID",
+                        "MEMBER_CREATED_ON": "Creation Date",
+                        "MEMBER_LAST_UPDATED": "Last Updated",
+                        "MEMBER_VIEW_INBOUND_DATA": "View Inbound Data",
+                        "SEND": "Send",
+                        "SAVE": "Save",
+                        "CANCEL": "Cancel",
+                        "NOTES": "Notes",
+                        "PAYER_INFO": "Payer Information",
+                        "DATA_TRANSFER_INFO": "Data transfer Information",
+                        "ORG_NAME": "Payer Name",
+                        "ORG_LNG": "Payer Language",
+                        "ORG_ADDRESS": "Payer Address",
+                        "TRANSFER_STATUS_TITLE": "Status"
+                    }
+                },
+                "MY_BENEFITS": {
+                    "TITLE": "Plan details for",
+                    "DESCRIPTION": "description goes here",
+                    "HTML_CONTENT": "Nothing to show here",
+                    "PAGE_HEADER": "Plan Details for",
+                    "MEMBER_ID_CARD_HEADER": "Member ID Card",
+                    "DOWNLOAD_PRINT_BUTTON": "Download/Print",
+                    "ORDER_NEW_CARD_BUTTON": "Order New Card",
+                    "PLAN_OVERVIEW_HEADING": "Plan Overview"
+                },
+                "HOURS": {
+                    "HOURS": "Hours of Operation",
+                    "MON": "Mon",
+                    "TUE": "Tue",
+                    "WED": "Wed",
+                    "THU": "Thu",
+                    "FRI": "Fri",
+                    "SAT": "Sat",
+                    "SUN": "Sun"
+                },
+                "DYNAMIC_FORMS": {
+                    "INPUT_PLACEHOLDER": "Enter text"
+                },
+                "MODAL": {
+                    "NAV_WARNING_TITLE": "Navigation Warning!",
+                    "NAV_USER_NOT_ON_AZURE_TITLE": "User not found in Azure!",
+                    "NAV_WARNING_DESCRIPTION": "Are you sure you want to leave this page? Data you have entered may not be saved!",
+                    "CANCEL_TICKET_TITLE": "Discard Ticket?",
+                    "CANCEL_TICKET_WARNING": "You can't undo this action.",
+                    "NAV_WARNING_DESCRIPTION_NOT_AUTHORIZED": "You do not have access to this information!",
+                    "NAV_WARNING_DESCRIPTION_NO_OID": "We could not find this user Object ID in Azure. The user may not have registered for an account.",
+                    "DELETE_WARNING_TITLE": "Are you sure you want to delete this item?",
+                    "DELETE_WARNING_DESCRIPTION": "This item will be deleted immediately. You cannot undo this action.",
+                    "SHARE_WARNING_TITLE": "Share access with ",
+                    "SHARE_WARNING_DESCRIPTION": "I understand that, under HIPAA, the Plan may communicate with my adult family members, friends, or other persons who are involved in my health care or payment for health care.  By clicking here and consenting to have another person have access to my information on the portal, I am confirming that this person is a person involved in my health care or payment for health care and that I understand that this person will therefore have access to my information on the portal unless and until (a) I revoke that consent; or (b) I attain age 18 (if I am under age 18).",
+                    "SHARE_CHECKBOX_LABEL": "I consent to share",
+                    "SHARE_CHECKBOX_LABEL_BOLD": " all my Personal Health Data.",
+                    "REVOKE_WARNING_TITLE": "Revoke access for ",
+                    "REVOKE_WARNING_DESCRIPTION": "I understand that, under HIPAA, the Plan may communicate with my adult family members, friends, or other persons who are involved in my health care or payment for health care, and I have previously consented to have another person (chosen by me) have access to my information on the portal.  I now hereby revoke that consent, effective immediately and starting from the date this revocation is processed by the Plan.  I understand that this person will no longer have access to my information on the portal unless and until I provide future access to them.",
+                    "REVOKE_CHECKBOX_LABEL": "I want to revoke access to",
+                    "REVOKE_CONSENT": "Revoke Consent",
+                    "REVOKE": "Revoke",
+                    "CLOSE": "Close",
+                    "ERROR": "Error",
+                    "ERROR_SUBMIT": "Unable to submit!",
+                    "ERROR_FETCH": "Unable to find!",
+                    "LOGIN": "Login",
+                    "CONTINUE": "Continue",
+                    "CREATE_ERROR": "Unfortunately your ticket cannot be created at this time. Please try again. If you encounter the same issue, please contact Customer Service at 1-888-636-6252 (Mon-Fri between 8am and 3:30pm ET).",
+                    "FETCH_ERROR": "Unfortunately your tickets cannot be found at this time. Please try again. If you encounter the same issue, please contact Customer Service at 1-888-636-6252 (Mon-Fri between 8am and 3:30pm ET).",
+                    "REPLY_SEND_ERROR": "Unfortunately your reply cannot be sent at this time. Please try again. If you encounter the same issue, please contact Customer Service at 1-888-636-6252 (Mon-Fri between 8am and 3:30pm ET).",
+                    "ERROR_MESSAGE": "Something Went Wrong! \n We are not able to load your information. Please try again later or contact customer support for further assistance.",
+                    "ERROR_MESSAGE_NO_SUPPORT": "Something Went Wrong! \n We are not able to load your information. Please try again later.",
+                    "SESSION_EXPIRED": "Session Expired",
+                    "SESSION_EXPIRED_MESSAGE": "Your session has expired! \n Would you like to continue? You will be automatically logged out in 20 seconds otherwise.",
+                    "REVOKE_DESCRIPTION": "{{ firstOp }} will no longer be able to view {{ secOp }}’s personal health information.",
+                    "SEND_WARNING_TITLE": "Are you sure you want to send the notification?",
+                    "SEND_WARNING_DESCRIPTION": "This message will be sent to your users and you cannot undo this action.",
+                    "SEND_WARNING_EMPTY_DESCRIPTION": "A field is empty, Please enter a valid notification message.",
+                    "NEW_RECORD_CREATED_TITLE": "New Consent Record has been created.",
+                    "NEW_RECORD_CREATED_DESCRIPTION": "{{ firstOp }} has been made a personal representative for {{ secOp }}.",
+                    "NEW_PERSONAL_REP_CREATED_TITLE": "New personal representative has been created.",
+                    "NEW_PERSONAL_REP_CREATED_DESCRIPTION": "{{ firstOp }} has been created.\n\nID: {{ secOp }} ",
+                    "CLOSE_BUTTON": "Cancel",
+                    "CONFIRM": "Confirm!",
+                    "CONFIRM_DESCRIPTION": "Are you sure you want to submit this ticket?\nThis action cannot be undone!",
+                    "CONFIRM_BUTTON": {
+                        "LEAVE": "Leave",
+                        "SAVE_CHANGES": "Save Changes",
+                        "DELETE": "Delete",
+                        "SEND": "Send",
+                        "SHARE": "Share",
+                        "REVOKE": "Revoke",
+                        "OK": "OK",
+                        "RETRY": "Retry",
+                        "CONFIRM": "Confirm",
+                        "DISCARD": "Discard"
+                    },
+                    "SECONDS_LEFT": "s until logout.",
+                    "DATA_TRANSFER": {
+                        "SUCCESS_TITLE": "Request Submitted",
+                        "SUCCESS_MESSAGE": "View the progress of your request in your Payer Member Portal"
+                    }
+                },
+                "TOOLTIP": {
+                    "REMARK_CODE": "Remark Code {{ remarkCode }}:",
+                    "READ_MORE": "Read More",
+                    "CLAIMS_DETAILS": "A detailed summary of health care services received. EOB's also contain remarks to help understand how charges were processed.",
+                    "CLAIMS_DETAILS_TITLE": "Explanation of Benefits",
+                    "LABS": "In this section you can view results from lab work ordered by your provider and billed to the Plan.\n\nNote: Lab data is updated bi-weekly.",
+                    "LABS_TITLE": "Labs",
+                    "MEDICAL_HISTORY": "The ability to create your own Personal Health Notes (PHN) allows you, the individual, to create a complete health record, which can be easily accessed and updated as needed. Your Personal Health Notes is created and controlled by you. Your PHN can include information that your doctor may not have, such as dietary and exercise habits or daily records of glucose or blood pressure readings.\n\nBy creating a PHN, you can:\n\n• Create an accurate and comprehensive record.\n• Easily access and update health information at anytime, even while traveling.\n• Provide information to a new healthcare provider.\n• Keep a record in a secure environment and control access.\n• Keep a complete health record in one place.\n• Easily download or print the information as needed using the Blue Button feature.\n\nCreating your own PHN is optional and not required by the Plan. If you decide to create a PHN, the information contained within is not reviewed by the Plan or shared to any other group or individual. The information contained within is not in any way associated with or used to determine benefits, coverage, or premiums.\n\nYour PHN record is your personalized health record and contains a wide array of information for each member. Your PHN may contain medical information or results from health care services that do not represent a covered service or benefit of the NALC Plan. One such example would be collecting or claim services for information related to routine blood typing tests. The NALC Health Benefit Plan for Group and Employees provides this PHN tool to assist its members in managing their healthcare records, regardless of the Plan benefit coverage being provided. Please refer to the current NALC Health Benefit Plan for Group and Employees brochure for information regarding the Plan's covered benefits or contact the Plan at (703)729-4677 or 1-888-636-6252.",
+                    "MEDICAL_HISTORY_TITLE": "Personal Health Notes",
+                    "YTD_BENEFITS": "See at a glance how much of the annual deductible and catastrophic protection out-of- pocket maximum has been met by you and your family. The deductible is a fixed amount of covered expenses you must incur before we start paying certain benefits. Once the catastrophic protection out-of-pocket maximum is met for the year, we pay 100% of the Plan allowance for the remainder of the calendar year.",
+                    "YTD_BENEFITS_TITLE": "Usage Year to Date",
+                    "CLAIMS_BREAK_DOWN": {
+                        "PAID_BY_OTHER_INSURER_BODY": "Any payment made by a primary insurance, other than NALC.",
+                        "PAID_BY_OTHER_INSURER_TITLE": "Claim Breakdown - Paid by other insurer",
+                        "LESS_PROVIDER_OFFSET_BODY": " Any amounts by which the final payment is reduced due to previously unsatisfied debt owed to the Plan.",
+                        "LESS_PROVIDER_OFFSET_TITLE": "Claim Breakdown - Less provider offset",
+                        "TOTAL_AMOUNT_DISALLOWED_BODY": "Any amounts billed by the provider in excess of the Plan allowance.",
+                        "TOTAL_AMOUNT_DISALLOWED_TITLE": "Claim Breakdown - Total amount disallowed",
+                        "CO_INSURANCE_LIABILTY_AMOUNT_BODY": "The percentage of Plan allowance that a member will pay based on their plan option.",
+                        "CO_INSURANCE_LIABILTY_AMOUNT_TITLE": "Claim Breakdown - Co-insurance liability amount",
+                        "LESS_PRECERT_PENALTY_BODY": "Any penalty applied for failure to obtain prior authorization for the service.",
+                        "LESS_PRECERT_PENALTY_TITLE": "Claim Breakdown - Less Precert Penalty"
+                    },
+                    "CLAIMS_DIAGNOSIS": "The primary reason for your visit to a health care provider.",
+                    "CLAIMS_DIAGNOSIS_TITLE": "Explanation of Benefits - Diagnosis",
+                    "CLAIMS_SERVICES": "Care or supplies provided by a healthcare professional.",
+                    "CLAIMS_SERVICES_TITLE": "Explanation of Benefits - Services",
+                    "MY_ACCESS_TITLE": "My Access",
+                    "MY_ACCESS_PREVIEW": "Why don't I have access to my dependent's records?",
+                    "MY_ACCESS": "This feature displays the list of people on the health plan to whose records you have access, along with expiry date.",
+                    "SHARE_PREFERENCES": "This feature allows you to control who sees your Personal Health Information. To grant or revoke access, click on the toggle button to change preferences.",
+                    "SHARE_PREFERENCES_TITLE": "My Preferences",
+                    "SHARE_PREFERENCES_PREVIEW": "Why can't I see my dependent's preferences?",
+                    "MEMBER_SEARCH_TITLE": "Member Search",
+                    "MEMBER_SEARCH": "Search the members using their First Name, Last Name or Member ID. Characters such as  # & \"  are not allowed. Enter at least 3 or more characters before searching to reduce load time.  One field can be used, or several to narrow the search. Partial search terms for the member’s name can be matched. This function searches both the Smile CDR repository for member records and cross-references those records with the Azure AD B2C identity directory. For each member record, there is a menu of administrative activities that can be performed to support the member.\n\nWhen members register for a portal account, three components manage the authentication process:\n• A unique username\n• A password\n• An email address, used only for verification during registration and resetting lost passwords\n\nOf these three, the only self-service option for the user is resetting passwords. For lost credentials, portal admins may need to assist users in recovering or resetting those credentials. These activities are currently carried out in the Azure AD B2C portal itself, accessible from Azure AD button on the top right.",
+                    "ADMIN_SEARCH_TITLE": "Admin Search",
+                    "ADMIN_SEARCH": "Here you can manage the group of administrators and see their roles. Contact your super admin to edit your credentials/make changes to your roles and permissions.",
+                    "MY_BENEFITS": "Placeholder Text for PMP-227",
+                    "MY_BENEFITS_TITLE": "My Benefits",
+                    "MY_BENEFITS_PREVIEW": "Download or print for an electronic version of the card. If you prefer to order duplicates of the plastic cards, new car..."
+                },
+                "HEALTH_PLAN_DATA_TRANSFER": {
+                    "REQUEST_DATA_TRANSFER": {
+                        "REQUEST_DATA_TRANSFER": "Request Data Transfer",
+                        "TYPE_ALL": "All",
+                        "TYPE_ADD_PAYER": "Add Payer",
+                        "TYPE_DATA_TRANSFER": "Transfer Data Inbound",
+                        "BACK_LINK": "Return to Health Plan Data Transfer",
+                        "SELECT_YOUR_PREVIOUS_PAYER": "SELECT YOUR PREVIOUS PAYER *",
+                        "FIND_YOUR_PREVIOUS_PAYER_TO_BEGIN_DATA_TRANSFER_REQUEST": "Find your previous payer to begin data transfer request.",
+                        "LOGIN_TO_OLD_PAYER": "Log in to previous payer",
+                        "P2P_INTRO_TEXT": "Click the button to log in to your previous payer to retrieve your health data.",
+                        "START_TRANSFER": "Start transfer",
+                        "ACCEPT_CHECK_BOX_TEXT": "I have read through and accepted the terms of the legal attestation",
+                        "SUCCESS_TITLE": "Request Submitted",
+                        "SUCCESS_MESSAGE": "View the progress of your request in your Payer Member Portal",
+                        "LEGAL_ATTESTATION_NAME": "Member Name:",
+                        "LEGAL_ATTESTATION_DATE": "Date of Attestation:"
+                    }
+                },
+                "BANNER": {
+                    "NO_ACCESSIBLE_MEMBER": "You no longer have access to view member information. Please contact us if you have any questions.",
+                    "ERROR_MESSAGE": ""
+                }
+            }
+        }
+    ],
+    "consent_verbiage": [
+        {
+            "id": 1,
+            "body": "<p><strong>As a member, I have access to records for dependents under age 12 by default.</strong></p>\n<p>Members have implicit consent to access the records for dependents under age 12 by default, unless otherwise specified. At the age of 12, the implicit consent expires and access to minor&rsquo;s records are removed until consent is re-established.</p>\n<p>Members are able to update the minor dependents&rsquo; self-reported note medical history, and can grant consent to share the minor&rsquo;s record with other adult dependents on the plan.</p>\n<p><strong>As a member / adult dependent (18+), I have access to records for dependents that turn 12 after contacting NALC to establish authorization.</strong></p>\n<p>There is a gap between the minimum age for a mature minor (12) and the age a minor can register an online account (13).</p>\n<p><strong>As an adult dependent over 18 years of age, I do not have access to records for dependents under age 12 by default.</strong></p>\n<p>Members are able to grant another adult dependent access to a minor dependent&rsquo;s (under age 12) record through the &lsquo;Share Preferences&rsquo; section within the &lsquo;Account Settings&rsquo; of Member Portal.</p>\n<p><strong>Any user ages 13 and over can create an account.</strong></p>\n<p>As per the Child Online Privacy Protection Act (COPPA), account registration of the NALC Member Portal is restricted for children under 13 years of age.</p>\n<p><strong>As a mature minor ages 13 and over, I can grant access to my health records to any adult on my plan.</strong></p>\n<p>Mature minors (13 and older) will be able to create accounts and access the consent preferences screen to delegate access to any adult member on the plan. As long as the individual is declaring that the information is being shared for the purpose of participating in their health care, a formal HIPAA authorization form would not be required. Any consent granted prior to age 18 would expire when the minor turns 18. Any subsequent sharing of records would require the user to reset their consent preference.</p>\n<p><strong>As a member, I do not have access to other dependents&rsquo; records by default (dependents over age 12).</strong></p>\n<p><strong>As a spouse / dependent, I do not have access to member's, or other dependent&rsquo;s records by default.</strong></p>\n<p><strong>As a member, I have the option to grant or remove access to my records to any other adult (18+) on the member's plan.</strong></p>\n<p><strong>As a dependent who is eligible to make an account (13 years and over), I can give or remove access to my records to any other adult (18+) on the member's plan through the portal.</strong></p>\n<p><strong>As a member, I can see a list of people on the plan who currently have access to my records.</strong></p>\n<p><strong>As a member / dependent, I am able to download data of the personal records I am able to view.</strong></p>"
+        }
+    ],
+    "general": [
+        {
+            "id": 1,
+            "logo_height_px": 45,
+            "date_updated": "2022-04-20T21:47:52.817Z"
+        }
+    ],
+    "tos_privacy": [
+        {
+            "id": 1,
+            "staff": false,
+            "tos": false,
+            "body": "<h1>Privacy Policy</h1>\n<p class=\"text-justify\">NALC Health Benefit Plan (the &ldquo;Plan,&rdquo; &ldquo;us&rdquo;, &ldquo;we&rdquo; or &ldquo;our&rdquo;) operates&nbsp;<a href=\"https://www.nalchbp.org/\">https://www.nalchbp.org/</a>&nbsp;(the &ldquo;site&rdquo;) and your privacy is important to us. The majority of this website is available only to registered users for the member&rsquo;s portal. To become a registered user, NALC Health Benefit Plan participants and beneficiaries must complete the application form provided on this site. We are providing this notice in order to describe the site's online information collection and use practices. This privacy policy (&ldquo;Privacy Policy&rdquo;) applies only the information collected on this site, mobile applications, and any website or service that links to or refers to this Privacy Policy and not to any other information that the NALC Health Benefit Plan collects about you in other forums, including e-mail correspondence and via telephone.</p>\n<h3>Consent to Use NALC Health Benefit Plan</h3>\n<p class=\"text-justify\">By becoming a registered user, you are consenting to the collection, use, and disclosure of your personal information in accordance with this Privacy Policy. If you do not agree with the practices described in this Privacy Policy, please do not register as a user.</p>\n<h3>Using &ldquo;Cookies&rdquo; and Other Technologies to Monitor Website Usage</h3>\n<p class=\"text-justify\">In order to make the site as user-friendly and informative as possible, your usage of the site will be monitored and recorded via the use of a &ldquo;cookie.&rdquo; A cookie is a piece of data that a website can send to your computer. A cookie is not a computer program; it cannot read data from your computer or embed any commands in your computer. While cookies can, and are used to, identify repeat visitors to a website, they do not contain any personal identifying information such as your email address, user ID, or password. Cookies cannot gather any personal information about you other than information you provide voluntarily, such as if you choose to register on the site.</p>\n<p class=\"text-justify\">The NALC Health Benefit Plan uses cookies to ensure security. By examining cookies during a visit, the website can verify that the user requesting an action is still the same user who logged on to the site. Cookies also keep track of aggregate statistics for a website, such as the total number of visitors to the site, the server location from which each visitor accesses the site, and the number of pages each visitor views. The NALC Health Benefit Plan collects this information, but never sells or enters into any arrangement to provide this information to a third party. The NALC Health Benefit Plan uses this information internally as a tool to improve the quality of the information and services offered through the site.</p>\n<p class=\"text-justify\">Most browser programs can be set to alert you when a website sends a cookie to your computer. Most browsers also provide a way for you to remove cookies from your computer. If you tell your browser to deny cookies while visiting this site, some of the features or services of our website may not function properly.</p>\n<p class=\"text-justify\">Your IP address is a number that is automatically assigned to the computer that you are using by your Internet Service Provider. An IP address may be identified and logged automatically in our Web server log files whenever a user accesses the site, along with the time of the visit and the page(s) that were visited. Collecting IP addresses is standard practice and is done automatically by many websites, applications and other services. We use IP addresses for purposes such as calculating usage levels of the site, helping diagnose server problems, and administering the site.</p>\n<h3>What Information is Collected</h3>\n<p class=\"text-justify\">Such information may include your registration information, such as, full name, telephone number, e-mail address, postal address, racial or ethnic origin, certain account numbers, the User ID you create or is assigned to you, and other information described in this Privacy Policy.</p>\n<p class=\"text-justify\">We may use any email address you provide to send you periodic information and updates from the NALC Health Benefit Plan and from delegated third party partners and/or providers for the purpose of providing you and your family&rsquo;s health care benefits, but we will never provide or sell your contact information to another party unless required or permitted by law.</p>\n<p class=\"text-justify\">We may also disclose your personal information and/or registration information with your permission or as directed or authorized by you.</p>\n<h3>How Information Collected is Used</h3>\n<p>The NALC Health Benefit Plan can only use the information it receives about you and your family for specific purposes, including, but not limited to:</p>\n<ul class=\"text-justify\">\n<li>Making payments to doctors, hospitals, and other health care professionals for the treatment and services that you and/or your dependents receive (i.e., processing claims);</li>\n<li>Performing certain health care and health related services to help you and your dependents manage your health;</li>\n<li>To comply with applicable laws, regulations, and legal process;</li>\n<li>As otherwise necessary or useful for us in administering and operating the Plan, so long as such use is permitted by law or for any other purpose with your consent;</li>\n<li>To provide technical support for the site; and</li>\n<li>To perform analysis regarding how you use the site.</li>\n</ul>\n<h3>Privacy of Protected Health Information</h3>\n<p class=\"text-justify\">Personal information that is unique to you, and can be used to identify you, may be considered protected health information under the terms of Health Insurance Portability and Accountability Act ('HIPAA') and is subject to the terms described in the HIPAA Notice of Privacy Practices available on this site. Please&nbsp;<a href=\"https://www.nalchbp.org/body/2013PrivacyNotice.pdf\">click here to view our Notice of Privacy Practices,</a>&nbsp;for additional information, which is incorporated herein by reference.</p>\n<h3>Your Responsibility</h3>\n<p class=\"text-justify\">By establishing registering as a user, you agree that you are ultimately responsible to:</p>\n<p class=\"text-justify\">Authorize, monitor, and control access to and use of your account, User ID and password.</p>\n<p class=\"text-justify\">Promptly inform us of any need to deactivate a password or an account by calling Customer Service at 1-888-636-NALC (6252) between the hours of 8:00am and 3:30pm Eastern Standard Time, Monday through Friday, except holidays.</p>\n<h3>Online Privacy Notice for Young Children</h3>\n<p class=\"text-justify\">This site is not directed to nor intended for children under age 13, unless an exception is granted by the Plan. The NALC Health Benefit Plan does not knowingly collect information from children under the age of 13. You can visit the Federal Trade Commission&rsquo;s website to learn about the Children&rsquo;s Online Privacy Protection Act (COPPA).</p>\n<p class=\"text-justify\">In using this site, you affirm that you are age 13 or older and are fully able and competent to enter into the terms, conditions, obligations, affirmations, representations, and warranties set forth in this Privacy Policy, and to abide by and comply with this Privacy Policy.</p>\n<h3>Information Transmission</h3>\n<p class=\"text-justify\">All personal information you provide is protected and encrypted before being transmitted to us. Once transmitted to us, information is stored on secure servers.</p>\n<p class=\"text-justify\">Specific inquiries about the site's Privacy Policy should be directed in writing to:</p>\n<div class=\"contact-info\">\n<p>Privacy Official</p>\n<p>NALC Health Benefit Plan</p>\n<p>P O Box 678</p>\n<p>Ashburn, VA 20146</p>\n</div>\n<p class=\"text-justify\">*Be sure to include the member's name and identification number as it appears on your ID card.</p>\n<h3>Changes</h3>\n<p class=\"text-justify\">We may change this Policy at any time. If we do so, such change will appear on this page. We will also provide notice and choices to you, on this website and in other appropriate locations, based on the scope and extent of changes. You may always visit this Policy to learn of any updates. Your continued access to or use of this account constitutes your consent to these changes to this Policy.</p>"
+        },
+        {
+            "id": 2,
+            "staff": false,
+            "tos": true,
+            "body": "<h1>Terms and Conditions of Website Use</h1>\n<p class=\"text-justify\">By accessing or using this online portal and website, mobile application, or other electronic or web-based services (including the chat services) from the NALC Health Benefit Plan, you acknowledge that you have read, understand, and agree to be bound by the terms and conditions of use set forth herein, and that you will comply with all applicable laws and regulations. The NALC Health Benefit Plan may update these terms and conditions at any time, without prior notice, by updating this site.</p>\n<h3>No Warranties</h3>\n<p class=\"text-justify\">The NALC Health Benefit Plan will endeavor to keep all information that it posts on this site as accurate and current as possible. However, due to the possibility of error, the NALC Health Benefit Plan will not make, and hereby disclaims, any expressed or implied warranty of any kind with respect to the contents of this site, including, but not limited to, any representation with respect to such information's accuracy, completeness, or appropriateness for a particular purpose. Note that some jurisdictions do not allow the exclusion of implied warranties.</p>\n<p class=\"text-justify\">Any mention of specific products or services on this site does not constitute or imply a recommendation or endorsement by the NALC Health Benefit Plan, unless specifically stated.</p>\n<h3>No Liabilities</h3>\n<p class=\"text-justify\">The NALC Health Benefit Plan will not be liable for any delay, difficulty in use, inaccuracy or incompleteness of information, computer viruses, malicious code, loss of data, or compatibility issues, even if someone has advised us of the possibility of such damages or loss, and/or has informed us of a problem with the site or its content. You use the site at your own risk. The NALC Health Benefit Plan is not liable for any direct, indirect, incidental, consequential, or punitive damages arising out of your access to our site, or any link we provide to another site. In no event will the NALC Health Benefit Plan be liable to you or to anyone else for any decision made or action taken by you or anyone else in reliance on results or files that are obtained or downloaded from this site. As a user of this site, you assume full responsibility with respect to your use of posted information, and you understand that the NALC Health Benefit Plan is neither responsible nor liable for any claim, loss or damages resulting from such use. You agree to use this site on &ldquo;As Is&rdquo; or &ldquo;As Available&rdquo; basis.</p>\n<h3>Informational Purposes Only</h3>\n<p class=\"text-justify\">The NALC Health Benefit Plan provides the information on this site for informational purposes only. You should not construe this information as an offer of medical services or as advice on medical treatments. Any information presented on this site is general in nature and may not contain all the conditions, limitations, or exclusions necessary to describe a product or service. The information provided on this site is not a substitute for professional health care. Consult a physician or other licensed health care professional before making any health-related decisions. If you have a medical emergency, call 911.</p>\n<h3>Links to Other Sites</h3>\n<p class=\"text-justify\">This website may provide links or references to other sites. The information on such other sites may be inaccurate or incomplete. The NALC Health Benefit Plan neither bears any responsibility for the content of other sites nor makes any representations or warranties with respect to any information on other sites. The NALC Health Benefit Plan shall not be held liable for any damages or injuries arising from the contents of other sites. If such a website is operated by NALC Health Benefit Plan, it will be subject to our Privacy Policy and these terms and conditions.</p>\n<p class=\"text-justify\">The NALC Health Benefit Plan does not endorse any of the companies or products which are posted on sites to which this site has provided links, or which are posted on sites that provide links to this site. Links to other sites are provided merely as a convenience to users. Because some links or references may link you to other sites containing information that may be deemed inappropriate or offensive, we cannot be held responsible for the accuracy, copyright compliance, legality, or decency of material contained in or made available by those resources, and you hereby irrevocably waive any claim against us with respect to such links or references. If you decide to access any of the sites linked to this website, you do so entirely at your own discretion and risk. The NALC Health Benefit Plan does not control such sites and therefore, is not responsible. The NALC Health Benefit Plan reserves the right to terminate any link at any time.</p>\n<p class=\"text-justify\">Specific inquiries about the site's Privacy Policy should be directed in writing to:</p>\n<div class=\"contact-info\">\n<p>NALC Health Benefit Plan</p>\n<p>P O Box 678</p>\n<p>Ashburn, VA 20146</p>\n</div>\n<p class=\"text-justify\">*Be sure to include the member's name and identification number as it appears on your ID card.</p>\n<h3>WEB TOOLS/ COST ESTIMATE TOOLS</h3>\n<p class=\"text-justify\">Cost Estimates Are Only Estimates; Factors Considered For Cost Estimates.&nbsp;Cost estimates provided through this site are estimates only and are not a guarantee of the actual cost to you, or payment or benefits from the NALC Health Benefit Plan. The estimates are based on certain factors, potentially including contract rates, fee schedule, and/or claims averages. The average geographic cost estimates are based on average costs for in-network providers within the specific geographic market.</p>\n<p class=\"text-justify\">Your actual costs may be higher or lower than the estimate for various reasons, including but not limited to:</p>\n<ul class=\"text-justify\">\n<li>Application of copays, deductibles, and coinsurance amounts;</li>\n<li>Your unique medical circumstances and the decisions made by you and your health care professionals as to what services you will receive; if the services you receive are different from the services in the care path, the cost estimates based on the care path may vary from the cost for the services you receive;</li>\n<li>Where you receive services (for instance, if you receive services in a hospital and your estimate was based on services received in a healthcare provider's office or outpatient facility, the services may cost more than the estimate);</li>\n<li>If you change plans or enter a new plan year between the time you get the estimate and when you actually receive health care services;</li>\n<li>Even within a given plan year for a given benefit plan, your benefit plan information (such as your outstanding deductible or whether you have satisfied your out-of-pocket maximum) may be impacted by health care services you have already received but for which we have not yet received or processed a claim;</li>\n<li>Changes in the fee schedule or coverage, if your cost estimate is specific to a particular specific health care facility or professional (generally, it is more expensive for you to receive services from non-network facilities or professionals than from those who participate in network).</li>\n</ul>\n<p class=\"text-justify\">Please note that other healthcare services may be provided to you that are medically necessary and appropriate as part of procedures for which you may have searched for an estimate, but of which you may not be aware at the time of your inquiry and for which you may have additional financial responsibility.</p>\n<p class=\"text-justify\">No Guarantee on Information Provided.&nbsp;You should refer to your coverage documents (Brochure) and contact the NALC Health Benefit Plan for details concerning your coverage, and you should contact your provider to confirm whether they are in-network. State, geographical, and area code variations may impact the estimates available through this site.</p>\n<p class=\"text-justify\">Costs Not Covered by the NALC Health Benefit Plan.&nbsp;You may be responsible for the cost of procedures or services, some of which may be covered in whole or in part or not at all by the NALC Health Benefit Plan. You should refer to the NALC Health Benefit Plan brochure or contact the NALC Health Benefit Plan to determine whether procedures, services, or medication are covered by the NALC Health Benefit Plan.</p>\n<h3>Restrictions</h3>\n<p class=\"text-justify\">You agree that you shall not:</p>\n<ol class=\"text-justify\" type=\"a\">\n<li>Interrupt or disrupt or attempt to interrupt or disrupt the site in any way or prevent or impede any other party&rsquo;s access to the site;</li>\n<li>Provide false or misleading information about yourself or others on or through the site;</li>\n<li>Post any User Content on or through the site that contains or delivers any form of viruses, trojan horses or any other form of malicious or harmful program;</li>\n<li>Modify or change or attempt to modify or change any aspect of the site;</li>\n<li>Collect or store personal data about other users on the site;</li>\n<li>Violate or attempt to violate any security features of the site, including, without limitation, accessing content or data not intended for you, or logging onto a server or account that you are not authorized to access;</li>\n<li>Attempt to probe, scan or test the vulnerability of the site, or any associated system or network, or to breach security or authentication measures without proper authorization;</li>\n<li>Interfere or attempt to interfere with service to any user, host or network, including, without limitation, by means of submitting a virus to the site, &ldquo;overloading,&rdquo; \"flooding,\" \"spamming,\" \"mail bombing\" or \"crashing;\"</li>\n<li>Use the site to send unsolicited e-mail, including, without limitation, promotions, or advertisements for products or services;</li>\n<li>Forge any TCP/IP packet header or any part of the header information in any e-mail or in any posting using the site; or</li>\n<li>Attempt to modify, reverse-engineer, decompile, disassemble or otherwise reduce or attempt to reduce to a human-perceivable form any of the source code used by the NALC Health Benefit Plan in providing the site.</li>\n</ol>\n<p class=\"text-justify\">Any violation of system or network security may subject you to civil and/or criminal liability.</p>\n<h3>MISCELLANEOUS</h3>\n<p class=\"text-justify\">If any term or provision of these terms and conditions are for any reason held to be invalid, such invalidity shall not affect any other term or provision, and these terms and conditions shall be interpreted as if such term or provision had never been contained in these terms and conditions. No failure of NALC Health Benefit Plan for Employees and Staff to exercise or enforce any right or provision contained herein shall constitute a waiver of that right or provision. All of the provisions of these terms and conditions shall survive the termination of these terms and conditions for any reason. These terms and conditions, your use of this site, and all related matters, regardless of your location, are governed solely by, and construed solely in accordance with, the laws of the United States and the State of Virginia, without giving effect to its conflict of law provisions.</p>"
+        },
+        {
+            "id": 3,
+            "staff": true,
+            "tos": true,
+            "body": "<h1>Terms and Conditions of Website Use</h1>\n<p class=\"text-justify\">By accessing or using this online portal and website, mobile application, or other electronic or web-based services (including the chat services) from the NALC Health Benefit Plan for Employees and Staff, you acknowledge that you have read, understand, and agree to be bound by the terms and conditions of use set forth herein, and that you will comply with all applicable laws and regulations. The NALC Health Benefit Plan for Employees and Staff may update these terms and conditions at any time, without prior notice, by updating this site.</p>\n<h3>No Warranties</h3>\n<p class=\"text-justify\">The NALC Health Benefit Plan for Employees and Staff will endeavor to keep all information that it posts on this site as accurate and current as possible. However, due to the possibility of error, the NALC Health Benefit Plan for Employees and Staff will not make, and hereby disclaims, any expressed or implied warranty of any kind with respect to the contents of this site, including, but not limited to, any representation with respect to such information's accuracy, completeness, or appropriateness for a particular purpose. Note that some jurisdictions do not allow the exclusion of implied warranties.</p>\n<p class=\"text-justify\">Any mention of specific products or services on this site does not constitute or imply a recommendation or endorsement by the NALC Health Benefit Plan for Employees and Staff, unless specifically stated.</p>\n<h3>No Liabilities</h3>\n<p class=\"text-justify\">The NALC Health Benefit Plan for Employees and Staff will not be liable for any delay, difficulty in use, inaccuracy or incompleteness of information, computer viruses, malicious code, loss of data, or compatibility issues, even if someone has advised us of the possibility of such damages or loss, and/or has informed us of a problem with the site or its content. You use the site at your own risk. The NALC Health Benefit Plan for Employees and Staff is not liable for any direct, indirect, incidental, consequential, or punitive damages arising out of your access to our site, or any link we provide to another site. In no event will the NALC Health Benefit Plan for Employees and Staff be liable to you or to anyone else for any decision made or action taken by you or anyone else in reliance on results or files that are obtained or downloaded from this site. As a user of this site, you assume full responsibility with respect to your use of posted information, and you understand that the NALC Health Benefit Plan for Employees and Staff is neither responsible nor liable for any claim, loss or damages resulting from such use. You agree to use this site on &ldquo;As Is&rdquo; or &ldquo;As Available&rdquo; basis.</p>\n<h3>Informational Purposes Only</h3>\n<p class=\"text-justify\">The NALC Health Benefit Plan for Employees and Staff provides the information on this site for informational purposes only. You should not construe this information as an offer of medical services or as advice on medical treatments. Any information presented on this site is general in nature, and may not contain all the conditions, limitations, or exclusions necessary to describe a product or service. The information provided on this site is not a substitute for professional health care. Consult a physician or other licensed health care professional before making any health-related decisions. If you have a medical emergency, call 911.</p>\n<h3>Links to Other Sites</h3>\n<p class=\"text-justify\">This website may provide links or references to other sites. The information on such other sites may be inaccurate or incomplete. The NALC Health Benefit Plan for Employees and Staff neither bears any responsibility for the content of other sites nor makes any representations or warranties with respect to any information on other sites. The NALC Health Benefit Plan for Employees and Staff shall not be held liable for any damages or injuries arising from the contents of other sites. If such a website is operated by NALC Health Benefit Plan for Employees and Staff, it will be subject to our Privacy Policy and these terms and conditions.</p>\n<p class=\"text-justify\">The NALC Health Benefit Plan for Employees and Staff does not endorse any of the companies or products which are posted on sites to which this site has provided links, or which are posted on sites that provide links to this site. Links to other sites are provided merely as a convenience to users. Because some links or references may link you to other sites containing information that may be deemed inappropriate or offensive, we cannot be held responsible for the accuracy, copyright compliance, legality, or decency of material contained in or made available by those resources, and you hereby irrevocably waive any claim against us with respect to such links or references. If you decide to access any of the sites linked to this website, you do so entirely at your own discretion and risk. The NALC Health Benefit Plan for Employees and Staff does not control such sites and therefore, is not responsible. The NALC Health Benefit Plan for Employees and Staff reserves the right to terminate any link at any time.</p>\n<p class=\"text-justify\">Specific inquiries about the site's Privacy Policy should be directed in writing to:</p>\n<div class=\"contact-info\">\n<p>NALC Health Benefit Plan for Employees and Staff</p>\n<p>P O Box 678</p>\n<p>Ashburn, VA 20146</p>\n</div>\n<p class=\"text-justify\">*Be sure to include the member's name and identification number as it appears on your ID card.</p>\n<h3>WEB TOOLS/ COST ESTIMATE TOOLS</h3>\n<p class=\"text-justify\">Cost Estimates Are Only Estimates; Factors Considered For Cost Estimates.&nbsp;Cost estimates provided through this site are estimates only and are not a guarantee of the actual cost to you, or payment or benefits from the NALC Health Benefit Plan for Employees and Staff. The estimates are based on certain factors, potentially including contract rates, fee schedule, and/or claims averages. The average geographic cost estimates are based on average costs for in-network providers within the specific geographic market.</p>\n<p class=\"text-justify\">Your actual costs may be higher or lower than the estimate for various reasons, including but not limited to:</p>\n<ul class=\"text-justify\">\n<li>Application of copays, deductibles, and coinsurance amounts;</li>\n<li>Your unique medical circumstances and the decisions made by you and your health care professionals as to what services you will receive; if the services you receive are different from the services in the care path, the cost estimates based on the care path may vary from the cost for the services you receive;</li>\n<li>Where you receive services (for instance, if you receive services in a hospital and your estimate was based on services received in a healthcare provider's office or outpatient facility, the services may cost more than the estimate);</li>\n<li>If you change plans or enter a new plan year between the time you get the estimate and when you actually receive health care services;</li>\n<li>Even within a given plan year for a given benefit plan, your benefit plan information (such as your outstanding deductible or whether you have satisfied your out-of-pocket maximum) may be impacted by health care services you have already received but for which we have not yet received or processed a claim;</li>\n<li>Changes in the fee schedule or coverage, if your cost estimate is specific to a particular specific health care facility or professional (generally, it is more expensive for you to receive services from non-network facilities or professionals than from those who participate in network).</li>\n</ul>\n<p class=\"text-justify\">Please note that other healthcare services may be provided to you that are medically necessary and appropriate as part of procedures for which you may have searched for an estimate, but of which you may not be aware at the time of your inquiry and for which you may have additional financial responsibility.</p>\n<p class=\"text-justify\">No Guarantee on Information Provided.&nbsp;You should refer to your coverage documents (Brochure) and contact the NALC Health Benefit Plan for Employees and Staff for details concerning your coverage, and you should contact your provider to confirm whether they are in-network. State, geographical, and area code variations may impact the estimates available through this site.</p>\n<p class=\"text-justify\">Costs Not Covered by the NALC Health Benefit Plan for Employees and Staff.&nbsp;You may be responsible for the cost of procedures or services, some of which may be covered in whole or in part or not at all by the NALC Health Benefit Plan for Employees and Staff. You should refer to the NALC Health Benefit Plan for Employees and Staff brochure or contact the NALC Health Benefit Plan for Employees and Staff to determine whether procedures, services, or medication are covered by the NALC Health Benefit Plan for Employees and Staff.</p>\n<h3>Restrictions</h3>\n<p class=\"text-justify\">You agree that you shall not:</p>\n<ol class=\"text-justify\" type=\"a\">\n<li>Interrupt or disrupt or attempt to interrupt or disrupt the site in any way or prevent or impede any other party&rsquo;s access to the site;</li>\n<li>Provide false or misleading information about yourself or others on or through the site;</li>\n<li>Post any User Content on or through the site that contains or delivers any form of viruses, trojan horses or any other form of malicious or harmful program;</li>\n<li>Modify or change or attempt to modify or change any aspect of the site;</li>\n<li>Collect or store personal data about other users on the site;</li>\n<li>Violate or attempt to violate any security features of the site, including, without limitation, accessing content or data not intended for you, or logging onto a server or account that you are not authorized to access;</li>\n<li>Attempt to probe, scan or test the vulnerability of the site, or any associated system or network, or to breach security or authentication measures without proper authorization;</li>\n<li>Interfere or attempt to interfere with service to any user, host or network, including, without limitation, by means of submitting a virus to the site, overloading, \"flooding,\" \"spamming,\" \"mail bombing\" or \"crashing;\"</li>\n<li>Use the site to send unsolicited e-mail, including, without limitation, promotions, or advertisements for products or services;</li>\n<li>Forge any TCP/IP packet header or any part of the header information in any e-mail or in any posting using the site; or</li>\n<li>Attempt to modify, reverse-engineer, decompile, disassemble or otherwise reduce or attempt to reduce to a human-perceivable form any of the source code used by the NALC Health Benefit Plan for Employees and Staff in providing the site.</li>\n</ol>\n<p class=\"text-justify\">Any violation of system or network security may subject you to civil and/or criminal liability.</p>\n<h3>MISCELLANEOUS</h3>\n<p class=\"text-justify\">If any term or provision of these terms and conditions are for any reason held to be invalid, such invalidity shall not affect any other term or provision, and these terms and conditions shall be interpreted as if such term or provision had never been contained in these terms and conditions. No failure of NALC Health Benefit Plan for Employees and Staff to exercise or enforce any right or provision contained herein shall constitute a waiver of that right or provision. All of the provisions of these terms and conditions shall survive the termination of these terms and conditions for any reason. These terms and conditions, your use of this site, and all related matters, regardless of your location, are governed solely by, and construed solely in accordance with, the laws of the United States and the State of Virginia, without giving effect to its conflict of law provisions.</p>"
+        },
+        {
+            "id": 4,
+            "staff": true,
+            "tos": false,
+            "body": "<h1>Privacy Policy</h1>\n<p class=\"text-justify\">NALC Health Benefit Plan for Employees and Staff (the &ldquo;Plan,&rdquo; &ldquo;us&rdquo;, &ldquo;we&rdquo; or &ldquo;our&rdquo;) operates&nbsp;<a href=\"https://staff.nalchbp.org/\">https://staff.nalchbp.org/</a>&nbsp;(the &ldquo;site&rdquo;) and your privacy is important to us. The majority of this website is available only to registered users for the member&rsquo;s portal. To become a registered user, NALC Health Benefit Plan for Employees and Staff participants and beneficiaries must complete the application form provided on this site. We are providing this notice in order to describe the site's online information collection and use practices. This privacy policy (&ldquo;Privacy Policy&rdquo;) applies only the information collected on this site, mobile applications, and any website or service that links to or refers to this Privacy Policy and not to any other information that the NALC Health Benefit Plan for Employees and Staff collects about you in other forums, including e-mail correspondence and via telephone.</p>\n<h3>Consent to Use NALC Health Benefit Plan for Employees and Staff&rsquo;s Portal</h3>\n<p class=\"text-justify\">By becoming a registered user, you are consenting to the collection, use, and disclosure of your personal information in accordance with this Privacy Policy. If you do not agree with the practices described in this Privacy Policy, please do not register as a user.</p>\n<h3>Using &ldquo;Cookies&rdquo; and Other Technologies to Monitor Website Usage</h3>\n<p class=\"text-justify\">In order to make the site as user-friendly and informative as possible, your usage of the site will be monitored and recorded via the use of a &ldquo;cookie.&rdquo; A cookie is a piece of data that a website can send to your computer. A cookie is not a computer program; it cannot read data from your computer or embed any commands in your computer. While cookies can, and are used to, identify repeat visitors to a website, they do not contain any personal identifying information such as your email address, user ID, or password. Cookies cannot gather any personal information about you other than information you provide voluntarily, such as if you choose to register on the site.</p>\n<p class=\"text-justify\">The NALC Health Benefit Plan for Employees and Staff uses cookies to ensure security. By examining cookies during a visit, the website can verify that the user requesting an action is still the same user who logged on to the site. Cookies also keep track of aggregate statistics for a website, such as the total number of visitors to the site, the server location from which each visitor accesses the site, and the number of pages each visitor views. The NALC Health Benefit Plan for Employees and Staff collects this information, but never sells or enters into any arrangement to provide this information to a third party. The NALC Health Benefit Plan for Employees and Staff uses this information internally as a tool to improve the quality of the information and services offered through the site.</p>\n<p class=\"text-justify\">Most browser programs can be set to alert you when a website sends a cookie to your computer. Most browsers also provide a way for you to remove cookies from your computer. If you tell your browser to deny cookies while visiting this site, some of the features or services of our website may not function properly.</p>\n<p class=\"text-justify\">Your IP address is a number that is automatically assigned to the computer that you are using by your Internet Service Provider. An IP address may be identified and logged automatically in our Web server log files whenever a user accesses the site, along with the time of the visit and the page(s) that were visited. Collecting IP addresses is standard practice and is done automatically by many websites, applications and other services. We use IP addresses for purposes such as calculating usage levels of the site, helping diagnose server problems, and administering the site.</p>\n<h3>What Information is Collected</h3>\n<p class=\"text-justify\">Such information may include your registration information, such as, full name, telephone number, e-mail address, postal address, racial or ethnic origin, certain account numbers, the User ID you create or is assigned to you, and other information described in this Privacy Policy.</p>\n<p class=\"text-justify\">We may use any email address you provide to send you periodic information and updates from the NALC Health Benefit Plan for Employees and Staff and from delegated third party partners and/or providers for the purpose of providing you and your family&rsquo;s health care benefits, but we will never provide or sell your contact information to another party unless required or permitted by law.</p>\n<p class=\"text-justify\">We may also disclose your personal information and/or registration information with your permission or as directed or authorized by you.</p>\n<h3>How Information Collected is Used</h3>\n<p class=\"text-justify\">The NALC Health Benefit Plan for Employees and Staff can only use the information it receives about you and your family for specific purposes, including, but not limited to:</p>\n<ul class=\"text-justify\">\n<li>Making payments to doctors, hospitals, and other health care professionals for the treatment and services that you and/or your dependents receive (i.e., processing claims);</li>\n<li>Performing certain health care and health related services to help you and your dependents manage your health;</li>\n<li>To comply with applicable laws, regulations, and legal process;</li>\n<li>As otherwise necessary or useful for us in administering and operating the Plan, so long as such use is permitted by law or for any other purpose with your consent;</li>\n<li>To provide technical support for the site; and</li>\n<li>To perform analysis regarding how you use the site.</li>\n</ul>\n<h3>Privacy of Protected Health Information</h3>\n<p class=\"text-justify\">Personal information that is unique to you, and can be used to identify you, may be considered protected health information under the terms of Health Insurance Portability and Accountability Act ('HIPAA') and is subject to the terms described in the HIPAA Notice of Privacy Practices available on this site. Please&nbsp;<a href=\"https://www.nalchbp.org/body/2013PrivacyNotice.pdf\">click here to view our Notice of Privacy Practices,</a>&nbsp;for additional information, which is incorporated herein by reference.</p>\n<h3>Your Responsibility</h3>\n<p class=\"text-justify\">By establishing registering as a user, you agree that you are ultimately responsible to:</p>\n<p class=\"text-justify\">Authorize, monitor, and control access to and use of your account, User ID and password.</p>\n<p class=\"text-justify\">Promptly inform us of any need to deactivate a password or an account by calling Customer Service at 1-888-636-NALC (6252) between the hours of 8:00am and 3:30pm Eastern Standard Time, Monday through Friday, except holidays.</p>\n<h3>Online Privacy Notice for Young Children</h3>\n<p class=\"text-justify\">This site is not directed to nor intended for children under age 13, unless an exception is granted by the Plan. The NALC Health Benefit Plan does not knowingly collect information from children under the age of 13. You can visit the Federal Trade Commission&rsquo;s website to learn about the Children&rsquo;s Online Privacy Protection Act (COPPA).</p>\n<p class=\"text-justify\">In using this site, you affirm that you are age 13 or older and are fully able and competent to enter into the terms, conditions, obligations, affirmations, representations, and warranties set forth in this Privacy Policy, and to abide by and comply with this Privacy Policy.</p>\n<h3>Information Transmission</h3>\n<p class=\"text-justify\">All personal information you provide is protected and encrypted before being transmitted to us. Once transmitted to us, information is stored on secure servers.</p>\n<p class=\"text-justify\">Specific inquiries about the site's Privacy Policy should be directed in writing to:</p>\n<div class=\"contact-info\">\n<p>Privacy Official</p>\n<p>NALC Health Benefit Plan for Employees and Staff</p>\n<p>P O Box 678</p>\n<p>Ashburn, VA 20146</p>\n</div>\n<p class=\"text-justify\">*Be sure to include the member's name and identification number as it appears on your ID card.</p>\n<h3>Changes</h3>\n<p class=\"text-justify\">We may change this Policy at any time. If we do so, such change will appear on this page. We will also provide notice and choices to you, on this website and in other appropriate locations, based on the scope and extent of changes. You may always visit this Policy to learn of any updates. Your continued access to or use of this account constitutes your consent to these changes to this Policy.</p>"
+        }
+    ],
+    "provider_cards": [
+        {
+            "id": 1,
+            "status": "published",
+            "type": "providers",
+            "show": false,
+            "body": "A primary care physician practices general healthcare, addressing a wide variety of health concerns for patients. They are typically the first person you talk to if you have a health concern. Find a primary care practitioner!",
+            "title": "Primary Care Practitioners",
+            "position": 0
+        },
+        {
+            "id": 2,
+            "status": "published",
+            "type": "providers",
+            "show": false,
+            "body": "A health facility is, in general, any location where healthcare is provided. Health facilities range from small clinics and doctor's offices to urgent care centers and large hospitals with elaborate emergency rooms and trauma centers.",
+            "title": "Facilities",
+            "position": 3
+        },
+        {
+            "id": 3,
+            "status": "published",
+            "type": "providers",
+            "show": false,
+            "body": "Any dentist or dental practitioner who is duly licensed and qualified under the law of jurisdiction in which treatment is received to render Dental Services, perform dental surgery or administer anesthetics for dental surgery.",
+            "title": "Dental Providers",
+            "position": 5
+        },
+        {
+            "id": 4,
+            "status": "published",
+            "type": "specialties",
+            "show": false,
+            "body": "A primary care physician practices general healthcare, addressing a wide variety of health concerns for patients. They are typically the first person you talk to if you have a health concern. Find a primary care practitioner!",
+            "title": "Cardiology",
+            "position": 0
+        },
+        {
+            "id": 5,
+            "status": "published",
+            "type": "providers",
+            "show": false,
+            "body": "An institution that is built, staffed, and equipped for the diagnosis of disease; for the treatment, both medical and surgical, of the sick and the injured; and for their housing during this process.",
+            "title": "Hospitals",
+            "position": 1
+        },
+        {
+            "id": 6,
+            "status": "published",
+            "type": "providers",
+            "show": false,
+            "body": "Pharmacy is the clinical health science that links medical science with chemistry and it is charged with the discovery, production, disposal, safe and effective use, and control of medications and drugs.",
+            "title": "Pharmacies",
+            "position": 2
+        },
+        {
+            "id": 7,
+            "status": "published",
+            "type": "providers",
+            "show": false,
+            "body": "Vision Care Centre is a full-service optometry clinic and optical boutique which specializes in neuro-visual training, or vision therapy.",
+            "title": "Vision Care",
+            "position": 4
+        },
+        {
+            "id": 8,
+            "status": "published",
+            "type": "providers",
+            "show": false,
+            "body": "Text about Behavioral Health - Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates aspernatur atque aperiam placeat exercitationem sequi omnis molestiae sapiente laboriosam obcaecati, minus, aliquid deserunt esse nihil enim similique, vi",
+            "title": "Behavioral Health",
+            "position": 6
+        },
+        {
+            "id": 9,
+            "status": "published",
+            "type": "specialties",
+            "show": false,
+            "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint esse accusamus illum hic modi voluptas qui? Sed amet, distinctio illum voluptates asperiores facere doloremque voluptatem",
+            "title": "Chiropractic",
+            "position": 1
+        },
+        {
+            "id": 10,
+            "status": "published",
+            "type": "specialties",
+            "show": false,
+            "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint esse accusamus illum hic modi voluptas qui? Sed amet, distinctio illum voluptates asperiores facere doloremque voluptatem",
+            "title": "Medicine",
+            "position": 2
+        },
+        {
+            "id": 11,
+            "status": "published",
+            "type": "specialties",
+            "show": false,
+            "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint esse accusamus illum hic modi voluptas qui? Sed amet, distinct",
+            "title": "Dermatology",
+            "position": 3
+        },
+        {
+            "id": 12,
+            "status": "published",
+            "type": "specialties",
+            "show": false,
+            "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint esse accusamus illum hic modi voluptas qui? Sed amet, distinctio illum voluptates a",
+            "title": "Family Practice",
+            "position": 4
+        },
+        {
+            "id": 13,
+            "status": "published",
+            "type": "specialties",
+            "show": false,
+            "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint esse accusamus illum hic modi voluptas qui? Sed amet",
+            "title": "Dentists",
+            "position": 5
+        },
+        {
+            "id": 14,
+            "status": "published",
+            "type": "specialties",
+            "show": false,
+            "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint esse accusamus illum hic modi voluptas qui? Sed amet",
+            "title": "Gynecology",
+            "position": 6
+        },
+        {
+            "id": 15,
+            "status": "published",
+            "type": "specialties",
+            "show": false,
+            "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint esse accusamus illum hic modi voluptas qui? Sed amet",
+            "title": "Gastroenterology",
+            "position": 7
+        },
+        {
+            "id": 16,
+            "status": "published",
+            "type": "specialties",
+            "show": false,
+            "body": "Doctors of internal medicine (\"internists\") are medical specialists who typically focus on adult medicine and have had special study and training focusing on the prevention and treatment of adult diseases.",
+            "title": "Internal Medicine",
+            "position": 8
+        },
+        {
+            "id": 17,
+            "status": "published",
+            "type": "specialties",
+            "show": false,
+            "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint esse accusamus illum hic modi voluptas qui? Sed amet",
+            "title": "Neurology",
+            "position": 9
+        },
+        {
+            "id": 18,
+            "status": "published",
+            "type": "specialties",
+            "show": false,
+            "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint esse accusamus illum hi",
+            "title": "Pain Management",
+            "position": 10
+        },
+        {
+            "id": 19,
+            "status": "published",
+            "type": "specialties",
+            "show": false,
+            "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint esse accusamus illum hic mod",
+            "title": "Podiatry",
+            "position": 11
+        },
+        {
+            "id": 20,
+            "status": "published",
+            "type": "specialties",
+            "show": false,
+            "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint esse accusamus illum hic modi voluptas qui? Sed amet",
+            "title": "Surgery",
+            "position": 12
+        },
+        {
+            "id": 21,
+            "status": "published",
+            "type": "specialties",
+            "show": false,
+            "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint esse accusamus illum hic modi voluptas qui?",
+            "title": "Orthopedic",
+            "position": 13
+        }
+    ],
+    "customcontent": [
+        {
+            "id": 1,
+            "status": "published",
+            "text": "<h2>Customer Service Lines</h2>\n<p><strong><img title=\"Image of Customer Service Rep\" src=\"https://www.nalchbp.org/text/contactus-1.jpg\" alt=\"Image of Customer Service Rep\" /></strong></p>\n<p>&nbsp;</p>\n<p>Whether your needs are for general information or specific medical and claims questions,&nbsp;<strong>the NALC Plan is here for you!</strong></p>\n<p>For us to service your call better, please have your Plan ID number and claimant information readily available when you place your call. &nbsp;&nbsp;</p>\n<p><strong>Monday thru Friday 8:00 a.m. - 3:30 p.m.</strong><br /><strong>Eastern Standard Time (EST)</strong></p>\n<p><strong>&nbsp;</strong></p>\n<div>\n<table border=\"1\" cellspacing=\"1\" cellpadding=\"1\" align=\"center\" bgcolor=\"#6699CC\">\n<tbody>\n<tr>\n<td width=\"65%\"><strong>Health Benefit Plan</strong></td>\n<td width=\"35%\"><strong>1-703-729-4677</strong></td>\n</tr>\n<tr>\n<td width=\"65%\"><strong>Customer Service</strong></td>\n<td width=\"35%\"><strong>1-888-636-6252</strong></td>\n</tr>\n<tr>\n<td width=\"65%\"><strong>Durable Medical Equipment</strong></td>\n<td width=\"35%\"><strong>1-888-636-6252</strong></td>\n</tr>\n<tr>\n<td width=\"65%\"><strong>Fraud Hot Line</strong></td>\n<td width=\"35%\"><strong>1-888-636-6252</strong></td>\n</tr>\n<tr>\n<td><strong>Smoking Cessation Program</strong></td>\n<td><strong>1-866-784-8454</strong></td>\n</tr>\n</tbody>\n</table>\n<p><br /><br /></p>\n</div>\n<div>\n<table border=\"1\" cellspacing=\"1\" cellpadding=\"1\" align=\"center\">\n<tbody>\n<tr bgcolor=\"#FFFFFF\">\n<td colspan=\"2\">\n<div align=\"center\">\n<p><strong>Sunday thru Friday 8 a.m. - 3 a.m. EST</strong></p>\n<p><strong>Saturday 9 a.m. - 12 a.m. EST</strong></p>\n</div>\n</td>\n</tr>\n<tr bgcolor=\"#6699CC\">\n<td width=\"65%\"><strong>Weight Management Program</strong></td>\n<td width=\"35%\"><strong>1-855-948-8255</strong></td>\n</tr>\n</tbody>\n</table>\n<p>&nbsp;</p>\n<table border=\"1\" cellspacing=\"1\" cellpadding=\"1\" align=\"center\">\n<tbody>\n<tr bgcolor=\"#6699CC\">\n<td colspan=\"2\" bgcolor=\"#FFFFFF\">\n<p align=\"center\"><strong>Monday thru Friday, EST<br /></strong></p>\n</td>\n</tr>\n</tbody>\n</table>\n<table border=\"1\" cellspacing=\"1\" cellpadding=\"1\" align=\"center\">\n<tbody>\n<tr bgcolor=\"#6699CC\">\n<td width=\"65%\"><strong>PPO Locator Service</strong></td>\n<td width=\"35%\"><strong>1-877-220-6252</strong></td>\n</tr>\n<tr bgcolor=\"#6699CC\">\n<td width=\"65%\"><strong>Inpatient Hospital Precertification</strong></td>\n<td width=\"35%\"><strong>1-877-220-6252<br />8 a.m. - 8 p.m.</strong></td>\n</tr>\n<tr bgcolor=\"#6699CC\">\n<td><strong>Outpatient Radiology/<br />Imaging Services Precertification<br />Spinal Surgery Precertification&nbsp;</strong></td>\n<td>\n<p><strong>1-877-220-6252</strong><br /><strong>8 a.m. - 8 p.m.</strong></p>\n</td>\n</tr>\n<tr bgcolor=\"#6699CC\">\n<td><strong>Cigna<em>Plus</em>&nbsp;SavingsSM Discount Dental Program</strong></td>\n<td><strong>1-877-521-0244<br />8 a.m. - 5 p.m.</strong></td>\n</tr>\n<tr bgcolor=\"#6699CC\">\n<td><strong>Cigna LIFESOURCE Transplant Program</strong></td>\n<td><strong>1-800-668-9682<br />8 a.m. - 6 p.m.</strong></td>\n</tr>\n</tbody>\n</table>\n<p>&nbsp;</p>\n<table border=\"1\" cellspacing=\"1\" cellpadding=\"1\" align=\"center\">\n<tbody>\n<tr bgcolor=\"#FFFFFF\">\n<td colspan=\"2\" height=\"24\">\n<p align=\"center\"><strong>7 days a week, 24 hours a day</strong></p>\n</td>\n</tr>\n<tr bgcolor=\"#6699CC\">\n<td width=\"65%\"><strong>Prescription Drug Program</strong></td>\n<td width=\"35%\"><strong>1-800-933-NALC</strong></td>\n</tr>\n</tbody>\n</table>\n<p>&nbsp;</p>\n<table border=\"1\" cellspacing=\"1\" cellpadding=\"1\" align=\"center\">\n<tbody>\n<tr bgcolor=\"#FFFFFF\">\n<td colspan=\"2\" height=\"24\">\n<p align=\"center\"><strong>Monday thru Saturday, 7:30 a.m. to 9 p.m., EST</strong></p>\n</td>\n</tr>\n<tr bgcolor=\"#6699CC\">\n<td width=\"65%\">\n<p>CVS/Specialty Pharmacy</p>\n</td>\n<td width=\"35%\">\n<p>1-800-237-2767</p>\n</td>\n</tr>\n</tbody>\n</table>\n<p>&nbsp;</p>\n<table border=\"1\" cellspacing=\"1\" cellpadding=\"1\" align=\"center\">\n<tbody>\n<tr bgcolor=\"#FFFFFF\">\n<td colspan=\"2\" height=\"24\">\n<div align=\"center\">\n<p><strong>7 days a week, 24 hours a day</strong></p>\n</div>\n</td>\n</tr>\n<tr bgcolor=\"#6699CC\">\n<td width=\"65%\">OptumHealth Behavioral Solutions</td>\n<td width=\"35%\">1-877-468-1016</td>\n</tr>\n</tbody>\n</table>\n<p align=\"center\"><strong>&nbsp;</strong></p>\n<p align=\"center\">&nbsp;</p>\n<div>\n<h2>Call the NALC Consumer Driven Plan or Value Option Plan</h2>\n<ul>\n<li>For more information about the NALC Health Benefit CDHP and Value Option or to locate a CDHP or Value Option Cigna HealthCare OAP network provider, please call Cigna HealthCare at 1-855-511-1893.</li>\n<li>Questions regarding prescription drugs? Please call CVS Caremark for the NALC Health Benefit CDHP and Value Option Plans at 1-800-933-NALC (6252) 24 hours-a-day, 7 days-a-week.</li>\n</ul>\n</div>\n<p align=\"center\"><strong>NALC Health Benefit Plan<br /></strong><strong>20547 Waverly Court<br />Ashburn, VA 20149</strong></p>\n</div>",
+            "title": "Contact Us",
+            "showinmenu": false
+        },
+        {
+            "id": 7,
+            "status": "published",
+            "text": "<p>Common questions and answers:</p>\n<p>&nbsp;</p>\n<p><strong>1. I have a problem with one of my claims, what do I do?</strong></p>\n<p>A: Please <span style=\"color: #3598db;\"><a style=\"color: #3598db;\" title=\"Contact Us\" href=\"https://www.nalchbp.org/contact-us\" target=\"_blank\" rel=\"noopener\">contact us</a></span> and we will help you sort it out.</p>\n<p>&nbsp;</p>\n<p><strong>2. Where can I find details about available plans?</strong></p>\n<p>A: Please visit our website at <span style=\"color: #3598db;\"><a style=\"color: #3598db;\" title=\"NALC HBP website\" href=\"https://www.nalchbp.org/\" target=\"_blank\" rel=\"noopener\">nalchbp.org</a></span> for details on all our plans</p>\n<p>&nbsp;</p>\n<p style=\"font-weight: 400;\"><strong>3. When downloading a file on the Android app, I'm getting an error message that has \"An error occurred. Please try again. Please enable storage permissions. For more information please check our FAQs page.\" How do I do this?</strong></p>\n<p>A: Here are the steps to reset the app's download permissions:&nbsp;<br />&nbsp; &nbsp; 1. Tap and hold the NALCHBP Member Portal app icon until a pop up box appears<br />&nbsp; &nbsp; 2. Tap app info<br />&nbsp; &nbsp; 3. Tap permissions<br />&nbsp; &nbsp; 4. Tap storage<br />&nbsp; &nbsp; 5. Tap the circle next to Deny and then tap the circle next to Allow<br />&nbsp; &nbsp; 6. Go back into the portal and download the file again<br /><br /></p>",
+            "title": "FAQ",
+            "showinmenu": false
+        }
+    ],
+    "env_variables": [
+        {
+            "id": 1,
+            "environment_variables": {
+                "getMaxConsentDate": false,
+                "addressAsObject": true,
+                "adminConsentFlow": true,
+                "showAltMemberId": true,
+                "canPatchEmailOnLogin": false,
+                "buildCoverageQuery": false,
+                "coverageExpiryWithinLastThreeYears": false,
+                "liveChatEnabled": false,
+                "liveChatId": "",
+                "checkDependentAge": "true",
+                "showEditAccount": true,
+                "showDownloadRecords": true,
+                "showMyAccess": false,
+                "hideMyAccessMinor": false,
+                "hideMyAccessMinorUnderAge": 18,
+                "showSharePreferences": false,
+                "showSharePreferencesForMinorToSubscriber": false,
+                "showSharePreferencesForMinorToSubscriberAge": 12,
+                "patientOrMemberName": "PATIENT_NAME",
+                "sortByServiceDate": true,
+                "usebillablePeriodDatesForServiceInfoDisplay": true,
+                "addHyphenToRemarkCode": true,
+                "claimsChartColors": [
+                    "#003659",
+                    "#ffe24f",
+                    "#ad2624",
+                    "#00aed6",
+                    "#3023ae"
+                ],
+                "updateEmailAzureFlow": false,
+                "compareFhirAndLoggedInEmail": false,
+                "addBgLight": false,
+                "canDownloadEOB": false,
+                "viewPolicyAndTerms": false,
+                "addHelpCard": false,
+                "showContactUsAddressIsArray": true,
+                "showMyBenefits": false,
+                "showEndDateInMyBenefits": false,
+                "lessHorizontalPaddingBetweenPartnersCards": true,
+                "replyDisabled": true,
+                "submitDisabled": true,
+                "getMyAccessData": false,
+                "showSettingsNavData": false,
+                "showSharePreferencesData": false,
+                "enableCommunicationRequestUpdate": false,
+                "mdmEnabled": true,
+                "recordsToShow": "all"
+            }
+        }
+    ],
+    "custom_style": [
+        {
+            "id": 1,
+            "style": "\n.nav-bar-stripe-background-color {\n  background-color: #f7cd46!important;\n}\n\n.custom-dropdown-background-color {\n  background-color: #f7cd46!important;\n}\n\n.custom-dropdown-button-color {\n  color: #f7cd46!important;\n}\n\n.nav-bar-box-shadow  {\n  box-shadow: 0 0 !important;\n}\n\n.ytd-gauge-chart-family-text {\n  color: #59719e!important;\n}\n\n.custom-dropdown-button-label-color {\n  color: #fff!important;\n}\n\n.ytd-gauge-chart-individual-text {\n  color: #1a0150!important;\n}\n\n.nav-bar-background-color {\n  background-color: #fff!important;\n}\n\n.nav-link-active-color {\n  color: #f7cd46!important;\n}\n\n.sidenav-bar-icon-background-color-active {\n  background-color: #f7cd46!important;\n}\n\n.sidenav-bar-background-color {\n  background: radial-gradient(203.35% 52.46% at 38.54% 2.39%, #120F85 6.75%, #1A0150 67.33%)!important;\n}\n\n.sidenav-bar-icon-color-active {\n  color: #1a0150!important;\n}\n\n.custom-sidenav-link-color.active {\n  color: #f7cd46!important;\n}\n\n.custom-sidenav-link-color {\n  color: #fafbfd!important;\n}\n\n.overview-tile-bg {\n  background: #f7cd46!important;\n}\n\n.overview-tile-icon {\n  color: #1a0150!important;\n}\n\n.nav-setting-primary {\n  color: #1a0150!important;\n}\n\n.nav-setting-primary-left-border {\n  border-left: 0.5rem solid #545454!important;\n}\n\n.member-selector-bg {\n  background: #f7cd46!important;\n}\n\n.nav-link-active-color-border {\n  border-left: toRem(5px) solid #1a0150!important;\n}\n\n.side-nav-link.list-group-item.active {\n  color: #1a0150!important;\n  border-left: 0.5rem solid #1a0150!important;\n}\n\n.side-nav-link.list-group-item {\n  color: #1a0150!important;\n}"
+        }
+    ],
+    "demographics": [
+        {
+            "id": 1,
+            "show": true
+        }
+    ],
+    "mybenefits": [
+        {
+            "id": 1,
+            "html_content": "<p><strong>High Option Plan</strong> – a nationwide Fee-for-Service plan aligned with two (2) preferred provider organization (PPO) networks —Cigna for medical and hospital and Optum for behavioral health. Our prescription drug retail network and mail order pharmacy are through CVS Caremark®. The High Option offers low out of pocket costs for medical and mental health services and prescription medications, no doctor referrals required, and 100% coverage for recommended preventative care services. This Plan offers the best value for your healthcare dollar and an exceptional benefits package. If Medicare is your primary insurance, you pay no out of pocket expenses for services that Medicare covers. <a style=\"color: #007bff\" href=\"https://www.nalchbp.org/high-option-plan/plans-and-benefits/plan-brochure\" target=\"_blank\">Click here for more details</a>.</p>\n\n<p><strong>CDHP</strong> – a nationwide consumer driven health plan aligned with the Cigna preferred provider organization (PPO) network for medical, hospital and behavioral health. Our\nprescription drug retail network and mail order pharmacy are through CVS Caremark®.  Consumer driven plans focus on the health care consumer and give you greater control in how you use your health care benefits. Unlike the High Option Plan, the CDHP has a higher\ndeductible amount and includes a Personal Care Account (funded by the Plan) that is used to offset your out-of-pocket costs. <a style=\"color: #007bff\" href=\"https://www.nalchbp.org/consumer-driven-health-plan/plans-and-benefits/plan-brochure\" target=\"_blank\">Click here for more details</a>.</p>\n\n<p><strong>Value Option</strong> - a nationwide consumer driven health plan aligned with the Cigna preferred\nprovider organization (PPO) network for medical, hospital and behavioral health. Our prescription drug retail network and mail order pharmacy are through CVS Caremark®.\nConsumer driven plans focus on the health care consumer and give you greater control in how you use your health care benefits. Unlike the High Option Plan, the Value Option plan\nhas a higher deductible amount and includes a Personal Care Account (funded by the Plan and a lesser amount than the CDHP) that is used to offset your out-of-pocket costs. <a  style=\"color: #007bff\" href=\"https://www.nalchbp.org/value-option-plan/plans-and-benefits\" target=\"_blank\">Click here for more details.</p>"
+        }
+    ]
+}
