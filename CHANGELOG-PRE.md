@@ -1,3 +1,10 @@
+# [1.0.0-pre.70](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.69...v1.0.0-pre.70) (2023-05-01)
+
+
+### Features
+
+* **common:** add Smile DH common library chart ([46a3e67](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/46a3e673a581963722edc3007b4019146d1a6e7b))
+
 # [1.0.0-pre.69](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.68...v1.0.0-pre.69) (2023-04-05)
 
 
