@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 # Script to prepare charts by installing the Smile DH common dependency library chart
 #
@@ -17,20 +17,35 @@ done
 SRC_DIR="$(echo "${SRC_DIR}" | sed 's:/*$::')"
 
 CHARTS_DIR="${SRC_DIR}"/main/charts
+CHART_DIRS="$(find "${CHARTS_DIR}" -mindepth 1 -maxdepth 1 -type d )"
 
-while IFS= read -r -d '' DIR
-do
+# while IFS= read -r DIR
+for DIR in ${CHART_DIRS}; do
     # Only include valid Helm Chart directories
     if [ -f "${DIR}/Chart.yaml" ]; then
         CHART="$(basename "${DIR}")"
         # Only include Application Helm Charts
         # Also temporarily disable chart dependency for smilecdr chart
-        if [ "smilecdr" == "${CHART}" ]; then continue; fi
+        if [ "smilecdr" = "${CHART}" ]; then continue; fi
         if [ "$(grep "^type:" "${DIR}/Chart.yaml" | grep -c "application" )" -ne 0 ]; then
             CHARTS="${CHARTS} ${CHART}"
         fi
     fi
-done <   <(find "${CHARTS_DIR}" -mindepth 1 -maxdepth 1 -type d -print0)
+done
+
+HELM_OUTPUT="$(helm package "${CHARTS_DIR}"/sdh-common)"
+HELM_RES=$?
+if [ "${HELM_RES}" != "0" ]; then
+    printf "Rendering template failed for test: %s.%s\n" "${DIR_NAME}" "${TEST_NAME}"
+else
+    SDH_COMMON_FILE="$(echo "${HELM_OUTPUT}" | awk '{print $NF}' )"
+    if [ ! -f "${SDH_COMMON_FILE}" ]; then
+        printf "Could not get the correct output from Helm when rendering the common library.\n"
+        printf "Filename was:\n%s\nbut it does not exist. Exciting!\n\n" "${SDH_COMMON_FILE}"
+        exit
+    fi
+fi
+
 
 for CHART in ${CHARTS}; do
     # printf ${CHART}
@@ -42,9 +57,11 @@ for CHART in ${CHARTS}; do
     # code being worked on. There is only a single 'common' chart so this
     # **should** never change.
 
-    mkdir -p "${CURRENT_CHART_DIR}"/charts
-    if [ -d "${CURRENT_CHART_DIR}"/charts/sdh-common ]; then
-        rm -r "${CURRENT_CHART_DIR}"/charts/sdh-common
+    if [ -d "${CURRENT_CHART_DIR}"/charts ]; then
+        rm -r "${CURRENT_CHART_DIR}"/charts
     fi
-    cp -rp "${CHARTS_DIR}"/sdh-common "${CURRENT_CHART_DIR}"/charts
+    mkdir -p "${CURRENT_CHART_DIR}"/charts
+    cp -rp "${SDH_COMMON_FILE}" "${CURRENT_CHART_DIR}"/charts/
 done
+
+rm "${SDH_COMMON_FILE}"

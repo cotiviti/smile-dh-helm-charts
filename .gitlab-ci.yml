@@ -96,6 +96,7 @@ helm-package-check:
     entrypoint: ["sh", "-c"]
   script:
     - echo "Testing packaging of Helm Charts..."
+    - scripts/prepare-chart-dependencies.sh -s ${CI_PROJECT_DIR}/src
     - helm package src/main/charts/*
 
 # mkdocs-test:
@@ -150,6 +151,7 @@ helm-package:
   #   - git checkout $CI_COMMIT_SHA
   script:
     - echo "Packaging Helm Charts..."
+    - scripts/prepare-chart-dependencies.sh -s ${CI_PROJECT_DIR}/src
     - helm package src/main/charts/*
     # - git checkout $PAGES_BRANCH -- public/
     # - echo "Adding charts to GitLab Pages"
