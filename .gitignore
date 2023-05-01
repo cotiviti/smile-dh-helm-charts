@@ -2,6 +2,7 @@ Makefile-local
 .helm-workdir
 
 src/main/charts/*/charts
+*.tgz
 
 # MKDocs stuff
 venv
