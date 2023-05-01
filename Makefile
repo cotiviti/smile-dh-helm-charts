@@ -17,25 +17,29 @@ help:
 
 run-all-tests: helm-lint check-helm-outputs
 
+clean: clean-charts
+
 build: update-helm-outputs
 
 helm-update-outputs-debug:
-	./scripts/check-outputs.sh -d ./src
+	./scripts/check-outputs.sh -d -s ./src
 
 helm-update-outputs-force:
-	./scripts/check-outputs.sh -f ./src
+	./scripts/check-outputs.sh -f -s ./src
 
 helm-update-outputs:
-	./scripts/check-outputs.sh -u ./src
+	./scripts/check-outputs.sh -u -s ./src
 
 helm-check-outputs: helm-lint
-	./scripts/check-outputs.sh ./src
+	./scripts/check-outputs.sh -s ./src
 
 helm-lint:
-	./scripts/lint-charts.sh ./src
+	./scripts/lint-charts.sh -s ./src
 
 helm-docs:
 	helm-docs --chart-search-root=./src/main/charts --template-files=helm-docs/_templates.gotmpl --template-files=README.md.gotmpl
 
+clean-charts:
+	./scripts/clean-charts.sh -s ./src
 
 -include Makefile-local

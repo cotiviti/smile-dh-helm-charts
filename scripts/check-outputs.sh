@@ -8,8 +8,11 @@
 
 # If you are making functional changes to the charts, call the script with the -u flag to update the "expected output" files.
 
-while getopts "ufd" flag; do
+SRC_DIR="."
+
+while getopts "ufs:d" flag; do
 case "$flag" in
+    s) SRC_DIR=$OPTARG;;
     u) UPDATE=1;;
     f) FORCE_UPDATE=1;;
     d) DEBUG_MODE=1;;
@@ -17,9 +20,13 @@ case "$flag" in
 esac
 done
 
-SRC_DIR="${*:$OPTIND:2}"
-CHARTS_DIR="${SRC_DIR}/main/charts"
-CHART_TESTS_DIR="${SRC_DIR}/test/helm-output"
+# shellcheck disable=SC2001 # Need re match for multiple trailing slashes
+SRC_DIR="$(echo "${SRC_DIR}" | sed 's:/*$::')"
+
+CHARTS_DIR="${SRC_DIR}"/main/charts
+CHART_TESTS_DIR="${SRC_DIR}"/test/helm-output
+
+scripts/prepare-chart-dependencies.sh -s ./src
 
 DEBUG_OPT=""
 if [ "${DEBUG_MODE}" == "1" ]; then
@@ -43,7 +50,10 @@ while IFS= read -r -d '' DIR
 do
     # Only include valid Helm Chart directories
     if [ -f "${DIR}/Chart.yaml" ]; then
-        CHARTS="${CHARTS} $(basename "${DIR}")"
+        # Only include Application Helm Charts
+        if [ "$(grep "^type:" "${DIR}/Chart.yaml" | grep -c "application" )" -ne 0 ]; then
+            CHARTS="${CHARTS} $(basename "${DIR}")"
+        fi
     fi
 done <   <(find "${CHARTS_DIR}" -mindepth 1 -maxdepth 1 -type d -print0)
 
@@ -51,6 +61,8 @@ ERROR=0
 for CHART in ${CHARTS}; do
     # printf ${CHART}
     CURRENT_CHART_TESTS_DIR="${CHART_TESTS_DIR}/${CHART}"
+    CURRENT_CHART_DIR="${CHARTS_DIR}/${CHART}"
+
     COUNT=0
     if [ -d "${CURRENT_CHART_TESTS_DIR}" ]; then
         while IFS= read -r -d '' DIR
@@ -102,7 +114,7 @@ for CHART in ${CHARTS}; do
 
                         if [ -f "${DIR}/${OUTFILE}" ]; then
                             # shellcheck disable=SC2086 # Intended splitting of HELMOPTS
-                            HELM_OUTPUT=$(helm template --namespace default ${HELMOPTS} "${CHARTS_DIR}"/"${CHART}" | sed '/^.*helm\.sh\/chart.*$/d' )
+                            HELM_OUTPUT=$(helm template --namespace default ${HELMOPTS} ${CURRENT_CHART_DIR} | sed '/^.*helm\.sh\/chart.*$/d' )
                             HELM_RES=$?
                             if [ "${HELM_RES}" != "0" ]; then
                                 printf "Rendering template failed for test: %s.%s\n" "${DIR_NAME}" "${TEST_NAME}"
@@ -117,7 +129,7 @@ for CHART in ${CHARTS}; do
                                     printf "Output differs for %s chart using %s values file." "${CHART}" "${TEST_NAME}"
                                     printf "%s" "${DYFF_TEXT}"
                                     printf "For prettier output, you can run the following:\n"
-                                    printf "  helm template --namespace default %s %s/%s | sed '/^.*helm\.sh\/chart.*$/d' | dyff between %s/%s -" "${HELMOPTS}" "${CHARTS_DIR}" "${CHART}" "${DIR}" "${OUTFILE}"
+                                    printf "  helm template --namespace default %s %s | sed '/^.*helm\.sh\/chart.*$/d' | dyff between %s/%s -\n\n" "${HELMOPTS}" "${CURRENT_CHART_DIR}" "${DIR}" "${OUTFILE}"
                                     ERROR=1
                                 fi
                             fi
@@ -133,10 +145,10 @@ for CHART in ${CHARTS}; do
                         if [ "${DO_UPDATE}" == "1" ] || [ "${FORCE_UPDATE}" == "1" ]; then
                             printf "Rendering new expected output %sfor %s chart using %s.%s from testconfig.yaml file\n" "${DEBUG_OPT_MSG}" "${CHART}" "${DIR_NAME}" "${TEST_NAME}"
                             if [ "${DEBUG_MODE}" == "1" ]; then
-                                printf "Helm command: \n\n helm template %s --namespace default %s %s/%s > %s/%s\n\n" "${DEBUG_OPT}" "${HELMOPTS}" "${CHARTS_DIR}" "${CHART}" "${DIR}" "${OUTFILE}"
+                                printf "Helm command: \n\n helm template %s --namespace default %s %s > %s/%s\n\n" "${DEBUG_OPT}" "${HELMOPTS}" "${CURRENT_CHART_DIR}" "${DIR}" "${OUTFILE}"
                             fi
                             # shellcheck disable=SC2086 # Intended splitting of HELMOPTS
-                            helm template ${DEBUG_OPT} --namespace default ${HELMOPTS} "${CHARTS_DIR}"/"${CHART}" > "${DIR}"/"${OUTFILE}"
+                            helm template ${DEBUG_OPT} --namespace default ${HELMOPTS} ${CURRENT_CHART_DIR} > "${DIR}"/"${OUTFILE}"
 
                             if [ ! $? ]; then
                                 printf " Rendering failed. Did the linting pass?"
@@ -157,7 +169,7 @@ for CHART in ${CHARTS}; do
         done <   <(find "${CURRENT_CHART_TESTS_DIR}" -mindepth 1 -maxdepth 1 -type d -print0)
     fi
     if [ "${COUNT}" == "0" ]; then
-        printf "There are no tests defined for %s Helm Chart" "${CHART}"
+        printf "There are no tests defined for %s Helm Chart" "${CHART}\n"
         ERROR=1
     fi
 done
