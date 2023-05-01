@@ -1,0 +1,116 @@
+replicaCount: 1
+image:
+  repository: quay.io/keycloak/keycloak
+  pullPolicy: IfNotPresent
+  # By default takes the tag from the Chart.yaml. Can be overridden here.
+  # tag: "21.0.2"
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+database:
+  crunchypgo:
+    enabled: false
+    users:
+    - name: "keycloak"
+  external:
+    enabled: false
+  envVarNames:
+    host: KC_DB_URL_HOST
+    port: KC_DB_URL_PORT
+    dbname: KC_DB_URL_DATABASE
+    user: KC_DB_USERNAME
+    password: KC_DB_PASSWORD
+    # dbtype: KC_DB
+
+secrets:
+  app:
+    type: k8sSecret
+    secretNameOverride: keycloak-secret
+    autoCreate:
+      enabled: false
+      keys:
+        adminUser:
+          type: value
+          value: admin
+        adminPassword:
+          type: rand32
+    envMappings:
+      adminUser: KEYCLOAK_ADMIN
+      adminPassword: KEYCLOAK_ADMIN_PASSWORD
+
+mappedFiles: {}
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
+  hosts:
+    - host: keycloak-example.local
+      paths:
+      - path: /keycloak
+        pathType: Prefix
+
+  tls: []
+
+# An array to add extra environment variables
+# E.g.
+# extraEnvVars:
+#  - name: STORAGE_LOCATIONS
+#    value: "s3"
+extraEnvVars:
+- name: KC_HEALTH_ENABLED
+  value: "true"
+
+extraVolumes: []
+extraVolumeMounts: []
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
