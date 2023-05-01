@@ -1,3 +1,10 @@
+# [1.0.0-pre.71](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.70...v1.0.0-pre.71) (2023-05-01)
+
+
+### Features
+
+* **pmp:** add pmp-directus chart ([f8c0b1e](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/f8c0b1e0bc9d0d1893fa9cddfac820c83e9e4cc7))
+
 # [1.0.0-pre.70](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.69...v1.0.0-pre.70) (2023-05-01)
 
 
