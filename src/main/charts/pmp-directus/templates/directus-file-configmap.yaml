@@ -1,0 +1,21 @@
+{{- range $v := ( include "directus.fileConfigMaps" . | fromYamlArray ) -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  {{- if $.Values.autoDeploy }}
+  name: {{ $.Release.Name }}-directus-{{ $v.name | replace "." "-" | lower }}-{{ $v.hash }}
+  {{- else }}
+  name: {{ $.Release.Name }}-directus-{{ $v.name | replace "." "-" | lower }}
+  {{- end }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "directus.labels" $ | nindent 4 }}
+  {{- if ($.Values.argocd).enabled }}
+  annotations:
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+    argocd.argoproj.io/sync-options: Prune=false
+  {{- end }}
+data:
+  {{ $v.name }}: |- {{ $v.data | nindent 4 }}
+---
+{{ end }}
