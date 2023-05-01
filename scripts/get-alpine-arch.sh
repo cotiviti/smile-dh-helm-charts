@@ -37,4 +37,4 @@ if [ "${TARGET}" = "helm" ] && [ "${ARCH}" = "x86_64" ]; then
     ALT_ARCH="amd64"
 fi
 
-printf "%s" ${ALT_ARCH}
+printf "%s" "${ALT_ARCH}"

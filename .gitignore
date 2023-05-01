@@ -1,4 +1,7 @@
 Makefile-local
+.helm-workdir
+
+src/main/charts/*/charts
 
 # MKDocs stuff
 venv

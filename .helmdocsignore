@@ -1,0 +1,3 @@
+# Patterns to ignore when building Helm Docs.
+src/main/charts/sdh-common
+src/main/charts/*/charts

@@ -13,6 +13,13 @@ repos:
       - id: detect-private-key
       - id: end-of-file-fixer
       - id: trailing-whitespace
+  - repo: local
+    hooks:
+      - id: prepare-helm-dependencies
+        name: prepare-helm-dependencies
+        entry: scripts/prepare-chart-dependencies.sh -s ./src
+        language: script
+        pass_filenames: false
   - repo: https://github.com/gruntwork-io/pre-commit
     rev: v0.1.17 # Get the latest from: https://github.com/gruntwork-io/pre-commit/releases
     hooks:
@@ -36,7 +43,7 @@ repos:
     hooks:
       - id: check_helm_outputs
         name: check_helm_outputs
-        entry: scripts/check-outputs.sh ./src
+        entry: scripts/check-outputs.sh -s ./src
         language: script
         pass_filenames: false
   - repo: https://github.com/commitizen-tools/commitizen
