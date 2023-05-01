@@ -1,0 +1,911 @@
+---
+# Source: pmp/templates/component-serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: release-name-pmp-pmp-services
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: pmpServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: pmp/templates/component-serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: release-name-pmp-pmp-user-services
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: pmpUserServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: pmp/templates/component-config-json-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-pmp-memberportal-ef8f0f34b72024faecb16507729f76f10c8f2e41
+  namespace: default
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: memberPortal
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  config.json: |-
+    {
+      "accessControls": {
+        "groups": {},
+        "permissions": {
+          "view_admin_portal": [],
+          "view_member_portal": [
+            "*"
+          ]
+        }
+      },
+      "authCodeFlowConfig": {
+        "authority": "https://issuer/path",
+        "autoUserInfo": false,
+        "clientId": "my-mp-client-id",
+        "configId": "main",
+        "maxIdTokenIatOffsetAllowedInSeconds": 3000,
+        "responseType": "code",
+        "scope": "openid profile"
+      },
+      "environment": {
+        "IDSystemUri": {
+          "label": "GLOBAL.MEMBER_ID_LABEL",
+          "system": "urn:system:member"
+        },
+        "IDSystemUriAlt": {
+          "label": "",
+          "system": ""
+        },
+        "adminMode": false,
+        "adminNotification": false,
+        "client": "PMP",
+        "clientIsP2P": false,
+        "closeWindowOnLogout": false,
+        "cmsURL": "my-cms-hostname.smilecdr.com/",
+        "codeSystemUrls": {
+          "p2pInternal": "http://payer-to-payer-exchange/CodeSystem/p2p-internal-codes"
+        },
+        "contactUsUrl": "my-cdr-hostname.smilecdr.com/about-us/contact-us",
+        "customTokenParameters": [
+          "patientId"
+        ],
+        "endSessionPoint": "",
+        "externalIDPSignup": true,
+        "groupIDClaim": "cognito:groups",
+        "helpDesk": "",
+        "helpDeskLink": "",
+        "logoutUrl": "https://issuer/path/logout?client_id=my-mp-client-id",
+        "memberCustomTokenParameter": [
+          "memberId"
+        ],
+        "memberIDSystemUri": "my-cdr-hostname.smilecdr.com/fhir_request/patient/identifier",
+        "notificationsEnabled": false,
+        "organizationId": "",
+        "p2pDefaultOrganizationId": "",
+        "p2pmoduleEndpoint": "my-cdr-hostname.smilecdr.com/p2p/api",
+        "passwordResetUrl": "tbd",
+        "personalRepIDUri": "my-cdr-hostname.smilecdr.com/fhir_request/person/identifier/personalrepresentative_id",
+        "pmpUserServicesURL": "pmp-user-services-example.local/pmp-user-services",
+        "privacyPolicyMembers": "my-cdr-hostname.smilecdr.com/privacy-practices",
+        "privacyPolicyStaff": "",
+        "production": false,
+        "resourceProviderURI": "my-cdr-hostname.smilecdr.com/fhir_request",
+        "sideImage": "./assets/logos/aws_login_photo.jpg",
+        "sideLogo": "",
+        "termsOfServiceMembers": "pmp-example.local/b2ctemplates/hpp/termsOfService.html",
+        "termsOfServiceStaff": "",
+        "topLogo": "./assets/logos/smileP2PLogo.svg",
+        "useCMS": true,
+        "viewMyPlanDetails": false,
+        "zammadUri": ""
+      },
+      "userObjectKeys": {
+        "loginIdentityFirstNameKey": "given_name",
+        "loginIdentityFullNameKey": "name",
+        "loginIdentityLastNameKey": "family_name"
+      }
+    }
+---
+# Source: pmp/templates/component-config-json-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-pmp-memberportaladmin-64484d6cb85221ec4951f9d72f358c4270b069dd
+  namespace: default
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: memberPortalAdmin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  config.json: |-
+    {
+      "accessControls": {
+        "groups": {
+          "csrs": "",
+          "portaladmins": "portaladmins",
+          "staffcsrs": "",
+          "superusers": ""
+        },
+        "permissions": {
+          "edit_admins": [
+            "superusers"
+          ],
+          "edit_consent_for_member": [
+            "portaladmins",
+            "superusers"
+          ],
+          "edit_consent_for_staff": [
+            "portaladmins",
+            "superusers"
+          ],
+          "edit_healthnotes_for_member": [
+            "superusers"
+          ],
+          "edit_healthnotes_for_staff": [
+            "superusers"
+          ],
+          "search_admins": [
+            "portaladmins",
+            "superusers"
+          ],
+          "search_members": [
+            "csrs",
+            "portaladmins",
+            "superusers"
+          ],
+          "search_staff": [
+            "staffcsrs",
+            "portaladmins",
+            "superusers"
+          ],
+          "send_notifications": [
+            "portaladmins",
+            "superusers"
+          ],
+          "view_admin_portal": [
+            "csrs",
+            "staffcsrs",
+            "portaladmins",
+            "superusers"
+          ],
+          "view_claims_for_member": [
+            "csrs",
+            "portaladmins",
+            "superusers"
+          ],
+          "view_claims_for_staff": [
+            "staffcsrs",
+            "portaladmins",
+            "superusers"
+          ],
+          "view_consent_for_member": [
+            "csrs",
+            "portaladmins",
+            "superusers"
+          ],
+          "view_consent_for_staff": [
+            "staffcsrs",
+            "portaladmins",
+            "superusers"
+          ],
+          "view_healthnotes_for_member": [
+            "portaladmins",
+            "superusers"
+          ],
+          "view_healthnotes_for_staff": [
+            "portaladmins",
+            "superusers"
+          ],
+          "view_medicalhistory_for_member": [
+            "portaladmins",
+            "superusers"
+          ],
+          "view_medicalhistory_for_staff": [
+            "portaladmins",
+            "superusers"
+          ]
+        }
+      },
+      "authCodeFlowConfig": {
+        "authority": "https://issuer/path",
+        "autoUserInfo": false,
+        "clientId": "my-ap-client-id",
+        "configId": "main",
+        "maxIdTokenIatOffsetAllowedInSeconds": 3000,
+        "responseType": "code",
+        "scope": "openid profile"
+      },
+      "environment": {
+        "IDSystemUri": {
+          "label": "GLOBAL.MEMBER_ID_LABEL",
+          "system": "urn:system:member"
+        },
+        "IDSystemUriAlt": {
+          "label": "",
+          "system": ""
+        },
+        "adminMode": true,
+        "adminNotification": false,
+        "client": "PMP",
+        "clientIsP2P": false,
+        "cmsURL": "my-cms-hostname.smilecdr.com/",
+        "codeSystemUrls": {
+          "p2pInternal": "http://payer-to-payer-exchange/CodeSystem/p2p-internal-codes"
+        },
+        "contactUsUrl": "my-cdr-hostname.smilecdr.com/about-us/contact-us",
+        "customTokenParameters": [
+          "patientId"
+        ],
+        "endSessionPoint": "",
+        "externalIDPSignup": false,
+        "groupIDClaim": "cognito:groups",
+        "helpDesk": "",
+        "helpDeskLink": "",
+        "logoutUrl": "https://issuer/path/logout?client_id=my-ap-client-id",
+        "memberCustomTokenParameter": [
+          "memberId"
+        ],
+        "memberIDSystemUri": "my-cdr-hostname.smilecdr.com/fhir_request/patient/identifier",
+        "notificationsEnabled": false,
+        "organizationId": "",
+        "p2pDefaultOrganizationId": "",
+        "p2pmoduleEndpoint": "my-cdr-hostname.smilecdr.com/p2p/api",
+        "passwordResetUrl": "tbd",
+        "personalRepIDUri": "my-cdr-hostname.smilecdr.com/fhir_request/person/identifier/personalrepresentative_id",
+        "pmpUserServicesURL": "pmp-user-services-example.local/pmp-user-services",
+        "privacyPolicyMembers": "my-cdr-hostname.smilecdr.com/privacy-practices",
+        "privacyPolicyStaff": "",
+        "production": false,
+        "resourceProviderURI": "my-cdr-hostname.smilecdr.com/about-us/contact-us",
+        "sideImage": "./assets/logos/aws_login_photo.jpg",
+        "sideLogo": "",
+        "termsOfServiceMembers": "pmp-example.local/b2ctemplates/hpp/termsOfService.html",
+        "termsOfServiceStaff": "",
+        "topLogo": "./assets/logos/smileP2PLogo.svg",
+        "useCMS": true,
+        "viewMyPlanDetails": false,
+        "zammadUri": ""
+      },
+      "userObjectKeys": {
+        "loginIdentityFirstNameKey": "given_name",
+        "loginIdentityFullNameKey": "name",
+        "loginIdentityLastNameKey": "family_name"
+      }
+    }
+---
+# Source: pmp/templates/component-config-json-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-pmp-pmpawslogin-2889655d07a91dbb5a8558fdb7c9fd1ed2054227
+  namespace: default
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: pmpAwsLogin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  config.json: |-
+    {
+      "awsconfig": {
+        "region": "aws-region-id",
+        "userPoolId": "my-cognito-user-pool",
+        "userPoolWebClientId": "my-al-client-id"
+      }
+    }
+---
+# Source: pmp/templates/component-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-pmp-member-portal
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: memberPortal
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: memberPortal
+    app.kubernetes.io/instance: release-name
+---
+# Source: pmp/templates/component-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-pmp-member-portal-admin
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: memberPortalAdmin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: memberPortalAdmin
+    app.kubernetes.io/instance: release-name
+---
+# Source: pmp/templates/component-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-pmp-pmp-aws-login
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: pmpAwsLogin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: pmpAwsLogin
+    app.kubernetes.io/instance: release-name
+---
+# Source: pmp/templates/component-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-pmp-pmp-services
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: pmpServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: pmpServices
+    app.kubernetes.io/instance: release-name
+---
+# Source: pmp/templates/component-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-pmp-pmp-user-services
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: pmpUserServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: pmpUserServices
+    app.kubernetes.io/instance: release-name
+---
+# Source: pmp/templates/component-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-pmp-member-portal
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: memberPortal
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: pmp
+      app.kubernetes.io/component: memberPortal
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: pmp
+        app.kubernetes.io/component: memberPortal
+        app.kubernetes.io/instance: release-name
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      enableServiceLinks: false
+      containers:
+      - name: pmp
+        securityContext:
+          {}
+        image: <YOU MUST DEFINE A REPO IN YOUR VALUES FILE>:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PUBLIC_URL
+          value: https://pmp-example.local
+        - name: CONTEXT_ROOT
+          value: /member-portal/
+        - name: LISTEN_PORT
+          value: "80"
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /member-portal/
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /member-portal/
+            port: http
+        resources:
+            {}
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html/assets/config.json
+          name: config-json
+          subPath: config.json
+      volumes:
+      - configMap:
+          name: release-name-pmp-memberportal-ef8f0f34b72024faecb16507729f76f10c8f2e41
+        name: config-json
+---
+# Source: pmp/templates/component-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-pmp-member-portal-admin
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: memberPortalAdmin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: pmp
+      app.kubernetes.io/component: memberPortalAdmin
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: pmp
+        app.kubernetes.io/component: memberPortalAdmin
+        app.kubernetes.io/instance: release-name
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      enableServiceLinks: false
+      containers:
+      - name: pmp
+        securityContext:
+          {}
+        image: <YOU MUST DEFINE A REPO IN YOUR VALUES FILE>:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PUBLIC_URL
+          value: https://pmp-example.local
+        - name: CONTEXT_ROOT
+          value: /admin/member-portal/
+        - name: LISTEN_PORT
+          value: "80"
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /admin/member-portal/
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /admin/member-portal/
+            port: http
+        resources:
+            {}
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html/assets/config.json
+          name: config-json
+          subPath: config.json
+      volumes:
+      - configMap:
+          name: release-name-pmp-memberportaladmin-64484d6cb85221ec4951f9d72f358c4270b069dd
+        name: config-json
+---
+# Source: pmp/templates/component-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-pmp-pmp-aws-login
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: pmpAwsLogin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: pmp
+      app.kubernetes.io/component: pmpAwsLogin
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: pmp
+        app.kubernetes.io/component: pmpAwsLogin
+        app.kubernetes.io/instance: release-name
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      enableServiceLinks: false
+      containers:
+      - name: pmp
+        securityContext:
+          {}
+        image: <YOU MUST DEFINE A REPO IN YOUR VALUES FILE>:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PUBLIC_URL
+          value: https://pmp-example.local
+        - name: CONTEXT_ROOT
+          value: /pmp-aws-login
+        - name: LISTEN_PORT
+          value: "80"
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /pmp-aws-login
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /pmp-aws-login
+            port: http
+        resources:
+            {}
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html/pmp-aws-login/assets/config.json
+          name: config-json
+          subPath: config.json
+      volumes:
+      - configMap:
+          name: release-name-pmp-pmpawslogin-2889655d07a91dbb5a8558fdb7c9fd1ed2054227
+        name: config-json
+---
+# Source: pmp/templates/component-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-pmp-pmp-services
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: pmpServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: pmp
+      app.kubernetes.io/component: pmpServices
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: pmp
+        app.kubernetes.io/component: pmpServices
+        app.kubernetes.io/instance: release-name
+    spec:
+      serviceAccountName: release-name-pmp-pmp-services
+      securityContext:
+        {}
+      enableServiceLinks: false
+      containers:
+      - name: pmp
+        securityContext:
+          {}
+        image: <YOU MUST DEFINE A REPO IN YOUR VALUES FILE>:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PUBLIC_URL
+          value: https://pmp-services-example.local
+        - name: CONTEXT_ROOT
+          value: /Registration
+        - name: LISTEN_PORT
+          value: "3000"
+        - name: resourceProviderURI
+          value: http://release-name-scdr-svc-fhir:8000/fhir_request
+        - name: password
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: services
+        - name: userid
+          valueFrom:
+            secretKeyRef:
+              key: userid
+              name: services
+        - name: IDENTIFIER_SYSTEM_MEMBER
+          value: urn:system:member
+        - name: IDENTIFIER_SYSTEM_PERSONALREP
+          value: urn:system:pr
+        - name: checkActiveCoverage
+          value: "false"
+        - name: checkCoverageWithinXDays
+          value: "0"
+        - name: coverageDateFormat
+          value: YYYY-MM-DD
+        - name: env
+          value: AWS
+        - name: mdmEnabled
+          value: "false"
+        - name: uniquememberidentifier
+          value: memberidentifier
+        ports:
+        - name: http
+          containerPort: 3000
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /Registration
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /Registration
+            port: http
+        resources:
+            {}
+---
+# Source: pmp/templates/component-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-pmp-pmp-user-services
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: pmpUserServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: pmp
+      app.kubernetes.io/component: pmpUserServices
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: pmp
+        app.kubernetes.io/component: pmpUserServices
+        app.kubernetes.io/instance: release-name
+    spec:
+      serviceAccountName: release-name-pmp-pmp-user-services
+      securityContext:
+        {}
+      enableServiceLinks: false
+      containers:
+      - name: pmp
+        securityContext:
+          {}
+        image: <YOU MUST DEFINE A REPO IN YOUR VALUES FILE>:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PUBLIC_URL
+          value: https://pmp-user-services-example.local
+        - name: CONTEXT_ROOT
+          value: /
+        - name: LISTEN_PORT
+          value: "3000"
+        - name: authJwksUrl
+          value: testing
+        - name: authAuthority
+          value: testing
+        - name: authClientId
+          value: testing
+        - name: awsCognitoUserPoolId
+          value: testing
+        - name: authGroupAuthorized
+          value: admins
+        - name: authGroupKeyName
+          value: cognito:groups
+        - name: authOnUserQueryEnabled
+          value: "true"
+        - name: authSupportedAlgorithms
+          value: HS256,RS256
+        - name: awsCognitoMemberIdKey
+          value: custom:memberId
+        - name: awsCognitoPatientIdKey
+          value: custom:patientId
+        - name: awsCognitoPersonIdKey
+          value: custom:personalRepId
+        - name: awsCognitoQueryFilterGivenName
+          value: given_name ^= "{firstName}"
+        - name: awsCognitoQueryFilterSurname
+          value: family_name ^= "{lastName}"
+        - name: awsCognitoQueryGroups
+          value: testers,admins
+        - name: awsRegion
+          value: us-east-1
+        - name: queryType
+          value: AWS_COGNITO
+        ports:
+        - name: http
+          containerPort: 3000
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /status
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /status
+            port: http
+        resources:
+            {}
+---
+# Source: pmp/templates/component-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-pmp-member-portal
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: memberPortal
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  rules:
+    - host: "pmp-example.local"
+      http:
+        paths:
+          - path: /member-portal/
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-pmp-member-portal
+                port:
+                  number: 80
+---
+# Source: pmp/templates/component-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-pmp-member-portal-admin
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: memberPortalAdmin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  rules:
+    - host: "pmp-example.local"
+      http:
+        paths:
+          - path: /admin/member-portal/
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-pmp-member-portal-admin
+                port:
+                  number: 80
+---
+# Source: pmp/templates/component-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-pmp-pmp-aws-login
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: pmpAwsLogin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  rules:
+    - host: "pmp-example.local"
+      http:
+        paths:
+          - path: /pmp-aws-login
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-pmp-pmp-aws-login
+                port:
+                  number: 80
+---
+# Source: pmp/templates/component-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-pmp-pmp-services
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: pmpServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  rules:
+    - host: "pmp-services-example.local"
+      http:
+        paths:
+          - path: /Registration
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-pmp-pmp-services
+                port:
+                  number: 3000
+---
+# Source: pmp/templates/component-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-pmp-pmp-user-services
+  labels:
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/component: pmpUserServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  rules:
+    - host: "pmp-user-services-example.local"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-pmp-pmp-user-services
+                port:
+                  number: 3000
