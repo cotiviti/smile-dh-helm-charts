@@ -72,7 +72,7 @@ helm-output-check:
     - curl --silent --location https://git.io/JYfAY | bash
   script:
     - echo "Checking Helm outputs..."
-    - ./scripts/check-outputs.sh ${CI_PROJECT_DIR}/src
+    - ./scripts/check-outputs.sh -s ${CI_PROJECT_DIR}/src
 
 helm-docs-check:
   stage: test

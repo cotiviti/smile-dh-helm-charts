@@ -26,8 +26,10 @@ do
     fi
 done <   <(find "${CHARTS_DIR}" -mindepth 1 -maxdepth 1 -type d -print0)
 
-./scripts/check-outputs.sh -u ./src
+./scripts/check-outputs.sh -u -s ./src
 # echo "Updating Helm Docs..."
 helm-docs --chart-search-root=src/main/charts --template-files=helm-docs/_templates.gotmpl --template-files=README.md.gotmpl
 # echo "Packaging Helm Charts..."
 helm package src/main/charts/*
+# echo "Cleaning Helm Charts for repository..."
+./scripts/clean-charts.sh -s ./src
