@@ -1,3 +1,10 @@
+# [1.0.0-pre.72](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.71...v1.0.0-pre.72) (2023-05-02)
+
+
+### Features
+
+* **pmp:** add pmp-keycloak chart ([10541a4](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/10541a44e473e1a954bbc3c5dcf00b302f7cffa0))
+
 # [1.0.0-pre.71](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.70...v1.0.0-pre.71) (2023-05-01)
 
 
