@@ -1,3 +1,10 @@
+# [1.0.0-pre.74](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.73...v1.0.0-pre.74) (2023-05-04)
+
+
+### Bug Fixes
+
+* **pmp:** add per-component imagePullSecrets logic ([880c74e](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/880c74e229e0799dc0fc255859731f32d3856185))
+
 # [1.0.0-pre.73](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.72...v1.0.0-pre.73) (2023-05-04)
 
 
