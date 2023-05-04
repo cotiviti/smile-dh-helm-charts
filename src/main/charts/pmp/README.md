@@ -110,7 +110,6 @@ A Helm chart for deploying SmileCDR PMP components.
 | components.memberPortal.image.pullPolicy | string | `"IfNotPresent"` |  |
 | components.memberPortal.image.repository | string | `"<YOU MUST DEFINE A REPO IN YOUR VALUES FILE>"` |  |
 | components.memberPortal.image.tag | string | `"latest"` |  |
-| components.memberPortal.imagePullSecrets | list | `[]` |  |
 | components.memberPortal.ingress.annotations | object | `{}` |  |
 | components.memberPortal.ingress.enabled | bool | `true` |  |
 | components.memberPortal.ingress.hosts[0].host | string | `"pmp-example.local"` |  |
@@ -266,7 +265,6 @@ A Helm chart for deploying SmileCDR PMP components.
 | components.memberPortalAdmin.image.pullPolicy | string | `"IfNotPresent"` |  |
 | components.memberPortalAdmin.image.repository | string | `"<YOU MUST DEFINE A REPO IN YOUR VALUES FILE>"` |  |
 | components.memberPortalAdmin.image.tag | string | `"latest"` |  |
-| components.memberPortalAdmin.imagePullSecrets | list | `[]` |  |
 | components.memberPortalAdmin.ingress.annotations | object | `{}` |  |
 | components.memberPortalAdmin.ingress.enabled | bool | `true` |  |
 | components.memberPortalAdmin.ingress.hosts[0].host | string | `"pmp-example.local"` |  |
@@ -307,7 +305,6 @@ A Helm chart for deploying SmileCDR PMP components.
 | components.pmpAwsLogin.image.pullPolicy | string | `"IfNotPresent"` |  |
 | components.pmpAwsLogin.image.repository | string | `"<YOU MUST DEFINE A REPO IN YOUR VALUES FILE>"` |  |
 | components.pmpAwsLogin.image.tag | string | `"latest"` |  |
-| components.pmpAwsLogin.imagePullSecrets | list | `[]` |  |
 | components.pmpAwsLogin.ingress.annotations | object | `{}` |  |
 | components.pmpAwsLogin.ingress.enabled | bool | `true` |  |
 | components.pmpAwsLogin.ingress.hosts[0].host | string | `"pmp-example.local"` |  |
@@ -348,7 +345,6 @@ A Helm chart for deploying SmileCDR PMP components.
 | components.pmpServices.image.pullPolicy | string | `"IfNotPresent"` |  |
 | components.pmpServices.image.repository | string | `"<YOU MUST DEFINE A REPO IN YOUR VALUES FILE>"` |  |
 | components.pmpServices.image.tag | string | `"latest"` |  |
-| components.pmpServices.imagePullSecrets | list | `[]` |  |
 | components.pmpServices.ingress.annotations | object | `{}` |  |
 | components.pmpServices.ingress.enabled | bool | `true` |  |
 | components.pmpServices.ingress.hosts[0].host | string | `"pmp-services-example.local"` |  |
@@ -362,13 +358,13 @@ A Helm chart for deploying SmileCDR PMP components.
 | components.pmpServices.replicaCount | int | `1` |  |
 | components.pmpServices.resourceSuffix | string | `"pmp-services"` |  |
 | components.pmpServices.resources | object | `{}` |  |
-| components.pmpServices.secrets.services.autoCreate.enabled | bool | `false` |  |
-| components.pmpServices.secrets.services.autoCreate.keys.password.type | string | `"rand32"` |  |
-| components.pmpServices.secrets.services.autoCreate.keys.userid.type | string | `"value"` |  |
-| components.pmpServices.secrets.services.autoCreate.keys.userid.value | string | `"my-pmp-services-user-id"` |  |
-| components.pmpServices.secrets.services.envMappings.password | string | `"password"` |  |
-| components.pmpServices.secrets.services.envMappings.userid | string | `"userid"` |  |
-| components.pmpServices.secrets.services.type | string | `"k8sSecret"` |  |
+| components.pmpServices.secrets.pmpServices.autoCreate.enabled | bool | `false` |  |
+| components.pmpServices.secrets.pmpServices.autoCreate.keys.password.type | string | `"rand32"` |  |
+| components.pmpServices.secrets.pmpServices.autoCreate.keys.userid.type | string | `"value"` |  |
+| components.pmpServices.secrets.pmpServices.autoCreate.keys.userid.value | string | `"my-pmp-services-user-id"` |  |
+| components.pmpServices.secrets.pmpServices.envMappings.password | string | `"password"` |  |
+| components.pmpServices.secrets.pmpServices.envMappings.userid | string | `"userid"` |  |
+| components.pmpServices.secrets.pmpServices.type | string | `"k8sSecret"` |  |
 | components.pmpServices.securityContext | object | `{}` |  |
 | components.pmpServices.service.port | int | `3000` |  |
 | components.pmpServices.service.type | string | `"ClusterIP"` |  |
@@ -400,7 +396,6 @@ A Helm chart for deploying SmileCDR PMP components.
 | components.pmpUserServices.image.pullPolicy | string | `"IfNotPresent"` |  |
 | components.pmpUserServices.image.repository | string | `"<YOU MUST DEFINE A REPO IN YOUR VALUES FILE>"` |  |
 | components.pmpUserServices.image.tag | string | `"latest"` |  |
-| components.pmpUserServices.imagePullSecrets | list | `[]` |  |
 | components.pmpUserServices.ingress.annotations | object | `{}` |  |
 | components.pmpUserServices.ingress.enabled | bool | `true` |  |
 | components.pmpUserServices.ingress.healthCheckPath | string | `"/status"` |  |

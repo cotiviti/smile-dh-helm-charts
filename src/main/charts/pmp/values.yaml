@@ -29,6 +29,18 @@ externalConfig:
       memberPortalAdmin: "my-ap-client-id"
       pmpAwsLogin: "my-al-client-id"
 
+# Specify Image Pull Secrets globally as below, or you can do so in individual components
+# If using global secrets...
+#  image:
+#   imagePullSecrets:
+#   # If using sscsi...
+#   - type: sscsi
+#     provider: aws
+#     secretArn: arn:aws:secretsmanager:aws-region:1234567890:secret:my-pmp-image-pull-secret
+#   # If using pre-existing k8s secret
+#   - type: k8sSecret
+#     name: my-directus-secret
+
 components:
   memberPortal:
     enabled: true
@@ -40,7 +52,8 @@ components:
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
       tag: "latest"
-    imagePullSecrets: []
+      # Override or undefine global imagePullSecrets
+      #imagePullSecrets: []
     nameOverride: ""
     fullnameOverride: ""
 
@@ -279,7 +292,8 @@ components:
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
       tag: "latest"
-    imagePullSecrets: []
+      # Override or undefine global imagePullSecrets
+      #imagePullSecrets: []
     nameOverride: ""
     fullnameOverride: ""
 
@@ -564,15 +578,16 @@ components:
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
       tag: "latest"
-    imagePullSecrets: []
+      # Override or undefine global imagePullSecrets
+      #imagePullSecrets: []
     nameOverride: ""
     fullnameOverride: ""
 
     secrets:
-      services:
+      pmpServices:
         # type: sscsi
         # provider: aws
-        # secretArn: arney-warney
+        # secretArn: arn:aws:secretsmanager:aws-region:1234567890:secret:my-pmpServices-app-secret
         # secretNameOverride: pmp-services-secret
         type: k8sSecret
         autoCreate:
@@ -698,7 +713,8 @@ components:
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
       tag: "latest"
-    imagePullSecrets: []
+      # Override or undefine global imagePullSecrets
+      #imagePullSecrets: []
     nameOverride: ""
     fullnameOverride: ""
 
@@ -791,7 +807,8 @@ components:
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
       tag: "latest"
-    imagePullSecrets: []
+      # Override or undefine global imagePullSecrets
+      #imagePullSecrets: []
     nameOverride: ""
     fullnameOverride: ""
 
