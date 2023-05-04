@@ -1,0 +1,87 @@
+{{- range $k, $v := .Values.components -}}
+{{- if $v.enabled -}}
+{{- $componentContext := (include "component.getMergedContext" (dict "componentName" $k "componentObject" $v "globalObject" $) | fromYaml) -}}
+{{- $defaultHostMap := first $v.ingress.hosts -}}
+{{- $defaultHost := default $defaultHostMap.host $v.ingress.defaultHost -}}
+{{- $defaultPath := ternary (printf "/%s/" .name) (first $defaultHostMap.paths).path (empty $defaultHostMap.paths) -}}
+{{- $appPath := ternary $defaultPath (printf "%s" $v.ingress.defaultPath) (empty $v.ingress.defaultPath) -}}
+{{- $healthCheckPath := ternary $appPath (printf "%s" $v.ingress.healthCheckPath) (empty $v.ingress.healthCheckPath) -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "component.fullname" $componentContext }}
+  labels:
+    {{- include "component.labels" $componentContext | nindent 4 }}
+spec:
+  {{- if not $v.autoscaling.enabled }}
+  replicas: {{ $v.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "component.selectorLabels" $componentContext | nindent 6 }}
+  template:
+    metadata:
+      {{- with $v.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "component.selectorLabels" $componentContext | nindent 8 }}
+    spec:
+      {{- with $v.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "component.serviceAccountName" $componentContext }}
+      securityContext:
+        {{- toYaml $v.podSecurityContext | nindent 8 }}
+      enableServiceLinks: false
+      containers:
+      - name: {{ $.Chart.Name }}
+        securityContext:
+          {{- toYaml $v.securityContext | nindent 10 }}
+        image: {{ printf "%s:%s" $v.image.repository (default $.Chart.AppVersion  $v.image.tag) }}
+        imagePullPolicy: {{ $v.image.pullPolicy }}
+        env:
+          {{- (include "component.env-vars" $componentContext) | nindent 8 }}
+          {{- /* range ((include "component.env-vars" $componentContext) | fromYaml ) -}}
+          - name: {{ .name }}
+            value: {{ .value }}
+          {{- end */}}
+        ports:
+        - name: http
+          containerPort: {{ $v.service.port }}
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: {{ $healthCheckPath }}
+            port: http
+        readinessProbe:
+          httpGet:
+            path: {{ $healthCheckPath }}
+            port: http
+        resources:
+          {{- toYaml $v.resources | nindent 12 }}
+          {{- with (include "component.volumeMounts" $componentContext | fromYamlArray) }}
+        volumeMounts:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+        {{- with (include "component.volumes" $componentContext | fromYamlArray) }}
+      volumes:
+        {{- toYaml . | nindent 6 }}
+        {{- end }}
+      {{- with $v.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $v.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $v.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+---
+{{- end }}
+{{ end }}

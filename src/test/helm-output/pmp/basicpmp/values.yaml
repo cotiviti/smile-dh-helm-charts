@@ -1,0 +1,12 @@
+# This file defines the minimum required settings to use this Helm Chart.
+components:
+  memberPortal:
+    enabled: true
+  memberPortalAdmin:
+    enabled: true
+  pmpServices:
+    enabled: false
+  pmpUserServices:
+    enabled: false
+  pmpAwsLogin:
+    enabled: false

@@ -1,0 +1,2 @@
+scripts/prepare-chart-dependencies.sh
+helm template -n default --debug -f src/test/helm-output/pmp/basicpmp/values.yaml src/main/charts/pmp > src/test/helm-output/pmp/basicpmp/output.yaml
