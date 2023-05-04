@@ -71,7 +71,7 @@
 
   {{- /* Do the final merge of all the config sources. */ -}}
   {{- $componentConfigData := dict -}}
-  {{- if hasKey $currentComponent.config "jsonValues" -}}
+  {{- if $currentComponent.config.jsonValues -}}
     {{- $componentJsonValues := $currentComponent.config.jsonValues | fromJson -}}
     {{- if eq ($currentComponent.config).jsonOverride "none" -}}
       {{- /* Merge with priority: dynamic, helm json */ -}}
@@ -107,7 +107,7 @@
     {{- range $k, $v := $ctx.Values.config.dynamicValues -}}
       {{- $newValue := "" -}}
       {{- if kindIs "map" $v -}}
-        {{- if hasKey $v "type" -}}
+        {{- if $v.type -}}
           {{- if eq $v.type "url" -}}
             {{- /* Auto Generate URL configurations */ -}}
             {{- $hostName := "" -}}
@@ -136,7 +136,7 @@
             {{- else -}}
               {{- fail (printf "There is no handler for host of type `%s`. Investigate..." $v.host) -}}
             {{- end -}}
-            {{- if hasKey $v "path" -}}
+            {{- if $v.path -}}
               {{- /* Path parameter substitution currently supports:
                   - fhirPath (Determined by the passed in Helm Chart parameter)
                   - oauthClientId (Determined by client Id of current PMP component) */ -}}
@@ -204,7 +204,7 @@
 {{- define "component.configMap" -}}
   {{- $configMap := dict -}}
   {{- $currentComponentName := ternary .componentName nil (not (eq .componentName nil)) -}}
-  {{- if hasKey .Values "config" -}}
+  {{- if .Values.config -}}
     {{- $currentComponent := .Values -}}
     {{- if $currentComponent.enabled -}}
       {{- $currentComponentConfig := $currentComponent.config -}}

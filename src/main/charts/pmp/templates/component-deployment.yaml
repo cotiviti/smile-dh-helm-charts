@@ -28,9 +28,9 @@ spec:
       labels:
         {{- include "component.selectorLabels" $componentContext | nindent 8 }}
     spec:
-      {{- with $v.imagePullSecrets }}
+      {{- with (include "sdhCommon.imagePullSecretsList" $componentContext | fromYamlArray) }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+        {{- toYaml . | nindent 6 }}
       {{- end }}
       serviceAccountName: {{ include "component.serviceAccountName" $componentContext }}
       securityContext:
