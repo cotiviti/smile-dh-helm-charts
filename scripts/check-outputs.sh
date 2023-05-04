@@ -9,10 +9,12 @@
 # If you are making functional changes to the charts, call the script with the -u flag to update the "expected output" files.
 
 SRC_DIR="."
+TEST_SELECTOR=""
 
-while getopts "ufs:d" flag; do
+while getopts "ufs:t:d" flag; do
 case "$flag" in
     s) SRC_DIR=$OPTARG;;
+    t) TEST_SELECTOR=$OPTARG;;
     u) UPDATE=1;;
     f) FORCE_UPDATE=1;;
     d) DEBUG_MODE=1;;
@@ -64,6 +66,7 @@ for CHART in ${CHARTS}; do
     CURRENT_CHART_DIR="${CHARTS_DIR}/${CHART}"
 
     COUNT=0
+    TESTS_RUN_COUNT=0
     if [ -d "${CURRENT_CHART_TESTS_DIR}" ]; then
         while IFS= read -r -d '' DIR
         do
@@ -80,6 +83,43 @@ for CHART in ${CHARTS}; do
                     TESTS="$(yq -ojson "${DIR}/testconfig.yaml" | jq -rc '.tests | keys[]')"
                     for TEST_NAME in ${TESTS}; do
                         (( COUNT++ ))
+                        if [ "${TEST_SELECTOR}" != "" ]; then
+                            # If TEST_SELECTOR is specified:
+                            # * TEST_SELCETOR can have multiple substrings to match.
+                            # * Only run test in the following condition
+                            # * Substring must be inside chart name, or testdir name or test name in testconfig.yaml.
+                            # * Matching is case insensitive
+                            # * ALL substrings in TEST_SELECTOR must match
+
+                            MISMATCH=0
+                            for test_string in ${TEST_SELECTOR}; do
+                                if [ "${CHART#*"$test_string"}" != "$CHART" ] || \
+                                   [ "${DIR_NAME#*"$test_string"}" != "$DIR_NAME" ] || \
+                                   [ "${TEST_NAME#*"$test_string"}" != "$TEST_NAME" ]; then
+                                    # Matched with combined tests... Do nothing
+                                    :
+                                else
+                                    # This selector string did not match, so don't check any more
+                                    # printf "%s didn't match %s\n" "${TEST_SELECTOR}" "${TEST_NAME}"
+                                    MISMATCH=1
+                                    continue
+                                fi
+                            done
+                            if [ ${MISMATCH} -eq 0 ]; then
+                                RUN_TEST=1
+                                printf "Running check/update. Chart: \"%s\" Test: \"%s.%s\" based on selector \"%s\"\n" "${CHART}" "${DIR_NAME}" "${TEST_NAME}" "${TEST_SELECTOR}"
+                            else
+                                RUN_TEST=0
+                            fi
+                        else
+                            RUN_TEST=1
+                        fi
+
+                        if [ ${RUN_TEST} -eq 0 ]; then
+                            continue
+                        fi
+
+                        (( TESTS_RUN_COUNT++ ))
                         HELMOPTS=""
                         if [ "$(yq -ojson "${DIR}/testconfig.yaml" | jq -rc --arg TEST_NAME "${TEST_NAME}" '.tests[$TEST_NAME] | has("outputFile")')" == "true" ]; then
                             OUTFILE=$(yq -ojson "${DIR}/testconfig.yaml" | jq -rc --arg TEST_NAME "${TEST_NAME}" '.tests[$TEST_NAME]["outputFile"]')
@@ -167,9 +207,13 @@ for CHART in ${CHARTS}; do
                 fi
             fi
         done <   <(find "${CURRENT_CHART_TESTS_DIR}" -mindepth 1 -maxdepth 1 -type d -print0)
+        if [ "${TEST_SELECTOR}" != "" ] && \
+           [ "${TESTS_RUN_COUNT}" == "0" ]; then
+            printf "Selector \"%s\" didn't match any tests for chart \"%s\"\n" "${TEST_SELECTOR}" "${CHART}"
+        fi
     fi
     if [ "${COUNT}" == "0" ]; then
-        printf "There are no tests defined for %s Helm Chart" "${CHART}\n"
+        printf "There are no tests defined for \"%s\" Helm Chart\n" "${CHART}"
         ERROR=1
     fi
 done
