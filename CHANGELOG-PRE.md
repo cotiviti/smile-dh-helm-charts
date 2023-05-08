@@ -1,3 +1,10 @@
+# [1.0.0-pre.75](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.74...v1.0.0-pre.75) (2023-05-08)
+
+
+### Bug Fixes
+
+* **common:** remove `chart.shortname` template ([f7a0a8b](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/f7a0a8b124c8ddac280c73664f426b068252a6f2))
+
 # [1.0.0-pre.74](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.73...v1.0.0-pre.74) (2023-05-04)
 
 
