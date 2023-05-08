@@ -8,6 +8,8 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+shortName: directus
+
 # redis:
 #   enabled: false
 

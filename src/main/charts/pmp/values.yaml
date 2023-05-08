@@ -1,7 +1,7 @@
 # Defines parameters for PMP environment.
 # Set this to aws|azure
 cloudEnv: aws
-
+shortName: pmp
 autoDeploy: true
 
 # This is the fhir endpoint to use when accessing Smile CDR from

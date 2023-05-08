@@ -27,8 +27,7 @@ In the former case, there should be a `.Values`
 {{- define "sdhCommon.imagePullSecrets" -}}
   {{- /* We will have 'global' imagePullSecrets as well as 'per component' e.g CDR nodes or Member Portal components */ -}}
   {{- $imagePullSecrets := list -}}
-  {{- /* $componentImagePullSecrets := dict */ -}}
-  {{- $chartShortName := include "chart.shortname" . -}}
+  {{- $chartShortName := .Values.shortName -}}
   {{- $imagePullSecretsValues := default list ((.Values).image).imagePullSecrets -}}
   {{- $ctx := . -}}
   {{- range $i, $v := $imagePullSecretsValues -}}
@@ -141,7 +140,7 @@ be used elsewhere in the chart
 {{- /* Extra secrets provided via .Values.secrets */ -}}
 {{- define "sdhCommon.extraSecrets" -}}
   {{- $extraSecrets := list -}}
-  {{- $chartShortName := include "chart.shortname" . -}}
+  {{- $chartShortName := .Values.shortName -}}
   {{- $ctx := . -}}
   {{- range $k, $v := ((.Values).secrets) -}}
     {{- $secretName := $k -}}
@@ -214,7 +213,7 @@ Define Extra Secrets Environment
 {{- /* Secret for the License Key */ -}}
 {{- define "sdhCommon.licenseSecrets" -}}
   {{- $licenseSecrets := list -}}
-  {{- $chartShortName := include "chart.shortname" . -}}
+  {{- $chartShortName := .Values.shortName -}}
   {{- if eq ((.Values).license).type "sscsi" -}}
     {{- if eq .Values.license.provider "aws" -}}
       {{- $secretName := printf "%s-%s-license" .Release.Name $chartShortName -}}
@@ -240,7 +239,7 @@ Define Extra Secrets Environment
        Include secrets for External Kafka certificates & credentials */ -}}
 {{- define "sdhCommon.kafkaSecrets" -}}
   {{- $kafkaSecrets := list -}}
-  {{- $chartShortName := include "chart.shortname" . -}}
+  {{- $chartShortName := .Values.shortName -}}
   {{- if (((.Values).messageBroker).external).enabled -}}
     {{- $kafkaExternalConfig := (include "kafka.external.config" . | fromYaml) -}}
     {{- $kafkaExternalCacert := ($kafkaExternalConfig.connection).caCert -}}
@@ -355,7 +354,7 @@ Current providers supported:
 {{- end -}}
 
 {{- define "sdhCommon.sscsi.secretProviderClassName" -}}
-  {{- $chartShortName := include "chart.shortname" . -}}
+  {{- $chartShortName := .Values.shortName -}}
   {{- if .componentName -}}
     {{- printf "%s-%s-%s" .Release.Name $chartShortName .componentName -}}
   {{- else -}}
