@@ -62,6 +62,7 @@ A Helm chart for deploying Keycloak to be used by Smile Digital Health PMP appli
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `""` |  |
+| shortName | string | `"keycloak"` |  |
 | tolerations | list | `[]` |  |
 
 ----------------------------------------------

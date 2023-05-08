@@ -28,13 +28,6 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 
 {{/*
-Define a short name for use in certain resource names.
-*/}}
-{{- define "chart.shortname" -}}
-{{- printf "pmp" }}
-{{- end }}
-
-{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "pmp.chart" -}}

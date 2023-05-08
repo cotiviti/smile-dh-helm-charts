@@ -81,6 +81,7 @@ A Helm chart for deploying Directus as a SmileDH PMP component.
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `""` |  |
+| shortName | string | `"directus"` |  |
 | tolerations | list | `[]` |  |
 
 ----------------------------------------------
