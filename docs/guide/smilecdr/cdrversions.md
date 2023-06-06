@@ -17,7 +17,7 @@ image:
 ## Current Smile CDR Version
 ### Smile CDR `2023.05.R01`
 
-Versions `v1.0.0-pre.79` and newer of the chart support the latest production release of Smile CDR - `2023.05.R01`.
+Versions `v1.0.0-pre.80` and newer of the chart support the latest production release of Smile CDR - `2023.05.R01`.
 
 This version includes some significant changes from previous versions that may cause some incompatibility. The following changes have been included in this version of the Helm Chart.
 
@@ -37,7 +37,7 @@ If you need to run an older version of Smile CDR with the current version of the
 
 ### Smile CDR `2023.02.R03`
 
-If you wish to continue to use Smile CDR `2023.02.R03` with Versions `v1.0.0-pre.79` or greater, then you will need to do the following before using the newer chart:
+If you wish to continue to use Smile CDR `2023.02.R03` with Versions `v1.0.0-pre.80` or greater, then you will need to do the following before using the newer chart:
 
 * Disable the `transaction` module
 * Revert the `fir_endpoint` module `type` to `ENDPOINT_FHIR_REST_R4`

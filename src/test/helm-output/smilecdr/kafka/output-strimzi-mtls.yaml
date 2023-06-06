@@ -43,7 +43,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-masterdev-node-ed7e624dbc261ca69234950cb7120e038006c30c9646c25e74f29b7e380858d6
+  name: release-name-scdr-masterdev-node-e6a5551a2fd587d9323efdc91f7aeac38d56ad172a42c032b5da0e0f5361fd6b
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -142,7 +142,7 @@ data:
     # ENDPOINT: FHIR Service
     ################################################################################
     module.fhir_endpoint.type 	= ENDPOINT_FHIR_REST
-    module.fhir_endpoint.requires.PERSISTENCE_R4 	= persistence
+    module.fhir_endpoint.requires.PERSISTENCE_ALL 	= persistence
     module.fhir_endpoint.requires.SECURITY_IN_UP 	= local_security
     module.fhir_endpoint.config.anonymous.access.enabled 	= true
     module.fhir_endpoint.config.base_url.fixed 	= https://smilecdr-example.local/fhir_request
@@ -636,7 +636,7 @@ spec:
           secret:
             secretName: release-name-kafka-user
         - configMap:
-            name: release-name-scdr-masterdev-node-ed7e624dbc261ca69234950cb7120e038006c30c9646c25e74f29b7e380858d6
+            name: release-name-scdr-masterdev-node-e6a5551a2fd587d9323efdc91f7aeac38d56ad172a42c032b5da0e0f5361fd6b
           name: scdr-config-release-name
         - emptyDir:
             sizeLimit: 1Mi

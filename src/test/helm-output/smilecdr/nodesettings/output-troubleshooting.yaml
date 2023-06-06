@@ -21,7 +21,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-overriddennodeid-node-a685b0e59f106582de47898803cc46e71e53ee007d46d34aaf78ff1250adf1c8
+  name: release-name-scdr-overriddennodeid-node-a26ae0386133ec948cdd1bddf7549abc5741a3a485299e185cc581dbff417d90
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -110,7 +110,7 @@ data:
     # ENDPOINT: FHIR Service
     ################################################################################
     module.fhir_endpoint.type 	= ENDPOINT_FHIR_REST
-    module.fhir_endpoint.requires.PERSISTENCE_R4 	= persistence
+    module.fhir_endpoint.requires.PERSISTENCE_ALL 	= persistence
     module.fhir_endpoint.requires.SECURITY_IN_UP 	= local_security
     module.fhir_endpoint.config.anonymous.access.enabled 	= true
     module.fhir_endpoint.config.base_url.fixed 	= https://smilecdr-example.local/fhir_request
@@ -567,7 +567,7 @@ spec:
               name: scdr-volume-amq
       volumes:
         - configMap:
-            name: release-name-scdr-overriddennodeid-node-a685b0e59f106582de47898803cc46e71e53ee007d46d34aaf78ff1250adf1c8
+            name: release-name-scdr-overriddennodeid-node-a26ae0386133ec948cdd1bddf7549abc5741a3a485299e185cc581dbff417d90
           name: scdr-config-release-name
         - emptyDir:
             sizeLimit: 1Mi
