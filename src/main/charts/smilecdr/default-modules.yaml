@@ -126,7 +126,7 @@ modules:
       svcName: fhir
       hostName: default
     requires:
-      PERSISTENCE_R4: persistence
+      PERSISTENCE_ALL: persistence
       SECURITY_IN_UP: local_security
     config:
       context_path: fhir_request
