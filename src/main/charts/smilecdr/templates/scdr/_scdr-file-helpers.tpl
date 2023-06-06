@@ -110,7 +110,14 @@ Collated list of all files to copy to customerlib dir
          them like below */ -}}
 
   {{- /* Add files required by Kafka (e.g. MSK IAM Jar) */ -}}
-  {{- $customerlibFileSources = concat $customerlibFileSources (include "kafka.customerlib.sources" . | fromYamlArray) -}}
+  {{- /* Currently, this template only supports the AWS MSK IAM jar file.
+         If it's not required (maybe the user has included it in their custom image)
+         then there is no need to include here.
+         Doing the exclusion logic here rather than in the helper template itself, as the
+         file still needs to be defined for use by the Kafka Admin pod deployment */ -}}
+  {{- if not (.Values.messageBroker.external.config.authentication).disableAutoJarCopy -}}
+    {{- $customerlibFileSources = concat $customerlibFileSources (include "kafka.customerlib.sources" . | fromYamlArray) -}}
+  {{- end -}}
 
   {{- $customerlibFileSources | toYaml  -}}
 {{- end -}}
