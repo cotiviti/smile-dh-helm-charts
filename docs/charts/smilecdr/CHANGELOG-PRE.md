@@ -1,3 +1,115 @@
+# [1.0.0-pre.78](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.77...v1.0.0-pre.78) (2023-06-06)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix k8s resource labels ([6378fe0](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/6378fe09908748e5bd56aa27a2d73a74cb6db302))
+
+# [1.0.0-pre.77](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.76...v1.0.0-pre.77) (2023-06-06)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix disableAutoJarCopy option ([03d5163](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/03d5163f3faa971f869167e54af375a64594ed54))
+
+# [1.0.0-pre.76](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.75...v1.0.0-pre.76) (2023-06-06)
+
+
+### Bug Fixes
+
+* **smilecdr:** update uid for curl images ([a7cb4de](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/a7cb4de7b48d05aba7f806ab6383c03c6b6b3a91))
+
+# [1.0.0-pre.75](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.74...v1.0.0-pre.75) (2023-05-08)
+
+
+### Bug Fixes
+
+* **common:** remove `chart.shortname` template ([f7a0a8b](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/f7a0a8b124c8ddac280c73664f426b068252a6f2))
+
+# [1.0.0-pre.74](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.73...v1.0.0-pre.74) (2023-05-04)
+
+
+### Bug Fixes
+
+* **pmp:** add per-component imagePullSecrets logic ([880c74e](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/880c74e229e0799dc0fc255859731f32d3856185))
+
+# [1.0.0-pre.73](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.72...v1.0.0-pre.73) (2023-05-04)
+
+
+### Features
+
+* **pmp:** add pmp chart ([d52cc0c](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/d52cc0c9822849b9d1aae3ad77884a75b77c8199))
+
+# [1.0.0-pre.72](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.71...v1.0.0-pre.72) (2023-05-02)
+
+
+### Features
+
+* **pmp:** add pmp-keycloak chart ([10541a4](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/10541a44e473e1a954bbc3c5dcf00b302f7cffa0))
+
+# [1.0.0-pre.71](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.70...v1.0.0-pre.71) (2023-05-01)
+
+
+### Features
+
+* **pmp:** add pmp-directus chart ([f8c0b1e](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/f8c0b1e0bc9d0d1893fa9cddfac820c83e9e4cc7))
+
+# [1.0.0-pre.70](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.69...v1.0.0-pre.70) (2023-05-01)
+
+
+### Features
+
+* **common:** add Smile DH common library chart ([46a3e67](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/46a3e673a581963722edc3007b4019146d1a6e7b))
+
+# [1.0.0-pre.69](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.68...v1.0.0-pre.69) (2023-04-05)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix s3 copy for customerlib ([66ea90a](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/66ea90a2c13efc909bf62354475783670bed77ec))
+
+# [1.0.0-pre.68](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.67...v1.0.0-pre.68) (2023-04-05)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix s3 copy with readonly rootfs ([f7a6a12](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/f7a6a12ab103e4b8cd82f94e5b393896134c14de))
+
+# [1.0.0-pre.67](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.66...v1.0.0-pre.67) (2023-03-28)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix kafka configs with IAM auth ([170a14c](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/170a14c3c7cfb288f92edbcc35edca1366404191))
+
+# [1.0.0-pre.66](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.65...v1.0.0-pre.66) (2023-03-27)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix value for grace period ([54686f7](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/54686f7dfc6680b57748c57b6a94ae73ff31850c))
+
+# [1.0.0-pre.65](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.64...v1.0.0-pre.65) (2023-03-23)
+
+
+### Bug Fixes
+
+* **smilecdr:** add preStop delay ([2d31c8c](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/2d31c8c6603bdc23240d7851b7fd4a76f9e39db9))
+
+# [1.0.0-pre.64](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.63...v1.0.0-pre.64) (2023-03-22)
+
+
+### Features
+
+* **smilecdr:** add database properties mode ([bb0b614](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/bb0b614c641c4f18b71a1f2dae7df17e799ea64b))
+
+# [1.0.0-pre.63](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.62...v1.0.0-pre.63) (2023-03-22)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix licence module settings ([ceab69d](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/ceab69d596e8986b7d74cc0cd821351ecb7c3c9f))
+
 # [1.0.0-pre.62](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.61...v1.0.0-pre.62) (2023-03-22)
 
 
