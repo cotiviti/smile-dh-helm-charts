@@ -1,3 +1,10 @@
+# [1.0.0-pre.78](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.77...v1.0.0-pre.78) (2023-06-06)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix k8s resource labels ([6378fe0](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/6378fe09908748e5bd56aa27a2d73a74cb6db302))
+
 # [1.0.0-pre.77](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.76...v1.0.0-pre.77) (2023-06-06)
 
 
