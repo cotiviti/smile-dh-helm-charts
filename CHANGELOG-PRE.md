@@ -1,3 +1,10 @@
+# [1.0.0-pre.80](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.79...v1.0.0-pre.80) (2023-06-06)
+
+
+### Features
+
+* **smilecdr:** Update to Smile CDR 2023.05.R01 ([99aa74d](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/99aa74d568b35504e3955ce65fdce922428db99f))
+
 # [1.0.0-pre.79](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.78...v1.0.0-pre.79) (2023-06-06)
 
 
