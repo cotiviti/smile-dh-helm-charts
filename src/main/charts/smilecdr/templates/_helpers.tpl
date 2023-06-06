@@ -31,13 +31,27 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{/*
+Determine Smile CDR application version.
+*/}}
+{{- define "smilecdr.appVersion" -}}
+  {{- $cdrVersion := "" -}}
+  {{- if .Chart.AppVersion -}}
+    {{- $cdrVersion = .Chart.AppVersion -}}
+  {{- end -}}
+  {{- if .Values.image.tag -}}
+    {{- $cdrVersion = .Values.image.tag -}}
+  {{- end -}}
+  {{- $cdrVersion -}}
+{{- end -}}
+
+{{/*
 Common labels
 */}}
 {{- define "smilecdr.labels" -}}
 helm.sh/chart: {{ include "smilecdr.chart" . }}
 {{ include "smilecdr.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- with (include "smilecdr.appVersion" .) }}
+app.kubernetes.io/version: {{ . | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- if .Values.labels -}}
@@ -46,6 +60,8 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 {{- end -}}
 {{- end }}
+
+
 
 {{/*
 Selector labels
