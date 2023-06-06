@@ -250,7 +250,16 @@ Define any file copies required by Kafka
   {{- /* Add Kafka MSK IAM Jar, only if auth type is set to `iam` */ -}}
   {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
   {{- if and $kafkaConfig.enabled (eq $kafkaConfig.authentication.type "iam") -}}
-    {{- /* The enablement, filename and URL can be overriden if required.
+    {{- /* TODO: This `disableAutoJarCopy` is currently broken. The authentication
+           settings are not propagated through the `kafka.config` template. Although
+           this should be fixed, doing so means that using this option would also
+           disable the copy for the Kafka Admin pod, which would then break.
+
+           A different solution needs to be found so that the Jar copy can be disabled
+           for the main Smile CDR pod but still enabled for the Kafka Admin pod.
+           END OF TODO.
+
+           The enablement, filename and URL can be overriden if required.
            Set `disableAutoJarCopy` to true to disable copying this file. This will break
            IAM auth unless you add the file using `copyFIles`.
            This is an undocumented feature - if different files need to be added,

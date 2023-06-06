@@ -43,6 +43,10 @@ tests:
     outputFile: output-admin-iam.yaml
     valueFiles:
     - values-admin-iam.yaml
+  adminIamNoCopy:
+    outputFile: output-admin-iam-nocopy.yaml
+    valueFiles:
+    - values-admin-iam-nocopy.yaml
   adminStrimzi:
     outputFile: output-admin-strimzi.yaml
     valueFiles:
