@@ -1,3 +1,10 @@
+# [1.0.0-pre.76](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.75...v1.0.0-pre.76) (2023-06-06)
+
+
+### Bug Fixes
+
+* **smilecdr:** update uid for curl images ([a7cb4de](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/a7cb4de7b48d05aba7f806ab6383c03c6b6b3a91))
+
 # [1.0.0-pre.75](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.74...v1.0.0-pre.75) (2023-05-08)
 
 
