@@ -438,7 +438,7 @@ spec:
         []
       serviceAccountName: default
       securityContext:
-        {}
+        fsGroup: 1000
       initContainers:
         []
       containers:
@@ -540,7 +540,7 @@ spec:
         []
       serviceAccountName: default
       securityContext:
-        {}
+        fsGroup: 1000
       initContainers:
         []
       terminationGracePeriodSeconds: 60

@@ -290,7 +290,7 @@ mappedFiles: {}
 #     path: /home/smile/smilecdr/classes
 
 ## @section Copying Extra Files into Smile CDR Pods from external location
-copyFiles: {}
+copyFiles:
 ##  Copies files using curl to the classes directory
 #   classes:
 #     syncDefaults: true
@@ -304,6 +304,14 @@ copyFiles: {}
 #     - type: s3
 #       bucket: s3-bucket-name
 #       path: /version/customerlib
+  ## Default configuration for images used for file copying.
+  config:
+    curl:
+      image: curlimages/curl:8.1.2
+      runAsUser: 100
+    awscli:
+      image: amazon/aws-cli:2.11.25
+      runAsUser: 1000
 
 ## @section Ingress
 ## @param ingress.enabled Enable Ingress
@@ -457,7 +465,8 @@ podAnnotations: {}
 
 ## @skip podSecurityContext
 # @ignored
-podSecurityContext: {}
+podSecurityContext:
+  fsGroup: 1000
 
 ## @skip securityContext
 # @ignored

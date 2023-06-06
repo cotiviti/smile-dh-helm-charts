@@ -444,7 +444,7 @@ spec:
         []
       serviceAccountName: default
       securityContext:
-        {}
+        fsGroup: 1000
       initContainers:
         - args:
           - -o
@@ -452,7 +452,7 @@ spec:
           - --location
           - --create-dirs
           - https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.6/aws-msk-iam-auth-1.1.6-all.jar
-          image: curlimages/curl
+          image: curlimages/curl:8.1.2
           imagePullPolicy: IfNotPresent
           name: init-pull-classpath-curl
           resources:
@@ -470,7 +470,7 @@ spec:
             privileged: false
             readOnlyRootFilesystem: true
             runAsNonRoot: true
-            runAsUser: 1000
+            runAsUser: 100
           volumeMounts:
           - mountPath: /tmp/admin-volumes/classpath/
             name: admin-classpath
@@ -549,7 +549,7 @@ spec:
         []
       serviceAccountName: default
       securityContext:
-        {}
+        fsGroup: 1000
       initContainers:
         - command:
           - /bin/sh
@@ -583,7 +583,7 @@ spec:
           - --location
           - --create-dirs
           - https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.6/aws-msk-iam-auth-1.1.6-all.jar
-          image: curlimages/curl
+          image: curlimages/curl:8.1.2
           imagePullPolicy: IfNotPresent
           name: init-pull-customerlib-curl
           resources:
@@ -601,7 +601,7 @@ spec:
             privileged: false
             readOnlyRootFilesystem: true
             runAsNonRoot: true
-            runAsUser: 1000
+            runAsUser: 100
           volumeMounts:
           - mountPath: /tmp/smilecdr-volumes/customerlib/
             name: scdr-volume-customerlib

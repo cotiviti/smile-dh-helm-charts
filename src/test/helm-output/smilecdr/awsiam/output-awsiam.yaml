@@ -395,7 +395,7 @@ spec:
         []
       serviceAccountName: release-name-smilecdr
       securityContext:
-        {}
+        fsGroup: 1000
       initContainers:
         []
       terminationGracePeriodSeconds: 60

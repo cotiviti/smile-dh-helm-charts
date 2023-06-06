@@ -382,7 +382,7 @@ spec:
         []
       serviceAccountName: default
       securityContext:
-        {}
+        fsGroup: 1000
       initContainers:
         - command:
           - /bin/sh
