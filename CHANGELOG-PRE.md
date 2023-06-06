@@ -1,3 +1,10 @@
+# [1.0.0-pre.77](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.76...v1.0.0-pre.77) (2023-06-06)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix disableAutoJarCopy option ([03d5163](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/03d5163f3faa971f869167e54af375a64594ed54))
+
 # [1.0.0-pre.76](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.75...v1.0.0-pre.76) (2023-06-06)
 
 
