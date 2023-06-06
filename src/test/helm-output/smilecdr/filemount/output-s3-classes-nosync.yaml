@@ -381,7 +381,7 @@ spec:
         []
       serviceAccountName: default
       securityContext:
-        {}
+        fsGroup: 1000
       initContainers:
         - args:
           - s3
@@ -389,7 +389,7 @@ spec:
           - s3://s3-bucket-name/path-to/classes
           - /tmp/smilecdr-volumes/classes/
           - --recursive
-          image: public.ecr.aws/aws-cli/aws-cli
+          image: amazon/aws-cli:2.11.25
           imagePullPolicy: IfNotPresent
           name: init-pull-classes-s3
           resources:

@@ -381,7 +381,7 @@ spec:
         []
       serviceAccountName: default
       securityContext:
-        {}
+        fsGroup: 1000
       initContainers:
         - command:
           - /bin/sh
@@ -415,7 +415,7 @@ spec:
           - s3://s3-bucket-name/path-to/customerlib
           - /tmp/smilecdr-volumes/customerlib/
           - --recursive
-          image: public.ecr.aws/aws-cli/aws-cli
+          image: amazon/aws-cli:2.11.25
           imagePullPolicy: IfNotPresent
           name: init-pull-customerlib-s3
           resources:
