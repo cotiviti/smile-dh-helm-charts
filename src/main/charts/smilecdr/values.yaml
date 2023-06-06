@@ -214,6 +214,13 @@ database:
     - name: smilecdr
       # -- Smile CDR module that will use this user/database
       module: clustermgr
+    - name: audit
+      module: audit
+    - name: txlogs
+      module: txlogs
+    - name: persistence
+      module: persistence
+
 
 ## @skip cdrNodes
 # This is where we define multiple node configurations for Smile CDR

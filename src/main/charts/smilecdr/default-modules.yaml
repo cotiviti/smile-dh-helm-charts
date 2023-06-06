@@ -119,7 +119,7 @@ modules:
   fhir_endpoint:
     name: FHIR Service
     enabled: true
-    type: ENDPOINT_FHIR_REST_R4
+    type: ENDPOINT_FHIR_REST
     enableReadinessProbe: true
     service:
       enabled: true
@@ -204,3 +204,17 @@ modules:
   license:
     type: LICENSE
     enabled: true
+
+  transaction:
+    name: External Transaction Log DB
+    enabled: true
+    type: TRANSACTION_LOG_PERSISTENCE
+    config:
+      db.driver: POSTGRES_9_4
+      db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
+      db.username: "#{env['DB_USER']}"
+      db.password: "#{env['DB_PASS']}"
+      db.schema_update_mode: UPDATE
+      stats.heartbeat_persist_frequency_ms: 15000
+      stats.stats_persist_frequency_ms: 60000
+      stats.stats_cleanup_frequency_ms: 300000

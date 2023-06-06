@@ -8,7 +8,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.02.R03"
+    app.kubernetes.io/version: "2023.05.R01"
     app.kubernetes.io/managed-by: Helm
 spec:
   maxUnavailable: 1
@@ -21,12 +21,12 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-masterdev-node-0bfbc322e8c7bcb197fbda7dbaeae300cfa04c1c6c722d88e9af62d8e92b831c
+  name: release-name-scdr-masterdev-node-6664c1220b88605df52c01655c1662d4bfaded87bcbc04f981df1dea3f022947
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.02.R03"
+    app.kubernetes.io/version: "2023.05.R01"
     app.kubernetes.io/managed-by: Helm
 data:
   cdr-config-Master.properties: |-
@@ -72,7 +72,7 @@ data:
     module.clustermgr.config.audit_log.request_headers_to_store 	= Content-Type,Host
     module.clustermgr.config.db.driver 	= POSTGRES_9_5
     module.clustermgr.config.db.schema_update_mode 	= UPDATE
-    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:5432/#{env['DB_DATABASE']}?sslmode=require
+    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['CLUSTERMGR_DB_URL']}:5432/#{env['CLUSTERMGR_DB_DATABASE']}?sslmode=require
     module.clustermgr.config.stats.heartbeat_persist_frequency_ms 	= 15000
     module.clustermgr.config.stats.stats_cleanup_frequency_ms 	= 300000
     module.clustermgr.config.stats.stats_persist_frequency_ms 	= 60000
@@ -102,7 +102,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.02.R03"
+    app.kubernetes.io/version: "2023.05.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -126,7 +126,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.02.R03"
+    app.kubernetes.io/version: "2023.05.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -150,7 +150,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.02.R03"
+    app.kubernetes.io/version: "2023.05.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -174,7 +174,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.02.R03"
+    app.kubernetes.io/version: "2023.05.R01"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -192,7 +192,7 @@ spec:
       labels:
         app.kubernetes.io/name: smilecdr
         app.kubernetes.io/instance: release-name
-        app.kubernetes.io/version: "2023.02.R03"
+        app.kubernetes.io/version: "2023.05.R01"
         app.kubernetes.io/managed-by: Helm
     spec:
       imagePullSecrets:
@@ -214,7 +214,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2023.02.R03"
+          image: "docker.smilecdr.com/smilecdr:2023.05.R01"
           imagePullPolicy: IfNotPresent
           readinessProbe:
             httpGet:
@@ -240,31 +240,106 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: DB_URL
+            - name: CLUSTERMGR_DB_URL
               valueFrom:
                 secretKeyRef:
                   key: host
                   name: release-name-pg-pguser-smilecdr
-            - name: DB_PORT
+            - name: CLUSTERMGR_DB_PORT
               valueFrom:
                 secretKeyRef:
                   key: port
                   name: release-name-pg-pguser-smilecdr
-            - name: DB_DATABASE
+            - name: CLUSTERMGR_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
                   name: release-name-pg-pguser-smilecdr
-            - name: DB_USER
+            - name: CLUSTERMGR_DB_USER
               valueFrom:
                 secretKeyRef:
                   key: user
                   name: release-name-pg-pguser-smilecdr
-            - name: DB_PASS
+            - name: CLUSTERMGR_DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
                   name: release-name-pg-pguser-smilecdr
+            - name: AUDIT_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: release-name-pg-pguser-audit
+            - name: AUDIT_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: release-name-pg-pguser-audit
+            - name: AUDIT_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: release-name-pg-pguser-audit
+            - name: AUDIT_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: release-name-pg-pguser-audit
+            - name: AUDIT_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: release-name-pg-pguser-audit
+            - name: TXLOGS_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: release-name-pg-pguser-txlogs
+            - name: TXLOGS_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: release-name-pg-pguser-txlogs
+            - name: TXLOGS_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: release-name-pg-pguser-txlogs
+            - name: TXLOGS_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: release-name-pg-pguser-txlogs
+            - name: TXLOGS_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: release-name-pg-pguser-txlogs
+            - name: PERSISTENCE_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: release-name-pg-pguser-persistence
+            - name: PERSISTENCE_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: release-name-pg-pguser-persistence
+            - name: PERSISTENCE_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: release-name-pg-pguser-persistence
+            - name: PERSISTENCE_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: release-name-pg-pguser-persistence
+            - name: PERSISTENCE_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: release-name-pg-pguser-persistence
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
           ports:
@@ -289,7 +364,7 @@ spec:
               name: scdr-volume-amq
       volumes:
         - configMap:
-            name: release-name-scdr-masterdev-node-0bfbc322e8c7bcb197fbda7dbaeae300cfa04c1c6c722d88e9af62d8e92b831c
+            name: release-name-scdr-masterdev-node-6664c1220b88605df52c01655c1662d4bfaded87bcbc04f981df1dea3f022947
           name: scdr-config-release-name
         - emptyDir:
             sizeLimit: 1Mi
@@ -311,7 +386,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.02.R03"
+    app.kubernetes.io/version: "2023.05.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     kubernetes.io/ingress.class: "nginx"
@@ -351,7 +426,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.02.R03"
+    app.kubernetes.io/version: "2023.05.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     "helm.sh/hook": test

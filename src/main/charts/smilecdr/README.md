@@ -1,6 +1,6 @@
 # Smile CDR
 
-![Version: 1.0.0-pre.78](https://img.shields.io/badge/Version-1.0.0--pre.78-informational?style=flat-square) ![Smile CDR Version: 2023.02.R03](https://img.shields.io/badge/Smile%20CDR%20Version-2023.02.R03-informational?style=flat-square)
+![Version: 1.0.0-pre.78](https://img.shields.io/badge/Version-1.0.0--pre.78-informational?style=flat-square) ![Smile CDR Version: 2023.05.R01](https://img.shields.io/badge/Smile%20CDR%20Version-2023.05.R01-informational?style=flat-square)
 
 This chart provides a flexible and consistent process to deploy Smile CDR in a self-managed Kubernetes cluster.
 
@@ -85,6 +85,12 @@ The below section gives an overview of the default values available. Consult the
 | database.crunchypgo.internal | bool | `false` | Create the Postgres database as part of this Helm Chart |
 | database.crunchypgo.users[0].module | string | `"clustermgr"` | Smile CDR module that will use this user/database |
 | database.crunchypgo.users[0].name | string | `"smilecdr"` |  |
+| database.crunchypgo.users[1].module | string | `"audit"` |  |
+| database.crunchypgo.users[1].name | string | `"audit"` |  |
+| database.crunchypgo.users[2].module | string | `"txlogs"` |  |
+| database.crunchypgo.users[2].name | string | `"txlogs"` |  |
+| database.crunchypgo.users[3].module | string | `"persistence"` |  |
+| database.crunchypgo.users[3].name | string | `"persistence"` |  |
 | database.external.credentials | object | `{}` |  |
 | database.external.databases[0].dbnameKey | string | `"dbname"` |  |
 | database.external.databases[0].module | string | `"clustermgr"` |  |
