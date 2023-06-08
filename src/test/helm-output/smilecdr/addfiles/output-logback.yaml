@@ -8,7 +8,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R01"
+    app.kubernetes.io/version: "2023.05.R02"
     app.kubernetes.io/managed-by: Helm
 spec:
   maxUnavailable: 1
@@ -26,7 +26,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R01"
+    app.kubernetes.io/version: "2023.05.R02"
     app.kubernetes.io/managed-by: Helm
 data:
   logback.xml: |-
@@ -155,7 +155,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R01"
+    app.kubernetes.io/version: "2023.05.R02"
     app.kubernetes.io/managed-by: Helm
 data:
   cdr-config-Master.properties: |-
@@ -353,7 +353,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R01"
+    app.kubernetes.io/version: "2023.05.R02"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -377,7 +377,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R01"
+    app.kubernetes.io/version: "2023.05.R02"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -401,7 +401,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R01"
+    app.kubernetes.io/version: "2023.05.R02"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -425,7 +425,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R01"
+    app.kubernetes.io/version: "2023.05.R02"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -449,7 +449,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R01"
+    app.kubernetes.io/version: "2023.05.R02"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -473,7 +473,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R01"
+    app.kubernetes.io/version: "2023.05.R02"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -497,7 +497,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R01"
+    app.kubernetes.io/version: "2023.05.R02"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -515,7 +515,7 @@ spec:
       labels:
         app.kubernetes.io/name: smilecdr
         app.kubernetes.io/instance: release-name
-        app.kubernetes.io/version: "2023.05.R01"
+        app.kubernetes.io/version: "2023.05.R02"
         app.kubernetes.io/managed-by: Helm
     spec:
       imagePullSecrets:
@@ -537,7 +537,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2023.05.R01"
+          image: "docker.smilecdr.com/smilecdr:2023.05.R02"
           imagePullPolicy: IfNotPresent
           readinessProbe:
             httpGet:
@@ -724,7 +724,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R01"
+    app.kubernetes.io/version: "2023.05.R02"
     app.kubernetes.io/managed-by: Helm
   annotations:
     kubernetes.io/ingress.class: "nginx"
@@ -785,7 +785,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R01"
+    app.kubernetes.io/version: "2023.05.R02"
     app.kubernetes.io/managed-by: Helm
   annotations:
     "helm.sh/hook": test

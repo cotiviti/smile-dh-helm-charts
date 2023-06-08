@@ -9,15 +9,15 @@ Set `image.tag` to your required version
 #### `my-values.yaml`
 ```yaml
 image:
-  tag: "2023.05.R01"
+  tag: "2023.05.R02"
 ```
 
 > **Warning** Pre-release versions of this Helm Chart may default to pre-release versions of Smile CDR. Always update the image tag when using this Helm Chart to update an existing installation that is running a previous version of Smile CDR.</br>If you do not perform this step, Smile CDR may automatically upgrade your database to the latest version, which may be an irreversible step!
 
 ## Current Smile CDR Version
-### Smile CDR `2023.05.R01`
+### Smile CDR `2023.05.*`
 
-Versions `v1.0.0-pre.80` and newer of the chart support the latest production release of Smile CDR - `2023.05.R01`.
+Versions `v1.0.0-pre.80` and newer of the chart support the latest production release of Smile CDR - `2023.05.R01` and above.
 
 This version includes some significant changes from previous versions that may cause some incompatibility. The following changes have been included in this version of the Helm Chart.
 
