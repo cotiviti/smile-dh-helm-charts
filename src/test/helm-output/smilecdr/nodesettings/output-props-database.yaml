@@ -36,7 +36,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-overriddennodeid-node-6cbbb6698dc1517b6b75faa449cfe57fa67e29a90e97af820f6d8ceb50013a6b
+  name: release-name-scdr-overriddennodeid-node
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -582,7 +582,7 @@ spec:
               name: scdr-volume-amq
       volumes:
         - configMap:
-            name: release-name-scdr-overriddennodeid-node-6cbbb6698dc1517b6b75faa449cfe57fa67e29a90e97af820f6d8ceb50013a6b
+            name: release-name-scdr-overriddennodeid-node
           name: scdr-config-release-name
         - emptyDir:
             sizeLimit: 1Mi

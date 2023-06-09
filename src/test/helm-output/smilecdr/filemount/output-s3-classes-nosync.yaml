@@ -21,7 +21,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-masterdev-node-2f2cb5a50121d034ac937b8b507f73d1cac4b24d152190cb8a42ed68d01c6c12
+  name: release-name-scdr-masterdev-node
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -601,7 +601,7 @@ spec:
             sizeLimit: 500Mi
           name: scdr-volume-classes
         - configMap:
-            name: release-name-scdr-masterdev-node-2f2cb5a50121d034ac937b8b507f73d1cac4b24d152190cb8a42ed68d01c6c12
+            name: release-name-scdr-masterdev-node
           name: scdr-config-release-name
         - emptyDir:
             sizeLimit: 1Mi

@@ -21,7 +21,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-kafka-client-properties-masterdev-node-7695d206d8bb43caabd0d31555b8a1dd01291f2c
+  name: release-name-kafka-client-properties-masterdev-node
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -43,7 +43,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-masterdev-node-1dd1f64e359b6569e678d830424b1a83bad7d61d3b7f2b50057e0b8f35c49e23
+  name: release-name-scdr-masterdev-node
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -603,10 +603,10 @@ spec:
               name: scdr-volume-log
       volumes:
         - configMap:
-            name: release-name-kafka-client-properties-masterdev-node-7695d206d8bb43caabd0d31555b8a1dd01291f2c
+            name: release-name-kafka-client-properties-masterdev-node
           name: kafka-client-config
         - configMap:
-            name: release-name-scdr-masterdev-node-1dd1f64e359b6569e678d830424b1a83bad7d61d3b7f2b50057e0b8f35c49e23
+            name: release-name-scdr-masterdev-node
           name: scdr-config-release-name
         - emptyDir:
             sizeLimit: 1Mi

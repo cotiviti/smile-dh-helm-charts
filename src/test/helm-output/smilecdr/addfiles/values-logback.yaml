@@ -5,5 +5,3 @@
 mappedFiles:
   logback.xml:
     path: /home/smile/smilecdr/classes
-
-autoDeploy: false

@@ -4,4 +4,4 @@ database:
   crunchypgo:
     enabled: true
 
-autoDeploy: true
+autoDeploy: false
