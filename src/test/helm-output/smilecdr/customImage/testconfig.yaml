@@ -2,8 +2,10 @@ tests:
   default:
     outputFile: output.yaml
     valueFiles:
-    - values.yaml
+    - ../default-test-values.yaml
+    - test-values.yaml
   initcontainer:
     outputFile: output-initcontainer.yaml
     valueFiles:
+    - ../default-test-values.yaml
     - values-initcontainer.yaml

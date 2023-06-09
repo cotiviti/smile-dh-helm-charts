@@ -13,9 +13,3 @@ copyFiles:
     - type: s3
       bucket: s3-bucket-name
       path: /path-to/customerlib
-
-# This defines the minimum required settings to use this Helm Chart.
-
-database:
-  crunchypgo:
-    enabled: true

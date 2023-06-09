@@ -2,8 +2,3 @@
 cdrNodes:
   overriddenNodeId:
     name: customNodeName
-
-# This defines the minimum required settings to use this Helm Chart.
-database:
-  crunchypgo:
-    enabled: true

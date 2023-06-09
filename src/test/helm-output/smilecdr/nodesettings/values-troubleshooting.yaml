@@ -4,8 +4,3 @@ cdrNodes:
     config:
       locked: true
       troubleshooting: false
-
-# This defines the minimum required settings to use this Helm Chart.
-database:
-  crunchypgo:
-    enabled: true

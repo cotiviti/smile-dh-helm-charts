@@ -1,0 +1,5 @@
+mappedFiles:
+  testfile.txt:
+    type: configMap
+    configMapBaseName: smilecdr
+    path: /home/smile/smilecdr/classes

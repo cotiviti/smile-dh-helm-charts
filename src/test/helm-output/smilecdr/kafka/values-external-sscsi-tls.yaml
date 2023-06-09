@@ -12,9 +12,3 @@ messageBroker:
           secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:kafkacacert
       authentication:
         type: none
-
-# This defines the minimum required settings to use this Helm Chart.
-
-database:
-  crunchypgo:
-    enabled: true

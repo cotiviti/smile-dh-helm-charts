@@ -5,25 +5,30 @@ tests:
     # - key: keyName
     #   value: theValue
     valueFiles:
-    - values.yaml
-    # - extra-values.yaml
+    - ../default-test-values.yaml
+    - test-values.yaml
   classesS3:
     outputFile: output-s3-classes.yaml
     valueFiles:
+    - ../default-test-values.yaml
     - values-s3-classes.yaml
   classesS3Nosync:
     outputFile: output-s3-classes-nosync.yaml
     valueFiles:
+    - ../default-test-values.yaml
     - values-s3-classes-nosync.yaml
   customerlibS3:
     outputFile: output-s3-customerlib.yaml
     valueFiles:
+    - ../default-test-values.yaml
     - values-s3-customerlib.yaml
   bothS3:
     outputFile: output-s3-both.yaml
     valueFiles:
+    - ../default-test-values.yaml
     - values-s3-both.yaml
   bothcurl:
     outputFile: output-curl-both.yaml
     valueFiles:
+    - ../default-test-values.yaml
     - values-curl-both.yaml

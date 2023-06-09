@@ -2,24 +2,30 @@ tests:
   agw:
     outputFile: output-agw.yaml
     valueFiles:
+    - ../default-test-values.yaml
     - values-agw.yaml
   agw-a:
     outputFile: output-agw-a.yaml
     valueFiles:
+    - ../default-test-values.yaml
     - values-agw-a.yaml
   aws-lbc-alb:
     outputFile: output-aws-lbc-alb.yaml
     valueFiles:
+    - ../default-test-values.yaml
     - values-aws-lbc-alb.yaml
   aws-lbc-alb-a:
     outputFile: output-aws-lbc-alb-a.yaml
     valueFiles:
+    - ../default-test-values.yaml
     - values-aws-lbc-alb-a.yaml
   nginx-ingress:
     outputFile: output-nginx-ingress.yaml
     valueFiles:
+    - ../default-test-values.yaml
     - values-nginx-ingress.yaml
   nginx-ingress-a:
     outputFile: output-nginx-ingress-a.yaml
     valueFiles:
+    - ../default-test-values.yaml
     - values-nginx-ingress-a.yaml

@@ -16,9 +16,3 @@ messageBroker:
           type: sscsi
           provider: aws
           secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:kafkaclientcert
-
-# This defines the minimum required settings to use this Helm Chart.
-
-database:
-  crunchypgo:
-    enabled: true

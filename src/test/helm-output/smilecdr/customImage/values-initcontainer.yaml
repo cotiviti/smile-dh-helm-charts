@@ -1,4 +1,4 @@
-# This file defines the minimum required settings to use this Helm Chart.
+# This file ensures the custom image is also used for the sync init containers
 
 image:
   repository: custom.image/repo/image
@@ -12,7 +12,9 @@ copyFiles:
     - type: curl
       fileName: file.jar
       url: https://source.example.com/file.jar
-
-database:
-  crunchypgo:
-    enabled: true
+  # customerlib:
+  #   #syncDefaults: false
+  #   sources:
+  #   - type: curl
+  #     fileName: file.jar
+  #     url: https://source.example.com/file.jar

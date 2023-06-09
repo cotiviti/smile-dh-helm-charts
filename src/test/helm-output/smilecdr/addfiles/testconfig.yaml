@@ -5,7 +5,7 @@ tests:
     # - key: keyName
     #   value: theValue
     valueFiles:
-    - values.yaml
+    - ../default-test-values.yaml
     - values-simple.yaml
     # - extra-values.yaml
     setFile:
@@ -18,7 +18,7 @@ tests:
     # - key: keyName
     #   value: theValue
     valueFiles:
-    - values.yaml
+    - ../default-test-values.yaml
     - values-logback.yaml
     # - extra-values.yaml
     setFile:
@@ -31,7 +31,7 @@ tests:
     # - key: keyName
     #   value: theValue
     valueFiles:
-    - values.yaml
+    - ../default-test-values.yaml
     - values-logback-hash.yaml
     # - extra-values.yaml
     setFile:

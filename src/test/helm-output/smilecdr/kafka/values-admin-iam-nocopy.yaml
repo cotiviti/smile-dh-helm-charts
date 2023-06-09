@@ -11,10 +11,3 @@ messageBroker:
         disableAutoJarCopy: true
   adminPod:
     enabled: true
-
-
-# This defines the minimum required settings to use this Helm Chart.
-
-database:
-  crunchypgo:
-    enabled: true

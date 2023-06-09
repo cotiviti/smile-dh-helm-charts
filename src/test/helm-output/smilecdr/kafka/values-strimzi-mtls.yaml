@@ -8,9 +8,3 @@ messageBroker:
         type: tls
       authentication:
         type: tls
-
-# This defines the minimum required settings to use this Helm Chart.
-
-database:
-  crunchypgo:
-    enabled: true
