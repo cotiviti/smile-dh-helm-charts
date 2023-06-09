@@ -5,6 +5,6 @@ tests:
     # - key: keyName
     #   value: theValue
     valueFiles:
-    - values.yaml
+    - ../default-test-values.yaml
     - values-awsiam.yaml
     # - extra-values.yaml

@@ -1,0 +1,8 @@
+# Enable argocd mode
+
+mappedFiles:
+  filename.ext:
+    path: /home/smile/elsewhere
+
+argocd:
+  enabled: true

@@ -13,9 +13,3 @@ copyFiles:
     - type: curl
       fileName: mydownloadedlib.jar
       url: https://website.com/path/to/file.jar
-
-# This defines the minimum required settings to use this Helm Chart.
-
-database:
-  crunchypgo:
-    enabled: true

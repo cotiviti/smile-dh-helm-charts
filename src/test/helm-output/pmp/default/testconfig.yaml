@@ -2,4 +2,4 @@ tests:
   default:
     outputFile: output.yaml
     valueFiles:
-    - values.yaml
+    - ../default-test-values.yaml

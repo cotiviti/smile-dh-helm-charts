@@ -8,10 +8,3 @@ messageBroker:
         bootstrapAddress: test1-kafka-bootstrap:9093, test2-kafka-bootstrap:9093
       authentication:
         type: iam
-
-
-# This defines the minimum required settings to use this Helm Chart.
-
-database:
-  crunchypgo:
-    enabled: true

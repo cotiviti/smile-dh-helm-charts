@@ -1,8 +1,2 @@
-# This file defines the minimum required settings to use this Helm Chart.
-
-database:
-  crunchypgo:
-    enabled: true
-
 ingress:
   type: nginx-ingress

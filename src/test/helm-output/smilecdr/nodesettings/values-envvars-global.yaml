@@ -14,9 +14,3 @@ extraEnvVars:
     secretKeyRef:
       key: pwd
       name: extsvc-access
-
-
-# This defines the minimum required settings to use this Helm Chart.
-database:
-  crunchypgo:
-    enabled: true
