@@ -1,3 +1,10 @@
+# [1.0.0-pre.82](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.81...v1.0.0-pre.82) (2023-06-09)
+
+
+### Bug Fixes
+
+* **smilecdr:** update transaction module name ([f4472ca](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/f4472cac24ff61a95b6e5a149f7b41d47690b62c))
+
 # [1.0.0-pre.81](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.80...v1.0.0-pre.81) (2023-06-08)
 
 
