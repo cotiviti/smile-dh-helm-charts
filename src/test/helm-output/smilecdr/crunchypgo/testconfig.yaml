@@ -2,20 +2,20 @@ tests:
   releaseName:
     outputFile: output-releaseName.yaml
     valueFiles:
-    - values.yaml
+    - ../default-test-values.yaml
     - values-releaseName.yaml
   internalProvisioning:
     outputFile: output-internalProvisioning.yaml
     valueFiles:
-    - values.yaml
+    - ../default-test-values.yaml
     - values-internalProvisioning.yaml
   storageClass:
     outputFile: output-storageClass.yaml
     valueFiles:
-    - values.yaml
+    - ../default-test-values.yaml
     - values-storageClass.yaml
   pgBouncer:
     outputFile: output-pgBouncer.yaml
     valueFiles:
-    - values.yaml
+    - ../default-test-values.yaml
     - values-pgBouncer.yaml

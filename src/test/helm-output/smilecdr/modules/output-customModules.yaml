@@ -21,7 +21,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-masterdev-node-31e18420549c8e3b4f33edfd3acc709cbe50d9b9e119f910c9e6764517ea2355
+  name: release-name-scdr-masterdev-node
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -72,7 +72,7 @@ data:
     module.clustermgr.config.audit_log.request_headers_to_store 	= Content-Type,Host
     module.clustermgr.config.db.driver 	= POSTGRES_9_5
     module.clustermgr.config.db.schema_update_mode 	= UPDATE
-    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['CLUSTERMGR_DB_URL']}:5432/#{env['CLUSTERMGR_DB_DATABASE']}?sslmode=require
+    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:5432/#{env['DB_DATABASE']}?sslmode=require
     module.clustermgr.config.stats.heartbeat_persist_frequency_ms 	= 15000
     module.clustermgr.config.stats.stats_cleanup_frequency_ms 	= 300000
     module.clustermgr.config.stats.stats_persist_frequency_ms 	= 60000
@@ -208,106 +208,31 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: CLUSTERMGR_DB_URL
+            - name: DB_URL
               valueFrom:
                 secretKeyRef:
-                  key: host
-                  name: release-name-pg-pguser-smilecdr
-            - name: CLUSTERMGR_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: release-name-pg-pguser-smilecdr
-            - name: CLUSTERMGR_DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: dbname
-                  name: release-name-pg-pguser-smilecdr
-            - name: CLUSTERMGR_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
-                  name: release-name-pg-pguser-smilecdr
-            - name: CLUSTERMGR_DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: release-name-pg-pguser-smilecdr
-            - name: AUDIT_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: release-name-pg-pguser-audit
-            - name: AUDIT_DB_PORT
+                  key: url
+                  name: smilecdr
+            - name: DB_PORT
               valueFrom:
                 secretKeyRef:
                   key: port
-                  name: release-name-pg-pguser-audit
-            - name: AUDIT_DB_DATABASE
+                  name: smilecdr
+            - name: DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: release-name-pg-pguser-audit
-            - name: AUDIT_DB_USER
+                  name: smilecdr
+            - name: DB_USER
               valueFrom:
                 secretKeyRef:
                   key: user
-                  name: release-name-pg-pguser-audit
-            - name: AUDIT_DB_PASS
+                  name: smilecdr
+            - name: DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: release-name-pg-pguser-audit
-            - name: TXLOGS_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: release-name-pg-pguser-txlogs
-            - name: TXLOGS_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: release-name-pg-pguser-txlogs
-            - name: TXLOGS_DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: dbname
-                  name: release-name-pg-pguser-txlogs
-            - name: TXLOGS_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
-                  name: release-name-pg-pguser-txlogs
-            - name: TXLOGS_DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: release-name-pg-pguser-txlogs
-            - name: PERSISTENCE_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: release-name-pg-pguser-persistence
-            - name: PERSISTENCE_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: release-name-pg-pguser-persistence
-            - name: PERSISTENCE_DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: dbname
-                  name: release-name-pg-pguser-persistence
-            - name: PERSISTENCE_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
-                  name: release-name-pg-pguser-persistence
-            - name: PERSISTENCE_DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: release-name-pg-pguser-persistence
+                  name: smilecdr
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
           ports:
@@ -329,7 +254,7 @@ spec:
               name: scdr-volume-amq
       volumes:
         - configMap:
-            name: release-name-scdr-masterdev-node-31e18420549c8e3b4f33edfd3acc709cbe50d9b9e119f910c9e6764517ea2355
+            name: release-name-scdr-masterdev-node
           name: scdr-config-release-name
         - emptyDir:
             sizeLimit: 1Mi

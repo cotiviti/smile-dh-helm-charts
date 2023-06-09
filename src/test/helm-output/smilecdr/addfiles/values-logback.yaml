@@ -1,15 +1,7 @@
-# This is an empty Helm Values file, only used to verify 'default' Chart output.
-
 # Helm must be called with a `--set-files` option that matches the settings below
 # e.g.:
 #  --set-file mappedFiles.logback\\.xml.data={path/to/}logback.xml
 
-database:
-  crunchypgo:
-    enabled: true
-
 mappedFiles:
   logback.xml:
     path: /home/smile/smilecdr/classes
-
-autoDeploy: false

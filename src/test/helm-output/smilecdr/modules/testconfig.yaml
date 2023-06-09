@@ -2,17 +2,17 @@ tests:
   customModules:
     outputFile: output-customModules.yaml
     valueFiles:
-    - values.yaml
+    - ../default-test-values.yaml
     - custom-modules.yaml
     - values-common.yaml
   quotedConfigs:
     outputFile: output-quotedConfigs.yaml
     valueFiles:
-    - values.yaml
+    - ../default-test-values.yaml
     - values-quotedConfigs.yaml
   multipleR4Endpoints:
     outputFile: output-multipleR4Endpoints.yaml
     valueFiles:
-    - values.yaml
+    - ../default-test-values.yaml
     - custom-modules.yaml
     - values-multipleR4Endpoints.yaml

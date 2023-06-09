@@ -3,8 +3,3 @@ cdrNodes:
   overriddenNodeId:
     config:
       locked: false
-
-# This defines the minimum required settings to use this Helm Chart.
-database:
-  crunchypgo:
-    enabled: true
