@@ -216,8 +216,8 @@ database:
       module: clustermgr
     - name: audit
       module: audit
-    - name: txlogs
-      module: txlogs
+    - name: transaction
+      module: transaction
     - name: persistence
       module: persistence
 

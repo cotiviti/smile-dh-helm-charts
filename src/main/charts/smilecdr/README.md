@@ -87,8 +87,8 @@ The below section gives an overview of the default values available. Consult the
 | database.crunchypgo.users[0].name | string | `"smilecdr"` |  |
 | database.crunchypgo.users[1].module | string | `"audit"` |  |
 | database.crunchypgo.users[1].name | string | `"audit"` |  |
-| database.crunchypgo.users[2].module | string | `"txlogs"` |  |
-| database.crunchypgo.users[2].name | string | `"txlogs"` |  |
+| database.crunchypgo.users[2].module | string | `"transaction"` |  |
+| database.crunchypgo.users[2].name | string | `"transaction"` |  |
 | database.crunchypgo.users[3].module | string | `"persistence"` |  |
 | database.crunchypgo.users[3].name | string | `"persistence"` |  |
 | database.external.credentials | object | `{}` |  |

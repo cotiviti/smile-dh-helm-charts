@@ -484,31 +484,31 @@ spec:
                 secretKeyRef:
                   key: password
                   name: release-name-pg-pguser-audit
-            - name: TXLOGS_DB_URL
+            - name: TRANSACTION_DB_URL
               valueFrom:
                 secretKeyRef:
                   key: host
-                  name: release-name-pg-pguser-txlogs
-            - name: TXLOGS_DB_PORT
+                  name: release-name-pg-pguser-transaction
+            - name: TRANSACTION_DB_PORT
               valueFrom:
                 secretKeyRef:
                   key: port
-                  name: release-name-pg-pguser-txlogs
-            - name: TXLOGS_DB_DATABASE
+                  name: release-name-pg-pguser-transaction
+            - name: TRANSACTION_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: release-name-pg-pguser-txlogs
-            - name: TXLOGS_DB_USER
+                  name: release-name-pg-pguser-transaction
+            - name: TRANSACTION_DB_USER
               valueFrom:
                 secretKeyRef:
                   key: user
-                  name: release-name-pg-pguser-txlogs
-            - name: TXLOGS_DB_PASS
+                  name: release-name-pg-pguser-transaction
+            - name: TRANSACTION_DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: release-name-pg-pguser-txlogs
+                  name: release-name-pg-pguser-transaction
             - name: PERSISTENCE_DB_URL
               valueFrom:
                 secretKeyRef:
@@ -681,9 +681,9 @@ spec:
   - name: audit
     databases:
     - audit-db
-  - name: txlogs
+  - name: transaction
     databases:
-    - txlogs-db
+    - transaction-db
   - name: persistence
     databases:
     - persistence-db
