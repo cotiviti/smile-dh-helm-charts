@@ -1,3 +1,10 @@
+# [1.0.0-pre.83](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.82...v1.0.0-pre.83) (2023-06-20)
+
+
+### Features
+
+* **smilecdr:** allow disabling of module ingress ([ca3011b](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/ca3011bca4b0f0b2eaa6fa1c21bb24dad3dba550))
+
 # [1.0.0-pre.82](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.81...v1.0.0-pre.82) (2023-06-09)
 
 

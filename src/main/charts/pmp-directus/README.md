@@ -1,6 +1,6 @@
 # pmp-directus
 
-![Version: 1.0.0-pre.82](https://img.shields.io/badge/Version-1.0.0--pre.82-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 9.23.1](https://img.shields.io/badge/AppVersion-9.23.1-informational?style=flat-square)
+![Version: 1.0.0-pre.83](https://img.shields.io/badge/Version-1.0.0--pre.83-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 9.23.1](https://img.shields.io/badge/AppVersion-9.23.1-informational?style=flat-square)
 
 A Helm chart for deploying Directus as a SmileDH PMP component.
 
