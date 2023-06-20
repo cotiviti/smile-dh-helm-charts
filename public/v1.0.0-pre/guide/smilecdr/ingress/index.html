@@ -17,7 +17,7 @@
         <link rel="next" href="../modules/">
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.16">
     
     
       
@@ -942,6 +942,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#multiple-ingress-classes" class="md-nav__link">
+    Multiple Ingress Classes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disabling-ingress" class="md-nav__link">
+    Disabling Ingress
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#service-type" class="md-nav__link">
     Service Type
   </a>
@@ -1361,6 +1375,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#multiple-ingress-classes" class="md-nav__link">
+    Multiple Ingress Classes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disabling-ingress" class="md-nav__link">
+    Disabling Ingress
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#service-type" class="md-nav__link">
     Service Type
   </a>
@@ -1462,6 +1490,22 @@ Controller and Azure Application Gateway Controller.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">ingress</span><span class="p">:</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">ingressClassNameOverride</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-dedicated</span>
 </code></pre></div>
+<h2 id="multiple-ingress-classes">Multiple Ingress Classes<a class="headerlink" href="#multiple-ingress-classes" title="Permanent link">&para;</a></h2>
+<p>It may be required to have multiple ingresses for your environment. For example, you may want some services available externally while others, such as the Admin Web Console, you only want to expose to a private network.</p>
+<p>TODO: Insert diagram of this</p>
+<p>Currently, this Helm Chart only supports a single ingress class so this is not possible. There is a planned feature to add this functionality.</p>
+<h2 id="disabling-ingress">Disabling Ingress<a class="headerlink" href="#disabling-ingress" title="Permanent link">&para;</a></h2>
+<p>In some scenarios, you may wish to disable external ingress for certain modules. For example, if you have a FHIR Rest Endpoint module that is behind a FHIR Gateway module, you may not want to expose the FHIR Rest endpoint externally to the cluster.</p>
+<p>In this case, you can disable the ingress for a given service like so:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">modules</span><span class="p">:</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">fhir_endpoint</span><span class="p">:</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">service</span><span class="p">:</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">      </span><span class="nt">ingresses</span><span class="p">:</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">        </span><span class="nt">default</span><span class="p">:</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">          </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</code></pre></div></p>
+<p>When you configure your module like this, there will be no entry in the rules for the default ingress resource that is generated.</p>
+<p>If your module is a FHIR Rest Endpoint module, the <code>base_url.fixed</code> setting will be automatically configured appropriately and there is no need for you to define this in your Helm Values file.</p>
 <h2 id="service-type">Service Type<a class="headerlink" href="#service-type" title="Permanent link">&para;</a></h2>
 <p>The appropriate type for the <code>Service</code> resources depend on which Ingress type is being used.
 The default <code>Service</code> created by this chart is <code>ClusterIP</code>. This is the preferred option as it does not expose the Services externally to the cluster.</p>
@@ -1508,7 +1552,7 @@ The default <code>Service</code> created by this chart is <code>ClusterIP</code>
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.indexes", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.b4d07000.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.a51614de.min.js"></script>
       
     
   </body>
