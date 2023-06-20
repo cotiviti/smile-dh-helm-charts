@@ -106,6 +106,21 @@ Use this for generating deprecation notices and other warnings about the configu
     {{- $warningMessage = printf "%s\n removed in a future version of the Helm Chart. Please use `image.pullSecrets` instead." $warningMessage -}}
     {{- $warningMessage = printf "%s\n Refer to the docs for more info on how to configure image pull secrets." $warningMessage -}}
   {{- end -}}
+  {{- /* Check for module mis-configurations. */ -}}
+  {{- $modules := include "smilecdr.modules" . | fromYaml -}}
+  {{- range $k, $v := $modules -}}
+    {{- $moduleConfig := $v.config -}}
+    {{- /* Check for using `base_url.fixed` in unsupported fashion. */ -}}
+    {{- if and (hasKey $moduleConfig "base_url.fixed") (eq (get $moduleConfig "base_url.fixed") "localhost") -}}
+      {{- $warningMessage = printf "%s\n\nWARNING: `base_url.fixed` is set to `localhost` in %s module." $warningMessage $k -}}
+      {{- $warningMessage = printf "%s\n When overriding `base_url.fixed` to this value, the `Location`" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n header and any embedded links will only work when being accessed" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n from the same pod. If you are doing this to use the FHIR Gateway" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n module, you will not be able to take advantage of 'fanning out' to" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n use multiple pods. It's suggested to unset `base_url.fixed` in your" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n values file and allow the Helm Chart to configure it automatically." $warningMessage -}}
+    {{- end -}}
+  {{- end -}}
   {{- /* If there are any warnings, output them with a nice header. */ -}}
   {{- if ne (len $warningMessage) 0 -}}
     {{- $warningMessage = printf "\n***************************%s" $warningMessage -}}

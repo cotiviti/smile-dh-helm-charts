@@ -1,0 +1,14 @@
+
+# This file defines configurations specific for this test
+
+specs:
+  hostname: smile.com
+
+modules:
+  fhir_endpoint:
+    service:
+      ingresses:
+        default:
+          enabled: false
+    config:
+      base_url.fixed: default
