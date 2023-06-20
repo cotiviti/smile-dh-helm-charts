@@ -83,6 +83,30 @@ ingress:
   ingressClassNameOverride: nginx-dedicated
 ```
 
+## Multiple Ingress Classes
+It may be required to have multiple ingresses for your environment. For example, you may want some services available externally while others, such as the Admin Web Console, you only want to expose to a private network.
+
+TODO: Insert diagram of this
+
+Currently, this Helm Chart only supports a single ingress class so this is not possible. There is a planned feature to add this functionality.
+
+## Disabling Ingress
+In some scenarios, you may wish to disable external ingress for certain modules. For example, if you have a FHIR Rest Endpoint module that is behind a FHIR Gateway module, you may not want to expose the FHIR Rest endpoint externally to the cluster.
+
+In this case, you can disable the ingress for a given service like so:
+```yaml
+modules:
+  fhir_endpoint:
+    service:
+      ingresses:
+        default:
+          enabled: false
+```
+
+When you configure your module like this, there will be no entry in the rules for the default ingress resource that is generated.
+
+If your module is a FHIR Rest Endpoint module, the `base_url.fixed` setting will be automatically configured appropriately and there is no need for you to define this in your Helm Values file.
+
 ## Service Type
 The appropriate type for the `Service` resources depend on which Ingress type is being used.
 The default `Service` created by this chart is `ClusterIP`. This is the preferred option as it does not expose the Services externally to the cluster.

@@ -131,7 +131,6 @@ modules:
     config:
       context_path: fhir_request
       port: 8000
-      base_url.fixed: default
       threadpool.min: 2
       threadpool.max: 10
       browser_highlight.enabled: true

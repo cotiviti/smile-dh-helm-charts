@@ -91,7 +91,7 @@ data:
     module.fhir_endpoint2.type 	= ENDPOINT_FHIR_REST_R4
     module.fhir_endpoint2.requires.PERSISTENCE_R4 	= persistence
     module.fhir_endpoint2.requires.SECURITY_IN_UP 	= local_security
-    module.fhir_endpoint2.config.base_url.fixed 	= https://smilecdr-example.local/fhir_request2
+    module.fhir_endpoint2.config.base_url.fixed 	= http://release-name-scdr-svc-fhir2:8002/fhir_request2
     module.fhir_endpoint2.config.context_path 	= /fhir_request2
     module.fhir_endpoint2.config.port 	= 8002
 ---
@@ -336,13 +336,6 @@ spec:
               port:
                 number: 8000
           path: /fhir_request
-          pathType: Prefix
-        - backend:
-            service:
-              name: release-name-scdr-svc-fhir2
-              port:
-                number: 8002
-          path: /fhir_request2
           pathType: Prefix
 ---
 # Source: smilecdr/templates/tests/test-connection.yaml

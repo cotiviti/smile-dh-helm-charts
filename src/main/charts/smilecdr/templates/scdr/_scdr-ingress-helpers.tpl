@@ -70,7 +70,9 @@ alb.ingress.kubernetes.io/scheme: internet-facing
   {{- $hosts := list -}}
 
     {{- range $k, $v := include "smilecdr.services" . | fromYaml -}}
-      {{- $hosts = append $hosts (dict "host" $v.hostName) -}}
+      {{- if $v.defaultIngress -}}
+        {{- $hosts = append $hosts (dict "host" $v.hostName) -}}
+      {{- end -}}
     {{- end -}}
     {{- $hosts = uniq $hosts -}}
 
@@ -78,7 +80,7 @@ alb.ingress.kubernetes.io/scheme: internet-facing
       {{- $currentHost := dict -}}
       {{- $hostPaths := list -}}
       {{- range $kSvc, $vSvc := include "smilecdr.services" $ | fromYaml -}}
-        {{- if eq $vSvc.hostName $vHost.host -}}
+        {{- if and (eq $vSvc.hostName $vHost.host) $vSvc.defaultIngress -}}
           {{- $serviceObject := dict "name" (printf "%s-scdr-svc-%s" $.Release.Name $vSvc.svcName) "port" (dict "number" $vSvc.port) -}}
           {{- $pathObject := dict "path" $vSvc.fullPath "pathType" "Prefix" "backend" (dict "service" $serviceObject) -}}
           {{- $hostPaths = append $hostPaths $pathObject -}}

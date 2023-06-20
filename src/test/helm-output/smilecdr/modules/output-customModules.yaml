@@ -82,6 +82,7 @@ data:
     module.fhir_endpoint.type 	= ENDPOINT_FHIR_REST_R4
     module.fhir_endpoint.requires.PERSISTENCE_R4 	= persistence
     module.fhir_endpoint.requires.SECURITY_IN_UP 	= local_security
+    module.fhir_endpoint.config.base_url.fixed 	= https://smilecdr-example.local/fhir_request
     module.fhir_endpoint.config.context_path 	= /fhir_request
     module.fhir_endpoint.config.port 	= 8000
 ---
