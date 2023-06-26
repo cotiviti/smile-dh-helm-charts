@@ -415,7 +415,8 @@ spec:
             httpGet:
               path: /fhir_request/differenthealthcheckpath
               port: 8000
-            failureThreshold: 1
+            timeoutSeconds: 10
+            failureThreshold: 2
             periodSeconds: 10
           lifecycle:
             preStop:
