@@ -1,3 +1,10 @@
+# [1.0.0-pre.85](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.84...v1.0.0-pre.85) (2023-06-26)
+
+
+### Bug Fixes
+
+* **smilecdr:** update default modules ([f83ff90](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/f83ff9089e4c93555efcd25d9545f4b3fe188ab6))
+
 # [1.0.0-pre.84](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.83...v1.0.0-pre.84) (2023-06-26)
 
 
