@@ -113,9 +113,6 @@ data:
     module.audit.config.db.schema_update_mode 	= UPDATE
     module.audit.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
     module.audit.config.db.username 	= #{env['DB_USER']}
-    module.audit.config.stats.heartbeat_persist_frequency_ms 	= 15000
-    module.audit.config.stats.stats_cleanup_frequency_ms 	= 300000
-    module.audit.config.stats.stats_persist_frequency_ms 	= 60000
     ################################################################################
     # Cluster Manager Configuration
     ################################################################################
@@ -202,7 +199,6 @@ data:
     module.persistence.config.dao_config.allow_inline_match_url_references.enabled 	= true
     module.persistence.config.dao_config.allow_multiple_delete.enabled 	= false
     module.persistence.config.dao_config.expire_search_results_after_minutes 	= 60
-    module.persistence.config.dao_config.inline_resource_storage_below_size 	= 4000
     module.persistence.config.db.driver 	= POSTGRES_9_4
     module.persistence.config.db.hibernate.showsql 	= false
     module.persistence.config.db.hibernate_search.directory 	= ./database/lucene_fhir_persistence
@@ -237,9 +233,6 @@ data:
     module.transaction.config.db.schema_update_mode 	= UPDATE
     module.transaction.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
     module.transaction.config.db.username 	= #{env['DB_USER']}
-    module.transaction.config.stats.heartbeat_persist_frequency_ms 	= 15000
-    module.transaction.config.stats.stats_cleanup_frequency_ms 	= 300000
-    module.transaction.config.stats.stats_persist_frequency_ms 	= 60000
 ---
 # Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
