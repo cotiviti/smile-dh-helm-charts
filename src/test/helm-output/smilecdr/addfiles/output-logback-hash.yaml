@@ -150,7 +150,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-masterdev-node-ee0e2efb2df0ca72693115e8b09e376c95285a56a7e2ffaa7f83ceec7b87c2e3
+  name: release-name-scdr-masterdev-node-3fefc73f655d548e5647fb533c57a85177a43b23fbf13e04d2d0872ac4dc0781
   namespace: default
   labels:
     app.kubernetes.io/name: smilecdr
@@ -216,9 +216,6 @@ data:
     module.audit.config.db.schema_update_mode 	= UPDATE
     module.audit.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
     module.audit.config.db.username 	= #{env['DB_USER']}
-    module.audit.config.stats.heartbeat_persist_frequency_ms 	= 15000
-    module.audit.config.stats.stats_cleanup_frequency_ms 	= 300000
-    module.audit.config.stats.stats_persist_frequency_ms 	= 60000
     ################################################################################
     # Cluster Manager Configuration
     ################################################################################
@@ -305,7 +302,6 @@ data:
     module.persistence.config.dao_config.allow_inline_match_url_references.enabled 	= true
     module.persistence.config.dao_config.allow_multiple_delete.enabled 	= false
     module.persistence.config.dao_config.expire_search_results_after_minutes 	= 60
-    module.persistence.config.dao_config.inline_resource_storage_below_size 	= 4000
     module.persistence.config.db.driver 	= POSTGRES_9_4
     module.persistence.config.db.hibernate.showsql 	= false
     module.persistence.config.db.hibernate_search.directory 	= ./database/lucene_fhir_persistence
@@ -340,9 +336,6 @@ data:
     module.transaction.config.db.schema_update_mode 	= UPDATE
     module.transaction.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
     module.transaction.config.db.username 	= #{env['DB_USER']}
-    module.transaction.config.stats.heartbeat_persist_frequency_ms 	= 15000
-    module.transaction.config.stats.stats_cleanup_frequency_ms 	= 300000
-    module.transaction.config.stats.stats_persist_frequency_ms 	= 60000
 ---
 # Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
@@ -628,7 +621,7 @@ spec:
             name: release-name-scdr-logback-xml-90b286ba2cb6ea7f008581aaeaebe5371f42a43822cde105b7e502d2b5ad1e2e
           name: logback-xml
         - configMap:
-            name: release-name-scdr-masterdev-node-ee0e2efb2df0ca72693115e8b09e376c95285a56a7e2ffaa7f83ceec7b87c2e3
+            name: release-name-scdr-masterdev-node-3fefc73f655d548e5647fb533c57a85177a43b23fbf13e04d2d0872ac4dc0781
           name: scdr-config-release-name
         - emptyDir:
             sizeLimit: 1Mi

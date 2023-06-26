@@ -40,7 +40,6 @@ modules:
       dao_config.allow_multiple_delete.enabled: false
       dao_config.allow_inline_match_url_references.enabled: true
       dao_config.allow_external_references.enabled: false
-      dao_config.inline_resource_storage_below_size: 4000
 
   admin_json:
     name: JSON Admin Services
@@ -196,9 +195,6 @@ modules:
       db.password: "#{env['DB_PASS']}"
       db.username: "#{env['DB_USER']}"
       db.schema_update_mode:  UPDATE
-      stats.heartbeat_persist_frequency_ms: 15000
-      stats.stats_persist_frequency_ms: 60000
-      stats.stats_cleanup_frequency_ms: 300000
 
   license:
     type: LICENSE
@@ -214,6 +210,3 @@ modules:
       db.username: "#{env['DB_USER']}"
       db.password: "#{env['DB_PASS']}"
       db.schema_update_mode: UPDATE
-      stats.heartbeat_persist_frequency_ms: 15000
-      stats.stats_persist_frequency_ms: 60000
-      stats.stats_cleanup_frequency_ms: 300000
