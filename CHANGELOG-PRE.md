@@ -1,3 +1,10 @@
+# [1.0.0-pre.84](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.83...v1.0.0-pre.84) (2023-06-26)
+
+
+### Features
+
+* **smilecdr:** make readiness probe configurable ([e83a98e](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/e83a98e1c411794aaa4001e79f44633e643f1810))
+
 # [1.0.0-pre.83](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.82...v1.0.0-pre.83) (2023-06-20)
 
 
