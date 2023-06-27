@@ -1,3 +1,10 @@
+# [1.0.0-pre.86](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.85...v1.0.0-pre.86) (2023-06-27)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix base_url for hybrid provider ([e80367d](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/e80367dd59db59639c0f261edf29796f98751a3d))
+
 # [1.0.0-pre.85](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.84...v1.0.0-pre.85) (2023-06-26)
 
 
