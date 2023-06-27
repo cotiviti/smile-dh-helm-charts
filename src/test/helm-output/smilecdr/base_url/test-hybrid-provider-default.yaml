@@ -1,0 +1,18 @@
+
+# This file defines configurations specific for this test
+
+specs:
+  hostname: smile.com
+
+modules:
+  # Hybrid Provider
+  hybrid_provider_endpoint:
+    name: Hybrid Provider
+    enabled: true
+    type: ENDPOINT_HYBRID_PROVIDERS
+    service:
+      enabled: true
+      svcName: hybrid
+      hostName: default
+    config:
+      context_path: hybrid_provider
