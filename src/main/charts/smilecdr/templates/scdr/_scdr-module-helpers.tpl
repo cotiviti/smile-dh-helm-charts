@@ -48,7 +48,7 @@ Consume this elsewhere in the chart by unserializing it like so:
       {{- end -}}
 
       {{- /* Set `base_url.fixed` for FHIR endpoint modules */ -}}
-      {{- if hasPrefix "ENDPOINT_FHIR_" $v.type -}}
+      {{- if or (hasPrefix "ENDPOINT_FHIR_" $v.type) (hasPrefix "ENDPOINT_HYBRID_PROVIDERS" $v.type) -}}
         {{- /* Only update if not manually set! */ -}}
         {{- if not (hasKey $v.config "base_url.fixed") -}}
           {{- if $v.service.defaultIngress -}}

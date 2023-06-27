@@ -47,3 +47,11 @@ tests:
     valueFiles:
     - ../default-test-values.yaml
     - test-no-ingress-localhost.yaml
+  hybrid-provider-default:
+    outputFile: output-hybrid-provider-default.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - test-hybrid-provider-default.yaml
