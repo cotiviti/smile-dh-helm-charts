@@ -47,6 +47,19 @@ Consume this elsewhere in the chart by unserializing it like so:
         {{- $_ := set $service "defaultIngress" false -}}
       {{- end -}}
 
+      {{- /* TODO: Un-flatten module configurations. The internal representation of the module configuration
+          is hierarchical, so
+          `config.item.name: value`
+          should become:
+          ```
+          config:
+             item:
+               name: value
+          ```
+          This makes the internal representation more consistent.
+          */ -}}
+      {{- /* Insert code here */ -}}
+
       {{- /* Set `base_url.fixed` for FHIR endpoint modules */ -}}
       {{- if or (hasPrefix "ENDPOINT_FHIR_" $v.type) (hasPrefix "ENDPOINT_HYBRID_PROVIDERS" $v.type) -}}
         {{- /* Only update if not manually set! */ -}}
@@ -82,6 +95,8 @@ Consume this elsewhere in the chart by unserializing it like so:
         {{- end -}}
       {{- end -}}
     {{- end -}}
+    {{- $deepConfig := include "sdhCommon.unFlattenDict" $v.config | fromYaml -}}
+    {{- $_ := set $v "config" $deepConfig -}}
   {{- end -}}
   {{- $modules | toYaml -}}
 {{- end -}}
@@ -151,9 +166,15 @@ Generate the configuration options in text format for all the enabled modules
         {{- $envDBPrefix = printf "%s_" ( upper $k ) -}}
       {{- end -}}
 
+      {{- /* Get flattened configuration */ -}}
+      {{- $flattenedConf := include "sdhCommon.flattenConf" $v.config | fromYaml -}}
+
       {{- /* Module Configuration */ -}}
-      {{- range $kConf, $vConf := $v.config -}}
+      {{- range $kConf, $vConf := $flattenedConf -}}
         {{- $vConf = toString $vConf -}}
+
+        {{- /* TODO: Move all of these special use cases into separate module.
+            */ -}}
 
         {{- /*
         If the value contains "DB_" then add the env prefix
@@ -163,7 +184,7 @@ Generate the configuration options in text format for all the enabled modules
         {{- end -}}
 
         {{- /* Process Special Cases */ -}}
-        {{- $svcFullPath := (printf "%s%s" (default "/" $.Values.specs.rootPath) $v.config.context_path) -}}
+        {{- $svcFullPath := (printf "%s%s" (default "/" $.Values.specs.rootPath) $flattenedConf.context_path) -}}
         {{- if eq $kConf "context_path" -}}
           {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $kConf $svcFullPath -}}
         {{- else if eq $kConf "base_url.fixed" -}}
@@ -172,11 +193,11 @@ Generate the configuration options in text format for all the enabled modules
             {{- $baseUrl = printf "https://%s%s" $.Values.specs.hostname $svcFullPath -}}
           {{- else if eq $vConf "localhost" -}}
             {{- /* Use `localhost` when connecting from other components in the same pod, e.g. Fhir Gateway module */ -}}
-            {{- $baseUrl = printf "http://localhost:%s%s" (toString $v.config.port) $svcFullPath -}}
+            {{- $baseUrl = printf "http://localhost:%s%s" (toString $flattenedConf.port) $svcFullPath -}}
           {{- else if eq $vConf "service" -}}
             {{- /* Use K8s service object. e.g When connecting from other cluster-local components */ -}}
             {{- if ($v.service).enabled -}}
-              {{- $baseUrl = printf "http://%s-scdr-svc-%s:%s%s" $.Release.Name ($v.service.svcName | lower) (toString $v.config.port) $svcFullPath -}}
+              {{- $baseUrl = printf "http://%s-scdr-svc-%s:%s%s" $.Release.Name ($v.service.svcName | lower) (toString $flattenedConf.port) $svcFullPath -}}
             {{- else -}}
               {{- fail (printf "Module %s cannot reference service for `base_url.fixed`` as there is no enabled service for this module" $moduleKey ) -}}
             {{- end -}}

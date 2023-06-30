@@ -22,3 +22,9 @@ tests:
     - ../default-test-values.yaml
     - custom-modules.yaml
     - values-internalEndpoint.yaml
+  hierarchicalConfig:
+    outputFile: output-hierarchical.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - custom-modules.yaml
+    - values-hierarchical.yaml
