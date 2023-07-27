@@ -112,7 +112,7 @@ by default as it's a feature of the Operator.
 
 ## Configuring Multiple Databases
 This chart has support to use multiple databases. It is recommended to configure Smile CDR this way, with
-a separate DB for the Cluster Manager, Audit logs and for any Persistence Modules.
+a separate DB for the Cluster Manager, Audit logs, Transaction logs and for any Persistence Modules.
 
 The `module` key is important here as it tells the Helm Chart which module uses this database.
 If there is only one database configured then it will be used for all modules.
@@ -138,6 +138,8 @@ database:
       module: clustermgr
     - secretName: smilecdr-audit
       module: audit
+    - secretName: smilecdr-txlogs
+      module: transaction
     - secretName: smilecdr-pers
       module: persistence
 ```
@@ -152,11 +154,13 @@ database:
       module: clustermgr
     - name: smilecdr-audit
       module: audit
-    - name: persistence
+    - name: smilecdr-txlogs
+      module: transaction
+    - name: smilecdr-pers
       module: persistence
 ```
-In both of the above examples, the `clustermgr`, `audit` and `persistence` modules will automatically
-have their own set of environment variables for DB connections as follows: `CLUSTERMGR_DB_*`, `AUDIT_DB_*` and
+In both of the above examples, the `clustermgr`, `audit`, `transaction` and `persistence` modules will automatically
+have their own set of environment variables for DB connections as follows: `CLUSTERMGR_DB_*`, `AUDIT_DB_*`, `TRANSACTION_DB_*` and
 `PERSISTENCE_DB_*`
 
 > **NOTE**: You do NOT need to update these environment variable references in your module
