@@ -1,0 +1,68 @@
+# This tests configuring user in crunchypgo
+# Just specifying user.name is required and will create a user and db in Crunchy Postgres instance.
+#   Db will be same as ${user.name}-db
+# Specifying user.module will enable this DB in Smile CDR and populate required env variables.
+#   Db will be same as ${user.module}-db
+# Specifying user.dbname will override dbname from above options
+# user.dbSuffix: is "-db" by default and can be overridden here.
+
+database:
+  crunchypgo:
+    enabled: true
+    internal: true
+    users:
+    - name: extradb
+    - name: extradb2
+      dbSuffix: ""
+    - name: smilecdr
+      module: clustermgr
+    - name: persistence
+      module: persistence
+      dbSuffix: "-mysuffix"
+    - name: persistence2
+      module: persistence2
+      dbName: pers2dbname
+
+
+modules:
+  useDefaultModules: false
+  clustermgr:
+    name: Cluster Manager Configuration
+    enabled: true
+    config:
+      db.driver: POSTGRES_9_4
+      db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+      db.password: "#{env['DB_PASS']}"
+      db.username: "#{env['DB_USER']}"
+
+  persistence:
+    name: Database Configuration
+    enabled: true
+    type: PERSISTENCE_R4
+    config:
+      db.driver: POSTGRES_9_4
+      db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+      db.password: "#{env['DB_PASS']}"
+      db.username: "#{env['DB_USER']}"
+  admin_web:
+    name: Web Admin
+    enabled: true
+    type: ADMIN_WEB
+    enableReadinessProbe: true
+    service:
+      enabled: true
+      svcName: admin-web
+      hostName: default
+    requires:
+      SECURITY_IN_UP: local_security
+    config:
+      context_path: ""
+      port: 9100
+      tls.enabled: false
+      https_forwarding_assumed: true
+      respect_forward_headers: true
+
+autoDeploy: false
+
+ingress:
+  enabled: false

@@ -12,53 +12,56 @@ Environment variables for databases
     Will not over-complicate with the empty list case, as we will define defaults in values file.
     */ -}}
     {{- range $v := .Values.database.crunchypgo.users -}}
-      {{- $username := $v.name -}}
-      {{- $module := default $username $v.module -}}
+      {{- /* It's possible to define databases that are not in use by Smile CDR, so we don't want to
+      define the environment variables by default. Only if the `module` is set. */ -}}
+      {{- if $v.module -}}
+        {{- $username := $v.name -}}
+        {{- $module := $v.module -}}
 
-      {{- $envPrefix := printf "%s_" ( upper $module ) -}}
-      {{- /*
-      If there is only a single DB, don't use a prefix as the same
-      environment variables will be shared amongst all modules
-      */ -}}
-      {{- if le (len $.Values.database.crunchypgo.users) 1 -}}
-        {{- $envPrefix = "" -}}
+        {{- $envPrefix := printf "%s_" ( upper $module ) -}}
+        {{- /*
+        If there is only a single DB, don't use an environment variable prefix as
+        the same environment variables will be shared amongst all modules.
+        */ -}}
+        {{- if le (len $.Values.database.crunchypgo.users) 1 -}}
+          {{- $envPrefix = "" -}}
+        {{- end -}}
+
+        {{- $secretName := printf "%s-pguser-%s" $crunchyReleaseName $username -}}
+        {{- $secretKeyRef := dict "name" $secretName -}}
+        {{- $pgBouncerPrefix := (ternary "pgbouncer-" "" (hasKey $.Values.database.crunchypgo.config "pgBouncerConfig")) -}}
+        {{- $keyMap := dict -}}
+
+        {{- /* Define and add DB_URL */ -}}
+        {{- $env := dict "name" (printf "%sDB_URL" $envPrefix) -}}
+        {{- $keyMap = dict "key" (printf "%shost" $pgBouncerPrefix) -}}
+        {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
+        {{- $envVars = append $envVars $env -}}
+
+        {{- /* Define and add DB_PORT */ -}}
+        {{- $env := dict "name" (printf "%sDB_PORT" $envPrefix) -}}
+        {{- $keyMap = dict "key" (printf "%sport" $pgBouncerPrefix) -}}
+        {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
+        {{- $envVars = append $envVars $env -}}
+
+        {{- /* Define and add DB_DATABASE */ -}}
+        {{- $env := dict "name" (printf "%sDB_DATABASE" $envPrefix) -}}
+        {{- $keyMap = dict "key" "dbname" -}}
+        {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
+        {{- $envVars = append $envVars $env -}}
+
+        {{- /* Define and add DB_USER */ -}}
+        {{- $env := dict "name" (printf "%sDB_USER" $envPrefix) -}}
+        {{- $keyMap = dict "key" "user" -}}
+        {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
+        {{- $envVars = append $envVars $env -}}
+
+        {{- /* Define and add DB_PASS */ -}}
+        {{- $env := dict "name" (printf "%sDB_PASS" $envPrefix) -}}
+        {{- $keyMap = dict "key" "password" -}}
+        {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
+        {{- $envVars = append $envVars $env -}}
       {{- end -}}
-
-      {{- $secretName := printf "%s-pguser-%s" $crunchyReleaseName $username -}}
-      {{- $secretKeyRef := dict "name" $secretName -}}
-      {{- $pgBouncerPrefix := (ternary "pgbouncer-" "" (hasKey $.Values.database.crunchypgo.config "pgBouncerConfig")) -}}
-      {{- $keyMap := dict -}}
-
-      {{- /* Define and add DB_URL */ -}}
-      {{- $env := dict "name" (printf "%sDB_URL" $envPrefix) -}}
-      {{- $keyMap = dict "key" (printf "%shost" $pgBouncerPrefix) -}}
-      {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
-      {{- $envVars = append $envVars $env -}}
-
-      {{- /* Define and add DB_PORT */ -}}
-      {{- $env := dict "name" (printf "%sDB_PORT" $envPrefix) -}}
-      {{- $keyMap = dict "key" (printf "%sport" $pgBouncerPrefix) -}}
-      {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
-      {{- $envVars = append $envVars $env -}}
-
-      {{- /* Define and add DB_DATABASE */ -}}
-      {{- $env := dict "name" (printf "%sDB_DATABASE" $envPrefix) -}}
-      {{- $keyMap = dict "key" "dbname" -}}
-      {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
-      {{- $envVars = append $envVars $env -}}
-
-      {{- /* Define and add DB_USER */ -}}
-      {{- $env := dict "name" (printf "%sDB_USER" $envPrefix) -}}
-      {{- $keyMap = dict "key" "user" -}}
-      {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
-      {{- $envVars = append $envVars $env -}}
-
-      {{- /* Define and add DB_PASS */ -}}
-      {{- $env := dict "name" (printf "%sDB_PASS" $envPrefix) -}}
-      {{- $keyMap = dict "key" "password" -}}
-      {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (merge (deepCopy $secretKeyRef) $keyMap)) -}}
-      {{- $envVars = append $envVars $env -}}
-
     {{- end -}}
   {{- else if .Values.database.external.enabled -}}
     {{- /* Check to see if supported credentials type is being used */ -}}
