@@ -10,7 +10,7 @@ This will configure Smile CDR as follows:
 * Ingress configured for `smilecdr.mycompany.com` using NginX Ingress
 * Docker registry credentials passed in via Secret Store CSI Driver using AWS Secrets Manager
 * External database credentials and connection info passed in via Secret Store CSI Driver using AWS Secrets Manager
-* Separate databases for Cluster Manager, Audit logs and default Persistence module
+* Separate databases for Cluster Manager, Audit logs, Transaction logs and default Persistence module
 
 ## Requirements
 
@@ -51,6 +51,9 @@ database:
     - secretName: auditSecret
       secretArn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:auditSecret"
       module: audit
+    - secretName: txLogsSecret
+      secretArn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:txLogsSecret"
+      module: transaction
     - secretName: persistenceSecret
       secretArn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:persistenceSecret"
       module: persistence
