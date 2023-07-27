@@ -1,3 +1,10 @@
+# [1.0.0-pre.87](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.86...v1.0.0-pre.87) (2023-07-27)
+
+
+### Bug Fixes
+
+* **smilecdr:** allow specifying db name ([4d4cd84](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/4d4cd8410922f8edd29896e3754d9ec947c7874e))
+
 # [1.0.0-pre.86](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.85...v1.0.0-pre.86) (2023-06-27)
 
 
