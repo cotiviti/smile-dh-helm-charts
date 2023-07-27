@@ -19,3 +19,8 @@ tests:
     valueFiles:
     - ../default-test-values.yaml
     - values-pgBouncer.yaml
+  userAndDBNaming:
+    outputFile: output-userAndDBNaming.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - values-userAndDBNaming.yaml

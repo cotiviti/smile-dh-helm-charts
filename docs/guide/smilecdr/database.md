@@ -167,3 +167,21 @@ have their own set of environment variables for DB connections as follows: `CLUS
 configurations. When the `clustermgr` module definition references `DB_URL`, this will be
 automatically mutated to `CLUSTERMGR_DB_URL`. This will happen automatically for any module that
 references `DB_*` environment variables.
+
+If required, you can override the name of the database that is created by the Crunchy PGO Operator by using `dbName` or `dbSuffix` (Which defaults to `-db`) like so:
+
+#### `my-values.yaml` (CrunchyData PGO)
+```yaml
+database:
+  crunchypgo:
+    enabled: true
+    internal: true
+    users:
+    - name: smilecdr
+      module: clustermgr
+      dbName: my-clustermgr-db-name
+      dbSuffix: ""
+    - name: smilecdr-audit
+      module: audit
+      dbSuffix: "-mydbsuffix"
+```

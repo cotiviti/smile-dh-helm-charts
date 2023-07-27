@@ -146,7 +146,7 @@ spec:
   {{- range $vUser := $.Values.database.crunchypgo.users }}
   - name: {{ $vUser.name }}
     databases:
-    - {{ printf "%s-db" (default $vUser.name $vUser.module ) }}
+    - {{ printf "%s%s" (coalesce $vUser.dbName $vUser.module $vUser.name) (ternary $vUser.dbSuffix "-db" (hasKey $vUser "dbSuffix")) }}
   {{- end }}
   {{- end }}
   {{- if .service }}
