@@ -20,7 +20,7 @@ the module definition using `enableReadinessProbe: true`
           {{- else -}}
             {{- $numProbes = add1 $numProbes -}}
 httpGet:
-  path: {{ printf "%s%s%s" (default "/" $.Values.specs.rootPath) $v.config.context_path (default "/endpoint-health" (index $v.config "endpoint_health.path" )) }}
+  path: {{ printf "%s%s%s" (default "/" $.Values.specs.rootPath) $v.config.context_path (default "/endpoint-health" (($v.config.endpoint_health).path )) }}
   port: {{ $v.config.port }}
 timeoutSeconds: {{ default 10 ($.Values.readinessProbe).periodSeconds }}
 failureThreshold: {{ default 2 ($.Values.readinessProbe).failureThreshold }}
