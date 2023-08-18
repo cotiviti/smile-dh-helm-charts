@@ -1,3 +1,10 @@
+# [1.0.0-pre.88](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.87...v1.0.0-pre.88) (2023-08-18)
+
+
+### Bug Fixes
+
+* **smilecdr:** allow hierarchical config ([f664d5e](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/f664d5e9727d84c4a57e8e928bd547c9368e8571))
+
 # [1.0.0-pre.87](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.86...v1.0.0-pre.87) (2023-07-27)
 
 
