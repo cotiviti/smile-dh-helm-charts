@@ -61,6 +61,16 @@ modules:
       tls.enabled: false
       https_forwarding_assumed: true
       respect_forward_headers: true
+  local_security:
+    name: Local Storage Inbound Security
+    enabled: true
+    type: SECURITY_IN_LOCAL
+    config:
+      seed.users.file: classpath:/config_seeding/users.json
+      # This is required right now as the default is not being honored.
+      # Can be removed if the default gets fixed. May be good to leave it explicit.
+      # Note: Smile CDR still chooses the wrong default as of `2022.11.R01`
+      password_encoding_type: BCRYPT_12_ROUND
 
 autoDeploy: false
 

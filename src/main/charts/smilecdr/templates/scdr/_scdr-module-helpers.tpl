@@ -20,7 +20,7 @@ not do any validation or sanitation of the configuration.
 {{- end -}}
 
 {{/*
-Define canonical dict/map of modules and configurations. This is a validated and sanitised
+Define canonical dict/map of enabled modules and configurations. This is a validated and sanitised
 version of the modules defined above.
 Consume this elsewhere in the chart by unserializing it like so:
 {{- $modules := include "smilecdr.modules" . | fromYaml -}}
@@ -29,74 +29,89 @@ Consume this elsewhere in the chart by unserializing it like so:
   {{- $modules := include "smilecdr.modules.raw" . | fromYaml -}}
   {{- $modulePrefixes := (include "smilecdr.moduleprefixeswithendpoints" . | fromYamlArray) -}}
   {{- range $k, $v := $modules -}}
-    {{- if ($v.service).enabled -}}
-      {{- $service := $v.service -}}
+    {{- $theModuleName := $k -}}
+    {{- $theModuleIsClustermgr := ternary true false (eq $theModuleName "clustermgr") -}}
+    {{- $theModule := $v -}}
+    {{- /*
+        Required keys:
+        * `enabled`
+        * `type` */ -}}
+    {{- if not (hasKey $theModule "enabled" ) -}}
+      {{- fail (printf "Module %s does not have `enabled` key set" $theModuleName) -}}
+    {{- end -}}
+    {{- /* The `clustermgr` module is the only one that does not require the `type` key
+        */ -}}
+    {{- if and $theModule.enabled (not $theModuleIsClustermgr) (not (hasKey $theModule "type" )) -}}
+      {{- fail (printf "Module %s does not have `type` key set" $theModuleName) -}}
+    {{- end -}}
 
-      {{- /* Configure default ingress for modules with endpoints */ -}}
-      {{- $serviceHasEndpoint := false -}}
-      {{- range $modulePrefix := $modulePrefixes -}}
-        {{- if hasPrefix $modulePrefix $v.type -}}
-          {{- $serviceHasEndpoint = true -}}
-        {{- end -}}
-      {{- end -}}
+    {{- /* Only include the module if it's the clustermgr or if it's explicitly enabled */ -}}
+    {{- if or $theModuleIsClustermgr $theModule.enabled -}}
 
-      {{- /* If we do not define the ingress, or if we do not set it to false, then enable default ingress */ -}}
-      {{- if and $serviceHasEndpoint (or (not (hasKey (($v.service.ingresses).default) "enabled")) (ne $v.service.ingresses.default.enabled false)) -}}
-        {{- $_ := set $service "defaultIngress" true -}}
-      {{- else -}}
-        {{- $_ := set $service "defaultIngress" false -}}
-      {{- end -}}
+      {{- $theModuleType := ternary nil $theModule.type $theModuleIsClustermgr -}}
+      {{- $theModuleConfig := ($v.config) -}}
 
-      {{- /* TODO: Un-flatten module configurations. The internal representation of the module configuration
-          is hierarchical, so
-          `config.item.name: value`
-          should become:
-          ```
-          config:
-             item:
-               name: value
-          ```
-          This makes the internal representation more consistent.
-          */ -}}
-      {{- /* Insert code here */ -}}
+      {{- if ($theModule.service).enabled -}}
+        {{- $theService := $theModule.service -}}
 
-      {{- /* Set `base_url.fixed` for FHIR endpoint modules */ -}}
-      {{- if or (hasPrefix "ENDPOINT_FHIR_" $v.type) (hasPrefix "ENDPOINT_HYBRID_PROVIDERS" $v.type) -}}
-        {{- /* Only update if not manually set! */ -}}
-        {{- if not (hasKey $v.config "base_url.fixed") -}}
-          {{- if $v.service.defaultIngress -}}
-            {{- $_ := set $v.config "base_url.fixed" "default" -}}
-          {{- else -}}
-            {{- $_ := set $v.config "base_url.fixed" "service" -}}
+        {{- /* Configure default ingress for modules with endpoints */ -}}
+        {{- $serviceHasEndpoint := false -}}
+        {{- range $modulePrefix := $modulePrefixes -}}
+          {{- if hasPrefix $modulePrefix $theModuleType -}}
+            {{- $serviceHasEndpoint = true -}}
           {{- end -}}
+        {{- end -}}
+
+        {{- /* If we do not define the ingress, or if we do not set it to false, then enable default ingress */ -}}
+        {{- if and $serviceHasEndpoint (or (not (hasKey (($theService.ingresses).default) "enabled")) (ne $theService.ingresses.default.enabled false)) -}}
+          {{- $_ := set $theService "defaultIngress" true -}}
         {{- else -}}
-          {{- /* If `base_url.fixed` is defined but does not match the ingress
-                options, then throw an error. Ideally `base_url.fixed` should
-                not be explicitly defined as this is autoconfigured based on
-                ingress settings. If the user really must override this, then
-                they must enable using `base_url.mismatch_allowed: true`. This
-                is not supported and may lead to unpredictable behaviour. It
-                is only suitable for troubleshooting where you need to override
-                the value. */ -}}
-          {{- if $v.service.defaultIngress -}}
-            {{- if ne (get $v.config "base_url.fixed") "default" -}}
-              {{- if not (get $v.config "base_url.mismatch_allowed") -}}
-                {{- fail (printf "`base_url.fixed` is set to `%s` for the `%s` module. This will not work as ingress is enabled for this module." (get $v.config "base_url.fixed") $k ) -}}
+          {{- $_ := set $theService "defaultIngress" false -}}
+        {{- end -}}
+
+        {{- /* Set `base_url.fixed` for FHIR endpoint modules */ -}}
+        {{- if or (hasPrefix "ENDPOINT_FHIR_" $theModuleType) (hasPrefix "ENDPOINT_HYBRID_PROVIDERS" $theModuleType) -}}
+          {{- /* Only update if not manually set! */ -}}
+          {{- if not (hasKey $v.config "base_url.fixed") -}}
+            {{- if $theService.defaultIngress -}}
+              {{- $_ := set $theModuleConfig "base_url.fixed" "default" -}}
+            {{- else -}}
+              {{- $_ := set $theModuleConfig "base_url.fixed" "service" -}}
+            {{- end -}}
+          {{- else -}}
+            {{- /* If `base_url.fixed` is defined but does not match the ingress
+                  options, then throw an error. Ideally `base_url.fixed` should
+                  not be explicitly defined as this is autoconfigured based on
+                  ingress settings. If the user really must override this, then
+                  they must enable using `base_url.mismatch_allowed: true`. This
+                  is not supported and may lead to unpredictable behaviour. It
+                  is only suitable for troubleshooting where you need to override
+                  the value. */ -}}
+            {{- if $theService.defaultIngress -}}
+              {{- if ne (get $theModuleConfig "base_url.fixed") "default" -}}
+                {{- if not (get $theModuleConfig "base_url.mismatch_allowed") -}}
+                  {{- fail (printf "`base_url.fixed` is set to `%s` for the `%s` module. This will not work as ingress is enabled for this module." (get $theModuleConfig "base_url.fixed") $theModuleName ) -}}
+                {{- end -}}
+              {{- end -}}
+            {{- else -}}
+              {{- /* Ingress is disabled, but `base_url.fixed` is still set to default
+                    We change it here to `service` in this case so that it's handled
+                    correctly later on. */ -}}
+              {{- if eq (get $theModuleConfig "base_url.fixed") "default" -}}
+                {{- $_ := set $theModuleConfig "base_url.fixed" "service" -}}
               {{- end -}}
             {{- end -}}
-          {{- else -}}
-            {{- /* Ingress is disabled, but `base_url.fixed` is still set to default
-                   We change it here to `service` in this case so that it's handled
-                   correctly later on. */ -}}
-            {{- if eq (get $v.config "base_url.fixed") "default" -}}
-              {{- $_ := set $v.config "base_url.fixed" "service" -}}
-            {{- end -}}
           {{- end -}}
         {{- end -}}
       {{- end -}}
+      {{- $deepConfig := include "sdhCommon.unFlattenDict" $theModuleConfig | fromYaml -}}
+      {{- $_ := set $v "config" $deepConfig -}}
+      {{- /* We don't need the enabled key any longer */ -}}
+      {{- $_ := unset $v "enabled" -}}
+    {{- else -}}
+      {{- /* Remove module if it was disabled */ -}}
+      {{- $_ := unset $modules $theModuleName -}}
     {{- end -}}
-    {{- $deepConfig := include "sdhCommon.unFlattenDict" $v.config | fromYaml -}}
-    {{- $_ := set $v "config" $deepConfig -}}
   {{- end -}}
   {{- $modules | toYaml -}}
 {{- end -}}
@@ -127,94 +142,96 @@ Generate the configuration options in text format for all the enabled modules
   {{- $separatorText := "################################################################################" -}}
   {{- /* Loop through all defined modules */ -}}
   {{- range $k, $v := $modules -}}
-    {{- /* Only add module to config if it's enabled */ -}}
-    {{- if $v.enabled -}}
-      {{- $name := default $k $v.name -}}
-      {{- $title := "" -}}
+    {{- $name := default $k $v.name -}}
+    {{- $title := "" -}}
 
-      {{- if ($v.service).enabled -}}
-        {{- $title = printf "ENDPOINT: %s" $name -}}
-      {{- else -}}
-        {{- $title = printf "%s" $name -}}
-      {{- end -}}
-      {{- $moduleKey := printf "module.%s" $k -}}
-      {{- $moduleText = printf "%s%s\n" $moduleText $separatorText -}}
-      {{- $moduleText = printf "%s# %s\n" $moduleText $title -}}
-      {{- $moduleText = printf "%s%s\n" $moduleText $separatorText -}}
+    {{- if ($v.service).enabled -}}
+      {{- $title = printf "ENDPOINT: %s" $name -}}
+    {{- else -}}
+      {{- $title = printf "%s" $name -}}
+    {{- end -}}
+    {{- $moduleKey := printf "module.%s" $k -}}
+    {{- $moduleText = printf "%s%s\n" $moduleText $separatorText -}}
+    {{- $moduleText = printf "%s# %s\n" $moduleText $title -}}
+    {{- $moduleText = printf "%s%s\n" $moduleText $separatorText -}}
 
-      {{- /* Only add type key conditionally */ -}}
-      {{- if hasKey $v "type" -}}
-        {{- $moduleText = printf "%s%s.type \t= %s\n" $moduleText $moduleKey $v.type -}}
-      {{- end -}}
+    {{- /* Only add type key conditionally */ -}}
+    {{- if hasKey $v "type" -}}
+      {{- $moduleText = printf "%s%s.type \t= %s\n" $moduleText $moduleKey $v.type -}}
+    {{- end -}}
 
-      {{- /* Add dependencies */ -}}
-      {{- range $kReq, $vReq := $v.requires -}}
+    {{- /* Add dependencies */ -}}
+    {{- range $kReq, $vReq := $v.requires -}}
+      {{- /* Sanity check to ensure dependency modules exist */ -}}
+      {{- if has $vReq (keys $modules)  -}}
         {{- $moduleText = printf "%s%s.requires.%s \t= %s\n" $moduleText $moduleKey $kReq $vReq -}}
+      {{- else -}}
+        {{- fail (printf "Module %s depends on module %s which does not exist, or has not been enabled!" $k $vReq) -}}
       {{- end -}}
+    {{- end -}}
+
+    {{- /*
+    Defining environment prefix for values with `DB_`. This is
+    so that we can define multiple databases.
+    Default: No prefix
+    */ -}}
+    {{- $envDBPrefix := "" -}}
+
+    {{- /*
+    If either CrunchyData or External DB has more than one DB then create prefix
+    */ -}}
+    {{- if or (and $.Values.database.crunchypgo.enabled (gt (len $.Values.database.crunchypgo.users) 1)) (and $.Values.database.external.enabled (gt (len $.Values.database.external.databases) 1)) -}}
+      {{- $envDBPrefix = printf "%s_" ( upper $k ) -}}
+    {{- end -}}
+
+    {{- /* Get flattened configuration */ -}}
+    {{- $flattenedConf := include "sdhCommon.flattenConf" $v.config | fromYaml -}}
+
+    {{- /* Module Configuration */ -}}
+    {{- range $kConf, $vConf := $flattenedConf -}}
+      {{- $vConf = toString $vConf -}}
+
+      {{- /* TODO: Move all of these special use cases into separate module.
+          */ -}}
 
       {{- /*
-      Defining environment prefix for values with `DB_`. This is
-      so that we can define multiple databases.
-      Default: No prefix
+      If the value contains "DB_" then add the env prefix
       */ -}}
-      {{- $envDBPrefix := "" -}}
-
-      {{- /*
-      If either CrunchyData or External DB has more than one DB then create prefix
-      */ -}}
-      {{- if or (and $.Values.database.crunchypgo.enabled (gt (len $.Values.database.crunchypgo.users) 1)) (and $.Values.database.external.enabled (gt (len $.Values.database.external.databases) 1)) -}}
-        {{- $envDBPrefix = printf "%s_" ( upper $k ) -}}
+      {{- if contains "#{env['DB_" $vConf -}}
+        {{- $vConf = replace "#{env['DB_" (printf "#{env['%sDB_" $envDBPrefix ) $vConf -}}
       {{- end -}}
 
-      {{- /* Get flattened configuration */ -}}
-      {{- $flattenedConf := include "sdhCommon.flattenConf" $v.config | fromYaml -}}
-
-      {{- /* Module Configuration */ -}}
-      {{- range $kConf, $vConf := $flattenedConf -}}
-        {{- $vConf = toString $vConf -}}
-
-        {{- /* TODO: Move all of these special use cases into separate module.
-            */ -}}
-
-        {{- /*
-        If the value contains "DB_" then add the env prefix
-        */ -}}
-        {{- if contains "#{env['DB_" $vConf -}}
-          {{- $vConf = replace "#{env['DB_" (printf "#{env['%sDB_" $envDBPrefix ) $vConf -}}
-        {{- end -}}
-
-        {{- /* Process Special Cases */ -}}
-        {{- $svcFullPath := (printf "%s%s" (default "/" $.Values.specs.rootPath) $flattenedConf.context_path) -}}
-        {{- if eq $kConf "context_path" -}}
-          {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $kConf $svcFullPath -}}
-        {{- else if eq $kConf "base_url.fixed" -}}
-          {{- $baseUrl := "" -}}
-          {{- if eq $vConf "default" -}}
-            {{- $baseUrl = printf "https://%s%s" $.Values.specs.hostname $svcFullPath -}}
-          {{- else if eq $vConf "localhost" -}}
-            {{- /* Use `localhost` when connecting from other components in the same pod, e.g. Fhir Gateway module */ -}}
-            {{- $baseUrl = printf "http://localhost:%s%s" (toString $flattenedConf.port) $svcFullPath -}}
-          {{- else if eq $vConf "service" -}}
-            {{- /* Use K8s service object. e.g When connecting from other cluster-local components */ -}}
-            {{- if ($v.service).enabled -}}
-              {{- $baseUrl = printf "http://%s-scdr-svc-%s:%s%s" $.Release.Name ($v.service.svcName | lower) (toString $flattenedConf.port) $svcFullPath -}}
-            {{- else -}}
-              {{- fail (printf "Module %s cannot reference service for `base_url.fixed`` as there is no enabled service for this module" $moduleKey ) -}}
-            {{- end -}}
+      {{- /* Process Special Cases */ -}}
+      {{- $svcFullPath := (printf "%s%s" (default "/" $.Values.specs.rootPath) $flattenedConf.context_path) -}}
+      {{- if eq $kConf "context_path" -}}
+        {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $kConf $svcFullPath -}}
+      {{- else if eq $kConf "base_url.fixed" -}}
+        {{- $baseUrl := "" -}}
+        {{- if eq $vConf "default" -}}
+          {{- $baseUrl = printf "https://%s%s" $.Values.specs.hostname $svcFullPath -}}
+        {{- else if eq $vConf "localhost" -}}
+          {{- /* Use `localhost` when connecting from other components in the same pod, e.g. Fhir Gateway module */ -}}
+          {{- $baseUrl = printf "http://localhost:%s%s" (toString $flattenedConf.port) $svcFullPath -}}
+        {{- else if eq $vConf "service" -}}
+          {{- /* Use K8s service object. e.g When connecting from other cluster-local components */ -}}
+          {{- if ($v.service).enabled -}}
+            {{- $baseUrl = printf "http://%s-scdr-svc-%s:%s%s" $.Release.Name ($v.service.svcName | lower) (toString $flattenedConf.port) $svcFullPath -}}
           {{- else -}}
-            {{- /* If the full `base_url` is provided and does not match the port and context root, then
-                   referred links and the `Location` header will be incorrect. */ -}}
-            {{- $baseUrl = $vConf -}}
+            {{- fail (printf "Module %s cannot reference service for `base_url.fixed`` as there is no enabled service for this module" $moduleKey ) -}}
           {{- end -}}
-          {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $kConf $baseUrl -}}
-        {{- else if eq $kConf "base_url.mismatch_allowed" -}}
-          {{- /* This is not a smile config so not using it. Only used to help with logic for `base_url.fixed` auto-configuration */ -}}
-        {{- else if eq $kConf "issuer.url" -}}
-          {{- $moduleText = printf "%s%s.config.%s \t= https://%s%s\n" $moduleText $moduleKey $kConf $.Values.specs.hostname $svcFullPath -}}
-        {{- /* Process remaining config items */ -}}
         {{- else -}}
-          {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $kConf $vConf -}}
+          {{- /* If the full `base_url` is provided and does not match the port and context root, then
+                  referred links and the `Location` header will be incorrect. */ -}}
+          {{- $baseUrl = $vConf -}}
         {{- end -}}
+        {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $kConf $baseUrl -}}
+      {{- else if eq $kConf "base_url.mismatch_allowed" -}}
+        {{- /* This is not a smile config so not using it. Only used to help with logic for `base_url.fixed` auto-configuration */ -}}
+      {{- else if eq $kConf "issuer.url" -}}
+        {{- $moduleText = printf "%s%s.config.%s \t= https://%s%s\n" $moduleText $moduleKey $kConf $.Values.specs.hostname $svcFullPath -}}
+      {{- /* Process remaining config items */ -}}
+      {{- else -}}
+        {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $kConf $vConf -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
@@ -224,13 +241,13 @@ Generate the configuration options in text format for all the enabled modules
 {{/*
 Define enabled services, extracted from the module definitions
 Outputs as Serialized Yaml. If you need to parse the output, include it like so:
-{{- $modules := include "smilecdr.modules" . | fromYaml -}}
+{{- $modules := include "smilecdr.services" . | fromYaml -}}
 */}}
 {{- define "smilecdr.services" -}}
   {{- $services := dict -}}
   {{- $modules := include "smilecdr.modules" . | fromYaml -}}
   {{- range $k, $v := $modules -}}
-    {{- if (and $v.enabled (($v.service).enabled)) -}}
+    {{- if ($v.service).enabled -}}
       {{/* Creating each module key, if enabled and if it has an enabled endpoint. */}}
       {{- $service := dict -}}
       {{- $_ := set $service "contextPath" $v.config.context_path -}}

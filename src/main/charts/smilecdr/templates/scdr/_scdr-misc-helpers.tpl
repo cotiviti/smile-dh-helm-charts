@@ -10,22 +10,20 @@ the module definition using `enableReadinessProbe: true`
   {{- $numProbes := 0 -}}
   {{- $modules := include "smilecdr.modules" . | fromYaml -}}
   {{- range $k, $v := $modules -}}
-    {{- /* If enabled and if it has an enabled endpoint. */ -}}
-    {{- if $v.enabled -}}
-      {{- if (($v.service).enabled) -}}
-        {{- if and (hasKey $v "enableReadinessProbe") ($v.enableReadinessProbe) -}}
-          {{- /* Derive & define values for the readiness probe. */ -}}
-          {{- if gt $numProbes 0 -}}
-            {{- fail "You can only define one readiness probe per node. Review your module configuration and ensure only one module has `enableReadinessProbe` set to true" -}}
-          {{- else -}}
-            {{- $numProbes = add1 $numProbes -}}
+    {{- /* If module has an enabled endpoint. */ -}}
+    {{- if (($v.service).enabled) -}}
+      {{- if and (hasKey $v "enableReadinessProbe") ($v.enableReadinessProbe) -}}
+        {{- /* Derive & define values for the readiness probe. */ -}}
+        {{- if gt $numProbes 0 -}}
+          {{- fail "You can only define one readiness probe per node. Review your module configuration and ensure only one module has `enableReadinessProbe` set to true" -}}
+        {{- else -}}
+          {{- $numProbes = add1 $numProbes -}}
 httpGet:
   path: {{ printf "%s%s%s" (default "/" $.Values.specs.rootPath) $v.config.context_path (default "/endpoint-health" (($v.config.endpoint_health).path )) }}
   port: {{ $v.config.port }}
 timeoutSeconds: {{ default 10 ($.Values.readinessProbe).periodSeconds }}
 failureThreshold: {{ default 2 ($.Values.readinessProbe).failureThreshold }}
 periodSeconds: {{ default 10 ($.Values.readinessProbe).periodSeconds }}
-          {{- end -}}
         {{- end -}}
       {{- end -}}
     {{- end -}}

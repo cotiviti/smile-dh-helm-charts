@@ -6,8 +6,10 @@ modules:
   #   type: nonexistent_type
   # enabledmodulewithouttypekey:
   #   enabled: true
-  # disabledmodulewithouttypekey:
-  #   enabled: false
+  disabledmodulewithouttypekey:
+    enabled: false
+    config:
+      configitem1: value
 
   heirarchytest:
     enabled: true

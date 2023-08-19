@@ -85,6 +85,20 @@ data:
     module.fhir_endpoint.config.base_url.fixed 	= https://smilecdr-example.local/fhir_request
     module.fhir_endpoint.config.context_path 	= /fhir_request
     module.fhir_endpoint.config.port 	= 8000
+    ################################################################################
+    # Local Storage Inbound Security
+    ################################################################################
+    module.local_security.type 	= SECURITY_IN_LOCAL
+    module.local_security.config.password_encoding_type 	= BCRYPT_12_ROUND
+    module.local_security.config.seed.users.file 	= classpath:/config_seeding/users.json
+    ################################################################################
+    # Database Configuration
+    ################################################################################
+    module.persistence.type 	= PERSISTENCE_R4
+    module.persistence.config.db.driver 	= POSTGRES_9_4
+    module.persistence.config.db.password 	= #{env['DB_PASS']}
+    module.persistence.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+    module.persistence.config.db.username 	= #{env['DB_USER']}
 ---
 # Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1

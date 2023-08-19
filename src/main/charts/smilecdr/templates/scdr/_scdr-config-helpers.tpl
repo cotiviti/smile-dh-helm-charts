@@ -9,7 +9,6 @@ As it stands right now, it pulls in details from multiple places and concatenate
 them all into a readable config file, complete with section headers.
 */}}
 {{- define "smilecdr.cdrConfigText" -}}
-  {{- $modules := include "smilecdr.modules" . | fromYaml -}}
   {{- $moduleText := "" -}}
   {{- $separatorText := "################################################################################" -}}
   {{/* Main Node Config Section */}}
