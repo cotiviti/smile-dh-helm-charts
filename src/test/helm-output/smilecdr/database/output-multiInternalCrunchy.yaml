@@ -74,6 +74,12 @@ data:
     module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['CLUSTERMGR_DB_URL']}:#{env['CLUSTERMGR_DB_PORT']/#{env['CLUSTERMGR_DB_DATABASE']}?sslmode=require
     module.clustermgr.config.db.username 	= #{env['CLUSTERMGR_DB_USER']}
     ################################################################################
+    # Local Storage Inbound Security
+    ################################################################################
+    module.local_security.type 	= SECURITY_IN_LOCAL
+    module.local_security.config.password_encoding_type 	= BCRYPT_12_ROUND
+    module.local_security.config.seed.users.file 	= classpath:/config_seeding/users.json
+    ################################################################################
     # Database Configuration
     ################################################################################
     module.persistence.type 	= PERSISTENCE_R4

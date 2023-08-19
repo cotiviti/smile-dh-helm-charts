@@ -20,3 +20,22 @@ modules:
     config:
       context_path: fhir_request
       port: 8000
+  persistence:
+    name: Database Configuration
+    enabled: true
+    type: PERSISTENCE_R4
+    config:
+      db.driver: POSTGRES_9_4
+      db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+      db.password: "#{env['DB_PASS']}"
+      db.username: "#{env['DB_USER']}"
+  local_security:
+    name: Local Storage Inbound Security
+    enabled: true
+    type: SECURITY_IN_LOCAL
+    config:
+      seed.users.file: classpath:/config_seeding/users.json
+      # This is required right now as the default is not being honored.
+      # Can be removed if the default gets fixed. May be good to leave it explicit.
+      # Note: Smile CDR still chooses the wrong default as of `2022.11.R01`
+      password_encoding_type: BCRYPT_12_ROUND
