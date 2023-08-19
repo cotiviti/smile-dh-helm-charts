@@ -1,3 +1,10 @@
+# [1.0.0-pre.89](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.88...v1.0.0-pre.89) (2023-08-19)
+
+
+### Bug Fixes
+
+* **smilecdr:** add config sanity checks ([eea5ae6](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/eea5ae60da1a7fb9ce2ac173d15e365c742f1de2))
+
 # [1.0.0-pre.88](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.87...v1.0.0-pre.88) (2023-08-18)
 
 
