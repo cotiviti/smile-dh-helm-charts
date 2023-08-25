@@ -10,6 +10,8 @@ database:
   crunchypgo:
     enabled: true
     internal: true
+    # The extra dashes and underscores are here to ensure the trimming works as expected
+    defaultDbSuffix: "-_globalSuffix_-"
     users:
     - name: extradb
     - name: extradb2
@@ -18,7 +20,8 @@ database:
       module: clustermgr
     - name: persistence
       module: persistence
-      dbSuffix: "-mysuffix"
+      # The extra dashes and underscores are here to ensure the trimming works as expected
+      dbSuffix: "-_mysuffix_-"
     - name: persistence2
       module: persistence2
       dbName: pers2dbname

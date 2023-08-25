@@ -355,19 +355,19 @@ spec:
   users:
   - name: extradb
     databases:
-    - extradb-db
+    - extradb-globalSuffix
   - name: extradb2
     databases:
     - extradb2
   - name: smilecdr
     databases:
-    - clustermgr-db
+    - clustermgr-globalSuffix
   - name: persistence
     databases:
     - persistence-mysuffix
   - name: persistence2
     databases:
-    - pers2dbname-db
+    - pers2dbname-globalSuffix
 ---
 # Source: smilecdr/templates/tests/test-connection.yaml
 apiVersion: v1
