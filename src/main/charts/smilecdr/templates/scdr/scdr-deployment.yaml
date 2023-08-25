@@ -1,17 +1,19 @@
+{{- /* Use the nodes helper template that defines everything for a single CDR Node */ -}}
+{{- range $theNodeName, $theNodeSpec := include "smilecdr.nodes" . | fromYaml -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-scdr
-  namespace: {{ .Release.Namespace }}
+  name: {{ $.Release.Name }}-{{ $theNodeSpec.resourceSuffix }}
+  namespace: {{ $.Release.Namespace }}
   labels:
-    {{- include "smilecdr.labels" . | nindent 4 }}
+    {{- toYaml $theNodeSpec.cdrNodeLabels | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  {{- if not ($theNodeSpec.autoscaling).enabled }}
+  replicas: {{ $theNodeSpec.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "smilecdr.selectorLabels" . | nindent 6 }}
+    {{- toYaml $theNodeSpec.cdrNodeSelectorLabels | nindent 6 }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -19,29 +21,30 @@ spec:
       maxUnavailable: 0
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- with $theNodeSpec.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "smilecdr.labels" . | nindent 8 }}
+        {{- toYaml $theNodeSpec.cdrNodeLabels | nindent 8 }}
     spec:
       imagePullSecrets:
-        {{- include "imagePullSecretsList" . | nindent 8 }}
-      serviceAccountName: {{ include "smilecdr.serviceAccountName" . }}
+        {{- toYaml $theNodeSpec.imagePullSecretsList | nindent 8 }}
+      serviceAccountName: {{ toYaml $theNodeSpec.serviceAccountName }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml $theNodeSpec.podSecurityContext | nindent 8 }}
       initContainers:
-        {{- include "smilecdr.initContainers" . | nindent 8 }}
+        {{- toYaml $theNodeSpec.initContainers | nindent 8 }}
       terminationGracePeriodSeconds: 60
       containers:
-        - name: {{ .Chart.Name }}
+        - name: smilecdr
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+            {{- toYaml $theNodeSpec.securityContext | nindent 12 }}
+          {{- $image := printf "%s:%s" $theNodeSpec.image.repository (default $.Chart.AppVersion $theNodeSpec.image.tag) }}
+          image: {{ quote $image }}
+          imagePullPolicy: {{ $theNodeSpec.image.pullPolicy }}
           readinessProbe:
-            {{- include "smilecdr.readinessProbe" . | nindent 12 }}
+            {{- toYaml $theNodeSpec.readinessProbe | nindent 12 }}
           lifecycle:
             preStop:
               exec:
@@ -55,17 +58,19 @@ spec:
             failureThreshold: 30
             periodSeconds: 10
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml $theNodeSpec.resources | nindent 12 }}
           env:
-            {{- include "smilecdr.envVars" . | nindent 12 }}
+            {{- toYaml $theNodeSpec.envVars | nindent 12 }}
           ports:
-            {{- range $k, $v := include "smilecdr.services" . | fromYaml }}
+            {{- range $k, $v := $theNodeSpec.services }}
             - name: {{ $v.svcName }}
               containerPort: {{ $v.port }}
               protocol: TCP
             {{- end }}
           volumeMounts:
-            {{ include "smilecdr.volumeMounts" . | nindent 12 | trim }}
+            {{ toYaml $theNodeSpec.volumeMounts | nindent 12 | trim }}
       volumes:
-        {{ include "smilecdr.volumes" . | nindent 8 | trim }}
+        {{ toYaml $theNodeSpec.volumes | nindent 8 | trim }}
       restartPolicy: Always
+---
+{{ end }}

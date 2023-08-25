@@ -6,17 +6,17 @@ metadata:
   name: release-name-scdr
   namespace: default
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   maxUnavailable: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: smilecdr
       app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: smilecdr
 ---
 # Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
@@ -25,11 +25,11 @@ metadata:
   name: release-name-scdr-masterdev-node
   namespace: default
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 data:
   cdr-config-Master.properties: |-
     ################################################################################
@@ -97,11 +97,11 @@ metadata:
   name: release-name-scdr-svc-admin-web
   namespace: default
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
   annotations:
     {}
 spec:
@@ -112,8 +112,8 @@ spec:
       targetPort: 9100
       protocol: TCP
   selector:
-    app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: smilecdr
 ---
 # Source: smilecdr/templates/scdr/scdr-deployment.yaml
 apiVersion: apps/v1
@@ -122,17 +122,17 @@ metadata:
   name: release-name-scdr
   namespace: default
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: smilecdr
       app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: smilecdr
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -141,11 +141,11 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: No Chart Version - Unit Testing
-        app.kubernetes.io/name: smilecdr
         app.kubernetes.io/instance: release-name
-        app.kubernetes.io/version: No App Version - Unit Testing
         app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: smilecdr
+        app.kubernetes.io/version: No App Version - Unit Testing
+        helm.sh/chart: No Chart Version - Unit Testing
     spec:
       imagePullSecrets:
         []
@@ -169,12 +169,12 @@ spec:
           image: "docker.smilecdr.com/smilecdr:2023.08.R01"
           imagePullPolicy: IfNotPresent
           readinessProbe:
-            httpGet:
-              path: //endpoint-health
-              port: 9100
-            timeoutSeconds: 10
             failureThreshold: 2
+            httpGet:
+              path: /endpoint-health
+              port: 9100
             periodSeconds: 10
+            timeoutSeconds: 10
           lifecycle:
             preStop:
               exec:
@@ -283,11 +283,11 @@ kind: Pod
 metadata:
   name: "release-name-smilecdr-test-connection"
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
   annotations:
     "helm.sh/hook": test
 spec:

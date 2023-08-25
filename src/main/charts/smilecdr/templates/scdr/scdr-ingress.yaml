@@ -9,4 +9,4 @@ metadata:
     {{ include "ingress.annotations" . | nindent 4 | trim }}
 spec:
   rules:
-    {{- include "ingress.hosts" . | nindent 4 }}
+    {{- include "ingress.default.hosts" . | nindent 4 }}

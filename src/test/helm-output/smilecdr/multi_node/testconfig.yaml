@@ -1,0 +1,39 @@
+tests:
+  default:
+    outputFile: output.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - test-values.yaml
+  adminNode:
+    outputFile: output-admin-node.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - admin-node.yaml
+  adminNodeWithFileOverrides:
+    outputFile: output-admin-node-with-file-overrides.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - admin-node-with-file-overrides.yaml
+    setFile:
+    # Equivalent to: --set-file mappedFiles.logback\\.xml.data={path/to/}logback.xml
+    - key: mappedFiles.logback\.xml.data
+      fileName: logback.xml
+    - key: mappedFiles.logback-a\.xml.data
+      fileName: logback-a.xml
+    - key: mappedFiles.logback-f\.xml.data
+      fileName: logback-f.xml
+    - key: mappedFiles.someOtherFile\.js.data
+      fileName: someOtherFile.js
+    - key: mappedFiles.fileWithNameOverride\.js.data
+      fileName: fileWithNameOverride.js
+    - key: mappedFiles.fileWithNameOverride2\.js.data
+      fileName: fileWithNameOverride2.js

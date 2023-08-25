@@ -1,23 +1,26 @@
-{{- if .Values.autoscaling.enabled -}}
+{{- range $theNodeName, $theNodeSpec := include "smilecdr.nodes" . | fromYaml -}}
+{{- if $theNodeSpec.autoscaling.enabled -}}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ .Release.Name }}-scdr
-  namespace: {{ .Release.Namespace }}
+  name: {{ $.Release.Name }}-{{ $theNodeSpec.resourceSuffix }}
+  namespace: {{ $.Release.Namespace }}
   labels:
-    {{- include "smilecdr.labels" . | nindent 4 }}
+    {{- toYaml $theNodeSpec.cdrNodeLabels | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ .Release.Name }}-scdr
-  minReplicas: {{ default 1 .Values.autoscaling.minReplicas }}
-  maxReplicas: {{ default 4 .Values.autoscaling.maxReplicas }}
+    name: {{ $.Release.Name }}-{{ $theNodeSpec.resourceSuffix }}
+  minReplicas: {{ default 1 $theNodeSpec.autoscaling.minReplicas }}
+  maxReplicas: {{ default 4 $theNodeSpec.autoscaling.maxReplicas }}
   metrics:
   - type: Resource
     resource:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: {{ default 80 .Values.autoscaling.targetCPUUtilizationPercentage }}
+        averageUtilization: {{ default 80 $theNodeSpec.autoscaling.targetCPUUtilizationPercentage }}
+---
+{{ end }}
 {{- end -}}

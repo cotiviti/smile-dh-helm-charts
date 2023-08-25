@@ -15,15 +15,17 @@ Define volumes and volume mounts based on combining:
   {{- with ( include "kafka.volumes" . | fromYamlArray ) -}}
     {{- $volumes = concat $volumes . -}}
   {{- end -}}
+  {{- /* TODO: we do not need release name in these identifiers. It's just internal
+      to the pod. */ -}}
   {{- $configMapVolume := dict "name" (printf "scdr-config-%s" .Release.Name) -}}
-  {{- $_ := set $configMapVolume "configMap" (dict "name" (printf "%s-scdr-%s-node%s" .Release.Name (include "smilecdr.nodeId" . | lower) (include "smilecdr.cdrConfigDataHashSuffix" . ) )) -}}
+  {{- $_ := set $configMapVolume "configMap" (dict "name" (printf "%s-%s" .Release.Name .Values.configMapResourceSuffix)) -}}
   {{- $volumes = append $volumes $configMapVolume -}}
   {{- if eq true .Values.securityContext.readOnlyRootFilesystem -}}
     {{- $tmpVolume := dict "name" "scdr-volume-tmp" -}}
     {{- $_ := set $tmpVolume "emptyDir" (dict "sizeLimit" "1Mi") -}}
     {{- $volumes = append $volumes $tmpVolume -}}
     {{- $logsVolume := dict "name" "scdr-volume-log" -}}
-    {{- $_ := set $logsVolume "emptyDir" (dict "sizeLimit" (include "smilecdr.nodeSettings" . | fromYaml).logsDirSize ) -}}
+    {{- $_ := set $logsVolume "emptyDir" (dict "sizeLimit" .Values.logsDirSize ) -}}
     {{- $volumes = append $volumes $logsVolume -}}
     {{- if not (or .Values.messageBroker.strimzi.enabled .Values.messageBroker.external.enabled) -}}
       {{- $amqVolume := dict "name" "scdr-volume-amq" -}}

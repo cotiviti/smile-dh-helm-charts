@@ -1,33 +1,31 @@
-{{- $defaultServiceType := "ClusterIP" -}}
-{{- if or (eq "aws-lbc-alb" $.Values.ingress.type) (eq "azure-appgw" $.Values.ingress.type) -}}
-  {{- $defaultServiceType = "NodePort" -}}
-{{- end -}}
-{{ range $k, $v := include "smilecdr.services" . | fromYaml }}
+{{- range $theNodeName, $theNodeSpec := include "smilecdr.nodes" . | fromYaml -}}
+  {{- range $k, $theServiceSpec := $theNodeSpec.services }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ $.Release.Name }}-scdr-svc-{{ $v.svcName }}
+  name: {{ $theServiceSpec.resourceName }}
   namespace: {{ $.Release.Namespace }}
   labels:
-    {{- include "smilecdr.labels" $ | nindent 4 }}
+    {{- toYaml $theNodeSpec.cdrNodeLabels | nindent 4 }}
   annotations:
-    {{ if eq "azure-appgw" $.Values.ingress.type -}}
-    {{- $path := printf "%sendpoint-health" (default "/" $.Values.specs.rootPath) -}}
-    {{ if $v.contextPath }}
-    {{- $path = printf "%s%s/endpoint-health" (default "/" $.Values.specs.rootPath) $v.contextPath -}}
+    {{ if eq "azure-appgw" $theNodeSpec.ingress.type -}}
+    {{- $path := printf "%sendpoint-health" (default "/" $theNodeSpec.specs.rootPath) -}}
+    {{ if $theServiceSpec.contextPath }}
+    {{- $path = printf "%s%s/endpoint-health" (default "/" $theNodeSpec.specs.rootPath) $theServiceSpec.contextPath -}}
     {{- end -}}
     appgw.ingress.kubernetes.io/health-probe-path: {{ $path }}
     {{- else -}}
     {}
     {{- end }}
 spec:
-  type: {{ default $defaultServiceType ($.Values.service).type }}
+  type: {{ $theServiceSpec.serviceType }}
   ports:
-    - name: {{ $v.svcName }}
-      port: {{ $v.port }}
-      targetPort: {{ $v.port }}
+    - name: {{ $theServiceSpec.svcName }}
+      port: {{ $theServiceSpec.port }}
+      targetPort: {{ $theServiceSpec.port }}
       protocol: TCP
   selector:
-    {{- include "smilecdr.selectorLabels" $ | nindent 4 }}
+    {{- toYaml $theNodeSpec.cdrNodeSelectorLabels | nindent 4 }}
 ---
+  {{ end }}
 {{ end }}

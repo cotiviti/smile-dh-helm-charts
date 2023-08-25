@@ -1,6 +1,7 @@
 # Check that the generated node.id in the ConfigMap can be updated
 cdrNodes:
-  overriddenNodeId:
+  masterdev:
+    name: OverriddenNodeId
     config:
       database: true
 
