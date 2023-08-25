@@ -1,3 +1,10 @@
+# [1.0.0-pre.90](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.89...v1.0.0-pre.90) (2023-08-25)
+
+
+### Bug Fixes
+
+* **smilecdr:** add error checking for mapped files ([95b82d0](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/95b82d0a468942fff15b2e6335158c8d0082da72))
+
 # [1.0.0-pre.89](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.88...v1.0.0-pre.89) (2023-08-19)
 
 
