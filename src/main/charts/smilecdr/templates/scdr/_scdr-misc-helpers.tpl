@@ -85,6 +85,25 @@ Use this for generating deprecation notices and other warnings about the configu
 */}}
 {{- define "chartWarnings" -}}
   {{- $warningMessage := "" -}}
+  {{- /* Check to see if files are defined in `mappedFiles` but not passed in to Helm with `--set-file` */ -}}
+  {{- $unmappedFiles := list -}}
+  {{- range $kMappedFile, $vMappedFile := $.Values.mappedFiles -}}
+    {{- if and (not (hasKey $vMappedFile "data")) (not (hasKey $vMappedFile "suppressError")) -}}
+      {{- $escapeWarning := "" -}}
+      {{- if contains "." $kMappedFile -}}
+        {{- $escapeWarning = printf "\nEnsure that you have the correct escaping for the period in the file name.\nIf calling from some other script, you may need to use a double backslash like so:\n\n`--set-file mappedFiles.%s.data=</path/to/file>`" (replace "." "\\\\." $kMappedFile) -}}
+      {{- end -}}
+      {{- fail (printf "\n\nYou have defined `%s` in `.Values.mappedFiles`, but you did not pass it in to Helm using `--set-file mappedFiles.%s.data=</path/to/%s>`.%s\n" $kMappedFile (replace "." "\\." $kMappedFile) $kMappedFile $escapeWarning) -}}
+      {{- $unmappedFiles = append $unmappedFiles $kMappedFile -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if gt (len $unmappedFiles) 0 -}}
+    {{- $warningMessage = printf "%s\n\nWARNING: You have defined the following files in `.Values.mappedFiles`," $warningMessage -}}
+    {{- $warningMessage = printf "%s\n but you did not pass them in to Helm using `--set-file`:" $warningMessage -}}
+    {{- range $file := $unmappedFiles -}}
+      {{- $warningMessage = printf "%s\n * %s" $warningMessage $file -}}
+    {{- end -}}
+  {{- end -}}
   {{- /* Check for using unsupported database propertysource mode */ -}}
   {{- if ((include "smilecdr.nodeSettings" . | fromYaml).config).database -}}
     {{- $warningMessage = printf "%s\n\nWARNING: `config.database` is enabled" $warningMessage -}}
