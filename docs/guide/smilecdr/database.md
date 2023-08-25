@@ -96,9 +96,12 @@ If a required field is not included in the secret, you can specify it in your va
 referenced secret.
 
 ## Using CrunchyData PGO Databases
-In order to use this feature, you will need to ensure that your K8s cluster has the CrunchyData PGO
-already installed (Instructions [here](https://access.crunchydata.com/documentation/postgres-operator/v5/installation/)).
-Simply enable this feature using the following yaml fragment for your database configuration:
+This chart supports automatic creation of an in-cluster Postgres database using the CrunchyData Postgres Operator (PGO).
+
+In order to use this feature, you will need to ensure that your K8s cluster already has the operator installed
+(Operator installation instructions [here](https://access.crunchydata.com/documentation/postgres-operator/v5/installation/)).
+
+After the PGO operator is installed and configured in your Kubernetes cluster, you can enable this feature using the following yaml fragment for your database configuration:
 #### `my-values.yaml`
 ```yaml
 database:
@@ -107,25 +110,53 @@ database:
     internal: true
 ```
 This will create a 2 instance HA PostgreSQL cluster, each with 1cpu, 2GiB memory and 10GiB
-storage. These defaults can be configured using `database.crunchypgo.config` keys. Backups are enabled
-by default as it's a feature of the Operator.
+storage. These defaults can be configured using `database.crunchypgo.config` keys.
+
+Backups are enabled by default as it's a feature of the Operator.
 
 ## Configuring Multiple Databases
-This chart has support to use multiple databases. It is recommended to configure Smile CDR this way, with
+This chart has support to use multiple databases. It is recommended (and in some cases, required) to configure Smile CDR this way, with
 a separate DB for the Cluster Manager, Audit logs, Transaction logs and for any Persistence Modules.
 
-The `module` key is important here as it tells the Helm Chart which module uses this database.
-If there is only one database configured then it will be used for all modules.
+> **Note**If there is only one database configured then it will be used for all modules.
 
-If you provide multiple databases, the `module` key specified in each one is used to determine which
-Smile CDR module it is used by.
+### Module Autoconfiguration of Databases
+This Helm Chart will automatically configure any Smile CDR modules that use a database.
 
-With multiple databases, the above examples may look like this:
+If you configure multiple databases, the `module` key specified for each one is used to determine which
+Smile CDR module is using it. This key is important as it tells the Helm Chart which module uses this database.
 
-> **Note** The CrunchyData PGO is a little different in that it uses the concept of 'users' in the configuration
-to configure multiple databases. That is why we are specifying multiple users below in the **CrunchyData PGO** example.
+#### Environment Variables
+In the examples below, the `clustermgr`, `audit`, `transaction` and `persistence` modules will automatically
+have their own set of environment variables configured for DB connections as follows: `CLUSTERMGR_DB_*`, `AUDIT_DB_*`, `TRANSACTION_DB_*` and
+`PERSISTENCE_DB_*`
 
-#### `my-values.yaml` (External Database)
+#### Module Configuration
+As the modules are configured automatically, you must ***NOT*** manually update your module configurations to point to these environment variable references.
+
+When a given module is configured, any `DB_*` placeholders in the Helm Values files are automatically replaced with the appropriate `<modulename>_DB_*` values.
+
+For example the default Cluster Manager values file has DB connection settings that look like this:
+
+```yaml
+db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
+db.password: "#{env['DB_PASS']}"
+db.username: "#{env['DB_USER']}"
+```
+The Helm Chart will generate a Smile CDR properties file with automatically updated values to match the environment variabls, like so:
+
+```jproperties
+module.clustermgr.config.db.url      = jdbc:postgresql://#{env['CLUSTERMGR_DB_URL']}:#{env['CLUSTERMGR_DB_PORT']}/#{env['CLUSTERMGR_DB_DATABASE']}?sslmode=require
+module.clustermgr.config.db.password = #{env['CLUSTERMGR_DB_PASS']}
+module.clustermgr.config.db.username = #{env['CLUSTERMGR_DB_USER']}
+```
+
+This will happen automatically for any module that references `DB_*` environment variables.
+
+With multiple databases, the examples given above may look like this:
+
+### External Multiple Database Example
+#### `my-values.yaml`
 ```yaml
 database:
   external:
@@ -143,7 +174,12 @@ database:
     - secretName: smilecdr-pers
       module: persistence
 ```
-#### `my-values.yaml` (CrunchyData PGO)
+
+### CrunchyData PGO Multiple Database Example
+>**Note**The CrunchyData PGO is a little different from the above as it uses the concept of 'users' in the configuration
+to configure multiple databases. That is why we are specifying multiple users here:.
+
+#### `my-values.yaml`
 ```yaml
 database:
   crunchypgo:
@@ -159,29 +195,77 @@ database:
     - name: smilecdr-pers
       module: persistence
 ```
-In both of the above examples, the `clustermgr`, `audit`, `transaction` and `persistence` modules will automatically
-have their own set of environment variables for DB connections as follows: `CLUSTERMGR_DB_*`, `AUDIT_DB_*`, `TRANSACTION_DB_*` and
-`PERSISTENCE_DB_*`
 
-> **NOTE**: You do NOT need to update these environment variable references in your module
-configurations. When the `clustermgr` module definition references `DB_URL`, this will be
-automatically mutated to `CLUSTERMGR_DB_URL`. This will happen automatically for any module that
-references `DB_*` environment variables.
+### CrunchyData Database Name Suffixes
+When using CrunchyData PGO for experimenting with different Smile CDR configurations, it is often convenient to experiment with a fresh (empty) database,
+or flip back and forth between multiple database configurations.
 
-If required, you can override the name of the database that is created by the Crunchy PGO Operator by using `dbName` or `dbSuffix` (Which defaults to `-db`) like so:
+There are multiple ways this could be done:
 
-#### `my-values.yaml` (CrunchyData PGO)
+* Deprovision/Reprovision the Db cluster - Destructive and time consuming
+* Manually drop and recreate databases - Destructive and time consuming. Also requires DB tooling and connectivity.
+* Reconfigure the database definitions in the `crunchypgo` section of the values file
+
+These methods have shortcomings that can slow down progress of testing initiatives.
+
+* All of these options can be time consuming and error prone
+* Any dropped and recreated databases will naturally lose any data
+* Manually reconfiguring, although non-destructive, can get tedious and error-prone when dealing with configurations that have many databases,
+especially if you wish to 'flip' back and forth between different database configurations.
+
+As a convenience function, it is possible to quickly alter the database names, either individually or as an entire group.
+This can be done by using `dbName` or `dbSuffix`. The default suffix is `-db` and `-` will be prefixed on any provided suffix.
+
+#### `my-values.yaml`
 ```yaml
 database:
   crunchypgo:
     enabled: true
     internal: true
     users:
+    # Unaltered DB name will be `clustermgr-db`
     - name: smilecdr
       module: clustermgr
-      dbName: my-clustermgr-db-name
+
+    # Overridden DB name with disabled suffix will be `my-persistence-db-name`
+    - name: smilecdr-pers
+      module: persistence
+      dbName: my-persistence-db-name
       dbSuffix: ""
+
+    # Default DB name with overridden suffix will be `audit-mydbsuffix`
     - name: smilecdr-audit
       module: audit
       dbSuffix: "-mydbsuffix"
+```
+
+To reduce needing to specify the db suffix for multiple databases, the default suffix can be changed by setting `defaultDbSuffix` at the root level of the `crunchypgo` configuration as follows:
+
+>**Note**You can still override the suffix for a single DB, as can be seen below with the `audit` and `persistence` modules below.
+
+#### `my-values.yaml`
+```yaml
+database:
+  crunchypgo:
+    enabled: true
+    internal: true
+    defaultDbSuffix: test2
+    users:
+    # DB name will be `clustermgr-test2`
+    - name: smilecdr
+      module: clustermgr
+
+    # DB name will be `audit-test1`
+    - name: smilecdr-audit
+      module: audit
+      dbSuffix: test1
+
+    # DB name will be `transaction-test2`
+    - name: smilecdr-txlogs
+      module: transaction
+
+    # DB name will be `persistence`
+    - name: smilecdr-pers
+      module: persistence
+      dbSuffix: ""
 ```
