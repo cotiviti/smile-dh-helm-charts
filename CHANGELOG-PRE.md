@@ -1,3 +1,10 @@
+# [1.0.0-pre.91](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.90...v1.0.0-pre.91) (2023-08-25)
+
+
+### Features
+
+* **smilecdr:** add db suffix configuration ([ddf3b63](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/ddf3b63f58798c41c850ee8c19b5a0bcbeb17eb1))
+
 # [1.0.0-pre.90](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.89...v1.0.0-pre.90) (2023-08-25)
 
 
