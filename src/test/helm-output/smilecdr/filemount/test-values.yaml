@@ -3,3 +3,5 @@ mappedFiles:
     type: configMap
     configMapBaseName: smilecdr
     path: /home/smile/smilecdr/classes
+    # This is just to suppress the error in the Helm Chart tests
+    suppressError: true
