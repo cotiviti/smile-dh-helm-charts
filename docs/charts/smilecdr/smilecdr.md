@@ -30,24 +30,24 @@ This following table shows you the Smile CDR features that are currently support
 
 |Smile CDR Feature|EKS|AKS|Notes| Smile CDR Version |Helm Chart Version|
 |-----------------|---|-----|-----|-------------------|------------------|
-|Install Smile CDR `2023.02` |:material-check:|:material-close:|Smile CDR `2023.02` is the minimum supported version.<br>[Helm Install Guide](../../guide/smilecdr/install.md)|`2023.02.R03`|`v1.0.0-pre63`|
-|Minor version upgrades|:material-check:|:material-close:|Upgrade by overriding image tag.<br>[Smile CDR Upgrades](https://smilecdr.com/docs/installation/upgrading.html#upgrading-an-existing-installation)|`2023.02.R03`|`v1.0.0-pre63`|
-|Single `Node` clustering|:material-check:|:material-close:|Single Node here means single congfiguration. You can still run multiple instances/processes for performance and reliability.<br>[Smile CDR Clustering](https://smilecdr.com/docs/clustering/designing_a_cluster.html)|`2023.02.R03`|`v1.0.0-pre63`|
-|Cluster Scaling|:material-check:|:material-close:|Horizontal Pod Autoscaling may be enabled. You need sufficient licenced core allocation if using autoscaling.<br>[Smile CDR Scaling](https://smilecdr.com/docs/clustering/designing_a_cluster.html#adding-and-removing-processes)|`2023.02.R03`|`v1.0.0-pre63`|
-|Configuration of CDR Modules|:material-check:|:material-close:|All modules can be configured and updated with zero downtime.<br>[Module Configuration using Helm Chart](../../guide/smilecdr/modules.md)|`2023.02.R03`|`v1.0.0-pre63`|
-|Postgres Database|:material-check:|:material-close:|Supports multiple databases. i.e. for Clustermgr, Persistence, Audit etc.<br>[Database Configuration using Helm Chart](../../guide/smilecdr/database.md)|`2023.02.R03`|`v1.0.0-pre63`|
-|JVM Tuning|:material-check:|:material-close:|[Resource Tuning using Helm Chart](../../guide/smilecdr/resources.md)|`2023.02.R03`|`v1.0.0-pre63`|
-|Kafka Message Broker|:material-check:|:material-close:|[Message Broker Configuration using Helm Chart](../../guide/smilecdr/messagebroker.md)|`2023.02.R03`|`v1.0.0-pre63`|
-|Add files to `classpath` or `customerlib`|:material-check:|:material-close:|[Including Files using Helm Chart](../../guide/smilecdr/files.md)|`2023.02.R03`|`v1.0.0-pre63`|
-|HL7 v2.x with `HL7_OVER_HTTP`|:material-check:|:material-close:|[Configuring HL7 v2.x Endpoint using Helm Chart](../../guide/smilecdr/hl7v2.md)|`2023.02.R03`|`v1.0.0-pre63`|
-|License Module|:material-check:|:material-close:|[Configuring License using Helm Chart](../../guide/smilecdr/cdr-license.md)|`2023.02.R03`|`v1.0.0-pre63`|
+|Install Smile CDR `2023.08` |:material-check:|:material-close:|Smile CDR `2023.05` is the minimum supported version.<br>[Helm Install Guide](../../guide/smilecdr/install.md)|`2023.08.R01`|`v1.0.0-pre92`|
+|Minor version upgrades|:material-check:|:material-close:|Upgrade by overriding image tag.<br>[Smile CDR Upgrades](https://smilecdr.com/docs/installation/upgrading.html#upgrading-an-existing-installation)|`2023.08.R01`|`v1.0.0-pre92`|
+|Single `Node` clustering|:material-check:|:material-close:|Single Node here means single congfiguration. You can still run multiple instances/processes for performance and reliability.<br>[Smile CDR Clustering](https://smilecdr.com/docs/clustering/designing_a_cluster.html)|`2023.08.R01`|`v1.0.0-pre92`|
+|Cluster Scaling|:material-check:|:material-close:|Horizontal Pod Autoscaling may be enabled. You need sufficient licenced core allocation if using autoscaling.<br>[Smile CDR Scaling](https://smilecdr.com/docs/clustering/designing_a_cluster.html#adding-and-removing-processes)|`2023.08.R01`|`v1.0.0-pre92`|
+|Configuration of CDR Modules|:material-check:|:material-close:|All modules can be configured and updated with zero downtime.<br>[Module Configuration using Helm Chart](../../guide/smilecdr/modules.md)|`2023.08.R01`|`v1.0.0-pre92`|
+|Postgres Database|:material-check:|:material-close:|Supports multiple databases. i.e. for Clustermgr, Persistence, Audit etc.<br>[Database Configuration using Helm Chart](../../guide/smilecdr/database.md)|`2023.08.R01`|`v1.0.0-pre92`|
+|JVM Tuning|:material-check:|:material-close:|[Resource Tuning using Helm Chart](../../guide/smilecdr/resources.md)|`2023.08.R01`|`v1.0.0-pre92`|
+|Kafka Message Broker|:material-check:|:material-close:|[Message Broker Configuration using Helm Chart](../../guide/smilecdr/messagebroker.md)|`2023.08.R01`|`v1.0.0-pre92`|
+|Add files to `classpath` or `customerlib`|:material-check:|:material-close:|[Including Files using Helm Chart](../../guide/smilecdr/files.md)|`2023.08.R01`|`v1.0.0-pre92`|
+|HL7 v2.x with `HL7_OVER_HTTP`|:material-check:|:material-close:|[Configuring HL7 v2.x Endpoint using Helm Chart](../../guide/smilecdr/hl7v2.md)|`2023.08.R01`|`v1.0.0-pre92`|
+|License Module|:material-check:|:material-close:|[Configuring License using Helm Chart](../../guide/smilecdr/cdr-license.md)|`2023.08.R01`|`v1.0.0-pre92`|
 
 
 The following Smile CDR features are not currently supported:
 
 | Smile CDR Feature | Notes | GitLab Issue |
 |-------------------|-------|--------------|
-|Install Smile CDR `2022.11` and lower | Fundamental container security changes were made in `2023.02.R01`, so this Helm Chart does not officially support lower versions. See [CDR Versions](../../guide/smilecdr/cdrversions.md) section for more info|NA|
+|Install Smile CDR `2023.02` and lower | Core module configuration changes were made in `2023.05.R01`, so this Helm Chart does not officially support lower versions. See [CDR Versions](../../guide/smilecdr/cdrversions.md) section for more info|NA|
 |Zero Downtime Upgrades|Support planned to be added. See Smile CDR Docs for info on Zero Downtime Upgrades [here](https://smilecdr.com/docs/installation/upgrading.html#upgrading-a-cluster-of-servers-with-zero-downtime)|[GitLab Issue](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/17)|
 |Flexible Multi-Node cluster configurations|Support planned to be added. See Smile CDR Docs for info on Multi-Node clusters [here](https://smilecdr.com/docs/clustering/designing_a_cluster.html#multi-node-clusters)|[GitLab Issue](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/1)|
 |Pre-Seeding Users| [Smile CDR Docs](https://smilecdr.com/docs/installation/pre_seeding.html#users)|[GitLab Issue](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/92)|

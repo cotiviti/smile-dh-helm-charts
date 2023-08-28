@@ -8,7 +8,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R02"
+    app.kubernetes.io/version: "2023.08.R01"
     app.kubernetes.io/managed-by: Helm
 spec:
   maxUnavailable: 1
@@ -26,7 +26,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R02"
+    app.kubernetes.io/version: "2023.08.R01"
     app.kubernetes.io/managed-by: Helm
 data:
   cdr-config-Master.properties: |-
@@ -217,7 +217,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R02"
+    app.kubernetes.io/version: "2023.08.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /json-admin/endpoint-health
@@ -241,7 +241,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R02"
+    app.kubernetes.io/version: "2023.08.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /endpoint-health
@@ -265,7 +265,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R02"
+    app.kubernetes.io/version: "2023.08.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /fhir_request/endpoint-health
@@ -289,7 +289,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R02"
+    app.kubernetes.io/version: "2023.08.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /fhirweb/endpoint-health
@@ -313,7 +313,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R02"
+    app.kubernetes.io/version: "2023.08.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /package_registry/endpoint-health
@@ -337,7 +337,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R02"
+    app.kubernetes.io/version: "2023.08.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /smartauth/endpoint-health
@@ -361,7 +361,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R02"
+    app.kubernetes.io/version: "2023.08.R01"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -379,7 +379,7 @@ spec:
       labels:
         app.kubernetes.io/name: smilecdr
         app.kubernetes.io/instance: release-name
-        app.kubernetes.io/version: "2023.05.R02"
+        app.kubernetes.io/version: "2023.08.R01"
         app.kubernetes.io/managed-by: Helm
     spec:
       imagePullSecrets:
@@ -401,7 +401,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2023.05.R02"
+          image: "docker.smilecdr.com/smilecdr:2023.08.R01"
           imagePullPolicy: IfNotPresent
           readinessProbe:
             httpGet:
@@ -508,7 +508,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R02"
+    app.kubernetes.io/version: "2023.08.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     appgw.ingress.kubernetes.io/backend-protocol: "http"
@@ -577,7 +577,7 @@ metadata:
   labels:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.05.R02"
+    app.kubernetes.io/version: "2023.08.R01"
     app.kubernetes.io/managed-by: Helm
   annotations:
     "helm.sh/hook": test

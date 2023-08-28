@@ -1,9 +1,93 @@
-# [1.0.0-pre.80](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.80...v1.0.0-pre.80) (2023-06-06)
+# [1.0.0-pre.91](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.90...v1.0.0-pre.91) (2023-08-25)
 
 
 ### Features
 
-* **smilecdr:** Update to Smile CDR 2023.05.R01
+* **smilecdr:** add db suffix configuration ([ddf3b63](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/ddf3b63f58798c41c850ee8c19b5a0bcbeb17eb1))
+
+# [1.0.0-pre.90](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.89...v1.0.0-pre.90) (2023-08-25)
+
+
+### Bug Fixes
+
+* **smilecdr:** add error checking for mapped files ([95b82d0](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/95b82d0a468942fff15b2e6335158c8d0082da72))
+
+# [1.0.0-pre.89](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.88...v1.0.0-pre.89) (2023-08-19)
+
+
+### Bug Fixes
+
+* **smilecdr:** add config sanity checks ([eea5ae6](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/eea5ae60da1a7fb9ce2ac173d15e365c742f1de2))
+
+# [1.0.0-pre.88](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.87...v1.0.0-pre.88) (2023-08-18)
+
+
+### Bug Fixes
+
+* **smilecdr:** allow hierarchical config ([f664d5e](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/f664d5e9727d84c4a57e8e928bd547c9368e8571))
+
+# [1.0.0-pre.87](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.86...v1.0.0-pre.87) (2023-07-27)
+
+
+### Bug Fixes
+
+* **smilecdr:** allow specifying db name ([4d4cd84](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/4d4cd8410922f8edd29896e3754d9ec947c7874e))
+
+# [1.0.0-pre.86](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.85...v1.0.0-pre.86) (2023-06-27)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix base_url for hybrid provider ([e80367d](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/e80367dd59db59639c0f261edf29796f98751a3d))
+
+# [1.0.0-pre.85](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.84...v1.0.0-pre.85) (2023-06-26)
+
+
+### Bug Fixes
+
+* **smilecdr:** update default modules ([f83ff90](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/f83ff9089e4c93555efcd25d9545f4b3fe188ab6))
+
+# [1.0.0-pre.84](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.83...v1.0.0-pre.84) (2023-06-26)
+
+
+### Features
+
+* **smilecdr:** make readiness probe configurable ([e83a98e](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/e83a98e1c411794aaa4001e79f44633e643f1810))
+
+# [1.0.0-pre.83](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.82...v1.0.0-pre.83) (2023-06-20)
+
+
+### Features
+
+* **smilecdr:** allow disabling of module ingress ([ca3011b](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/ca3011bca4b0f0b2eaa6fa1c21bb24dad3dba550))
+
+# [1.0.0-pre.82](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.81...v1.0.0-pre.82) (2023-06-09)
+
+
+### Bug Fixes
+
+* **smilecdr:** update transaction module name ([f4472ca](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/f4472cac24ff61a95b6e5a149f7b41d47690b62c))
+
+# [1.0.0-pre.81](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.80...v1.0.0-pre.81) (2023-06-08)
+
+
+### Features
+
+* **smilecdr:** Update to Smile CDR 2023.05.R02 ([e7362b8](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/e7362b88ebf1fda24779baaff94b2e8dd6f54c4c))
+
+# [1.0.0-pre.80](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.79...v1.0.0-pre.80) (2023-06-06)
+
+
+### Features
+
+* **smilecdr:** Update to Smile CDR 2023.05.R01 ([99aa74d](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/99aa74d568b35504e3955ce65fdce922428db99f))
+
+# [1.0.0-pre.79](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.78...v1.0.0-pre.79) (2023-06-06)
+
+
+### Features
+
+* **smilecdr:** Update to Smile CDR 2023.05.R01 ([bf89b79](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/bf89b79b879a6e02f365e50e4829db91822fd566))
 
 # [1.0.0-pre.78](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.77...v1.0.0-pre.78) (2023-06-06)
 
