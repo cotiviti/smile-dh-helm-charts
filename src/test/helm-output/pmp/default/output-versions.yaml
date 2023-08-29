@@ -1,4 +1,30 @@
 ---
+# Source: pmp/templates/component-serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: release-name-pmp-pmp-services
+  labels:
+    app.kubernetes.io/component: pmpServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
+---
+# Source: pmp/templates/component-serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: release-name-pmp-pmp-user-services
+  labels:
+    app.kubernetes.io/component: pmpUserServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
+---
 # Source: pmp/templates/component-config-json-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -10,8 +36,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: No App Version - Unit Testing
-    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
 data:
   config.json: |-
     {
@@ -103,8 +129,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: No App Version - Unit Testing
-    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
 data:
   config.json: |-
     {
@@ -262,6 +288,29 @@ data:
       }
     }
 ---
+# Source: pmp/templates/component-config-json-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-pmp-pmpawslogin-2889655d07a91dbb5a8558fdb7c9fd1ed2054227
+  namespace: default
+  labels:
+    app.kubernetes.io/component: pmpAwsLogin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
+data:
+  config.json: |-
+    {
+      "awsconfig": {
+        "region": "aws-region-id",
+        "userPoolId": "my-cognito-user-pool",
+        "userPoolWebClientId": "my-al-client-id"
+      }
+    }
+---
 # Source: pmp/templates/component-service.yaml
 apiVersion: v1
 kind: Service
@@ -272,8 +321,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: No App Version - Unit Testing
-    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
 spec:
   type: ClusterIP
   ports:
@@ -296,8 +345,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: No App Version - Unit Testing
-    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
 spec:
   type: ClusterIP
   ports:
@@ -307,6 +356,78 @@ spec:
       name: http
   selector:
     app.kubernetes.io/component: memberPortalAdmin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: pmp
+---
+# Source: pmp/templates/component-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-pmp-pmp-aws-login
+  labels:
+    app.kubernetes.io/component: pmpAwsLogin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/component: pmpAwsLogin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: pmp
+---
+# Source: pmp/templates/component-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-pmp-pmp-services
+  labels:
+    app.kubernetes.io/component: pmpServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/component: pmpServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: pmp
+---
+# Source: pmp/templates/component-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-pmp-pmp-user-services
+  labels:
+    app.kubernetes.io/component: pmpUserServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/component: pmpUserServices
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/name: pmp
 ---
@@ -320,8 +441,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: No App Version - Unit Testing
-    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
 spec:
   replicas: 1
   selector:
@@ -386,8 +507,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: No App Version - Unit Testing
-    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
 spec:
   replicas: 1
   selector:
@@ -442,6 +563,248 @@ spec:
           name: release-name-pmp-memberportaladmin-64484d6cb85221ec4951f9d72f358c4270b069dd
         name: config-json
 ---
+# Source: pmp/templates/component-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-pmp-pmp-aws-login
+  labels:
+    app.kubernetes.io/component: pmpAwsLogin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: pmpAwsLogin
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: pmp
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: pmpAwsLogin
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/name: pmp
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      enableServiceLinks: false
+      containers:
+      - name: pmp
+        securityContext:
+          {}
+        image: <YOU MUST DEFINE A REPO IN YOUR VALUES FILE>:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PUBLIC_URL
+          value: https://pmp-example.local
+        - name: CONTEXT_ROOT
+          value: /pmp-aws-login
+        - name: LISTEN_PORT
+          value: "80"
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /pmp-aws-login
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /pmp-aws-login
+            port: http
+        resources:
+            {}
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html/pmp-aws-login/assets/config.json
+          name: config-json
+          subPath: config.json
+      volumes:
+      - configMap:
+          name: release-name-pmp-pmpawslogin-2889655d07a91dbb5a8558fdb7c9fd1ed2054227
+        name: config-json
+---
+# Source: pmp/templates/component-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-pmp-pmp-services
+  labels:
+    app.kubernetes.io/component: pmpServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: pmpServices
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: pmp
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: pmpServices
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/name: pmp
+    spec:
+      serviceAccountName: release-name-pmp-pmp-services
+      securityContext:
+        {}
+      enableServiceLinks: false
+      containers:
+      - name: pmp
+        securityContext:
+          {}
+        image: <YOU MUST DEFINE A REPO IN YOUR VALUES FILE>:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PUBLIC_URL
+          value: https://pmp-services-example.local
+        - name: CONTEXT_ROOT
+          value: /Registration
+        - name: LISTEN_PORT
+          value: "3000"
+        - name: resourceProviderURI
+          value: http://release-name-scdr-svc-fhir:8000/fhir_request
+        - name: password
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: pmpServices
+        - name: userid
+          valueFrom:
+            secretKeyRef:
+              key: userid
+              name: pmpServices
+        - name: IDENTIFIER_SYSTEM_MEMBER
+          value: urn:system:member
+        - name: IDENTIFIER_SYSTEM_PERSONALREP
+          value: urn:system:pr
+        - name: checkActiveCoverage
+          value: "false"
+        - name: checkCoverageWithinXDays
+          value: "0"
+        - name: coverageDateFormat
+          value: YYYY-MM-DD
+        - name: env
+          value: AWS
+        - name: mdmEnabled
+          value: "false"
+        - name: uniquememberidentifier
+          value: memberidentifier
+        ports:
+        - name: http
+          containerPort: 3000
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /Registration
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /Registration
+            port: http
+        resources:
+            {}
+---
+# Source: pmp/templates/component-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-pmp-pmp-user-services
+  labels:
+    app.kubernetes.io/component: pmpUserServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: pmpUserServices
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: pmp
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: pmpUserServices
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/name: pmp
+    spec:
+      serviceAccountName: release-name-pmp-pmp-user-services
+      securityContext:
+        {}
+      enableServiceLinks: false
+      containers:
+      - name: pmp
+        securityContext:
+          {}
+        image: <YOU MUST DEFINE A REPO IN YOUR VALUES FILE>:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PUBLIC_URL
+          value: https://pmp-user-services-example.local
+        - name: CONTEXT_ROOT
+          value: /
+        - name: LISTEN_PORT
+          value: "3000"
+        - name: authJwksUrl
+          value: testing
+        - name: authAuthority
+          value: testing
+        - name: authClientId
+          value: testing
+        - name: awsCognitoUserPoolId
+          value: testing
+        - name: authGroupAuthorized
+          value: admins
+        - name: authGroupKeyName
+          value: cognito:groups
+        - name: authOnUserQueryEnabled
+          value: "true"
+        - name: authSupportedAlgorithms
+          value: HS256,RS256
+        - name: awsCognitoMemberIdKey
+          value: custom:memberId
+        - name: awsCognitoPatientIdKey
+          value: custom:patientId
+        - name: awsCognitoPersonIdKey
+          value: custom:personalRepId
+        - name: awsCognitoQueryFilterGivenName
+          value: given_name ^= "{firstName}"
+        - name: awsCognitoQueryFilterSurname
+          value: family_name ^= "{lastName}"
+        - name: awsCognitoQueryGroups
+          value: testers,admins
+        - name: awsRegion
+          value: us-east-1
+        - name: queryType
+          value: AWS_COGNITO
+        ports:
+        - name: http
+          containerPort: 3000
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /status
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /status
+            port: http
+        resources:
+            {}
+---
 # Source: pmp/templates/component-ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -452,8 +815,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: No App Version - Unit Testing
-    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
 spec:
   rules:
     - host: "pmp-example.local"
@@ -477,8 +840,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: No App Version - Unit Testing
-    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
 spec:
   rules:
     - host: "pmp-example.local"
@@ -491,3 +854,78 @@ spec:
                 name: release-name-pmp-member-portal-admin
                 port:
                   number: 80
+---
+# Source: pmp/templates/component-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-pmp-pmp-aws-login
+  labels:
+    app.kubernetes.io/component: pmpAwsLogin
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
+spec:
+  rules:
+    - host: "pmp-example.local"
+      http:
+        paths:
+          - path: /pmp-aws-login
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-pmp-pmp-aws-login
+                port:
+                  number: 80
+---
+# Source: pmp/templates/component-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-pmp-pmp-services
+  labels:
+    app.kubernetes.io/component: pmpServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
+spec:
+  rules:
+    - host: "pmp-services-example.local"
+      http:
+        paths:
+          - path: /Registration
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-pmp-pmp-services
+                port:
+                  number: 3000
+---
+# Source: pmp/templates/component-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-pmp-pmp-user-services
+  labels:
+    app.kubernetes.io/component: pmpUserServices
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: pmp-1.0.0-pre.92
+spec:
+  rules:
+    - host: "pmp-user-services-example.local"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-pmp-pmp-user-services
+                port:
+                  number: 3000

@@ -154,7 +154,8 @@ for CHART in ${CHARTS}; do
 
                         if [ -f "${DIR}/${OUTFILE}" ]; then
                             # shellcheck disable=SC2086 # Intended splitting of HELMOPTS
-                            HELM_OUTPUT=$(helm template --namespace default ${HELMOPTS} ${CURRENT_CHART_DIR} | sed '/^.*helm\.sh\/chart.*$/d' )
+                            # HELM_OUTPUT=$(helm template --namespace default ${HELMOPTS} ${CURRENT_CHART_DIR} | sed '/^.*helm\.sh\/chart.*$/d' )
+                            HELM_OUTPUT=$(helm template --namespace default ${HELMOPTS} ${CURRENT_CHART_DIR} )
                             HELM_RES=$?
                             if [ "${HELM_RES}" != "0" ]; then
                                 printf "Rendering template failed for test: %s.%s\n" "${DIR_NAME}" "${TEST_NAME}"
@@ -169,7 +170,8 @@ for CHART in ${CHARTS}; do
                                     printf "Output differs for %s chart using %s values file." "${CHART}" "${TEST_NAME}"
                                     printf "%s" "${DYFF_TEXT}"
                                     printf "For prettier output, you can run the following:\n"
-                                    printf "  helm template --namespace default %s %s | sed '/^.*helm\.sh\/chart.*$/d' | dyff between %s/%s -\n\n" "${HELMOPTS}" "${CURRENT_CHART_DIR}" "${DIR}" "${OUTFILE}"
+                                    # printf "  helm template --namespace default %s %s | sed '/^.*helm\.sh\/chart.*$/d' | dyff between %s/%s -\n\n" "${HELMOPTS}" "${CURRENT_CHART_DIR}" "${DIR}" "${OUTFILE}"
+                                    printf "  helm template --namespace default %s %s | dyff between %s/%s -\n\n" "${HELMOPTS}" "${CURRENT_CHART_DIR}" "${DIR}" "${OUTFILE}"
                                     ERROR=1
                                 fi
                             fi
@@ -199,8 +201,8 @@ for CHART in ${CHARTS}; do
                                 sed -i.bak 's/[[:space:]]*$//' "${DIR}"/"${OUTFILE}"
                                 rm "${DIR}"/"${OUTFILE}".bak
                                 # This `sed` command removes the `helm.sh/chart` label from outputs.
-                                sed -i.bak '/^.*helm\.sh\/chart.*$/d' "${DIR}"/"${OUTFILE}"
-                                rm "${DIR}"/"${OUTFILE}".bak
+                                #sed -i.bak '/^.*helm\.sh\/chart.*$/d' "${DIR}"/"${OUTFILE}"
+                                #rm "${DIR}"/"${OUTFILE}".bak
                             fi
                         fi
                     done

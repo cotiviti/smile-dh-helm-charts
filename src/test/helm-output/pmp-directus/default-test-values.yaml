@@ -2,3 +2,5 @@
 database:
   external:
     enabled: true
+
+unitTesting: true

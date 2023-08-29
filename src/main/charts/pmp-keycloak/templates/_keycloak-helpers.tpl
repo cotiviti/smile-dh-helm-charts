@@ -7,8 +7,24 @@ Define extra details for Keycloak
 Create chart name and version as used by the chart label.
 */}}
 {{- define "keycloak.chart" -}}
-{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+  {{- $chartVersion := printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+  {{- if .Values.unitTesting -}}
+    {{- print "No Chart Version - Unit Testing" -}}
+  {{- else -}}
+    {{- $chartVersion -}}
+  {{- end -}}
 {{- end }}
+
+{{/*
+Determine Smile CDR application version.
+*/}}
+{{- define "keycloak.appVersion" -}}
+  {{- $keycloakVersion := coalesce .Values.image.tag .Chart.AppVersion -}}
+  {{- if .Values.unitTesting -}}
+    {{- $keycloakVersion = "No App Version - Unit Testing" -}}
+  {{- end -}}
+  {{- $keycloakVersion -}}
+{{- end -}}
 
 {{/*
 Create a default fully qualified app name.
@@ -34,9 +50,7 @@ Common labels
 {{- define "keycloak.labels" -}}
 helm.sh/chart: {{ include "keycloak.chart" . }}
 {{ include "keycloak.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
+app.kubernetes.io/version: {{ include "keycloak.appVersion" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 

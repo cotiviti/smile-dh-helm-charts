@@ -5,3 +5,5 @@ database:
     enabled: true
 
 autoDeploy: false
+
+unitTesting: true

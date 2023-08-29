@@ -6,8 +6,24 @@ Define extra details for Directus
 Create chart name and version as used by the chart label.
 */}}
 {{- define "directus.chart" -}}
-{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+  {{- $chartVersion := printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+  {{- if .Values.unitTesting -}}
+    {{- print "No Chart Version - Unit Testing" -}}
+  {{- else -}}
+    {{- $chartVersion -}}
+  {{- end -}}
 {{- end }}
+
+{{/*
+Determine Smile CDR application version.
+*/}}
+{{- define "directus.appVersion" -}}
+  {{- $directusVersion := coalesce .Values.image.tag .Chart.AppVersion -}}
+  {{- if .Values.unitTesting -}}
+    {{- $directusVersion = "No App Version - Unit Testing" -}}
+  {{- end -}}
+  {{- $directusVersion -}}
+{{- end -}}
 
 {{/*
 Create a default fully qualified app name.
@@ -33,9 +49,7 @@ Common labels
 {{- define "directus.labels" -}}
 helm.sh/chart: {{ include "directus.chart" . }}
 {{ include "directus.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
+app.kubernetes.io/version: {{ include "directus.appVersion" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
