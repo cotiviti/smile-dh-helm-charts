@@ -46,7 +46,7 @@ NOTE: $.Chart is a `struct` and not a `dict` as you would expect. Unfortunately 
 
       {{- $componentSelectorLabels := include "pmp.selectorLabels" $rootCTX | fromYaml -}}
       {{- $_ := set $componentSelectorLabels "app.kubernetes.io/component" $theComponentName -}}
-      
+
       {{- $_ := set $parsedComponentValues "componentLabels" $componentLabels -}}
       {{- $_ := set $parsedComponentValues "componentSelectorLabels" $componentSelectorLabels -}}
 
@@ -71,7 +71,7 @@ NOTE: $.Chart is a `struct` and not a `dict` as you would expect. Unfortunately 
       {{- $_ := set $sscsiSpec "objects" (include "sdhCommon.sscsi.objects" $componentHelperCTX | fromYamlArray) -}}
       {{- $_ := set $sscsiSpec "syncedSecrets" (include "sdhCommon.sscsi.syncedSecrets" $componentHelperCTX | fromYamlArray) -}}
       {{- $_ := set $parsedComponentValues "sscsi" $sscsiSpec -}}
-      
+
       {{- $_ := set $components $theComponentName $parsedComponentValues -}}
 
     {{- end -}}
