@@ -1,22 +1,20 @@
-{{- range $k, $v := .Values.components -}}
-{{- $componentContext := (include "component.getMergedContext" (dict "componentName" $k "componentObject" $v "globalObject" $) | fromYaml) -}}
-{{- if and $v.enabled $v.ingress.enabled -}}
-{{- $fullName := include "component.fullname" $componentContext -}}
-{{- $svcPort := $v.service.port -}}
+{{- range $theComponentName, $theComponentSpec := include "pmp.components" . | fromYaml -}}
+  {{- /* fail (printf "\n$theComponentName\n\n%s\n$theComponentSpec\n\n%s" $theComponentName (toYaml $theComponentSpec)) */ -}}
+  {{- if ($theComponentSpec.ingress).enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ $theComponentSpec.fullName }}
   labels:
-    {{- include "component.labels" $componentContext | nindent 4 }}
-  {{- with $v.ingress.annotations }}
+    {{- toYaml $theComponentSpec.componentLabels | nindent 4 }}
+  {{- with $theComponentSpec.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if $v.ingress.tls }}
+  {{- if $theComponentSpec.ingress.tls }}
   tls:
-    {{- range $v.ingress.tls }}
+    {{- range $theComponentSpec.ingress.tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . | quote }}
@@ -25,7 +23,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range $v.ingress.hosts }}
+    {{- range $theComponentSpec.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
@@ -34,9 +32,9 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ $fullName }}
+                name: {{ $theComponentSpec.fullName }}
                 port:
-                  number: {{ $svcPort }}
+                  number: {{ $theComponentSpec.service.port }}
           {{- end }}
     {{- end }}
 ---

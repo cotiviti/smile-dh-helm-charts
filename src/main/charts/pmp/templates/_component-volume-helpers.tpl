@@ -18,8 +18,8 @@
 {{- define "component.volumes" -}}
   {{- $volumes := list -}}
   {{- $currentComponentName := ternary .componentName nil (not (eq .componentName nil)) -}}
-  {{- if hasKey .Values "config" -}}
-    {{- $currentComponentConfig := .Values.config -}}
+  {{- if hasKey . "config" -}}
+    {{- $currentComponentConfig := .config -}}
     {{- $configFormat := default "json" $currentComponentConfig.type -}}
     {{- if eq $configFormat "json" -}}
       {{- $configMap := ( include "component.configMap" . | fromYaml ) -}}
@@ -30,7 +30,8 @@
       {{- fail (printf "Config type `%s` in component `%s` is not supported." $configFormat $currentComponentName) -}}
     {{- end -}}
   {{- end -}}
-  {{- if eq ((include "sdhCommon.sscsi.enabled" . ) | trim ) "true" -}}
+  {{- if .sscsi.enabled -}}
+  {{- /* if eq ((include "sdhCommon.sscsi.enabled" . ) | trim ) "true" */ -}}
   {{- /* if (include "sdhCommon.sscsi.enabled" . ) | fromYaml */ -}}
     {{- $volumes = concat $volumes (include "sdhCommon.sscsi.volumes" . | fromYamlArray) -}}
   {{- end -}}
@@ -41,8 +42,8 @@
 {{- define "component.volumeMounts" -}}
   {{- $volumeMounts := list -}}
   {{- $currentComponentName := ternary .componentName nil (not (eq .componentName nil)) -}}
-  {{- if hasKey .Values "config" -}}
-    {{- $currentComponentConfig := .Values.config -}}
+  {{- if hasKey . "config" -}}
+    {{- $currentComponentConfig := .config -}}
     {{- $configFormat := default "json" $currentComponentConfig.type -}}
     {{- if eq $configFormat "json" -}}
       {{- $configMapVolumeMount := dict "name" "config-json" -}}
@@ -53,7 +54,8 @@
       {{- fail (printf "Config type `%s` in component `%s` is not supported." $configFormat $currentComponentName) -}}
     {{- end -}}
   {{- end -}}
-  {{- if eq ((include "sdhCommon.sscsi.enabled" . ) | trim ) "true" -}}
+  {{- if .sscsi.enabled -}}
+  {{- /* if eq ((include "sdhCommon.sscsi.enabled" . ) | trim ) "true" */ -}}
   {{- /* if (include "sdhCommon.sscsi.enabled" . ) | fromYaml */ -}}
     {{- $volumeMounts = concat $volumeMounts (include "sdhCommon.sscsi.volumeMounts" . | fromYamlArray) -}}
   {{- end -}}

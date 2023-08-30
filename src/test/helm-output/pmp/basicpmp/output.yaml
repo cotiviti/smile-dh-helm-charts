@@ -6,11 +6,11 @@ metadata:
   name: release-name-pmp-memberportal-ef8f0f34b72024faecb16507729f76f10c8f2e41
   namespace: default
   labels:
-    app.kubernetes.io/name: pmp
     app.kubernetes.io/component: memberPortal
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "0.1.0"
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
 data:
   config.json: |-
     {
@@ -98,11 +98,11 @@ metadata:
   name: release-name-pmp-memberportaladmin-64484d6cb85221ec4951f9d72f358c4270b069dd
   namespace: default
   labels:
-    app.kubernetes.io/name: pmp
     app.kubernetes.io/component: memberPortalAdmin
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "0.1.0"
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
 data:
   config.json: |-
     {
@@ -266,11 +266,11 @@ kind: Service
 metadata:
   name: release-name-pmp-member-portal
   labels:
-    app.kubernetes.io/name: pmp
     app.kubernetes.io/component: memberPortal
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "0.1.0"
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
 spec:
   type: ClusterIP
   ports:
@@ -279,9 +279,9 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: pmp
     app.kubernetes.io/component: memberPortal
     app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: pmp
 ---
 # Source: pmp/templates/component-service.yaml
 apiVersion: v1
@@ -289,11 +289,11 @@ kind: Service
 metadata:
   name: release-name-pmp-member-portal-admin
   labels:
-    app.kubernetes.io/name: pmp
     app.kubernetes.io/component: memberPortalAdmin
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "0.1.0"
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
 spec:
   type: ClusterIP
   ports:
@@ -302,9 +302,9 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: pmp
     app.kubernetes.io/component: memberPortalAdmin
     app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: pmp
 ---
 # Source: pmp/templates/component-deployment.yaml
 apiVersion: apps/v1
@@ -312,24 +312,24 @@ kind: Deployment
 metadata:
   name: release-name-pmp-member-portal
   labels:
-    app.kubernetes.io/name: pmp
     app.kubernetes.io/component: memberPortal
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "0.1.0"
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: pmp
       app.kubernetes.io/component: memberPortal
       app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: pmp
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: pmp
         app.kubernetes.io/component: memberPortal
         app.kubernetes.io/instance: release-name
+        app.kubernetes.io/name: pmp
     spec:
       serviceAccountName: default
       securityContext:
@@ -377,24 +377,24 @@ kind: Deployment
 metadata:
   name: release-name-pmp-member-portal-admin
   labels:
-    app.kubernetes.io/name: pmp
     app.kubernetes.io/component: memberPortalAdmin
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "0.1.0"
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: pmp
       app.kubernetes.io/component: memberPortalAdmin
       app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: pmp
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: pmp
         app.kubernetes.io/component: memberPortalAdmin
         app.kubernetes.io/instance: release-name
+        app.kubernetes.io/name: pmp
     spec:
       serviceAccountName: default
       securityContext:
@@ -442,11 +442,11 @@ kind: Ingress
 metadata:
   name: release-name-pmp-member-portal
   labels:
-    app.kubernetes.io/name: pmp
     app.kubernetes.io/component: memberPortal
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "0.1.0"
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
 spec:
   rules:
     - host: "pmp-example.local"
@@ -466,11 +466,11 @@ kind: Ingress
 metadata:
   name: release-name-pmp-member-portal-admin
   labels:
-    app.kubernetes.io/name: pmp
     app.kubernetes.io/component: memberPortalAdmin
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "0.1.0"
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pmp
+    app.kubernetes.io/version: 0.1.0
 spec:
   rules:
     - host: "pmp-example.local"

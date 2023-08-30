@@ -1,21 +1,18 @@
-{{- range $k, $v := .Values.components -}}
-{{- $componentContext := (include "component.getMergedContext" (dict "componentName" $k "componentObject" $v "globalObject" $) | fromYaml) -}}
-{{- if $v.enabled -}}
+{{- range $theComponentName, $theComponentSpec := include "pmp.components" . | fromYaml -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "component.fullname" $componentContext }}
+  name: {{ $theComponentSpec.fullName }}
   labels:
-    {{- include "component.labels" $componentContext | nindent 4 }}
+    {{- toYaml $theComponentSpec.componentLabels | nindent 4 }}
 spec:
-  type: {{ $v.service.type }}
+  type: {{ $theComponentSpec.service.type }}
   ports:
-    - port: {{ $v.service.port }}
-      targetPort: {{ $v.service.port }}
+    - port: {{ $theComponentSpec.service.port }}
+      targetPort: {{ $theComponentSpec.service.port }}
       protocol: TCP
       name: http
   selector:
-    {{- include "component.selectorLabels" $componentContext | nindent 4 }}
+    {{- toYaml $theComponentSpec.componentSelectorLabels | nindent 4 }}
 ---
-{{- end }}
 {{ end }}
