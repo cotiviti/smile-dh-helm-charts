@@ -11,10 +11,11 @@
 SRC_DIR="."
 TEST_SELECTOR=""
 
-while getopts "ufs:t:d" flag; do
+while getopts "ufs:t:n:d" flag; do
 case "$flag" in
     s) SRC_DIR=$OPTARG;;
     t) TEST_SELECTOR=$OPTARG;;
+    n) TEST_DIR=$OPTARG;;
     u) UPDATE=1;;
     f) FORCE_UPDATE=1;;
     d) DEBUG_MODE=1;;
@@ -83,39 +84,51 @@ for CHART in ${CHARTS}; do
                     TESTS="$(yq -ojson "${DIR}/testconfig.yaml" | jq -rc '.tests | keys[]')"
                     for TEST_NAME in ${TESTS}; do
                         (( COUNT++ ))
+                        SKIP_TEST=0
+
                         if [ "${TEST_SELECTOR}" != "" ]; then
                             # If TEST_SELECTOR is specified:
-                            # * TEST_SELCETOR can have multiple substrings to match.
+                            # * TEST_SELECTOR can have multiple substrings to match.
                             # * Only run test in the following condition
                             # * Substring must be inside chart name, or testdir name or test name in testconfig.yaml.
                             # * Matching is case insensitive
                             # * ALL substrings in TEST_SELECTOR must match
 
-                            MISMATCH=0
+                            MATCH=0
                             for test_string in ${TEST_SELECTOR}; do
                                 if [ "${CHART#*"$test_string"}" != "$CHART" ] || \
                                    [ "${DIR_NAME#*"$test_string"}" != "$DIR_NAME" ] || \
                                    [ "${TEST_NAME#*"$test_string"}" != "$TEST_NAME" ]; then
-                                    # Matched with combined tests... Do nothing
-                                    :
+                                    # Matched with combined tests
+                                    MATCH=1
                                 else
                                     # This selector string did not match, so don't check any more
                                     # printf "%s didn't match %s\n" "${TEST_SELECTOR}" "${TEST_NAME}"
-                                    MISMATCH=1
                                     continue
                                 fi
                             done
-                            if [ ${MISMATCH} -eq 0 ]; then
-                                RUN_TEST=1
+                            if [ ${MATCH} -eq 1 ]; then
                                 printf "Running check/update. Chart: \"%s\" Test: \"%s.%s\" based on selector \"%s\"\n" "${CHART}" "${DIR_NAME}" "${TEST_NAME}" "${TEST_SELECTOR}"
                             else
-                                RUN_TEST=0
+                                SKIP_TEST=1
                             fi
-                        else
-                            RUN_TEST=1
                         fi
 
-                        if [ ${RUN_TEST} -eq 0 ]; then
+                        if [ "${TEST_DIR}" != "" ]; then
+                            # If TEST_DIR is specified:
+                            # * TEST_DIR must be the name of a single test directory.
+                            # * Only run test in the following condition
+                            # * String must be equal to testdir name.
+                            # * Matching is case insensitive
+
+                            if [ "$DIR_NAME" == "$TEST_DIR" ]; then
+                                printf "Running check/update. Chart: \"%s\" Test: \"%s.%s\" based on selector \"%s\"\n" "${CHART}" "${DIR_NAME}" "${TEST_NAME}" "${TEST_SELECTOR}"
+                            else
+                                SKIP_TEST=1
+                            fi
+                        fi
+
+                        if [ ${SKIP_TEST} -eq 1 ]; then
                             continue
                         fi
 

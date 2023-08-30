@@ -22,16 +22,16 @@ clean: clean-charts
 build: update-helm-outputs
 
 helm-update-outputs-debug:
-	./scripts/check-outputs.sh -d -t "${selector}" -s ./src
+	./scripts/check-outputs.sh -d -t "${selector}" -n "${testdir}" -s ./src
 
 helm-update-outputs-force:
-	./scripts/check-outputs.sh -f -t "${selector}" -s ./src
+	./scripts/check-outputs.sh -f -t "${selector}" -n "${testdir}" -s ./src
 
 helm-update-outputs:
-	./scripts/check-outputs.sh -u -t "${selector}" -s ./src
+	./scripts/check-outputs.sh -u -t "${selector}" -n "${testdir}" -s ./src
 
 helm-check-outputs: helm-lint
-	./scripts/check-outputs.sh -t "${selector}" -s ./src
+	./scripts/check-outputs.sh -t "${selector}" -n "${testdir}" -s ./src
 
 helm-lint:
 	./scripts/lint-charts.sh -s ./src
