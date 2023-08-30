@@ -8,15 +8,24 @@ This template helps create a configMap for each file that is defined in the
 .Values.mappedFiles section.
 It expects that there should also be a .Values.mappedFiles.filename.data section
 that contains the file contents, as passed in by the --set-file helm install option.
-If a file is added to mappedFiles, but does not have a `data` key, then it will be
-quietly ignored.
+We loop through the nodes as we only want to include any files that are actually in
+use by a node.
 */ -}}
 {{- define "smilecdr.fileConfigMaps" -}}
 {{- $fileCfgMaps := list -}}
-{{- if gt (len .Values.mappedFiles) 0 -}}
-  {{- range $k, $v := .Values.mappedFiles -}}
-    {{- if hasKey $v "data" -}}
-      {{- $fileCfgMaps = append $fileCfgMaps (dict "name" ( $k ) "data" $v.data "hash" ( sha256sum $v.data )) -}}
+{{- range $theNodeName, $theNodeSpec := include "smilecdr.nodes" . | fromYaml -}}
+  {{- if gt (len $theNodeSpec.mappedFiles) 0 -}}
+    {{- range $k, $v := $theNodeSpec.mappedFiles -}}
+      {{- /* if and (not (contains $fileCfgMaps $k)) (hasKey $v "data") */ -}}
+      {{- if hasKey $v "data" -}}
+        {{- $cmDict := (dict "name" ( $k ) "fileName" (default $k $v.fileName) "data" $v.data "hash" ( sha256sum $v.data )) -}}
+        {{- if not (has $cmDict $fileCfgMaps ) -}}
+          {{- $fileCfgMaps = append $fileCfgMaps $cmDict -}}
+        {{- end -}}
+      {{- else -}}
+        {{- /* fail "No data. fix this error" */ -}}
+        {{- /* TODO: fix... */ -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
@@ -61,8 +70,10 @@ Define fileVolumeMounts for all mapped files
   {{- if gt (len .Values.mappedFiles) 0 -}}
     {{- range $k, $v := .Values.mappedFiles -}}
       {{- $fileVolumeMount := dict "name" ($k | replace "." "-") -}}
-      {{- $_ := set $fileVolumeMount "mountPath" (printf "%s/%s" (default "/home/smile/smilecdr/classes" $v.path) $k) -}}
-      {{- $_ := set $fileVolumeMount "subPath" $k -}}
+      {{- $_ := set $fileVolumeMount "mountPath" (printf "%s/%s" (default "/home/smile/smilecdr/classes" $v.path) (default $k $v.fileName)) -}}
+      {{- /* $_ := set $fileVolumeMount "mountPath" (printf "%s/%s" (default "/home/smile/smilecdr/classes" $v.path) $k) */ -}}
+      {{- /* $_ := set $fileVolumeMount "subPath" $k */ -}}
+      {{- $_ := set $fileVolumeMount "subPath" (default $k $v.fileName) -}}
       {{- $fileVolumeMounts = append $fileVolumeMounts $fileVolumeMount -}}
     {{- end -}}
   {{- end -}}

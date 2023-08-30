@@ -13,13 +13,12 @@ the module definition using `enableReadinessProbe: true`
     {{- /* If module has an enabled endpoint. */ -}}
     {{- if (($v.service).enabled) -}}
       {{- if and (hasKey $v "enableReadinessProbe") ($v.enableReadinessProbe) -}}
-        {{- /* Derive & define values for the readiness probe. */ -}}
-        {{- if gt $numProbes 0 -}}
+          {{- if gt $numProbes 0 -}}
           {{- fail "You can only define one readiness probe per node. Review your module configuration and ensure only one module has `enableReadinessProbe` set to true" -}}
         {{- else -}}
           {{- $numProbes = add1 $numProbes -}}
 httpGet:
-  path: {{ printf "%s%s%s" (default "/" $.Values.specs.rootPath) $v.config.context_path (default "/endpoint-health" (($v.config.endpoint_health).path )) }}
+  path: {{ join "/" (list (trimSuffix "/" $v.service.fullPath) (trimAll "/" (default "endpoint-health" ($v.config.endpoint_health).path))) }}
   port: {{ $v.config.port }}
 timeoutSeconds: {{ default 10 ($.Values.readinessProbe).periodSeconds }}
 failureThreshold: {{ default 2 ($.Values.readinessProbe).failureThreshold }}
@@ -105,17 +104,29 @@ Use this for generating deprecation notices and other warnings about the configu
     {{- end -}}
   {{- end -}}
   {{- /* Check for using unsupported database propertysource mode */ -}}
-  {{- if ((include "smilecdr.nodeSettings" . | fromYaml).config).database -}}
-    {{- $warningMessage = printf "%s\n\nWARNING: `config.database` is enabled" $warningMessage -}}
-    {{- $warningMessage = printf "%s\n This mode is unsupported and not recommended for use when deploying using Helm" $warningMessage -}}
-    {{- $warningMessage = printf "%s\n Possible side effects that you may encounter with this mode enabled are:" $warningMessage -}}
-    {{- $warningMessage = printf "%s\n  * If modules are added or altered in the console, the environment will" $warningMessage -}}
-    {{- $warningMessage = printf "%s\n    be in a state of drift compared to the Helm Chart values." $warningMessage -}}
-    {{- $warningMessage = printf "%s\n  * It will not be possible to update certain module configurations that" $warningMessage -}}
-    {{- $warningMessage = printf "%s\n    affect the supporting infrastructure (i.e. context roots, ports, databases)" $warningMessage -}}
-    {{- $warningMessage = printf "%s\n  * In the event of drift occurring, reverting this mode to `disabled` may then " $warningMessage -}}
-    {{- $warningMessage = printf "%s\n    lead to unpredictable behaviour that could result in modules being " $warningMessage -}}
-    {{- $warningMessage = printf "%s\n    incorrectly configured, resulting to critical system faults." $warningMessage -}}
+  {{- range $theNodeName, $theNodeSpec := include "smilecdr.nodes" . | fromYaml -}}
+    {{- if ($theNodeSpec.config).database -}}
+      {{- $warningMessage = printf "%s\n\nWARNING: `config.database` is enabled for Smile CDR node: %s" $warningMessage $theNodeName -}}
+      {{- $warningMessage = printf "%s\n This mode is unsupported and not recommended for use when deploying using Helm" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n Possible side effects that you may encounter with this mode enabled are:" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n  * If modules are added or altered in the console, the environment will" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n    be in a state of drift compared to the Helm Chart values." $warningMessage -}}
+      {{- $warningMessage = printf "%s\n  * It will not be possible to update certain module configurations that" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n    affect the supporting infrastructure (i.e. context roots, ports, databases)" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n  * In the event of drift occurring, reverting this mode to `disabled` may then " $warningMessage -}}
+      {{- $warningMessage = printf "%s\n    lead to unpredictable behaviour that could result in modules being " $warningMessage -}}
+      {{- $warningMessage = printf "%s\n    incorrectly configured, resulting to critical system faults." $warningMessage -}}
+    {{- end -}}
+
+    {{- if $theNodeSpec.oldResourceNaming -}}
+      {{- $warningMessage = printf "%s\n\nDEPRECATED: The `oldResourceNaming` setting has been configured for backwards compatibility." $warningMessage  -}}
+      {{- $warningMessage = printf "%s\n This mode is a temporary feature to allow a controlled migration to chart version `1.0.0-pre.93` and newer." $warningMessage -}}
+      {{- $warningMessage = printf "%s\n This will be removed in a future version so it's recommended to disable this feature and allow the" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n chart to generate your resources using updated names." $warningMessage -}}
+      {{- $warningMessage = printf "%s\n This is a required step in order to use the `multi-node` configurations." $warningMessage -}}
+      {{- $warningMessage = printf "%s\n You will not be able to configure Smile CDR with such a `multi-node` configuration unless this setting is" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n first disabled." $warningMessage -}}
+    {{- end -}}
   {{- end -}}
   {{- /* Check for using old image pull credentials */ -}}
   {{- if hasKey .Values.image "credentials" -}}

@@ -145,13 +145,11 @@ Define Kafka related volumes requird by Smile CDR pod
 */ -}}
 {{- define "kafka.volumes" -}}
   {{- $volumes := list -}}
-  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
+  {{- /* $kafkaConfig := (include "kafka.config" . | fromYaml) */ -}}
+  {{- $kafkaConfig := .Values.kafka -}}
   {{- if $kafkaConfig.enabled -}}
     {{- /* Mount client properties files */ -}}
-    {{- $consumerPropertiesData := include "kafka.consumer.properties.text" . -}}
-    {{- $producerPropertiesData := include "kafka.producer.properties.text" . -}}
-    {{- $cmName := printf "%s-kafka-client-properties-%s-node%s" .Release.Name (include "smilecdr.nodeId" . | lower) (include "smilecdr.getConfigMapNameHashSuffix" (dict "Values" .Values "data" (printf "%s/n%s" $consumerPropertiesData $producerPropertiesData))) -}}
-    {{- $configMap := (dict "name" $cmName) -}}
+    {{- $configMap := (dict "name" $kafkaConfig.propertiesResourceName) -}}
     {{- $propsVolume := dict "name" "kafka-client-config" "configMap" $configMap -}}
     {{- $volumes = append $volumes $propsVolume -}}
     {{- $volumes = concat $volumes (include "kafka.certificate.volumes" . | fromYamlArray) -}}

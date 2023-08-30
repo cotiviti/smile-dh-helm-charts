@@ -113,6 +113,7 @@ The below section gives an overview of the default values available. Consult the
 | jvm.memoryFactor | float | `0.5` | JVM HeapSize factor. `limits.memory` is multiplied this to calculate `-Xmx` |
 | jvm.xms | bool | `true` | Set JVM heap `-Xms` == `-Xmx` |
 | labels | object | `{}` | Extra labels to apply to all resources |
+| logsDirSize | string | `"10Gi"` |  |
 | mappedFiles | object | `{}` | Map of file definitions to map into the Smile CDR instance |
 | messageBroker.adminPod.enabled | bool | `false` |  |
 | messageBroker.clientConfiguration.consumerProperties."heartbeat.interval.ms" | int | `3000` |  |
@@ -133,6 +134,7 @@ The below section gives an overview of the default values available. Consult the
 | messageBroker.topics.subscription.name | string | `"subscription.matching.Masterdev.persistence"` |  |
 | messageBroker.topics.subscription.partitions | int | `10` |  |
 | modules.useDefaultModules | bool | `true` | Enable or disable included default modules configuration |
+| oldResourceNaming | bool | `true` |  |
 | replicaCount | int | `1` | Number of replicas to deploy. Note that this setting is ignored if autoscaling is enabled. Should always start a new installation with 1 |
 | resources.limits.memory | string | `"4Gi"` | Memory allocation |
 | resources.requests.cpu | string | `"1"` | CPU Requests |

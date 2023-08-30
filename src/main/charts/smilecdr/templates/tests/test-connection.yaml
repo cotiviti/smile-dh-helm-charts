@@ -1,9 +1,25 @@
+{{- range $theNodeName, $theNodeSpec := include "smilecdr.nodes" . | fromYaml -}}
+  {{- /* Find the module that has the healthcheck. We will use this for the
+      Helm test hook */ -}}
+  {{- /* $modules := include "smilecdr.modules" $theNodeSpec | fromYaml */ -}}
+  {{- $localURL := "" -}}
+  {{- range $theServiceName, $theServiceSpec := $theNodeSpec.services -}}
+    {{- if $theServiceSpec.enableReadinessProbe -}}
+      {{- $localURL = printf "%s:%d" $theServiceSpec.resourceName (int $theServiceSpec.port) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $podName := printf "%s-%s-test-connection" $.Release.Name ($theNodeSpec.nodeId | lower) -}}
+  {{- /* The below are just overrides for compatibility mode and will be removed in the future. */ -}}
+  {{- if $theNodeSpec.oldResourceNaming -}}
+    {{- $localURL = printf "smilecdr-admin_web:%d" (int $theNodeSpec.services.admin_web.port) -}}
+    {{- $podName = printf "%s-smilecdr-test-connection" $.Release.Name -}}
+  {{- end -}}
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "smilecdr.fullname" . }}-test-connection"
+  name: {{ $podName | quote }}
   labels:
-    {{- include "smilecdr.labels" . | nindent 4 }}
+    {{- toYaml $theNodeSpec.cdrNodeLabels | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -11,13 +27,7 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      {{/*
-      # This needs to be refactored to pick up the config from the modules
-      # section of the values file
-      # args: ['smilecdr-admin_web:{{ .Values.specs.endpoints.admin_web.port }}']
-      */}}
-      {{- $port := (include "smilecdr.services" . | fromYaml ).admin_web.port -}}
-      args: ['smilecdr-admin_web:{{ $port }}']
+      args: ['{{ $localURL }}']
       resources:
         limits:
           cpu: 10m
@@ -26,3 +36,5 @@ spec:
           cpu: 10m
           memory: 128Mi
   restartPolicy: Never
+---
+{{ end }}

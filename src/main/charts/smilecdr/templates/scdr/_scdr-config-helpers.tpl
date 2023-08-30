@@ -15,19 +15,18 @@ them all into a readable config file, complete with section headers.
   {{- $moduleText = printf "%s%s\n" $moduleText $separatorText -}}
   {{- $moduleText = printf "%s# Node Configuration\n" $moduleText -}}
   {{- $moduleText = printf "%s%s\n" $moduleText $separatorText -}}
-  {{- $moduleText = printf "%snode.id \t= %s\n" $moduleText (include "smilecdr.nodeId" .) -}}
-  {{- $nodeSettings := (include "smilecdr.nodeSettings" . | fromYaml) -}}
-  {{- if ((include "smilecdr.nodeSettings" . | fromYaml).config).database -}}
+  {{- $moduleText = printf "%snode.id \t= %s\n" $moduleText .Values.nodeId -}}
+  {{- if (.Values.config).database -}}
     {{- $moduleText = printf "%snode.propertysource \t= %s\n" $moduleText "DATABASE" -}}
     {{- $moduleText = printf "%snode.config.locked \t= false\n" $moduleText -}}
-  {{- else if ((include "smilecdr.nodeSettings" . | fromYaml).config).troubleshooting -}}
+  {{- else if (.Values.config).troubleshooting -}}
     {{- $moduleText = printf "%snode.propertysource \t= %s\n" $moduleText "PROPERTIES_UNLOCKED" -}}
     {{- $moduleText = printf "%snode.config.locked \t= false\n" $moduleText -}}
   {{- else -}}
     {{- $moduleText = printf "%snode.propertysource \t= %s\n" $moduleText "PROPERTIES" -}}
-    {{- $moduleText = printf "%snode.config.locked \t= %v\n" $moduleText (ternary ($nodeSettings.config).locked true (and (hasKey $nodeSettings "config") (hasKey $nodeSettings.config "locked"))) -}}
+    {{- $moduleText = printf "%snode.config.locked \t= %v\n" $moduleText (ternary (.Values.config).locked true (and (hasKey .Values "config") (hasKey .Values.config "locked"))) -}}
   {{- end -}}
-  {{- $moduleText = printf "%snode.security.strict \t= %v\n\n" $moduleText (default false (($nodeSettings).security).strict) -}}
+  {{- $moduleText = printf "%snode.security.strict \t= %v\n\n" $moduleText (default false (.Values.security).strict) -}}
   {{- if hasKey .Values "license" -}}
     {{- $moduleText = printf "%smodule.license.config.jwt_file \t= classpath:license.jwt\n" $moduleText -}}
   {{- end -}}
@@ -73,13 +72,21 @@ cdr-config-Master.properties: |-
 {{- end -}}
 
 {{/*
+Generate a suffix that represents the SHA256 hash of the provided
+data. Useful for naming K8s resources.
+*/}}
+{{- define "smilecdr.getHashSuffix" -}}
+  {{- printf "%s" (trunc 16 (sha256sum .)) -}}
+{{- end -}}
+
+{{/*
 Generate a suffix that represents the SHA256 hash of the configMap
 data if autoDeploy is enabled. Used for naming the configMap.
 */}}
 {{- define "smilecdr.cdrConfigDataHashSuffix" -}}
   {{- if .Values.autoDeploy -}}
     {{- $data := ( include "smilecdr.cdrConfigData" .) -}}
-    {{- printf "-%s" (sha256sum $data) -}}
+    {{- printf "-%s" (trunc 16 (sha256sum $data)) -}}
   {{- end -}}
 {{- end -}}
 
@@ -90,7 +97,7 @@ You must pass in a map with the root `Values` map and `data` to be hashed.
 */}}
 {{- define "smilecdr.getConfigMapNameHashSuffix" -}}
   {{- if .Values.autoDeploy -}}
-    {{- printf "-%s" (trunc 40 (sha256sum .data)) -}}
+    {{- printf "-%s" (trunc 16 (sha256sum .data)) -}}
   {{- end -}}
 {{- end -}}
 
@@ -137,51 +144,3 @@ module.clustermgr.config.kafka.ssl.key.password                     =#{null}
 module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
   {{- end }}
 {{- end }}
-
-{{/*
-Define Smile CDR Node name
-Currently only supports a single node. This was implemented
-  so that we can remove the hard coded entry from the ConfigMap.
-If there are 0 cdrNodes entries, set default to Masterdev
-  this should not happen as we have the default values,
-  but leaving it in code in case.
-If there is 1 cdrNodes entry, set default to that value
-  as it's from the default values file.
-If there are 2 cdrNodes entries, custom values file has set
-  a new entry, so use that.
-If there are more than 2 cdrNodes entries, custom values, it
-  will be unpredictable until we support multiple nodes. For
-  now, it will just go through the range and use the last one.
-*/}}
-{{- define "smilecdr.nodeId" -}}
-  {{- $nodeId := "" -}}
-  {{- with .Values.cdrNodes -}}
-    {{- $nodesMap := . -}}
-    {{- /* If 2 or more entries, remove masterdev from map */ -}}
-    {{- if gt (len $nodesMap) 1 -}}
-      {{- $nodesMap = omit $nodesMap "masterdev" -}}
-    {{- end -}}
-    {{- range $key, $val := $nodesMap -}}
-      {{- $nodeId = default $key $val.name -}}
-    {{- end -}}
-  {{- end -}}
-  {{- $nodeId -}}
-{{- end -}}
-
-{{- /*
-Temporary companion to "smilecdr.nodeId" until the multi-node feature is implemented.
-This is just to get per-node settings, such as logs dir size.
-*/ -}}
-{{- define "smilecdr.nodeSettings" -}}
-  {{- $nodeSettings := "" -}}
-  {{- with .Values.cdrNodes -}}
-    {{- $nodesMap := . -}}
-    {{- if gt (len $nodesMap) 1 -}}
-      {{- $nodesMap = omit $nodesMap "masterdev" -}}
-    {{- end -}}
-    {{- range $key, $val := $nodesMap -}}
-      {{- $nodeSettings = deepCopy $val -}}
-    {{- end -}}
-  {{- end -}}
-  {{- $nodeSettings | toYaml -}}
-{{- end -}}

@@ -1,14 +1,17 @@
+{{- range $theNodeName, $theNodeSpec := include "smilecdr.nodes" . | fromYaml -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-scdr-{{ include "smilecdr.nodeId" . | lower }}-node{{ include "smilecdr.cdrConfigDataHashSuffix" . }}
-  namespace: {{ .Release.Namespace }}
+  name: {{ $.Release.Name }}-{{ $theNodeSpec.configMapResourceSuffix }}
+  namespace: {{ $.Release.Namespace }}
   labels:
-    {{- include "smilecdr.labels" . | nindent 4 }}
-  {{- if (.Values.argocd).enabled }}
+    {{- toYaml $theNodeSpec.cdrNodeLabels | nindent 4 }}
+  {{- if ($theNodeSpec.argocd).enabled }}
   annotations:
     argocd.argoproj.io/compare-options: IgnoreExtraneous
     argocd.argoproj.io/sync-options: Prune=false
   {{- end }}
 data:
-  {{- include "smilecdr.cdrConfigData" . | nindent 2 -}}
+  {{- $theNodeSpec.propertiesData | nindent 2 }}
+---
+{{ end }}

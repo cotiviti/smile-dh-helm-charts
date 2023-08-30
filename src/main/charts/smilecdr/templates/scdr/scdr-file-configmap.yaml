@@ -16,6 +16,6 @@ metadata:
     argocd.argoproj.io/sync-options: Prune=false
   {{- end }}
 data:
-  {{ $v.name }}: |- {{ $v.data | nindent 4 }}
+  {{ $v.fileName }}: |- {{ $v.data | nindent 4 }}
 ---
 {{ end }}

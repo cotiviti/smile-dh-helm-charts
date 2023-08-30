@@ -11,7 +11,9 @@ not do any validation or sanitation of the configuration.
   {{/* Include all default modules unless useDefaultModules is disabled */}}
   {{- $modules := dict -}}
   {{- if $.Values.modules.useDefaultModules -}}
+    {{- /* fail (printf "\n\nsmilecdr.modules.raw:if_useDefaultModules:$.Values.modules:\n%s" (toYaml $.Values)) */ -}}
     {{- $modules = ( $.Files.Get "default-modules.yaml" | fromYaml ).modules -}}
+    {{- /* fail (printf "\n\nsmilecdr.modules.raw:if_useDefaultModules:Modules:\n%s" (toYaml $modules)) */ -}}
   {{- end -}}
   {{- /* Include any user-defined module overrides, omitting the useDefaultModules flag */ -}}
   {{- $_ := mergeOverwrite $modules ( omit $.Values.modules "useDefaultModules" ) -}}
@@ -24,35 +26,39 @@ Define canonical dict/map of enabled modules and configurations. This is a valid
 version of the modules defined above.
 Consume this elsewhere in the chart by unserializing it like so:
 {{- $modules := include "smilecdr.modules" . | fromYaml -}}
+Currently, this is the canonical module source for the following template helpers:
+* smilecdr.services
+* smilecdr.modules.config.text
+* smilecdr.readinessProbe
+* chartWarnings
 */}}
 {{- define "smilecdr.modules" -}}
   {{- $modules := include "smilecdr.modules.raw" . | fromYaml -}}
   {{- $modulePrefixes := (include "smilecdr.moduleprefixeswithendpoints" . | fromYamlArray) -}}
-  {{- range $k, $v := $modules -}}
-    {{- $theModuleName := $k -}}
+  {{- $cdrNodeValues := $.Values -}}
+  {{- range $theModuleName, $theModuleSpec := $modules -}}
     {{- $theModuleIsClustermgr := ternary true false (eq $theModuleName "clustermgr") -}}
-    {{- $theModule := $v -}}
     {{- /*
         Required keys:
         * `enabled`
         * `type` */ -}}
-    {{- if not (hasKey $theModule "enabled" ) -}}
+    {{- if not (hasKey $theModuleSpec "enabled" ) -}}
       {{- fail (printf "Module %s does not have `enabled` key set" $theModuleName) -}}
     {{- end -}}
     {{- /* The `clustermgr` module is the only one that does not require the `type` key
         */ -}}
-    {{- if and $theModule.enabled (not $theModuleIsClustermgr) (not (hasKey $theModule "type" )) -}}
+    {{- if and $theModuleSpec.enabled (not $theModuleIsClustermgr) (not (hasKey $theModuleSpec "type" )) -}}
       {{- fail (printf "Module %s does not have `type` key set" $theModuleName) -}}
     {{- end -}}
 
-    {{- /* Only include the module if it's the clustermgr or if it's explicitly enabled */ -}}
-    {{- if or $theModuleIsClustermgr $theModule.enabled -}}
+    {{- /* Only include the module if it's the clustermgr or if it's an explicitly enabled module */ -}}
+    {{- if or $theModuleIsClustermgr $theModuleSpec.enabled -}}
 
-      {{- $theModuleType := ternary nil $theModule.type $theModuleIsClustermgr -}}
-      {{- $theModuleConfig := ($v.config) -}}
+      {{- $theModuleType := ternary nil $theModuleSpec.type $theModuleIsClustermgr -}}
+      {{- $theModuleConfig := ($theModuleSpec.config) -}}
 
-      {{- if ($theModule.service).enabled -}}
-        {{- $theService := $theModule.service -}}
+      {{- if ($theModuleSpec.service).enabled -}}
+        {{- $theService := $theModuleSpec.service -}}
 
         {{- /* Configure default ingress for modules with endpoints */ -}}
         {{- $serviceHasEndpoint := false -}}
@@ -62,7 +68,9 @@ Consume this elsewhere in the chart by unserializing it like so:
           {{- end -}}
         {{- end -}}
 
-        {{- /* If we do not define the ingress, or if we do not set it to false, then enable default ingress */ -}}
+        {{- /* If we do not define the ingress, or if we do not set it to false,
+            then set the service to use the default ingress */ -}}
+        {{- /* TODO: Make the condition logic more readable? */ -}}
         {{- if and $serviceHasEndpoint (or (not (hasKey (($theService.ingresses).default) "enabled")) (ne $theService.ingresses.default.enabled false)) -}}
           {{- $_ := set $theService "defaultIngress" true -}}
         {{- else -}}
@@ -72,7 +80,7 @@ Consume this elsewhere in the chart by unserializing it like so:
         {{- /* Set `base_url.fixed` for FHIR endpoint modules */ -}}
         {{- if or (hasPrefix "ENDPOINT_FHIR_" $theModuleType) (hasPrefix "ENDPOINT_HYBRID_PROVIDERS" $theModuleType) -}}
           {{- /* Only update if not manually set! */ -}}
-          {{- if not (hasKey $v.config "base_url.fixed") -}}
+          {{- if not (hasKey $theModuleSpec.config "base_url.fixed") -}}
             {{- if $theService.defaultIngress -}}
               {{- $_ := set $theModuleConfig "base_url.fixed" "default" -}}
             {{- else -}}
@@ -103,11 +111,58 @@ Consume this elsewhere in the chart by unserializing it like so:
             {{- end -}}
           {{- end -}}
         {{- end -}}
+
+        {{- /* Generate fullPath and normalize context_path */ -}}
+        {{- $fullPathElements := list -}}
+        {{- if and (hasKey $cdrNodeValues.specs "rootPath") (ne $cdrNodeValues.specs.rootPath "/") -}}
+          {{- $_ := set $theModuleSpec.service "rootPath" (printf "/%s" (trimAll "/" $cdrNodeValues.specs.rootPath)) -}}
+          {{- $fullPathElements = append $fullPathElements $theModuleSpec.rootPath -}}
+        {{- else -}}
+          {{- $fullPathElements = append $fullPathElements "" -}}
+        {{- end -}}
+        {{- /* Normalize `context_path` if it exists. */ -}}
+        {{- if and (hasKey $theModuleSpec.config "context_path") (ne $theModuleSpec.config.context_path "") -}}
+          {{- $_ := set $theModuleSpec.config "context_path" (trimAll "/" $theModuleSpec.config.context_path) -}}
+          {{- $fullPathElements = append $fullPathElements $theModuleSpec.config.context_path -}}
+        {{- end -}}
+        {{- /* Create `full_path` based on `rootPath` and `context_path` */ -}}
+        {{- if gt (len $fullPathElements) 1 -}}
+          {{- $_ := set $theModuleSpec.service "fullPath" (join "/" $fullPathElements) -}}
+        {{- else if eq (first $fullPathElements) "" -}}
+          {{- $_ := set $theModuleSpec.service "fullPath" "/" -}}
+        {{- end -}}
+
+        {{- /* Canonically define the Kubernetes service resource name and service type */ -}}
+        {{- $svcName := lower (printf "%s-scdrnode-%s-%s" $.Release.Name $cdrNodeValues.nodeId $theModuleSpec.service.svcName) -}}
+        {{- if $cdrNodeValues.oldResourceNaming -}}
+          {{- $svcName = lower (printf "%s-scdr-svc-%s" $.Release.Name $theModuleSpec.service.svcName) -}}
+        {{- end -}}
+        {{- $_ := set $theModuleSpec.service "resourceName" $svcName -}}
+
+        {{- /* fail (printf "\n\n$cdrNodeValues\n%s" (toYaml $cdrNodeValues)) */ -}}
+        {{- $svcType := "ClusterIP" -}}
+        {{- if or (eq "aws-lbc-alb" $cdrNodeValues.ingress.type) (eq "azure-appgw" $cdrNodeValues.ingress.type) -}}
+          {{- $svcType = "NodePort" -}}
+        {{- end -}}
+        {{- $_ := set $theModuleSpec.service "serviceType" $svcType -}}
+
+        {{- /* If this module has the Readiness Probe enabled, then
+            enable it in the service */ -}}
+        {{- if hasKey $theModuleSpec "enableReadinessProbe" -}}
+          {{- $_ := set $theModuleSpec.service "enableReadinessProbe" $theModuleSpec.enableReadinessProbe -}}
+        {{- else -}}
+          {{- $_ := set $theModuleSpec.service "enableReadinessProbe" false -}}
+        {{- end -}}
+
+        {{- /* if eq $theModuleName "admin_web-tom" -}}
+          {{- fail (printf "\n\n$theModuleSpec\n%s" (join "/" (toYaml $theModuleSpec))) -}}
+        {{- end */ -}}
+
       {{- end -}}
       {{- $deepConfig := include "sdhCommon.unFlattenDict" $theModuleConfig | fromYaml -}}
-      {{- $_ := set $v "config" $deepConfig -}}
+      {{- $_ := set $theModuleSpec "config" $deepConfig -}}
       {{- /* We don't need the enabled key any longer */ -}}
-      {{- $_ := unset $v "enabled" -}}
+      {{- $_ := unset $theModuleSpec "enabled" -}}
     {{- else -}}
       {{- /* Remove module if it was disabled */ -}}
       {{- $_ := unset $modules $theModuleName -}}
@@ -141,32 +196,32 @@ Generate the configuration options in text format for all the enabled modules
   {{- $moduleText := "" -}}
   {{- $separatorText := "################################################################################" -}}
   {{- /* Loop through all defined modules */ -}}
-  {{- range $k, $v := $modules -}}
-    {{- $name := default $k $v.name -}}
+  {{- range $theModuleName, $theModuleSpec := $modules -}}
+    {{- $name := default $theModuleName $theModuleSpec.name -}}
     {{- $title := "" -}}
 
-    {{- if ($v.service).enabled -}}
+    {{- if ($theModuleSpec.service).enabled -}}
       {{- $title = printf "ENDPOINT: %s" $name -}}
     {{- else -}}
       {{- $title = printf "%s" $name -}}
     {{- end -}}
-    {{- $moduleKey := printf "module.%s" $k -}}
+    {{- $moduleKey := printf "module.%s" $theModuleName -}}
     {{- $moduleText = printf "%s%s\n" $moduleText $separatorText -}}
     {{- $moduleText = printf "%s# %s\n" $moduleText $title -}}
     {{- $moduleText = printf "%s%s\n" $moduleText $separatorText -}}
 
     {{- /* Only add type key conditionally */ -}}
-    {{- if hasKey $v "type" -}}
-      {{- $moduleText = printf "%s%s.type \t= %s\n" $moduleText $moduleKey $v.type -}}
+    {{- if hasKey $theModuleSpec "type" -}}
+      {{- $moduleText = printf "%s%s.type \t= %s\n" $moduleText $moduleKey $theModuleSpec.type -}}
     {{- end -}}
 
     {{- /* Add dependencies */ -}}
-    {{- range $kReq, $vReq := $v.requires -}}
+    {{- range $theRequiresType, $theRequiresModuleName := $theModuleSpec.requires -}}
       {{- /* Sanity check to ensure dependency modules exist */ -}}
-      {{- if has $vReq (keys $modules)  -}}
-        {{- $moduleText = printf "%s%s.requires.%s \t= %s\n" $moduleText $moduleKey $kReq $vReq -}}
+      {{- if has $theRequiresModuleName (keys $modules)  -}}
+        {{- $moduleText = printf "%s%s.requires.%s \t= %s\n" $moduleText $moduleKey $theRequiresType $theRequiresModuleName -}}
       {{- else -}}
-        {{- fail (printf "Module %s depends on module %s which does not exist, or has not been enabled!" $k $vReq) -}}
+        {{- fail (printf "Module %s depends on module %s which does not exist, or has not been enabled!" $theModuleName $theRequiresModuleName) -}}
       {{- end -}}
     {{- end -}}
 
@@ -181,57 +236,56 @@ Generate the configuration options in text format for all the enabled modules
     If either CrunchyData or External DB has more than one DB then create prefix
     */ -}}
     {{- if or (and $.Values.database.crunchypgo.enabled (gt (len $.Values.database.crunchypgo.users) 1)) (and $.Values.database.external.enabled (gt (len $.Values.database.external.databases) 1)) -}}
-      {{- $envDBPrefix = printf "%s_" ( upper $k ) -}}
+      {{- $envDBPrefix = printf "%s_" ( upper $theModuleName ) -}}
     {{- end -}}
 
     {{- /* Get flattened configuration */ -}}
-    {{- $flattenedConf := include "sdhCommon.flattenConf" $v.config | fromYaml -}}
+    {{- $flattenedConf := include "sdhCommon.flattenConf" $theModuleSpec.config | fromYaml -}}
 
     {{- /* Module Configuration */ -}}
-    {{- range $kConf, $vConf := $flattenedConf -}}
-      {{- $vConf = toString $vConf -}}
+    {{- range $theConfigItemName, $theConfigItemValue := $flattenedConf -}}
+      {{- $theConfigItemValue = toString $theConfigItemValue -}}
 
-      {{- /* TODO: Move all of these special use cases into separate module.
+      {{- /* TODO: Move all of these special use cases into config parsing template.
           */ -}}
 
       {{- /*
       If the value contains "DB_" then add the env prefix
       */ -}}
-      {{- if contains "#{env['DB_" $vConf -}}
-        {{- $vConf = replace "#{env['DB_" (printf "#{env['%sDB_" $envDBPrefix ) $vConf -}}
+      {{- if contains "#{env['DB_" $theConfigItemValue -}}
+        {{- $theConfigItemValue = replace "#{env['DB_" (printf "#{env['%sDB_" $envDBPrefix ) $theConfigItemValue -}}
       {{- end -}}
 
       {{- /* Process Special Cases */ -}}
-      {{- $svcFullPath := (printf "%s%s" (default "/" $.Values.specs.rootPath) $flattenedConf.context_path) -}}
-      {{- if eq $kConf "context_path" -}}
-        {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $kConf $svcFullPath -}}
-      {{- else if eq $kConf "base_url.fixed" -}}
+      {{- if eq $theConfigItemName "context_path" -}}
+        {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $theConfigItemName $theModuleSpec.service.fullPath -}}
+      {{- else if eq $theConfigItemName "base_url.fixed" -}}
         {{- $baseUrl := "" -}}
-        {{- if eq $vConf "default" -}}
-          {{- $baseUrl = printf "https://%s%s" $.Values.specs.hostname $svcFullPath -}}
-        {{- else if eq $vConf "localhost" -}}
+        {{- if eq $theConfigItemValue "default" -}}
+          {{- $baseUrl = printf "https://%s%s" $.Values.specs.hostname $theModuleSpec.service.fullPath -}}
+        {{- else if eq $theConfigItemValue "localhost" -}}
           {{- /* Use `localhost` when connecting from other components in the same pod, e.g. Fhir Gateway module */ -}}
-          {{- $baseUrl = printf "http://localhost:%s%s" (toString $flattenedConf.port) $svcFullPath -}}
-        {{- else if eq $vConf "service" -}}
+          {{- $baseUrl = printf "http://localhost:%s%s" (toString $flattenedConf.port) $theModuleSpec.service.fullPath -}}
+        {{- else if eq $theConfigItemValue "service" -}}
           {{- /* Use K8s service object. e.g When connecting from other cluster-local components */ -}}
-          {{- if ($v.service).enabled -}}
-            {{- $baseUrl = printf "http://%s-scdr-svc-%s:%s%s" $.Release.Name ($v.service.svcName | lower) (toString $flattenedConf.port) $svcFullPath -}}
+          {{- if ($theModuleSpec.service).enabled -}}
+            {{- $baseUrl = printf "http://%s-scdr-svc-%s:%s%s" $.Release.Name ($theModuleSpec.service.svcName | lower) (toString $flattenedConf.port) $theModuleSpec.service.fullPath -}}
           {{- else -}}
             {{- fail (printf "Module %s cannot reference service for `base_url.fixed`` as there is no enabled service for this module" $moduleKey ) -}}
           {{- end -}}
         {{- else -}}
           {{- /* If the full `base_url` is provided and does not match the port and context root, then
                   referred links and the `Location` header will be incorrect. */ -}}
-          {{- $baseUrl = $vConf -}}
+          {{- $baseUrl = $theConfigItemValue -}}
         {{- end -}}
-        {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $kConf $baseUrl -}}
-      {{- else if eq $kConf "base_url.mismatch_allowed" -}}
+        {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $theConfigItemName $baseUrl -}}
+      {{- else if eq $theConfigItemName "base_url.mismatch_allowed" -}}
         {{- /* This is not a smile config so not using it. Only used to help with logic for `base_url.fixed` auto-configuration */ -}}
-      {{- else if eq $kConf "issuer.url" -}}
-        {{- $moduleText = printf "%s%s.config.%s \t= https://%s%s\n" $moduleText $moduleKey $kConf $.Values.specs.hostname $svcFullPath -}}
+      {{- else if eq $theConfigItemName "issuer.url" -}}
+        {{- $moduleText = printf "%s%s.config.%s \t= https://%s%s\n" $moduleText $moduleKey $theConfigItemName $.Values.specs.hostname $theModuleSpec.service.fullPath -}}
       {{- /* Process remaining config items */ -}}
       {{- else -}}
-        {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $kConf $vConf -}}
+        {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $theConfigItemName $theConfigItemValue -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
@@ -246,21 +300,24 @@ Outputs as Serialized Yaml. If you need to parse the output, include it like so:
 {{- define "smilecdr.services" -}}
   {{- $services := dict -}}
   {{- $modules := include "smilecdr.modules" . | fromYaml -}}
-  {{- range $k, $v := $modules -}}
-    {{- if ($v.service).enabled -}}
+  {{- range $theModuleName, $theModuleSpec := $modules -}}
+    {{- if ($theModuleSpec.service).enabled -}}
       {{/* Creating each module key, if enabled and if it has an enabled endpoint. */}}
       {{- $service := dict -}}
-      {{- $_ := set $service "contextPath" $v.config.context_path -}}
-      {{- $_ := set $service "fullPath" (printf "%s%s" (default "/" $.Values.specs.rootPath) (default "" $v.config.context_path)) -}}
-      {{- $_ := set $service "svcName" ($v.service.svcName | lower) -}}
-      {{- if or (not (hasKey $v.service "hostName")) (eq $v.service.hostName "default") -}}
+      {{- $_ := set $service "contextPath" $theModuleSpec.config.context_path -}}
+      {{- $_ := set $service "fullPath" $theModuleSpec.service.fullPath -}}
+      {{- $_ := set $service "svcName" ($theModuleSpec.service.svcName | lower) -}}
+      {{- $_ := set $service "resourceName" ($theModuleSpec.service.resourceName | lower) -}}
+      {{- $_ := set $service "serviceType" ($theModuleSpec.service.serviceType) -}}
+      {{- $_ := set $service "enableReadinessProbe" ($theModuleSpec.service.enableReadinessProbe ) -}}
+      {{- if or (not (hasKey $theModuleSpec.service "hostName")) (eq $theModuleSpec.service.hostName "default") -}}
         {{- $_ := set $service "hostName" ($.Values.specs.hostname | lower) -}}
       {{- else -}}
-        {{- $_ := set $service "hostName" ($v.service.hostName | lower) -}}
+        {{- $_ := set $service "hostName" ($theModuleSpec.service.hostName | lower) -}}
       {{- end -}}
-      {{- $_ := set $service "port" $v.config.port -}}
-      {{- $_ := set $service "defaultIngress" $v.service.defaultIngress -}}
-      {{- $_ := set $services $k $service -}}
+      {{- $_ := set $service "port" $theModuleSpec.config.port -}}
+      {{- $_ := set $service "defaultIngress" $theModuleSpec.service.defaultIngress -}}
+      {{- $_ := set $services $theModuleName $service -}}
     {{- end -}}
   {{- end -}}
   {{- $services | toYaml -}}

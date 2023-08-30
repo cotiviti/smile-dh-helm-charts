@@ -66,27 +66,50 @@ alb.ingress.kubernetes.io/scheme: internet-facing
 {{- end -}}
 {{- end -}}
 
-{{- define "ingress.hosts" -}}
-  {{- $hosts := list -}}
-
-    {{- range $k, $v := include "smilecdr.services" . | fromYaml -}}
-      {{- if $v.defaultIngress -}}
-        {{- $hosts = append $hosts (dict "host" $v.hostName) -}}
-      {{- end -}}
-    {{- end -}}
-    {{- $hosts = uniq $hosts -}}
-
-    {{- range $vHost := $hosts -}}
-      {{- $currentHost := dict -}}
-      {{- $hostPaths := list -}}
-      {{- range $kSvc, $vSvc := include "smilecdr.services" $ | fromYaml -}}
-        {{- if and (eq $vSvc.hostName $vHost.host) $vSvc.defaultIngress -}}
-          {{- $serviceObject := dict "name" (printf "%s-scdr-svc-%s" $.Release.Name $vSvc.svcName) "port" (dict "number" $vSvc.port) -}}
-          {{- $pathObject := dict "path" $vSvc.fullPath "pathType" "Prefix" "backend" (dict "service" $serviceObject) -}}
-          {{- $hostPaths = append $hostPaths $pathObject -}}
+{{- /* Define hosts and rules for the default `Ingress` object.
+    The result is a combination of defined hosts and
+    enabled services from all CDR Nodes. */ -}}
+{{- define "ingress.default.hosts" -}}
+  {{- $hosts := dict -}}
+  {{- $hostsList := list -}}
+  {{- range $theNodeName, $theNodeSpec := include "smilecdr.nodes" . | fromYaml -}}
+    {{- /* Get list of all hosts used by services in current CDR Node */ -}}
+    {{- range $theServiceName, $theServiceSpec := $theNodeSpec.services -}}
+      {{- /* Only include hosts for services that use the default `Ingress` object. */ -}}
+      {{- /* Currently there is no handling for multiple or non-default `Ingress` objects. */ -}}
+      {{- if $theServiceSpec.defaultIngress -}}
+        {{- if not (hasKey $hosts $theServiceSpec.hostName) -}}
+          {{- $hostObject := dict -}}
+          {{- $_ := set $hostObject "host" $theServiceSpec.hostName -}}
+          {{- $_ := set $hostObject "http" (dict "paths" (list)) -}}
+          {{- $_ := set $hosts $theServiceSpec.hostName $hostObject -}}
         {{- end -}}
       {{- end -}}
-      {{- $_ := set $vHost "http" (dict "paths" $hostPaths) -}}
     {{- end -}}
-  {{- $hosts | toYaml -}}
+
+    {{- /* TODO: */ -}}
+
+    {{- range $kHost, $vHost := $hosts -}}
+      {{- $currentHost := dict -}}
+      {{- $hostPaths := list -}}
+      {{- range $theServiceName, $theServiceSpec := $theNodeSpec.services -}}
+        {{- if and (eq $theServiceSpec.hostName $vHost.host) $theServiceSpec.defaultIngress -}}
+          {{- $serviceObject := dict "name" $theServiceSpec.resourceName "port" (dict "number" $theServiceSpec.port) -}}
+          {{- $pathObject := dict "path" $theServiceSpec.fullPath "pathType" "Prefix" "backend" (dict "service" $serviceObject) -}}
+          {{- $hostPaths = append $hostPaths $pathObject -}}
+        {{- end -}}
+        {{- if eq $theServiceName "admin_webb" -}}
+          {{- fail (printf "\n\n$vHost\n%s\n\n$hosts\n%s\n\n$pathObject\n%s" (toYaml $vHost) (toYaml $theServiceSpec) (toYaml ($hostPaths)) ) -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $_ := set $vHost.http "paths" (concat $vHost.http.paths $hostPaths) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- /* Convert dict to list. */ -}}
+  {{- /* fail (printf "\n\n$hostss\n%s" (toYaml $hosts) ) */ -}}
+  {{- range $kHost, $vHost := $hosts -}}
+    {{- $hostsList = append $hostsList $vHost -}}
+  {{- end -}}
+  {{- /* fail (printf "\n\n$hostsList\n%s" (toYaml $hostsList) ) */ -}}
+  {{- $hostsList | toYaml -}}
 {{- end -}}
