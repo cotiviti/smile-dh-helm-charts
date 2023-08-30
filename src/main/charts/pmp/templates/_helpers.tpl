@@ -2,11 +2,7 @@
 Expand the name of the chart.
 */}}
 {{- define "pmp.name" -}}
-{{- if .Chart.Name }}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
-{{- else if .Chart.name -}}
-{{- default .Chart.name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
-{{- end -}}
 {{- end }}
 
 {{/*
@@ -31,16 +27,24 @@ If release name contains chart name it will be used as a full name.
 Create chart name and version as used by the chart label.
 */ -}}
 {{- define "pmp.chart" -}}
-  {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+  {{- $chartVersion := printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+  {{- if .Values.unitTesting -}}
+    {{- print "No Chart Version - Unit Testing" -}}
+  {{- else -}}
+    {{- $chartVersion -}}
+  {{- end -}}
 {{- end }}
 
-{{- define "pmp.chart.old" -}}
-{{- if .Chart.Name -}}
-  {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
-{{- else if .Chart.name -}}
-  {{- printf "%s-%s" .Chart.name .Chart.version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{/*
+Determine PMP/P2P application version.
+*/}}
+{{- define "pmp.appVersion" -}}
+  {{- $pmpVersion := coalesce (.Values.image).tag .Chart.AppVersion -}}
+  {{- if .Values.unitTesting -}}
+    {{- $pmpVersion = "No App Version - Unit Testing" -}}
+  {{- end -}}
+  {{- $pmpVersion -}}
 {{- end -}}
-{{- end }}
 
 {{/*
 Common labels
@@ -48,45 +52,21 @@ Common labels
 {{- define "pmp.labels" -}}
   {{- $labels := dict -}}
   {{- $_ := set $labels "helm.sh/chart" (include "pmp.chart" .) -}}
-  {{- $_ := set $labels "app.kubernetes.io/version" (toString .Chart.AppVersion) -}}
+  {{- $_ := set $labels "app.kubernetes.io/version" (include "pmp.appVersion" .) -}}
   {{- $_ := set $labels "app.kubernetes.io/managed-by" .Release.Service -}}
   {{- $labels = merge $labels (include "pmp.selectorLabels" . | fromYaml) -}}
   {{- $labels | toYaml -}}
 {{- end -}}
-{{- /* define "pmp.labels.old" -}}
-{{ include "pmp.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- else if .Chart.appVersion }}
-app.kubernetes.io/version: {{ .Chart.appVersion | quote }}
-{{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end */ -}}
 
 {{/*
 Selector labels
 */}}
-{{- /* define "pmp.selectorLabels.old" -}}
-app.kubernetes.io/name: {{ include "pmp.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end */ -}}
 {{- define "pmp.selectorLabels" -}}
   {{- $selectorLabels := dict -}}
   {{- $_ := set $selectorLabels "app.kubernetes.io/name" (include "pmp.name" .) -}}
   {{- $_ := set $selectorLabels "app.kubernetes.io/instance" .Release.Name -}}
   {{- $selectorLabels | toYaml -}}
 {{- end -}}
-
-{{/*
-Create the name of the service account to use for pmp
-*/}}
-{{- /* define "pmp.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "pmp.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "pmp-default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end */ -}}
 
 {{/*
 Generate a suffix that represents the SHA256 hash of the provided

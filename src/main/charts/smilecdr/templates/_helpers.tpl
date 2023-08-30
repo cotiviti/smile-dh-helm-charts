@@ -27,19 +27,21 @@ If release name contains chart name it will be used as a full name.
 Create chart name and version as used by the chart label.
 */}}
 {{- define "smilecdr.chart" -}}
-{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+  {{- $chartVersion := printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+  {{- if .Values.unitTesting -}}
+    {{- print "No Chart Version - Unit Testing" -}}
+  {{- else -}}
+    {{- $chartVersion -}}
+  {{- end -}}
 {{- end }}
 
 {{/*
 Determine Smile CDR application version.
 */}}
 {{- define "smilecdr.appVersion" -}}
-  {{- $cdrVersion := "" -}}
-  {{- if .Chart.AppVersion -}}
-    {{- $cdrVersion = .Chart.AppVersion -}}
-  {{- end -}}
-  {{- if .Values.image.tag -}}
-    {{- $cdrVersion = .Values.image.tag -}}
+  {{- $cdrVersion := coalesce .Values.image.tag .Chart.AppVersion -}}
+  {{- if .Values.unitTesting -}}
+    {{- $cdrVersion = "No App Version - Unit Testing" -}}
   {{- end -}}
   {{- $cdrVersion -}}
 {{- end -}}
@@ -50,9 +52,7 @@ Common labels
 {{- define "smilecdr.labels" -}}
 helm.sh/chart: {{ include "smilecdr.chart" . }}
 {{ include "smilecdr.selectorLabels" . }}
-{{- with (include "smilecdr.appVersion" .) }}
-app.kubernetes.io/version: {{ . | quote }}
-{{- end }}
+app.kubernetes.io/version: {{ include "smilecdr.appVersion" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- if .Values.labels -}}
 {{ with .Values.labels }}

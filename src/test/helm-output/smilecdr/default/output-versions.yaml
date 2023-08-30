@@ -6,10 +6,10 @@ metadata:
   name: release-name-scdr
   namespace: default
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
+    helm.sh/chart: smilecdr-1.0.0-pre.92
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/version: 2023.08.R01
     app.kubernetes.io/managed-by: Helm
 spec:
   maxUnavailable: 1
@@ -18,66 +18,6 @@ spec:
       app.kubernetes.io/name: smilecdr
       app.kubernetes.io/instance: release-name
 ---
-# Source: smilecdr/templates/kafka/kafka-admin-configmap.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: release-name-kafka-admin
-  namespace: default
-  labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr-kafka-admin
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.08.R01"
-    app.kubernetes.io/managed-by: Helm
-data:
-  client.properties.template: |-
-    # Kafka consumer properties auto generated from Helm Chart. Do not edit manually!
-
-    security.protocol=SASL_SSL
-    sasl.mechanism=AWS_MSK_IAM
-    sasl.jaas.config=software.amazon.msk.auth.iam.IAMLoginModule required;
-    sasl.client.callback.handler.class=software.amazon.msk.auth.iam.IAMClientCallbackHandler
-  entrypoint.sh: |-
-    #!/bin/sh
-    mkdir -p /opt/kafka/custom-config/
-    # This creates a config file for use by Kafka CLI commands
-    /usr/bin/envsubst < /tmp/templates/client.properties.template > /opt/kafka/custom-config/client.properties
-    # Modify the kafka-run-class to include the above config file and the bootstrap address from the environment.
-    # It seems there is no built-in way to auto configure these details in Kafka...
-    /bin/sed -i -E 's/(\$KAFKA_OPTS \"\$@\")$/\1 --command-config \/opt\/kafka\/custom-config\/client.properties --bootstrap-server \${KAFKA_BOOTSTRAP_ADDRESS}/g' /opt/kafka/bin/kafka-run-class.sh
-    sleep 360000
----
-# Source: smilecdr/templates/kafka/kafka-properties-configmap.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: release-name-kafka-client-properties-masterdev-node
-  namespace: default
-  labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
-    app.kubernetes.io/managed-by: Helm
-data:
-  consumer.properties: |-
-    # Kafka consumer properties auto generated from Helm Chart. Do not edit manually!
-
-    heartbeat.interval.ms=3000
-    max.poll.interval.ms=300000
-    max.poll.records=20
-    session.timeout.ms=10000
-    sasl.mechanism=AWS_MSK_IAM
-    sasl.jaas.config=software.amazon.msk.auth.iam.IAMLoginModule required;
-    sasl.client.callback.handler.class=software.amazon.msk.auth.iam.IAMClientCallbackHandler
-  producer.properties: |-
-    # Kafka producer properties auto generated from Helm Chart. Do not edit manually!
-
-    sasl.mechanism=AWS_MSK_IAM
-    sasl.jaas.config=software.amazon.msk.auth.iam.IAMLoginModule required;
-    sasl.client.callback.handler.class=software.amazon.msk.auth.iam.IAMClientCallbackHandler
----
 # Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -85,10 +25,10 @@ metadata:
   name: release-name-scdr-masterdev-node
   namespace: default
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
+    helm.sh/chart: smilecdr-1.0.0-pre.92
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/version: 2023.08.R01
     app.kubernetes.io/managed-by: Helm
 data:
   cdr-config-Master.properties: |-
@@ -100,17 +40,7 @@ data:
     node.config.locked 	= true
     node.security.strict 	= false
 
-    module.clustermgr.config.messagebroker.type                         =KAFKA
-    module.clustermgr.config.kafka.bootstrap_address                    =#{env['KAFKA_BOOTSTRAP_ADDRESS']}
-    module.clustermgr.config.kafka.ssl.enabled                          =#{env['KAFKA_SSL_ENABLED']}
-    module.clustermgr.config.kafka.consumer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-consumer-config.properties
-    module.clustermgr.config.kafka.producer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-producer-config.properties
-    module.clustermgr.config.kafka.security.protocol                    =SASL_SSL
-    module.clustermgr.config.kafka.ssl.truststore.location              =#{null}
-    module.clustermgr.config.kafka.ssl.truststore.password              =#{null}
-    module.clustermgr.config.kafka.ssl.keystore.location                =#{null}
-    module.clustermgr.config.kafka.ssl.keystore.password                =#{null}
-    module.clustermgr.config.kafka.ssl.key.password                     =#{null}
+    module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
 
     ################################################################################
     # Other Modules are Configured Below
@@ -287,10 +217,10 @@ metadata:
   name: release-name-scdr-svc-admin-json
   namespace: default
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
+    helm.sh/chart: smilecdr-1.0.0-pre.92
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/version: 2023.08.R01
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -312,10 +242,10 @@ metadata:
   name: release-name-scdr-svc-admin-web
   namespace: default
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
+    helm.sh/chart: smilecdr-1.0.0-pre.92
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/version: 2023.08.R01
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -337,10 +267,10 @@ metadata:
   name: release-name-scdr-svc-fhir
   namespace: default
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
+    helm.sh/chart: smilecdr-1.0.0-pre.92
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/version: 2023.08.R01
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -362,10 +292,10 @@ metadata:
   name: release-name-scdr-svc-fhirweb
   namespace: default
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
+    helm.sh/chart: smilecdr-1.0.0-pre.92
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/version: 2023.08.R01
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -387,10 +317,10 @@ metadata:
   name: release-name-scdr-svc-pkg-registry
   namespace: default
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
+    helm.sh/chart: smilecdr-1.0.0-pre.92
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/version: 2023.08.R01
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -412,10 +342,10 @@ metadata:
   name: release-name-scdr-svc-smart-auth
   namespace: default
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
+    helm.sh/chart: smilecdr-1.0.0-pre.92
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/version: 2023.08.R01
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -430,108 +360,6 @@ spec:
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
 ---
-# Source: smilecdr/templates/kafka/kafka-admin-deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: release-name-kafka-admin
-  namespace: default
-  labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr-kafka-admin
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.08.R01"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: smilecdr-kafka-admin
-      app.kubernetes.io/instance: release-name
-  template:
-    metadata:
-      labels:
-        helm.sh/chart: No Chart Version - Unit Testing
-        app.kubernetes.io/name: smilecdr-kafka-admin
-        app.kubernetes.io/instance: release-name
-        app.kubernetes.io/version: "2023.08.R01"
-        app.kubernetes.io/managed-by: Helm
-    spec:
-      imagePullSecrets:
-        []
-      serviceAccountName: default
-      securityContext:
-        fsGroup: 1000
-      initContainers:
-        - args:
-          - -o
-          - /tmp/admin-volumes/classpath/aws-msk-iam-auth-1.1.6-all.jar
-          - --location
-          - --create-dirs
-          - https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.6/aws-msk-iam-auth-1.1.6-all.jar
-          image: curlimages/curl:8.1.2
-          imagePullPolicy: IfNotPresent
-          name: init-pull-classpath-curl
-          resources:
-            limits:
-              cpu: 500m
-              memory: 500Mi
-            requests:
-              cpu: 500m
-              memory: 500Mi
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-              - ALL
-            privileged: false
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 100
-          volumeMounts:
-          - mountPath: /tmp/admin-volumes/classpath/
-            name: admin-classpath
-      containers:
-        - name: kafka-admin
-          image: quay.io/strimzi/kafka:0.33.2-kafka-3.4.0
-          imagePullPolicy: IfNotPresent
-          securityContext:
-            runAsUser: 0
-          command:
-          - '/bin/sh'
-          - '/tmp/entrypoint.sh'
-          env:
-          - name: KAFKA_BOOTSTRAP_ADDRESS
-            value: test1-kafka-bootstrap:9093, test2-kafka-bootstrap:9093
-          - name: KAFKA_SSL_ENABLED
-            value: "true"
-          - name: CLASSPATH
-            value: /opt/kafka/classes/aws-msk-iam-auth-1.1.6-all.jar
-          volumeMounts:
-            - mountPath: /tmp/templates/client.properties.template
-              name: kafka-admin
-              subPath: client.properties.template
-            - mountPath: /tmp/entrypoint.sh
-              name: kafka-admin
-              subPath: entrypoint.sh
-            - mountPath: /opt/kafka/classes
-              name: admin-classpath
-          resources:
-            limits:
-              cpu: 500m
-              memory: 500Mi
-            requests:
-              cpu: 500m
-              memory: 500Mi
-      volumes:
-        - configMap:
-            name: release-name-kafka-admin
-          name: kafka-admin
-        - emptyDir:
-            sizeLimit: 20Mi
-          name: admin-classpath
-      restartPolicy: Always
----
 # Source: smilecdr/templates/scdr/scdr-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -539,10 +367,10 @@ metadata:
   name: release-name-scdr
   namespace: default
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
+    helm.sh/chart: smilecdr-1.0.0-pre.92
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/version: 2023.08.R01
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -558,10 +386,10 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: No Chart Version - Unit Testing
+        helm.sh/chart: smilecdr-1.0.0-pre.92
         app.kubernetes.io/name: smilecdr
         app.kubernetes.io/instance: release-name
-        app.kubernetes.io/version: No App Version - Unit Testing
+        app.kubernetes.io/version: 2023.08.R01
         app.kubernetes.io/managed-by: Helm
     spec:
       imagePullSecrets:
@@ -570,60 +398,7 @@ spec:
       securityContext:
         fsGroup: 1000
       initContainers:
-        - command:
-          - /bin/sh
-          - -c
-          - /bin/cp -Rvp /home/smile/smilecdr/customerlib/* /tmp/smilecdr-volumes/customerlib/
-          image: docker.smilecdr.com/smilecdr:2023.08.R01
-          imagePullPolicy: IfNotPresent
-          name: init-sync-customerlib
-          resources:
-            limits:
-              cpu: 500m
-              memory: 500Mi
-            requests:
-              cpu: 500m
-              memory: 500Mi
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-              - ALL
-            privileged: false
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 1000
-          volumeMounts:
-          - mountPath: /tmp/smilecdr-volumes/customerlib/
-            name: scdr-volume-customerlib
-        - args:
-          - -o
-          - /tmp/smilecdr-volumes/customerlib/aws-msk-iam-auth-1.1.6-all.jar
-          - --location
-          - --create-dirs
-          - https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.6/aws-msk-iam-auth-1.1.6-all.jar
-          image: curlimages/curl:8.1.2
-          imagePullPolicy: IfNotPresent
-          name: init-pull-customerlib-curl
-          resources:
-            limits:
-              cpu: 500m
-              memory: 500Mi
-            requests:
-              cpu: 500m
-              memory: 500Mi
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-              - ALL
-            privileged: false
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 100
-          volumeMounts:
-          - mountPath: /tmp/smilecdr-volumes/customerlib/
-            name: scdr-volume-customerlib
+        []
       terminationGracePeriodSeconds: 60
       containers:
         - name: smilecdr
@@ -688,10 +463,6 @@ spec:
                 secretKeyRef:
                   key: password
                   name: smilecdr
-            - name: KAFKA_BOOTSTRAP_ADDRESS
-              value: test1-kafka-bootstrap:9093, test2-kafka-bootstrap:9093
-            - name: KAFKA_SSL_ENABLED
-              value: "true"
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
           ports:
@@ -714,16 +485,6 @@ spec:
               containerPort: 9200
               protocol: TCP
           volumeMounts:
-            - mountPath: /home/smile/smilecdr/customerlib
-              name: scdr-volume-customerlib
-            - mountPath: /home/smile/smilecdr/classes/cdr_kafka_config/cdr-kafka-consumer-config.properties
-              name: kafka-client-config
-              readOnly: true
-              subPath: consumer.properties
-            - mountPath: /home/smile/smilecdr/classes/cdr_kafka_config/cdr-kafka-producer-config.properties
-              name: kafka-client-config
-              readOnly: true
-              subPath: producer.properties
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
@@ -731,13 +492,9 @@ spec:
               name: scdr-volume-tmp
             - mountPath: /home/smile/smilecdr/log
               name: scdr-volume-log
+            - mountPath: /home/smile/smilecdr/activemq-data
+              name: scdr-volume-amq
       volumes:
-        - emptyDir:
-            sizeLimit: 500Mi
-          name: scdr-volume-customerlib
-        - configMap:
-            name: release-name-kafka-client-properties-masterdev-node
-          name: kafka-client-config
         - configMap:
             name: release-name-scdr-masterdev-node
           name: scdr-config-release-name
@@ -747,6 +504,9 @@ spec:
         - emptyDir:
             sizeLimit: 10Gi
           name: scdr-volume-log
+        - emptyDir:
+            sizeLimit: 10Mi
+          name: scdr-volume-amq
       restartPolicy: Always
 ---
 # Source: smilecdr/templates/scdr/scdr-ingress.yaml
@@ -756,10 +516,10 @@ metadata:
   name: release-name-scdr
   namespace: default
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
+    helm.sh/chart: smilecdr-1.0.0-pre.92
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/version: 2023.08.R01
     app.kubernetes.io/managed-by: Helm
   annotations:
     kubernetes.io/ingress.class: "nginx"
@@ -818,10 +578,10 @@ kind: Pod
 metadata:
   name: "release-name-smilecdr-test-connection"
   labels:
-    helm.sh/chart: No Chart Version - Unit Testing
+    helm.sh/chart: smilecdr-1.0.0-pre.92
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/version: 2023.08.R01
     app.kubernetes.io/managed-by: Helm
   annotations:
     "helm.sh/hook": test

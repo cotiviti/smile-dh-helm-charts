@@ -9,7 +9,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 ---
 # Source: pmp/templates/component-serviceaccount.yaml
 apiVersion: v1
@@ -21,7 +22,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 ---
 # Source: pmp/templates/component-config-json-configmap.yaml
 apiVersion: v1
@@ -34,7 +36,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 data:
   config.json: |-
     {
@@ -126,7 +129,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 data:
   config.json: |-
     {
@@ -295,7 +299,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 data:
   config.json: |-
     {
@@ -316,7 +321,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   type: ClusterIP
   ports:
@@ -339,7 +345,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   type: ClusterIP
   ports:
@@ -362,7 +369,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   type: ClusterIP
   ports:
@@ -385,7 +393,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   type: ClusterIP
   ports:
@@ -408,7 +417,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   type: ClusterIP
   ports:
@@ -431,7 +441,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   replicas: 1
   selector:
@@ -496,7 +507,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   replicas: 1
   selector:
@@ -561,7 +573,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   replicas: 1
   selector:
@@ -626,7 +639,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   replicas: 1
   selector:
@@ -711,7 +725,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   replicas: 1
   selector:
@@ -800,7 +815,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   rules:
     - host: "pmp-example.local"
@@ -824,7 +840,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   rules:
     - host: "pmp-example.local"
@@ -848,7 +865,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   rules:
     - host: "pmp-example.local"
@@ -872,7 +890,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   rules:
     - host: "pmp-services-example.local"
@@ -896,7 +915,8 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: pmp
-    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
 spec:
   rules:
     - host: "pmp-user-services-example.local"

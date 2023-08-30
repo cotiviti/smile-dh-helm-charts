@@ -6,9 +6,10 @@ metadata:
   name: release-name-scdr
   namespace: default
   labels:
+    helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.08.R01"
+    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
 spec:
   maxUnavailable: 1
@@ -24,9 +25,10 @@ metadata:
   name: release-name-kafka-client-properties-masterdev-node
   namespace: default
   labels:
+    helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.08.R01"
+    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
 data:
   consumer.properties: |-
@@ -46,9 +48,10 @@ metadata:
   name: release-name-scdr-masterdev-node
   namespace: default
   labels:
+    helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.08.R01"
+    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
 data:
   cdr-config-Master.properties: |-
@@ -248,9 +251,10 @@ metadata:
   name: release-name-scdr-svc-admin-json
   namespace: default
   labels:
+    helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.08.R01"
+    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -272,9 +276,10 @@ metadata:
   name: release-name-scdr-svc-admin-web
   namespace: default
   labels:
+    helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.08.R01"
+    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -296,9 +301,10 @@ metadata:
   name: release-name-scdr-svc-fhir
   namespace: default
   labels:
+    helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.08.R01"
+    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -320,9 +326,10 @@ metadata:
   name: release-name-scdr-svc-fhirweb
   namespace: default
   labels:
+    helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.08.R01"
+    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -344,9 +351,10 @@ metadata:
   name: release-name-scdr-svc-pkg-registry
   namespace: default
   labels:
+    helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.08.R01"
+    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -368,9 +376,10 @@ metadata:
   name: release-name-scdr-svc-smart-auth
   namespace: default
   labels:
+    helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.08.R01"
+    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -392,9 +401,10 @@ metadata:
   name: release-name-scdr
   namespace: default
   labels:
+    helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.08.R01"
+    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -410,9 +420,10 @@ spec:
   template:
     metadata:
       labels:
+        helm.sh/chart: No Chart Version - Unit Testing
         app.kubernetes.io/name: smilecdr
         app.kubernetes.io/instance: release-name
-        app.kubernetes.io/version: "2023.08.R01"
+        app.kubernetes.io/version: No App Version - Unit Testing
         app.kubernetes.io/managed-by: Helm
     spec:
       imagePullSecrets:
@@ -573,9 +584,10 @@ metadata:
   name: release-name-scdr
   namespace: default
   labels:
+    helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.08.R01"
+    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
   annotations:
     kubernetes.io/ingress.class: "nginx"
@@ -635,9 +647,10 @@ metadata:
   name: release-name
   namespace: default
   labels:
+    helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.08.R01"
+    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
 spec:
   kafka:
@@ -760,9 +773,10 @@ kind: Pod
 metadata:
   name: "release-name-smilecdr-test-connection"
   labels:
+    helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2023.08.R01"
+    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
   annotations:
     "helm.sh/hook": test

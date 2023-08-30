@@ -3,3 +3,11 @@ tests:
     outputFile: output.yaml
     valueFiles:
     - ../default-test-values.yaml
+  versions:
+    outputFile: output-versions.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - versions-values.yaml
