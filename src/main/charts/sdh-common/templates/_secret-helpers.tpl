@@ -27,7 +27,7 @@ In the former case, there should be a `.Values`
 {{- define "sdhCommon.imagePullSecrets" -}}
   {{- /* We will have 'global' imagePullSecrets as well as 'per component' e.g CDR nodes or Member Portal components */ -}}
   {{- $imagePullSecrets := list -}}
-  {{- $chartShortName := .Values.shortName -}}
+  {{- $chartShortName := coalesce (.Values).shortName .shortName -}}
   {{- $imagePullSecretsValues := default list ((.Values).image).imagePullSecrets -}}
   {{- $ctx := . -}}
   {{- range $i, $v := $imagePullSecretsValues -}}
@@ -36,8 +36,8 @@ In the former case, there should be a `.Values`
     {{- /* It needs to be different for each component in case multiple components try to
         sync to the same k8s secret resource (Bad). So we rename it if we are in a
         component configurartion */ -}}
-    {{- if $ctx.componentName -}}
-      {{- $secretName = printf "%s-%s-%s-image-pull-secrets" $ctx.Release.Name $chartShortName $ctx.componentName -}}
+    {{- if $ctx.Values.componentName -}}
+      {{- $secretName = printf "%s-%s-%s-image-pull-secrets" $ctx.Release.Name $chartShortName $ctx.Values.componentName -}}
     {{- end -}}
     {{- $type := default "k8sSecret" .type -}}
     {{- if eq $type "k8sSecret" -}}
@@ -142,7 +142,7 @@ be used elsewhere in the chart
   {{- $extraSecrets := list -}}
   {{- $chartShortName := .Values.shortName -}}
   {{- $ctx := . -}}
-  {{- range $k, $v := ((.Values).secrets) -}}
+  {{- range $k, $v := .Values.secrets -}}
     {{- $secretName := $k -}}
     {{- if eq $v.type "sscsi" -}}
     {{- $secretFullName := printf "%s-%s-%s" $ctx.Release.Name $chartShortName $secretName -}}
@@ -213,7 +213,7 @@ Define Extra Secrets Environment
 {{- /* Secret for the License Key */ -}}
 {{- define "sdhCommon.licenseSecrets" -}}
   {{- $licenseSecrets := list -}}
-  {{- $chartShortName := .Values.shortName -}}
+  {{- $chartShortName := coalesce (.Values).shortName .shortName -}}
   {{- if eq ((.Values).license).type "sscsi" -}}
     {{- if eq .Values.license.provider "aws" -}}
       {{- $secretName := printf "%s-%s-license" .Release.Name $chartShortName -}}
@@ -239,7 +239,7 @@ Define Extra Secrets Environment
        Include secrets for External Kafka certificates & credentials */ -}}
 {{- define "sdhCommon.kafkaSecrets" -}}
   {{- $kafkaSecrets := list -}}
-  {{- $chartShortName := .Values.shortName -}}
+  {{- $chartShortName := coalesce (.Values).shortName .shortName -}}
   {{- if (((.Values).messageBroker).external).enabled -}}
     {{- $kafkaExternalConfig := (include "kafka.external.config" . | fromYaml) -}}
     {{- $kafkaExternalCacert := ($kafkaExternalConfig.connection).caCert -}}
@@ -343,20 +343,20 @@ Current providers supported:
 
 {{- define "sdhCommon.sscsi.enabled" -}}
   {{- /* Enabled if any secrets are using SSCSI */ -}}
-  {{- $sscsiEnabled := "false" -}}
+  {{- $sscsiEnabled := false -}}
   {{- $allSecrets := (include "sdhCommon.allSecrets" . | fromYamlArray) -}}
   {{- range $v := $allSecrets -}}
     {{- if eq $v.type "sscsi" -}}
-      {{- $sscsiEnabled = "true" -}}
+      {{- $sscsiEnabled = true -}}
     {{- end -}}
   {{- end -}}
-  {{- $sscsiEnabled -}}
+  {{- ternary "true" "" $sscsiEnabled -}}
 {{- end -}}
 
 {{- define "sdhCommon.sscsi.secretProviderClassName" -}}
   {{- $chartShortName := .Values.shortName -}}
-  {{- if .componentName -}}
-    {{- printf "%s-%s-%s" .Release.Name $chartShortName .componentName -}}
+  {{- if .Values.componentName -}}
+    {{- printf "%s-%s-%s" .Release.Name $chartShortName .Values.componentName -}}
   {{- else -}}
     {{- printf "%s-%s" .Release.Name $chartShortName -}}
   {{- end -}}
@@ -434,10 +434,12 @@ secrets in to pods
 */ -}}
 {{- define "sdhCommon.sscsi.volumes" -}}
   {{- $sscsiVolumes := list -}}
-  {{- if eq ((include "sdhCommon.sscsi.enabled" . ) | trim ) "true" -}}
-    {{- $volumeAttributes := dict "secretProviderClass" (include "sdhCommon.sscsi.secretProviderClassName" .) -}}
+  {{- if (.sscsi).enabled -}}
+  {{- /* if eq ((include "sdhCommon.sscsi.enabled" . ) | trim ) "true" */ -}}
+    {{- $volumeAttributes := dict "secretProviderClass" .sscsi.secretProviderClassName -}}
     {{- $csi := dict "driver" "secrets-store.csi.k8s.io" "readOnly" true "volumeAttributes" $volumeAttributes -}}
-    {{- $sscsiVolume := dict "name" (include "sdhCommon.sscsi.secretProviderClassName" .) "csi" $csi -}}
+    {{- $sscsiVolume := dict "name" .sscsi.secretProviderClassName "csi" $csi -}}
+    {{- /* $sscsiVolume := dict "name" (include "sdhCommon.sscsi.secretProviderClassName" .) "csi" $csi */ -}}
     {{- $sscsiVolumes = append $sscsiVolumes $sscsiVolume -}}
   {{- end -}}
   {{- $sscsiVolumes | toYaml -}}
@@ -449,8 +451,10 @@ mount secrets in to pods
 */ -}}
 {{ define "sdhCommon.sscsi.volumeMounts" }}
   {{- $sscsiVolumeMounts := list -}}
-  {{- if eq ((include "sdhCommon.sscsi.enabled" . ) | trim ) "true" -}}
-    {{- $sscsiVolumeMount := dict "name" (include "sdhCommon.sscsi.secretProviderClassName" .) -}}
+  {{- if (.sscsi).enabled -}}
+  {{- /* if eq ((include "sdhCommon.sscsi.enabled" . ) | trim ) "true" */ -}}
+    {{- $sscsiVolumeMount := dict "name" .sscsi.secretProviderClassName -}}
+    {{- /* $sscsiVolumeMount := dict "name" (include "sdhCommon.sscsi.secretProviderClassName" .) */ -}}
     {{- $_ := set $sscsiVolumeMount "mountPath" "/mnt/sscsi" -}}
     {{- $_ := set $sscsiVolumeMount "readOnly" true -}}
     {{- $sscsiVolumeMounts = append $sscsiVolumeMounts $sscsiVolumeMount -}}

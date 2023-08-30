@@ -8,7 +8,7 @@ Words
 We will detect which component it is and then define env vars based on that
 Individual env vars can be added or overriden in `.Values.components.<component>.envVars` (List of env maps)
 */}}
-{{- define "component.env-vars" -}}
+{{- define "component.envVars" -}}
   {{- $envVars := list -}}
 
   {{- /* Enable ingress related vars for all components.
@@ -19,7 +19,7 @@ Individual env vars can be added or overriden in `.Values.components.<component>
   {{- if .Values.ingress.enabled -}}
     {{- $defaultHostMap := first .Values.ingress.hosts -}}
     {{- $defaultHost := default $defaultHostMap.host .Values.ingress.defaultHost -}}
-    {{- $defaultPath := ternary (printf "/%s/" .name) (first $defaultHostMap.paths).path (empty $defaultHostMap.paths) -}}
+    {{- $defaultPath := ternary (printf "/%s/" .Values.name) (first $defaultHostMap.paths).path (empty $defaultHostMap.paths) -}}
     {{- $appPath := ternary $defaultPath (printf "%s" .Values.ingress.defaultPath) (empty .Values.ingress.defaultPath) -}}
 
     {{- $publicURL := printf "%s://%s" "https" $defaultHost -}}
@@ -52,7 +52,6 @@ Individual env vars can be added or overriden in `.Values.components.<component>
   {{- end -}}
   {{- $envVars = concat $envVars .Values.extraEnvVars -}}
   {{- if gt (len $envVars) 0 -}}
-  {{/* print "%s" ($envVars | toYaml) */}}
   {{- printf "%s" ($envVars | toYaml) -}}
   {{- else -}}
   {{- list -}}

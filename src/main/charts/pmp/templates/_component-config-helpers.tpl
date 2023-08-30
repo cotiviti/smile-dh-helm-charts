@@ -59,10 +59,10 @@
 {{- define "component.appConfig" -}}
   {{- $componentName := .componentName -}}
   {{- $currentComponentName := ternary .componentName nil (not (eq .componentName nil)) -}}
-  {{- $currentComponent := .Values -}}
+  {{- $currentComponent := . -}}
 
   {{- $mergedComponentConfig := dict -}}
-  {{- $componentHelmValues := $currentComponent.config.values -}}
+  {{- $componentHelmValues := ($currentComponent.config).values -}}
   {{- /* Add `dynamicVariables` to the parameters that will be passed in to the iterative appConfig generator template
       Maybe not needed as it should already be there */ -}}
   {{- /* $templateParams = merge $templateParams (dict "dynamicValues" (($component.config).dynamicValues)) */ -}}
@@ -71,7 +71,7 @@
 
   {{- /* Do the final merge of all the config sources. */ -}}
   {{- $componentConfigData := dict -}}
-  {{- if $currentComponent.config.jsonValues -}}
+  {{- if ($currentComponent.config).jsonValues -}}
     {{- $componentJsonValues := $currentComponent.config.jsonValues | fromJson -}}
     {{- if eq ($currentComponent.config).jsonOverride "none" -}}
       {{- /* Merge with priority: dynamic, helm json */ -}}
@@ -100,11 +100,11 @@
   {{- $componentConfig := dict -}}
   {{- /* $configPath := .configPath */ -}}
 
-  {{- $clientIDGlobal := (get $ctx.Values.externalConfig.oauth.clientIDs $ctx.componentName) -}}
-  {{- $clientIDLocal := default $clientIDGlobal $ctx.Values.oauthClientId -}}
+  {{- $clientIDGlobal := (get $ctx.externalConfig.oauth.clientIDs $ctx.componentName) -}}
+  {{- $clientIDLocal := default $clientIDGlobal $ctx.oauthClientId -}}
 
-  {{- if $ctx.Values.config.dynamicValues -}}
-    {{- range $k, $v := $ctx.Values.config.dynamicValues -}}
+  {{- if ($ctx.config).dynamicValues -}}
+    {{- range $k, $v := $ctx.config.dynamicValues -}}
       {{- $newValue := "" -}}
       {{- if kindIs "map" $v -}}
         {{- if $v.type -}}
@@ -115,23 +115,24 @@
             {{- if eq $v.host "cdr" -}}
               {{- /* As this chart does not deploy CDR, the cdr hostname needs to be passed
                   in via `Values.externalConfig.smileCdr.hostname` */ -}}
-              {{- $hostName = $ctx.Values.externalConfig.smileCdr.hostname -}}
+              {{- $hostName = $ctx.externalConfig.smileCdr.hostname -}}
             {{- else if eq $v.host "cms" -}}
               {{- /* As this chart does not deploy Directus,the cms hostname needs to be passed
                   in via `Values.externalConfig.cms.hostname` */ -}}
-              {{- $hostName = $ctx.Values.externalConfig.cms.hostname -}}
+              {{- $hostName = $ctx.externalConfig.cms.hostname -}}
             {{- else if eq $v.host "issuer" -}}
               {{- /* As this chart does not deploy any IdP components, relevant details need
                   to be passed in via `Values.externalConfig.oauth` */ -}}
-              {{- $hostName = $ctx.Values.externalConfig.oauth.issuer -}}
+              {{- $hostName = $ctx.externalConfig.oauth.issuer -}}
             {{- else if eq $v.host "altAuthHost" -}}
               {{- /* As this chart does not deploy any IdP components, relevant details need
                   to be passed in via `Values.externalConfig.oauth` */ -}}
-              {{- $hostName = $ctx.Values.externalConfig.oauth.altAuthHost -}}
+              {{- $hostName = $ctx.externalConfig.oauth.altAuthHost -}}
             {{- else if eq $v.host "memberPortal" -}}
-              {{- $hostName = (index $ctx.Values.components.memberPortal.ingress.hosts 0 ).host -}}
+              {{- $hostName = (index $ctx.components.memberPortal.ingress.hosts 0 ).host -}}
             {{- else if eq $v.host "pmpUserServices" -}}
-              {{- $hostName = (index $ctx.Values.components.pmpUserServices.ingress.hosts 0).host -}}
+              {{- /* fail (printf "\n$ctx\n\n%s" (toYaml $ctx)) */ -}}
+              {{- $hostName = (index $ctx.components.pmpUserServices.ingress.hosts 0).host -}}
 
             {{- else -}}
               {{- fail (printf "There is no handler for host of type `%s`. Investigate..." $v.host) -}}
@@ -142,7 +143,7 @@
                   - oauthClientId (Determined by client Id of current PMP component) */ -}}
               {{- if contains "$" $v.path -}}
                 {{- /* if contains (mustRegexFind "(?:\\${)(.*)(?:})" $v.path) "fhirPath oauthClientId" */ -}}
-                {{- $path = regexReplaceAll "\\${fhirPath}"  $v.path $ctx.Values.externalConfig.smileCdr.fhirPath -}}
+                {{- $path = regexReplaceAll "\\${fhirPath}"  $v.path $ctx.externalConfig.smileCdr.fhirPath -}}
                 {{- /* TODO: Not sure yet if we should get the oauthId from global scope or component scope like below
                     If we do it from global scope, config may be nicer, but then we will need to dynamically add the
                     value to the component object so it can be easily used here */ -}}
@@ -167,14 +168,14 @@
             {{- /* Auto Generate poolid configurations */ -}}
             {{- /* As this chart does not configure the IdP, the ids need
                 to be passed in via `Values.externalConfig.oauth.cognitoUserPool` */ -}}
-            {{- $newValue = $ctx.Values.externalConfig.oauth.cognitoUserPool -}}
+            {{- $newValue = $ctx.externalConfig.oauth.cognitoUserPool -}}
           {{- else if eq $v.type "list[token_parameter]" -}}
             {{- /* Auto Generate token parameter list configurations */ -}}
             {{- $parameterList := list -}}
             {{- range $listVal := $v.parameters -}}
               {{- /* If the IdP is AWS Cognito, custom token params must be prefixed
                   by `custom:`. */ -}}
-              {{- if eq $ctx.Values.externalConfig.oauth.idpVendor "cognito" -}}
+              {{- if eq $ctx.externalConfig.oauth.idpVendor "cognito" -}}
                 {{- $parameterList = append $parameterList (printf "custom:%s" $listVal) -}}
               {{- else -}}
                 {{- $parameterList = append $parameterList $listVal -}}
@@ -185,7 +186,7 @@
         {{- else -}}
           {{- /* Update dynamicValues context and iterate as this is not a dynamic value entry (identified by the absense of the `type` key) */ -}}
           {{- $localTemplateParams := deepCopy $ctx -}}
-          {{- $_ := set $localTemplateParams.Values.config "dynamicValues" $v -}}
+          {{- $_ := set $localTemplateParams.config "dynamicValues" $v -}}
           {{- $newValue = (include "component.appConfigDynamic" $localTemplateParams) | fromYaml -}}
         {{- end -}}
 
@@ -204,8 +205,8 @@
 {{- define "component.configMap" -}}
   {{- $configMap := dict -}}
   {{- $currentComponentName := ternary .componentName nil (not (eq .componentName nil)) -}}
-  {{- if .Values.config -}}
-    {{- $currentComponent := .Values -}}
+  {{- if .config -}}
+    {{- $currentComponent := . -}}
     {{- if $currentComponent.enabled -}}
       {{- $currentComponentConfig := $currentComponent.config -}}
       {{- $configFormat := default "json" $currentComponentConfig.type -}}
@@ -213,7 +214,7 @@
         {{- /* $_ := set $configMaps $component (include "pmp.appConfig" (dict "Values" .Values "componentName" $component) | fromYaml) */ -}}
         {{- $configMap = (include "component.appConfig" . | fromYaml) -}}
         {{- $_ := set $configMap "hash" (include "pmp.getConfigMapNameHashSuffix" (dict "Values" $currentComponent "data" $configMap.data)) -}}
-        {{- $configMapName := printf "%s-pmp-%s%s" .Release.Name (include "pmp.getNormalisedResourceName" $configMap.name) $configMap.hash -}}
+        {{- $configMapName := printf "%s-pmp-%s%s" $currentComponent.releaseName (include "pmp.getNormalisedResourceName" $configMap.name) $configMap.hash -}}
         {{- $_ := set $configMap "configMapName" $configMapName -}}
         {{- $configFileName := $currentComponentConfig.fileName -}}
         {{- $_ := set $configMap "configFileName" $configFileName -}}

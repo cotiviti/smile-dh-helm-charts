@@ -1,15 +1,13 @@
-{{- range $k, $v := .Values.components -}}
-{{- if $v.enabled -}}
-{{- $componentContext := (include "component.getMergedContext" (dict "componentName" $k "componentObject" $v "globalObject" $) | fromYaml) -}}
-{{- range $cm := ( include "component.fileConfigMaps" $componentContext | fromYamlArray ) -}}
+{{- range $theComponentName, $theComponentSpec := include "pmp.components" . | fromYaml -}}
+  {{- range $cm := ( include "component.fileConfigMaps" $theComponentSpec | fromYamlArray ) -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ $cm.configMapName }}
   namespace: {{ $.Release.Namespace }}
   labels:
-    {{- include "component.labels" $componentContext | nindent 4 }}
-  {{- if ($componentContext.Values.argocd).enabled }}
+    {{- toYaml $theComponentSpec.componentLabels | nindent 4 }}
+  {{- if ($theComponentSpec.argocd).enabled }}
   annotations:
     argocd.argoproj.io/compare-options: IgnoreExtraneous
     argocd.argoproj.io/sync-options: Prune=false
@@ -17,6 +15,5 @@ metadata:
 data:
   {{ printf "%s: |-%s" $cm.configFileName ($cm.data | toPrettyJson | nindent 4) }}
 ---
-{{ end }}
 {{ end }}
 {{ end }}
