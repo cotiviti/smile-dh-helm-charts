@@ -1,3 +1,10 @@
+# [1.0.0-pre.93](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.92...v1.0.0-pre.93) (2023-08-30)
+
+
+### Features
+
+* **smilecdr:** add multi-node configuration ([29848e7](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/29848e7df2fa088675e43899fa8cc6cffe521a13))
+
 # [1.0.0-pre.92](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.91...v1.0.0-pre.92) (2023-08-28)
 
 
