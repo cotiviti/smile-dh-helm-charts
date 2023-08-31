@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.6">
     
     
       
@@ -1059,6 +1059,8 @@
       
         
       
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -1088,6 +1090,26 @@
             Configuration
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/smilecdr/modules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Modules
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1135,11 +1157,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../guide/smilecdr/modules/" class="md-nav__link">
+      <a href="../../../guide/smilecdr/cdrnode/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Modules
+    Cluster Configuration
   </span>
   
 
@@ -1215,11 +1237,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../guide/smilecdr/resources/" class="md-nav__link">
+      <a href="../../../guide/smilecdr/hl7v2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Resource Tuning
+    HL7V2 Endpoint Module
   </span>
   
 
@@ -1235,11 +1257,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../guide/smilecdr/hl7v2/" class="md-nav__link">
+      <a href="../../../guide/smilecdr/resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    HL7V2 Endpoint Module
+    Resource Tuning
   </span>
   
 
@@ -1716,12 +1738,12 @@ cost effective and scalable manner with operational efficiency in mind.</p>
 <td><code>v1.0.0-pre92</code></td>
 </tr>
 <tr>
-<td>Single <code>Node</code> clustering</td>
+<td>Flexible <em>CDR Node</em> cluster configurations</td>
 <td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span></td>
 <td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span></td>
-<td>Single Node here means single congfiguration. You can still run multiple instances/processes for performance and reliability.<br><a href="https://smilecdr.com/docs/clustering/designing_a_cluster.html">Smile CDR Clustering</a></td>
+<td>Configuration for single-node or multi-node Smile CDR cluster designs. <a href="../../../guide/smilecdr/cdrnode/">Cluster Configuration</a></td>
 <td><code>2023.08.R01</code></td>
-<td><code>v1.0.0-pre92</code></td>
+<td><code>v1.0.0-pre93</code></td>
 </tr>
 <tr>
 <td>Cluster Scaling</td>
@@ -1808,11 +1830,6 @@ cost effective and scalable manner with operational efficiency in mind.</p>
 <td>Zero Downtime Upgrades</td>
 <td>Support planned to be added. See Smile CDR Docs for info on Zero Downtime Upgrades <a href="https://smilecdr.com/docs/installation/upgrading.html#upgrading-a-cluster-of-servers-with-zero-downtime">here</a></td>
 <td><a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/17">GitLab Issue</a></td>
-</tr>
-<tr>
-<td>Flexible Multi-Node cluster configurations</td>
-<td>Support planned to be added. See Smile CDR Docs for info on Multi-Node clusters <a href="https://smilecdr.com/docs/clustering/designing_a_cluster.html#multi-node-clusters">here</a></td>
-<td><a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/1">GitLab Issue</a></td>
 </tr>
 <tr>
 <td>Pre-Seeding Users</td>
