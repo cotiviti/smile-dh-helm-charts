@@ -251,7 +251,7 @@ As per the documentation [here](https://smilecdr.com/docs/clustering/designing_a
 the Sample Architecture above will not have the ability to display Batch jobs in the Web Admin Console.
 
 A solution to this is to also configure any `persistence` modules in your AdminNode (Or any such node that has the
-`admin_web` module configured). If doing this, take special note of the considerations mentioned in the linked docs. 
+`admin_web` module configured). If doing this, take special note of the considerations mentioned in the linked docs.
 
 ### Database Configuration
 If multiple modules are configured to point to the same database, consider the following:

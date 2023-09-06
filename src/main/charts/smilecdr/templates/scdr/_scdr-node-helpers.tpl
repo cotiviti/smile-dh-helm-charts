@@ -86,12 +86,11 @@ Define CDR Nodes
       {{- /* Or just don't allow overriding it with `name`? */ -}}
 
 
-
       {{- /* Set CDR Node specific labels */ -}}
       {{- $cdrNodeLabels := include "smilecdr.labels" $rootCTX | fromYaml -}}
       {{- $cdrNodeSelectorLabels := include "smilecdr.selectorLabels" $rootCTX | fromYaml -}}
 
-      {{- /* TODO: Refactor when `oldResourceNaming` is removed */ -}}
+      {{- /* TODO: Refactor this code when the `oldResourceNaming` option is removed */ -}}
       {{- if not $parsedNodeValues.oldResourceNaming -}}
           {{- $_ := set $cdrNodeLabels "smilecdr/nodeName" $theNodeName -}}
           {{- $_ := set $cdrNodeSelectorLabels "smilecdr/nodeName" $theNodeName -}}
@@ -100,7 +99,7 @@ Define CDR Nodes
       {{- $_ := set $parsedNodeValues "cdrNodeLabels" $cdrNodeLabels -}}
       {{- $_ := set $parsedNodeValues "cdrNodeSelectorLabels" $cdrNodeSelectorLabels -}}
 
-      {{- /* These are all set using external helper functions.
+      {{- /* Some node 'Values' are set using external helper functions.
           Some of them only require the local context, but some also require
           access to the root context. This helper object can be passed in to
           any of the new 'node' helpers so that they have access to both
@@ -109,16 +108,16 @@ Define CDR Nodes
           Orrrrr... We simply pass a modified root context, where the local 'Values'
           is merged (With priority to local values)
           This requires less special case handling of helpers...
-          */ -}}
-      {{- /* $nodeHelperCTX := dict "Values" $parsedNodeValues "rootCTX" (pick $rootCTX "Values" "Chart") */ -}}
 
-      {{- /* $nodeHelperRootCTX := deepCopy (omit $rootCTX.Values "cdrNodes" "crunchypgo" "messageBroker" ) */ -}}
+          ** UPDATE ** Indeed, keeping track of whether a given helper needs a root context or just
+          The local values is proving troublesome. Refactor all helpers to use a full root context.
+          */ -}}
+
       {{- /* Note: Only doing the deepCopy on the root ctx.
           $parsedNodeValues is merged as a reference, so anything updated
           will be available in the context for further includes*/ -}}
       {{- /* fail (printf "\n\n$rootCTX\n%s" (toYaml $rootCTX)) */ -}}
       {{- $nodeHelperCTX := mustMergeOverwrite (deepCopy (omit $rootCTX "Values")) (dict "Values" $parsedNodeValues) -}}
-
 
       {{- /* Prepare a canonical list of mappedFiles */ -}}
       {{- /*
@@ -232,7 +231,8 @@ Define CDR Nodes
       {{- $_ := set $ingressConfig "hosts" (include "ingress.hosts" $nodeHelperCTX | fromYamlArray) -}}
       {{- $_ := set $parsedNodeValues "ingress" $ingressConfig */ -}}
 
-      {{- $_ := set $nodes $theNodeName $parsedNodeValues -}}
+      {{- /* $_ := set $nodes $theNodeName $parsedNodeValues */ -}}
+      {{- $_ := set $nodes $theNodeName $nodeHelperCTX -}}
       {{- if eq $theNodeName "fhirnode-test" -}}
         {{- fail (printf "\n\nsmilecdr.nodes:admin-end:$globalValues\n%s" (toYaml $globalValues.modules)) -}}
       {{- end -}}

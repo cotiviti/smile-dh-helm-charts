@@ -72,7 +72,8 @@ alb.ingress.kubernetes.io/scheme: internet-facing
 {{- define "ingress.default.hosts" -}}
   {{- $hosts := dict -}}
   {{- $hostsList := list -}}
-  {{- range $theNodeName, $theNodeSpec := include "smilecdr.nodes" . | fromYaml -}}
+  {{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
+    {{- $theNodeSpec := $theNodeCtx.Values -}}
     {{- /* Get list of all hosts used by services in current CDR Node */ -}}
     {{- range $theServiceName, $theServiceSpec := $theNodeSpec.services -}}
       {{- /* Only include hosts for services that use the default `Ingress` object. */ -}}

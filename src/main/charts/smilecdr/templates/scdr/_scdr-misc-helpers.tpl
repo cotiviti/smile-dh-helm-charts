@@ -104,7 +104,8 @@ Use this for generating deprecation notices and other warnings about the configu
     {{- end -}}
   {{- end -}}
   {{- /* Check for using unsupported database propertysource mode */ -}}
-  {{- range $theNodeName, $theNodeSpec := include "smilecdr.nodes" . | fromYaml -}}
+  {{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
+    {{- $theNodeSpec := $theNodeCtx.Values -}}
     {{- if ($theNodeSpec.config).database -}}
       {{- $warningMessage = printf "%s\n\nWARNING: `config.database` is enabled for Smile CDR node: %s" $warningMessage $theNodeName -}}
       {{- $warningMessage = printf "%s\n This mode is unsupported and not recommended for use when deploying using Helm" $warningMessage -}}

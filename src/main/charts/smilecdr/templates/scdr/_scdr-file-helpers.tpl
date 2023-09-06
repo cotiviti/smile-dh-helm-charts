@@ -13,7 +13,8 @@ use by a node.
 */ -}}
 {{- define "smilecdr.fileConfigMaps" -}}
 {{- $fileCfgMaps := list -}}
-{{- range $theNodeName, $theNodeSpec := include "smilecdr.nodes" . | fromYaml -}}
+{{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
+  {{- $theNodeSpec := $theNodeCtx.Values -}}
   {{- if gt (len $theNodeSpec.mappedFiles) 0 -}}
     {{- range $k, $v := $theNodeSpec.mappedFiles -}}
       {{- /* if and (not (contains $fileCfgMaps $k)) (hasKey $v "data") */ -}}
