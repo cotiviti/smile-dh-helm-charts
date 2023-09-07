@@ -4,7 +4,7 @@ This combines all default per-provider annotations
 (Specified by .Values.ingress.type) as well as any
 annotations passed in via .Values.ingress.annotations
 */}}
-{{- define "ingress.annotations" -}}
+{{- define "smilecdr.ingress.annotations" -}}
   {{- $annotations := ( include "ingress.autoAnnotations" . | fromYaml) -}}
   {{- with .Values.ingress.annotations -}}
     {{- $annotations = merge . $annotations -}}
@@ -19,16 +19,33 @@ annotations passed in via .Values.ingress.annotations
   {{- end -}}
 {{- end -}}
 
+
+{{/*
+Default Ingress class name based on specified cloud provider
+*/}}
+{{- define "ingress.className" -}}
+  {{- $ingressClassName := "" -}}
+  {{- if eq "azure-appgw" .Values.ingress.type -}}
+    {{- $ingressClassName = "azure/application-gateway" -}}
+  {{- else if eq "nginx-ingress" .Values.ingress.type -}}
+    {{- $ingressClassName = "nginx" -}}
+  {{- else if eq "aws-lbc-alb" .Values.ingress.type -}}
+    {{- $ingressClassName = "alb" -}}
+  {{- end -}}
+  {{- default $ingressClassName .Values.ingress.ingressClassNameOverride -}}
+{{- end -}}
+
 {{/*
 Predefined default Ingress annotations based on
 specified cloud provider
 */}}
 {{- define "ingress.autoAnnotations" -}}
+{{- $ingressClassName := include "ingress.className" . -}}
 {{- if eq "azure-appgw" .Values.ingress.type -}}
 {{- /*
 Azure Application Gateway Annotations (No Nginx Ingress)
 */ -}}
-kubernetes.io/ingress.class: {{ default "azure/application-gateway" .Values.ingress.ingressClassNameOverride }}
+kubernetes.io/ingress.class: {{ $ingressClassName }}
 appgw.ingress.kubernetes.io/backend-protocol: http
 appgw.ingress.kubernetes.io/cookie-based-affinity: "false"
 appgw.ingress.kubernetes.io/use-private-ip: "false"
@@ -42,14 +59,14 @@ Nginx Ingress Annotations
 Note: Most of the general annotations are defined in the
 nginx-ingress controller.
 */ -}}
-kubernetes.io/ingress.class: {{ default "nginx" .Values.ingress.ingressClassNameOverride }}
+kubernetes.io/ingress.class: {{ $ingressClassName }}
 nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 {{- else if eq "aws-lbc-alb" .Values.ingress.type -}}
 {{- /*
 AWS Load Balancer Controller Annotations (ALB)
 Be sure to specify all required annotations
 */ -}}
-kubernetes.io/ingress.class: {{ default "alb" .Values.ingress.ingressClassNameOverride }}
+kubernetes.io/ingress.class: {{ $ingressClassName }}
 alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=false,stickiness.lb_cookie.duration_seconds=300
 alb.ingress.kubernetes.io/backend-protocol: HTTP
 alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
