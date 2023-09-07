@@ -1,4 +1,4 @@
-# This values file tests pulling `classes` files from S3 without preserving the original files
+# This values file tests pulling `classes` files from S3 while preserving the original files
 
 copyFiles:
   # Copies files from S3 to the classes directory
@@ -8,5 +8,3 @@ copyFiles:
     - type: s3
       bucket: s3-bucket-name
       path: /path-to/classes
-
-# This defines the minimum required settings to use this Helm Chart.
