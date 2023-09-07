@@ -27,8 +27,13 @@ tests:
     valueFiles:
     - ../default-test-values.yaml
     - values-s3-both.yaml
-  bothcurl:
+  bothCurl:
     outputFile: output-curl-both.yaml
     valueFiles:
     - ../default-test-values.yaml
     - values-curl-both.yaml
+  multiFiles:
+    outputFile: output-multi-files.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - values-multi-files.yaml

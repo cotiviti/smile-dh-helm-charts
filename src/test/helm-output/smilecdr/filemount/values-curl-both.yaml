@@ -1,13 +1,13 @@
-# This values file tests pulling `classes` files from S3 without preserving the original files
+# This values file tests pulling `classes` and `customerlib` files using curl
 
 copyFiles:
-  # Copies files from S3 to the classes directory
+  # Copies files using curl to the classes directory
   classes:
     sources:
     - type: curl
       fileName: mydownloadedscript.js
       url: https://website.com/path/to/file.js
-  # Copies files from S3 to the customerlib directory
+  # Copies files using curl to the customerlib directory
   customerlib:
     sources:
     - type: curl

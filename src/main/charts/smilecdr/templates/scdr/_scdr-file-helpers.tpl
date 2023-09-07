@@ -16,10 +16,10 @@ use by a node.
 {{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
   {{- $theNodeSpec := $theNodeCtx.Values -}}
   {{- if gt (len $theNodeSpec.mappedFiles) 0 -}}
-    {{- range $k, $v := $theNodeSpec.mappedFiles -}}
-      {{- /* if and (not (contains $fileCfgMaps $k)) (hasKey $v "data") */ -}}
-      {{- if hasKey $v "data" -}}
-        {{- $cmDict := (dict "name" ( $k ) "fileName" (default $k $v.fileName) "data" $v.data "hash" ( sha256sum $v.data )) -}}
+    {{- range $theMappedFileKey, $theMappedFile := $theNodeSpec.mappedFiles -}}
+      {{- /* if and (not (contains $fileCfgMaps $theMappedFileKey)) (hasKey $theMappedFile "data") */ -}}
+      {{- if hasKey $theMappedFile "data" -}}
+        {{- $cmDict := (dict "name" ( $theMappedFileKey ) "fileName" (default $theMappedFileKey $theMappedFile.fileName) "data" $theMappedFile.data "hash" ( sha256sum $theMappedFile.data )) -}}
         {{- if not (has $cmDict $fileCfgMaps ) -}}
           {{- $fileCfgMaps = append $fileCfgMaps $cmDict -}}
         {{- end -}}
@@ -39,12 +39,12 @@ Define fileVolumes for all mapped files
 {{ define "smilecdr.fileVolumes" }}
   {{- $fileVolumes := list -}}
   {{- if gt (len .Values.mappedFiles) 0 -}}
-    {{- range $k, $v := .Values.mappedFiles -}}
-      {{- $cmName := printf "%s-scdr-%s" $.Release.Name ($k | replace "." "-") -}}
-      {{- if and $.Values.autoDeploy (hasKey $v "data") -}}
-        {{- $cmName = printf "%s-%s" $cmName (sha256sum ($v.data)) -}}
+    {{- range $theMappedFileKey, $theMappedFile := .Values.mappedFiles -}}
+      {{- $cmName := printf "%s-scdr-%s" $.Release.Name ($theMappedFileKey | replace "." "-") -}}
+      {{- if and $.Values.autoDeploy (hasKey $theMappedFile "data") -}}
+        {{- $cmName = printf "%s-%s" $cmName (sha256sum ($theMappedFile.data)) -}}
       {{- end -}}
-      {{- $fileVolume := dict "name" ($k | replace "." "-") -}}
+      {{- $fileVolume := dict "name" ($theMappedFileKey | replace "." "-") -}}
       {{- $_ := set $fileVolume "configMap" (dict "name" $cmName) -}}
       {{- $fileVolumes = append $fileVolumes $fileVolume -}}
     {{- end -}}
@@ -69,12 +69,12 @@ Define fileVolumeMounts for all mapped files
 {{ define "smilecdr.fileVolumeMounts" }}
   {{- $fileVolumeMounts := list -}}
   {{- if gt (len .Values.mappedFiles) 0 -}}
-    {{- range $k, $v := .Values.mappedFiles -}}
-      {{- $fileVolumeMount := dict "name" ($k | replace "." "-") -}}
-      {{- $_ := set $fileVolumeMount "mountPath" (printf "%s/%s" (default "/home/smile/smilecdr/classes" $v.path) (default $k $v.fileName)) -}}
-      {{- /* $_ := set $fileVolumeMount "mountPath" (printf "%s/%s" (default "/home/smile/smilecdr/classes" $v.path) $k) */ -}}
-      {{- /* $_ := set $fileVolumeMount "subPath" $k */ -}}
-      {{- $_ := set $fileVolumeMount "subPath" (default $k $v.fileName) -}}
+    {{- range $theMappedFileKey, $theMappedFile := .Values.mappedFiles -}}
+      {{- $fileVolumeMount := dict "name" ($theMappedFileKey | replace "." "-") -}}
+      {{- $_ := set $fileVolumeMount "mountPath" (printf "%s/%s" (default "/home/smile/smilecdr/classes" $theMappedFile.path) (default $theMappedFileKey $theMappedFile.fileName)) -}}
+      {{- /* $_ := set $fileVolumeMount "mountPath" (printf "%s/%s" (default "/home/smile/smilecdr/classes" $theMappedFile.path) $theMappedFileKey) */ -}}
+      {{- /* $_ := set $fileVolumeMount "subPath" $theMappedFileKey */ -}}
+      {{- $_ := set $fileVolumeMount "subPath" (default $theMappedFileKey $theMappedFile.fileName) -}}
       {{- $fileVolumeMounts = append $fileVolumeMounts $fileVolumeMount -}}
     {{- end -}}
   {{- end -}}
@@ -162,12 +162,25 @@ Volumes are defined in `smilecdr.fileVolumes`
       {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
       {{- $initPullContainers = append $initPullContainers $imageSpec -}}
     {{- end -}}
-    {{- range $v := $classesFileSources -}}
-      {{- if eq $v.type "s3" -}}
-        {{- $bucket := required "You must specify an S3 bucket to copy classes files from." $v.bucket -}}
-        {{- $bucketPath := required "You must specify an S3 bucket path to copy classes files from." $v.path -}}
+    {{- /* Get counts of s3 & curl sources for classes dir.
+        We don't need to append hash if there is only a single source of each type */ -}}
+    {{- $classesS3SourceCount := 0 -}}
+    {{- $classesCurlSourceCount := 0 -}}
+    {{- range $theFileSource := $classesFileSources -}}
+      {{- if eq $theFileSource.type "s3" -}}
+        {{- $classesS3SourceCount = add $classesS3SourceCount 1 -}}
+      {{- else if eq $theFileSource.type "curl" -}}
+        {{- $classesCurlSourceCount = add $classesCurlSourceCount 1 -}}
+      {{- end -}}
+    {{- end -}}
+    {{- range $theFileSource := $classesFileSources -}}
+      {{- if eq $theFileSource.type "s3" -}}
+        {{- $bucket := required "You must specify an S3 bucket to copy classes files from." $theFileSource.bucket -}}
+        {{- $bucketPath := required "You must specify an S3 bucket path to copy classes files from." $theFileSource.path -}}
         {{- $bucketFullPath := printf "s3://%s%s" $bucket $bucketPath -}}
-        {{- $imageSpec := dict "name" "init-pull-classes-s3" -}}
+        {{- /* Only append hash if there is more than one S3 init-pull container for the classes dir */ -}}
+        {{- $imageNameSuffix := ternary (printf "-%s" ($bucketFullPath | sha256sum | trunc 32)) "" (gt $classesS3SourceCount 1) -}}
+        {{- $imageSpec := dict "name" (printf "init-pull-classes-s3%s" $imageNameSuffix ) -}}
         {{- $_ := set $imageSpec "image" $.Values.copyFiles.config.awscli.image -}}
         {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
         {{- $_ := set $imageSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/classes/" "--recursive" )  -}}
@@ -177,11 +190,13 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- $_ := set $imageSpec "resources" $initContainerResources -}}
         {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/") (dict "name" "aws-cli" "mountPath" "/.aws")) -}}
         {{- $initPullContainers = append $initPullContainers $imageSpec -}}
-      {{- else if eq $v.type "curl" -}}
-        {{- $url := required "You must specify a URL to copy classes files from." $v.url -}}
-        {{- $fileName := required "You must specify a destination `fileName` for classes files." $v.fileName -}}
+      {{- else if eq $theFileSource.type "curl" -}}
+        {{- $url := required "You must specify a URL to copy classes files from." $theFileSource.url -}}
+        {{- $fileName := required "You must specify a destination `fileName` for classes files." $theFileSource.fileName -}}
         {{- $fileFullPath := printf "/tmp/smilecdr-volumes/classes/%s" $fileName -}}
-        {{- $imageSpec := dict "name" "init-pull-classes-curl" -}}
+        {{- /* Only append hash if there is more than one S3 init-pull container for the classes dir */ -}}
+        {{- $imageNameSuffix := ternary (printf "-%s" ($fileFullPath | sha256sum | trunc 32)) "" (gt $classesCurlSourceCount 1) -}}
+        {{- $imageSpec := dict "name" (printf "init-pull-classes-curl%s" $imageNameSuffix ) -}}
         {{- $_ := set $imageSpec "image" $.Values.copyFiles.config.curl.image -}}
         {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
         {{- $_ := set $imageSpec "args" (list "-o" $fileFullPath "--location" "--create-dirs" $url )  -}}
@@ -210,12 +225,25 @@ Volumes are defined in `smilecdr.fileVolumes`
       {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/")) -}}
       {{- $initPullContainers = append $initPullContainers $imageSpec -}}
     {{- end -}}
-    {{- range $v := $customerlibFileSources -}}
+    {{- /* Get counts of s3 & curl sources for customerlib dir.
+        We don't need to append hash if there is only a single source of each type */ -}}
+    {{- $customerlibS3SourceCount := 0 -}}
+    {{- $customerlibCurlSourceCount := 0 -}}
+    {{- range $theFileSource := $customerlibFileSources -}}
+      {{- if eq $theFileSource.type "s3" -}}
+        {{- $customerlibS3SourceCount = add $customerlibS3SourceCount 1 -}}
+      {{- else if eq $theFileSource.type "curl" -}}
+        {{- $customerlibCurlSourceCount = add $customerlibCurlSourceCount 1 -}}
+      {{- end -}}
+    {{- end -}}
+    {{- range $theFileSource := $customerlibFileSources -}}
       {{- if eq .type "s3" -}}
-        {{- $bucket := required "You must specify an S3 bucket to copy customerlib files from." $v.bucket -}}
-        {{- $bucketPath := required "You must specify an S3 bucket path to copy customerlib files from." $v.path -}}
+        {{- $bucket := required "You must specify an S3 bucket to copy customerlib files from." $theFileSource.bucket -}}
+        {{- $bucketPath := required "You must specify an S3 bucket path to copy customerlib files from." $theFileSource.path -}}
         {{- $bucketFullPath := printf "s3://%s%s" $bucket $bucketPath -}}
-        {{- $imageSpec := dict "name" "init-pull-customerlib-s3" -}}
+        {{- /* Only append hash if there is more than one S3 init-pull container for the classes dir */ -}}
+        {{- $imageNameSuffix := ternary (printf "-%s" ($bucketFullPath | sha256sum | trunc 32)) "" (gt $customerlibS3SourceCount 1) -}}
+        {{- $imageSpec := dict "name" (printf "init-pull-customerlib-s3%s" $imageNameSuffix ) -}}
         {{- $_ := set $imageSpec "image" $.Values.copyFiles.config.awscli.image -}}
         {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
         {{- $_ := set $imageSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/customerlib/" "--recursive" )  -}}
@@ -226,10 +254,12 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/") (dict "name" "aws-cli" "mountPath" "/.aws")) -}}
         {{- $initPullContainers = append $initPullContainers $imageSpec -}}
       {{- else if eq .type "curl" -}}
-        {{- $url := required "You must specify a URL to copy customerlib files from." $v.url -}}
-        {{- $fileName := required "You must specify a destination `fileName` for customerlib files." $v.fileName -}}
+        {{- $url := required "You must specify a URL to copy customerlib files from." $theFileSource.url -}}
+        {{- $fileName := required "You must specify a destination `fileName` for customerlib files." $theFileSource.fileName -}}
         {{- $fileFullPath := printf "/tmp/smilecdr-volumes/customerlib/%s" $fileName -}}
-        {{- $imageSpec := dict "name" "init-pull-customerlib-curl" -}}
+        {{- /* Only append hash if there is more than one S3 init-pull container for the classes dir */ -}}
+        {{- $imageNameSuffix := ternary (printf "-%s" ($fileFullPath | sha256sum | trunc 32)) "" (gt $customerlibCurlSourceCount 1) -}}
+        {{- $imageSpec := dict "name" (printf "init-pull-customerlib-curl%s" $imageNameSuffix ) -}}
         {{- $_ := set $imageSpec "image" $.Values.copyFiles.config.curl.image -}}
         {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
         {{- $_ := set $imageSpec "args" (list "-o" $fileFullPath "--location" "--create-dirs" $url )  -}}

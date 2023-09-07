@@ -1,0 +1,34 @@
+# This values file tests pulling multiple `classes` and `customerlib` files using curl
+# The output must have the `initContainer`s have unique names.
+
+copyFiles:
+  # Copies multiple files using curl & s3 to the classes directory
+  classes:
+    sources:
+    - type: curl
+      fileName: mydownloadedscript1.js
+      url: https://website.com/path/to/script1.js
+    - type: curl
+      fileName: mydownloadedscript2.js
+      url: https://website.com/path/to/script2.js
+    - type: s3
+      bucket: classes-bucket-1
+      path: /path-to/classes1
+    - type: s3
+      bucket: classes-bucket-2
+      path: /path-to/classes2
+  # Copies files using curl to the customerlib directory
+  customerlib:
+    sources:
+    - type: curl
+      fileName: mydownloadedlib1.jar
+      url: https://website.com/path/to/file1.jar
+    - type: curl
+      fileName: mydownloadedlib2.jar
+      url: https://website.com/path/to/file2.jar
+    - type: s3
+      bucket: customer-lib-bucket-1
+      path: /path-to/customerlib1
+    - type: s3
+      bucket: customer-lib-bucket-2
+      path: /path-to/customerlib2
