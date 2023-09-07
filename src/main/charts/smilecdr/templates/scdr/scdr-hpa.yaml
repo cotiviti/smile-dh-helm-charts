@@ -1,5 +1,6 @@
-{{- range $theNodeName, $theNodeSpec := include "smilecdr.nodes" . | fromYaml -}}
-{{- if $theNodeSpec.autoscaling.enabled -}}
+{{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
+  {{- $theNodeSpec := $theNodeCtx.Values -}}
+  {{- if $theNodeSpec.autoscaling.enabled -}}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
