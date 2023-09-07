@@ -1,3 +1,10 @@
+# [1.0.0-pre.94](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.93...v1.0.0-pre.94) (2023-09-07)
+
+
+### Bug Fixes
+
+* **smilecdr:** multiple init-pull containers ([80ced73](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/80ced73548a612e1580c0204f55cd170301ed595))
+
 # [1.0.0-pre.93](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.92...v1.0.0-pre.93) (2023-08-30)
 
 
