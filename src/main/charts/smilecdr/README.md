@@ -71,10 +71,7 @@ The below section gives an overview of the default values available. Consult the
 | autoscaling.maxReplicas | int | `4` | Depends on peak workload requirements and available licensing |
 | autoscaling.minReplicas | int | `1` | Recommend 1 for dev environments, 2 for prod or 3 for HA prod |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
-| copyFiles.config.awscli.image | string | `"amazon/aws-cli:2.11.25"` |  |
-| copyFiles.config.awscli.runAsUser | int | `1000` |  |
-| copyFiles.config.curl.image | string | `"curlimages/curl:8.1.2"` |  |
-| copyFiles.config.curl.runAsUser | int | `100` |  |
+| copyFiles | object | `{}` |  |
 | database.crunchypgo.config.backupsSize | string | `"10Gi"` | PostgrSQL backups storage allocation |
 | database.crunchypgo.config.instanceCPU | int | `1` | PostgrSQL cpu allocation |
 | database.crunchypgo.config.instanceMemory | string | `"2Gi"` | PostgrSQL memory allocation |

@@ -9,6 +9,8 @@ messageBroker:
       authentication:
         type: iam
         iamConfig:
-          autoJarCopy: false
+          copyType: s3
+          bucket: s3-bucket-for-iam
+          path: /path/tojarfile/aws-msk-iam-auth-1.1.6-all.jar
   adminPod:
     enabled: true

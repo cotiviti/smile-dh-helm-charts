@@ -430,7 +430,7 @@ spec:
           - --location
           - --create-dirs
           - https://website.com/path/to/file.js
-          image: curlimages/curl:8.1.2
+          image: quay.io/curl/curl:8.1.2
           imagePullPolicy: IfNotPresent
           name: init-pull-classes-curl
           resources:
@@ -484,7 +484,7 @@ spec:
           - --location
           - --create-dirs
           - https://website.com/path/to/file.jar
-          image: curlimages/curl:8.1.2
+          image: quay.io/curl/curl:8.1.2
           imagePullPolicy: IfNotPresent
           name: init-pull-customerlib-curl
           resources:

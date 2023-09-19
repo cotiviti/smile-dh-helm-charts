@@ -426,10 +426,11 @@ spec:
           - mountPath: /tmp/smilecdr-volumes/classes/
             name: scdr-volume-classes
         - args:
-          - cp
-          - /mnt/sscsi/license.jwt
-          - /tmp/smilecdr-volumes/classes/
-          image: alpine:3
+          - /bin/cp /mnt/sscsi/license.jwt /tmp/smilecdr-volumes/classes/
+          command:
+          - /bin/sh
+          - -c
+          image: docker.smilecdr.com/smilecdr:2023.08.R01
           imagePullPolicy: IfNotPresent
           name: copy-cdr-license
           resources:

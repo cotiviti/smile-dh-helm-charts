@@ -430,7 +430,7 @@ spec:
           - s3://s3-bucket-name/path-to/classes
           - /tmp/smilecdr-volumes/classes/
           - --recursive
-          image: amazon/aws-cli:2.11.25
+          image: public.ecr.aws/aws-cli/aws-cli:2.13.19
           imagePullPolicy: IfNotPresent
           name: init-pull-classes-s3
           resources:
