@@ -43,6 +43,32 @@ passwords
 {{- define "kafka.admin.initContainers" -}}
   {{- $initContainers := list -}}
 
+  {{- /* Set up config for initContainers */ -}}
+  {{- $s3ContainerSpec := dict -}}
+  {{- $curlContainerSpec := dict -}}
+
+  {{- $defaultResources := dict -}}
+  {{- $_ := set $defaultResources "requests" (dict "cpu" "500m" "memory" "500Mi") -}}
+  {{- $_ := set $defaultResources "limits" (dict "cpu" "500m" "memory" "500Mi") -}}
+
+  {{- $s3Config := ((.Values.copyFiles).config).s3 -}}
+  {{- $defaultS3ImageTag := "2.11.25" -}}
+  {{- $defaultS3ImageRepo := "amazon/aws-cli" -}}
+  {{- $defaultS3ImageUser := 1000 -}}
+  {{- $_ := set $s3ContainerSpec "image" (printf "%s:%s" (default $defaultS3ImageRepo $s3Config.repository) (default $defaultS3ImageTag $s3Config.tag)) -}}
+  {{- $_ := set $s3ContainerSpec "imagePullPolicy" (default "IfNotPresent" $s3Config.imagePullPolicy) -}}
+  {{- $_ := set $s3ContainerSpec "securityContext" (mergeOverwrite (deepCopy .Values.securityContext) (default (dict "runAsUser" $defaultS3ImageUser) $s3Config.securityContext)) -}}
+  {{- $_ := set $s3ContainerSpec "resources" (default $defaultResources $s3Config.resources) -}}
+
+  {{- $curlConfig := ((.Values.copyFiles).config).curl -}}
+  {{- $defaultCurlImageTag := "8.1.2" -}}
+  {{- $defaultCurlImageRepo := "curlimages/curl" -}}
+  {{- $defaultCurlImageUser := 100 -}}
+  {{- $_ := set $curlContainerSpec "image" (printf "%s:%s" (default $defaultCurlImageRepo $curlConfig.repository) (default $defaultCurlImageTag $curlConfig.tag)) -}}
+  {{- $_ := set $curlContainerSpec "imagePullPolicy" (default "IfNotPresent" $curlConfig.imagePullPolicy) -}}
+  {{- $_ := set $curlContainerSpec "securityContext" (mergeOverwrite (deepCopy .Values.securityContext) (default (dict "runAsUser" $defaultCurlImageUser) $curlConfig.securityContext)) -}}
+  {{- $_ := set $curlContainerSpec "resources" (default $defaultResources $curlConfig.resources) -}}
+
   {{- /* Admin container only needs files copied to classpath right now */ -}}
   {{- $classpathDir := "/opt/kafka/bin" -}}
   {{- $initContainerResources := (dict "requests" (dict "cpu" "500m" "memory" "500Mi")) -}}
@@ -56,30 +82,20 @@ passwords
       {{- $bucket := required "You must specify an S3 bucket to copy classpath files from." $v.bucket -}}
       {{- $bucketPath := required "You must specify an S3 bucket path to copy classpath files from." $v.path -}}
       {{- $bucketFullPath := printf "s3://%s%s" $bucket $bucketPath -}}
-      {{- $imageSpec := dict "name" "init-pull-classpath-s3" -}}
-      {{- $_ := set $imageSpec "image" $.Values.copyFiles.config.awscli.image -}}
-      {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
-      {{- $_ := set $imageSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/admin-volumes/classpath/" "--recursive" )  -}}
-      {{- $awsCliPodSecurityContext := deepCopy $.Values.securityContext -}}
-      {{- $_ := set $awsCliPodSecurityContext "runAsUser" $.Values.copyFiles.config.awscli.runAsUser -}}
-      {{- $_ := set $imageSpec "securityContext" $awsCliPodSecurityContext -}}
-      {{- $_ := set $imageSpec "resources" $initContainerResources -}}
-      {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "admin-classpath" "mountPath" "/tmp/admin-volumes/classpath/")) -}}
-      {{- $initContainers = append $initContainers $imageSpec -}}
+      {{- $containerSpec := deepCopy (omit $s3ContainerSpec "repository" "tag") -}}
+      {{- $_ := set $containerSpec "name" "init-pull-classpath-s3" -}}
+      {{- $_ := set $containerSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/admin-volumes/classpath/" )  -}}
+      {{- $_ := set $containerSpec "volumeMounts" (list (dict "name" "admin-classpath" "mountPath" "/tmp/admin-volumes/classpath/") (dict "name" "aws-cli" "mountPath" "/.aws")) -}}
+      {{- $initContainers = append $initContainers $containerSpec -}}
     {{- else if eq $v.type "curl" -}}
       {{- $url := required "You must specify a URL to copy classpath files from." $v.url -}}
       {{- $fileName := required "You must specify a destination `fileName` for classpath files." $v.fileName -}}
       {{- $fileFullPath := printf "/tmp/admin-volumes/classpath/%s" $fileName -}}
-      {{- $imageSpec := dict "name" "init-pull-classpath-curl" -}}
-      {{- $_ := set $imageSpec "image" $.Values.copyFiles.config.curl.image -}}
-      {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
-      {{- $_ := set $imageSpec "args" (list "-o" $fileFullPath "--location" "--create-dirs" $url )  -}}
-      {{- $curlPodSecurityContext := deepCopy $.Values.securityContext -}}
-      {{- $_ := set $curlPodSecurityContext "runAsUser" $.Values.copyFiles.config.curl.runAsUser -}}
-      {{- $_ := set $imageSpec "securityContext" $curlPodSecurityContext -}}
-      {{- $_ := set $imageSpec "resources" $initContainerResources -}}
-      {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "admin-classpath" "mountPath" "/tmp/admin-volumes/classpath/")) -}}
-      {{- $initContainers = append $initContainers $imageSpec -}}
+      {{- $containerSpec := deepCopy (omit $curlContainerSpec "repository" "tag") -}}
+      {{- $_ := set $containerSpec "name" "init-pull-classpath-curl" -}}
+      {{- $_ := set $containerSpec "args" (list "-o" $fileFullPath "--location" "--create-dirs" $url )  -}}
+      {{- $_ := set $containerSpec "volumeMounts" (list (dict "name" "admin-classpath" "mountPath" "/tmp/admin-volumes/classpath/")) -}}
+      {{- $initContainers = append $initContainers $containerSpec -}}
     {{- else -}}
       {{- fail "Currently only supports S3 or curl for pulling extra files" -}}
     {{- end -}}
@@ -94,6 +110,23 @@ passwords
   {{- $classpathVolume := dict "name" "admin-classpath" -}}
   {{- $_ := set $classpathVolume "emptyDir" (dict "sizeLimit" "20Mi") -}}
   {{- $volumes = append $volumes $classpathVolume -}}
+
+
+  {{- $classpathFileSources := include "kafka.customerlib.sources" . | fromYamlArray -}}
+  {{- if gt (len $classpathFileSources) 0 -}}
+    {{- $hasS3Sources := false -}}
+    {{- range $v := $classpathFileSources -}}
+      {{- if eq $v.type "s3" -}}
+        {{- $hasS3Sources = true -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if $hasS3Sources -}}
+      {{- $awsCliVolume := dict "name" "aws-cli" -}}
+      {{- $_ := set $awsCliVolume "emptyDir" (dict "sizeLimit" "1Mi") -}}
+      {{- $volumes = append $volumes $awsCliVolume -}}
+    {{- end -}}
+  {{- end -}}
+
   {{- $volumes | toYaml -}}
 {{- end -}}
 
@@ -135,4 +168,27 @@ Define Kafka client properties file for admin pod
     {{- end -}}
   {{- end -}}
   {{- $props -}}
+{{- end -}}
+
+{{- define "kafka.admin.config" -}}
+  {{- $kafkaAdminConfig := dict -}}
+  {{- $kafkaConfig := include "kafka.config" . | fromYaml -}}
+  {{- if and $kafkaConfig.enabled (.Values.messageBroker.adminPod).enabled -}}
+    {{- $_ := set $kafkaAdminConfig "enabled" "true" -}}
+    {{- $kafkaAdminImageRepo := "" -}}
+    {{- $kafkaAdminImageTag := "" -}}
+    {{- $strimziConfig := (include "kafka.strimzi.config" . | fromYaml) -}}
+      {{- if $strimziConfig.enabled -}}
+        {{- $kafkaAdminImageRepo = (default "quay.io/strimzi/kafka" (.Values.messageBroker.adminPod.image).repository) -}}
+        {{- $kafkaAdminImageTag = (default "0.33.2-kafka-3.4.0" (.Values.messageBroker.adminPod.image).image) -}}
+      {{- else -}}
+        {{- /* Continue to use Strimzi image until we research using Bitnami or something else */ -}}
+        {{- /* $kafkaAdminImageRepo = (default "public.ecr.aws/bitnami/kafka" (.Values.messageBroker.adminPod.spec).repo) -}}
+        {{- $kafkaAdminImageTag = (default "3.5.1" (.Values.messageBroker.adminPod.spec).image) */ -}}
+        {{- $kafkaAdminImageRepo = (default "quay.io/strimzi/kafka" (.Values.messageBroker.adminPod.image).repository) -}}
+        {{- $kafkaAdminImageTag = (default "0.33.2-kafka-3.4.0" (.Values.messageBroker.adminPod.image).image) -}}
+      {{- end -}}
+    {{- $_ := set $kafkaAdminConfig "image" (printf "%s:%s" $kafkaAdminImageRepo $kafkaAdminImageTag )  -}}
+  {{- end -}}
+  {{- $kafkaAdminConfig | toYaml -}}
 {{- end -}}

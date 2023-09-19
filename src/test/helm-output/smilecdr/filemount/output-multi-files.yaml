@@ -430,7 +430,7 @@ spec:
           - --location
           - --create-dirs
           - https://website.com/path/to/script1.js
-          image: curlimages/curl:8.1.2
+          image: quay.io/curl/curl:8.1.2
           imagePullPolicy: IfNotPresent
           name: init-pull-classes-curl-01c09efb244fc84f0aef3a782fc4b2f3
           resources:
@@ -458,7 +458,7 @@ spec:
           - --location
           - --create-dirs
           - https://website.com/path/to/script2.js
-          image: curlimages/curl:8.1.2
+          image: quay.io/curl/curl:8.1.2
           imagePullPolicy: IfNotPresent
           name: init-pull-classes-curl-debf3cd3060338a8bee27abea9400c12
           resources:
@@ -486,7 +486,7 @@ spec:
           - s3://classes-bucket-1/path-to/classes1
           - /tmp/smilecdr-volumes/classes/
           - --recursive
-          image: amazon/aws-cli:2.11.25
+          image: public.ecr.aws/aws-cli/aws-cli:2.13.19
           imagePullPolicy: IfNotPresent
           name: init-pull-classes-s3-712b963d76ad37f9b92617d77d0a6bd9
           resources:
@@ -516,7 +516,7 @@ spec:
           - s3://classes-bucket-2/path-to/classes2
           - /tmp/smilecdr-volumes/classes/
           - --recursive
-          image: amazon/aws-cli:2.11.25
+          image: public.ecr.aws/aws-cli/aws-cli:2.13.19
           imagePullPolicy: IfNotPresent
           name: init-pull-classes-s3-103188b161a095efcd250c7e0cb960c3
           resources:
@@ -572,7 +572,7 @@ spec:
           - --location
           - --create-dirs
           - https://website.com/path/to/file1.jar
-          image: curlimages/curl:8.1.2
+          image: quay.io/curl/curl:8.1.2
           imagePullPolicy: IfNotPresent
           name: init-pull-customerlib-curl-ed9e63a5399c19b9533dccd73a77a4b2
           resources:
@@ -600,7 +600,7 @@ spec:
           - --location
           - --create-dirs
           - https://website.com/path/to/file2.jar
-          image: curlimages/curl:8.1.2
+          image: quay.io/curl/curl:8.1.2
           imagePullPolicy: IfNotPresent
           name: init-pull-customerlib-curl-574d30c66607b0f0bbf2e9106330eea5
           resources:
@@ -628,7 +628,7 @@ spec:
           - s3://customer-lib-bucket-1/path-to/customerlib1
           - /tmp/smilecdr-volumes/customerlib/
           - --recursive
-          image: amazon/aws-cli:2.11.25
+          image: public.ecr.aws/aws-cli/aws-cli:2.13.19
           imagePullPolicy: IfNotPresent
           name: init-pull-customerlib-s3-89e1b650ff920706999af0fd85d0119a
           resources:
@@ -658,7 +658,7 @@ spec:
           - s3://customer-lib-bucket-2/path-to/customerlib2
           - /tmp/smilecdr-volumes/customerlib/
           - --recursive
-          image: amazon/aws-cli:2.11.25
+          image: public.ecr.aws/aws-cli/aws-cli:2.13.19
           imagePullPolicy: IfNotPresent
           name: init-pull-customerlib-s3-61dad293b28bc07cb6da8948395d03a0
           resources:

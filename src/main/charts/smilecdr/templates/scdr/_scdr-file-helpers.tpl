@@ -127,9 +127,9 @@ Collated list of all files to copy to customerlib dir
          then there is no need to include here.
          Doing the exclusion logic here rather than in the helper template itself, as the
          file still needs to be defined for use by the Kafka Admin pod deployment */ -}}
-  {{- if not (.Values.messageBroker.external.config.authentication).disableAutoJarCopy -}}
-    {{- $customerlibFileSources = concat $customerlibFileSources (include "kafka.customerlib.sources" . | fromYamlArray) -}}
-  {{- end -}}
+  {{- /* if not (.Values.messageBroker.external.config.authentication).disableAutoJarCopy */ -}}
+  {{- $customerlibFileSources = concat $customerlibFileSources (include "kafka.customerlib.sources" . | fromYamlArray) -}}
+  {{- /* end */ -}}
 
   {{- $customerlibFileSources | toYaml  -}}
 {{- end -}}
@@ -144,23 +144,71 @@ Volumes are defined in `smilecdr.fileVolumes`
 */}}
 {{ define "smilecdr.initFileContainers" }}
   {{- $initPullContainers := list -}}
-  {{- $initContainerResources := (dict "requests" (dict "cpu" "500m" "memory" "500Mi")) -}}
-  {{- $_ := set $initContainerResources "limits" (dict "cpu" "500m" "memory" "500Mi") -}}
+
   {{- $classesFileSources := (include "smilecdr.classes.sources" . | fromYamlArray ) -}}
   {{- $customerlibFileSources := (include "smilecdr.customerlib.sources" . | fromYamlArray ) -}}
+
+
+  {{- /* Set up config for initContainers */ -}}
+  {{- $s3ContainerSpec := dict -}}
+  {{- $curlContainerSpec := dict -}}
+  {{- $syncContainerSpec := dict -}}
+  {{- $copyLicenseContainerSpec := dict -}}
+
+  {{- $defaultResources := dict -}}
+  {{- $_ := set $defaultResources "requests" (dict "cpu" "500m" "memory" "500Mi") -}}
+  {{- $_ := set $defaultResources "limits" (dict "cpu" "500m" "memory" "500Mi") -}}
+
+  {{- $syncConfig := dict -}}
+  {{- $_ := set $syncContainerSpec "image" (printf "%s:%s" .Values.image.repository (default .Chart.AppVersion .Values.image.tag)) -}}
+  {{- $_ := set $syncContainerSpec "imagePullPolicy" (default "IfNotPresent" .Values.image.pullPolicy) -}}
+  {{- $_ := set $syncContainerSpec "securityContext" (deepCopy .Values.securityContext) -}}
+  {{- $_ := set $syncContainerSpec "resources" $defaultResources -}}
+
+  {{- /* This check implies that .Values.copyFiles is in use */ -}}
+  {{- if or (ne (len $classesFileSources) 0) (ne (len $customerlibFileSources) 0) -}}
+
+    {{- $s3Config := (.Values.copyFiles.config).s3 -}}
+    {{- /* $defaultS3ImageTag := "2.11.25" */ -}}
+    {{- $defaultS3ImageTag := "2.13.19" -}}
+    {{- /* $defaultS3ImageRepo := "amazon/aws-cli" */ -}}
+    {{- $defaultS3ImageRepo := "public.ecr.aws/aws-cli/aws-cli" -}}
+    {{- $defaultS3ImageUser := 1000 -}}
+    {{- $_ := set $s3ContainerSpec "image" (printf "%s:%s" (default $defaultS3ImageRepo $s3Config.repository) (default $defaultS3ImageTag $s3Config.tag)) -}}
+    {{- $_ := set $s3ContainerSpec "imagePullPolicy" (default "IfNotPresent" $s3Config.imagePullPolicy) -}}
+    {{- $_ := set $s3ContainerSpec "securityContext" (mergeOverwrite (deepCopy .Values.securityContext) (default (dict "runAsUser" $defaultS3ImageUser) $s3Config.securityContext)) -}}
+    {{- $_ := set $s3ContainerSpec "resources" (default $defaultResources $s3Config.resources) -}}
+
+    {{- $curlConfig := (.Values.copyFiles.config).curl -}}
+    {{- /* $defaultCurlImageTag := "8.1.2" */ -}}
+    {{- $defaultCurlImageTag := "8.1.2" -}}
+    {{- /* $defaultCurlImageRepo := "curlimages/curl" */ -}}
+    {{- $defaultCurlImageRepo := "quay.io/curl/curl" -}}
+    {{- $defaultCurlImageUser := 100 -}}
+    {{- $_ := set $curlContainerSpec "image" (printf "%s:%s" (default $defaultCurlImageRepo $curlConfig.repository) (default $defaultCurlImageTag $curlConfig.tag)) -}}
+    {{- $_ := set $curlContainerSpec "imagePullPolicy" (default "IfNotPresent" $curlConfig.imagePullPolicy) -}}
+    {{- $_ := set $curlContainerSpec "securityContext" (mergeOverwrite (deepCopy .Values.securityContext) (default (dict "runAsUser" $defaultCurlImageUser) $curlConfig.securityContext)) -}}
+    {{- $_ := set $curlContainerSpec "resources" (default $defaultResources $curlConfig.resources) -}}
+  {{- end -}}
+
+  {{- if hasKey .Values "license" -}}
+    {{- $syncConfig := dict -}}
+    {{- $_ := set $copyLicenseContainerSpec "image" "alpine:3" -}}
+    {{- $_ := set $copyLicenseContainerSpec "imagePullPolicy" (default "IfNotPresent" .Values.image.pullPolicy) -}}
+    {{- $_ := set $copyLicenseContainerSpec "imagePullPolicy" "IfNotPresent" -}}
+    {{- $_ := set $copyLicenseContainerSpec "securityContext" (deepCopy .Values.securityContext) -}}
+    {{- $_ := set $copyLicenseContainerSpec "resources" $defaultResources -}}
+  {{- end -}}
 
   {{- /* Define init containers for classes directory syncing/copying
          Only run if there are files to copy to classes directory */ -}}
   {{- if or (ne (len $classesFileSources) 0) (hasKey .Values "license") -}}
     {{- if not ((.Values.copyFiles.classes).disableSyncDefaults) -}}
-      {{- $imageSpec := dict "name" "init-sync-classes" -}}
-      {{- $_ := set $imageSpec "image" (printf "%s:%s" .Values.image.repository (default .Chart.AppVersion .Values.image.tag)) -}}
-      {{- $_ := set $imageSpec "imagePullPolicy" .Values.image.pullPolicy -}}
-      {{- $_ := set $imageSpec "command" (list "/bin/sh" "-c" "/bin/cp -Rvp /home/smile/smilecdr/classes/* /tmp/smilecdr-volumes/classes/")  -}}
-      {{- $_ := set $imageSpec "securityContext" .Values.securityContext -}}
-      {{- $_ := set $imageSpec "resources" $initContainerResources -}}
-      {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
-      {{- $initPullContainers = append $initPullContainers $imageSpec -}}
+      {{- $containerSpec := deepCopy (omit $syncContainerSpec "repository" "tag") -}}
+      {{- $_ := set $containerSpec "name" "init-sync-classes" -}}
+      {{- $_ := set $containerSpec "command" (list "/bin/sh" "-c" "/bin/cp -Rvp /home/smile/smilecdr/classes/* /tmp/smilecdr-volumes/classes/")  -}}
+      {{- $_ := set $containerSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
+      {{- $initPullContainers = append $initPullContainers $containerSpec -}}
     {{- end -}}
     {{- /* Get counts of s3 & curl sources for classes dir.
         We don't need to append hash if there is only a single source of each type */ -}}
@@ -178,34 +226,24 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- $bucket := required "You must specify an S3 bucket to copy classes files from." $theFileSource.bucket -}}
         {{- $bucketPath := required "You must specify an S3 bucket path to copy classes files from." $theFileSource.path -}}
         {{- $bucketFullPath := printf "s3://%s%s" $bucket $bucketPath -}}
+        {{- $containerSpec := deepCopy (omit $s3ContainerSpec "repository" "tag") -}}
         {{- /* Only append hash if there is more than one S3 init-pull container for the classes dir */ -}}
         {{- $imageNameSuffix := ternary (printf "-%s" ($bucketFullPath | sha256sum | trunc 32)) "" (gt $classesS3SourceCount 1) -}}
-        {{- $imageSpec := dict "name" (printf "init-pull-classes-s3%s" $imageNameSuffix ) -}}
-        {{- $_ := set $imageSpec "image" $.Values.copyFiles.config.awscli.image -}}
-        {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
-        {{- $_ := set $imageSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/classes/" "--recursive" )  -}}
-        {{- $awsCliPodSecurityContext := deepCopy $.Values.securityContext -}}
-        {{- $_ := set $awsCliPodSecurityContext "runAsUser" $.Values.copyFiles.config.awscli.runAsUser -}}
-        {{- $_ := set $imageSpec "securityContext" $awsCliPodSecurityContext -}}
-        {{- $_ := set $imageSpec "resources" $initContainerResources -}}
-        {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/") (dict "name" "aws-cli" "mountPath" "/.aws")) -}}
-        {{- $initPullContainers = append $initPullContainers $imageSpec -}}
+        {{- $_ := set $containerSpec "name" (printf "init-pull-classes-s3%s" $imageNameSuffix ) -}}
+        {{- $_ := set $containerSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/classes/" "--recursive" )  -}}
+        {{- $_ := set $containerSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/") (dict "name" "aws-cli" "mountPath" "/.aws")) -}}
+        {{- $initPullContainers = append $initPullContainers $containerSpec -}}
       {{- else if eq $theFileSource.type "curl" -}}
         {{- $url := required "You must specify a URL to copy classes files from." $theFileSource.url -}}
         {{- $fileName := required "You must specify a destination `fileName` for classes files." $theFileSource.fileName -}}
         {{- $fileFullPath := printf "/tmp/smilecdr-volumes/classes/%s" $fileName -}}
+        {{- $containerSpec := deepCopy (omit $curlContainerSpec "repository" "tag") -}}
         {{- /* Only append hash if there is more than one S3 init-pull container for the classes dir */ -}}
         {{- $imageNameSuffix := ternary (printf "-%s" ($fileFullPath | sha256sum | trunc 32)) "" (gt $classesCurlSourceCount 1) -}}
-        {{- $imageSpec := dict "name" (printf "init-pull-classes-curl%s" $imageNameSuffix ) -}}
-        {{- $_ := set $imageSpec "image" $.Values.copyFiles.config.curl.image -}}
-        {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
-        {{- $_ := set $imageSpec "args" (list "-o" $fileFullPath "--location" "--create-dirs" $url )  -}}
-        {{- $curlPodSecurityContext := deepCopy $.Values.securityContext -}}
-        {{- $_ := set $curlPodSecurityContext "runAsUser" $.Values.copyFiles.config.curl.runAsUser -}}
-        {{- $_ := set $imageSpec "securityContext" $curlPodSecurityContext -}}
-        {{- $_ := set $imageSpec "resources" $initContainerResources -}}
-        {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
-        {{- $initPullContainers = append $initPullContainers $imageSpec -}}
+        {{- $_ := set $containerSpec "name" (printf "init-pull-classes-curl%s" $imageNameSuffix ) -}}
+        {{- $_ := set $containerSpec "args" (list "-o" $fileFullPath "--location" "--create-dirs" $url )  -}}
+        {{- $_ := set $containerSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
+        {{- $initPullContainers = append $initPullContainers $containerSpec -}}
       {{- else -}}
         {{- fail "Currently only supports S3 or curl for pulling extra files" -}}
       {{- end -}}
@@ -216,17 +254,15 @@ Volumes are defined in `smilecdr.fileVolumes`
          Only run if there are files to copy to customerlib directory */ -}}
   {{- if ne (len $customerlibFileSources) 0 -}}
     {{- if not ((.Values.copyFiles.customerlib).disableSyncDefaults) -}}
-      {{- $imageSpec := dict "name" "init-sync-customerlib" -}}
-      {{- $_ := set $imageSpec "image" (printf "%s:%s" .Values.image.repository (default .Chart.AppVersion .Values.image.tag)) -}}
-      {{- $_ := set $imageSpec "imagePullPolicy" .Values.image.pullPolicy -}}
-      {{- $_ := set $imageSpec "command" (list "/bin/sh" "-c" "/bin/cp -Rvp /home/smile/smilecdr/customerlib/* /tmp/smilecdr-volumes/customerlib/")  -}}
-      {{- $_ := set $imageSpec "securityContext" .Values.securityContext -}}
-      {{- $_ := set $imageSpec "resources" $initContainerResources -}}
-      {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/")) -}}
-      {{- $initPullContainers = append $initPullContainers $imageSpec -}}
+      {{- $containerSpec := deepCopy (omit $syncContainerSpec "repository" "tag") -}}
+      {{- $_ := set $containerSpec "name" "init-sync-customerlib" -}}
+      {{- $_ := set $containerSpec "command" (list "/bin/sh" "-c" "/bin/cp -Rvp /home/smile/smilecdr/customerlib/* /tmp/smilecdr-volumes/customerlib/")  -}}
+      {{- $_ := set $containerSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/")) -}}
+      {{- $initPullContainers = append $initPullContainers $containerSpec -}}
     {{- end -}}
     {{- /* Get counts of s3 & curl sources for customerlib dir.
-        We don't need to append hash if there is only a single source of each type */ -}}
+        We only need to append hash if there are multiple sources of each type
+        so that we can avoid container name collisions */ -}}
     {{- $customerlibS3SourceCount := 0 -}}
     {{- $customerlibCurlSourceCount := 0 -}}
     {{- range $theFileSource := $customerlibFileSources -}}
@@ -241,34 +277,24 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- $bucket := required "You must specify an S3 bucket to copy customerlib files from." $theFileSource.bucket -}}
         {{- $bucketPath := required "You must specify an S3 bucket path to copy customerlib files from." $theFileSource.path -}}
         {{- $bucketFullPath := printf "s3://%s%s" $bucket $bucketPath -}}
+        {{- $containerSpec := deepCopy (omit $s3ContainerSpec "repository" "tag") -}}
         {{- /* Only append hash if there is more than one S3 init-pull container for the classes dir */ -}}
         {{- $imageNameSuffix := ternary (printf "-%s" ($bucketFullPath | sha256sum | trunc 32)) "" (gt $customerlibS3SourceCount 1) -}}
-        {{- $imageSpec := dict "name" (printf "init-pull-customerlib-s3%s" $imageNameSuffix ) -}}
-        {{- $_ := set $imageSpec "image" $.Values.copyFiles.config.awscli.image -}}
-        {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
-        {{- $_ := set $imageSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/customerlib/" "--recursive" )  -}}
-        {{- $awsCliPodSecurityContext := deepCopy $.Values.securityContext -}}
-        {{- $_ := set $awsCliPodSecurityContext "runAsUser" $.Values.copyFiles.config.awscli.runAsUser -}}
-        {{- $_ := set $imageSpec "securityContext" $awsCliPodSecurityContext -}}
-        {{- $_ := set $imageSpec "resources" $initContainerResources -}}
-        {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/") (dict "name" "aws-cli" "mountPath" "/.aws")) -}}
-        {{- $initPullContainers = append $initPullContainers $imageSpec -}}
+        {{- $_ := set $containerSpec "name" (printf "init-pull-customerlib-s3%s" $imageNameSuffix ) -}}
+        {{- $_ := set $containerSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/customerlib/" "--recursive" )  -}}
+        {{- $_ := set $containerSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/") (dict "name" "aws-cli" "mountPath" "/.aws")) -}}
+        {{- $initPullContainers = append $initPullContainers $containerSpec -}}
       {{- else if eq .type "curl" -}}
         {{- $url := required "You must specify a URL to copy customerlib files from." $theFileSource.url -}}
         {{- $fileName := required "You must specify a destination `fileName` for customerlib files." $theFileSource.fileName -}}
         {{- $fileFullPath := printf "/tmp/smilecdr-volumes/customerlib/%s" $fileName -}}
-        {{- /* Only append hash if there is more than one S3 init-pull container for the classes dir */ -}}
+        {{- $containerSpec := deepCopy (omit $curlContainerSpec "repository" "tag") -}}
+        {{- /* Only append hash if there is more than one curl init-pull container for the classes dir */ -}}
         {{- $imageNameSuffix := ternary (printf "-%s" ($fileFullPath | sha256sum | trunc 32)) "" (gt $customerlibCurlSourceCount 1) -}}
-        {{- $imageSpec := dict "name" (printf "init-pull-customerlib-curl%s" $imageNameSuffix ) -}}
-        {{- $_ := set $imageSpec "image" $.Values.copyFiles.config.curl.image -}}
-        {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
-        {{- $_ := set $imageSpec "args" (list "-o" $fileFullPath "--location" "--create-dirs" $url )  -}}
-        {{- $curlPodSecurityContext := deepCopy $.Values.securityContext -}}
-        {{- $_ := set $curlPodSecurityContext "runAsUser" $.Values.copyFiles.config.curl.runAsUser -}}
-        {{- $_ := set $imageSpec "securityContext" $curlPodSecurityContext -}}
-        {{- $_ := set $imageSpec "resources" $initContainerResources -}}
-        {{- $_ := set $imageSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/")) -}}
-        {{- $initPullContainers = append $initPullContainers $imageSpec -}}
+        {{- $_ := set $containerSpec "name" (printf "init-pull-customerlib-curl%s" $imageNameSuffix ) -}}
+        {{- $_ := set $containerSpec "args" (list "-o" $fileFullPath "--location" "--create-dirs" $url )  -}}
+        {{- $_ := set $containerSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/")) -}}
+        {{- $initPullContainers = append $initPullContainers $containerSpec -}}
       {{- else -}}
         {{- fail "Currently only supports S3 or curl for pulling extra files" -}}
       {{- end -}}
@@ -276,16 +302,16 @@ Volumes are defined in `smilecdr.fileVolumes`
   {{- end -}}
 
   {{- /* Define init containers for license copying.
-         Sync container was already defined above if there was a license. */ -}}
+         Using the Smile CDR image as it's already present on the node
+         and will do what is needed.
+        */ -}}
   {{- if hasKey .Values "license" -}}
-    {{- $imageSpec := dict "name" "copy-cdr-license" -}}
-    {{- $_ := set $imageSpec "image" "alpine:3" -}}
-    {{- $_ := set $imageSpec "imagePullPolicy" "IfNotPresent" -}}
-    {{- $_ := set $imageSpec "args" (list "cp" "/mnt/sscsi/license.jwt" "/tmp/smilecdr-volumes/classes/" )  -}}
-    {{- $_ := set $imageSpec "securityContext" .Values.securityContext -}}
-    {{- $_ := set $imageSpec "resources" $initContainerResources -}}
-    {{- $_ := set $imageSpec "volumeMounts" (append (include "smilecdr.volumeMounts" . | fromYamlArray) (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
-    {{- $initPullContainers = append $initPullContainers $imageSpec -}}
+    {{- $containerSpec := deepCopy (omit $syncContainerSpec "repository" "tag") -}}
+    {{- $_ := set $containerSpec "name" "copy-cdr-license" -}}
+    {{- $_ := set $containerSpec "command" (list "/bin/sh" "-c") -}}
+    {{- $_ := set $containerSpec "args" (list "/bin/cp /mnt/sscsi/license.jwt /tmp/smilecdr-volumes/classes/") -}}
+    {{- $_ := set $containerSpec "volumeMounts" (append (include "smilecdr.volumeMounts" . | fromYamlArray) (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/")) -}}
+    {{- $initPullContainers = append $initPullContainers $containerSpec -}}
   {{- end -}}
   {{- $initPullContainers | toYaml -}}
 {{ end }}

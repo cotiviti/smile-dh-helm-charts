@@ -398,13 +398,67 @@ spec:
       securityContext:
         fsGroup: 1000
       initContainers:
+        - command:
+          - /bin/sh
+          - -c
+          - /bin/cp -Rvp /home/smile/smilecdr/classes/* /tmp/smilecdr-volumes/classes/
+          image: custom.image/repo/image:custom-tag
+          imagePullPolicy: IfNotPresent
+          name: init-sync-classes
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/classes/
+            name: scdr-volume-classes
+        - args:
+          - -o
+          - /tmp/smilecdr-volumes/classes/file.jar
+          - --location
+          - --create-dirs
+          - https://source.example.com/file.jar
+          image: privaterepo/curl:8.1.2
+          imagePullPolicy: IfNotPresent
+          name: init-pull-classes-curl
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 100
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/classes/
+            name: scdr-volume-classes
         - args:
           - s3
           - cp
           - s3://s3-bucket-name/path-to/classes
           - /tmp/smilecdr-volumes/classes/
           - --recursive
-          image: public.ecr.aws/aws-cli/aws-cli:2.13.19
+          image: privaterepo/aws-cli:2.13.19
           imagePullPolicy: IfNotPresent
           name: init-pull-classes-s3
           resources:
@@ -428,6 +482,90 @@ spec:
             name: scdr-volume-classes
           - mountPath: /.aws
             name: aws-cli
+        - command:
+          - /bin/sh
+          - -c
+          - /bin/cp -Rvp /home/smile/smilecdr/customerlib/* /tmp/smilecdr-volumes/customerlib/
+          image: custom.image/repo/image:custom-tag
+          imagePullPolicy: IfNotPresent
+          name: init-sync-customerlib
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/customerlib/
+            name: scdr-volume-customerlib
+        - args:
+          - -o
+          - /tmp/smilecdr-volumes/customerlib/file.jar
+          - --location
+          - --create-dirs
+          - https://source.example.com/file.jar
+          image: privaterepo/curl:8.1.2
+          imagePullPolicy: IfNotPresent
+          name: init-pull-customerlib-curl
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 100
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/customerlib/
+            name: scdr-volume-customerlib
+        - args:
+          - s3
+          - cp
+          - s3://s3-bucket-name/path-to/classes
+          - /tmp/smilecdr-volumes/customerlib/
+          - --recursive
+          image: privaterepo/aws-cli:2.13.19
+          imagePullPolicy: IfNotPresent
+          name: init-pull-customerlib-s3
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/customerlib/
+            name: scdr-volume-customerlib
+          - mountPath: /.aws
+            name: aws-cli
       terminationGracePeriodSeconds: 60
       containers:
         - name: smilecdr
@@ -440,7 +578,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2023.08.R01"
+          image: "custom.image/repo/image:custom-tag"
           imagePullPolicy: IfNotPresent
           readinessProbe:
             failureThreshold: 2
@@ -516,6 +654,8 @@ spec:
           volumeMounts:
             - mountPath: /home/smile/smilecdr/classes
               name: scdr-volume-classes
+            - mountPath: /home/smile/smilecdr/customerlib
+              name: scdr-volume-customerlib
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
@@ -529,6 +669,9 @@ spec:
         - emptyDir:
             sizeLimit: 500Mi
           name: scdr-volume-classes
+        - emptyDir:
+            sizeLimit: 500Mi
+          name: scdr-volume-customerlib
         - configMap:
             name: release-name-scdr-masterdev-node
           name: scdr-config-release-name

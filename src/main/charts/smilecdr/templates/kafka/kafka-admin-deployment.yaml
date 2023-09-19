@@ -1,5 +1,5 @@
-{{- $kafkaConfig := (include "kafka.config" .) | fromYaml -}}
-{{- if and $kafkaConfig.enabled .Values.messageBroker.adminPod.enabled -}}
+{{- $kafkaAdminConfig := (include "kafka.admin.config" .) | fromYaml -}}
+{{- if $kafkaAdminConfig.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,7 +30,7 @@ spec:
         {{- include "kafka.admin.initContainers" . | nindent 8 }}
       containers:
         - name: kafka-admin
-          image: quay.io/strimzi/kafka:0.33.2-kafka-3.4.0
+          image: {{ quote $kafkaAdminConfig.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
             runAsUser: 0

@@ -300,7 +300,7 @@ mappedFiles: {}
 #     path: /home/smile/smilecdr/classes
 
 ## @section Copying Extra Files into Smile CDR Pods from external location
-copyFiles:
+copyFiles: {}
 ##  Copies files using curl to the classes directory
 #   classes:
 #     syncDefaults: true
@@ -314,14 +314,24 @@ copyFiles:
 #     - type: s3
 #       bucket: s3-bucket-name
 #       path: /version/customerlib
-  ## Default configuration for images used for file copying.
-  config:
-    curl:
-      image: curlimages/curl:8.1.2
-      runAsUser: 100
-    awscli:
-      image: amazon/aws-cli:2.11.25
-      runAsUser: 1000
+## Default configuration for images used for file copying.
+# config:
+#   curl:
+#     tag: 8.1.2
+#     # Using Quay.io (Default)
+#     repository: quay.io/curl/curl
+#     # Using DockerHub
+#     repository: curlimages/curl
+#     securityContext:
+#       runAsUser: 100
+#   s3:
+#     tag: 2.11.25
+#     # Using public.ecr.aws (Default)
+#     repository: public.ecr.aws/aws-cli/aws-cli
+#     # Using DockerHub
+#     repository: amazon/aws-cli
+#     securityContext:
+#       runAsUser: 1000
 
 ## @section Ingress
 ## @param ingress.enabled Enable Ingress
@@ -395,6 +405,21 @@ messageBroker:
         # If using `tls` or `iam`, `connection.type` MUST be set to `tls`
         # Using `iam` implies using MSK, although you can still use `tls` with MSK if you have an AWS Private CA
         type: tls
+
+        # Configure autoconfiguration for IAM authentication
+        # iamConfig:
+        #   autoJarCopy: true
+        #   # Can use curl or s3
+        #   copyType: curl
+        #   fileName: "aws-msk-iam-auth-1.1.6-all.jar"
+        #   url: "https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.6/aws-msk-iam-auth-1.1.6-all.jar"
+        #   # S3...
+          # bucket: s3-bucket-name
+          # path: /path/tojarfile/aws-msk-iam-auth-1.1.6-all.jar
+
+          # If using S3, you must use `copyFiles.customerlib` to explicitly configure copying a bucket that contains
+          # this jar file to the customerlib directory.
+
         userCert: {} # Mandatory if `authentication.type: tls`. Ignored if using `iam`.
           # type: sscsi # Or k8sSecret
           # provider: aws

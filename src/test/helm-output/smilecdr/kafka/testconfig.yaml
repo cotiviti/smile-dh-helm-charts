@@ -49,11 +49,21 @@ tests:
     valueFiles:
     - ../default-test-values.yaml
     - values-external-iam.yaml
+  externalIam-s3Copy:
+    outputFile: output-external-iam-s3copy.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - values-external-iam-s3copy.yaml
   adminIam:
     outputFile: output-admin-iam.yaml
     valueFiles:
     - ../default-test-values.yaml
     - values-admin-iam.yaml
+  adminIamS3Copy:
+    outputFile: output-admin-iam-s3copy.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - values-admin-iam-s3copy.yaml
   adminIamNoCopy:
     outputFile: output-admin-iam-nocopy.yaml
     valueFiles:

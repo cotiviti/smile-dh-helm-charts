@@ -1,11 +1,16 @@
 tests:
-  default:
-    outputFile: output.yaml
+  smileImage:
+    outputFile: output-smile-image.yaml
     valueFiles:
     - ../default-test-values.yaml
-    - test-values.yaml
-  initcontainer:
-    outputFile: output-initcontainer.yaml
+    - values-smile-image.yaml
+  privateRepo:
+    outputFile: output-privaterepo.yaml
     valueFiles:
     - ../default-test-values.yaml
-    - values-initcontainer.yaml
+    - values-privaterepo.yaml
+  kafkaAdminPod:
+    outputFile: output-privaterepo-kafka.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - values-privaterepo-kafka.yaml

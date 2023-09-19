@@ -463,37 +463,10 @@ spec:
       securityContext:
         fsGroup: 1000
       initContainers:
-        - args:
-          - -o
-          - /tmp/admin-volumes/classpath/aws-msk-iam-auth-1.1.6-all.jar
-          - --location
-          - --create-dirs
-          - https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.6/aws-msk-iam-auth-1.1.6-all.jar
-          image: curlimages/curl:8.1.2
-          imagePullPolicy: IfNotPresent
-          name: init-pull-classpath-curl
-          resources:
-            limits:
-              cpu: 500m
-              memory: 500Mi
-            requests:
-              cpu: 500m
-              memory: 500Mi
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-              - ALL
-            privileged: false
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 100
-          volumeMounts:
-          - mountPath: /tmp/admin-volumes/classpath/
-            name: admin-classpath
+        []
       containers:
         - name: kafka-admin
-          image: quay.io/strimzi/kafka:0.33.2-kafka-3.4.0
+          image: "quay.io/strimzi/kafka:0.33.2-kafka-3.4.0"
           imagePullPolicy: IfNotPresent
           securityContext:
             runAsUser: 0

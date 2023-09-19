@@ -18,6 +18,36 @@ spec:
       app.kubernetes.io/instance: release-name
       app.kubernetes.io/name: smilecdr
 ---
+# Source: smilecdr/templates/kafka/kafka-properties-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-kafka-client-properties-masterdev-node
+  namespace: default
+  labels:
+    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/managed-by: Helm
+data:
+  consumer.properties: |-
+    # Kafka consumer properties auto generated from Helm Chart. Do not edit manually!
+
+    heartbeat.interval.ms=3000
+    max.poll.interval.ms=300000
+    max.poll.records=20
+    session.timeout.ms=10000
+    sasl.mechanism=AWS_MSK_IAM
+    sasl.jaas.config=software.amazon.msk.auth.iam.IAMLoginModule required;
+    sasl.client.callback.handler.class=software.amazon.msk.auth.iam.IAMClientCallbackHandler
+  producer.properties: |-
+    # Kafka producer properties auto generated from Helm Chart. Do not edit manually!
+
+    sasl.mechanism=AWS_MSK_IAM
+    sasl.jaas.config=software.amazon.msk.auth.iam.IAMLoginModule required;
+    sasl.client.callback.handler.class=software.amazon.msk.auth.iam.IAMClientCallbackHandler
+---
 # Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -40,7 +70,17 @@ data:
     node.config.locked 	= true
     node.security.strict 	= false
 
-    module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
+    module.clustermgr.config.messagebroker.type                         =KAFKA
+    module.clustermgr.config.kafka.bootstrap_address                    =#{env['KAFKA_BOOTSTRAP_ADDRESS']}
+    module.clustermgr.config.kafka.ssl.enabled                          =#{env['KAFKA_SSL_ENABLED']}
+    module.clustermgr.config.kafka.consumer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-consumer-config.properties
+    module.clustermgr.config.kafka.producer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-producer-config.properties
+    module.clustermgr.config.kafka.security.protocol                    =SASL_SSL
+    module.clustermgr.config.kafka.ssl.truststore.location              =#{null}
+    module.clustermgr.config.kafka.ssl.truststore.password              =#{null}
+    module.clustermgr.config.kafka.ssl.keystore.location                =#{null}
+    module.clustermgr.config.kafka.ssl.keystore.password                =#{null}
+    module.clustermgr.config.kafka.ssl.key.password                     =#{null}
 
     ################################################################################
     # Other Modules are Configured Below
@@ -401,10 +441,10 @@ spec:
         - command:
           - /bin/sh
           - -c
-          - /bin/cp -Rvp /home/smile/smilecdr/classes/* /tmp/smilecdr-volumes/classes/
-          image: custom.image/repo/image:custom-tag
+          - /bin/cp -Rvp /home/smile/smilecdr/customerlib/* /tmp/smilecdr-volumes/customerlib/
+          image: docker.smilecdr.com/smilecdr:2023.08.R01
           imagePullPolicy: IfNotPresent
-          name: init-sync-classes
+          name: init-sync-customerlib
           resources:
             limits:
               cpu: 500m
@@ -422,17 +462,17 @@ spec:
             runAsNonRoot: true
             runAsUser: 1000
           volumeMounts:
-          - mountPath: /tmp/smilecdr-volumes/classes/
-            name: scdr-volume-classes
+          - mountPath: /tmp/smilecdr-volumes/customerlib/
+            name: scdr-volume-customerlib
         - args:
-          - -o
-          - /tmp/smilecdr-volumes/classes/file.jar
-          - --location
-          - --create-dirs
-          - https://source.example.com/file.jar
-          image: curlimages/curl:8.1.2
+          - s3
+          - cp
+          - s3://s3-bucket-for-iam/path/tojarfile/aws-msk-iam-auth-1.1.6-all.jar
+          - /tmp/smilecdr-volumes/customerlib/
+          - --recursive
+          image: public.ecr.aws/aws-cli/aws-cli:2.13.19
           imagePullPolicy: IfNotPresent
-          name: init-pull-classes-curl
+          name: init-pull-customerlib-s3
           resources:
             limits:
               cpu: 500m
@@ -448,10 +488,12 @@ spec:
             privileged: false
             readOnlyRootFilesystem: true
             runAsNonRoot: true
-            runAsUser: 100
+            runAsUser: 1000
           volumeMounts:
-          - mountPath: /tmp/smilecdr-volumes/classes/
-            name: scdr-volume-classes
+          - mountPath: /tmp/smilecdr-volumes/customerlib/
+            name: scdr-volume-customerlib
+          - mountPath: /.aws
+            name: aws-cli
       terminationGracePeriodSeconds: 60
       containers:
         - name: smilecdr
@@ -464,7 +506,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "custom.image/repo/image:custom-tag"
+          image: "docker.smilecdr.com/smilecdr:2023.08.R01"
           imagePullPolicy: IfNotPresent
           readinessProbe:
             failureThreshold: 2
@@ -516,6 +558,10 @@ spec:
                 secretKeyRef:
                   key: password
                   name: smilecdr
+            - name: KAFKA_BOOTSTRAP_ADDRESS
+              value: test1-kafka-bootstrap:9093, test2-kafka-bootstrap:9093
+            - name: KAFKA_SSL_ENABLED
+              value: "true"
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
           ports:
@@ -538,8 +584,16 @@ spec:
               containerPort: 9200
               protocol: TCP
           volumeMounts:
-            - mountPath: /home/smile/smilecdr/classes
-              name: scdr-volume-classes
+            - mountPath: /home/smile/smilecdr/customerlib
+              name: scdr-volume-customerlib
+            - mountPath: /home/smile/smilecdr/classes/cdr_kafka_config/cdr-kafka-consumer-config.properties
+              name: kafka-client-config
+              readOnly: true
+              subPath: consumer.properties
+            - mountPath: /home/smile/smilecdr/classes/cdr_kafka_config/cdr-kafka-producer-config.properties
+              name: kafka-client-config
+              readOnly: true
+              subPath: producer.properties
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
@@ -547,12 +601,13 @@ spec:
               name: scdr-volume-tmp
             - mountPath: /home/smile/smilecdr/log
               name: scdr-volume-log
-            - mountPath: /home/smile/smilecdr/activemq-data
-              name: scdr-volume-amq
       volumes:
         - emptyDir:
             sizeLimit: 500Mi
-          name: scdr-volume-classes
+          name: scdr-volume-customerlib
+        - configMap:
+            name: release-name-kafka-client-properties-masterdev-node
+          name: kafka-client-config
         - configMap:
             name: release-name-scdr-masterdev-node
           name: scdr-config-release-name
@@ -563,8 +618,8 @@ spec:
             sizeLimit: 10Gi
           name: scdr-volume-log
         - emptyDir:
-            sizeLimit: 10Mi
-          name: scdr-volume-amq
+            sizeLimit: 1Mi
+          name: aws-cli
       restartPolicy: Always
 ---
 # Source: smilecdr/templates/scdr/scdr-ingress.yaml

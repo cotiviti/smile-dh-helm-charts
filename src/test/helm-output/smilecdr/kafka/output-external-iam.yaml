@@ -466,11 +466,11 @@ spec:
             name: scdr-volume-customerlib
         - args:
           - -o
-          - /tmp/smilecdr-volumes/customerlib/aws-msk-iam-auth-1.1.6-all.jar
+          - /tmp/smilecdr-volumes/customerlib/aws-msk-iam-auth-1.1.9-all.jar
           - --location
           - --create-dirs
-          - https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.6/aws-msk-iam-auth-1.1.6-all.jar
-          image: curlimages/curl:8.1.2
+          - https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.9/aws-msk-iam-auth-1.1.9-all.jar
+          image: quay.io/curl/curl:8.1.2
           imagePullPolicy: IfNotPresent
           name: init-pull-customerlib-curl
           resources:
