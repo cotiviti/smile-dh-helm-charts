@@ -1,3 +1,10 @@
+# [1.0.0-pre.95](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.94...v1.0.0-pre.95) (2023-09-19)
+
+
+### Features
+
+* **smilecdr:** allow custom image repos ([033825a](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/033825a395a7413def09682e7b0ddd70058060bd))
+
 # [1.0.0-pre.94](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.93...v1.0.0-pre.94) (2023-09-07)
 
 
