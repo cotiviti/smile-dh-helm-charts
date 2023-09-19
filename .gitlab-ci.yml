@@ -230,7 +230,7 @@ pre-release:
   tags:
   - helm-ci
   image:
-    name: node:19-alpine
+    name: node:20-alpine
     entrypoint: ["sh", "-c"]
   variables:
     GIT_AUTHOR_NAME: smile-release-bot
@@ -267,7 +267,7 @@ release:
   tags:
   - helm-ci
   image:
-    name: node:19-alpine
+    name: node:20-alpine
     entrypoint: ["sh", "-c"]
   variables:
     GIT_AUTHOR_NAME: smile-release-bot
