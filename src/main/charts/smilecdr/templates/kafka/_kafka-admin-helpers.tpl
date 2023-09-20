@@ -32,7 +32,7 @@ passwords
   {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
 
   {{- /* TODO: Add this IAM file definition to the generic kafka config */ -}}
-  {{- $envVars = append $envVars (dict "name" "CLASSPATH" "value" "/opt/kafka/classes/aws-msk-iam-auth-1.1.6-all.jar") -}}
+  {{- $envVars = append $envVars (dict "name" "CLASSPATH" "value" "/opt/kafka/classes/aws-msk-iam-auth-1.1.9-all.jar") -}}
 
   {{- $envVars | toYaml -}}
 {{- end -}}
