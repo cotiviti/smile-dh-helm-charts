@@ -1,3 +1,10 @@
+# [1.0.0-pre.96](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.95...v1.0.0-pre.96) (2023-09-20)
+
+
+### Bug Fixes
+
+* **smilecdr:** Fix IAM Jar version in Kafka admin ([f5048f1](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/f5048f13117271d3827b310d1b843d7856c90fd0))
+
 # [1.0.0-pre.95](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.94...v1.0.0-pre.95) (2023-09-19)
 
 
