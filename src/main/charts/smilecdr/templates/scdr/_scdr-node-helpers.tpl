@@ -206,6 +206,9 @@ Define CDR Nodes
           {{- $_ := set $parsedNodeValues "configMapResourceSuffix" (printf "scdr-%s-node%s" ($parsedNodeValues.nodeId | lower) $cmHashSuffix) -}}
       {{- end -}}
 
+      {{- $_ := set $parsedNodeValues "deploymentAnnotations" (include "smilecdr.annotations.deployment" $nodeHelperCTX | fromYaml) -}}
+      {{- $_ := set $parsedNodeValues "podAnnotations" (include "smilecdr.annotations.pod" $nodeHelperCTX | fromYaml) -}}
+
       {{- $kafkaConfig := (include "kafka.config" $nodeHelperCTX | fromYaml) -}}
       {{- if $kafkaConfig.enabled -}}
         {{- $consumerPropertiesData := include "kafka.consumer.properties.text" $nodeHelperCTX -}}

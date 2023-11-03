@@ -34,7 +34,7 @@ use by a node.
 {{- end -}}
 
 {{/*
-Define fileVolumes for all mapped files
+Define fileVolumes for user defined mapped files
 */}}
 {{ define "smilecdr.fileVolumes" }}
   {{- $fileVolumes := list -}}
@@ -64,7 +64,7 @@ Define fileVolumes for all mapped files
 {{- end -}}
 
 {{/*
-Define fileVolumeMounts for all mapped files
+Define fileVolumeMounts for user defined mapped files
 */}}
 {{ define "smilecdr.fileVolumeMounts" }}
   {{- $fileVolumeMounts := list -}}
@@ -131,6 +131,9 @@ Collated list of all files to copy to customerlib dir
   {{- $customerlibFileSources = concat $customerlibFileSources (include "kafka.customerlib.sources" . | fromYamlArray) -}}
   {{- /* end */ -}}
 
+  {{- /* Add files required by observability tooling (e.g. Dependencies for included interceptor modules.) */ -}}
+  {{- $customerlibFileSources = concat $customerlibFileSources (include "observability.customerlib.sources" . | fromYamlArray) -}}
+
   {{- $customerlibFileSources | toYaml  -}}
 {{- end -}}
 
@@ -148,12 +151,11 @@ Volumes are defined in `smilecdr.fileVolumes`
   {{- $classesFileSources := (include "smilecdr.classes.sources" . | fromYamlArray ) -}}
   {{- $customerlibFileSources := (include "smilecdr.customerlib.sources" . | fromYamlArray ) -}}
 
-
   {{- /* Set up config for initContainers */ -}}
+  {{- $syncContainerSpec := dict -}}
   {{- $s3ContainerSpec := dict -}}
   {{- $curlContainerSpec := dict -}}
-  {{- $syncContainerSpec := dict -}}
-  {{- $copyLicenseContainerSpec := dict -}}
+  {{- $utilsContainerSpec := dict -}}
 
   {{- $defaultResources := dict -}}
   {{- $_ := set $defaultResources "requests" (dict "cpu" "500m" "memory" "500Mi") -}}
@@ -165,40 +167,32 @@ Volumes are defined in `smilecdr.fileVolumes`
   {{- $_ := set $syncContainerSpec "securityContext" (deepCopy .Values.securityContext) -}}
   {{- $_ := set $syncContainerSpec "resources" $defaultResources -}}
 
-  {{- /* This check implies that .Values.copyFiles is in use */ -}}
-  {{- if or (ne (len $classesFileSources) 0) (ne (len $customerlibFileSources) 0) -}}
+  {{- $s3Config := ternary ((.Values.copyFiles).config).s3 dict (hasKey ((.Values.copyFiles).config) "s3") -}}
+  {{- $defaultS3ImageTag := "2.13.19" -}}
+  {{- $defaultS3ImageRepo := "public.ecr.aws/aws-cli/aws-cli" -}}
+  {{- $defaultS3ImageUser := 1000 -}}
+  {{- $_ := set $s3ContainerSpec "image" (printf "%s:%s" (default $defaultS3ImageRepo $s3Config.repository) (default $defaultS3ImageTag $s3Config.tag)) -}}
+  {{- $_ := set $s3ContainerSpec "imagePullPolicy" (default "IfNotPresent" $s3Config.imagePullPolicy) -}}
+  {{- $_ := set $s3ContainerSpec "securityContext" (mergeOverwrite (deepCopy .Values.securityContext) (default (dict "runAsUser" $defaultS3ImageUser) $s3Config.securityContext)) -}}
+  {{- $_ := set $s3ContainerSpec "resources" (default $defaultResources $s3Config.resources) -}}
 
-    {{- $s3Config := (.Values.copyFiles.config).s3 -}}
-    {{- /* $defaultS3ImageTag := "2.11.25" */ -}}
-    {{- $defaultS3ImageTag := "2.13.19" -}}
-    {{- /* $defaultS3ImageRepo := "amazon/aws-cli" */ -}}
-    {{- $defaultS3ImageRepo := "public.ecr.aws/aws-cli/aws-cli" -}}
-    {{- $defaultS3ImageUser := 1000 -}}
-    {{- $_ := set $s3ContainerSpec "image" (printf "%s:%s" (default $defaultS3ImageRepo $s3Config.repository) (default $defaultS3ImageTag $s3Config.tag)) -}}
-    {{- $_ := set $s3ContainerSpec "imagePullPolicy" (default "IfNotPresent" $s3Config.imagePullPolicy) -}}
-    {{- $_ := set $s3ContainerSpec "securityContext" (mergeOverwrite (deepCopy .Values.securityContext) (default (dict "runAsUser" $defaultS3ImageUser) $s3Config.securityContext)) -}}
-    {{- $_ := set $s3ContainerSpec "resources" (default $defaultResources $s3Config.resources) -}}
+  {{- $curlConfig := ternary ((.Values.copyFiles).config).curl dict (hasKey ((.Values.copyFiles).config) "curl") -}}
+  {{- $defaultCurlImageTag := "8.1.2" -}}
+  {{- $defaultCurlImageRepo := "quay.io/curl/curl" -}}
+  {{- $defaultCurlImageUser := 100 -}}
+  {{- $_ := set $curlContainerSpec "image" (printf "%s:%s" (default $defaultCurlImageRepo $curlConfig.repository) (default $defaultCurlImageTag $curlConfig.tag)) -}}
+  {{- $_ := set $curlContainerSpec "imagePullPolicy" (default "IfNotPresent" $curlConfig.imagePullPolicy) -}}
+  {{- $_ := set $curlContainerSpec "securityContext" (mergeOverwrite (deepCopy .Values.securityContext) (default (dict "runAsUser" $defaultCurlImageUser) $curlConfig.securityContext)) -}}
+  {{- $_ := set $curlContainerSpec "resources" (default $defaultResources $curlConfig.resources) -}}
 
-    {{- $curlConfig := (.Values.copyFiles.config).curl -}}
-    {{- /* $defaultCurlImageTag := "8.1.2" */ -}}
-    {{- $defaultCurlImageTag := "8.1.2" -}}
-    {{- /* $defaultCurlImageRepo := "curlimages/curl" */ -}}
-    {{- $defaultCurlImageRepo := "quay.io/curl/curl" -}}
-    {{- $defaultCurlImageUser := 100 -}}
-    {{- $_ := set $curlContainerSpec "image" (printf "%s:%s" (default $defaultCurlImageRepo $curlConfig.repository) (default $defaultCurlImageTag $curlConfig.tag)) -}}
-    {{- $_ := set $curlContainerSpec "imagePullPolicy" (default "IfNotPresent" $curlConfig.imagePullPolicy) -}}
-    {{- $_ := set $curlContainerSpec "securityContext" (mergeOverwrite (deepCopy .Values.securityContext) (default (dict "runAsUser" $defaultCurlImageUser) $curlConfig.securityContext)) -}}
-    {{- $_ := set $curlContainerSpec "resources" (default $defaultResources $curlConfig.resources) -}}
-  {{- end -}}
-
-  {{- if hasKey .Values "license" -}}
-    {{- $syncConfig := dict -}}
-    {{- $_ := set $copyLicenseContainerSpec "image" "alpine:3" -}}
-    {{- $_ := set $copyLicenseContainerSpec "imagePullPolicy" (default "IfNotPresent" .Values.image.pullPolicy) -}}
-    {{- $_ := set $copyLicenseContainerSpec "imagePullPolicy" "IfNotPresent" -}}
-    {{- $_ := set $copyLicenseContainerSpec "securityContext" (deepCopy .Values.securityContext) -}}
-    {{- $_ := set $copyLicenseContainerSpec "resources" $defaultResources -}}
-  {{- end -}}
+  {{- $utilsConfig := ternary ((.Values.copyFiles).config).utils dict (hasKey ((.Values.copyFiles).config) "utils") -}}
+  {{- $defaultUtilsImageTag := "3" -}}
+  {{- $defaultUtilsImageRepo := "public.ecr.aws/docker/library/alpine" -}}
+  {{- $defaultUtilsImageUser := 100 -}}
+  {{- $_ := set $utilsContainerSpec "image" (printf "%s:%s" (default $defaultUtilsImageRepo $utilsConfig.repository) (default $defaultUtilsImageTag $utilsConfig.tag)) -}}
+  {{- $_ := set $utilsContainerSpec "imagePullPolicy" (default "IfNotPresent" .Values.image.pullPolicy) -}}
+  {{- $_ := set $utilsContainerSpec "securityContext" (mergeOverwrite (deepCopy .Values.securityContext) (default (dict "runAsUser" $defaultUtilsImageUser) $utilsConfig.securityContext)) -}}
+  {{- $_ := set $utilsContainerSpec "resources" (default $defaultResources $utilsConfig.resources) -}}
 
   {{- /* Define init containers for classes directory syncing/copying
          Only run if there are files to copy to classes directory */ -}}
@@ -294,6 +288,48 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- $_ := set $containerSpec "name" (printf "init-pull-customerlib-curl%s" $imageNameSuffix ) -}}
         {{- $_ := set $containerSpec "args" (list "-o" $fileFullPath "--location" "--create-dirs" $url )  -}}
         {{- $_ := set $containerSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/")) -}}
+        {{- $initPullContainers = append $initPullContainers $containerSpec -}}
+      {{- else -}}
+        {{- fail "Currently only supports S3 or curl for pulling extra files" -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Define init containers for java agents */ -}}
+  {{- $javaAgentSources := (include "observability.javaagent.sources" . | fromYamlArray ) -}}
+  {{- if ne (len $javaAgentSources) 0 -}}
+    {{- /* Get counts of s3 & curl sources for java agent dir.
+        We only need to append hash if there are multiple sources of each type
+        so that we can avoid container name collisions */ -}}
+    {{- $javaAgentS3SourceCount := 0 -}}
+    {{- $javaAgentCurlSourceCount := 0 -}}
+    {{- range $theFileSource := $javaAgentSources -}}
+      {{- if eq $theFileSource.type "s3" -}}
+        {{- $javaAgentS3SourceCount = add $javaAgentS3SourceCount 1 -}}
+      {{- else if eq $theFileSource.type "curl" -}}
+        {{- $javaAgentCurlSourceCount = add $javaAgentCurlSourceCount 1 -}}
+      {{- end -}}
+    {{- end -}}
+    {{- range $theFileSource := $javaAgentSources -}}
+      {{- if eq .type "s3" -}}
+        {{- $containerSpec := deepCopy (omit $s3ContainerSpec "repository" "tag") -}}
+        {{- /* Only append hash if there is more than one S3 init-pull container for the java agent dir */ -}}
+        {{- $fileFullPath := "/tmp/smilecdr-volumes/javaagent/" -}}
+        {{- $imageNameSuffix := ternary (printf "-%s" ($fileFullPath | sha256sum | trunc 32)) "" (gt $javaAgentS3SourceCount 1) -}}
+        {{- $_ := set $containerSpec "name" (printf "init-pull-javaagent-s3%s" $imageNameSuffix ) -}}
+        {{- $_ := set $containerSpec "args" (list "s3" "cp" $theFileSource.url $fileFullPath "--recursive" )  -}}
+        {{- $_ := set $containerSpec "volumeMounts" (list (dict "name" "scdr-volume-javaagent" "mountPath" "/tmp/smilecdr-volumes/javaagent/") (dict "name" "aws-cli" "mountPath" "/.aws")) -}}
+        {{- $initPullContainers = append $initPullContainers $containerSpec -}}
+      {{- else if eq .type "curl" -}}
+        {{- $url := required "You must specify a URL to copy java agent files from." $theFileSource.url -}}
+        {{- $fileName := required "You must specify a destination `fileName` for java agent files." $theFileSource.fileName -}}
+        {{- $fileFullPath := printf "/tmp/smilecdr-volumes/javaagent/%s" $fileName -}}
+        {{- $containerSpec := deepCopy (omit $curlContainerSpec "repository" "tag") -}}
+        {{- /* Only append hash if there is more than one curl init-pull container for the classes dir */ -}}
+        {{- $imageNameSuffix := ternary (printf "-%s" ($fileFullPath | sha256sum | trunc 32)) "" (gt $javaAgentCurlSourceCount 1) -}}
+        {{- $_ := set $containerSpec "name" (printf "init-pull-javaagent-curl%s" $imageNameSuffix ) -}}
+        {{- $_ := set $containerSpec "args" (list "-o" $fileFullPath "--location" "--create-dirs" $url )  -}}
+        {{- $_ := set $containerSpec "volumeMounts" (list (dict "name" "scdr-volume-javaagent" "mountPath" "/tmp/smilecdr-volumes/javaagent/")) -}}
         {{- $initPullContainers = append $initPullContainers $containerSpec -}}
       {{- else -}}
         {{- fail "Currently only supports S3 or curl for pulling extra files" -}}

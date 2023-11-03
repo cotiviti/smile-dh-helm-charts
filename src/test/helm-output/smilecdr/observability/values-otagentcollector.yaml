@@ -1,0 +1,9 @@
+observability:
+  enabled: true
+  instrumentation:
+    # Install OpenTelemetry Java Agent into Smile CDR pods to expose JVM metrics
+    # Otel collector IS installed (via the operator)
+    openTelemetry:
+      enabled: true
+      otelAgent:
+        enabled: true

@@ -15,11 +15,11 @@ Creates JVM args based on:
   {{- $jvmHeapBytes = mulf $jvmHeapBytes .Values.jvm.memoryFactor -}}
   {{- $jvmHeapBytesString := ( include "k8s.bytesToJavaSuffix" $jvmHeapBytes ) -}}
   {{- if .Values.jvm.xms -}}
-    {{- $jvmArgs = print $jvmArgs " -Xms" $jvmHeapBytesString  -}}
+    {{- $jvmArgs = printf "%s -Xms%s" $jvmArgs $jvmHeapBytesString  -}}
   {{- end -}}
-  {{- $jvmArgs = print $jvmArgs " -Xmx" $jvmHeapBytesString  -}}
+  {{- $jvmArgs = printf "%s -Xmx%s" $jvmArgs $jvmHeapBytesString  -}}
   {{- range $v := .Values.jvm.args -}}
-  {{- $jvmArgs = print $jvmArgs " " $v -}}
+    {{- $jvmArgs = printf "%s %s" $jvmArgs $v -}}
   {{- end -}}
   {{- $jvmArgs -}}
 {{- end -}}

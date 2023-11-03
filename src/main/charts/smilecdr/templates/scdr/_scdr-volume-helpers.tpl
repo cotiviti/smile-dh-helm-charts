@@ -15,6 +15,10 @@ Define volumes and volume mounts based on combining:
   {{- with ( include "kafka.volumes" . | fromYamlArray ) -}}
     {{- $volumes = concat $volumes . -}}
   {{- end -}}
+  {{- /* Include any volumes required by observability addons */ -}}
+  {{- with ( include "observability.volumes" . | fromYamlArray ) -}}
+    {{- $volumes = concat $volumes . -}}
+  {{- end -}}
   {{- /* TODO: we do not need release name in these identifiers. It's just internal
       to the pod. */ -}}
   {{- $configMapVolume := dict "name" (printf "scdr-config-%s" .Release.Name) -}}
@@ -61,6 +65,9 @@ Define volumes and volume mounts based on combining:
     {{- $volumeMounts = concat $volumeMounts . -}}
   {{ end }}
   {{- with ( include "kafka.volumeMounts" . | fromYamlArray ) -}}
+    {{- $volumeMounts = concat $volumeMounts . -}}
+  {{- end -}}
+  {{- with ( include "observability.volumeMounts" . | fromYamlArray ) -}}
     {{- $volumeMounts = concat $volumeMounts . -}}
   {{- end -}}
   {{- $configMapVolumeMount := dict "name" (printf "scdr-config-%s" .Release.Name) -}}

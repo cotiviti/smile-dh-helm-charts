@@ -45,6 +45,8 @@ provide a single entry point.
   {{- $envVars = concat $envVars (include "smilecdr.dbEnvVars" . | fromYamlArray ) -}}
   {{- /* Include kafka env vars - This is for key store passwords, if required */ -}}
   {{- $envVars = concat $envVars (include "kafka.envVars" . | fromYamlArray ) -}}
+  {{- /* Include observability env vars - This is for Java agent injection etc */ -}}
+  {{- $envVars = concat $envVars (include "observability.envVars" . | fromYamlArray ) -}}
   {{- /* Include global extra env vars */ -}}
   {{- $envVars = concat $envVars .Values.extraEnvVars -}}
   {{- /* Include JVM settings */ -}}
@@ -75,6 +77,54 @@ provide a single entry point.
   {{- /* Uncomment once migration containers (i.e. Zero Outage Upgrades) are implemented */ -}}
   {{- /* $initContainers = append $initContainers (include "smilecdr.initMigrateContainers" . | fromYaml ) */ -}}
   {{- toYaml $initContainers -}}
+{{- end -}}
+
+{{/*
+Define Deployment annotations
+This combines all Deployment annotations into a single list
+*/}}
+{{- define "smilecdr.annotations.deployment" -}}
+  {{- $annotations := ( include "observability.annotations.deployment" . | fromYaml) -}}
+  {{- with .Values.deploymentAnnotations -}}
+    {{- $annotations = merge . $annotations -}}
+  {{- end -}}
+  {{- /* TODO: Find a more elegant way to fix the quoting here */ -}}
+  {{- if gt (len $annotations ) 0 -}}
+    {{- range $k, $v := $annotations -}}
+      {{- printf "%s: %v\n" $k ($v | quote) -}}
+    {{- end -}}
+  {{- else -}}
+    {{- printf "{}" -}}
+  {{- end -}}
+  {{- /* Ensure all annotation values are quoted correctly */ -}}
+  {{- /* range $k, $v := $annotations -}}
+    {{- $_ := set $annotations $k (printf "%v" $v) -}}
+  {{- end -}}
+  {{- $annotations | toYaml */ -}}
+{{- end -}}
+
+{{/*
+Define Pod annotations
+This combines all Pod annotations into a single list
+*/}}
+{{- define "smilecdr.annotations.pod" -}}
+  {{- $annotations := ( include "observability.annotations.pod" . | fromYaml) -}}
+  {{- with .Values.podAnnotations -}}
+    {{- $annotations = merge . $annotations -}}
+  {{- end -}}
+  {{- /* TODO: Find a more elegant way to fix the quoting here */ -}}
+  {{- if gt (len $annotations ) 0 -}}
+    {{- range $k, $v := $annotations -}}
+      {{- printf "%s: %v\n" $k ($v | quote) -}}
+    {{- end -}}
+  {{- else -}}
+    {{- printf "{}" -}}
+  {{- end -}}
+  {{- /* Ensure all annotation values are quoted correctly */ -}}
+  {{- /* range $k, $v := $annotations -}}
+    {{- $_ := set $annotations $k (printf "%v" $v) -}}
+  {{- end -}}
+  {{- $annotations | toYaml */ -}}
 {{- end -}}
 
 {{/*

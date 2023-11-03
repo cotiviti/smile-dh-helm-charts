@@ -8,6 +8,10 @@ metadata:
   namespace: {{ $.Release.Namespace }}
   labels:
     {{- toYaml $theNodeSpec.cdrNodeLabels | nindent 4 }}
+  {{- with $theNodeSpec.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   {{- if not ($theNodeSpec.autoscaling).enabled }}
   replicas: {{ $theNodeSpec.replicaCount }}
@@ -66,6 +70,11 @@ spec:
             {{- range $k, $v := $theNodeSpec.services }}
             - name: {{ $v.svcName }}
               containerPort: {{ $v.port }}
+              protocol: TCP
+            {{- end }}
+            {{- if (include "observability.promagent" $theNodeCtx | fromYaml).enabled -}}
+            - name: prom-metrics
+              containerPort: {{ (include "observability.promagent" $theNodeCtx | fromYaml).port }}
               protocol: TCP
             {{- end }}
           volumeMounts:

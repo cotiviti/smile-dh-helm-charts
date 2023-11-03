@@ -131,6 +131,32 @@ The below section gives an overview of the default values available. Consult the
 | messageBroker.topics.subscription.name | string | `"subscription.matching.Masterdev.persistence"` |  |
 | messageBroker.topics.subscription.partitions | int | `10` |  |
 | modules.useDefaultModules | bool | `true` | Enable or disable included default modules configuration |
+| observability.enabled | bool | `false` |  |
+| observability.instrumentation.openTelemetry.enabled | bool | `true` |  |
+| observability.instrumentation.openTelemetry.otelAgent.enabled | bool | `true` |  |
+| observability.instrumentation.openTelemetry.otelAgent.mode | string | `"helm"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.env | list | `[]` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.exporter.endpoint | string | `"http://localhost:4317"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.java.env | list | `[]` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[0].name | string | `"k8s.container.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[0].valueFrom | string | `"container.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[1].name | string | `"k8s.deployment.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[1].valueFrom | string | `"deployment.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[2].name | string | `"k8s.namespace.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[2].valueFrom | string | `"namespace.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[3].name | string | `"k8s.node.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[3].valueFrom | string | `"spec.nodeName"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[4].name | string | `"k8s.pod.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[4].valueFrom | string | `"metadata.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[5].name | string | `"k8s.replicaset.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[5].valueFrom | string | `"replicaset.name"` |  |
+| observability.instrumentation.openTelemetry.otelCollector.enabled | bool | `true` |  |
+| observability.instrumentation.openTelemetry.otelCollector.mode | string | `"sidecar"` |  |
+| observability.instrumentation.prometheus.enabled | bool | `false` |  |
+| observability.instrumentation.prometheus.operatorConfig.enabled | bool | `false` |  |
+| observability.instrumentation.prometheus.promAgent.config.port | int | `17171` |  |
+| observability.instrumentation.prometheus.promAgent.config.rules[0].pattern | string | `".*"` |  |
+| observability.instrumentation.prometheus.promAgent.enabled | bool | `true` |  |
 | oldResourceNaming | bool | `true` |  |
 | replicaCount | int | `1` | Number of replicas to deploy. Note that this setting is ignored if autoscaling is enabled. Should always start a new installation with 1 |
 | resources.limits.memory | string | `"4Gi"` | Memory allocation |
