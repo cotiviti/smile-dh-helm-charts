@@ -1,3 +1,10 @@
+# [1.0.0-pre.97](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.96...v1.0.0-pre.97) (2023-11-03)
+
+
+### Features
+
+* **smilecdr:** Add instrumentation support ([2583c81](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/2583c816db3f4819b8fb49384d9c41ee0093d001))
+
 # [1.0.0-pre.96](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.95...v1.0.0-pre.96) (2023-09-20)
 
 
