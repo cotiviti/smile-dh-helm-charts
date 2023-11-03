@@ -1,4 +1,4 @@
 # Requirements for mkdocs
 mkdocs
 mkdocs-material
-mike
+mike<2.0.0

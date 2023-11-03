@@ -1,0 +1,17 @@
+observability:
+  enabled: true
+  instrumentation:
+    # Install OpenTelemetry Java Agent into Smile CDR pods to expose JVM metrics
+    # Otel collector is NOT installed.
+    # Uses 'helm' mode which copies latest Open Telemetry jar file using file copy init containers.
+    openTelemetry:
+      enabled: true
+      otelAgent:
+        enabled: true
+        mode: helm
+        copyMethod: s3
+        bucket: bucketname
+        path: /path/to/file.jar
+
+      otelCollector:
+        enabled: false
