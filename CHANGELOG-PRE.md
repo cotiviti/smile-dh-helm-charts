@@ -1,3 +1,10 @@
+# [1.0.0-pre.98](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.97...v1.0.0-pre.98) (2023-11-07)
+
+
+### Bug Fixes
+
+* **smilecdr:** Remove duplicate env vars ([8284743](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/8284743a31da915660aefae8054abbd60adf05fd))
+
 # [1.0.0-pre.97](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.96...v1.0.0-pre.97) (2023-11-03)
 
 
