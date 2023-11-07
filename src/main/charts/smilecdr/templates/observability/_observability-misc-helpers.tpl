@@ -289,7 +289,9 @@ Define env vars that will be used for observability
           {{- else if has $theAttributeSpec.valueFrom (splitList " " "deployment.name replicaset.name") -}}
             {{- /* We need an env var with deployment name for either of these. */ -}}
             {{- $env = dict "name" "OTEL_RESOURCE_ATTRIBUTES_K8S_DEPLOYMENT_NAME" "value" (printf "%s-%s" $.Release.Name $.Values.resourceSuffix) -}}
-            {{- $envVars = append $envVars $env -}}
+            {{- if not (has $env $envVars) -}}
+              {{- $envVars = append $envVars $env -}}
+            {{- end -}}
             {{- if eq $theAttributeSpec.valueFrom "deployment.name" -}}
               {{- $resourceAttributes = append $resourceAttributes (printf "%s=$(%s)" $attrName "OTEL_RESOURCE_ATTRIBUTES_K8S_DEPLOYMENT_NAME") -}}
             {{- else if eq $theAttributeSpec.valueFrom "replicaset.name" -}}

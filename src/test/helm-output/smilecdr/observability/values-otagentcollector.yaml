@@ -7,3 +7,6 @@ observability:
       enabled: true
       otelAgent:
         enabled: true
+        mode: operator
+      otelCollector:
+        enabled: true
