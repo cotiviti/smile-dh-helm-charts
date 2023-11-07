@@ -506,8 +506,6 @@ spec:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: metadata.name
-            - name: OTEL_RESOURCE_ATTRIBUTES_K8S_DEPLOYMENT_NAME
-              value: release-name-scdr
             - name: OTEL_RESOURCE_ATTRIBUTES_K8S_POD_TEMPLATE_HASH
               valueFrom:
                 fieldRef:
