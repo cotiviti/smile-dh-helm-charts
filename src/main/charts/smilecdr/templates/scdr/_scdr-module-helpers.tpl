@@ -185,6 +185,8 @@ that will use the appropriate module prototypes
   {{- $modulesWithEndpoints = append $modulesWithEndpoints "ADMIN_" -}}
   {{- /* Outbound security modules. Currently only SECURITY_OUT_SMART  */ -}}
   {{- $modulesWithEndpoints = append $modulesWithEndpoints "SECURITY_OUT_" -}}
+  {{- /* Appsphere module. Currently only APP_GALLERY  */ -}}
+  {{- $modulesWithEndpoints = append $modulesWithEndpoints "APP_GALLERY" -}}
   {{- $modulesWithEndpoints | toYaml -}}
 {{- end -}}
 
