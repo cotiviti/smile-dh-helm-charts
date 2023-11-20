@@ -28,3 +28,8 @@ tests:
     - ../default-test-values.yaml
     - custom-modules.yaml
     - values-hierarchical.yaml
+  appGallery:
+    outputFile: output-appGallery.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - values-appGallery.yaml
