@@ -1,3 +1,10 @@
+# [1.0.0-pre.99](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.98...v1.0.0-pre.99) (2023-11-20)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix route rendering for AppSphere ([903b00e](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/903b00e8788c072e5ec6a247203386297d88e90e))
+
 # [1.0.0-pre.98](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.97...v1.0.0-pre.98) (2023-11-07)
 
 
