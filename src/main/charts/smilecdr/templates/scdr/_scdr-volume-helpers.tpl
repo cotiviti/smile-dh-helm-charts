@@ -31,7 +31,8 @@ Define volumes and volume mounts based on combining:
     {{- $logsVolume := dict "name" "scdr-volume-log" -}}
     {{- $_ := set $logsVolume "emptyDir" (dict "sizeLimit" .Values.logsDirSize ) -}}
     {{- $volumes = append $volumes $logsVolume -}}
-    {{- if not (or .Values.messageBroker.strimzi.enabled .Values.messageBroker.external.enabled) -}}
+    {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
+    {{- if not $kafkaConfig.enabled -}}
       {{- $amqVolume := dict "name" "scdr-volume-amq" -}}
       {{- $_ := set $amqVolume "emptyDir" (dict "sizeLimit" "10Mi") -}}
       {{- $volumes = append $volumes $amqVolume -}}
@@ -81,7 +82,8 @@ Define volumes and volume mounts based on combining:
     {{- $logsVolumeMount := dict "name" "scdr-volume-log" -}}
     {{- $_ := set $logsVolumeMount "mountPath" "/home/smile/smilecdr/log" -}}
     {{- $volumeMounts = append $volumeMounts $logsVolumeMount -}}
-    {{- if not (or .Values.messageBroker.strimzi.enabled .Values.messageBroker.external.enabled) -}}
+    {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
+    {{- if not $kafkaConfig.enabled -}}
       {{- $amqVolumeMount := dict "name" "scdr-volume-amq" -}}
       {{- $_ := set $amqVolumeMount "mountPath" "/home/smile/smilecdr/activemq-data" -}}
       {{- $volumeMounts = append $volumeMounts $amqVolumeMount -}}

@@ -108,7 +108,7 @@ are hard-coded in here.
 */}}
 {{- define "scdrcfg.messagebroker" -}}
   {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
-  {{- if or $kafkaConfig.enabled -}}
+  {{- if $kafkaConfig.enabled -}}
 module.clustermgr.config.messagebroker.type                         =KAFKA
 module.clustermgr.config.kafka.bootstrap_address                    =#{env['KAFKA_BOOTSTRAP_ADDRESS']}
 module.clustermgr.config.kafka.ssl.enabled                          =#{env['KAFKA_SSL_ENABLED']}
@@ -120,16 +120,22 @@ module.clustermgr.config.kafka.validate_topics_exist_before_use     =true
     {{- if eq $kafkaConfig.connection.type "tls" }}
       {{- if eq $kafkaConfig.authentication.type "iam" }}
 module.clustermgr.config.kafka.security.protocol                    =SASL_SSL
+      {{- else if eq $kafkaConfig.authentication.type "password" }}
+module.clustermgr.config.kafka.security.protocol                    =SASL_PLAINTEXT
       {{- else }}
 module.clustermgr.config.kafka.security.protocol                    =SSL
       {{- end }}
-      {{- if $kafkaConfig.publicca }}
-module.clustermgr.config.kafka.ssl.truststore.location              =#{null}
-module.clustermgr.config.kafka.ssl.truststore.password              =#{null}
-      {{- else }}
+      {{- if $kafkaConfig.privateca }}
 module.clustermgr.config.kafka.ssl.truststore.location              =/home/smile/smilecdr/classes/client_certificates/kafka-ca-cert.p12
 module.clustermgr.config.kafka.ssl.truststore.password              =#{env['KAFKA_BROKER_CA_CERT_PWD']}
+      {{- else }}
+module.clustermgr.config.kafka.ssl.truststore.location              =#{null}
+module.clustermgr.config.kafka.ssl.truststore.password              =#{null}
       {{- end }}
+    {{- /* else if eq $kafkaConfig.connection.type "plaintext" -}}
+      {{- if eq $kafkaConfig.authentication.type "none" }}
+module.clustermgr.config.kafka.security.protocol                    =PLAINTEXT
+      {{- end */ -}}
     {{- end }}
     {{- if eq $kafkaConfig.authentication.type "tls" }}
 module.clustermgr.config.kafka.ssl.keystore.location                =/home/smile/smilecdr/classes/client_certificates/kafka-client-cert.p12
@@ -139,6 +145,8 @@ module.clustermgr.config.kafka.ssl.key.password                     =#{null}
 module.clustermgr.config.kafka.ssl.keystore.location                =#{null}
 module.clustermgr.config.kafka.ssl.keystore.password                =#{null}
 module.clustermgr.config.kafka.ssl.key.password                     =#{null}
+    {{- else if eq $kafkaConfig.authentication.type "password" }}
+module.clustermgr.config.kafka.security.jaas.config                 =org.apache.kafka.common.security.plain.PlainLoginModule required username="#{env['KAFKA_USERNAME']}" password="#{env['KAFKA_PASSWORD']}"
     {{- end }}
   {{- else -}}
 module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ

@@ -216,37 +216,60 @@ pod's filesystem
   {{- /* Include SSCSI Objects for External Kafka certificates & credentials */ -}}
   {{- $kafkaExternalConfig := (include "kafka.external.config" . | fromYaml) -}}
   {{- $kafkaExternalCacert := ($kafkaExternalConfig.connection).caCert -}}
-  {{- if and ($kafkaExternalConfig.enabled) (eq $kafkaExternalCacert.type "sscsi") -}}
-    {{- if eq $kafkaExternalCacert.provider "aws" -}}
-      {{- $sscsiObject := dict "objectName" $kafkaExternalCacert.secretArn -}}
-      {{- $jmesPathList := list (dict "path" "ca.p12" "objectAlias" "ca.p12") -}}
-      {{- $jmesPathList = append $jmesPathList (dict "path" "ca.password" "objectAlias" "ca.p12") -}}
-      {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
-      {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
-      {{/*
-        Define other providers here:
-        {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
-        - add code to build $sscsiObject and append to $sscsiObjects
-      */}}
-    {{- else -}}
-      {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported." $kafkaExternalCacert.provider) -}}
+  {{- $kafkaExternalUserCredentials := $kafkaExternalConfig.authentication -}}
+  {{- if $kafkaExternalConfig.enabled -}}
+    {{- if eq $kafkaExternalCacert.type "sscsi" -}}
+      {{- if eq $kafkaExternalCacert.provider "aws" -}}
+        {{- $sscsiObject := dict "objectName" $kafkaExternalCacert.secretArn -}}
+        {{- $jmesPathList := list (dict "path" "ca.p12" "objectAlias" "ca.p12") -}}
+        {{- $jmesPathList = append $jmesPathList (dict "path" "ca.password" "objectAlias" "ca.p12") -}}
+        {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
+        {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
+        {{/*
+          Define other providers here:
+          {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
+          - add code to build $sscsiObject and append to $sscsiObjects
+        */}}
+      {{- else -}}
+        {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for Kafka certificate authority certificates (caCert)." $kafkaExternalCacert.provider) -}}
+      {{- end -}}
     {{- end -}}
-  {{- end -}}
-  {{- $kafkaExternalUserCredentials := ($kafkaExternalConfig.authentication).userCert -}}
-  {{- if and ($kafkaExternalConfig.enabled) (eq $kafkaExternalUserCredentials.type "sscsi") -}}
-    {{- if eq $kafkaExternalUserCredentials.provider "aws" -}}
-      {{- $sscsiObject := dict "objectName" $kafkaExternalUserCredentials.secretArn -}}
-      {{- $jmesPathList := list (dict "path" "user.p12" "objectAlias" "user.p12") -}}
-      {{- $jmesPathList = append $jmesPathList (dict "path" "user.password" "objectAlias" "user.p12") -}}
-      {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
-      {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
-      {{/*
-        Define other providers here:
-        {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
-        - add code to build $sscsiObject and append to $sscsiObjects
-      */}}
-    {{- else -}}
-      {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported." $kafkaExternalUserCredentials.provider) -}}
+
+    {{- if contains $kafkaExternalUserCredentials.type "mtls tls" -}}
+      {{- $kafkaExternalUserCert := required "Kafka: You must provide a user certificate if using mtls/tls authentication" $kafkaExternalUserCredentials.userCert -}}
+      {{- if eq $kafkaExternalUserCert.type "sscsi" -}}
+        {{- if eq $kafkaExternalUserCert.provider "aws" -}}
+          {{- $sscsiObject := dict "objectName" $kafkaExternalUserCert.secretArn -}}
+          {{- $jmesPathList := list (dict "path" "user.p12" "objectAlias" "user.p12") -}}
+          {{- $jmesPathList = append $jmesPathList (dict "path" "user.password" "objectAlias" "user.p12") -}}
+          {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
+          {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
+          {{/*
+            Define other providers here:
+            {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
+            - add code to build $sscsiObject and append to $sscsiObjects
+          */}}
+        {{- else -}}
+          {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for Kafka user certificates (userCert)." ($kafkaExternalUserCredentials.userCert).provider) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- if and (contains (lower $kafkaExternalUserCredentials.type) "password" ) (eq ($kafkaExternalUserCredentials.password).type "sscsi") -}}
+      {{- if eq $kafkaExternalUserCredentials.password.provider "aws" -}}
+        {{- $sscsiObject := dict "objectName" $kafkaExternalUserCredentials.password.secretArn -}}
+        {{- $jmesPathList := list (dict "path" "username" "objectAlias" "username") -}}
+        {{- $jmesPathList = append $jmesPathList (dict "path" "password" "objectAlias" "password") -}}
+        {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
+        {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
+        {{/*
+          Define other providers here:
+          {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
+          - add code to build $sscsiObject and append to $sscsiObjects
+        */}}
+      {{- else -}}
+        {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for Kafka user credentials." $kafkaExternalUserCredentials.provider) -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
   {{- if eq (.Values.license).type "sscsi" -}}
@@ -282,6 +305,8 @@ These are used to create Kubernetes Secrets that are synced to mounted SSCSI sec
       {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
     {{- end -}}
   {{- end -}}
+
+  {{- /* External Database credentials */ -}}
   {{- if and .Values.database.external.enabled (eq ((.Values.database.external).credentials).type "sscsi") -}}
     {{- range $v := .Values.database.external.databases -}}
       {{- $sscsiSyncedSecret := dict "secretName" (required "You must provide `secretName` for the DB credentials secret" $v.secretName) -}}
@@ -296,25 +321,58 @@ These are used to create Kubernetes Secrets that are synced to mounted SSCSI sec
       {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
     {{- end -}}
   {{- end -}}
+
+  {{- /* External Kafka credentials */ -}}
   {{- $kafkaExternalConfig := (include "kafka.external.config" . | fromYaml) -}}
   {{- $kafkaExternalCacert := ($kafkaExternalConfig.connection).caCert -}}
-  {{- if and ($kafkaExternalConfig.enabled) (eq $kafkaExternalCacert.type "sscsi") -}}
-    {{- $sscsiSyncedSecret := dict "secretName" "kafka-ca-cert" -}}
-    {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
-    {{- $dataList := list (dict "key" "ca.p12" "objectName" "ca.p12") -}}
-    {{- $dataList := append $dataList (dict "key" "ca.password" "objectName" "ca.password") -}}
-    {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
-    {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
+  {{- $kafkaExternalUserCredentials := $kafkaExternalConfig.authentication -}}
+  {{- if $kafkaExternalConfig.enabled -}}
+    {{- if eq $kafkaExternalCacert.type "sscsi" -}}
+      {{- if eq $kafkaExternalCacert.provider "aws" -}}
+        {{- $sscsiSyncedSecret := dict "secretName" (default "kafka-ca-cert" $kafkaExternalCacert.secretName) -}}
+        {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
+        {{- $dataList := list (dict "key" "ca.p12" "objectName" "ca.p12") -}}
+        {{- $dataList := append $dataList (dict "key" "ca.password" "objectName" "ca.password") -}}
+        {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
+        {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
+      {{- else -}}
+        {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for Kafka certificate authority certificates (caCert)." $kafkaExternalCacert.provider) -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- if contains $kafkaExternalUserCredentials.type "mtls tls" -}}
+      {{- $kafkaExternalUserCert := required "Kafka: You must provide a user certificate if using mtls/tls authentication" $kafkaExternalUserCredentials.userCert -}}
+      {{- if eq $kafkaExternalUserCert.type "sscsi" -}}
+        {{- if eq $kafkaExternalUserCert.provider "aws" -}}
+          {{- $sscsiSyncedSecret := dict "secretName" (default "kafka-user-cert" $kafkaExternalUserCredentials.userCert.secretName) -}}
+          {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
+          {{- $dataList := list (dict "key" "user.p12" "objectName" "user.p12") -}}
+          {{- $dataList := append $dataList (dict "key" "user.password" "objectName" "user.password") -}}
+          {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
+          {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
+        {{- else -}}
+          {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for Kafka user certificates (userCert)." ($kafkaExternalUserCredentials.userCert).provider) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- if contains $kafkaExternalUserCredentials.type "password" -}}
+      {{- $kafkaExternalUserPassword := required "Kafka: You must provide a user password configuration if using password authentication" $kafkaExternalUserCredentials.password -}}
+      {{- if eq $kafkaExternalUserPassword.type "sscsi" -}}
+        {{- if eq $kafkaExternalUserPassword.provider "aws" -}}
+          {{- $sscsiSyncedSecret := dict "secretName" (default "kafka-user-credentials" $kafkaExternalUserPassword.secretName) -}}
+          {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
+          {{- $dataList := list (dict "key" "username" "objectName" "username") -}}
+          {{- $dataList := append $dataList (dict "key" "password" "objectName" "password") -}}
+          {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
+          {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
+        {{- else -}}
+          {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for Kafka user credentials." $kafkaExternalUserPassword.provider) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
   {{- end -}}
-  {{- $kafkaExternalUserCredentials := ($kafkaExternalConfig.authentication).userCert -}}
-  {{- if and ($kafkaExternalConfig.enabled) (eq $kafkaExternalUserCredentials.type "sscsi") -}}
-    {{- $sscsiSyncedSecret := dict "secretName" "kafka-user-cert" -}}
-    {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
-    {{- $dataList := list (dict "key" "user.p12" "objectName" "user.p12") -}}
-    {{- $dataList := append $dataList (dict "key" "user.password" "objectName" "user.password") -}}
-    {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
-    {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
-  {{- end -}}
+
   {{- if eq (.Values.license).type "sscsi" -}}
     {{- $sscsiSyncedSecret := dict "secretName" "cdrlicense" -}}
     {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}

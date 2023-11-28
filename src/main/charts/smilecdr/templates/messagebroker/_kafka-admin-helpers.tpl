@@ -151,7 +151,7 @@ Define Kafka client properties file for admin pod
       {{- else -}}
         {{- $props = printf "%s\n%s=%s" $props "security.protocol" "SSL" -}}
       {{- end -}}
-      {{- if not $kafkaConfig.publicca -}}
+      {{- if $kafkaConfig.privateca -}}
         {{- $props = printf "%s\n%s=%s" $props "ssl.truststore.location" "/home/smile/smilecdr/classes/client_certificates/kafka-ca-cert.p12" -}}
         {{- $props = printf "%s\n%s=%s" $props "ssl.truststore.password" "${KAFKA_BROKER_CA_CERT_PWD}" -}}
       {{- end -}}
