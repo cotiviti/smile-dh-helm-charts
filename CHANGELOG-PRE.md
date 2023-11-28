@@ -1,3 +1,10 @@
+# [1.0.0-pre.100](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.99...v1.0.0-pre.100) (2023-11-28)
+
+
+### Features
+
+* **smilecdr:** add Kafka password auth ([bc805fa](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/bc805fadec5228757219524ffd450118f26aedd9))
+
 # [1.0.0-pre.99](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.98...v1.0.0-pre.99) (2023-11-20)
 
 
