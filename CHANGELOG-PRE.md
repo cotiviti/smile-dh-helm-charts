@@ -1,3 +1,10 @@
+# [1.0.0-pre.101](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.100...v1.0.0-pre.101) (2023-11-28)
+
+
+### Features
+
+* **smilecdr:** add AMQ support ([f724142](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/f72414226307dd8d038f8553de50c47ea1c6aed7))
+
 # [1.0.0-pre.100](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.99...v1.0.0-pre.100) (2023-11-28)
 
 
