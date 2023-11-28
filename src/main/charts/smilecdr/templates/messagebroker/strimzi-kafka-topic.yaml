@@ -1,7 +1,7 @@
-{{- $kafkaConfig := (include "kafka.config" .) | fromYaml -}}
 {{- $strimziConfig := (include "kafka.strimzi.config" .) | fromYaml -}}
 {{- if $strimziConfig.enabled -}}
-{{- range $k, $v := $kafkaConfig.topics -}}
+  {{- $kafkaConfig := (include "kafka.config" .) | fromYaml -}}
+  {{- range $k, $v := $kafkaConfig.topics -}}
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
@@ -14,5 +14,5 @@ spec:
   replicas: {{ $v.replicas }}
   topicName: {{ $v.name }}
 ---
-{{ end }}
+  {{ end }}
 {{ end }}

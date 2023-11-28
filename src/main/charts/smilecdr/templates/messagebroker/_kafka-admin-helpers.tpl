@@ -104,7 +104,6 @@ passwords
 {{- end -}}
 
 {{- define "kafka.admin.volumes" -}}
-  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
   {{- $volumes := list -}}
   {{- $volumes = concat $volumes (include "kafka.certificate.volumes" . | fromYamlArray) -}}
   {{- $classpathVolume := dict "name" "admin-classpath" -}}
@@ -172,8 +171,9 @@ Define Kafka client properties file for admin pod
 
 {{- define "kafka.admin.config" -}}
   {{- $kafkaAdminConfig := dict -}}
-  {{- $kafkaConfig := include "kafka.config" . | fromYaml -}}
-  {{- if and $kafkaConfig.enabled (.Values.messageBroker.adminPod).enabled -}}
+  {{- $kafkaEnabled := ternary true false (eq ((include "kafka.enabled" . ) | trim ) "true") -}}
+
+  {{- if and $kafkaEnabled (.Values.messageBroker.adminPod).enabled -}}
     {{- $_ := set $kafkaAdminConfig "enabled" "true" -}}
     {{- $kafkaAdminImageRepo := "" -}}
     {{- $kafkaAdminImageTag := "" -}}

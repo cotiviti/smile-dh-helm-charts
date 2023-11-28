@@ -1,10 +1,22 @@
 {{- /*
+Lightweight template to determine if Strimzi is enabled
+*/ -}}
+{{- define "kafka.strimzi.enabled" -}}
+  {{- $strimziEnabled := "false" -}}
+  {{- if .Values.messageBroker.strimzi.enabled -}}
+    {{- $strimziEnabled = "true" -}}
+  {{- end -}}
+  {{- $strimziEnabled -}}
+{{- end -}}
+
+{{- /*
 This function just returns the config items, but also does some validation and sanitation
 to avoid doing it in multiple places in the Helm Chart
 */ -}}
 {{- define "kafka.strimzi.config" -}}
   {{- $strimziConfig := dict -}}
-  {{- if .Values.messageBroker.strimzi.enabled -}}
+  {{- if eq ((include "kafka.strimzi.enabled" . ) | trim ) "true" -}}
+  {{- /* if .Values.messageBroker.strimzi.enabled */ -}}
     {{- $strimziConfig = .Values.messageBroker.strimzi.config -}}
     {{- $kafkaConnectionType := (default "tls" ($strimziConfig.connection).type) -}}
     {{- $kafkaAuthenticationType := (default "tls" ($strimziConfig.authentication).type) -}}

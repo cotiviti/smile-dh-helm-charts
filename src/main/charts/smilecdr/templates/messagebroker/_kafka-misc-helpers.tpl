@@ -1,14 +1,54 @@
 {{- /*
+Lightweight template to determine if Kafka is enabled
+*/ -}}
+{{- define "kafka.enabled" -}}
+  {{- $kafkaEnabled := "false" -}}
+  {{- /* Determine if this is being called in a 'cdrNode' context or root Helm Values context */ -}}
+  {{- $ctx := dict -}}
+
+  {{- if hasKey $.Values "nodeId"  -}}
+    {{- /* This is a dynamically generated cdrNode, so we will just return if Kafka is enabled for *this* node */ -}}
+
+    {{- $strimziEnabled := ternary true false (eq ((include "kafka.strimzi.enabled" . ) | trim ) "true") -}}
+    {{- $externalEnabled := ternary true false (eq ((include "kafka.external.enabled" . ) | trim ) "true") -}}
+    {{- if and $strimziEnabled $externalEnabled -}}
+      {{- fail "You cannot enable strimzi and external Kafka together " -}}
+    {{- end -}}
+    {{- if or $strimziEnabled $externalEnabled -}}
+      {{- $kafkaEnabled = "true" -}}
+    {{- end -}}
+
+  {{- else -}}
+    {{- /* This is the root context, which means we need to cycle through all nodes to determine if Kafka is enabled in any of them */ -}}
+    {{- /* We can simply do this with recursion */ -}}
+    {{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
+      {{- if eq ((include "kafka.enabled" $theNodeCtx ) | trim ) "true" -}}
+        {{- $kafkaEnabled = "true" -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $kafkaEnabled -}}
+{{- end -}}
+
+{{- /*
 This function builds some commonly used configuration for Kafka settings based
 on either external or Strimzi settings.
 */ -}}
 {{- define "kafka.config" -}}
+  {{- $ctx := get . "Values" -}}
+
+  {{- /* Some configurations only make sense in the context of a cdrNode */ -}}
+  {{- /* This flag helps decide whether or not to render them */ -}}
+  {{- $contextType := "root" -}}
+  {{- if hasKey $ctx "nodeId"  -}}
+    {{- $contextType = "cdrNode" -}}
+  {{- end -}}
   {{- $strimziConfig := (include "kafka.strimzi.config" . | fromYaml) -}}
   {{- $externalConfig := (include "kafka.external.config" . | fromYaml) -}}
   {{- $kafkaConfig := dict "externalConfig" $externalConfig "strimziConfig" $strimziConfig -}}
-  {{- if and $strimziConfig.enabled $externalConfig.enabled -}}
+  {{- /* if and $strimziConfig.enabled $externalConfig.enabled -}}
     {{- fail "You cannot enable strimzi and external Kafka together " -}}
-  {{- end -}}
+  {{- end */ -}}
   {{- if or $strimziConfig.enabled $externalConfig.enabled -}}
     {{- /* Global Kafka config */ -}}
     {{- $_ := set $kafkaConfig "enabled" "true" -}}
@@ -119,6 +159,41 @@ on either external or Strimzi settings.
     {{- $_ := set $kafkaConfig.authentication "secretType" $kafkaAuthenticationSecretType -}}
     {{- $_ := set $kafkaConfig "bootstrapAddress" $kafkaBootstrapAddress -}}
     {{- $_ := set $kafkaConfig "autoCreateTopics" $autoCreateTopics -}}
+
+
+    {{- $_ := set $kafkaConfig "propertiesResourceName" $autoCreateTopics -}}
+
+    {{- if hasKey $ctx.messageBroker "clientConfiguration" -}}
+      {{- $_ := set $kafkaConfig "consumerProperties" (default (dict) (deepCopy $ctx.messageBroker.clientConfiguration.consumerProperties)) -}}
+      {{- $_ := set $kafkaConfig "producerProperties" (get $ctx.messageBroker.clientConfiguration "producerProperties" ) -}}
+
+    {{- end -}}
+
+    {{- $consumerPropertiesData := include "kafka.consumer.properties.text" $kafkaConfig -}}
+    {{- $producerPropertiesData := include "kafka.producer.properties.text" $kafkaConfig -}}
+
+    {{- $_ := set $kafkaConfig "consumerPropertiesData" $consumerPropertiesData -}}
+    {{- $_ := set $kafkaConfig "producerPropertiesData" $producerPropertiesData -}}
+    {{- /* fail (printf "Context: %s" (toPrettyJson $ctx.nodeName)) */ -}}
+    {{- $propsHashSuffix := ternary (printf "-%s" (include "smilecdr.getHashSuffix" (printf "%s/n%s" $consumerPropertiesData $producerPropertiesData))) "" $ctx.autoDeploy -}}
+    {{- /* TODO: We can update the following if we wish to change the kafka properties CM resource naming schema later. */ -}}
+    {{- /* fail (printf "%s-kafka-client-properties-%s-node%s" $.Release.Name ($ctx.nodeName | lower) $propsHashSuffix) */ -}}
+    {{- /* if not $ctx.nodeName -}}
+      {{- fail (printf "Context: %s" (toPrettyJson $ctx)) -}}
+    {{- end */ -}}
+
+    {{- /* Set name for Kafka client properties ConfigMap */ -}}
+    {{- /* Only include node name in client properties if in 'cdrNode' context */ -}}
+    {{- if eq $contextType "cdrNode" -}}
+      {{- $_ := set $kafkaConfig "propertiesResourceName" (printf "%s-kafka-client-properties-%s-node%s" $.Release.Name ($ctx.nodeName | lower) $propsHashSuffix) -}}
+      {{- /* TODO: Remove when `oldResourceNaming` is removed */ -}}
+      {{- if $ctx.oldResourceNaming -}}
+        {{- $_ := set $kafkaConfig "propertiesResourceName" (printf "%s-kafka-client-properties-%s-node%s" $.Release.Name ($ctx.nodeName | lower) $propsHashSuffix) -}}
+      {{- end -}}
+    {{- else -}}
+      {{- $_ := set $kafkaConfig "propertiesResourceName" (printf "%s-kafka-client-properties-%s" $.Release.Name $propsHashSuffix) -}}
+    {{- end -}}
+
   {{- end -}}
   {{- $kafkaConfig | toYaml -}}
 {{- end -}}
@@ -128,8 +203,17 @@ Define the volumes that will be used to mount Kafka certificates
 in to pods
 */ -}}
 {{- define "kafka.certificate.volumes" -}}
+  {{- $ctx := get . "Values" -}}
   {{- $volumes := list -}}
-  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
+  {{- /* $kafkaConfig := (include "kafka.config" . | fromYaml) */ -}}
+  {{- /* This can be called in cdrNode or root contexts (For the Admin pod) */ -}}
+  {{- /* When called in root context, we need to call the kafka config template first */ -}}
+  {{- $kafkaConfig := dict -}}
+  {{- if hasKey $ctx "nodeId"  -}}
+    {{- $kafkaConfig = $ctx.kafka -}}
+  {{- else -}}
+    {{- $kafkaConfig = (include "kafka.config" . | fromYaml) -}}
+  {{- end -}}
   {{- /* Mount CA cert if using TLS and private cert */ -}}
   {{- if and (eq $kafkaConfig.connection.type "tls") (not $kafkaConfig.publicca ) -}}
     {{- $secretProjection := (dict "secretName" $kafkaConfig.caCertSecretName) -}}
@@ -150,14 +234,19 @@ Define Kafka related volumes requird by Smile CDR pod
 */ -}}
 {{- define "kafka.volumes" -}}
   {{- $volumes := list -}}
-  {{- /* $kafkaConfig := (include "kafka.config" . | fromYaml) */ -}}
-  {{- $kafkaConfig := .Values.kafka -}}
+
+  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
   {{- if $kafkaConfig.enabled -}}
+  {{- /* if eq ((include "kafka.enabled" . ) | trim ) "true" */ -}}
+    {{- /* $kafkaConfig := (include "kafka.config" . | fromYaml) */ -}}
+    {{- /* if $kafkaConfig.enabled */ -}}
+
     {{- /* Mount client properties files */ -}}
     {{- $configMap := (dict "name" $kafkaConfig.propertiesResourceName) -}}
     {{- $propsVolume := dict "name" "kafka-client-config" "configMap" $configMap -}}
     {{- $volumes = append $volumes $propsVolume -}}
     {{- $volumes = concat $volumes (include "kafka.certificate.volumes" . | fromYamlArray) -}}
+
   {{- end -}}
   {{- $volumes | toYaml -}}
 {{- end -}}
@@ -193,8 +282,7 @@ Define Kafka related volume mounts requird by Smile CDR container
 */ -}}
 {{- define "kafka.volumeMounts" -}}
   {{- $volumeMounts := list -}}
-  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
-  {{- if $kafkaConfig.enabled -}}
+  {{- if eq ((include "kafka.enabled" . ) | trim ) "true" -}}
     {{- /* Mount consumer properties file */ -}}
     {{- $volumeMount := dict "name" "kafka-client-config" -}}
     {{- $_ := set $volumeMount "mountPath" "/home/smile/smilecdr/classes/cdr_kafka_config/cdr-kafka-consumer-config.properties" -}}
@@ -282,7 +370,6 @@ Define any file copies required by Kafka
     {{- if hasKey $kafkaConfig.authentication "iamConfig" -}}
       {{- $iamConfig = deepCopy (mergeOverwrite $iamConfig $kafkaConfig.authentication.iamConfig ) -}}
     {{- end -}}
-
     {{- if $iamConfig.autoJarCopy -}}
       {{- if eq $iamConfig.copyType "curl" -}}
         {{- $url := required "You must specify a URL to copy classes files from." $iamConfig.url -}}
@@ -303,16 +390,14 @@ Define Kafka consumer properties file
 */ -}}
 {{- define "kafka.consumer.properties.text" -}}
   {{- $props := "# Kafka consumer properties auto generated from Helm Chart. Do not edit manually!\n" -}}
-  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
-  {{- if $kafkaConfig.enabled -}}
-    {{- range $k, $v := .Values.messageBroker.clientConfiguration.consumerProperties -}}
-      {{- $props = printf "%s\n%s=%d" $props $k (int $v) -}}
-    {{- end -}}
-    {{- if eq $kafkaConfig.authentication.type "iam" -}}
-      {{- $props = printf "%s\n%s=%s" $props "sasl.mechanism" "AWS_MSK_IAM" -}}
-      {{- $props = printf "%s\n%s=%s" $props "sasl.jaas.config" "software.amazon.msk.auth.iam.IAMLoginModule required;" -}}
-      {{- $props = printf "%s\n%s=%s" $props "sasl.client.callback.handler.class" "software.amazon.msk.auth.iam.IAMClientCallbackHandler" -}}
-    {{- end -}}
+  {{- $kafkaConfig := . -}}
+  {{- range $k, $v := $kafkaConfig.consumerProperties -}}
+    {{- $props = printf "%s\n%s=%d" $props $k (int $v) -}}
+  {{- end -}}
+  {{- if eq $kafkaConfig.authentication.type "iam" -}}
+    {{- $props = printf "%s\n%s=%s" $props "sasl.mechanism" "AWS_MSK_IAM" -}}
+    {{- $props = printf "%s\n%s=%s" $props "sasl.jaas.config" "software.amazon.msk.auth.iam.IAMLoginModule required;" -}}
+    {{- $props = printf "%s\n%s=%s" $props "sasl.client.callback.handler.class" "software.amazon.msk.auth.iam.IAMClientCallbackHandler" -}}
   {{- end -}}
   {{- $props -}}
 {{- end -}}
@@ -322,16 +407,14 @@ Define Kafka producer properties file
 */ -}}
 {{- define "kafka.producer.properties.text" -}}
   {{- $props := "# Kafka producer properties auto generated from Helm Chart. Do not edit manually!\n" -}}
-  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
-  {{- if $kafkaConfig.enabled -}}
-    {{- range $k, $v := .Values.messageBroker.clientConfiguration.producerProperties -}}
-      {{- $props = printf "%s\n%s=%d" $props $k (int $v) -}}
-    {{- end -}}
-    {{- if eq $kafkaConfig.authentication.type "iam" -}}
+  {{- $kafkaConfig := . -}}
+  {{- range $k, $v := $kafkaConfig.producerProperties -}}
+    {{- $props = printf "%s\n%s=%d" $props $k (int $v) -}}
+  {{- end -}}
+  {{- if eq $kafkaConfig.authentication.type "iam" -}}
       {{- $props = printf "%s\n%s=%s" $props "sasl.mechanism" "AWS_MSK_IAM" -}}
       {{- $props = printf "%s\n%s=%s" $props "sasl.jaas.config" "software.amazon.msk.auth.iam.IAMLoginModule required;" -}}
       {{- $props = printf "%s\n%s=%s" $props "sasl.client.callback.handler.class" "software.amazon.msk.auth.iam.IAMClientCallbackHandler" -}}
-    {{- end -}}
   {{- end -}}
   {{- $props -}}
 {{- end -}}

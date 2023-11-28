@@ -14,7 +14,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
-    - admin-node.yaml
+    - values-admin-node.yaml
   adminNodeWithFileOverrides:
     outputFile: output-admin-node-with-file-overrides.yaml
     # set:
@@ -22,7 +22,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
-    - admin-node-with-file-overrides.yaml
+    - values-admin-node-with-file-overrides.yaml
     setFile:
     # Equivalent to: --set-file mappedFiles.logback\\.xml.data={path/to/}logback.xml
     - key: mappedFiles.logback\.xml.data
@@ -37,3 +37,11 @@ tests:
       fileName: fileWithNameOverride.js
     - key: mappedFiles.fileWithNameOverride2\.js.data
       fileName: fileWithNameOverride2.js
+  2NodesWithSSCSI:
+    outputFile: output-2-nodes-with-sscsi.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - values-2-nodes-with-sscsi.yaml

@@ -18,7 +18,7 @@ spec:
       app.kubernetes.io/instance: release-name
       app.kubernetes.io/name: smilecdr
 ---
-# Source: smilecdr/templates/kafka/kafka-properties-configmap.yaml
+# Source: smilecdr/templates/messagebroker/kafka-properties-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -640,7 +640,7 @@ spec:
           path: /smartauth
           pathType: Prefix
 ---
-# Source: smilecdr/templates/kafka/strimzi-kafka-cluster.yaml
+# Source: smilecdr/templates/messagebroker/strimzi-kafka-cluster.yaml
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
@@ -706,7 +706,7 @@ spec:
     topicOperator: {}
     userOperator: {}
 ---
-# Source: smilecdr/templates/kafka/strimzi-kafka-topic.yaml
+# Source: smilecdr/templates/messagebroker/strimzi-kafka-topic.yaml
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
@@ -719,7 +719,7 @@ spec:
   replicas: 3
   topicName: batch2.work.notification.Masterdev.persistence
 ---
-# Source: smilecdr/templates/kafka/strimzi-kafka-topic.yaml
+# Source: smilecdr/templates/messagebroker/strimzi-kafka-topic.yaml
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
@@ -732,7 +732,7 @@ spec:
   replicas: 3
   topicName: subscription.matching.Masterdev.persistence
 ---
-# Source: smilecdr/templates/kafka/strimzi-kafka-user.yaml
+# Source: smilecdr/templates/messagebroker/strimzi-kafka-user.yaml
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaUser
 metadata:
