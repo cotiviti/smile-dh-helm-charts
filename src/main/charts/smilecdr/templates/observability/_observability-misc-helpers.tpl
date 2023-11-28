@@ -184,13 +184,6 @@ Note that some operators look for the annotations on the Deployment and some loo
   {{- $theEnvVarName := index . 1 -}}
   {{- $theEnvVarValue := index . 2 -}}
   {{- $theCreatedEnvVar := dict "name" $theEnvVarName -}}
-  {{- /* if eq $theEnvVarName "OTEL_RESOURCE_ATTRIBUTES_POD_NAME" -}}
-    {{- if kindIs "map" $theEnvVarValue -}}
-      {{- fail "gotit!" -}}
-    {{- else -}}
-      {{- fail (kindOf $theEnvVarValue) -}}
-    {{- end -}}
-  {{- end */ -}}
   {{- if kindIs "map" $theEnvVarValue -}}
     {{ if not (hasKey $theEnvVarValue "valueFrom") }}
       {{- fail "Something is wrong... " -}}

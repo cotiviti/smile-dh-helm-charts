@@ -11,9 +11,7 @@ not do any validation or sanitation of the configuration.
   {{/* Include all default modules unless useDefaultModules is disabled */}}
   {{- $modules := dict -}}
   {{- if $.Values.modules.useDefaultModules -}}
-    {{- /* fail (printf "\n\nsmilecdr.modules.raw:if_useDefaultModules:$.Values.modules:\n%s" (toYaml $.Values)) */ -}}
     {{- $modules = ( $.Files.Get "default-modules.yaml" | fromYaml ).modules -}}
-    {{- /* fail (printf "\n\nsmilecdr.modules.raw:if_useDefaultModules:Modules:\n%s" (toYaml $modules)) */ -}}
   {{- end -}}
   {{- /* Include any user-defined module overrides, omitting the useDefaultModules flag */ -}}
   {{- $_ := mergeOverwrite $modules ( omit $.Values.modules "useDefaultModules" ) -}}
@@ -139,7 +137,6 @@ Currently, this is the canonical module source for the following template helper
         {{- end -}}
         {{- $_ := set $theModuleSpec.service "resourceName" $svcName -}}
 
-        {{- /* fail (printf "\n\n$cdrNodeValues\n%s" (toYaml $cdrNodeValues)) */ -}}
         {{- $svcType := "ClusterIP" -}}
         {{- if or (eq "aws-lbc-alb" $cdrNodeValues.ingress.type) (eq "azure-appgw" $cdrNodeValues.ingress.type) -}}
           {{- $svcType = "NodePort" -}}
@@ -153,10 +150,6 @@ Currently, this is the canonical module source for the following template helper
         {{- else -}}
           {{- $_ := set $theModuleSpec.service "enableReadinessProbe" false -}}
         {{- end -}}
-
-        {{- /* if eq $theModuleName "admin_web-tom" -}}
-          {{- fail (printf "\n\n$theModuleSpec\n%s" (join "/" (toYaml $theModuleSpec))) -}}
-        {{- end */ -}}
 
       {{- end -}}
       {{- $deepConfig := include "sdhCommon.unFlattenDict" $theModuleConfig | fromYaml -}}

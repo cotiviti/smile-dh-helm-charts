@@ -116,18 +116,13 @@ alb.ingress.kubernetes.io/scheme: internet-facing
           {{- $pathObject := dict "path" $theServiceSpec.fullPath "pathType" "Prefix" "backend" (dict "service" $serviceObject) -}}
           {{- $hostPaths = append $hostPaths $pathObject -}}
         {{- end -}}
-        {{- if eq $theServiceName "admin_webb" -}}
-          {{- fail (printf "\n\n$vHost\n%s\n\n$hosts\n%s\n\n$pathObject\n%s" (toYaml $vHost) (toYaml $theServiceSpec) (toYaml ($hostPaths)) ) -}}
-        {{- end -}}
       {{- end -}}
       {{- $_ := set $vHost.http "paths" (concat $vHost.http.paths $hostPaths) -}}
     {{- end -}}
   {{- end -}}
   {{- /* Convert dict to list. */ -}}
-  {{- /* fail (printf "\n\n$hostss\n%s" (toYaml $hosts) ) */ -}}
   {{- range $kHost, $vHost := $hosts -}}
     {{- $hostsList = append $hostsList $vHost -}}
   {{- end -}}
-  {{- /* fail (printf "\n\n$hostsList\n%s" (toYaml $hostsList) ) */ -}}
   {{- $hostsList | toYaml -}}
 {{- end -}}

@@ -16,12 +16,9 @@ Define CDR Nodes
     {{- end -}}
   {{- end -}}
   {{- if lt $numEnabledNodes 1 -}}
-    {{- fail "\nYou have not enabled any Smile CDR Nodes.\n\nYou must enable at least one in `.Values.cdrNodes`" -}}
+    {{- fail "\nYou have not enabled any Smile CDR Nodes.\n\nYou must enable at least one in `cdrNodes`" -}}
   {{- end -}}
   {{- range $theNodeName, $theNodeSpec := $globalValues.cdrNodes -}}
-    {{- /* if not (hasKey $theNodeSpec "enabled" ) -}}
-      {{- fail (printf "Node %s does not have `enabled` key set" $theNodeName) -}}
-    {{- end */ -}}
     {{- if $theNodeSpec.enabled -}}
       {{- /* We have a lot to do in here...
           * Determine any settings, based on root, overridden by locals
@@ -68,10 +65,6 @@ Define CDR Nodes
       {{- /* This merge gives precedence to the nodeSpec values.*/ -}}
       {{- $parsedNodeValues := mustMergeOverwrite (deepCopy (omit $globalValues "cdrNodes")) (deepCopy (omit $theNodeSpec "ingress")) -}}
 
-      {{- /* if eq $theNodeName "admin" -}}
-        {{- fail (printf "\n\nsmilecdr.nodes:admin:\n\n$theNodeSpec\n%s\n\n$globalValues\n%s\n\n$parsedNodeValues\n%s" (toYaml $theNodeSpec.modules) (toYaml $globalValues.modules) (toYaml $parsedNodeValues.modules)) -}}
-      {{- end */ -}}
-
       {{- $_ := set $parsedNodeValues "nodeName" $theNodeName -}}
       {{- $_ := set $parsedNodeValues "resourceSuffix" (printf "scdrnode-%s" $theNodeName) -}}
       {{- if $parsedNodeValues.oldResourceNaming -}}
@@ -116,7 +109,6 @@ Define CDR Nodes
       {{- /* Note: Only doing the deepCopy on the root ctx.
           $parsedNodeValues is merged as a reference, so anything updated
           will be available in the context for further includes*/ -}}
-      {{- /* fail (printf "\n\n$rootCTX\n%s" (toYaml $rootCTX)) */ -}}
       {{- $nodeHelperCTX := mustMergeOverwrite (deepCopy (omit $rootCTX "Values")) (dict "Values" $parsedNodeValues) -}}
 
       {{- /* Prepare a canonical list of mappedFiles */ -}}
@@ -177,16 +169,10 @@ Define CDR Nodes
         {{- end -}}
       {{- end -}}
 
-      {{- if eq $theNodeName "fhirrrr" -}}
-        {{- fail (printf "\n\nsmilecdr.nodes:%s:\n\n$theNodeSpec\n%s\n\n$globalValues\n%s\n\n$parsedNodeValues\n%s\n\n$nodeHelperCTX\n%s" $theNodeName (toYaml $theNodeSpec.mappedFiles) (toYaml $globalValues.mappedFiles) (toYaml $parsedNodeValues.mappedFiles) (toYaml $nodeHelperCTX.Values.mappedFiles)) -}}
-      {{- end -}}
-
       {{- $_ := set $parsedNodeValues "imagePullSecretsList" (include "imagePullSecretsList" $nodeHelperCTX | fromYamlArray ) -}}
       {{- $_ := set $parsedNodeValues "serviceAccountName" (include "smilecdr.serviceAccountName" $nodeHelperCTX) -}}
 
       {{- $_ := set $parsedNodeValues "initContainers" (include "smilecdr.initContainers" $nodeHelperCTX | fromYamlArray) -}}
-
-      {{- /* fail (printf "\n\nsmilecdr.nodes:$nodeHelperCTX\n%s" (toYaml $nodeHelperCTX)) */ -}}
 
       {{- $_ := set $parsedNodeValues "envVars" (include "smilecdr.envVars" $nodeHelperCTX | fromYamlArray) -}}
 
@@ -222,9 +208,6 @@ Define CDR Nodes
 
       {{- /* $_ := set $nodes $theNodeName $parsedNodeValues */ -}}
       {{- $_ := set $nodes $theNodeName $nodeHelperCTX -}}
-      {{- if eq $theNodeName "fhirnode-test" -}}
-        {{- fail (printf "\n\nsmilecdr.nodes:admin-end:$globalValues\n%s" (toYaml $globalValues.modules)) -}}
-      {{- end -}}
     {{- end -}}
   {{- end -}}
   {{- $nodes | toYaml -}}

@@ -46,16 +46,12 @@ on either external or Strimzi settings.
   {{- $strimziConfig := (include "kafka.strimzi.config" . | fromYaml) -}}
   {{- $externalConfig := (include "kafka.external.config" . | fromYaml) -}}
   {{- $kafkaConfig := dict "externalConfig" $externalConfig "strimziConfig" $strimziConfig -}}
-  {{- /* if and $strimziConfig.enabled $externalConfig.enabled -}}
-    {{- fail "You cannot enable strimzi and external Kafka together " -}}
-  {{- end */ -}}
   {{- if or $strimziConfig.enabled $externalConfig.enabled -}}
     {{- /* Global Kafka config */ -}}
     {{- $_ := set $kafkaConfig "enabled" "true" -}}
 
     {{- /* Set default to tls + tls (mTLS) */ -}}
     {{- $kafkaConnectionType := "tls" -}}
-    {{- /* $kafkaAuthenticationType := "tls" */ -}}
     {{- $kafkaAuthentication := dict "type" "tls" -}}
     {{- $kafkaConnectionSecretType := "" -}}
     {{- $kafkaAuthenticationSecretType := "" -}}
@@ -65,7 +61,6 @@ on either external or Strimzi settings.
       {{- /* Disable publicca by default */ -}}
       {{- $_ := set $kafkaConfig "publicca" false -}}
       {{- $kafkaConnectionType = ($strimziConfig.connection).type -}}
-      {{- /* $kafkaAuthenticationType = ($strimziConfig.authentication).type */ -}}
       {{- $kafkaAuthentication = deepCopy (mergeOverwrite $kafkaAuthentication $strimziConfig.authentication) -}}
       {{- /* Settings for TLS with Strimzi */ -}}
       {{- if eq $kafkaConnectionType "tls" -}}
@@ -84,7 +79,6 @@ on either external or Strimzi settings.
     {{- else if $externalConfig.enabled -}}
       {{- $kafkaBootstrapAddress = required "Kafka: You must provide `bootstrapAddress`" $externalConfig.connection.bootstrapAddress -}}
       {{- $kafkaConnectionType = ($externalConfig.connection).type -}}
-      {{- /* $kafkaAuthenticationType = ($externalConfig.authentication).type */ -}}
       {{- $kafkaAuthentication = deepCopy (mergeOverwrite $kafkaAuthentication $externalConfig.authentication) -}}
       {{- $defaultSecretNamePrefix := (printf "%s-kafka" .Release.Name) -}}
       {{- if eq $kafkaConnectionType "tls" -}}
@@ -174,13 +168,8 @@ on either external or Strimzi settings.
 
     {{- $_ := set $kafkaConfig "consumerPropertiesData" $consumerPropertiesData -}}
     {{- $_ := set $kafkaConfig "producerPropertiesData" $producerPropertiesData -}}
-    {{- /* fail (printf "Context: %s" (toPrettyJson $ctx.nodeName)) */ -}}
+
     {{- $propsHashSuffix := ternary (printf "-%s" (include "smilecdr.getHashSuffix" (printf "%s/n%s" $consumerPropertiesData $producerPropertiesData))) "" $ctx.autoDeploy -}}
-    {{- /* TODO: We can update the following if we wish to change the kafka properties CM resource naming schema later. */ -}}
-    {{- /* fail (printf "%s-kafka-client-properties-%s-node%s" $.Release.Name ($ctx.nodeName | lower) $propsHashSuffix) */ -}}
-    {{- /* if not $ctx.nodeName -}}
-      {{- fail (printf "Context: %s" (toPrettyJson $ctx)) -}}
-    {{- end */ -}}
 
     {{- /* Set name for Kafka client properties ConfigMap */ -}}
     {{- /* Only include node name in client properties if in 'cdrNode' context */ -}}
@@ -205,7 +194,6 @@ in to pods
 {{- define "kafka.certificate.volumes" -}}
   {{- $ctx := get . "Values" -}}
   {{- $volumes := list -}}
-  {{- /* $kafkaConfig := (include "kafka.config" . | fromYaml) */ -}}
   {{- /* This can be called in cdrNode or root contexts (For the Admin pod) */ -}}
   {{- /* When called in root context, we need to call the kafka config template first */ -}}
   {{- $kafkaConfig := dict -}}
@@ -237,9 +225,6 @@ Define Kafka related volumes requird by Smile CDR pod
 
   {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
   {{- if $kafkaConfig.enabled -}}
-  {{- /* if eq ((include "kafka.enabled" . ) | trim ) "true" */ -}}
-    {{- /* $kafkaConfig := (include "kafka.config" . | fromYaml) */ -}}
-    {{- /* if $kafkaConfig.enabled */ -}}
 
     {{- /* Mount client properties files */ -}}
     {{- $configMap := (dict "name" $kafkaConfig.propertiesResourceName) -}}
