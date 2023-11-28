@@ -34,6 +34,11 @@ tests:
     valueFiles:
     - ../default-test-values.yaml
     - values-external-k8s-secret-tls.yaml
+  externalK8sSecretPassword:
+    outputFile: output-external-k8s-secret-password.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - values-external-k8s-secret-password.yaml
   externalSscsiMTls:
     outputFile: output-external-sscsi-mtls.yaml
     valueFiles:
@@ -44,6 +49,11 @@ tests:
     valueFiles:
     - ../default-test-values.yaml
     - values-external-sscsi-tls.yaml
+  externalSscsiPassword:
+    outputFile: output-external-sscsi-password.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - values-external-sscsi-password.yaml
   externalIam:
     outputFile: output-external-iam.yaml
     valueFiles:
