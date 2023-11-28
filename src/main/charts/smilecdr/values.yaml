@@ -386,7 +386,7 @@ serviceAccount:
 messageBroker:
   external:
     enabled: false
-    # -- External message broker type
+    # -- External message broker type. `kafka` or `activemq`
     type: kafka
     config:
       connection:

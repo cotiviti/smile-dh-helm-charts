@@ -127,6 +127,12 @@ Current providers supported:
       {{- $sscsiEnabled = "true" -}}
     {{- end -}}
   {{- end -}}
+  {{- $amqConfig := (include "messagebroker.amq.config" . | fromYaml) -}}
+  {{- if $amqConfig.enabled -}}
+    {{- if eq $amqConfig.authentication.type "sscsi" -}}
+      {{- $sscsiEnabled = "true" -}}
+    {{- end -}}
+  {{- end -}}
   {{- $sscsiEnabled -}}
 {{- end -}}
 
@@ -213,6 +219,7 @@ pod's filesystem
       {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported." ((.Values.database.external).credentials).provider) -}}
     {{- end -}}
   {{- end -}}
+
   {{- /* Include SSCSI Objects for External Kafka certificates & credentials */ -}}
   {{- $kafkaExternalConfig := (include "kafka.external.config" . | fromYaml) -}}
   {{- $kafkaExternalCacert := ($kafkaExternalConfig.connection).caCert -}}
@@ -272,6 +279,27 @@ pod's filesystem
       {{- end -}}
     {{- end -}}
   {{- end -}}
+
+  {{- /* Include SSCSI Objects for External ActiveMQ credentials */ -}}
+  {{- $amqConfig := (include "messagebroker.amq.config" . | fromYaml) -}}
+  {{- if and ($amqConfig.enabled) (eq $amqConfig.authentication.type "sscsi") -}}
+    {{- if eq $amqConfig.authentication.provider "aws" -}}
+      {{- $sscsiObject := dict "objectName" $amqConfig.authentication.secretArn -}}
+      {{- $jmesPathList := list (dict "path" "username" "objectAlias" "username") -}}
+      {{- $jmesPathList = append $jmesPathList (dict "path" "password" "objectAlias" "password") -}}
+      {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
+      {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
+      {{/*
+        Define other providers here:
+        {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
+        - add code to build $sscsiObject and append to $sscsiObjects
+      */}}
+    {{- else -}}
+      {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for Active MQ user credentials." $amqConfig.authentication.provider) -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Include SSCSI Objects for CDR license */ -}}
   {{- if eq (.Values.license).type "sscsi" -}}
     {{- if eq .Values.license.provider "aws" -}}
       {{- $sscsiObject := dict "objectName" .Values.license.secretArn -}}
@@ -284,7 +312,7 @@ pod's filesystem
         - add code to build $sscsiObject and append to $sscsiObjects
       */}}
     {{- else -}}
-      {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported." .Values.license.provider) -}}
+      {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for CDR License." .Values.license.provider) -}}
     {{- end -}}
   {{- end -}}
   {{- $sscsiObjects | toYaml -}}
@@ -370,6 +398,20 @@ These are used to create Kubernetes Secrets that are synced to mounted SSCSI sec
           {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for Kafka user credentials." $kafkaExternalUserPassword.provider) -}}
         {{- end -}}
       {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Remote Active MQ credentials */ -}}
+  {{- $amqConfig := (include "messagebroker.amq.config" . | fromYaml) -}}
+  {{- if $amqConfig.enabled -}}
+    {{- $amqUserCredentials := $amqConfig.authentication -}}
+    {{- if eq $amqUserCredentials.type "sscsi" -}}
+      {{- $sscsiSyncedSecret := dict "secretName" $amqUserCredentials.secretName -}}
+      {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
+      {{- $dataList := list (dict "key" "username" "objectName" "username") -}}
+      {{- $dataList := append $dataList (dict "key" "password" "objectName" "password") -}}
+      {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
+      {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
     {{- end -}}
   {{- end -}}
 

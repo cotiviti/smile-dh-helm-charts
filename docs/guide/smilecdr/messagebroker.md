@@ -1,10 +1,17 @@
 # Message Broker Configuration
-Much like with the database configuration, you can use an externally provisioned message broker, or
-you can have this chart provision Kafka for you if you have the Strimzi Operator installed in your
-cluster.
+
+This Helm Chart support configuring Smile CDR to work with a Kafka or ActiveMQ message broker as
+described in the [Smile CDR documentation](https://smilecdr.com/docs/installation/message_broker.html)
+
+While you can configure any of the message broker settings available in the `clustermgr` module, this process can
+be complicated and error prone. This Helm Chart simplifies this process by automatically configuring Smile CDR
+message broker and Kafka settings.
+
+You can either configure Smile CDR to use a message broker that has already been provisioned, or if available, you can make
+use of the Strimzi Operator to provision Kafka inside the K8s cluster.
 
 ## Configuring external message broker
-Use the `messageBroker.external` section to configure an external message broker like so:
+Use the `messageBroker.external` section to configure an external message broker like so (in this example we use Kafka):
 
 ```yaml
 messageBroker:
@@ -12,27 +19,20 @@ messageBroker:
     enabled: true
     type: kafka
     config:
-      connection:
-        type: tls
-        bootstrapAddress: kafka-example.myorg.com:9098
+      ...
 ```
 
-## Configuring Smile CDR Kafka settings
-While you can configure any of the message broker settings available in the `clustermgr` module, some of them are defined automatically by this Helm Chart.
+The remaining configuration differs for Kafka and ActiveMQ as described in the sections below.
+
+## Configuring Kafka
+
+To enable a default Kafka configuration, you will need to provide connection and authentication details. For more information on
+the settings being used inside the Smile CDR configuration, please refer to the documentation [here](https://smilecdr.com/docs/installation/kafka.html)
 
 ### TLS Connectivity
-When connecting to Kafka clusters, it is advised to use TLS connections. If you provide a `bootstrapAddress` for a TLS enabled Kafka listener, then Smile CDR will be automatically configured to connect to it using TLS.
+When connecting to Kafka clusters, it is advised to use TLS connections. In a default configuration, Smile CDR will be configured to use TLS.
 
-The connection type is specified using `messageBroker.external.config.connection.type`. If not provided, the default of `tls` will be used.
-
-```yaml
-messageBroker:
-  external:
-    config:
-      connection:
-        type: tls
-```
-If you wish to run without enabling encryption for testing purposes, you can also specify `plaintext`.
+If you wish to run without enabling encryption (i.e. for testing purposes), you can also specify `plaintext` like so.
 
 ```yaml
 messageBroker:
@@ -45,7 +45,8 @@ messageBroker:
 >**Note:** You cannot use mTLS or IAM authentication methods if you disable TLS
 
 #### Using Custom Certificate Authority
-If your external Kafka cluster is configured with a TLS certificate that is signed with a public Certificate Authority (CA) then no further steps are required.
+If your external Kafka cluster is configured with a TLS certificate that is signed with a public Certificate Authority (CA) then no further steps are required as the truststore that is included
+in the Java distribution will be used.
 
 However, if you need to provide a custom CA certificate, you can do so by providing a `caCert` configuration in the connection settings.
 
