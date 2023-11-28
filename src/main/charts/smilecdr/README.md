@@ -123,7 +123,7 @@ The below section gives an overview of the default values available. Consult the
 | messageBroker.external.config.connection.caCert | object | `{}` | Mandatory: External message broker bootstrap address bootstrapAddress: kafka-example1.local, kafka-example2.local |
 | messageBroker.external.config.connection.type | string | `"tls"` |  |
 | messageBroker.external.enabled | bool | `false` |  |
-| messageBroker.external.type | string | `"kafka"` | External message broker type |
+| messageBroker.external.type | string | `"kafka"` | External message broker type. `kafka` or `activemq` |
 | messageBroker.manageTopics | bool | `true` |  |
 | messageBroker.strimzi.enabled | bool | `false` | Enable provisioning of Kafka using Strimzi Operator |
 | messageBroker.topics.batch2.name | string | `"batch2.work.notification.Masterdev.persistence"` |  |

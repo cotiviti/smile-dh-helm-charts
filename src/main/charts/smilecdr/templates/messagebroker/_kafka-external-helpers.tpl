@@ -3,7 +3,7 @@ Lightweight template to determine if external Kafka is enabled
 */ -}}
 {{- define "kafka.external.enabled" -}}
   {{- $externalKafkaEnabled := "false" -}}
-  {{- if .Values.messageBroker.external.enabled -}}
+  {{- if and .Values.messageBroker.external.enabled (eq (default "kafka" .Values.messageBroker.external.type ) "kafka") -}}
     {{- $externalKafkaEnabled = "true" -}}
   {{- end -}}
   {{- $externalKafkaEnabled -}}

@@ -108,6 +108,7 @@ are hard-coded in here.
 */}}
 {{- define "scdrcfg.messagebroker" -}}
   {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
+  {{- $amqConfig := (include "messagebroker.amq.config" . | fromYaml) -}}
   {{- if $kafkaConfig.enabled -}}
 module.clustermgr.config.messagebroker.type                         =KAFKA
 module.clustermgr.config.kafka.bootstrap_address                    =#{env['KAFKA_BOOTSTRAP_ADDRESS']}
@@ -148,6 +149,11 @@ module.clustermgr.config.kafka.ssl.key.password                     =#{null}
     {{- else if eq $kafkaConfig.authentication.type "password" }}
 module.clustermgr.config.kafka.security.jaas.config                 =org.apache.kafka.common.security.plain.PlainLoginModule required username="#{env['KAFKA_USERNAME']}" password="#{env['KAFKA_PASSWORD']}"
     {{- end }}
+  {{- else if $amqConfig.enabled -}}
+module.clustermgr.config.messagebroker.type                         =REMOTE_ACTIVEMQ
+module.clustermgr.config.messagebroker.address                      =#{env['REMOTE_ACTIVEMQ_ADDRESS']}
+module.clustermgr.config.messagebroker.username                     =#{env['REMOTE_ACTIVEMQ_USERNAME']}
+module.clustermgr.config.messagebroker.password                     =#{env['REMOTE_ACTIVEMQ_PASSWORD']}
   {{- else -}}
 module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
   {{- end }}
