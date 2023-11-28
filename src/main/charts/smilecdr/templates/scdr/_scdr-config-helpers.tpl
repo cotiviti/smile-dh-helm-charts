@@ -107,7 +107,7 @@ TODO: Needs some rework. Specifically, a few Kafka config settings
 are hard-coded in here.
 */}}
 {{- define "scdrcfg.messagebroker" -}}
-{{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
+  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
   {{- if or $kafkaConfig.enabled -}}
 module.clustermgr.config.messagebroker.type                         =KAFKA
 module.clustermgr.config.kafka.bootstrap_address                    =#{env['KAFKA_BOOTSTRAP_ADDRESS']}

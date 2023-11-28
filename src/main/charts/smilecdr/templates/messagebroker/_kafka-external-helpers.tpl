@@ -1,10 +1,22 @@
 {{- /*
+Lightweight template to determine if external Kafka is enabled
+*/ -}}
+{{- define "kafka.external.enabled" -}}
+  {{- $externalKafkaEnabled := "false" -}}
+  {{- if .Values.messageBroker.external.enabled -}}
+    {{- $externalKafkaEnabled = "true" -}}
+  {{- end -}}
+  {{- $externalKafkaEnabled -}}
+{{- end -}}
+
+{{- /*
 This function just returns the config item, but also does some validation and sanitation
 to avoid doing it in multiple places in the Helm Chart
 */ -}}
 {{- define "kafka.external.config" -}}
   {{- $externalConfig := dict -}}
-  {{- if .Values.messageBroker.external.enabled -}}
+  {{- /* if .Values.messageBroker.external.enabled */ -}}
+  {{- if eq ((include "kafka.external.enabled" . ) | trim ) "true" -}}
     {{- $externalConfig = .Values.messageBroker.external.config -}}
     {{- $kafkaConnectionType := (default "tls" ($externalConfig.connection).type) -}}
     {{- $kafkaAuthenticationType := (default "tls" ($externalConfig.authentication).type) -}}

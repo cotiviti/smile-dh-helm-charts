@@ -209,22 +209,8 @@ Define CDR Nodes
       {{- $_ := set $parsedNodeValues "deploymentAnnotations" (include "smilecdr.annotations.deployment" $nodeHelperCTX | fromYaml) -}}
       {{- $_ := set $parsedNodeValues "podAnnotations" (include "smilecdr.annotations.pod" $nodeHelperCTX | fromYaml) -}}
 
-      {{- $kafkaConfig := (include "kafka.config" $nodeHelperCTX | fromYaml) -}}
-      {{- if $kafkaConfig.enabled -}}
-        {{- $consumerPropertiesData := include "kafka.consumer.properties.text" $nodeHelperCTX -}}
-        {{- $producerPropertiesData := include "kafka.producer.properties.text" $nodeHelperCTX -}}
-        {{- $_ := set $parsedNodeValues "kafka" $kafkaConfig -}}
-        {{- $_ := set $parsedNodeValues.kafka "consumerPropertiesData" $consumerPropertiesData -}}
-        {{- $_ := set $parsedNodeValues.kafka "producerPropertiesData" $producerPropertiesData -}}
-        {{- $propsHashSuffix := ternary (printf "-%s" (include "smilecdr.getHashSuffix" (printf "%s/n%s" $consumerPropertiesData $producerPropertiesData))) "" $parsedNodeValues.autoDeploy -}}
-        {{- /* TODO: We can update the following if we wish to change the kafka properties CM resource naming schema later. */ -}}
-        {{- $_ := set $parsedNodeValues.kafka "propertiesResourceName" (printf "%s-kafka-client-properties-%s-node%s" $.Release.Name ($theNodeName | lower) $propsHashSuffix) -}}
-        {{- /* TODO: Remove when `oldResourceNaming` is removed */ -}}
-        {{- if $parsedNodeValues.oldResourceNaming -}}
-          {{- $_ := set $parsedNodeValues.kafka "propertiesResourceName" (printf "%s-kafka-client-properties-%s-node%s" $.Release.Name ($theNodeName | lower) $propsHashSuffix) -}}
-        {{- end -}}
-        {{- /* fail (printf "\n$nodeHelperCTX\n\n%s" (toYaml $nodeHelperCTX)) */ -}}
-      {{- end -}}
+      {{- /* Set Kafka Configurations for CDR Node */ -}}
+      {{- $_ := set $parsedNodeValues "kafka" (include "kafka.config" $nodeHelperCTX | fromYaml) -}}
 
       {{- $_ := set $parsedNodeValues "volumeMounts" (include "smilecdr.volumeMounts" $nodeHelperCTX | fromYamlArray) -}}
       {{- $_ := set $parsedNodeValues "volumes" (include "smilecdr.volumes" $nodeHelperCTX | fromYamlArray) -}}

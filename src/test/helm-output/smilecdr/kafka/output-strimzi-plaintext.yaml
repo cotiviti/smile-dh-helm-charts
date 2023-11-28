@@ -18,7 +18,7 @@ spec:
       app.kubernetes.io/instance: release-name
       app.kubernetes.io/name: smilecdr
 ---
-# Source: smilecdr/templates/kafka/kafka-properties-configmap.yaml
+# Source: smilecdr/templates/messagebroker/kafka-properties-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -609,7 +609,7 @@ spec:
           path: /smartauth
           pathType: Prefix
 ---
-# Source: smilecdr/templates/kafka/strimzi-kafka-cluster.yaml
+# Source: smilecdr/templates/messagebroker/strimzi-kafka-cluster.yaml
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
