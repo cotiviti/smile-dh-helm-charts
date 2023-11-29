@@ -1,3 +1,10 @@
+# [1.0.0-pre.102](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.101...v1.0.0-pre.102) (2023-11-29)
+
+
+### Bug Fixes
+
+* **smilecdr:** improve handling of issuer.url ([9f0976c](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/9f0976c6ea225ef9fd2f434744b60b8a62650f9f))
+
 # [1.0.0-pre.101](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.100...v1.0.0-pre.101) (2023-11-28)
 
 
