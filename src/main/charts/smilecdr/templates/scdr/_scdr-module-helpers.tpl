@@ -275,9 +275,22 @@ Generate the configuration options in text format for all the enabled modules
         {{- end -}}
         {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $theConfigItemName $baseUrl -}}
       {{- else if eq $theConfigItemName "base_url.mismatch_allowed" -}}
-        {{- /* This is not a smile config so not using it. Only used to help with logic for `base_url.fixed` auto-configuration */ -}}
+        {{- /* This is not a Smile CDR config so not using it. Only used to help with logic for `base_url.fixed` auto-configuration */ -}}
       {{- else if eq $theConfigItemName "issuer.url" -}}
-        {{- $moduleText = printf "%s%s.config.%s \t= https://%s%s\n" $moduleText $moduleKey $theConfigItemName $.Values.specs.hostname $theModuleSpec.service.fullPath -}}
+        {{- /* If set to 'default', this will set the URL to 'https://hostname/servicename' where hostname is the main hostname for the
+            deployment, and servicename is the context path for the module that this is being defined in.
+            'default' is an invalid configuration in the context of a non-endpoint module.
+            Any value other than 'default' is used as-is. */ -}}
+        {{- if eq $theConfigItemValue "default" -}}
+          {{- if ($theModuleSpec.service).fullPath -}}
+            {{- $moduleText = printf "%s%s.config.%s \t= https://%s%s\n" $moduleText $moduleKey $theConfigItemName $.Values.specs.hostname $theModuleSpec.service.fullPath -}}
+          {{- else -}}
+            {{- fail (printf "Module %s cannot use 'default' for `issuer.url` config item." $moduleKey) -}}
+          {{- end -}}
+        {{- else -}}
+          {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $theConfigItemName $theConfigItemValue -}}
+        {{- end -}}
+
       {{- /* Process remaining config items */ -}}
       {{- else -}}
         {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $theConfigItemName $theConfigItemValue -}}

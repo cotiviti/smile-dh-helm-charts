@@ -33,3 +33,9 @@ tests:
     valueFiles:
     - ../default-test-values.yaml
     - values-appGallery.yaml
+  issuerUrl:
+    outputFile: output-issuerUrl.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - custom-modules.yaml
+    - values-issuerUrl.yaml
