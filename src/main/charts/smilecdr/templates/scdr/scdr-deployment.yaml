@@ -60,8 +60,8 @@ spec:
               - /bin/sh
               - -c
               - "/bin/grep \"Smile, we're up and running! :)\" /home/smile/smilecdr/log/smile.log"
-            failureThreshold: 30
-            periodSeconds: 10
+            failureThreshold: {{ $theNodeSpec.startupProbe.failureThreshold }}
+            periodSeconds: {{ $theNodeSpec.startupProbe.periodSeconds }}
           resources:
             {{- toYaml $theNodeSpec.resources | nindent 12 }}
           env:
