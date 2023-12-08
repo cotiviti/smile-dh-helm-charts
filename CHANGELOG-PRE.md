@@ -1,3 +1,10 @@
+# [1.0.0-pre.103](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.102...v1.0.0-pre.103) (2023-12-08)
+
+
+### Features
+
+* **smilecdr:** allow custom startup probe timings ([5bfabc5](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/5bfabc51e5a04ac3fe6efd2c1c251583d91689b0))
+
 # [1.0.0-pre.102](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.101...v1.0.0-pre.102) (2023-11-29)
 
 
