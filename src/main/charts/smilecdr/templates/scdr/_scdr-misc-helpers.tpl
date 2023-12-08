@@ -32,6 +32,24 @@ periodSeconds: {{ default 10 ($.Values.readinessProbe).periodSeconds }}
   {{- end -}}
 {{- end -}}
 
+{{- /* Startup Probe may need to be configurable in cases where a Smile CDR configuration takes
+    longer than the default settings of 5 mins.
+    There are also scenarios where the startup probe may be disabled for troubleshooting purposes.
+*/ -}}
+{{- define "smilecdr.startupProbe" -}}
+
+  {{- $probeSettings := dict -}}
+
+  {{- /* We could potentially check for known settings that cause slow startup.
+      For now, we will just allow simple override.
+      TODO: Add calculated defaults based on slow starting modules
+      (e.g persistence with `auto_create_placeholder_reference_targets` enabled) */ -}}
+  {{- $_ := set $probeSettings "failureThreshold" (default 30 ($.Values.startupProbe).failureThreshold) -}}
+  {{- $_ := set $probeSettings "periodSeconds" (default 10 ($.Values.startupProbe).periodSeconds) -}}
+
+  {{- $probeSettings | toYaml -}}
+{{- end -}}
+
 {{/*
 Define Smile CDR environment variables
 
