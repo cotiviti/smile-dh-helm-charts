@@ -520,13 +520,6 @@ spec:
             runAsUser: 1000
           image: "custom.image/repo/image:custom-tag"
           imagePullPolicy: IfNotPresent
-          readinessProbe:
-            failureThreshold: 2
-            httpGet:
-              path: /fhir_request/endpoint-health
-              port: 8000
-            periodSeconds: 10
-            timeoutSeconds: 10
           lifecycle:
             preStop:
               exec:
@@ -536,9 +529,16 @@ spec:
               command:
               - /bin/sh
               - -c
-              - "/bin/grep \"Smile, we're up and running! :)\" /home/smile/smilecdr/log/smile.log"
+              - /bin/grep "Smile, we're up and running! :)" /home/smile/smilecdr/log/smile.log
             failureThreshold: 30
             periodSeconds: 10
+          readinessProbe:
+            failureThreshold: 2
+            httpGet:
+              path: /fhir_request/endpoint-health
+              port: 8000
+            periodSeconds: 10
+            timeoutSeconds: 10
           resources:
             limits:
               memory: 4Gi

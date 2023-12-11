@@ -314,6 +314,7 @@ Outputs as Serialized Yaml. If you need to parse the output, include it like so:
       {{- $service := dict -}}
       {{- $_ := set $service "contextPath" $theModuleSpec.config.context_path -}}
       {{- $_ := set $service "fullPath" $theModuleSpec.service.fullPath -}}
+      {{- $_ := set $service "healthcheckPath" (join "/" (list (trimSuffix "/" $theModuleSpec.service.fullPath) (trimAll "/" (default "endpoint-health" ($theModuleSpec.config.endpoint_health).path)))) -}}
       {{- $_ := set $service "svcName" ($theModuleSpec.service.svcName | lower) -}}
       {{- $_ := set $service "resourceName" ($theModuleSpec.service.resourceName | lower) -}}
       {{- $_ := set $service "serviceType" ($theModuleSpec.service.serviceType) -}}

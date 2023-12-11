@@ -176,12 +176,12 @@ Define CDR Nodes
 
       {{- $_ := set $parsedNodeValues "envVars" (include "smilecdr.envVars" $nodeHelperCTX | fromYamlArray) -}}
 
-
       {{- $_ := set $parsedNodeValues "services" (include "smilecdr.services" $nodeHelperCTX | fromYaml) -}}
 
-      {{- $_ := set $parsedNodeValues "readinessProbe" (include "smilecdr.readinessProbe" $nodeHelperCTX | fromYaml) -}}
-
+      {{- /* Include container probe definitions */ -}}
       {{- $_ := set $parsedNodeValues "startupProbe" (include "smilecdr.startupProbe" $nodeHelperCTX | fromYaml) -}}
+      {{- $_ := set $parsedNodeValues "readinessProbe" (include "smilecdr.readinessProbe" $nodeHelperCTX | fromYaml) -}}
+      {{- $_ := set $parsedNodeValues "livenessProbe" (include "smilecdr.livenessProbe" $nodeHelperCTX | fromYaml) -}}
 
       {{- $_ := set $parsedNodeValues "propertiesData" (include "smilecdr.cdrConfigData" $nodeHelperCTX) -}}
       {{- $cmHashSuffix := ternary (printf "-%s" (include "smilecdr.getHashSuffix" $parsedNodeValues.propertiesData)) "" $parsedNodeValues.autoDeploy -}}
