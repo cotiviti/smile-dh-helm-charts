@@ -118,7 +118,6 @@ data:
     module.fhir_endpoint.config.cors.enable 	= true
     module.fhir_endpoint.config.default_encoding 	= JSON
     module.fhir_endpoint.config.default_pretty_print 	= true
-    module.fhir_endpoint.config.endpoint_health.path 	= /differenthealthcheckpath
     module.fhir_endpoint.config.https_forwarding_assumed 	= true
     module.fhir_endpoint.config.port 	= 8000
     module.fhir_endpoint.config.request_validating.enabled 	= false
@@ -414,13 +413,6 @@ spec:
             runAsUser: 1000
           image: "docker.smilecdr.com/smilecdr:2023.08.R01"
           imagePullPolicy: IfNotPresent
-          readinessProbe:
-            failureThreshold: 2
-            httpGet:
-              path: /fhir_request/differenthealthcheckpath
-              port: 8000
-            periodSeconds: 10
-            timeoutSeconds: 10
           lifecycle:
             preStop:
               exec:
@@ -430,9 +422,25 @@ spec:
               command:
               - /bin/sh
               - -c
-              - "/bin/grep \"Smile, we're up and running! :)\" /home/smile/smilecdr/log/smile.log"
+              - /bin/grep "Smile, we're up and running! :)" /home/smile/smilecdr/log/smile.log
             failureThreshold: 30
             periodSeconds: 10
+          readinessProbe:
+            failureThreshold: 2
+            httpGet:
+              path: /fhir_request/endpoint-health
+              port: 8000
+            periodSeconds: 10
+            timeoutSeconds: 10
+          livenessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - myLivenessProbeCommand
+            failureThreshold: 3
+            periodSeconds: 5
+            timeoutSeconds: 5
           resources:
             limits:
               memory: 4Gi

@@ -48,20 +48,22 @@ spec:
           {{- $image := printf "%s:%s" $theNodeSpec.image.repository (default $.Chart.AppVersion $theNodeSpec.image.tag) }}
           image: {{ quote $image }}
           imagePullPolicy: {{ $theNodeSpec.image.pullPolicy }}
-          readinessProbe:
-            {{- toYaml $theNodeSpec.readinessProbe | nindent 12 }}
           lifecycle:
             preStop:
               exec:
                 command: ["sleep", "30"]
+            {{- with $theNodeSpec.startupProbe }}
           startupProbe:
-            exec:
-              command:
-              - /bin/sh
-              - -c
-              - "/bin/grep \"Smile, we're up and running! :)\" /home/smile/smilecdr/log/smile.log"
-            failureThreshold: {{ $theNodeSpec.startupProbe.failureThreshold }}
-            periodSeconds: {{ $theNodeSpec.startupProbe.periodSeconds }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
+            {{- with $theNodeSpec.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+            {{- with $theNodeSpec.livenessProbe }}
+          livenessProbe:
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
           resources:
             {{- toYaml $theNodeSpec.resources | nindent 12 }}
           env:

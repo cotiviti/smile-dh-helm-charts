@@ -1,6 +1,0 @@
-tests:
-  healthcheckPath:
-    outputFile: output.yaml
-    valueFiles:
-    - ../default-test-values.yaml
-    - test-values.yaml
