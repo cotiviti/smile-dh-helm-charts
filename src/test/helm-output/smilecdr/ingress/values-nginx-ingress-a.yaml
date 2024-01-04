@@ -1,5 +1,6 @@
 ingress:
   type: nginx-ingress
+  enabled: true
   annotations:
     nginx.ingress.kubernetes.io/force-ssl-redirect: overridden-value
     appgw.ingress.kubernetes.io/extra-annotation-1: annotation1-value

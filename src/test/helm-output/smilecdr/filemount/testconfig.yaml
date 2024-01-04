@@ -6,34 +6,41 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - test-values.yaml
   classesS3:
     outputFile: output-s3-classes.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-s3-classes.yaml
   classesS3Nosync:
     outputFile: output-s3-classes-nosync.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-s3-classes-nosync.yaml
   customerlibS3:
     outputFile: output-s3-customerlib.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-s3-customerlib.yaml
   bothS3:
     outputFile: output-s3-both.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-s3-both.yaml
   bothCurl:
     outputFile: output-curl-both.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-curl-both.yaml
   multiFiles:
     outputFile: output-multi-files.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-multi-files.yaml

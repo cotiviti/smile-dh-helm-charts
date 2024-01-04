@@ -3,34 +3,41 @@ tests:
     outputFile: output-singleExternal.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-singleExternal.yaml
   auditExternal:
     outputFile: output-auditExternal.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-auditExternal.yaml
   multiExternal:
     outputFile: output-multiExternal.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-multiExternal.yaml
   singleExternalCrunchy:
     outputFile: output-singleExternalCrunchy.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-singleExternalCrunchy.yaml
   multiExternalCrunchy:
     outputFile: output-multiExternalCrunchy.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-multiExternalCrunchy.yaml
   singleInternalCrunchy:
     outputFile: output-singleInternalCrunchy.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-singleInternalCrunchy.yaml
   multiInternalCrunchy:
     outputFile: output-multiInternalCrunchy.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-multiInternalCrunchy.yaml

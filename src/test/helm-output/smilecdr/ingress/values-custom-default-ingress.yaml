@@ -1,0 +1,25 @@
+ingresses:
+  default:
+    enabled: false
+  myCustomPublic:
+    enabled: true
+    type: nginx-ingress
+    defaultIngress: true
+  myCustomPrivate:
+    enabled: true
+    type: nginx-ingress
+
+modules:
+  admin_json:
+    service:
+      ingresses:
+        myCustomPrivate:
+          enabled: true
+        myCustomPublic:
+          enabled: true
+
+  admin_web:
+    service:
+      ingresses:
+        default:
+          enabled: true

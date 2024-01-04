@@ -166,3 +166,8 @@ mappedFiles:
     path: /home/smile/smilecdr/classes
   logback.xml:
     path: /home/smile/smilecdr/classes
+
+
+ingresses:
+  default:
+    enabled: true

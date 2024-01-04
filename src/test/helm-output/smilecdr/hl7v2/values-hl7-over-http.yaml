@@ -20,3 +20,8 @@ modules:
       hl7v2_fhir_mapper_pv1.treat_pv1_3_and_6_patient_locations_as_atomic: true
       hl7v2_fhir_mapper_contained_resource.use_standalone_pid18_patient_account: true
       hl7v2_fhir_mapper_contained_resource.use_standalone_nk113_associated_party: true
+
+
+ingresses:
+  default:
+    enabled: true

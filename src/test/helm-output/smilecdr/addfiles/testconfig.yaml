@@ -6,6 +6,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-simple.yaml
     # - extra-values.yaml
     setFile:
@@ -19,6 +20,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-logback.yaml
     # - extra-values.yaml
     setFile:
@@ -32,6 +34,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-logback-hash.yaml
     # - extra-values.yaml
     setFile:

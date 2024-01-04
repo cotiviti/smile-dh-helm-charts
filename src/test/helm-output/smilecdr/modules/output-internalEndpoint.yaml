@@ -339,9 +339,9 @@ metadata:
     app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
   annotations:
-    kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
+  ingressClassName: nginx
   rules:
     - host: smilecdr-example.local
       http:
@@ -359,6 +359,13 @@ spec:
               port:
                 number: 8000
           path: /fhir_request
+          pathType: Prefix
+        - backend:
+            service:
+              name: release-name-scdr-svc-fhir2
+              port:
+                number: 8002
+          path: /fhir_request2
           pathType: Prefix
 ---
 # Source: smilecdr/templates/tests/test-connection.yaml

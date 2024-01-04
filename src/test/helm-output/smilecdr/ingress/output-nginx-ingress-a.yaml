@@ -522,10 +522,10 @@ metadata:
     app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
   annotations:
-    appgw.ingress.kubernetes.io/extra-annotation-1: "annotation1-value"
-    appgw.ingress.kubernetes.io/extra-annotation-2: "annotation2-value"
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "overridden-value"
+    appgw.ingress.kubernetes.io/extra-annotation-1: annotation1-value
+    appgw.ingress.kubernetes.io/extra-annotation-2: annotation2-value
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/force-ssl-redirect: overridden-value
 spec:
   rules:
     - host: smilecdr-example.local

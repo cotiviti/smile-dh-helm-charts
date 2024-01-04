@@ -1,30 +1,37 @@
 # Configuring Ingress
-This chart supports multiple Ingress options, currently including Nginx Ingress, AWS Load Balancer
-Controller and Azure Application Gateway Controller.
+This chart enables flexible Kubernetes Ingress resource configuration, supporting multiple Ingress and IngressClass resources for versatile application traffic routing.
+
+Currently supported controllers include Nginx Ingress, AWS Load Balancer, and Azure Application Gateway.
 
 ## Ingress Type
-Select the ingress type by setting `ingress.type` to the appropriate value. Doing this will automatically configure the `Service` and `Ingress` resources so that the chosen controller can configure infrastructure resources appropriately.
+This chart uses a concept of ingress `Type` to determine what kind of Ingress Controller is being used. It should not be confused with the `IngressClass`.
 
-There are three ingress types currently supported:
+The following ingress types are currently supported:
 
-* Nginx Ingress Controller (Default)
-* AWS Load Balancer Controller
-* Azure Application Gateway Controller
+* `nginx-ingress`
+* `aws-lbc-alb`
+* `azure-appgw`
+
+This setting is used to help automatically configure the `Service` and `Ingress` resources so that the configured Ingress Controller can configure infrastructure resources appropriately.
+
+The ingress type for any given ingress can be set with `ingresses.default.type: ingress-type`.
+
+>**NOTE:** If migrating from Helm Chart versions older than `v1.0.0-pre.104`, you will need to adjust from the old config schema to the new one. This can be done by moving any configurations that were previously under `ingress.*` to `ingresses.default.*`. e.g. `ingress.type: aws-lbc-alb` would become `ingresses.default.type: aws-lbc-alb`
 
 ### Nginx Ingress
-By default, this chart is configured to use the Nginx Ingress Controller. `ingress.type` is already set to `nginx-ingress` so you do not need to do anything to use this method.
+By default, this chart is configured to use the [Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/). `ingresses.default.type` is already set to `nginx-ingress` so you do not need to do anything to use this Ingress Controller.
 
-When used in conjunction with the AWS Load Balancer Controller, the Nginx Ingress will be backed by an AWS NLB (Network Load Balancer).
+The behavior of the Nginx Ingress controller differs based on the cloud provider being used. When used in conjunction with the [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller), the Nginx Ingress will be backed by an AWS NLB (Network Load Balancer).
 
-The `Service` objects will be set as `ClusterIP` rather than `NodePort`. This increases the security stance of the deployment as Kubernetes does not expose these services externally to the cluster. All traffic comes from the Nginx Ingress pods directly to the application pods.
+The `Service` objects will be set as `ClusterIP` rather than `NodePort`. This increases the security stance of the deployment as Kubernetes does not expose these services externally to the cluster. All traffic comes from the Nginx Ingress Controller pod, directly to the application pods.
 
 #### Dedicated Nginx Ingress
-By default, this option uses the `nginx` ingress class. Any ingresses using this class will share the same underlying NLB.
+By default, this option uses the `nginx` ingress class. If multiple ingresses all use the same default IngressClass, then they will share the same underlying NLB.
 
-If you need to use a dedicated NLB for this deployment you can do so by first creating a separate Nginx Ingress Controller with a different ingress class name. You can then specify this ingress class with `ingress.ingressClassNameOverride`.
+If you need to use a dedicated (or multiple) NLBs for this deployment, you can do so by first creating any required Nginx Ingress Controllers with a different IngressClass name. You can then specify this ingress class with `ingresses.default.ingressClassNameOverride`.
 
 ### AWS Load Balancer Controller
-To directly use the AWS Load Balancer Controller set `ingress.type` to `aws-lbc-alb`. By default, this option uses the `alb` ingress class.
+To directly use the AWS Load Balancer Controller set `ingresses.default.type` to `aws-lbc-alb`. By default, this option uses the `alb` ingress class.
 
 This automatically adds appropriate default `Ingress` annotations for the AWS Load Balancer Controller. The controller will then create an AWS ALB (Application Load Balancer).
 
@@ -33,16 +40,147 @@ You will still need to add some extra annotations, such as `alb.ingress.kubernet
 >**Warning**: Be aware that the `Service` objects will be set as `NodePort` rather than  `ClusterIP`. This means that the application services will be made available externally to the cluster which may have security implications you need to be aware of.
 
 #### Known Problems
-There is currently a problem with the AWS Load Balancer Controller configuration where the health checks do not function correctly. This is somewhat mitigated by the fact that the `Service` objects are using `NodePort`. This will be addressed in a future release of this chart.
+There is currently a problem with the AWS Load Balancer Controller configuration where the health checks do not function as expected. This is somewhat mitigated by the fact that the `Service` objects are using `NodePort`. This will be addressed in a future release of this chart.
 
 ### Azure Application Gateway Controller
-If you wish to use the Azure Application Gateway Controller, set `ingress.type` to `azure-appgw`. By default, this option uses the `azure/application-gateway` ingress class.
+If you wish to use the Azure Application Gateway Controller, set `ingresses.default.type` to `azure-appgw`. By default, this option uses the `azure/application-gateway` ingress class.
 
 When using this method, the chart will automatically add `Ingress` annotations for the Azure Application Gateway Controller. The controller will then create an Azure Application Gateway to be used as ingress.
 
 You will still need to add some extra annotations, such as `appgw.ingress.kubernetes.io/appgw-ssl-certificate`. See the [Extra Annotations](#extra-annotations) section below for more info.
 
 >**Warning**: Be aware that the `Service` objects will be set as `NodePort` rather than  `ClusterIP`. This means that the application services will be made available externally to the cluster which may have security implications you need to be aware of.
+
+## Multiple Ingress Resources
+This chart allows for configurations using an arbitrary number of ingress resources and ingress classes.
+
+This enables the implementation of architectures that require multiple routes for accessing for your environment. For example, you may require some services available publically while others, such as the Admin Web Console, may only permit access from a private network.
+
+
+### Default Ingress
+In order to simplify deployment of certain architectures, this chart supports the concept of a 'default' Ingress resource.
+
+The default Ingress resource will be used for any Smile CDR modules that have not explicitly defined `service.ingresses` in their configuration.
+
+#### The pre-defined Default Ingress Configuration
+If no changes are made to the `ingresses` section of your Helm Values, a pre-defined Ingress Configuration is created, that effectively looks like this:
+```
+ingresses:
+  default:
+    enabled: true
+    type: nginx-ingress
+    defaultIngress: true
+    ingressClassName: nginx
+```
+With the above pre-defined ingress, any module with an endpoint-enabled service will have rules injected into the `Ingress` resource created by this configuration.
+
+#### The `defaultIngress` setting
+This setting tells an Ingress resource to serve as the active *default ingress*. This setting can only be enabled for a single Ingress Configuration at a time.
+
+If you are defining a custom default Ingress Configuration and do not wish to use the pre-defined one, you need to disable it like so:
+
+```
+ingresses:
+  default:
+    enabled: false
+  myCustomDefaultIngress
+    enabled: true
+    type: nginx-ingress
+    defaultIngress: true
+    ...
+```
+
+>**NOTE:** If there are no Ingress Configurations with this setting enabled, then any Smile CDR modules that ***HAVE NOT*** explicitly defined `service.ingresses` in their configuration will not be exposed externally to the K8s cluster.
+
+
+#### Configuring the pre-defined Default Ingress Configuration
+The pre-defined Ingress Configuration can be reconfigured as follows:
+```
+ingresses:
+  default:
+    type: azure-appgw
+```
+
+#### Disabling the pre-defined Default Ingress Configuration
+If you are creating multiple custom Ingress Configurations, you may wish to disable the pre-defined default ingress. This can be done as follows:
+```
+ingresses:
+  default:
+    enabled: false
+```
+>**NOTE:** If you disable the default ingress, then you must define at least one alternative Ingress Configuration if you wish to allow access from outside the Kubernetes cluster.
+
+### Defining Custom Ingress Configurations
+To allow for complex ingress architectures, you may define an arbitrary number of Ingress Configurations like so
+```
+ingresses:
+  default:
+    enabled: false
+  myPrivateNginx:
+    enabled: true
+    type: nginx-ingress
+    defaultIngress: true
+  myPublicNginx:
+    enabled: true
+    type: nginx-ingress
+    ingressClassNameOverride: nginx-public
+
+# These two are just to demonstrate using the
+#  AWS Load Balancer Controller for Ingress
+
+  myPrivateALB:
+    enabled: true
+    type: aws-lbc-alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internal
+  myPublicALB:
+    enabled: true
+    type: aws-lbc-alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+
+```
+In the above example we are:
+
+* Disabling the default Ingress Configuration (We do this, because we will be defining a new default Ingress Configuration)
+* Creating a `myPrivateNginx` defult Ingress Configuration.
+  * Using `defaultIngress` creates the default Ingress resource. This will be used by any Smile CDR modules that do not explicitly define `service.ingresses`.
+  * The Ingress resource will use the Nginx Ingress Controller via the `ingressClass` resource named `nginx`
+* Creating a `myPublicNginx` Ingress Configuration.
+  * This ingress will not be used unless a module specifies that it should use this ingress.
+  * The Ingress resource will use the Nginx Ingress Controller via the `ingressClass` resource named `nginx-public`. This additional Nginx Ingress Controller will need to be deployed before trying to use this configuration.
+
+The following two are just to demonstrate how you would use the AWS Load Balancer Controller as an alternative mechanism.
+
+* Creating a `myPrivateALB` Ingress Configuration.
+  * This will use the AWS Load Balancer Controller with an IngressClassName of `alb`.
+  * It uses AWS Load Balancer Controller annotations to set this ingress to use an internal only AWS Application Load Balancer.
+* Creating a `myPublicALB` Ingress Configuration.
+  * This will use the Nginx Ingress controller with an IngressClassName of `alb`.
+  * It uses AWS Load Balancer Controller annotations to set this ingress to use an internet facing AWS Application Load Balancer.
+
+>**NOTE:** There are no restrictions on mixing the `type` for Ingress Configurations. For example, you may have some Ingress Configurations use `nginx-ingress` and others use `aws-lbc-alb`.
+
+### Configure Ingress for Modules
+Smile CDR modules will automatically be configured to use whichever ingress has the `defaultIngress` setting enabled.
+
+If you do not want a module to use the default Ingress resource, or if there is no default Ingress Configuration defined, then you need to explicitly configure the `service.ingresses` for any Smile CDR modules that need to be accessed from outside the Kubernetes cluster.
+
+To configure a Smile CDR module to use a specific ingress, specify it in the `moduleSpec.service.ingresses` map as follows:
+```
+modules:
+  fhirweb_endpoint:
+    service:
+      hostName: myFhirwebHost.example.com
+      ingresses:
+        myPublicNginx:
+          enabled: true
+```
+In the above example we are telling the module named `fhirweb_endpoint` to use the `myPublicNginx` ingress specified previously mentioned. With the sample 'Multiple Ingress' configurations provided in on this page, all Smile CDR modules will only be accessible via the `myPrivateNginx` ingress, except for the `fhirweb_endpoint` module which will be available via the public access route.
+
+>**NOTE:** Although you can configure a module to use multiple Ingress resources, be careful doing this unless you are using a split-dns configuration that preserves the host name for all ingresses.
+
+> Having an endpoint be accessible via multiple hostnames can cause issues with incorrect links to resources generated by the application. It's advisable to only have a given module be accessible via a single ingress/hostname.
 
 ## Extra Annotations
 Depending on the ingress type you select, the chart will automatically add a set of default annotations that are appropriate for the ingress type being used.
@@ -52,43 +190,39 @@ However, it is not possible for the chart to automatically include all annotatio
 To add any extra annotations, or override existing ones, include them in your values file like so:
 
 ```yaml
-ingress:
-  annotations:
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm::01234567890:certificate/abcdef
-    alb.ingress.kubernetes.io/inbound-cidrs: 0.0.0.0
+ingresses:
+  default:
+    annotations:
+      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm::01234567890:certificate/abcdef
+      alb.ingress.kubernetes.io/inbound-cidrs: ['0.0.0.0/0']
 ```
 
 or
 ```yaml
-ingress:
-  annotations:
-    appgw.ingress.kubernetes.io/appgw-ssl-certificate: mysslcert
+ingresses:
+  default:
+    annotations:
+      appgw.ingress.kubernetes.io/appgw-ssl-certificate: mysslcert
 ```
 
 ## Ingress Class Name
-This chart assumes the following class names for your ingress controllers
+This chart uses the following default class names for the different ingress types
 
-| Selected `ingress.type`  | Default `ingress.class`             |
+| Selected `ingresses.default.type`  | Default `ingressClassName`             |
 | --------------- | --------------------------- |
 | `nginx-ingress` | `nginx`                     |
 | `aws-lbc-alb`   | `alb`                       |
 | `azure-appgw`   | `azure/application-gateway` |
 
-If you have configured your ingress with a different `IngressClass` name, you can override it using `ingress.ingressClassNameOverride`.
+If you have configured your Ingress Controller with a different `ingressClass` name, you can override it using `ingresses.default.ingressClassNameOverride`.
 
 For example, if you had a dedicated Nginx Ingress Controller with the `IngressClass` of `nginx-dedicated`, you would include it in your values file like so:
 
 ```yaml
-ingress:
-  ingressClassNameOverride: nginx-dedicated
+ingresses:
+  default:
+    ingressClassNameOverride: nginx-dedicated
 ```
-
-## Multiple Ingress Classes
-It may be required to have multiple ingresses for your environment. For example, you may want some services available externally while others, such as the Admin Web Console, you only want to expose to a private network.
-
-TODO: Insert diagram of this
-
-Currently, this Helm Chart only supports a single ingress class so this is not possible. There is a planned feature to add this functionality.
 
 ## Disabling Ingress
 In some scenarios, you may wish to disable external ingress for certain modules. For example, if you have a FHIR Rest Endpoint module that is behind a FHIR Gateway module, you may not want to expose the FHIR Rest endpoint externally to the cluster.
@@ -103,9 +237,9 @@ modules:
           enabled: false
 ```
 
-When you configure your module like this, there will be no entry in the rules for the default ingress resource that is generated.
+Configuring your module like this will prevent any rules from being added to the default Ingress resource that is generated.
 
-If your module is a FHIR Rest Endpoint module, the `base_url.fixed` setting will be automatically configured appropriately and there is no need for you to define this in your Helm Values file.
+If your module is a FHIR Rest Endpoint module, the `base_url.fixed` setting will be automatically configured appropriately and there is no need for you set this in your `moduleSpec.config`.
 
 ## Service Type
 The appropriate type for the `Service` resources depend on which Ingress type is being used.
@@ -113,6 +247,6 @@ The default `Service` created by this chart is `ClusterIP`. This is the preferre
 
 When using the AWS Load Balancer Controller, or Azure Application Gateway Controller, the service objects are instead set to `NodePort`.
 
-This can be overriden using ```service.type``` in your values file, but it is not recommended and may cause unpredictable behaviour.
+This can be overriden using `service.type` in your values file, but it is not recommended and may cause unpredictable behaviour.
 
 <!-- TODO: We may need to enable `target-type: ip` in the AWS Load Balancer Controller. If doing this, we will need to use pod readiness gates - https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/deploy/pod_readiness_gate/ . This will not work until healthchecks are functioning correctly. -->

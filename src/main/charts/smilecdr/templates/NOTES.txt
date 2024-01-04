@@ -44,7 +44,8 @@ Smile, we're up and running! :)
 *** Smile, we've been upgraded! :) ***
 **************************************
 {{- end }}
-{{- if .Values.ingress.enabled }}
+{{- $ingresses := include "smilecdr.ingresses" . | fromYaml -}}
+{{- if gt (len $ingresses) 0 }}
 
   You can access your Smile CDR instance at:
 

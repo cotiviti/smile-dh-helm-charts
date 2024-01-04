@@ -6,6 +6,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - test-values.yaml
     setFile:
     - key: mappedFiles.filename\.ext.data

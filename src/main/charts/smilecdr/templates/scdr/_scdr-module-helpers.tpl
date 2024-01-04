@@ -34,6 +34,7 @@ Currently, this is the canonical module source for the following template helper
   {{- $modules := include "smilecdr.modules.raw" . | fromYaml -}}
   {{- $modulePrefixes := (include "smilecdr.moduleprefixeswithendpoints" . | fromYamlArray) -}}
   {{- $cdrNodeValues := $.Values -}}
+  {{- $ingresses := include "smilecdr.ingresses" . | fromYaml -}}
   {{- range $theModuleName, $theModuleSpec := $modules -}}
     {{- $theModuleIsClustermgr := ternary true false (eq $theModuleName "clustermgr") -}}
     {{- /*
@@ -58,7 +59,16 @@ Currently, this is the canonical module source for the following template helper
       {{- if ($theModuleSpec.service).enabled -}}
         {{- $theService := $theModuleSpec.service -}}
 
+        {{- /* Canonically define the Kubernetes service resource name and service type */ -}}
+        {{- $svcName := lower (printf "%s-scdrnode-%s-%s" $.Release.Name $cdrNodeValues.nodeId $theService.svcName) -}}
+        {{- if $cdrNodeValues.oldResourceNaming -}}
+          {{- $svcName = lower (printf "%s-scdr-svc-%s" $.Release.Name $theService.svcName) -}}
+        {{- end -}}
+        {{- $_ := set $theService "resourceName" $svcName -}}
+
         {{- /* Configure default ingress for modules with endpoints */ -}}
+
+        {{- /* Determine if service is an endpoint */ -}}
         {{- $serviceHasEndpoint := false -}}
         {{- range $modulePrefix := $modulePrefixes -}}
           {{- if hasPrefix $modulePrefix $theModuleType -}}
@@ -68,12 +78,61 @@ Currently, this is the canonical module source for the following template helper
 
         {{- /* If we do not define the ingress, or if we do not set it to false,
             then set the service to use the default ingress */ -}}
+        {{- /* If we do not define the ingress, or if we do not set it to false,
+            then set the service to use the default ingress */ -}}
         {{- /* TODO: Make the condition logic more readable? */ -}}
-        {{- if and $serviceHasEndpoint (or (not (hasKey (($theService.ingresses).default) "enabled")) (ne $theService.ingresses.default.enabled false)) -}}
-          {{- $_ := set $theService "defaultIngress" true -}}
-        {{- else -}}
-          {{- $_ := set $theService "defaultIngress" false -}}
+
+        {{- if $serviceHasEndpoint -}}
+          {{- /* Determine if the service has any ingress objects defined */ -}}
+          {{- $ingressDefined := false -}}
+          {{- $useDefaultIngress := true -}}
+          {{- $forceDefaultIngress := false -}}
+          {{- if hasKey $theService "ingresses" -}}
+            {{- range $theIngressName, $theIngressSpec := $theService.ingresses -}}
+              {{- /* Check to see if default ingress is explicitly enabled or disabled */ -}}
+              {{- if eq $theIngressName "default" -}}
+                {{- /* If the user has defined the default ingress... */ -}}
+                {{- if $theIngressSpec.enabled -}}
+                {{- /* ... Either forcefully enable it. */ -}}
+                  {{- $forceDefaultIngress = true -}}
+                {{- else -}}
+                {{- /* ... Or disable it */ -}}
+                  {{- $useDefaultIngress = false -}}
+                {{- end -}}
+
+              {{- /* This condition is only reached if we have other ingresses defined in the
+                     service that ARE enabled. */ -}}
+              {{- else if $theIngressSpec.enabled -}}
+                {{- /* Check to make sure that the configured ingress has been defined */ -}}
+                {{- if hasKey $ingresses $theIngressName -}}
+                  {{- $ingressDefined = true -}}
+                {{- else -}}
+                  {{- fail (printf "Ingress `%s` configured in module `%s` has not been defined and cannot be used." $theIngressName $theModuleName ) -}}
+                {{- end -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+
+          {{- if $ingressDefined -}}
+            {{- /* Here we disable default ingress in the case that ingress is defined
+                and the default ingress is not explicitly enabled */ -}}
+            {{- $_ := set $theService "defaultIngress" $forceDefaultIngress -}}
+          {{- else -}}
+            {{- /* Here we enable default ingress unless it was explicitly disabled */ -}}
+            {{- $_ := set $theService "defaultIngress" $useDefaultIngress -}}
+          {{- end -}}
         {{- end -}}
+
+        {{- /* Canonically define the Kubernetes service type, which depends on the ingress being used.
+              This will use the first ingress found for this service. If multiple ingressses are defined
+              they must use the same ingress type. */ -}}
+        {{- $svcType := "ClusterIP" -}}
+        {{- range $theIngressName, $theIngressSpec := $ingresses -}}
+          {{- if or (eq "aws-lbc-alb" $theIngressSpec.type) (eq "azure-appgw" $theIngressSpec.type) -}}
+            {{- $svcType = "NodePort" -}}
+          {{- end -}}
+        {{- end -}}
+        {{- $_ := set $theService "serviceType" $svcType -}}
 
         {{- /* Set `base_url.fixed` for FHIR endpoint modules */ -}}
         {{- if or (hasPrefix "ENDPOINT_FHIR_" $theModuleType) (hasPrefix "ENDPOINT_HYBRID_PROVIDERS" $theModuleType) -}}
@@ -111,11 +170,17 @@ Currently, this is the canonical module source for the following template helper
         {{- end -}}
 
         {{- /* Generate fullPath and normalize context_path */ -}}
+        {{- /* TODO: Clean this up to make it more readable. */ -}}
+        {{- /* fullPath = /rootpath/context_path
+               contextPath = /context_path
+               normalized paths have no trailing slash  */ -}}
         {{- $fullPathElements := list -}}
         {{- if and (hasKey $cdrNodeValues.specs "rootPath") (ne $cdrNodeValues.specs.rootPath "/") -}}
-          {{- $_ := set $theModuleSpec.service "rootPath" (printf "/%s" (trimAll "/" $cdrNodeValues.specs.rootPath)) -}}
-          {{- $fullPathElements = append $fullPathElements $theModuleSpec.rootPath -}}
+          {{- $_ := set $theService "rootPath" (printf "/%s" (trimAll "/" $cdrNodeValues.specs.rootPath)) -}}
+          {{- /* $fullPathElements = append $fullPathElements $theModuleSpec.rootPath */ -}}
+          {{- $fullPathElements = append $fullPathElements $theService.rootPath -}}
         {{- else -}}
+          {{- /* Add empty string so that join puts a '/' at the beginning. */ -}}
           {{- $fullPathElements = append $fullPathElements "" -}}
         {{- end -}}
         {{- /* Normalize `context_path` if it exists. */ -}}
@@ -125,30 +190,31 @@ Currently, this is the canonical module source for the following template helper
         {{- end -}}
         {{- /* Create `full_path` based on `rootPath` and `context_path` */ -}}
         {{- if gt (len $fullPathElements) 1 -}}
-          {{- $_ := set $theModuleSpec.service "fullPath" (join "/" $fullPathElements) -}}
+          {{- $_ := set $theService "fullPath" (join "/" $fullPathElements) -}}
         {{- else if eq (first $fullPathElements) "" -}}
-          {{- $_ := set $theModuleSpec.service "fullPath" "/" -}}
+          {{- $_ := set $theService "fullPath" "/" -}}
         {{- end -}}
 
-        {{- /* Canonically define the Kubernetes service resource name and service type */ -}}
-        {{- $svcName := lower (printf "%s-scdrnode-%s-%s" $.Release.Name $cdrNodeValues.nodeId $theModuleSpec.service.svcName) -}}
-        {{- if $cdrNodeValues.oldResourceNaming -}}
-          {{- $svcName = lower (printf "%s-scdr-svc-%s" $.Release.Name $theModuleSpec.service.svcName) -}}
+        {{- $annotations := dict -}}
+        {{- range $theIngressName, $theIngressSpec := $ingresses -}}
+          {{ if eq "azure-appgw" $theIngressSpec.type -}}
+            {{- $path := join "/" (append $fullPathElements "endpoint-health") -}}
+            {{- /* $path := printf "%sendpoint-health" (default "/" $theService.fullPath) */ -}}
+            {{- /* $path := printf "%sendpoint-health" (default "/" $theModuleSpec.config.context_path) */ -}}
+            {{- /* if $theService.contextPath -}}
+              {{- $path = join "/" (append $fullPathElements $theService.contextPath "eendpoint-health") -}}
+            {{- end */ -}}
+            {{- $_ := set $annotations "appgw.ingress.kubernetes.io/health-probe-path" $path -}}
+          {{- end -}}
         {{- end -}}
-        {{- $_ := set $theModuleSpec.service "resourceName" $svcName -}}
-
-        {{- $svcType := "ClusterIP" -}}
-        {{- if or (eq "aws-lbc-alb" $cdrNodeValues.ingress.type) (eq "azure-appgw" $cdrNodeValues.ingress.type) -}}
-          {{- $svcType = "NodePort" -}}
-        {{- end -}}
-        {{- $_ := set $theModuleSpec.service "serviceType" $svcType -}}
+        {{- $_ := set $theService "annotations" $annotations -}}
 
         {{- /* If this module has the Readiness Probe enabled, then
             enable it in the service */ -}}
         {{- if hasKey $theModuleSpec "enableReadinessProbe" -}}
-          {{- $_ := set $theModuleSpec.service "enableReadinessProbe" $theModuleSpec.enableReadinessProbe -}}
+          {{- $_ := set $theService "enableReadinessProbe" $theModuleSpec.enableReadinessProbe -}}
         {{- else -}}
-          {{- $_ := set $theModuleSpec.service "enableReadinessProbe" false -}}
+          {{- $_ := set $theService "enableReadinessProbe" false -}}
         {{- end -}}
 
       {{- end -}}
@@ -195,7 +261,11 @@ Generate the configuration options in text format for all the enabled modules
     {{- $name := default $theModuleName $theModuleSpec.name -}}
     {{- $title := "" -}}
 
+    {{- $theService := dict -}}
     {{- if ($theModuleSpec.service).enabled -}}
+        {{- $theService = $theModuleSpec.service -}}
+    {{- end -}}
+    {{- if $theService.enabled -}}
       {{- $title = printf "ENDPOINT: %s" $name -}}
     {{- else -}}
       {{- $title = printf "%s" $name -}}
@@ -253,18 +323,18 @@ Generate the configuration options in text format for all the enabled modules
 
       {{- /* Process Special Cases */ -}}
       {{- if eq $theConfigItemName "context_path" -}}
-        {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $theConfigItemName $theModuleSpec.service.fullPath -}}
+        {{- $moduleText = printf "%s%s.config.%s \t= %s\n" $moduleText $moduleKey $theConfigItemName $theService.fullPath -}}
       {{- else if eq $theConfigItemName "base_url.fixed" -}}
         {{- $baseUrl := "" -}}
         {{- if eq $theConfigItemValue "default" -}}
-          {{- $baseUrl = printf "https://%s%s" $.Values.specs.hostname $theModuleSpec.service.fullPath -}}
+          {{- $baseUrl = printf "https://%s%s" $.Values.specs.hostname $theService.fullPath -}}
         {{- else if eq $theConfigItemValue "localhost" -}}
           {{- /* Use `localhost` when connecting from other components in the same pod, e.g. Fhir Gateway module */ -}}
-          {{- $baseUrl = printf "http://localhost:%s%s" (toString $flattenedConf.port) $theModuleSpec.service.fullPath -}}
+          {{- $baseUrl = printf "http://localhost:%s%s" (toString $flattenedConf.port) $theService.fullPath -}}
         {{- else if eq $theConfigItemValue "service" -}}
           {{- /* Use K8s service object. e.g When connecting from other cluster-local components */ -}}
-          {{- if ($theModuleSpec.service).enabled -}}
-            {{- $baseUrl = printf "http://%s-scdr-svc-%s:%s%s" $.Release.Name ($theModuleSpec.service.svcName | lower) (toString $flattenedConf.port) $theModuleSpec.service.fullPath -}}
+          {{- if $theService.enabled -}}
+            {{- $baseUrl = printf "http://%s-scdr-svc-%s:%s%s" $.Release.Name ($theService.svcName | lower) (toString $flattenedConf.port) $theService.fullPath -}}
           {{- else -}}
             {{- fail (printf "Module %s cannot reference service for `base_url.fixed`` as there is no enabled service for this module" $moduleKey ) -}}
           {{- end -}}
@@ -282,8 +352,8 @@ Generate the configuration options in text format for all the enabled modules
             'default' is an invalid configuration in the context of a non-endpoint module.
             Any value other than 'default' is used as-is. */ -}}
         {{- if eq $theConfigItemValue "default" -}}
-          {{- if ($theModuleSpec.service).fullPath -}}
-            {{- $moduleText = printf "%s%s.config.%s \t= https://%s%s\n" $moduleText $moduleKey $theConfigItemName $.Values.specs.hostname $theModuleSpec.service.fullPath -}}
+          {{- if $theService.fullPath -}}
+            {{- $moduleText = printf "%s%s.config.%s \t= https://%s%s\n" $moduleText $moduleKey $theConfigItemName $.Values.specs.hostname $theService.fullPath -}}
           {{- else -}}
             {{- fail (printf "Module %s cannot use 'default' for `issuer.url` config item." $moduleKey) -}}
           {{- end -}}
@@ -309,23 +379,27 @@ Outputs as Serialized Yaml. If you need to parse the output, include it like so:
   {{- $services := dict -}}
   {{- $modules := include "smilecdr.modules" . | fromYaml -}}
   {{- range $theModuleName, $theModuleSpec := $modules -}}
+    {{- $theService := dict -}}
     {{- if ($theModuleSpec.service).enabled -}}
+      {{- $theService = $theModuleSpec.service -}}
       {{/* Creating each module key, if enabled and if it has an enabled endpoint. */}}
       {{- $service := dict -}}
       {{- $_ := set $service "contextPath" $theModuleSpec.config.context_path -}}
-      {{- $_ := set $service "fullPath" $theModuleSpec.service.fullPath -}}
-      {{- $_ := set $service "healthcheckPath" (join "/" (list (trimSuffix "/" $theModuleSpec.service.fullPath) (trimAll "/" (default "endpoint-health" ($theModuleSpec.config.endpoint_health).path)))) -}}
-      {{- $_ := set $service "svcName" ($theModuleSpec.service.svcName | lower) -}}
-      {{- $_ := set $service "resourceName" ($theModuleSpec.service.resourceName | lower) -}}
-      {{- $_ := set $service "serviceType" ($theModuleSpec.service.serviceType) -}}
-      {{- $_ := set $service "enableReadinessProbe" ($theModuleSpec.service.enableReadinessProbe ) -}}
-      {{- if or (not (hasKey $theModuleSpec.service "hostName")) (eq $theModuleSpec.service.hostName "default") -}}
+      {{- $_ := set $service "fullPath" $theService.fullPath -}}
+      {{- $_ := set $service "healthcheckPath" (join "/" (list (trimSuffix "/" $theService.fullPath) (trimAll "/" (default "endpoint-health" ($theModuleSpec.config.endpoint_health).path)))) -}}
+      {{- $_ := set $service "svcName" ($theService.svcName | lower) -}}
+      {{- $_ := set $service "resourceName" ($theService.resourceName | lower) -}}
+      {{- $_ := set $service "serviceType" ($theService.serviceType) -}}
+      {{- $_ := set $service "enableReadinessProbe" ($theService.enableReadinessProbe ) -}}
+      {{- if or (not (hasKey $theService "hostName")) (eq $theService.hostName "default") -}}
         {{- $_ := set $service "hostName" ($.Values.specs.hostname | lower) -}}
       {{- else -}}
-        {{- $_ := set $service "hostName" ($theModuleSpec.service.hostName | lower) -}}
+        {{- $_ := set $service "hostName" ($theService.hostName | lower) -}}
       {{- end -}}
       {{- $_ := set $service "port" $theModuleSpec.config.port -}}
-      {{- $_ := set $service "defaultIngress" $theModuleSpec.service.defaultIngress -}}
+      {{- $_ := set $service "defaultIngress" $theService.defaultIngress -}}
+      {{- $_ := set $service "ingresses" $theService.ingresses -}}
+      {{- $_ := set $service "annotations" $theService.annotations -}}
       {{- $_ := set $services $theModuleName $service -}}
     {{- end -}}
   {{- end -}}

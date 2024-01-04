@@ -1,6 +1,6 @@
 {{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
   {{- $theNodeSpec := $theNodeCtx.Values -}}
-  {{- range $k, $theServiceSpec := $theNodeSpec.services }}
+  {{- range $theServiceName, $theServiceSpec := $theNodeSpec.services }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -9,15 +9,7 @@ metadata:
   labels:
     {{- toYaml $theNodeSpec.cdrNodeLabels | nindent 4 }}
   annotations:
-    {{ if eq "azure-appgw" $theNodeSpec.ingress.type -}}
-    {{- $path := printf "%sendpoint-health" (default "/" $theNodeSpec.specs.rootPath) -}}
-    {{ if $theServiceSpec.contextPath }}
-    {{- $path = printf "%s%s/endpoint-health" (default "/" $theNodeSpec.specs.rootPath) $theServiceSpec.contextPath -}}
-    {{- end -}}
-    appgw.ingress.kubernetes.io/health-probe-path: {{ $path }}
-    {{- else -}}
-    {}
-    {{- end }}
+    {{- toYaml $theServiceSpec.annotations | nindent 4 }}
 spec:
   type: {{ $theServiceSpec.serviceType }}
   ports:

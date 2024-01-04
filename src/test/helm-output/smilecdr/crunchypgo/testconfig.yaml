@@ -3,24 +3,29 @@ tests:
     outputFile: output-releaseName.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-releaseName.yaml
   internalProvisioning:
     outputFile: output-internalProvisioning.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-internalProvisioning.yaml
   storageClass:
     outputFile: output-storageClass.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-storageClass.yaml
   pgBouncer:
     outputFile: output-pgBouncer.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-pgBouncer.yaml
   userAndDBNaming:
     outputFile: output-userAndDBNaming.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-userAndDBNaming.yaml

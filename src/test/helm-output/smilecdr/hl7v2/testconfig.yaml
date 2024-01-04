@@ -6,5 +6,6 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-hl7-over-http.yaml
     # - extra-values.yaml

@@ -1,0 +1,2 @@
+ingress:
+  type: nginx-ingress

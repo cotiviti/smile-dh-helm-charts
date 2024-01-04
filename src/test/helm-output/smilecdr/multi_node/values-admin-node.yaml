@@ -143,3 +143,8 @@ cdrNodes:
           db.username: "#{env['DB_USER']}"
           db.password: "#{env['DB_PASS']}"
           db.schema_update_mode: NONE
+
+
+ingresses:
+  default:
+    enabled: true

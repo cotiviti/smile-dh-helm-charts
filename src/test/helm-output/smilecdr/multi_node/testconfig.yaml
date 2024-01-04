@@ -6,6 +6,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - test-values.yaml
   adminNode:
     outputFile: output-admin-node.yaml
@@ -14,6 +15,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-admin-node.yaml
   adminNodeWithFileOverrides:
     outputFile: output-admin-node-with-file-overrides.yaml
@@ -22,6 +24,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-admin-node-with-file-overrides.yaml
     setFile:
     # Equivalent to: --set-file mappedFiles.logback\\.xml.data={path/to/}logback.xml
@@ -44,4 +47,5 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-2-nodes-with-sscsi.yaml

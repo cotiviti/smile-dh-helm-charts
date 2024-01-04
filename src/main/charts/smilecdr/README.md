@@ -104,8 +104,11 @@ The below section gives an overview of the default values available. Consult the
 | image.pullPolicy | string | `"IfNotPresent"` | Image Pull Policy |
 | image.repository | string | `"docker.smilecdr.com/smilecdr"` | OCI repository with Smile CDR images |
 | image.tag | string | `""` | Smile CDR version to install. Default is the chart appVersion. |
-| ingress.enabled | bool | `true` | Enable Ingress |
-| ingress.type | string | `"nginx-ingress"` | Ingress type (`nginx-ingress`,`aws-lbc-alb`,`azure-appgw`) |
+| ingresses.default.defaultIngress | bool | `true` |  |
+| ingresses.default.enabled | bool | `true` | Enable ingress |
+| ingresses.default.public | bool | `true` |  |
+| ingresses.default.type | string | `"nginx-ingress"` | Ingress type (`nginx-ingress`,`aws-lbc-alb`,`azure-appgw`) |
+| ingresses.default.useLegacyResourceSuffix | bool | `true` |  |
 | jvm.args | list | `["-Dsun.net.inetaddr.ttl=60","-Djava.security.egd=file:/dev/./urandom"]` | Set extra JVM args |
 | jvm.memoryFactor | float | `0.5` | JVM HeapSize factor. `limits.memory` is multiplied this to calculate `-Xmx` |
 | jvm.xms | bool | `true` | Set JVM heap `-Xms` == `-Xmx` |

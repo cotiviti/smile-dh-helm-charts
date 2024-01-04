@@ -3,39 +3,46 @@ tests:
     outputFile: output-customModules.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - custom-modules.yaml
     - values-customModules.yaml
   quotedConfigs:
     outputFile: output-quotedConfigs.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-quotedConfigs.yaml
   multipleR4Endpoints:
     outputFile: output-multipleR4Endpoints.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - custom-modules.yaml
     - values-multipleR4Endpoints.yaml
   internalEndpoint:
     outputFile: output-internalEndpoint.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - custom-modules.yaml
     - values-internalEndpoint.yaml
   hierarchicalConfig:
     outputFile: output-hierarchical.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - custom-modules.yaml
     - values-hierarchical.yaml
   appGallery:
     outputFile: output-appGallery.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-appGallery.yaml
   issuerUrl:
     outputFile: output-issuerUrl.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - custom-modules.yaml
     - values-issuerUrl.yaml

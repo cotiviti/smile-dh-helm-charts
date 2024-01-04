@@ -3,9 +3,11 @@ tests:
     outputFile: output-amq-external-sscsi.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-amq-external-sscsi.yaml
   amqK8sSecret:
     outputFile: output-amq-external-k8ssecret.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-amq-external-k8ssecret.yaml

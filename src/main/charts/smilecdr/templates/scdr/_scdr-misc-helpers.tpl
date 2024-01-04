@@ -210,6 +210,41 @@ Use this for generating deprecation notices and other warnings about the configu
 */}}
 {{- define "chartWarnings" -}}
   {{- $warningMessage := "" -}}
+
+  {{- /* Ingress config warnings */ -}}
+  {{- if hasKey .Values "ingress" -}}
+    {{- $warningMessage = printf "%s\n\nDEPRECATED: `values.ingress`" $warningMessage -}}
+    {{- $warningMessage = printf "%s\n            The use of `values.ingress` has been deprecated. Support for this will be" $warningMessage -}}
+    {{- $warningMessage = printf "%s\n            removed in a future version of the Helm Chart. Please use `values.ingresses` instead." $warningMessage -}}
+    {{- $warningMessage = printf "%s\n            Refer to the docs for more info on how to configure ingress." $warningMessage -}}
+  {{- end -}}
+
+  {{- $defaultIngress := false -}}
+  {{- $cdrNodes := include "smilecdr.nodes" . | fromYaml  -}}
+  {{- $ingresses := include "smilecdr.ingresses" . | fromYaml -}}
+  {{- range $theIngressName, $theIngressSpec := $ingresses -}}
+    {{- if $theIngressSpec.defaultIngress  -}}
+      {{- $defaultIngress = true -}}
+    {{- end -}}
+
+    {{- $ingressRules := (include "smilecdr.ingress.rules" (dict "ingressSpec" $theIngressSpec "cdrNodes" $cdrNodes) | fromYamlArray) -}}
+    {{- if eq (len $ingressRules) 0 -}}
+      {{- $warningMessage = (printf "%s\n\nWARNING: Ingress `%s` does not have any rules so will not be created." $warningMessage $theIngressName) -}}
+      {{- $warningMessage = (printf "%s\n         Perhaps you forgot to specify this ingress in a module definition." $warningMessage) -}}
+      {{- $warningMessage = (printf "%s\n         Consider setting `modules.<modulename>.service.ingresses.%s.enabled: true` on any modules that need to use this ingress." $warningMessage $theIngressName) -}}
+    {{- end -}}
+
+  {{- end -}}
+  {{- if eq (len $ingresses) 0 -}}
+    {{- $warningMessage = (printf "%s\n\nnWARNING: You have not enabled any ingresses." $warningMessage) -}}
+    {{- $warningMessage = (printf "%s\n          Smile CDR will not be accessible via ingress unless you configure one." $warningMessage) -}}
+  {{- end -}}
+  {{- if not $defaultIngress -}}
+    {{- $warningMessage = (printf "%s\n\nWARNING: You have not defined a default ingress." $warningMessage) -}}
+    {{- $warningMessage = (printf "%s\n         Modules with endpoints will not be accessible via ingress unless you specify which ingress they should use." $warningMessage) -}}
+    {{- $warningMessage = (printf "%s\n         Consider setting `modules.<modulename>.service.ingresses.<ingressname>.enabled: true` on any modules that need to be accessed from outside the Kubernetes cluster." $warningMessage) -}}
+  {{- end -}}
+
   {{- /* Check to see if files are defined in `mappedFiles` but not passed in to Helm with `--set-file` */ -}}
   {{- $unmappedFiles := list -}}
   {{- range $kMappedFile, $vMappedFile := $.Values.mappedFiles -}}
@@ -234,33 +269,33 @@ Use this for generating deprecation notices and other warnings about the configu
     {{- $theNodeSpec := $theNodeCtx.Values -}}
     {{- if ($theNodeSpec.config).database -}}
       {{- $warningMessage = printf "%s\n\nWARNING: `config.database` is enabled for Smile CDR node: %s" $warningMessage $theNodeName -}}
-      {{- $warningMessage = printf "%s\n This mode is unsupported and not recommended for use when deploying using Helm" $warningMessage -}}
-      {{- $warningMessage = printf "%s\n Possible side effects that you may encounter with this mode enabled are:" $warningMessage -}}
-      {{- $warningMessage = printf "%s\n  * If modules are added or altered in the console, the environment will" $warningMessage -}}
-      {{- $warningMessage = printf "%s\n    be in a state of drift compared to the Helm Chart values." $warningMessage -}}
-      {{- $warningMessage = printf "%s\n  * It will not be possible to update certain module configurations that" $warningMessage -}}
-      {{- $warningMessage = printf "%s\n    affect the supporting infrastructure (i.e. context roots, ports, databases)" $warningMessage -}}
-      {{- $warningMessage = printf "%s\n  * In the event of drift occurring, reverting this mode to `disabled` may then " $warningMessage -}}
-      {{- $warningMessage = printf "%s\n    lead to unpredictable behaviour that could result in modules being " $warningMessage -}}
-      {{- $warningMessage = printf "%s\n    incorrectly configured, resulting to critical system faults." $warningMessage -}}
+      {{- $warningMessage = printf "%s\n         This mode is unsupported and not recommended for use when deploying using Helm" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n         Possible side effects that you may encounter with this mode enabled are:" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n        * If modules are added or altered in the console, the environment will" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n          be in a state of drift compared to the Helm Chart values." $warningMessage -}}
+      {{- $warningMessage = printf "%s\n        * It will not be possible to update certain module configurations that" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n          affect the supporting infrastructure (i.e. context roots, ports, databases)" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n        * In the event of drift occurring, reverting this mode to `disabled` may then " $warningMessage -}}
+      {{- $warningMessage = printf "%s\n          lead to unpredictable behaviour that could result in modules being " $warningMessage -}}
+      {{- $warningMessage = printf "%s\n          incorrectly configured, resulting to critical system faults." $warningMessage -}}
     {{- end -}}
 
     {{- if $theNodeSpec.oldResourceNaming -}}
       {{- $warningMessage = printf "%s\n\nDEPRECATED: The `oldResourceNaming` setting has been configured for backwards compatibility." $warningMessage  -}}
-      {{- $warningMessage = printf "%s\n This mode is a temporary feature to allow a controlled migration to chart version `1.0.0-pre.93` and newer." $warningMessage -}}
-      {{- $warningMessage = printf "%s\n This will be removed in a future version so it's recommended to disable this feature and allow the" $warningMessage -}}
-      {{- $warningMessage = printf "%s\n chart to generate your resources using updated names." $warningMessage -}}
-      {{- $warningMessage = printf "%s\n This is a required step in order to use the `multi-node` configurations." $warningMessage -}}
-      {{- $warningMessage = printf "%s\n You will not be able to configure Smile CDR with such a `multi-node` configuration unless this setting is" $warningMessage -}}
-      {{- $warningMessage = printf "%s\n first disabled." $warningMessage -}}
+      {{- $warningMessage = printf "%s\n            This mode is a temporary feature to allow a controlled migration to chart version `1.0.0-pre.93` and newer." $warningMessage -}}
+      {{- $warningMessage = printf "%s\n            This will be removed in a future version so it's recommended to disable this feature and allow the" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n            chart to generate your resources using updated names." $warningMessage -}}
+      {{- $warningMessage = printf "%s\n            This is a required step in order to use the `multi-node` configurations." $warningMessage -}}
+      {{- $warningMessage = printf "%s\n            You will not be able to configure Smile CDR with such a `multi-node` configuration unless this setting is" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n            first disabled." $warningMessage -}}
     {{- end -}}
   {{- end -}}
   {{- /* Check for using old image pull credentials */ -}}
   {{- if hasKey .Values.image "credentials" -}}
     {{- $warningMessage = printf "%s\n\nDEPRECATED: `image.credentials`" $warningMessage -}}
-    {{- $warningMessage = printf "%s\n The use of `image.credentials` has been deprecated. Support for this will be" $warningMessage -}}
-    {{- $warningMessage = printf "%s\n removed in a future version of the Helm Chart. Please use `image.pullSecrets` instead." $warningMessage -}}
-    {{- $warningMessage = printf "%s\n Refer to the docs for more info on how to configure image pull secrets." $warningMessage -}}
+    {{- $warningMessage = printf "%s\n            The use of `image.credentials` has been deprecated. Support for this will be" $warningMessage -}}
+    {{- $warningMessage = printf "%s\n            removed in a future version of the Helm Chart. Please use `image.pullSecrets` instead." $warningMessage -}}
+    {{- $warningMessage = printf "%s\n            Refer to the docs for more info on how to configure image pull secrets." $warningMessage -}}
   {{- end -}}
   {{- /* Check for module mis-configurations. */ -}}
   {{- $modules := include "smilecdr.modules" . | fromYaml -}}
@@ -269,12 +304,12 @@ Use this for generating deprecation notices and other warnings about the configu
     {{- /* Check for using `base_url.fixed` in unsupported fashion. */ -}}
     {{- if and (hasKey $moduleConfig "base_url.fixed") (eq (get $moduleConfig "base_url.fixed") "localhost") -}}
       {{- $warningMessage = printf "%s\n\nWARNING: `base_url.fixed` is set to `localhost` in %s module." $warningMessage $k -}}
-      {{- $warningMessage = printf "%s\n When overriding `base_url.fixed` to this value, the `Location`" $warningMessage -}}
-      {{- $warningMessage = printf "%s\n header and any embedded links will only work when being accessed" $warningMessage -}}
-      {{- $warningMessage = printf "%s\n from the same pod. If you are doing this to use the FHIR Gateway" $warningMessage -}}
-      {{- $warningMessage = printf "%s\n module, you will not be able to take advantage of 'fanning out' to" $warningMessage -}}
-      {{- $warningMessage = printf "%s\n use multiple pods. It's suggested to unset `base_url.fixed` in your" $warningMessage -}}
-      {{- $warningMessage = printf "%s\n values file and allow the Helm Chart to configure it automatically." $warningMessage -}}
+      {{- $warningMessage = printf "%s\n         When overriding `base_url.fixed` to this value, the `Location`" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n         header and any embedded links will only work when being accessed" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n         from the same pod. If you are doing this to use the FHIR Gateway" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n         module, you will not be able to take advantage of 'fanning out' to" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n         use multiple pods. It's suggested to unset `base_url.fixed` in your" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n         values file and allow the Helm Chart to configure it automatically." $warningMessage -}}
     {{- end -}}
   {{- end -}}
   {{- /* If there are any warnings, output them with a nice header. */ -}}
