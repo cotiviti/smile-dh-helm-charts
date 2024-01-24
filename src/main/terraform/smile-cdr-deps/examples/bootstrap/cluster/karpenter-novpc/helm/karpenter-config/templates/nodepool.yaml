@@ -1,0 +1,34 @@
+apiVersion: karpenter.sh/v1beta1
+kind: NodePool
+metadata:
+  name: default
+  # name: {{ .Chart.Name }}
+spec:
+  template:
+    spec:
+      nodeClassRef:
+        name: default
+      requirements:
+      - key: "karpenter.k8s.aws/instance-category"
+        operator: In
+        values: ["c", "m"]
+      - key: "karpenter.k8s.aws/instance-cpu"
+        operator: In
+        values: ["2","4", "8", "16", "32"]
+      - key: "karpenter.k8s.aws/instance-hypervisor"
+        operator: In
+        values: ["nitro"]
+      - key: "topology.kubernetes.io/zone"
+        operator: In
+        values: {{ printf "[%s]" (join "," .Values.azs) }}
+      - key: "kubernetes.io/arch"
+        operator: In
+        values: ["amd64"]
+      - key: "karpenter.sh/capacity-type" # If not included, the webhook for the AWS cloud provider will default to on-demand
+        operator: In
+        values: ["spot"]
+  limits:
+    cpu: 1000
+  disruption:
+    consolidationPolicy: WhenEmpty
+    consolidateAfter: 30s

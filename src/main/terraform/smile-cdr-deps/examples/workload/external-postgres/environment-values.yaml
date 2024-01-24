@@ -1,0 +1,24 @@
+# Configuration file (Values file) for Smile CDR Helm Chart.
+#
+# Please refer to documentation here for more information on how to configure Smile CDR using the Helm Chart
+# https://smilecdr-public.gitlab.io/smile-dh-helm-charts/
+#
+# Note that the following sections are automatically provided by the Smile CDR Dependencies Terraform module,
+# so there is no need to specify them here unless you wish to explicitly override the auto-generated values
+# provided by the module.
+#
+# * `image.imagePullSecrets`      - Set appropriately if container registry secrets have been enabled in the module
+# * `serviceAccount.create`       - Set to `true` if IAM roles are enabled in the module
+# * `serviceAccount.name`         - Set to the appropriate name if IAM roles are enabled in the module
+# * `serviceAccount.annotations`  - Set to the IAM role ARN if IAM roles are enabled in the module
+# * `database`                    - Set to the appropriate values to use the Crunchy or External database configured in the module
+
+# The following values can not be overridden in the values file and need to be overridden by using the
+# `helm_chart_values_set_overrides` configuration in this module.
+#
+# * `specs.hostname`              - Set based on the hostname & dns settings in the module.
+# * `replicaCount`                - Set based on the `prod_mode` setting.
+
+image:
+  # -- Smile CDR version to install. Default is the chart appVersion.
+  tag: "2024.02.PRE-60"
