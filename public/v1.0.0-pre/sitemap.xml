@@ -2,197 +2,197 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/charts/smilecdr/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/charts/smilecdr/CHANGELOG-PRE/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/charts/smilecdr/smilecdr/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/aws-dependencies/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/external-db-multi/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/external-db/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/extra-files-external/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/extra-files-helm/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/minimal/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/modules-advanced/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/modules-simple/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/previousrootversion/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/examples/quickstart/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/helm-repo/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/secrets/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/serviceaccount/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/values-files-management/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/cdr-license/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/cdrnode/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/cdrversions/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/database/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/files/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/hl7v2/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/ingress/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/install/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/messagebroker/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/modules/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/requirements/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/resources/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/updating/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/quickstart/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/quickstart/helm-repo/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/quickstart/install-smilecdr/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/quickstart/requirements/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/quickstart/values-file/</loc>
-         <lastmod>2024-01-24</lastmod>
+         <lastmod>2024-02-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
