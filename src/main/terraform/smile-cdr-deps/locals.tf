@@ -33,7 +33,7 @@ locals {
 
   # Helm
 
-  helm_namespace       = var.namespace
+  helm_namespace    = coalesce(var.namespace, lower(local.name))
   helm_release_name = coalesce(var.helm_release_name, lower(local.name))
   helm_service_account_suffix = var.helm_service_account_suffix
   helm_repository = var.helm_repository
@@ -45,7 +45,7 @@ locals {
   service_account_name = var.service_account_name == null ? "${local.helm_release_name}${local.helm_service_account_suffix}" : var.service_account_name
   namespace_service_accounts = ["${local.helm_namespace}:${local.service_account_name}"]
 
-  helm_chart_values_provided = yamldecode( var.helm_chart_values[0] )
+  helm_chart_values_provided = try(yamldecode(var.helm_chart_values[0]),null)
   helm_chart_values = concat(
     var.helm_chart_values,
     [
@@ -62,6 +62,16 @@ locals {
                     secretArn = local.all_secrets["regcred"].arn
                   }
                 ]
+              }
+            } : {},
+
+          # Include license secrets config
+          can(local.all_secrets[var.cdr_license_secret_name].arn) ?
+            {
+              license = {
+                type = "sscsi"
+                provider = "aws"
+                secretArn = local.all_secrets[var.cdr_license_secret_name].arn
               }
             } : {},
 
@@ -145,7 +155,19 @@ locals {
                   }
                 }
               }
-            } : {}
+            } : {},
+
+          # Add classpath files
+          length(var.helm_chart_mapped_files) > 0 ?
+            {
+              mappedFiles = {
+                for mapped_file in var.helm_chart_mapped_files:
+                   mapped_file.name => {
+                    data = mapped_file.data
+                    path = format("/home/smile/smilecdr/%s",mapped_file.location)
+                   }
+                }
+            } : {},
         )
       )
     ],
@@ -188,7 +210,6 @@ locals {
 
   # For each secret, we need to either create it, reference an existing one, or disable it...
 
-  # enable_cdr_regcred_secret = var.enable_cdr_regcred_secret
   create_cdr_regcred_secret = var.enable_cdr_regcred_secret ? (var.cdr_regcred_secret_arn == null ? true:false) : false
   create_cdr_license_secret = var.enable_cdr_license_secret ? (var.cdr_license_secret_arn == null ? true:false) : false
 
@@ -207,7 +228,6 @@ locals {
     name = var.cdr_regcred_secret_name
     name_override = try(var.cdr_regcred_secret_name_override,false)
     existing_arn = try(var.cdr_regcred_secret_arn,null)
-    # existing_kms_arn = try(var.cdr_regcred_secret_kms_arn,null)
     existing_kms_arn = var.cdr_regcred_secret_kms_arn
   } : {}
 
