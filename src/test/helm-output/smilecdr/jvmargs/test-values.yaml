@@ -1,7 +1,0 @@
-# This values file tests altering JVM args
-
-jvm:
-  memoryFactor: 0.8
-  xms: false
-  args:
-    - "-Dmyarg=SMILE"

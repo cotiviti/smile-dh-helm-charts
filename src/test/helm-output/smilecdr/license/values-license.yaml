@@ -1,4 +1,0 @@
-license:
-  type: sscsi
-  provider: aws
-  secretArn: arn:aws:secretsmanager:us-east-1:111111111111:secret:my-smile-license

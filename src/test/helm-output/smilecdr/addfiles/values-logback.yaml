@@ -1,7 +1,0 @@
-# Helm must be called with a `--set-files` option that matches the settings below
-# e.g.:
-#  --set-file mappedFiles.logback\\.xml.data={path/to/}logback.xml
-
-mappedFiles:
-  logback.xml:
-    path: /home/smile/smilecdr/classes

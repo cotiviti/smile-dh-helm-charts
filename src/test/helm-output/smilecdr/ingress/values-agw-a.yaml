@@ -1,6 +1,0 @@
-ingress:
-  type: azure-appgw
-  annotations:
-    appgw.ingress.kubernetes.io/extra-annotation-1: annotation1-value
-    appgw.ingress.kubernetes.io/extra-annotation-2: annotation2-value
-    appgw.ingress.kubernetes.io/use-private-ip: overridden-value
