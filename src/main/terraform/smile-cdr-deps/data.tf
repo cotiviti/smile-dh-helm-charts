@@ -5,6 +5,10 @@ data "aws_eks_cluster" "this" {
   name = local.eks_cluster_name
 }
 
+data "aws_eks_cluster_auth" "this" {
+  name = local.eks_cluster_name
+}
+
 data "aws_iam_openid_connect_provider" "this" {
   count = var.unit_testing ? 0:1
   url = local.aws_eks_cluster_data_proxy.identity[0].oidc[0].issuer

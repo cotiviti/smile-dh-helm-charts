@@ -1,3 +1,7 @@
+output "name" {
+  value = local.name
+}
+
 output "secrets_cdr_regcred" {
   value = {
     arn = try(aws_secretsmanager_secret.secrets["regcred"].arn,null)
@@ -38,4 +42,18 @@ output "helm_secret_configs" {
 
 output "url" {
   value = local.public_fqdn
+}
+
+# Temporarily adding these to make it easier to install other Helm Charts from the parent
+# module. But it may just be easier to 'bring this in' to the module so that the parent chart
+# does not need to re-do the EKS cluster discovery.
+
+output "eks_cluster" {
+  value = {
+    name = local.eks_cluster_name
+    endpoint = local.eks_cluster_endpoint
+    certificate = local.eks_cluster_ca_certificate
+    oidc_provider_arn = local.eks_cluster_oidc_provider_arn
+    auth_token = data.aws_eks_cluster_auth.this.token
+  }
 }

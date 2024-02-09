@@ -133,25 +133,9 @@ resource "aws_kms_alias" "secrets_key_alias" {
   target_key_id = aws_kms_key.secrets_key[0].key_id
 }
 
-# moved {
-#   from = aws_secretsmanager_secret.dockerpull[0]
-#   to   = aws_secretsmanager_secret.secrets["regcred"]
-# }
-
-# moved {
-#   from = aws_secretsmanager_secret.cdr_license[0]
-#   to   = aws_secretsmanager_secret.secrets["license"]
-# }
-
-# moved {
-#   from = aws_secretsmanager_secret.secrets["dockerpull"]
-#   to   = aws_secretsmanager_secret.secrets["regcred"]
-# }
-
 ##### Extra Secrets
 resource "aws_secretsmanager_secret" "secrets" {
   for_each = local.secrets_to_create
-  # kms_key_id              = local.secrets_kms_key_arn
   kms_key_id              = each.value.kms_key_id
   name                    = each.value.secret_name
   recovery_window_in_days = var.prod_mode ? var.secrets_deletion_window : 0
@@ -312,16 +296,34 @@ resource "aws_route53_record" "publicdns" {
       evaluate_target_health = false
   }
 }
-provider "kubernetes" {
-  host                   = local.eks_cluster_endpoint
-  cluster_ca_certificate = base64decode(local.eks_cluster_ca_certificate)
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    args        = ["eks", "get-token", "--cluster-name", var.eks_cluster_name]
-    command     = "aws"
-  }
-}
 
-provider "aws" {
-  region = try(var.aws_region,null)
-}
+# provider "kubernetes" {
+#   host                   = local.eks_cluster_endpoint
+#   cluster_ca_certificate = base64decode(local.eks_cluster_ca_certificate)
+#   token                  = data.aws_eks_cluster_auth.this.token
+
+#   # exec {
+#   #   api_version = "client.authentication.k8s.io/v1beta1"
+#   #   args        = ["eks", "get-token", "--cluster-name", var.eks_cluster_name]
+#   #   command     = "aws"
+#   # }
+# }
+
+# provider "helm" {
+
+#   kubernetes {
+#     host                   = local.eks_cluster_endpoint
+#     cluster_ca_certificate = base64decode(local.eks_cluster_ca_certificate)
+#     token                  = data.aws_eks_cluster_auth.this.token
+
+#     # exec {
+#     #   api_version = "client.authentication.k8s.io/v1beta1"
+#     #   args        = ["eks", "get-token", "--cluster-name", var.eks_cluster_name]
+#     #   command     = "aws"
+#     # }
+#   }
+# }
+
+# provider "aws" {
+#   region = try(var.aws_region,null)
+# }

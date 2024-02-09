@@ -75,7 +75,7 @@ variable "resourcenames_suffix" {
 variable "namespace" {
   description = "The Namespace this will be deployed in"
   type        = string
-  default     = "smilecdr"
+  default     = null
 }
 
 variable "service_account_name" {
@@ -132,9 +132,29 @@ variable "helm_chart_values_set_overrides" {
   nullable = false
 }
 
-# values = [
-#     "${file("values.yaml")}"
-#   ]
+variable "helm_chart_mapped_files" {
+  description = "List of files & data to include in the classes & customerlib directories."
+  type        = list(object(
+    {
+      name     = string
+      data     = string
+      location = string
+    }
+  ))
+  default     = []
+  nullable = false
+}
+# variable "helm_chart_classes_files" {
+#   description = "List of files & data to include in the classes directory."
+#   type        = list(object(
+#     {
+#       name    = string
+#       data   = string
+#     }
+#   ))
+#   default     = []
+#   nullable = false
+# }
 
 variable "helm_service_account_suffix" {
   description = "The suffix used for ServiceAccount in the Smile CDR Helm Chart"
