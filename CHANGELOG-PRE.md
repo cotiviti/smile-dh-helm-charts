@@ -1,3 +1,10 @@
+# [1.0.0-pre.104](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.103...v1.0.0-pre.104) (2024-02-13)
+
+
+### Features
+
+* **smilecdr:** add support for multiple ingresses ([91485d6](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/91485d68a4889c1e0f2d875eda1e9480499af029))
+
 # [1.0.0-pre.103](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.102...v1.0.0-pre.103) (2023-12-08)
 
 
