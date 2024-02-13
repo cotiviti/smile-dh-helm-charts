@@ -72,6 +72,7 @@ nav:
         - 'Message Broker': guide/smilecdr/messagebroker.md
         - 'HL7V2 Endpoint Module': guide/smilecdr/hl7v2.md
         - 'Resource Tuning': guide/smilecdr/resources.md
+        - 'Logging': guide/smilecdr/logging.md
       - 'Applying Changes': guide/smilecdr/updating.md
   - Examples:
     - examples/index.md
