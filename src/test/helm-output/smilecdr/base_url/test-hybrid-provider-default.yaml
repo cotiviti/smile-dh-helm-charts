@@ -4,6 +4,10 @@
 specs:
   hostname: smile.com
 
+ingresses:
+  default:
+    enabled: true
+
 modules:
   # Hybrid Provider
   hybrid_provider_endpoint:

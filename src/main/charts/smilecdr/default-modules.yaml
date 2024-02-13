@@ -85,6 +85,8 @@ modules:
       enabled: true
       svcName: admin-web
       hostName: default
+      # Don't commit this
+      ingressName: default
     requires:
       SECURITY_IN_UP: local_security
     config:

@@ -6,6 +6,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - test-override-default.yaml
   override-service:
     outputFile: output-override-service.yaml
@@ -14,6 +15,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - test-override-service.yaml
   override-localhost:
     outputFile: output-override-localhost.yaml
@@ -22,6 +24,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - test-override-localhost.yaml
   no-ingress-default:
     outputFile: output-no-ingress-default.yaml
@@ -30,6 +33,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - test-no-ingress-default.yaml
   no-ingress-service:
     outputFile: output-no-ingress-service.yaml
@@ -38,6 +42,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - test-no-ingress-service.yaml
   no-ingress-localhost:
     outputFile: output-no-ingress-localhost.yaml
@@ -46,6 +51,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - test-no-ingress-localhost.yaml
   hybrid-provider-default:
     outputFile: output-hybrid-provider-default.yaml
@@ -54,4 +60,5 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - test-hybrid-provider-default.yaml

@@ -90,6 +90,3 @@ modules:
       password_encoding_type: BCRYPT_12_ROUND
 
 autoDeploy: false
-
-ingress:
-  enabled: false

@@ -6,5 +6,6 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-awsiam.yaml
     # - extra-values.yaml

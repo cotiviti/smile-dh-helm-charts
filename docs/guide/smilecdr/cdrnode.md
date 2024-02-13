@@ -7,7 +7,7 @@ architecture design:
 
 * **Single Node** All modules are contained in a single *Node* configuration.
 
-* **Multi Node** Modules can be split amongst an arbritrary number of *Node*
+* **Multi Node** Modules can be split amongst an arbitrary number of *Node*
 configurations.
 
 When using a multi node architecture, each *Node* will be deployed using separate Kubernetes

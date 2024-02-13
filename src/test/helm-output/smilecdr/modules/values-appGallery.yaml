@@ -13,3 +13,7 @@ modules:
     config:
       context_path: appsphere
       port: 8000
+
+ingresses:
+  default:
+    enabled: true

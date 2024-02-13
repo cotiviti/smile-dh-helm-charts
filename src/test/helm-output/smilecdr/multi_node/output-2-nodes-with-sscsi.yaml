@@ -593,48 +593,6 @@ spec:
           name: scdr-volume-amq
       restartPolicy: Always
 ---
-# Source: smilecdr/templates/scdr/scdr-ingress.yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: release-name-scdr
-  namespace: default
-  labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
-    app.kubernetes.io/managed-by: Helm
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-spec:
-  rules:
-    - host: smilecdr-example.local
-      http:
-        paths:
-        - backend:
-            service:
-              name: release-name-scdrnode-adminnode-admin-json
-              port:
-                number: 9000
-          path: /json-admin
-          pathType: Prefix
-        - backend:
-            service:
-              name: release-name-scdrnode-adminnode-admin-web
-              port:
-                number: 9100
-          path: /
-          pathType: Prefix
-        - backend:
-            service:
-              name: release-name-scdrnode-fhirnode-fhir
-              port:
-                number: 8000
-          path: /fhir_request
-          pathType: Prefix
----
 # Source: smilecdr/templates/scdr/scdr-secret-provider-class.yaml
 apiVersion: secrets-store.csi.x-k8s.io/v1
 kind: SecretProviderClass

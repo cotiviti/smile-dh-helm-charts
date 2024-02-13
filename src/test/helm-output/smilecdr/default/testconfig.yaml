@@ -6,6 +6,7 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    # - ../default-test-disabled-features.yaml
     - test-values.yaml
   versions:
     outputFile: output-versions.yaml
@@ -14,4 +15,5 @@ tests:
     #   value: theValue
     valueFiles:
     - ../default-test-values.yaml
+    # - ../default-test-disabled-features.yaml
     - versions-values.yaml

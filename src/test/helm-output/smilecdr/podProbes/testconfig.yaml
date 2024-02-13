@@ -3,19 +3,23 @@ tests:
     outputFile: output-healthcheck-path.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-healthcheck-path.yaml
   startupProbe:
     outputFile: output-startupProbe.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-startupProbe.yaml
   readinessProbe:
     outputFile: output-readinessProbe.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-readinessProbe.yaml
   livenessProbe:
     outputFile: output-livenessProbe.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-livenessProbe.yaml

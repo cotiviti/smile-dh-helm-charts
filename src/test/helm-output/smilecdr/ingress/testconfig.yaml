@@ -3,29 +3,53 @@ tests:
     outputFile: output-agw.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-agw.yaml
   agw-a:
     outputFile: output-agw-a.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-agw-a.yaml
   aws-lbc-alb:
     outputFile: output-aws-lbc-alb.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-aws-lbc-alb.yaml
   aws-lbc-alb-a:
     outputFile: output-aws-lbc-alb-a.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-aws-lbc-alb-a.yaml
+  nginx-ingress-legacy:
+    outputFile: output-nginx-ingress-legacy.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-nginx-ingress-legacy.yaml
   nginx-ingress:
     outputFile: output-nginx-ingress.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-nginx-ingress.yaml
   nginx-ingress-a:
     outputFile: output-nginx-ingress-a.yaml
     valueFiles:
     - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
     - values-nginx-ingress-a.yaml
+  nginx-ingress-svc-config:
+    outputFile: output-nginx-ingress-svc-config.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-nginx-ingress-svc-config.yaml
+  custom-default-ingress:
+    outputFile: output-custom-default-ingress.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-custom-default-ingress.yaml

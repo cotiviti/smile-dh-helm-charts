@@ -1,0 +1,6 @@
+# This file defines features to be disabled by default for tests.
+# This makes it easier to review expected changes to certain tests
+
+ingresses:
+  default:
+    enabled: false

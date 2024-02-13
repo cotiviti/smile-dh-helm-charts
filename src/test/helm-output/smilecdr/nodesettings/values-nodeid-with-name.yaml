@@ -5,3 +5,7 @@ cdrNodes:
   overriddenNodeId:
     enabled: true
     name: customNodeName
+
+ingresses:
+  default:
+    enabled: true

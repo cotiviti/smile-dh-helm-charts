@@ -51,3 +51,7 @@ modules:
       # Can be removed if the default gets fixed. May be good to leave it explicit.
       # Note: Smile CDR still chooses the wrong default as of `2022.11.R01`
       password_encoding_type: BCRYPT_12_ROUND
+
+ingresses:
+  default:
+    enabled: true

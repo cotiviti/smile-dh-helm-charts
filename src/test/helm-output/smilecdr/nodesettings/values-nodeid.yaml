@@ -4,3 +4,7 @@ cdrNodes:
     enabled: false
   overriddenNodeId:
     enabled: true
+
+ingresses:
+  default:
+    enabled: true
