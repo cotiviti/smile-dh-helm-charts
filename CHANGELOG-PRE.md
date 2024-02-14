@@ -1,3 +1,10 @@
+# [1.0.0-pre.105](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.104...v1.0.0-pre.105) (2024-02-14)
+
+
+### Features
+
+* **smilecdr:** add configurable logging ([20624ec](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/20624ec51a05dfdb631c1f6363fa0da0df558d5b))
+
 # [1.0.0-pre.104](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.103...v1.0.0-pre.104) (2024-02-13)
 
 
