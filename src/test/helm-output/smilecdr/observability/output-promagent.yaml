@@ -18,6 +18,26 @@ spec:
       app.kubernetes.io/instance: release-name
       app.kubernetes.io/name: smilecdr
 ---
+# Source: smilecdr/templates/observability/prom-agent-cm.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-scdr-prom-agent-config-masterdev-node
+  namespace: default
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
+data:
+  jmxconf.yaml: |-
+    # JMX config file for prometheus java Agent auto generated from Helm Chart. Do not edit manually!
+
+    port: 17171
+    rules:
+    - pattern: .*
+---
 # Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -398,7 +418,34 @@ spec:
       securityContext:
         fsGroup: 1000
       initContainers:
-        []
+        - args:
+          - -o
+          - /tmp/smilecdr-volumes/javaagent/jmx_prometheus_javaagent-0.17.2.jar
+          - --location
+          - --create-dirs
+          - https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.17.2/jmx_prometheus_javaagent-0.17.2.jar
+          image: quay.io/curl/curl:8.1.2
+          imagePullPolicy: IfNotPresent
+          name: init-pull-javaagent-curl
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 100
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/javaagent/
+            name: scdr-volume-javaagent
       terminationGracePeriodSeconds: 60
       containers:
         - name: smilecdr
@@ -438,6 +485,8 @@ spec:
             requests:
               cpu: "1"
           env:
+            - name: JAVA_TOOL_OPTIONS
+              value: -javaagent:/home/smile/smilecdr/javaagent/jmx_prometheus_javaagent-0.17.2.jar=%!s(float64=17171):/home/smile/smilecdr/javaagent/jmxconf.yaml
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
           ports:
@@ -459,7 +508,15 @@ spec:
             - name: smart-auth
               containerPort: 9200
               protocol: TCP
+            - name: prom-metrics
+              containerPort: 17171
+              protocol: TCP
           volumeMounts:
+            - mountPath: /home/smile/smilecdr/javaagent
+              name: scdr-volume-javaagent
+            - mountPath: /home/smile/smilecdr/customerlib/jmxconf.yaml
+              name: jmx-config
+              subPath: jmxconf.yaml
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
@@ -470,6 +527,12 @@ spec:
             - mountPath: /home/smile/smilecdr/activemq-data
               name: scdr-volume-amq
       volumes:
+        - emptyDir:
+            sizeLimit: 100Mi
+          name: scdr-volume-javaagent
+        - configMap:
+            name: release-name-scdr-prom-agent-config-masterdev-node
+          name: jmx-config
         - configMap:
             name: release-name-scdr-masterdev-node
           name: scdr-config-release-name

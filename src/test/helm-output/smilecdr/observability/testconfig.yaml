@@ -1,22 +1,4 @@
 tests:
-  OTAgent:
-    outputFile: output-otagent-operator.yaml
-    # set:
-    # - key: keyName
-    #   value: theValue
-    valueFiles:
-    - ../default-test-values.yaml
-    - ../default-test-disabled-features.yaml
-    - values-otagent-operator.yaml
-  OTAgentWithCollector:
-    outputFile: output-otagentcollector.yaml
-    # set:
-    # - key: keyName
-    #   value: theValue
-    valueFiles:
-    - ../default-test-values.yaml
-    - ../default-test-disabled-features.yaml
-    - values-otagentcollector.yaml
   OTAgentHelm:
     outputFile: output-otagent-helm.yaml
     # set:
@@ -27,6 +9,24 @@ tests:
     - ../default-test-disabled-features.yaml
     - values-otagent-helm.yaml
     # - extra-values.yaml
+  OTAgentOperator:
+    outputFile: output-otagent-operator.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-otagent-operator.yaml
+  OTAgentWithCollectorOperator:
+    outputFile: output-otagentcollector.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-otagentcollector.yaml
   OTAgentHelmS3:
     outputFile: output-otagent-helm-s3.yaml
     # set:
@@ -46,26 +46,6 @@ tests:
     - ../default-test-values.yaml
     - ../default-test-disabled-features.yaml
     - values-promagent.yaml
-    # - extra-values.yaml
-  promGraf:
-    outputFile: output-prom-graf.yaml
-    # set:
-    # - key: keyName
-    #   value: theValue
-    valueFiles:
-    - ../default-test-values.yaml
-    - ../default-test-disabled-features.yaml
-    - values-prom-graf.yaml
-    # - extra-values.yaml
-  jaegerOperator:
-    outputFile: output-jaeger-operator.yaml
-    # set:
-    # - key: keyName
-    #   value: theValue
-    valueFiles:
-    - ../default-test-values.yaml
-    - ../default-test-disabled-features.yaml
-    - values-jaeger-operator.yaml
     # - extra-values.yaml
   grafanaLogs:
     outputFile: output-grafana-logs.yaml

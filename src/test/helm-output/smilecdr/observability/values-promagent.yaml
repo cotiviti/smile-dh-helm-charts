@@ -1,11 +1,16 @@
 observability:
-  prometheus:
-    # Sets up pod monitor CR so the prometheus operator can discover Smile CDR
-    # operatorConfig:
-    #   enabled: false
-    # Install Java Agent into Smile CDR pods to expose JVM metrics
-    jvmMetrics:
+  enabled: true
+  instrumentation:
+    openTelemetry:
+      enabled: false
+    prometheus:
       enabled: true
-    # Allow scraping of metrics from admin_json endpoint
-    # smilecdrMetrics:
-    #   enabled: false
+      # Sets up pod monitor CR so the prometheus operator can discover Smile CDR
+      # operatorConfig:
+      #   enabled: false
+      # Install Java Agent into Smile CDR pods to expose JVM metrics
+      # promAgent:
+      #   enabled: true
+      # Allow scraping of metrics from admin_json endpoint
+      # smilecdrMetrics:
+      #   enabled: false

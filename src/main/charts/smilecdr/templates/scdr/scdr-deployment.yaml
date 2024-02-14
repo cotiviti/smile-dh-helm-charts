@@ -74,9 +74,9 @@ spec:
               containerPort: {{ $v.port }}
               protocol: TCP
             {{- end }}
-            {{- /* if (include "observability.promagent" $theCdrNodeCtx | fromYaml).enabled */ -}}
+            {{- if (include "observability.promagent" $theCdrNodeCtx | fromYaml).enabled -}}
             - name: prom-metrics
-              containerPort: {{ (include "observability.promagent" $theCdrNodeCtx | fromYaml).port }}
+              containerPort: {{ (include "observability.promagent" $theCdrNodeCtx | fromYaml).config.port }}
               protocol: TCP
             {{- end }}
           volumeMounts:

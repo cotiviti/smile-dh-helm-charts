@@ -622,7 +622,7 @@ observability:
         # Choose sidecar (Default) or deployment
         mode: sidecar
 
-    # Open Telemetry instrumentation configuration
+    # Prometheus instrumentation configuration
     prometheus:
       enabled: false
       # Sets up pod monitor CR so the prometheus operator can discover Smile CDR
@@ -631,6 +631,7 @@ observability:
       # Install Java Agent into Smile CDR pods to expose JVM metrics
       promAgent:
         enabled: true
+        # agentJarName: "jmx_prometheus_javaagent-0.17.2.jar"
         config:
           port: 17171
           rules:

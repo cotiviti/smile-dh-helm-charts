@@ -10,11 +10,10 @@ Define any file copies required by observability agents
   {{- if and $otelAgentConfig.enabled false -}}
     {{- /* The enablement, filename and URL can be overriden if required.
           Set `disableAutoJarCopy` to true to disable copying this file. This will break
-          IAM auth unless you add the file using `copyFIles`.
+          OTEL Logback Appender functionality unless you add the file using `copyFiles`.
           This is an undocumented feature - if different files need to be added,
           the user should use the existing `copyFiles` feature instead. This override
           should only be used if troubleshooting this feature. */ -}}
-
     {{- if not $otelAgentConfig.disableAutoJarCopy -}}
       {{- $fileName := default "opentelemetry-logback-appender-1.0.jar" $otelAgentConfig.agentJarName -}}
       {{- $url := default "https://repo1.maven.org/maven2/io/opentelemetry/instrumentation/opentelemetry-logback-appender-1.0/1.26.0-alpha/opentelemetry-logback-appender-1.0-1.26.0-alpha.jar" $otelAgentConfig.agentJarUrl -}}
@@ -27,7 +26,7 @@ Define any file copies required by observability agents
   {{- if and $otelAgentConfig.enabled false -}}
     {{- /* The enablement, filename and URL can be overriden if required.
           Set `disableAutoJarCopy` to true to disable copying this file. This will break
-          IAM auth unless you add the file using `copyFIles`.
+          OTEL Logback Appender functionality unless you add the file using `copyFiles`.
           This is an undocumented feature - if different files need to be added,
           the user should use the existing `copyFiles` feature instead. This override
           should only be used if troubleshooting this feature. */ -}}
@@ -53,7 +52,7 @@ Define any file copies required by observability agents
   {{- if and $otelAgentConfig.enabled (eq $otelAgentConfig.mode "helm") -}}
     {{- /* The enablement, filename and URL can be overriden if required.
           Set `disableAutoJarCopy` to true to disable copying this file. This will break
-          IAM auth unless you add the file using `copyFIles`.
+          OTEL Java Agent functionality unless you add the file using `copyFiles`.
           This is an undocumented feature - if different files need to be added,
           the user should use the existing `copyFiles` feature instead. This override
           should only be used if troubleshooting this feature. */ -}}
@@ -79,7 +78,7 @@ Define any file copies required by observability agents
   {{- if $promAgentConfig.enabled -}}
     {{- /* The enablement, filename and URL can be overriden if required.
           Set `disableAutoJarCopy` to true to disable copying this file. This will break
-          IAM auth unless you add the file using `copyFIles`.
+          Prometheus Java Agent functionality unless you add the file using `copyFiles`.
           This is an undocumented feature - if different files need to be added,
           the user should use the existing `copyFiles` feature instead. This override
           should only be used if troubleshooting this feature. */ -}}
@@ -212,7 +211,7 @@ Define env vars that will be used for observability
 */ -}}
 {{- define "observability.envVars" -}}
   {{- $envVars := list -}}
-  {{- /* Add Otel Java Agent Jar, only if enabled via Helm */ -}}
+  {{- /* Add Otel Java Agent Jar Env Vars, only if enabled via Helm */ -}}
   {{- $otelAgentConfig := (include "observability.otelagent" . | fromYaml ) -}}
   {{- if and $otelAgentConfig.enabled (eq $otelAgentConfig.mode "helm") -}}
     {{- /* JAVA Agent configuration */ -}}
@@ -379,11 +378,11 @@ Define env vars that will be used for observability
     {{- end -}}
   {{- end -}}
 
-  {{- /* Add Prometheus JMX Java Agent Jar, only if enabled */ -}}
+  {{- /* Add Prometheus JMX Java Agent Jar ENV Vars, only if enabled */ -}}
   {{- $promAgentConfig := (include "observability.promagent" . | fromYaml ) -}}
   {{- if $promAgentConfig.enabled -}}
-    {{- $fileName := default "jmx_prometheus_javaagent-0.17.2.jar" (.Values.observability.instrumentation.prometheus.jvmMetrics).agentJarName -}}
-    {{- $agentPort := default "17171" (.Values.observability.instrumentation.prometheus.jvmMetrics).agentPort -}}
+    {{- $fileName := default "jmx_prometheus_javaagent-0.17.2.jar" $promAgentConfig.agentJarName -}}
+    {{- $agentPort := default "17171" $promAgentConfig.config.port -}}
     {{- $dirName := "/home/smile/smilecdr/javaagent" -}}
     {{- $env := dict "name" "JAVA_TOOL_OPTIONS" -}}
     {{- $_ := set $env "value" (printf "-javaagent:%s/%s=%s:%s/jmxconf.yaml" $dirName $fileName $agentPort $dirName) -}}
