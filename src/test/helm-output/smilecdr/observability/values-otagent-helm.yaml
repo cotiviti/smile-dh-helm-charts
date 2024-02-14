@@ -8,6 +8,7 @@ observability:
       enabled: true
       otelAgent:
         enabled: true
-        mode: helm
+        # This defaults to `helm` so not really needed
+        # mode: helm
       otelCollector:
         enabled: false

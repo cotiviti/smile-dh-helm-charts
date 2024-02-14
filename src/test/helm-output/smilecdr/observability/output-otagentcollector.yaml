@@ -532,8 +532,27 @@ spec:
         cpu: 50m
         memory: 64Mi
     env:
+      # TODO: Needs review in case this is overriding these settings if they are set elsewhere
+      # # Need to dynamically configure agent based on settings. none, otlp or zipkin
+      # - name: OTEL_TRACES_EXPORTER
+      #   value: none
+      # # Need to dynamically configure agent based on settings. none, otlp or prometheus
+      # - name: OTEL_METRICS_EXPORTER
+      #   value: none
+      # Need to dynamically configure agent based on settings. none or otlp
       - name: OTEL_LOGS_EXPORTER
         value: otlp
+      # Just using these when using otlp logs exporter
+      - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES
+        value: "true"
+      - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_MARKER_ATTRIBUTE
+        value: "true"
+      - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_CODE_ATTRIBUTES
+        value: "true"
+      - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_KEY_VALUE_PAIR_ATTRIBUTES
+        value: "true"
+      - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_LOGGER_CONTEXT_ATTRIBUTES
+        value: "true"
   propagators:
   - tracecontext
   - baggage
@@ -561,7 +580,12 @@ metadata:
     app.kubernetes.io/managed-by: Helm
   annotations: {}
 spec:
-  config:   null
+  config: |
+    exporters: {}
+    processors: {}
+    receivers: {}
+    service:
+      pipelines: {}
   # Using 'contrib' image as it has the required Loki exporter that is not in the 'core' distribution.
   # https://github.com/open-telemetry/opentelemetry-collector-releases/pkgs/container/opentelemetry-collector-releases%2Fopentelemetry-collector-contrib
   image: "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.79.0"
