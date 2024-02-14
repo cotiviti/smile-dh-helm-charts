@@ -1,0 +1,30 @@
+# This file defines configurations specific for this test
+
+unitTesting: true
+
+logging:
+  troubleshootingLoggers:
+    http_troubleshooting:
+      enabled: true
+      level: debug
+  customLoggers:
+    myCustomLogger:
+      path: cdr.prior.auth
+      enabled: true
+      level: debug
+      pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level M:%X{moduleId} R:%X{requestId} %logger{36} [%file:%line] %msg%n"
+      target: crd.log
+  setLoggers:
+    thymeleaf:
+      description: Mute Thymeleaf errors due to bug in Smile CDR 2023.11.x. Remove all this once bug is resolved!
+      level: DEBUG
+      paths:
+      - org.thymeleaf.standard.processor.AbstractStandardFragmentInsertionTagProcessor
+      - org.thymeleaf.standard.processor.StandardIncludeTagProcessor
+  rawLogConfig: |-
+    <included>
+      <!--
+      Custom logging config:
+      This will override and replace any auto-generated logger configurations defined above.
+      -->
+    </included>

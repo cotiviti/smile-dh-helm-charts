@@ -19,6 +19,10 @@ Define volumes and volume mounts based on combining:
   {{- with ( include "observability.volumes" . | fromYamlArray ) -}}
     {{- $volumes = concat $volumes . -}}
   {{- end -}}
+  {{- /* Include any volumes required by custom logging configuraions */ -}}
+  {{- /* with ( include "logging.logback.volumes" . | fromYamlArray ) -}}
+    {{- $volumes = concat $volumes . -}}
+  {{- end */ -}}
   {{- /* TODO: we do not need release name in these identifiers. It's just internal
       to the pod. */ -}}
   {{- $configMapVolume := dict "name" (printf "scdr-config-%s" .Release.Name) -}}
@@ -72,6 +76,9 @@ Define volumes and volume mounts based on combining:
   {{- with ( include "observability.volumeMounts" . | fromYamlArray ) -}}
     {{- $volumeMounts = concat $volumeMounts . -}}
   {{- end -}}
+  {{- /* with ( include "logging.logback.volumeMounts" . | fromYamlArray ) -}}
+    {{- $volumeMounts = concat $volumeMounts . -}}
+  {{- end */ -}}
   {{- $configMapVolumeMount := dict "name" (printf "scdr-config-%s" .Release.Name) -}}
   {{- $_ := set $configMapVolumeMount "mountPath" "/home/smile/smilecdr/classes/cdr-config-Master.properties" -}}
   {{- $_ := set $configMapVolumeMount "subPath" "cdr-config-Master.properties" -}}
