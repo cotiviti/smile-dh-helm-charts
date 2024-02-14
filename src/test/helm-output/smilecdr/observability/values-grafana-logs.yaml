@@ -1,0 +1,87 @@
+observability:
+  enabled: true
+  instrumentation:
+    # Tools to deploy and configure to get telemetry data from application
+    openTelemetry:
+      # Deploy and configure OpenTelemetry to extract
+      enabled: true
+      otelAgent:
+        enabled: true
+        mode: operator
+      otelCollector:
+        enabled: true
+        # Sidecar vs Deployment vs Daemonset
+        mode: sidecar
+        config: |
+          receivers:
+            otlp:
+              protocols:
+                grpc:
+          processors:
+            attributes:
+              actions:
+                - action: insert
+                  key: loki.attribute.labels
+                  value: log.file.name
+          exporters:
+            loki:
+              endpoint: http://loki:3100/loki/api/v1/push
+          service:
+            pipelines:
+              logs:
+                receivers: [otlp]
+                processors: [attributes]
+                exporters: [loki]
+    prometheus:
+      enabled: false
+      # Sets up pod monitor CR so the prometheus operator can discover Smile CDR
+      operatorConfig:
+        enabled: false
+      # Install Java Agent into Smile CDR pods to expose JVM metrics
+      promAgent:
+        enabled: true
+        config:
+          rules:
+          - pattern: ".*"
+    logging:
+      enabled: true
+
+  services:
+    logging:
+      enabled: true
+      loki:
+        enabled: true
+  dashboard:
+    grafana:
+      enabled: true
+      autoConfigDataSources: true
+      autoConfigDashboards: true
+
+# observability:
+#   enabled: true
+#   instrumentation:
+#     openTelemetry:
+#       enabled: true
+#       otelAgent:
+#         enabled: true
+#         # mode: helm
+#       otelCollector:
+#         enabled: true
+#         # mode: deployment
+#     prometheus:
+#       enabled: false
+#       # Sets up pod monitor CR so the prometheus operator can discover Smile CDR
+#       operatorConfig:
+#         enabled: false
+#       # Install Java Agent into Smile CDR pods to expose JVM metrics
+#       promAgent:
+#         enabled: true
+#         config:
+#           rules:
+#           - pattern: ".*"
+#     loki:
+#       enabled: true
+#   dashboard:
+#     grafana:
+#       enabled: true
+#       # secretTestingOverride: secret

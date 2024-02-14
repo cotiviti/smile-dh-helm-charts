@@ -1,0 +1,40 @@
+observability:
+  enabled: true
+  instrumentation:
+    openTelemetry:
+      enabled: false
+      otelAgent:
+        enabled: false
+        # mode: helm
+      otelCollector:
+        enabled: false
+        # mode: deployment
+    prometheus:
+      enabled: false
+      # Sets up pod monitor CR so the prometheus operator can discover Smile CDR
+      operatorConfig:
+        enabled: false
+      # Install Java Agent into Smile CDR pods to expose JVM metrics
+      promAgent:
+        enabled: false
+        config:
+          rules:
+          - pattern: ".*"
+    metrics:
+      enabled: true
+  services:
+    metrics:
+      enabled: true
+      prometheus:
+        enabled: false
+  dashboard:
+    grafana:
+      enabled: true
+      # secretTestingOverride: secret
+database:
+  crunchypgo:
+    enabled: true
+    internal: true
+    config:
+      monitoring:
+        enabled: true

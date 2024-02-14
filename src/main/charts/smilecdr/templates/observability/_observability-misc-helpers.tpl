@@ -397,34 +397,97 @@ Define env vars that will be used for observability
 Some helpers to reduce verbosity of if statements elsewhere.
 */}}
 
+{{- define "observability.lokideployment.enabled" -}}
+  {{- if .Values.observability.enabled -}}
+    {{- if or (and ((.Values.observability.services).logging).enabled .Values.observability.services.logging.loki.enabled) (and ((.Values.observability.services).tracing).enabled (.Values.observability.services.tracing.loki).enabled) -}}
+      {{- true -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
 {{- define "observability.otelagent" -}}
-  {{- $otelAgentConfig := dict -}}
+  {{- /* Set defaults */ -}}
+  {{- $otelAgentConfig := dict "enabled" false "crdEnabled" false -}}
   {{- if and .Values.observability.enabled (.Values.observability.instrumentation).openTelemetry.enabled ((.Values.observability.instrumentation.openTelemetry).otelAgent).enabled -}}
     {{- $otelAgentConfig = deepCopy .Values.observability.instrumentation.openTelemetry.otelAgent -}}
     {{- if eq .Values.observability.instrumentation.openTelemetry.otelAgent.mode "operator" -}}
       {{- $_ := set $otelAgentConfig "crdEnabled" true -}}
-    {{- else -}}
-      {{- $_ := set $otelAgentConfig "crdEnabled" false -}}
     {{- end -}}
-  {{- else -}}
-    {{- $_ := set $otelAgentConfig "enabled" false -}}
-    {{- $_ := set $otelAgentConfig "crdEnabled" false -}}
+
   {{- end -}}
   {{- $otelAgentConfig | toYaml -}}
 {{- end -}}
 
 {{- define "observability.otelcoll" -}}
-  {{- $otelCollConfig := dict -}}
+  {{- /* Set defaults */ -}}
+  {{- $otelCollConfig := dict "enabled" false "crdEnabled" false -}}
+
   {{- if and .Values.observability.enabled (.Values.observability.instrumentation).openTelemetry.enabled ((.Values.observability.instrumentation.openTelemetry).otelCollector).enabled -}}
     {{- $otelCollConfig = deepCopy .Values.observability.instrumentation.openTelemetry.otelCollector -}}
     {{- if eq .Values.observability.instrumentation.openTelemetry.otelCollector.mode "sidecar" -}}
       {{- $_ := set $otelCollConfig "crdEnabled" true -}}
-    {{- else -}}
-      {{- $_ := set $otelCollConfig "crdEnabled" false -}}
     {{- end -}}
-  {{- else -}}
-    {{- $_ := set $otelCollConfig "enabled" false -}}
-    {{- $_ := set $otelCollConfig "crdEnabled" false -}}
+    {{- /* Dynamically generate the yaml based configuiration for the Otell Collector
+        It has multiple sections who's configurations will depend upon which components
+        have been enabled, such as Loki for example.
+        We need to generate receivers, processors, exporters and services */ -}}
+    {{- $receiverType := "" -}}
+    {{- $receivers := dict -}}
+    {{- $processors := dict -}}
+    {{- $exporters := dict -}}
+    {{- $service := dict -}}
+    {{- $pipelines := dict -}}
+    {{- $yamlConfig := dict -}}
+    {{- if and (.Values.observability.instrumentation.logging).enabled ((.Values.observability.services.logging).loki).enabled -}}
+      {{- $receiverType = "otlpgrpc" -}}
+      {{- $lokiResourceLabels := list -}}
+      {{- $lokiResourceLabels = append $lokiResourceLabels (dict "name" "namespace" "source" "k8s.namespace.name") -}}
+      {{- $lokiResourceLabels = append $lokiResourceLabels (dict "name" "deployment" "source" "k8s.deployment.name") -}}
+      {{- $lokiResourceLabels = append $lokiResourceLabels (dict "name" "replicaset" "source" "k8s.replicaset.name") -}}
+      {{- $lokiResourceLabels = append $lokiResourceLabels (dict "name" "pod" "source" "k8s.pod.name") -}}
+      {{- $lokiResourceLabels = append $lokiResourceLabels (dict "name" "smile.version" "source" "service.version")  -}}
+
+      {{- $deleteAttributes := list -}}
+      {{- $deleteAttributes = append $deleteAttributes "host.arch" -}}
+      {{- $deleteAttributes = append $deleteAttributes "host.name" -}}
+      {{- $deleteAttributes = append $deleteAttributes "os.description" -}}
+      {{- $deleteAttributes = append $deleteAttributes "os.type" -}}
+      {{- $deleteAttributes = append $deleteAttributes "process.pid" -}}
+
+      {{- $lokiLabels := list -}}
+      {{- $attributeActions := list -}}
+      {{- range $lokiLabel := $lokiResourceLabels -}}
+        {{- if and (hasKey $lokiLabel "source") (ne $lokiLabel.name $lokiLabel.source) -}}
+          {{- $attributeActions = append $attributeActions (dict "action" "insert" "key" $lokiLabel.name "from_attribute" $lokiLabel.source) -}}
+          {{- $attributeActions = append $attributeActions (dict "action" "delete" "key" $lokiLabel.source) -}}
+        {{- end -}}
+        {{- $lokiLabels = append $lokiLabels $lokiLabel.name -}}
+      {{- end -}}
+      {{- if gt (len $lokiLabels) 0 -}}
+        {{- $attributeActions = append $attributeActions (dict "action" "insert" "key" "loki.resource.labels" "value" (join "," $lokiLabels)) -}}
+      {{- end -}}
+      {{- $_ := set $processors "resource/loki" (dict "attributes" $attributeActions) -}}
+
+      {{- $lokiHost := "loki" -}}
+      {{- $lokiPort := "3100" -}}
+      {{- $_ := set $exporters "loki" (dict "endpoint" (printf "http://%s:%s/loki/api/v1/push" $lokiHost $lokiPort)) -}}
+
+      {{- if eq $receiverType "otlpgrpc" -}}
+        {{- $_ := set $receivers "otlp" (dict "protocols" (dict "grpc" dict)) -}}
+      {{- end -}}
+
+      {{- $logsPipeline := dict -}}
+      {{- $_ := set $logsPipeline "receivers" (list "otlp") -}}
+      {{- $_ := set $logsPipeline "processors" (list "resource/loki") -}}
+      {{- $_ := set $logsPipeline "exporters"  (list "loki") -}}
+      {{- $_ := set $pipelines "logs" $logsPipeline -}}
+
+    {{- end -}}
+    {{- $_ := set $yamlConfig "processors" $processors -}}
+    {{- $_ := set $yamlConfig "exporters" $exporters -}}
+    {{- $_ := set $yamlConfig "receivers" $receivers -}}
+    {{- $_ := set $yamlConfig "service" (dict "pipelines" $pipelines) -}}
+    {{- $_ := set $otelCollConfig "yamlConfig" $yamlConfig -}}
   {{- end -}}
   {{- $otelCollConfig | toYaml -}}
 {{- end -}}

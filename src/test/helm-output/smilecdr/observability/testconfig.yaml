@@ -47,3 +47,43 @@ tests:
     - ../default-test-disabled-features.yaml
     - values-promagent.yaml
     # - extra-values.yaml
+  promGraf:
+    outputFile: output-prom-graf.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-prom-graf.yaml
+    # - extra-values.yaml
+  jaegerOperator:
+    outputFile: output-jaeger-operator.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-jaeger-operator.yaml
+    # - extra-values.yaml
+  grafanaLogs:
+    outputFile: output-grafana-logs.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-grafana-logs.yaml
+    # - extra-values.yaml
+  grafanaDashboards:
+    outputFile: output-grafana-dashboards.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-grafana-dashboards.yaml
+    # - extra-values.yaml

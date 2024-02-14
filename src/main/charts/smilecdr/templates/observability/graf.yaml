@@ -1,0 +1,36 @@
+{{- if include "observability.grafana.enabled" . -}}
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: {{ .Release.Name }}-grafana
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "smilecdr.labels" $ | nindent 4 }}
+    dashboards: {{ .Release.Name }}-grafana
+  annotations: {}
+spec:
+  config:
+    log:
+      mode: "console"
+    auth:
+      disable_login_form: "false"
+    server:
+      root_url: {{ include "observability.grafana.rooturl" . }}
+      serve_from_sub_path: "true"
+    feature_toggles:
+      enable: "newNavigation,traceqlEditor,tempoSearch,traceToMetrics"
+  ingress:
+    spec:
+      ingressClassName: {{ include "ingress.className" . }}
+      rules:
+        {{- include "observability.grafana.ingress.rules" . | nindent 8 }}
+  deployment:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: grafana
+              # image: grafana/grafana:10.1.1
+              image: grafana/grafana:main
+
+{{- end -}}

@@ -1,0 +1,28 @@
+{{- $grafanaConfig := include "observability.grafana" . | fromYaml -}}
+{{- if $grafanaConfig.enabled -}}
+  {{- range $theDashboardName, $theDashboardSpec := (include "observability.grafana.dashboards" . | fromYaml) -}}
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: {{ $.Release.Name }}-grafdash-{{ lower $theDashboardName }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "smilecdr.labels" $ | nindent 4 }}
+    dashboards: "grafana"
+  annotations: {}
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: {{ $.Release.Name }}-grafana
+  resyncPeriod: 30s
+  datasources:
+    {{- if gt (len $theDashboardSpec.datasources) 0 }}
+      {{- $theDashboardSpec.datasources | toYaml | nindent 2 }}
+    {{- else -}}
+      {{- printf " []" }}
+    {{- end }}
+  json: >
+    {{- $theDashboardSpec.json | toPrettyJson | nindent 4 }}
+---
+  {{ end }}
+{{- end -}}

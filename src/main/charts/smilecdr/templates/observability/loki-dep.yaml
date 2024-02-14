@@ -1,0 +1,37 @@
+{{- if (include "observability.lokideployment.enabled" . | fromYaml) -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-loki
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "smilecdr.labels" $ | nindent 4 }}
+  annotations: {}
+spec:
+  selector:
+    matchLabels:
+      app: loki
+      release: {{ .Release.Name }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: loki
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: loki
+        image: grafana/loki:2.9.3
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: loki
+          containerPort: 3100
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/loki/
+          readOnly: true
+      volumes:
+      - name: config-volume
+        configMap:
+          name: {{ .Release.Name }}-loki-cm
+{{- end -}}

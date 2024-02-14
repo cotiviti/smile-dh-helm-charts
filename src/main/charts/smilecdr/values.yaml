@@ -563,7 +563,16 @@ messageBroker:
 observability:
   # Enable/disable entire observability suite
   enabled: false
+  # Configuraion for instrumentation of Smile CDR
   instrumentation:
+    # Which type of telemetry will we collect
+    metrics:
+      enabled: false
+    tracing:
+      enabled: false
+    logging:
+      enabled: false
+    # Open Telemetry instrumentation configuration
     openTelemetry:
       enabled: true
       otelAgent:
@@ -597,10 +606,6 @@ observability:
           env: []
           # - name: OTEL_LOGS_EXPORTER
           #   value: otlp
-          # - name: OTEL_METRICS_EXPORTER
-          #   value: "prometheus"
-          # - name: OTEL_EXPORTER_PROMETHEUS_PORT
-          #   value: 9464
           java:
             env: []
           # propagators:
@@ -610,13 +615,14 @@ observability:
           #   argument: 1
           #   type: parentbased_traceidratio
       otelCollector:
-        # Install OpenTelemetry Sidecar container into Smile CDR pods to collect and ship JVM metrics
-        enabled: true
+        # Install OpenTelemetry Collector Sidecar container into Smile CDR pods to collect and ship JVM metrics
+        enabled: false
         # Select how to install the collector.
-        # Currently only supports using the otel operator
-        # Choose sidecar (Default), deployment or helm(Not yet implemented)
+        # Currently only supports using the OTEL operator
+        # Choose sidecar (Default) or deployment
         mode: sidecar
 
+    # Open Telemetry instrumentation configuration
     prometheus:
       enabled: false
       # Sets up pod monitor CR so the prometheus operator can discover Smile CDR
@@ -629,6 +635,31 @@ observability:
           port: 17171
           rules:
           - pattern: ".*"
+  # Configuration of back-end services required to aggregate and store telemetry data
+  services:
+    metrics:
+      enabled: false
+      prometheus:
+        enabled: false
+    tracing:
+      enabled: false
+      tempo:
+        enabled: false
+    logging:
+      enabled: false
+      loki:
+        enabled: false
+
+  # Dashboard configuration
+  dashboard:
+    grafana:
+      enabled: false
+      useOperator: true
+      path: /grafana
+      ingresses:
+        default:
+          enabled: true
+          hostName: default
 
 ## @section Extra labels
 ## @param labels Extra labels to apply to all resources

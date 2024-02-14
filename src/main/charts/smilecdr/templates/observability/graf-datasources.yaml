@@ -1,0 +1,30 @@
+{{- $grafanaConfig :=  include "observability.grafana" . | fromYaml -}}
+{{- if $grafanaConfig.enabled -}}
+  {{- range $theDataSource := $grafanaConfig.dataSources -}}
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: {{ printf "%s-%s" $.Release.Name $theDataSource.resourceName }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "smilecdr.labels" $ | nindent 4 }}
+    dashboards: "grafana"
+  annotations: {}
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: {{ $.Release.Name }}-grafana
+  datasource:
+    name: {{ $theDataSource.name }}
+    type: {{ $theDataSource.type }}
+    access: proxy
+    orgId: 1
+    url: {{ $theDataSource.url }}
+    basicAuth: false
+    # isDefault: true
+    jsonData:
+      {{ $theDataSource.jsonData | toYaml | nindent 6 }}
+    editable: false
+---
+  {{ end }}
+{{- end -}}

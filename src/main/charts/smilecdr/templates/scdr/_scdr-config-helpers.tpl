@@ -16,6 +16,9 @@ them all into a readable config file, complete with section headers.
   {{- $moduleText = printf "%s# Node Configuration\n" $moduleText -}}
   {{- $moduleText = printf "%s%s\n" $moduleText $separatorText -}}
   {{- $moduleText = printf "%snode.id \t= %s\n" $moduleText .Values.cdrNodeId -}}
+  {{- /* if false -}}
+    {{- $moduleText = printf "%sspring.jmx.enabled \t= %s\n" $moduleText true -}}
+  {{- end */ -}}
   {{- if (.Values.config).database -}}
     {{- $moduleText = printf "%snode.propertysource \t= %s\n" $moduleText "DATABASE" -}}
     {{- $moduleText = printf "%snode.config.locked \t= false\n" $moduleText -}}
