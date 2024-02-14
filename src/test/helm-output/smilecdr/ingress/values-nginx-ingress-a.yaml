@@ -3,5 +3,12 @@ ingress:
   enabled: true
   annotations:
     nginx.ingress.kubernetes.io/force-ssl-redirect: overridden-value
-    appgw.ingress.kubernetes.io/extra-annotation-1: annotation1-value
-    appgw.ingress.kubernetes.io/extra-annotation-2: annotation2-value
+    nginx.ingress.kubernetes.io/extra-annotation-1: 'annotation1-single-quoted-value'
+    nginx.ingress.kubernetes.io/extra-annotation-2: "annotation2-double-quoted-value"
+    nginx.ingress.kubernetes.io/extra-annotation-3: '"annotation3-squoted-quoted-value"'
+    nginx.ingress.kubernetes.io/extra-annotation-4: "\"annotation4-escaped-quoted-value\""
+    'single.quoted.annotation': single quoted annotation key
+    "double.quoted.annotation": double quoted annotation key
+    '"squoted.quoted.annotation"': squoted quoted annotation key
+    "\"escaped.quoted.annotation\"": escaped quoted annotation key
+

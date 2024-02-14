@@ -40,6 +40,21 @@
       {{- with $ingressSpec.annotations -}}
         {{- $annotations = deepCopy (merge . $annotations) -}}
       {{- end -}}
+      {{- /* Normalize annotation key names to cope with double-quoted annotations */ -}}
+      {{- range $theAnnotationKey, $theAnnotationValue := $annotations -}}
+        {{- $unquotedKey := trimAll "\"" $theAnnotationKey -}}
+        {{- $unquotedValue := trimAll "\"" $theAnnotationValue -}}
+        {{- if ne $unquotedKey $theAnnotationKey -}}
+          {{- /* The annotation key is different to the 'unquoted' one, which means it's double quoted
+              and needs replacing */ -}}
+          {{- $_ := set $annotations (trimAll "\"" $theAnnotationKey) $unquotedValue -}}
+          {{- $_ := unset $annotations $theAnnotationKey -}}
+        {{- else if ne $unquotedValue $theAnnotationValue -}}
+          {{- /* The annotation value is different to the 'unquoted' one, which means it's double quoted
+              and needs replacing, even if the key was fine. */ -}}
+          {{- $_ := set $annotations $theAnnotationKey $unquotedValue -}}
+        {{- end -}}
+      {{- end -}}
       {{- $_ := set $ingressSpec "annotations" $annotations -}}
     {{- end -}}
 
@@ -111,6 +126,21 @@
         {{- with $ingressSpec.annotations -}}
           {{- $annotations = deepCopy (merge . $annotations) -}}
         {{- end -}}
+        {{- /* Normalize annotation key names to cope with double-quoted annotations */ -}}
+        {{- range $theAnnotationKey, $theAnnotationValue := $annotations -}}
+          {{- $unquotedKey := trimAll "\"" $theAnnotationKey -}}
+          {{- $unquotedValue := trimAll "\"" $theAnnotationValue -}}
+          {{- if ne $unquotedKey $theAnnotationKey -}}
+            {{- /* The annotation key is different to the 'unquoted' one, which means it's double quoted
+                and needs replacing */ -}}
+            {{- $_ := set $annotations (trimAll "\"" $theAnnotationKey) $unquotedValue -}}
+            {{- $_ := unset $annotations $theAnnotationKey -}}
+          {{- else if ne $unquotedValue $theAnnotationValue -}}
+            {{- /* The annotation value is different to the 'unquoted' one, which means it's double quoted
+                and needs replacing, even if the key was fine. */ -}}
+            {{- $_ := set $annotations $theAnnotationKey $unquotedValue -}}
+          {{- end -}}
+        {{- end -}}
         {{- $_ := set $ingressSpec "annotations" $annotations -}}
         {{- $_ := set $ingresses $theIngressName $ingressSpec -}}
       {{- end -}}
@@ -137,8 +167,6 @@ specified cloud provider
     {{- /*
     Azure Application Gateway Annotations (No Nginx Ingress)
     */ -}}
-    {{- /* TODO: Deprecate the kubernetes.io/ingress.class annotation and use ingressClassName instead */ -}}
-    {{- /* $_ := set $annotations "kubernetes.io/ingress.class" $ingressClassName */ -}}
     {{- $_ := set $annotations "appgw.ingress.kubernetes.io/backend-protocol" "http" -}}
     {{- $_ := set $annotations "appgw.ingress.kubernetes.io/cookie-based-affinity" "false" -}}
     {{- $_ := set $annotations "appgw.ingress.kubernetes.io/use-private-ip" "false" -}}
@@ -152,17 +180,12 @@ specified cloud provider
     Note: Most of the general annotations are defined in the
     nginx-ingress controller.
     */ -}}
-    {{- /* TODO: Deprecate the kubernetes.io/ingress.class annotation and use ingressClassName instead */ -}}
-    {{- /* $_ := set $annotations "kubernetes.io/ingress.class" $ingressClassName */ -}}
     {{- $_ := set $annotations "nginx.ingress.kubernetes.io/force-ssl-redirect" "true" -}}
   {{- else if eq $ingressSpec.type "aws-lbc-alb"  -}}
     {{- /*
     AWS Load Balancer Controller Annotations (ALB)
     Be sure to specify all required annotations
     */ -}}
-    {{- /* TODO: Deprecate the kubernetes.io/ingress.class annotation and use ingressClassName instead */ -}}
-    {{- /* $_ := set $annotations "kubernetes.io/ingress.class" $ingressClassName */ -}}
-    {{- $_ := set $annotations "alb.ingress.kubernetes.io/target-group-attributes" "stickiness.enabled=false,stickiness.lb_cookie.duration_seconds=300" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/backend-protocol" "HTTP" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/healthcheck-protocol" "HTTP" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/healthcheck-port" "traffic-port" -}}
@@ -172,7 +195,7 @@ specified cloud provider
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/success-codes" "200-401" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/listen-ports" "[{\"HTTPS\":443}]" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/ssl-policy" "ELBSecurityPolicy-2016-08" -}}
-    {{- $_ := set $annotations "alb.ingress.kubernetes.io/actions.ssl-redirect" "{\"Type\": \"redirect\", \"RedirectConfig\": { \"Protocol\": \"HTTPS\", \"Port\": \"443\", \"StatusCode\": \"HTTP_301\"}}" -}}
+    {{- $_ := set $annotations "alb.ingress.kubernetes.io/ssl-redirect" "443" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/target-type" "instance" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/scheme" "internet-facing" -}}
   {{- end -}}
