@@ -1,5 +1,5 @@
 {{- $otelCollConfig := (include "observability.otelcoll" . | fromYaml) -}}
-{{- if $otelCollConfig.crdEnabled -}}
+{{- if $otelCollConfig.useOperator -}}
 {{- /* Define OpenTelemetryCollector resource for Smile CDR */ -}}
 apiVersion: opentelemetry.io/v1alpha1
 kind: OpenTelemetryCollector

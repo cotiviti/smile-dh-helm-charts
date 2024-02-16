@@ -166,13 +166,13 @@ Note that some operators look for the annotations on the Deployment and some loo
   {{- $annotations := dict -}}
   {{- /* Include Pod annotations for Java agent when using OpenTelemetry operator/crd */ -}}
   {{- $otelAgentConfig := (include "observability.otelagent" . | fromYaml) -}}
-  {{- if $otelAgentConfig.crdEnabled -}}
+  {{- if $otelAgentConfig.useOperator -}}
     {{- $_ := set $annotations "instrumentation.opentelemetry.io/inject-java" true -}}
     {{- $_ := set $annotations "instrumentation.opentelemetry.io/container-names" .Chart.Name -}}
   {{- end -}}
   {{- /* Include Pod annotations for Otel Collector sidecar container when using OpenTelemetry operator/crd */ -}}
   {{- $otelCollConfig := (include "observability.otelcoll" . | fromYaml) -}}
-  {{- if and $otelCollConfig.crdEnabled (eq $otelCollConfig.mode "sidecar") -}}
+  {{- if and $otelCollConfig.useOperator (eq $otelCollConfig.mode "sidecar") -}}
     {{- $_ := set $annotations "sidecar.opentelemetry.io/inject" (printf "%s-scdr-otelcoll" .Release.Name) -}}
   {{- end -}}
   {{- $annotations | toYaml -}}
@@ -406,25 +406,122 @@ Some helpers to reduce verbosity of if statements elsewhere.
 
 {{- define "observability.otelagent" -}}
   {{- /* Set defaults */ -}}
-  {{- $otelAgentConfig := dict "enabled" false "crdEnabled" false -}}
+  {{- $otelAgentConfig := dict "enabled" false "useOperator" false -}}
   {{- if and .Values.observability.enabled (.Values.observability.instrumentation).openTelemetry.enabled ((.Values.observability.instrumentation.openTelemetry).otelAgent).enabled -}}
     {{- $otelAgentConfig = deepCopy .Values.observability.instrumentation.openTelemetry.otelAgent -}}
     {{- if eq .Values.observability.instrumentation.openTelemetry.otelAgent.mode "operator" -}}
-      {{- $_ := set $otelAgentConfig "crdEnabled" true -}}
+      {{- $_ := set $otelAgentConfig "useOperator" true -}}
     {{- end -}}
 
+    {{- /* Set the exporters based on provided `env:`
+        Note that we cannot set any defaults in the values file
+        with `observability...env` as you cannot merge lists in Helm.
+        Instead we must programatically set the defaults here.
+        
+        Ideally, we should change the spec to use dicts instead of lists to avoid
+        this issue. But it's already in use. This may be hard to deprecate.
+        
+        Not only that, but the OTEL operator already uses lists in its CRD. It makes
+        sense to use the same schema.
+        
+        Solution is to provide `specOverrides` - a dict that can be used to modify the spoec
+        */ -}}
+
+    {{- $exporters := dict -}}
+    {{- /* Set the defaults */ -}}
+
+    {{- /* Before doing any merging, copy 'spec' items and convert elements of type list to dict */ -}}
+    {{- $specDict := deepCopy $otelAgentConfig.spec -}}
+    
+    {{- /* Convert `spec.resourceAttributes' list to dict */ -}}
+    {{- if hasKey $specDict "resourceAttributes" -}}
+      {{- $oldList := deepCopy $specDict.resourceAttributes -}}
+      {{- $_ := set $specDict "resourceAttributes" dict -}}
+      {{- range $theResourceAttribute := $oldList -}}
+        {{- $_ := set $specDict.resourceAttributes $theResourceAttribute.name $theResourceAttribute -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- /* Convert `spec.env' list to dict */ -}}
+    {{- if hasKey $specDict "env" -}}
+      {{- $oldList := deepCopy $specDict.env -}}
+      {{- $_ := set $specDict "env" dict -}}
+      {{- range $theEnvVar := $oldList -}}
+        {{- $_ := set $specDict.env $theEnvVar.name $theEnvVar -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- /* Convert `spec.java.env' list to dict */ -}}
+    {{- if hasKey $specDict.java "env" -}}
+      {{- $oldList := deepCopy $specDict.java.env -}}
+      {{- $_ := set $specDict.java "env" dict -}}
+      {{- range $theJavaEnvVar := $oldList -}}
+        {{- $_ := set $specDict.java.env $theJavaEnvVar.name $theJavaEnvVar -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- /* Now we can set defaults */ -}}
+    {{- $otelAgentDefaultSpec := dict "java" (dict "env" dict) -}}
+    {{- $_ := set $otelAgentDefaultSpec.java.env "OTEL_METRICS_EXPORTER" (dict "value" "none") -}}
+    {{- $_ := set $otelAgentDefaultSpec.java.env "OTEL_LOGS_EXPORTER" (dict "value" "none") -}}
+    {{- $_ := set $otelAgentDefaultSpec.java.env "OTEL_TRACES_EXPORTER" (dict "value" "none") -}}
+
+    {{- $_ := set $otelAgentDefaultSpec.java.env "OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES" (dict "value" "true") -}}
+    {{- $_ := set $otelAgentDefaultSpec.java.env "OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_MARKER_ATTRIBUTE" (dict "value" "true") -}}
+    {{- $_ := set $otelAgentDefaultSpec.java.env "OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_CODE_ATTRIBUTES" (dict "value" "true") -}}
+    {{- $_ := set $otelAgentDefaultSpec.java.env "OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_KEY_VALUE_PAIR_ATTRIBUTES" (dict "value" "true") -}}
+    {{- $_ := set $otelAgentDefaultSpec.java.env "OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_LOGGER_CONTEXT_ATTRIBUTES" (dict "value" "true") -}}
+
+    {{- $origSpec := deepCopy $otelAgentConfig.spec -}}
+    {{- $newSpec := deepCopy (merge (default dict $otelAgentConfig.specOverrides) $otelAgentDefaultSpec $specDict) -}}
+    {{- /*if hasKey $otelAgentConfig "specOverrides" -}}
+      {{- $_ := set $otelAgentConfig "spec" (deepCopy (merge $otelAgentConfig.specOverrides $specDict $otelAgentDefaultSpec)) -}}
+    {{- end */ -}}
+
+    {{- /* Convert `spec.resourceAttributes' dict to list */ -}}
+    {{- if hasKey $newSpec "resourceAttributes" -}}
+      {{- $resourceAttributesList := list -}}
+      {{- range $theResourceAttributeKey, $theResourceAttribute := $newSpec.resourceAttributes -}}
+        {{- $theListItem := merge (dict "name" $theResourceAttributeKey) $theResourceAttribute -}}
+        {{- $resourceAttributesList = append $resourceAttributesList $theListItem -}}
+      {{- end -}}
+      {{- $_ := set $otelAgentConfig.spec "resourceAttributes" $resourceAttributesList -}}
+    {{- end -}}
+
+    {{- /* Convert `spec.env' dict to list */ -}}
+    {{- if hasKey $newSpec "env" -}}
+      {{- $envVarsList := list -}}
+      {{- range $theEnvVarKey, $theEnvVarValue := $newSpec.env -}}
+        {{- $theListItem := merge (dict "name" $theEnvVarKey) $theEnvVarValue -}}
+        {{- $envVarsList = append $envVarsList $theListItem -}}
+      {{- end -}}
+      {{- $_ := set $otelAgentConfig.spec "env" $envVarsList -}}
+    {{- end -}}
+
+    {{- /* Convert `spec.java.env' dict to list */ -}}
+    {{- if hasKey $newSpec.java "env" -}}
+      {{- $javaEnvVarsList := list -}}
+      {{- range $theJavaEnvVarKey, $theJavaEnvVarValue := $newSpec.java.env -}}
+        {{- $theListItem := merge (dict "name" $theJavaEnvVarKey) $theJavaEnvVarValue -}}
+        {{- $javaEnvVarsList = append $javaEnvVarsList $theListItem -}}
+      {{- end -}}
+      {{- $_ := set $otelAgentConfig.spec.java "env" $javaEnvVarsList -}}
+    {{- end -}}
+
+    {{- /* fail (printf "OLD:\n%s\n\nNEW:\n%s\n\n" (toPrettyJson $origSpec) (toPrettyJson $otelAgentConfig.spec)) */ -}}
+    
   {{- end -}}
   {{- $otelAgentConfig | toYaml -}}
 {{- end -}}
 
 {{- define "observability.otelcoll" -}}
   {{- /* Set defaults */ -}}
-  {{- $otelCollConfig := dict "enabled" false "crdEnabled" false -}}
+  {{- $otelCollConfig := dict "enabled" false "useOperator" false -}}
 
   {{- if and .Values.observability.enabled (.Values.observability.instrumentation).openTelemetry.enabled ((.Values.observability.instrumentation.openTelemetry).otelCollector).enabled -}}
     {{- $otelCollConfig = deepCopy .Values.observability.instrumentation.openTelemetry.otelCollector -}}
     {{- if eq .Values.observability.instrumentation.openTelemetry.otelCollector.mode "sidecar" -}}
-      {{- $_ := set $otelCollConfig "crdEnabled" true -}}
+      {{- $_ := set $otelCollConfig "useOperator" true -}}
     {{- end -}}
     {{- /* Dynamically generate the yaml based configuiration for the Otell Collector
         It has multiple sections who's configurations will depend upon which components
