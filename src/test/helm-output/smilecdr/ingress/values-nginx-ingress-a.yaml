@@ -11,4 +11,3 @@ ingress:
     "double.quoted.annotation": double quoted annotation key
     '"squoted.quoted.annotation"': squoted quoted annotation key
     "\"escaped.quoted.annotation\"": escaped quoted annotation key
-
