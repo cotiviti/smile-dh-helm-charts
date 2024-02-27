@@ -669,11 +669,10 @@ observability:
     grafana:
       enabled: false
       useOperator: true
-      path: /grafana
-      ingresses:
-        default:
-          enabled: true
-          hostName: default
+      ingress:
+        ingressClassName: nginx
+        hostName: default
+        path: /grafana
 
 ## @section Extra labels
 ## @param labels Extra labels to apply to all resources

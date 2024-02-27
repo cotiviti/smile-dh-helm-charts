@@ -24,6 +24,10 @@
   {{- printf "https://%s/%s" (include "observability.grafana.host" .) (trimPrefix "/" $grafPath) -}}
 {{- end -}}
 
+{{- define "observability.grafana.ingressClassName" -}}
+  {{- default "nginx" .Values.observability.dashboard.grafana.ingress.ingressClassName -}}
+{{- end -}}
+
 {{- define "observability.grafana.ingress.rules" -}}
   {{- $rules := list -}}
   {{- $grafHost := include "observability.grafana.host" . -}}
@@ -126,9 +130,6 @@
 {{- define "observability.grafana.dashboards" -}}
   {{- $grafanaDashboards := dict -}}
 
-  {{- if ((.Values.observability.services).metrics).enabled -}}
-    {{- $_ := set $grafanaDashboards "smilecdr-general" (include "observability.grafana.dashboard.smilecdr-metrics" . | fromYaml) -}}
-  {{- end -}}
   {{- if ((.Values.observability.services).logging).enabled -}}
     {{- $_ := set $grafanaDashboards "smilecdr-logs" (include "observability.grafana.dashboard.smilecdr-logs" . | fromYaml) -}}
   {{- end -}}

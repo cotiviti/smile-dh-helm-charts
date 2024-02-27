@@ -21,7 +21,7 @@ spec:
       enable: "newNavigation,traceqlEditor,tempoSearch,traceToMetrics"
   ingress:
     spec:
-      ingressClassName: {{ include "ingress.className" . }}
+      ingressClassName: {{ include "observability.grafana.ingressClassName" . }}
       rules:
         {{- include "observability.grafana.ingress.rules" . | nindent 8 }}
   deployment:
