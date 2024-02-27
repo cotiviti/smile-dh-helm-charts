@@ -24,6 +24,8 @@ observability:
             value: "9464"
           java:
             env:
+            - name: OTEL_LOGS_EXPORTER
+              value: "otel"
             - name: OTEL_INSTRUMENTATION_METHODS_INCLUDE
               value: "ca.uhn.hl7v2.app.Responder[processMessage];ca.cdr.broker.kafka.channel.CdrKafkaAcknowledgingListener[onMessage]"
       otelCollector:

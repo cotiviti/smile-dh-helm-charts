@@ -470,6 +470,12 @@ spec:
               value: -javaagent:/home/smile/smilecdr/javaagent/opentelemetry-javaagent.jar
             - name: OTEL_EXPORTER_OTLP_ENDPOINT
               value: http://localhost:4317
+            - name: OTEL_PROPAGATORS
+              value: tracecontext,baggage,b3
+            - name: OTEL_TRACES_SAMPLER
+              value: parentbased_traceidratio
+            - name: OTEL_TRACES_SAMPLER_ARG
+              value: "1"
             - name: OTEL_RESOURCE_ATTRIBUTES_K8S_DEPLOYMENT_NAME
               value: release-name-scdr
             - name: OTEL_RESOURCE_ATTRIBUTES_K8S_NODE_NAME
@@ -489,6 +495,22 @@ spec:
                   fieldPath: metadata.labels['pod-template-hash']
             - name: OTEL_RESOURCE_ATTRIBUTES_K8S_REPLICASET_NAME
               value: $(OTEL_RESOURCE_ATTRIBUTES_K8S_DEPLOYMENT_NAME)-$(OTEL_RESOURCE_ATTRIBUTES_K8S_POD_TEMPLATE_HASH)
+            - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_CODE_ATTRIBUTES
+              value: "true"
+            - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_KEY_VALUE_PAIR_ATTRIBUTES
+              value: "true"
+            - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_LOGGER_CONTEXT_ATTRIBUTES
+              value: "true"
+            - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_MARKER_ATTRIBUTE
+              value: "true"
+            - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES
+              value: "true"
+            - name: OTEL_LOGS_EXPORTER
+              value: none
+            - name: OTEL_METRICS_EXPORTER
+              value: none
+            - name: OTEL_TRACES_EXPORTER
+              value: none
             - name: OTEL_SERVICE_NAME
               value: release-name-scdr
             - name: OTEL_RESOURCE_ATTRIBUTES

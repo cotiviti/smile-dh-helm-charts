@@ -1,5 +1,5 @@
 tests:
-  OTAgentHelm:
+  OTAgentHelmNoS3:
     outputFile: output-otagent-helm.yaml
     # set:
     # - key: keyName
