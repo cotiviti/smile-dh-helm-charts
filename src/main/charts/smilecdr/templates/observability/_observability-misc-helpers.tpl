@@ -222,6 +222,7 @@ Define env vars that will be used for observability
     {{- /* Configure the Otel Java agent based on any provided `spec`. */ -}}
     {{- /* $customEnvVars := list */ -}}
     {{- $customEnvVars := dict -}}
+
     {{- if hasKey $otelAgentConfig "spec" -}}
       {{- $theAgentSpec := $otelAgentConfig.spec -}}
 
@@ -268,13 +269,13 @@ Define env vars that will be used for observability
           etc.. */ -}}
       {{- $resourceAttributes := list -}}
       {{- $serviceNameDefined := false -}}
-      {{- /* range $theAttributeSpec := $theAgentSpec.resourceAttributes */ -}}
-      {{- range $theAttributeName, $theAttributeSpec := $theAgentSpec.resourceAttributes -}}
+      {{- range $theAttributeSpec := $theAgentSpec.resourceAttributes -}}
+      {{- /* range $theAttributeName, $theAttributeSpec := $theAgentSpec.resourceAttributes */ -}}
         {{- /* TODO: Can this check be moved to `observability.otelagent` where it's turned from list to dict? */ -}}
         {{- $attrName := required "You must provide a `name` when configuring resource attributes for the Open Telemetry agent." $theAttributeSpec.name -}}
-        {{- if ne $theAttributeName $attrName -}}
+        {{- /* if ne $ß $attrName -}}
           {{- fail (printf "\nInvestigate $theAttributeName ne $attrName\n$theAttributeName: %s\n $attrName: %s\n\n" $theAttributeName $attrName) -}}
-        {{- end -}}
+        {{- end */ -}}
         {{- $varName := printf "OTEL_RESOURCE_ATTRIBUTES_%s" (upper (replace "." "_" $attrName)) -}}
         {{- if and (hasKey $theAttributeSpec "value") (hasKey $theAttributeSpec "valueFrom") -}}
           {{- fail (printf "Open Telemetry agent resource attribute `%s` must have `value` or `valueFrom` but not both." $attrName) -}}
@@ -320,24 +321,31 @@ Define env vars that will be used for observability
           Only include them if they do not already exist. If they do already exist then only include them
           if override is set */ -}}
 
-      {{- /* Common env vars */ -}}
-      {{- if hasKey $theAgentSpec "env" -}}
-        {{- $customEnvVars = deepCopy $theAgentSpec.env -}}
+      {{- /* Combined env vars */ -}}
+      {{- if hasKey $otelAgentConfig "allEnvVars" -}}
+        {{- $customEnvVars = $otelAgentConfig.allEnvVars -}}
+      {{- else -}}
+
+        {{- /* Common env vars */ -}}
+        {{- if hasKey $theAgentSpec "env" -}}
+          {{- $customEnvVars = deepCopy $theAgentSpec.env -}}
+        {{- end -}}
+
+        {{- if and (hasKey $theAgentSpec "java") (hasKey $theAgentSpec.java "env") -}}
+          {{- /* Java instrumentation env vars */ -}}
+
+          {{- /* This does not work. Concatenating a list can result with duplicates,
+              as the dicts can be different even when they have the same 'name'. Lists
+              of dicts are simply not a good data structure for internal representation... */ -}}
+          {{- /* $customEnvVars = uniq (concat $customEnvVars (compact $theAgentSpec.java.env)) */ -}}
+
+          {{- /* This here is why the theAgentSpec 'env' sections need to be represented as a list,
+              so that we can do this merge. */ -}}
+          {{- $customEnvVars = deepCopy (mergeOverwrite $customEnvVars $theAgentSpec.java.env) -}}
+          {{- /* fail (printf "\n$customEnvVars: \n\n%s\n" (toPrettyJson $customEnvVars)) */ -}}        
+        {{- end -}}      
+
       {{- end -}}
-
-      {{- if and (hasKey $theAgentSpec "java") (hasKey $theAgentSpec.java "env") -}}
-        {{- /* Java instrumentation env vars */ -}}
-
-        {{- /* This does not work. Concatenating a list can result with duplicates,
-            as the dicts can be different even when they have the same 'name'. Lists
-            of dicts are simply not a good data structure for internal representation... */ -}}
-        {{- /* $customEnvVars = uniq (concat $customEnvVars (compact $theAgentSpec.java.env)) */ -}}
-
-        {{- /* This here is why the theAgentSpec 'env' sections need to be represented as a list,
-            so that we can do this merge. */ -}}
-        {{- $customEnvVars = deepCopy (mergeOverwrite $customEnvVars $theAgentSpec.java.env) -}}
-        {{- /* fail (printf "\n$customEnvVars: \n\n%s\n" (toPrettyJson $customEnvVars)) */ -}}        
-      {{- end -}}      
       
       {{- /* fail (printf "$customEnvVars: \n\n%s\n" (toPrettyJson $customEnvVars)) -}}   
       {{- fail (printf "Existing env vars:\n%s\n\n" (toPrettyJson $envVars)) */ -}}
@@ -522,47 +530,50 @@ Some helpers to reduce verbosity of if statements elsewhere.
       {{- $_ := set $otelAgentConfig "spec" (deepCopy (merge $otelAgentConfig.specOverrides $specDict $otelAgentDefaultSpec)) -}}
     {{- end */ -}}
 
+    {{- $_ := set $otelAgentConfig "allEnvVars" (mergeOverwrite $newSpec.env $newSpec.java.env ) -}}
+
     {{- /* Convert `spec.resourceAttributes' dict to list */ -}}
-    {{- /* Actually, let's try keeping it as a dict for internal representation. */ -}}
-    {{- /* if hasKey $newSpec "resourceAttributes" -}}
+    {{- if hasKey $newSpec "resourceAttributes" -}}
       {{- $resourceAttributesList := list -}}
       {{- range $theResourceAttributeKey, $theResourceAttribute := $newSpec.resourceAttributes -}}
         {{- $theListItem := merge (dict "name" $theResourceAttributeKey) $theResourceAttribute -}}
         {{- $resourceAttributesList = append $resourceAttributesList $theListItem -}}
       {{- end -}}
       {{- $_ := set $otelAgentConfig.spec "resourceAttributes" $resourceAttributesList -}}
-    {{- end */ -}}
-    {{- if hasKey $newSpec "resourceAttributes" -}}
-      {{- $_ := set $otelAgentConfig.spec "resourceAttributes" $newSpec.resourceAttributes -}}
     {{- end -}}
 
+
+    {{- /* if hasKey $newSpec "resourceAttributes" -}}
+      {{- $_ := set $otelAgentConfig.spec "resourceAttributes" $newSpec.resourceAttributes -}}
+    {{- end */ -}}
+
     {{- /* Convert `spec.env' dict to list */ -}}
-    {{- /* Actually, let's try keeping it as a dict for internal representation. */ -}}
-    {{- /* if hasKey $newSpec "env" -}}
+    {{- if hasKey $newSpec "env" -}}
       {{- $envVarsList := list -}}
       {{- range $theEnvVarKey, $theEnvVarValue := $newSpec.env -}}
         {{- $theListItem := merge (dict "name" $theEnvVarKey) $theEnvVarValue -}}
         {{- $envVarsList = append $envVarsList $theListItem -}}
       {{- end -}}
       {{- $_ := set $otelAgentConfig.spec "env" $envVarsList -}}
-    {{- end */ -}}
-    {{- if hasKey $newSpec "env" -}}
-      {{- $_ := set $otelAgentConfig.spec "env" $newSpec.env -}}
     {{- end -}}
 
+    {{- /* if hasKey $newSpec "env" -}}
+      {{- $_ := set $otelAgentConfig.spec "env" $newSpec.env -}}
+    {{- end */ -}}
+
     {{- /* Convert `spec.java.env' dict to list */ -}}
-    {{- /* Actually, let's try keeping it as a dict for internal representation. */ -}}
-    {{- /* if hasKey $newSpec.java "env" -}}
+    {{- if hasKey $newSpec.java "env" -}}
       {{- $javaEnvVarsList := list -}}
       {{- range $theJavaEnvVarKey, $theJavaEnvVarValue := $newSpec.java.env -}}
         {{- $theListItem := merge (dict "name" $theJavaEnvVarKey) $theJavaEnvVarValue -}}
         {{- $javaEnvVarsList = append $javaEnvVarsList $theListItem -}}
       {{- end -}}
       {{- $_ := set $otelAgentConfig.spec.java "env" $javaEnvVarsList -}}
-    {{- end */ -}}
-    {{- if hasKey $newSpec.java "env" -}}
-      {{- $_ := set $otelAgentConfig.spec.java "env" $newSpec.java.env -}}
     {{- end -}}
+
+    {{- /* if hasKey $newSpec.java "env" -}}
+      {{- $_ := set $otelAgentConfig.spec.java "env" $newSpec.java.env -}}
+    {{- end */ -}}
 
     {{- /* fail (printf "OLD:\n%s\n\nNEW:\n%s\n\n" (toPrettyJson $origSpec) (toPrettyJson $otelAgentConfig.spec)) */ -}}
     

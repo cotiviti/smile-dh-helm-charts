@@ -519,7 +519,23 @@ metadata:
     app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
 spec:
-    env: []
+    env:
+    - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_CODE_ATTRIBUTES
+      value: "true"
+    - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_KEY_VALUE_PAIR_ATTRIBUTES
+      value: "true"
+    - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_LOGGER_CONTEXT_ATTRIBUTES
+      value: "true"
+    - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_CAPTURE_MARKER_ATTRIBUTE
+      value: "true"
+    - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES
+      value: "true"
+    - name: OTEL_LOGS_EXPORTER
+      value: none
+    - name: OTEL_METRICS_EXPORTER
+      value: none
+    - name: OTEL_TRACES_EXPORTER
+      value: none
     exporter:
       endpoint: http://localhost:4317
     java:
@@ -534,12 +550,6 @@ spec:
         value: "true"
       - name: OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES
         value: "true"
-      - name: OTEL_LOGS_EXPORTER
-        value: none
-      - name: OTEL_METRICS_EXPORTER
-        value: none
-      - name: OTEL_TRACES_EXPORTER
-        value: none
       resources:
         limits:
           cpu: 500m
