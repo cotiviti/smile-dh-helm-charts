@@ -1,3 +1,10 @@
+# [1.0.0-pre.107](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.106...v1.0.0-pre.107) (2024-03-03)
+
+
+### Bug Fixes
+
+* **smilecdr:** update Strimzi schema ([3b65726](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/3b65726f3e2cee286d5a0c4163f275cfcdab2e3d))
+
 # [1.0.0-pre.106](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.105...v1.0.0-pre.106) (2024-02-15)
 
 
