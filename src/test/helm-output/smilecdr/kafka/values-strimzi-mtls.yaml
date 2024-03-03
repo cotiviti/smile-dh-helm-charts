@@ -3,7 +3,7 @@ messageBroker:
   manageTopics: false
   strimzi:
     enabled: true
-    config:
+    kafka:
       connection:
         type: tls
       authentication:

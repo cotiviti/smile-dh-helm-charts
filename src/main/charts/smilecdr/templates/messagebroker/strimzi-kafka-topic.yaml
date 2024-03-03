@@ -1,5 +1,5 @@
-{{- $strimziConfig := (include "kafka.strimzi.config" .) | fromYaml -}}
-{{- if $strimziConfig.enabled -}}
+{{- $strimziSpec := (include "kafka.strimzi.spec" .) | fromYaml -}}
+{{- if $strimziSpec.enabled -}}
   {{- $kafkaConfig := (include "kafka.config" .) | fromYaml -}}
   {{- range $k, $v := $kafkaConfig.topics -}}
 apiVersion: kafka.strimzi.io/v1beta2

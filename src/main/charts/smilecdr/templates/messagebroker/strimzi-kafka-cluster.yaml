@@ -1,9 +1,10 @@
-{{- $strimziConfig := (include "kafka.strimzi.config" . | fromYaml) -}}
-{{- if $strimziConfig.enabled -}}
-{{- $kafkaConnectionType := $strimziConfig.connection.type -}}
-{{- $kafkaAuthenticationType := $strimziConfig.authentication.type -}}
-{{- $kafkaReplicas := $strimziConfig.kafka.replicas | int -}}
-{{- $minInSyncReplicas := $strimziConfig.kafka.minInSyncReplicas -}}
+{{- $strimziSpec := (include "kafka.strimzi.spec" . | fromYaml) -}}
+{{- if $strimziSpec.enabled -}}
+  {{- $strimziKafkaSpec := $strimziSpec.kafka -}}
+  {{- $kafkaConnectionType := $strimziKafkaSpec.connection.type -}}
+  {{- $kafkaAuthenticationType := $strimziKafkaSpec.authentication.type -}}
+  {{- $kafkaReplicas := $strimziKafkaSpec.replicas | int -}}
+  {{- $minInSyncReplicas := $strimziKafkaSpec.minInSyncReplicas -}}
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
@@ -13,8 +14,8 @@ metadata:
     {{- include "smilecdr.labels" . | nindent 4 }}
 spec:
   kafka:
-    version: {{ $strimziConfig.version }}
-    replicas: {{ $strimziConfig.kafka.replicas }}
+    version: {{ $strimziKafkaSpec.version }}
+    replicas: {{ $strimziKafkaSpec.replicas }}
     listeners:
       {{- if eq $kafkaConnectionType "tls" }}
       - name: tls
@@ -34,30 +35,30 @@ spec:
     {{- if eq $kafkaAuthenticationType "tls" }}
     authorization:
       type: simple
-      {{- with $strimziConfig.superUsers }}
+      {{- with ($strimziKafkaSpec.authorization).superUsers }}
       superUsers:
         {{- . | toYaml | nindent 6 }}
       {{- end }}
     {{- end }}
     config:
-      {{- $strimziConfig.config | toYaml | nindent 6 }}
+      {{- $strimziKafkaSpec.config | toYaml | nindent 6 }}
     storage:
       type: jbod
       volumes:
       - id: 0
         type: persistent-claim
-        size: {{ $strimziConfig.kafka.volumeSize }}
+        size: {{ $strimziKafkaSpec.volumeSize }}
         deleteClaim: false
     resources:
-      {{- toYaml $strimziConfig.kafka.resources | nindent 6 }}
+      {{- toYaml $strimziKafkaSpec.resources | nindent 6 }}
   zookeeper:
-    replicas: {{ $strimziConfig.zookeeper.replicas }}
+    replicas: {{ $strimziSpec.zookeeper.replicas }}
     storage:
       type: persistent-claim
-      size: {{ $strimziConfig.zookeeper.volumeSize }}
+      size: {{ $strimziSpec.zookeeper.volumeSize }}
       deleteClaim: false
     resources:
-      {{- toYaml $strimziConfig.zookeeper.resources | nindent 6 }}
+      {{- toYaml $strimziSpec.zookeeper.resources | nindent 6 }}
   entityOperator:
     topicOperator: {}
     userOperator: {}

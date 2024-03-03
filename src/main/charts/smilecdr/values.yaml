@@ -453,8 +453,8 @@ messageBroker:
   strimzi:
     # -- Enable provisioning of Kafka using Strimzi Operator
     enabled: false # Can only enable `strimzi` or `external`, not both.
-    # @ignore
-    config:
+
+    kafka:
       # To make this 'just work' and in a secure manner, we are currently opinionated
       # and will only support automatic configuration of mTLS.
       connection:
@@ -466,24 +466,23 @@ messageBroker:
         # tenancy solution only, user will have full access to all topics.
       version: "3.3.1"
       protocolVersion: "3.3"
-      kafka:
-        replicas: 3
-        volumeSize: 10Gi
-        resources:
-          requests:
-            cpu: "0.5"
-            memory: 1Gi
-          limits:
-            memory: 1Gi
-      zookeeper:
-        replicas: 3
-        volumeSize: 10Gi
-        resources:
-          requests:
-            cpu: 0.5
-            memory: 512Mi
-          limits:
-            memory: 512Mi
+      replicas: 3
+      volumeSize: 10Gi
+      resources:
+        requests:
+          cpu: "0.5"
+          memory: 1Gi
+        limits:
+          memory: 1Gi
+    zookeeper:
+      replicas: 3
+      volumeSize: 10Gi
+      resources:
+        requests:
+          cpu: 0.5
+          memory: 512Mi
+        limits:
+          memory: 512Mi
   manageTopics: true
   topics:
     # Using map instead of list as it becomes easier to merge/override settings for individual topics later on.

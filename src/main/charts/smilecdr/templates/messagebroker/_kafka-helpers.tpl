@@ -43,13 +43,13 @@ on either external or Strimzi settings.
   {{- if hasKey $ctx "nodeId"  -}}
     {{- $contextType = "cdrNode" -}}
   {{- end -}}
-  {{- $strimziConfig := (include "kafka.strimzi.config" . | fromYaml) -}}
+  {{- $strimziSpec := (include "kafka.strimzi.spec" . | fromYaml) -}}
   {{- $externalConfig := (include "kafka.external.config" . | fromYaml) -}}
-  {{- $kafkaConfig := dict "externalConfig" $externalConfig "strimziConfig" $strimziConfig -}}
-  {{- if and $strimziConfig.enabled $externalConfig.enabled -}}
+  {{- $kafkaConfig := dict "externalConfig" $externalConfig "strimziSpec" $strimziSpec -}}
+  {{- if and $strimziSpec.enabled $externalConfig.enabled -}}
     {{- fail "You cannot enable strimzi and external Kafka in the same configuration." -}}
   {{- end -}}
-  {{- if or $strimziConfig.enabled $externalConfig.enabled -}}
+  {{- if or $strimziSpec.enabled $externalConfig.enabled -}}
     {{- /* Global Kafka config */ -}}
     {{- $_ := set $kafkaConfig "enabled" "true" -}}
 
@@ -153,12 +153,12 @@ on either external or Strimzi settings.
       {{- end -}}
 
     {{- /* Strimzi Specific config */ -}}
-    {{- else if $strimziConfig.enabled -}}
+    {{- else if $strimziSpec.enabled -}}
+      {{- $strimziKafkaSpec := $strimziSpec.kafka -}}
       {{- /* Enable Private CA by default as it's used by Strimzi */ -}}
       {{- $_ := set $kafkaConfig "privateca" true -}}
-      {{- $kafkaConnectionType = ($strimziConfig.connection).type -}}
-      {{- /* $kafkaAuthenticationType = ($strimziConfig.authentication).type */ -}}
-      {{- $kafkaAuthentication = deepCopy (mergeOverwrite $kafkaAuthentication $strimziConfig.authentication) -}}
+      {{- $kafkaConnectionType = ($strimziKafkaSpec.connection).type -}}
+      {{- $kafkaAuthentication = deepCopy (mergeOverwrite $kafkaAuthentication $strimziKafkaSpec.authentication) -}}
       {{- /* Settings for TLS with Strimzi */ -}}
       {{- if eq $kafkaConnectionType "tls" -}}
         {{- /* K8s secret name for Strimzi ca cert */ -}}
@@ -177,10 +177,11 @@ on either external or Strimzi settings.
 
     {{- /* Topic management */ -}}
     {{- /* Only supported in Strimzi right now */ -}}
-    {{- if and .Values.messageBroker.manageTopics $strimziConfig.enabled -}}
+    {{- if and .Values.messageBroker.manageTopics $strimziSpec.enabled -}}
+      {{- $strimziKafkaSpec := $strimziSpec.kafka -}}
       {{- /* Update the topics to be suitable for the existing Strimzi configuration */ -}}
       {{- range $k, $v := .Values.messageBroker.topics -}}
-        {{- $_ := set (get $.Values.messageBroker.topics $k) "replicas" $strimziConfig.kafka.replicas -}}
+        {{- $_ := set (get $.Values.messageBroker.topics $k) "replicas" $strimziKafkaSpec.replicas -}}
       {{- end -}}
       {{- $_ := set $kafkaConfig "topics" .Values.messageBroker.topics -}}
       {{- $autoCreateTopics = false -}}
