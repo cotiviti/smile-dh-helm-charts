@@ -570,7 +570,6 @@ spec:
     config:
       auto.create.topics.enable: true
       default.replication.factor: 3
-      delete.topic.enable: true
       group.initial.rebalance.delay.ms: 3000
       inter.broker.protocol.version: "3.3"
       min.insync.replicas: 2

@@ -1,6 +1,8 @@
-{{- $strimziConfig := (include "kafka.strimzi.config" .) | fromYaml -}}
-{{- $kafkaAuthenticationType := (($strimziConfig).authentication).type -}}
-{{- if eq $kafkaAuthenticationType "tls" -}}
+{{- $strimziSpec := (include "kafka.strimzi.spec" .) | fromYaml -}}
+{{- if $strimziSpec.enabled -}}
+  {{- $strimziKafkaSpec := $strimziSpec.kafka -}}
+  {{- $kafkaAuthenticationType := ($strimziKafkaSpec.authentication).type -}}
+  {{- if eq $kafkaAuthenticationType "tls" -}}
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaUser
 metadata:
@@ -35,4 +37,5 @@ spec:
       #   operations:
       #     - Read
 ---
+  {{ end }}
 {{ end }}

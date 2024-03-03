@@ -129,6 +129,20 @@ The below section gives an overview of the default values available. Consult the
 | messageBroker.external.type | string | `"kafka"` | External message broker type. `kafka` or `activemq` |
 | messageBroker.manageTopics | bool | `true` |  |
 | messageBroker.strimzi.enabled | bool | `false` | Enable provisioning of Kafka using Strimzi Operator |
+| messageBroker.strimzi.kafka.authentication.type | string | `"tls"` |  |
+| messageBroker.strimzi.kafka.connection.type | string | `"tls"` |  |
+| messageBroker.strimzi.kafka.protocolVersion | string | `"3.3"` |  |
+| messageBroker.strimzi.kafka.replicas | int | `3` |  |
+| messageBroker.strimzi.kafka.resources.limits.memory | string | `"1Gi"` |  |
+| messageBroker.strimzi.kafka.resources.requests.cpu | string | `"0.5"` |  |
+| messageBroker.strimzi.kafka.resources.requests.memory | string | `"1Gi"` |  |
+| messageBroker.strimzi.kafka.version | string | `"3.3.1"` |  |
+| messageBroker.strimzi.kafka.volumeSize | string | `"10Gi"` |  |
+| messageBroker.strimzi.zookeeper.replicas | int | `3` |  |
+| messageBroker.strimzi.zookeeper.resources.limits.memory | string | `"512Mi"` |  |
+| messageBroker.strimzi.zookeeper.resources.requests.cpu | float | `0.5` |  |
+| messageBroker.strimzi.zookeeper.resources.requests.memory | string | `"512Mi"` |  |
+| messageBroker.strimzi.zookeeper.volumeSize | string | `"10Gi"` |  |
 | messageBroker.topics.batch2.name | string | `"batch2.work.notification.Masterdev.persistence"` |  |
 | messageBroker.topics.batch2.partitions | int | `10` |  |
 | messageBroker.topics.subscription.name | string | `"subscription.matching.Masterdev.persistence"` |  |

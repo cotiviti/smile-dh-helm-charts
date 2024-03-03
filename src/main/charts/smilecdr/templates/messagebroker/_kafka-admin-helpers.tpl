@@ -177,8 +177,8 @@ Define Kafka client properties file for admin pod
     {{- $_ := set $kafkaAdminConfig "enabled" "true" -}}
     {{- $kafkaAdminImageRepo := "" -}}
     {{- $kafkaAdminImageTag := "" -}}
-    {{- $strimziConfig := (include "kafka.strimzi.config" . | fromYaml) -}}
-      {{- if $strimziConfig.enabled -}}
+    {{- $strimziSpec := (include "kafka.strimzi.spec" . | fromYaml) -}}
+      {{- if $strimziSpec.enabled -}}
         {{- $kafkaAdminImageRepo = (default "quay.io/strimzi/kafka" (.Values.messageBroker.adminPod.image).repository) -}}
         {{- $kafkaAdminImageTag = (default "0.33.2-kafka-3.4.0" (.Values.messageBroker.adminPod.image).image) -}}
       {{- else -}}
