@@ -16,13 +16,18 @@ to avoid doing it in multiple places in the Helm Chart
 {{- define "kafka.strimzi.spec" -}}
   {{- $strimziSpec := dict -}}
   {{- if eq ((include "kafka.strimzi.enabled" . ) | trim ) "true" -}}
-    {{- /* if .Values.messageBroker.strimzi.enabled */ -}}
     {{- if hasKey .Values.messageBroker.strimzi "config" -}}
-      {{- /* Deprecated */ -}}
-      {{- $strimziSpec = .Values.messageBroker.strimzi.config -}}
+      {{- /* Use the old deprecated schema if values still has `messageBroker.strimzi.config` defined.
+          Note that we need to merge here in order to get the connection defaults from the new default
+          schema: `messageBroker.strimzi.kafka`. Everything that was under `messageBroker.strimzi.config`
+          should now be under `messageBroker.strimzi.kafka` */ -}}
+      {{- $deprecatedStrimziKafkaConfig := dict "kafka" (omit .Values.messageBroker.strimzi.config "kafka" "zookeeper") -}}
+      {{- $deprecatedKafkaAndZookeeper := pick .Values.messageBroker.strimzi.config "kafka" "zookeeper" -}}
+      {{- $strimziSpec = deepCopy (mergeOverwrite (omit .Values.messageBroker.strimzi "config") $deprecatedStrimziKafkaConfig $deprecatedKafkaAndZookeeper) -}}
     {{- else -}}
-      {{- $strimziSpec = .Values.messageBroker.strimzi -}}
+      {{- $strimziSpec = deepCopy .Values.messageBroker.strimzi -}}
     {{- end -}}
+
     {{- $strimziKafkaSpec := $strimziSpec.kafka -}}
     {{- $kafkaConnectionType := (default "tls" ($strimziKafkaSpec.connection).type) -}}
     {{- $kafkaAuthenticationType := (default "tls" ($strimziKafkaSpec.authentication).type) -}}
@@ -30,7 +35,6 @@ to avoid doing it in multiple places in the Helm Chart
     {{- if (eq $kafkaAuthenticationType "tls") -}}
       {{- /* Add user as superUser if authentication is enabled */ -}}
       {{- /* TODO: Revisit the default permissions here */ -}}
-      {{- /* $_ := set $strimziSpec "superUsers" (list (printf "CN=%s-kafka-user" .Release.Name)) */ -}}
       {{- $_ := set $strimziKafkaSpec "authorization" (dict "superUsers" (list (printf "CN=%s-kafka-user" .Release.Name))) -}}
     {{- end -}}
     {{- /* Set up some values based on replica count */ -}}
@@ -40,7 +44,6 @@ to avoid doing it in multiple places in the Helm Chart
     {{- if gt $kafkaReplicas 2 -}}
       {{- $minInSyncReplicas = sub $kafkaReplicas 1 -}}
     {{- end -}}
-    {{- /* $_ := set $strimziKafkaSpec "minInSyncReplicas" $minInSyncReplicas */ -}}
 
     {{- /* Generate Kafka Kafka config items that get passed in to the Strimzi kafka.config section */ -}}
     {{- $_ := set $strimziKafkaSpec "config" dict -}}
