@@ -141,7 +141,7 @@ Current providers supported:
   {{- if (.Values.oldResourceNaming) -}}
     {{- printf "%s-scdr" .Release.Name -}}
   {{- else -}}
-    {{- printf "%s-scdrnode-%s" .Release.Name .Values.nodeId -}}
+    {{- printf "%s-scdrnode-%s" .Release.Name (lower .Values.nodeId) -}}
   {{- end -}}
 {{- end -}}
 
