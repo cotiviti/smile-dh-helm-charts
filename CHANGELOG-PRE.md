@@ -1,3 +1,10 @@
+# [1.0.0-pre.108](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.107...v1.0.0-pre.108) (2024-03-04)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix SSCI resource naming ([0e926f5](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/0e926f5bc78052b5800a7233f19d3a2bcce1c40b))
+
 # [1.0.0-pre.107](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.106...v1.0.0-pre.107) (2024-03-03)
 
 
