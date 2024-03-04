@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/resources/">
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/envvars/">
       
       
-        <link rel="prev" href="../hl7v2/">
+        <link rel="prev" href="../resources/">
       
       
-        <link rel="next" href="../envvars/">
+        <link rel="next" href="../logging/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Resource Tuning - Smile Digital Health Helm Charts</title>
+        <title>Environment Variables - Smile Digital Health Helm Charts</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#configuring-compute-resources" class="md-skip">
+        <a href="#custom-environment-configuration" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Resource Tuning
+              Environment Variables
             
           </span>
         </div>
@@ -1239,6 +1239,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resource Tuning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1255,7 +1276,7 @@
           
   
   <span class="md-ellipsis">
-    Resource Tuning
+    Environment Variables
   </span>
   
 
@@ -1266,7 +1287,7 @@
         
   
   <span class="md-ellipsis">
-    Resource Tuning
+    Environment Variables
   </span>
   
 
@@ -1288,42 +1309,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#kubernetes-memory-requests-vs-limits" class="md-nav__link">
+  <a href="#passing-extra-environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
-      Kubernetes Memory Requests vs Limits
+      Passing Extra Environment Variables
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#jvm-sizing" class="md-nav__link">
+  <a href="#multi-node-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      JVM Sizing
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="JVM Sizing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#jvm-heap-auto-sizing" class="md-nav__link">
-    <span class="md-ellipsis">
-      JVM Heap Auto Sizing
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setting-heap-minimum-size" class="md-nav__link">
-    <span class="md-ellipsis">
-      Setting Heap Minimum Size
+      Multi-node configuration
     </span>
   </a>
   
@@ -1333,27 +1330,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../envvars/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Environment Variables
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -1746,42 +1722,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#kubernetes-memory-requests-vs-limits" class="md-nav__link">
+  <a href="#passing-extra-environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
-      Kubernetes Memory Requests vs Limits
+      Passing Extra Environment Variables
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#jvm-sizing" class="md-nav__link">
+  <a href="#multi-node-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      JVM Sizing
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="JVM Sizing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#jvm-heap-auto-sizing" class="md-nav__link">
-    <span class="md-ellipsis">
-      JVM Heap Auto Sizing
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setting-heap-minimum-size" class="md-nav__link">
-    <span class="md-ellipsis">
-      Setting Heap Minimum Size
+      Multi-node configuration
     </span>
   </a>
   
@@ -1805,35 +1757,59 @@
   
 
 
-<h1 id="configuring-compute-resources">Configuring Compute Resources<a class="headerlink" href="#configuring-compute-resources" title="Permanent link">&para;</a></h1>
-<h2 id="kubernetes-memory-requests-vs-limits">Kubernetes Memory Requests vs Limits<a class="headerlink" href="#kubernetes-memory-requests-vs-limits" title="Permanent link">&para;</a></h2>
-<p><code>requests.memory</code> will be set to the same value as <code>limits.memory</code> unless you override it.</p>
-<p>The values you should use for CPU resources will depend on the number of cores you are licenced for with Smile CDR. Your total cores can be calculated by <code>replicas * requests.limits.cpu</code>, or <code>autoscaling.maxReplicas * requests.limits.cpu</code> if you are using Horizontal Pod Autoscaling.</p>
-<h2 id="jvm-sizing">JVM Sizing<a class="headerlink" href="#jvm-sizing" title="Permanent link">&para;</a></h2>
-<p>As Smile CDR is a high performance Java based application, special consideration needs
-to be given to the resource settings and JVM tuning parameters.</p>
-<p>Typical cloud best practices suggest starting small and increasing resources as workload increases.
-We have tested Smile CDR in its default module configuration and determined that the max heap size
-should be no smaller than 2GB. When smaller than this, there are excessive GC events which is not ideal.</p>
+<h1 id="custom-environment-configuration">Custom Environment Configuration<a class="headerlink" href="#custom-environment-configuration" title="Permanent link">&para;</a></h1>
+<p>Sometimes you may have custom components in your Smile CDR deployment that need to have configurations provided to them.</p>
+<p>In Smile CDR, this can be done one in of two ways.</p>
+<ul>
+<li>Java System Property Substitution</li>
+<li>System Environment Variable Substitution</li>
+</ul>
+<p>You can read more about these methods in the official Smile CDR documentation <a href="https://smilecdr.com/docs/installation/installing_smile_cdr.html#variable-substitution">here</a></p>
+<p>Currently, this Helm Chart only supports using the second mechanism - <strong><em>System Environment Variable Substitution</em></strong></p>
+<h2 id="passing-extra-environment-variables">Passing Extra Environment Variables<a class="headerlink" href="#passing-extra-environment-variables" title="Permanent link">&para;</a></h2>
+<p>In order to configure extra environment variables into the pod, use the <code>ExtraEnvVars</code> entry in your values file as follows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">extraEnvVars</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYENVVARNAME</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-env-var-value</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYOTHERENVVARNAME</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-other-env-var-value</span>
+</code></pre></div>
+<p>This is a list of objects that follow the same <code>env</code> schema as the Kubernetes <code>podSpec.containers</code> <a href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables">See here</a></p>
 <blockquote>
-<p><strong>NOTE</strong>: If you reconfigure Smile CDR to have more modules, it may require more memory/cpu. If you
-split up the cluster into multiple nodes, then each node may be able to run with less memory/cpu,
-though total cluster may end up higher depending on your architecture.</p>
+<p><strong>Note:</strong> Although it is possible to use this to add secrets using <code>env.valueFrom.secretKeyRef</code>, it's recommended to use one of the existing mechanisms if you wish to pass in secret data to your pod. See the <a href="../../secrets/">Secrets</a> section for more info on this.</p>
 </blockquote>
-<h3 id="jvm-heap-auto-sizing">JVM Heap Auto Sizing<a class="headerlink" href="#jvm-heap-auto-sizing" title="Permanent link">&para;</a></h3>
-<p>When running Java applications in Kubernetes, the <code>requests.memory</code> should be set much higher than the
-max heap size. Typically the Java heap size should be set to 50-75% of the total available memory.</p>
-<p>This Helm Chart will take the specified <code>limits.memory</code> and use <code>jvm.memoryFactor</code> to calculate the
-value for the Java heap size. By default, this value is <code>0.5</code>. With the default <code>limits.memory</code> of
-4Gib, the chart sets Java <code>-Xmx</code> to <code>2048m</code>.</p>
-<p>Setting this number higher will make more efficient use of memory resources in your K8s cluster, but may increase the likelihood of <code>OOM Killed</code> errors.</p>
-<h2 id="setting-heap-minimum-size">Setting Heap Minimum Size<a class="headerlink" href="#setting-heap-minimum-size" title="Permanent link">&para;</a></h2>
-<p>If you were to set <code>jvm.memoryFactor</code> to <code>1</code> your pod is almost guaranteed to be killed with such an error, but it will happen at an unpredictable time, once the currently allocated heap grows to a certain point. This can increase difficulty of troubleshooting due to the unpredictable timing. It may fail in a few minutes, or a few hours/days/weeks/never depending on the workload characteristics.</p>
-<p>To reduce the likelihood of such unpredictable <code>OOM Killed</code> errors, we recommend setting <code>-Xms</code> to be the same
-as <code>-Xmx</code>. This can be done by setting <code>jvm.xms</code> to <code>true</code></p>
+<h2 id="multi-node-configuration">Multi-node configuration<a class="headerlink" href="#multi-node-configuration" title="Permanent link">&para;</a></h2>
+<p>If deploying Smile CDR in a multi-node configuration, you may wish to have different environment variables for the different CDR Nodes.</p>
 <blockquote>
-<p><strong>NOTE</strong>: You can pass in extra JVM commandline options by adding them to the list <code>jvm.args</code></p>
+<p><strong>Note:</strong> For more details on how to deploy Smile CDR with multi-node configurations, please refer to the <a href="../cdrnode/">CDR Nodes</a> section.</p>
 </blockquote>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">cdrNodes</span><span class="p">:</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">node1</span><span class="p">:</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">extraEnvVars</span><span class="p">:</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYENVVARNAME</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-node1-env-var-value</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">node2</span><span class="p">:</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">extraEnvVars</span><span class="p">:</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYENVVARNAME</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-node2-env-var-value</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="nt">node3</span><span class="p">:</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nt">extraEnvVars</span><span class="p">:</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYENVVARNAME</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-node3-env-var-value</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GLOBALENVVARNAME</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node3-overriden-global-value</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="nt">extraEnvVars</span><span class="p">:</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GLOBALENVVARNAME</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-global-env-var-value</span>
+</code></pre></div>
+<p>In the above configuration example:</p>
+<ul>
+<li>Each node gets its own set of extra environment variables.</li>
+<li>Each node gets the <code>GLOBALENVVARNAME</code> variable set to <code>my-global-env-var-value</code> except...</li>
+<li>Node3 has overriden the <code>GLOBALENVVARNAME</code> variable to <code>node3-overriden-global-value</code></li>
+</ul>
+<p>This allows for flexible configuration of extra environment variables in any Smile CDR configuration.</p>
 
 
 
