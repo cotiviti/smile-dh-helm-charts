@@ -13,8 +13,13 @@ theme:
   features:
   - navigation.sections
   - navigation.tabs
+  - navigation.tabs.sticky
   - navigation.indexes
   - navigation.expand
+  - navigation.instant
+  - navigation.instant.prefetch
+  - navigation.top
+
   font:
     test: Lato
   icon:
@@ -30,13 +35,16 @@ markdown_extensions:
 - pymdownx.inlinehilite
 - pymdownx.snippets
 - pymdownx.details
-- pymdownx.superfences
+- pymdownx.superfences:
+    custom_fences:
+    - name: mermaid
+      class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_code_format
 - attr_list
 - pymdownx.emoji:
     emoji_index: !!python/name:materialx.emoji.twemoji
     emoji_generator: !!python/name:materialx.emoji.to_svg
 - admonition
-
 nav:
   - Home:
     - index.md
@@ -72,6 +80,7 @@ nav:
         - 'Message Broker': guide/smilecdr/messagebroker.md
         - 'HL7V2 Endpoint Module': guide/smilecdr/hl7v2.md
         - 'Resource Tuning': guide/smilecdr/resources.md
+        - 'Environment Variables': guide/smilecdr/envvars.md
         - 'Logging': guide/smilecdr/logging.md
       - 'Applying Changes': guide/smilecdr/updating.md
   - Examples:
