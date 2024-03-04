@@ -182,7 +182,6 @@ locals {
       # "database.crunchypgo.internal" = "true"
       "specs.hostname" = local.public_fqdn
       "oldResourceNaming" = "false"
-      "cdrNodes.masterdev.name" = "masterdev"
       "replicaCount" = try(local.helm_chart_values_provided.replicaCount,(var.prod_mode ? 3 : 1))
     },
     var.helm_chart_values_set_overrides
