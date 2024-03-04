@@ -1,4 +1,10 @@
 tests:
+  strimziDeprecated:
+    outputFile: output-strimzi-deprecated.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-strimzi-deprecated.yaml
   strimziDefault:
     outputFile: output-strimzi.yaml
     valueFiles:
@@ -113,6 +119,12 @@ tests:
     - ../default-test-values.yaml
     - ../default-test-disabled-features.yaml
     - values-admin-sscsi.yaml
+  admink8sSecret:
+    outputFile: output-admin-k8s-secret.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-admin-k8s-secret.yaml
   admink8sSecret:
     outputFile: output-admin-k8s-secret.yaml
     valueFiles:

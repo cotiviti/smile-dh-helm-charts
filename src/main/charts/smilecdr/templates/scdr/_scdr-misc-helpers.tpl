@@ -211,6 +211,16 @@ Use this for generating deprecation notices and other warnings about the configu
 {{- define "chartWarnings" -}}
   {{- $warningMessage := "" -}}
 
+  {{- /* Strimzi config warnings */ -}}
+  {{- if hasKey .Values.messageBroker.strimzi "config" -}}
+    {{- $warningMessage = printf "%s\n\nDEPRECATED: `values.messageBroker.strimzi.config" $warningMessage -}}
+    {{- $warningMessage = printf "%s\n            The use of `values.messageBroker.strimzi.config` has been deprecated. Support for this will be" $warningMessage -}}
+    {{- $warningMessage = printf "%s\n            removed in a future version of the Helm Chart." $warningMessage -}}
+    {{- $warningMessage = printf "%s\n            Please refer to the docs for more info on how to configure Kafka using the Strimzi Operator." $warningMessage -}}
+  {{- end -}}
+  {{- /* End Strimzi config warnings */ -}}
+
+
   {{- /* Ingress config warnings */ -}}
   {{- if hasKey .Values "ingress" -}}
     {{- $warningMessage = printf "%s\n\nDEPRECATED: `values.ingress`" $warningMessage -}}
@@ -244,6 +254,7 @@ Use this for generating deprecation notices and other warnings about the configu
     {{- $warningMessage = (printf "%s\n         Modules with endpoints will not be accessible via ingress unless you specify which ingress they should use." $warningMessage) -}}
     {{- $warningMessage = (printf "%s\n         Consider setting `modules.<modulename>.service.ingresses.<ingressname>.enabled: true` on any modules that need to be accessed from outside the Kubernetes cluster." $warningMessage) -}}
   {{- end -}}
+  {{- /* End Ingress config warnings */ -}}
 
   {{- /* Check to see if files are defined in `mappedFiles` but not passed in to Helm with `--set-file` */ -}}
   {{- $unmappedFiles := list -}}
@@ -316,6 +327,11 @@ Use this for generating deprecation notices and other warnings about the configu
   {{- if ne (len $warningMessage) 0 -}}
     {{- $warningMessage = printf "\n***************************%s" $warningMessage -}}
     {{- $warningMessage = printf "\n*** HELM CHART WARNINGS ***%s" $warningMessage -}}
+    {{- $warningMessage = printf "\n***************************%s" $warningMessage -}}
+    {{- $warningMessage -}}
+  {{- else -}}
+    {{- $warningMessage = printf "\n***************************%s" $warningMessage -}}
+    {{- $warningMessage = printf "\n**** NO CHART WARNINGS ****%s" $warningMessage -}}
     {{- $warningMessage = printf "\n***************************%s" $warningMessage -}}
     {{- $warningMessage -}}
   {{- end -}}

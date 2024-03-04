@@ -301,6 +301,40 @@ All of the Kafka configurations can be configured using `messageBroker.strimzi.c
 messageBroker:
   strimzi:
     enabled: true
+    kafka:
+      connection:
+        type: tls
+      authentication:
+        type: tls
+      version: "3.3.1"
+      protocolVersion: "3.3"
+
+      replicas: 4
+      volumeSize: 20Gi
+      resources:
+        requests:
+          cpu: 0.5
+          memory: 4Gi
+        limits:
+          memory: 4Gi
+    zookeeper:
+      replicas: 2
+      volumeSize: 10Gi
+      resources:
+        requests:
+          cpu: 0.5
+          memory: 512Mi
+        limits:
+          memory: 512Mi
+```
+
+### Deprecated Strimzi Schema
+If you are updating from version v1.0.0-pre.106 of the Helm Chart or earlier, you will need to alter your Strimzi spec from the old schema below, which has been deprecated.
+
+```yaml
+messageBroker:
+  strimzi:
+    enabled: true
     config:
       connection:
         type: tls
@@ -310,22 +344,14 @@ messageBroker:
       protocolVersion: "3.3"
       kafka:
         replicas: 4
-        volumeSize: 20Gi
-        resources:
-          requests:
-            cpu: 0.5
-            memory: 4Gi
-          limits:
-            memory: 4Gi
       zookeeper:
         replicas: 2
-        volumeSize: 10Gi
-        resources:
-          requests:
-            cpu: 0.5
-            memory: 512Mi
-          limits:
-            memory: 512Mi
 ```
+
+* Anything under `messageBroker.strimzi.config.kafka` should be moved to `messageBroker.strimzi.kafka`
+* Anything under `messageBroker.strimzi.config.zookeeper` should be moved to `messageBroker.strimzi.zookeeper`
+* Anything remaining under `messageBroker.strimzi.config` should be moved to `messageBroker.strimzi`
+
+You will recieve a deprecation warning so that you have time to update your configurations before support for the old schema is removed.
 
 For more details on how to configure Kafka using Strimzi, please consult the Strimzi Operator documentation [here](https://strimzi.io/docs/operators/latest/configuring.html)
