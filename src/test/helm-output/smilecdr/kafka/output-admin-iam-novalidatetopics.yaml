@@ -105,7 +105,6 @@ data:
     module.clustermgr.config.kafka.ssl.enabled                          =#{env['KAFKA_SSL_ENABLED']}
     module.clustermgr.config.kafka.consumer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-consumer-config.properties
     module.clustermgr.config.kafka.producer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-producer-config.properties
-    module.clustermgr.config.kafka.validate_topics_exist_before_use     =true
     module.clustermgr.config.kafka.security.protocol                    =SASL_SSL
     module.clustermgr.config.kafka.ssl.truststore.location              =#{null}
     module.clustermgr.config.kafka.ssl.truststore.password              =#{null}
@@ -464,7 +463,34 @@ spec:
       securityContext:
         fsGroup: 1000
       initContainers:
-        []
+        - args:
+          - -o
+          - /tmp/admin-volumes/classpath/aws-msk-iam-auth-1.1.9-all.jar
+          - --location
+          - --create-dirs
+          - https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.9/aws-msk-iam-auth-1.1.9-all.jar
+          image: curlimages/curl:8.1.2
+          imagePullPolicy: IfNotPresent
+          name: init-pull-classpath-curl
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 100
+          volumeMounts:
+          - mountPath: /tmp/admin-volumes/classpath/
+            name: admin-classpath
       containers:
         - name: kafka-admin
           image: "quay.io/strimzi/kafka:0.33.2-kafka-3.4.0"
@@ -544,7 +570,60 @@ spec:
       securityContext:
         fsGroup: 1000
       initContainers:
-        []
+        - command:
+          - /bin/sh
+          - -c
+          - /bin/cp -Rvp /home/smile/smilecdr/customerlib/* /tmp/smilecdr-volumes/customerlib/
+          image: docker.smilecdr.com/smilecdr:2023.08.R01
+          imagePullPolicy: IfNotPresent
+          name: init-sync-customerlib
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/customerlib/
+            name: scdr-volume-customerlib
+        - args:
+          - -o
+          - /tmp/smilecdr-volumes/customerlib/aws-msk-iam-auth-1.1.9-all.jar
+          - --location
+          - --create-dirs
+          - https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.9/aws-msk-iam-auth-1.1.9-all.jar
+          image: quay.io/curl/curl:8.1.2
+          imagePullPolicy: IfNotPresent
+          name: init-pull-customerlib-curl
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 100
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/customerlib/
+            name: scdr-volume-customerlib
       terminationGracePeriodSeconds: 60
       containers:
         - name: smilecdr
@@ -635,6 +714,8 @@ spec:
               containerPort: 9200
               protocol: TCP
           volumeMounts:
+            - mountPath: /home/smile/smilecdr/customerlib
+              name: scdr-volume-customerlib
             - mountPath: /home/smile/smilecdr/classes/cdr_kafka_config/cdr-kafka-consumer-config.properties
               name: kafka-client-config
               readOnly: true
@@ -651,6 +732,9 @@ spec:
             - mountPath: /home/smile/smilecdr/log
               name: scdr-volume-log
       volumes:
+        - emptyDir:
+            sizeLimit: 500Mi
+          name: scdr-volume-customerlib
         - configMap:
             name: release-name-kafka-client-properties-masterdev-node
           name: kafka-client-config

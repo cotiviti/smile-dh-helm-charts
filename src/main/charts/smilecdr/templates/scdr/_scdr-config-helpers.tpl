@@ -115,8 +115,8 @@ module.clustermgr.config.kafka.bootstrap_address                    =#{env['KAFK
 module.clustermgr.config.kafka.ssl.enabled                          =#{env['KAFKA_SSL_ENABLED']}
 module.clustermgr.config.kafka.consumer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-consumer-config.properties
 module.clustermgr.config.kafka.producer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-producer-config.properties
-    {{- if not $kafkaConfig.autoCreateTopics }}
-module.clustermgr.config.kafka.validate_topics_exist_before_use     =true
+    {{- with $kafkaConfig.validateTopics }}
+module.clustermgr.config.kafka.validate_topics_exist_before_use     ={{ . }}
     {{- end }}
     {{- if eq $kafkaConfig.connection.type "tls" }}
       {{- if eq $kafkaConfig.authentication.type "iam" }}
