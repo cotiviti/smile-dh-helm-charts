@@ -17,6 +17,12 @@ tests:
     - ../default-test-values.yaml
     - ../default-test-disabled-features.yaml
     - values-strimzi-topics.yaml
+  strimziCreateTopicsNoValidation:
+    outputFile: output-strimzi-topics-novalidation.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-strimzi-topics-novalidation.yaml
   strimziEnableDeleteTopics:
     outputFile: output-strimzi-disable-delete-topics.yaml
     valueFiles:
@@ -107,6 +113,12 @@ tests:
     - ../default-test-values.yaml
     - ../default-test-disabled-features.yaml
     - values-admin-iam-nocopy.yaml
+  externalIamNoValidateTopics:
+    outputFile: output-admin-iam-novalidatetopics.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-admin-iam-novalidatetopics.yaml
   adminStrimzi:
     outputFile: output-admin-strimzi.yaml
     valueFiles:

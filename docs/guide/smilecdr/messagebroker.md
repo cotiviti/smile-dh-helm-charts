@@ -188,19 +188,56 @@ messageBroker:
 ```
 >**Note:** By default, the consumer properties are configured with the Kafka documented defaults prior to Kafka 3.0
 
-### Topic Auto Creation
-By default, the `auto.create.topics.enable` Kafka broker setting is often set to `true`. With this setting enabled, Kafka will automatically create topics when consumers or producers try to use a topic.
+## Topic Auto Creation & Validation
+This chart simplifies Kafka topic management by autoconfiguring topic related settings based on your message broker configuration.
 
-As a best practice, this setting should be changed to `false` in production environments. When doing this, any required topics should be created through some other process.
+**Topic Auto Creation**
+By default, the `auto.create.topics.enable` option on Kafka clusters is often set to `true`. With this setting enabled, Kafka will automatically create topics when consumers or producers try to use a topic.
 
-If your Kafka cluster has topic auto creation disabled, you should set the [`kafka.validate_topics_exist_before_use`](https://smilecdr.com/docs/configuration_categories/clustermgr_kafka.html#property-validate-kafka-topics-exist-before-use) option in Smile CDR. See [here](https://smilecdr.com/docs/installation/kafka.html) for more information on these Kafka settings in Smile CDR.
+As a general Kafka best practice in production environments, topic auto creation should be disabled by setting this option to `false`. When configured this way, any required topics should be created through some other process.
 
-As a convenience, this option is auto-configured based on various settings. By default, if using an external Kafka cluster, this option is disabled and creating Subscriptions will work without any manual intervention.
+**Topic Validation**
+If topic auto creation is disabled in your Kafka cluster, the following option should also be set in Smile CDR:
 
-#### Amazon MSK Serverless
-Although Amazon MSK allows `auto.create.topics.enable` to be set to `true` (You need to use a [Custom Configuration[(https://docs.aws.amazon.com/msk/latest/developerguide/msk-configuration-properties.html)]), this is not the case for Amazon MSK Serverless. In this case, you must create topics using another mechanism. It is advisable in this case to also set the above mentioned topic validation option in Smile CDR.
+[`kafka.validate_topics_exist_before_use`](https://smilecdr.com/docs/configuration_categories/clustermgr_kafka.html#property-validate-kafka-topics-exist-before-use)
 
-#### Strimzi
+This option prevents Smile CDR from trying to send messages to topics that do not exist, which will flood the logs with errors.
+
+As a convenience, the `autoCreateTopics` and `validateTopics` options are auto-configured based on the Kafka configurations provided in your values file as per the below table.
+
+|        Message Broker Config        | Topic Auto Creation | Validate Topics |
+|-----------------------------------|:-------------------------:|:---:|
+| `external.type: kafka`            | :material-check: | :material-close: |
+| `external.type: msk`              | :material-close: | :material-check: |
+| `external.type: msk-serverless`   | :material-close: | :material-check: |
+| `strimzi.enabled` and `manageTopics: false` | :material-check: | :material-close: |
+| `strimzi.enabled` and `manageTopics: true`  | :material-close: | :material-close: |
+
+In certain circumstances, you may wish to override the auto-configured defaults above behaviour by setting `messageBroker.autoCreateTopics` and/or `messageBroker.validateTopics`.
+
+>**Note:** You cannot override topic auto creation for Amazon MSK Serverless as it does not support topic auto creation.
+
+See [here](https://smilecdr.com/docs/installation/kafka.html) for more information on these Kafka settings in Smile CDR.
+
+### Amazon MSK
+When creating an Amazon MSK cluster, topic auto creation is disabled by default, which is the recommended configuration for production environments.
+
+If you wish to enable topi cauto creation for development or testing environments, you will need to do the following:
+
+* Create an MSK Custom Configuration that sets `auto.create.topics.enable` to `true`
+* Apply this configuration to your MSK cluster.
+* Update your values file to override topic validation like so:
+    ```yaml
+    messageBroker:
+      validateTopics: false
+    ```
+
+More information on MSK Custom Configurations is available on the [AWS Documentation](https://docs.aws.amazon.com/msk/latest/developerguide/msk-configuration-properties.html)
+
+### Amazon MSK Serverless
+Unlike provisioned Amazon MSK, the serverless variant does not allow for topic auto creation. When using Amazon MSK Serverless, you ***must*** create topics using another mechanism.
+
+### Strimzi
 If using the Strimzi Operator and configuring this Helm Chart to deploy the Kafka cluster, it is possible to also define the required topics in the values file. When doing this, the `auto.create.topics.enable` will be automatically set to `false` to prevent collisions between topics created by the broker and topics created by the Strimzi Operator. The `kafka.validate_topics_exist_before_use` Smile CDR configuration will also be set to `true`.
 
 ## Topic Pre-Provisioning
@@ -254,6 +291,7 @@ If using the Strimzi Operator, you can define topics in a declarative fashion us
 
 ```yaml
 messageBroker:
+  manageTopics: true
   topics:
     batch2:
       name: "batch2.work.notification.Masterdev.persistence"
@@ -263,13 +301,11 @@ messageBroker:
       partitions: 10
 ```
 
-When using this method, the Helm Chart will create a `KafkaTopic` resource for each of the provided topics. The topics will then be created automatically by the Strimzi Topic Operator. The Kafka brokers will be configured with `auto.create.topics.enable` set to `false` as per best practice.
+When using this method, the Helm Chart will create a `KafkaTopic` resource for each of the provided topics. Topic creation, configuration and deletion will then be managed by the Strimzi Topic Operator. The Kafka brokers will be configured with `auto.create.topics.enable` set to `false` as per best practice for production environments.
 
-Using this method allows you to define the configuration of your topics in code for increased repeatability and reliability.
+Using this method allows you to define the configuration of your Kafka topics in code for increased repeatability and reliability.
 
-You can disable topic auto creation by Strimzi by setting `messageBroker.manageTopics` to `false`.
-
->**Note:** Please be aware that if you create topics directly in Kafka (either using the Admin Pod or if auto topic creation is enabled) then the Strimzi Topic Operator will create `KafkaTopic` resources to match the topics in the Strimzi-managed Kafka cluster.
+You can disable topic management by the Helm Chart & Strimzi by setting `messageBroker.manageTopics` to `false`.
 
 ## Provisioning Kafka with Strimzi
 If you have the Strimzi Operator installed in your cluster, you can use the following values file

@@ -105,6 +105,7 @@ data:
     module.clustermgr.config.kafka.ssl.enabled                          =#{env['KAFKA_SSL_ENABLED']}
     module.clustermgr.config.kafka.consumer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-consumer-config.properties
     module.clustermgr.config.kafka.producer.properties.file             =classpath:/cdr_kafka_config/cdr-kafka-producer-config.properties
+    module.clustermgr.config.kafka.validate_topics_exist_before_use     =true
     module.clustermgr.config.kafka.security.protocol                    =SASL_SSL
     module.clustermgr.config.kafka.ssl.truststore.location              =#{null}
     module.clustermgr.config.kafka.ssl.truststore.password              =#{null}

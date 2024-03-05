@@ -195,6 +195,22 @@ on either external or Strimzi settings.
     {{- $_ := set $kafkaConfig "bootstrapAddress" $kafkaBootstrapAddress -}}
     {{- $_ := set $kafkaConfig "autoCreateTopics" $autoCreateTopics -}}
 
+    {{- /* If auto create topics is enabled, then validate topics should be false */ -}}
+    {{- /* If auto create topics is disabled (i.e. if Strimzi or anothet process is creating topics), then validate topics should be true */ -}}
+    {{- $validateTopics := "" -}}
+    {{- if not $autoCreateTopics -}}
+      {{- $_ := set $kafkaConfig "validateTopics" true -}}
+    {{- end -}}
+
+    {{- /* If using IAM auth (i.e. using Amazon MSK) topics should not be auto created, `validate_topics_before_use` should be enabled */ -}}
+    {{- if eq $kafkaConfig.authentication.type "iam" -}}
+      {{- $_ := set $kafkaConfig "validateTopics" true -}}
+    {{- end -}}
+
+    {{- /* Allow overriding */ -}}
+    {{- if hasKey .Values.messageBroker "validateTopics" -}}
+      {{- $_ := set $kafkaConfig "validateTopics" .Values.messageBroker.validateTopics -}}
+    {{- end -}}
 
     {{- $_ := set $kafkaConfig "propertiesResourceName" $autoCreateTopics -}}
 
@@ -209,13 +225,7 @@ on either external or Strimzi settings.
 
     {{- $_ := set $kafkaConfig "consumerPropertiesData" $consumerPropertiesData -}}
     {{- $_ := set $kafkaConfig "producerPropertiesData" $producerPropertiesData -}}
-    {{- /* fail (printf "Context: %s" (toPrettyJson $ctx.nodeName)) */ -}}
     {{- $propsHashSuffix := ternary (printf "-%s" (include "smilecdr.getHashSuffix" (printf "%s/n%s" $consumerPropertiesData $producerPropertiesData))) "" $ctx.autoDeploy -}}
-    {{- /* TODO: We can update the following if we wish to change the kafka properties CM resource naming schema later. */ -}}
-    {{- /* fail (printf "%s-kafka-client-properties-%s-node%s" $.Release.Name ($ctx.nodeName | lower) $propsHashSuffix) */ -}}
-    {{- /* if not $ctx.nodeName -}}
-      {{- fail (printf "Context: %s" (toPrettyJson $ctx)) -}}
-    {{- end */ -}}
 
     {{- /* Set name for Kafka client properties ConfigMap */ -}}
     {{- /* Only include node name in client properties if in 'cdrNode' context */ -}}
