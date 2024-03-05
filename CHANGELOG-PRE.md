@@ -1,3 +1,10 @@
+# [1.0.0-pre.109](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.108...v1.0.0-pre.109) (2024-03-05)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix validate topic logic ([c08e65c](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/c08e65cd52e2ba8abc862811436f350af886d343))
+
 # [1.0.0-pre.108](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.107...v1.0.0-pre.108) (2024-03-04)
 
 
