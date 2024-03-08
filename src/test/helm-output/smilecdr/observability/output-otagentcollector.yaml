@@ -512,6 +512,25 @@ spec:
             sizeLimit: 10Mi
           name: scdr-volume-amq
       restartPolicy: Always
+      topologySpreadConstraints:
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: release-name
+            app.kubernetes.io/name: smilecdr
+        matchLabelKeys:
+        - pod-template-hash
+        maxSkew: 1
+        topologyKey: topology.kubernetes.io/zone
+        whenUnsatisfiable: ScheduleAnyway
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: release-name
+            app.kubernetes.io/name: smilecdr
+        matchLabelKeys:
+        - pod-template-hash
+        maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
 ---
 # Source: smilecdr/templates/observability/otel-agent.yaml
 apiVersion: opentelemetry.io/v1alpha1

@@ -1,0 +1,3 @@
+# Check that the generated node.id in the ConfigMap can be updated
+
+disableDefaultTopologyConstraints: true
