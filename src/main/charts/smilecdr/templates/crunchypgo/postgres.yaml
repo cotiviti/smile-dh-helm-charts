@@ -51,14 +51,14 @@ spec:
           name: {{ $.Release.Name }}-pgbackrest-secret
       global:
         {{- range $index, $repo := .multiBackupRepos }}
-        {{- if or $repo.s3 $repo.gcs $repo.azure }}
+          {{- if or $repo.s3 $repo.gcs $repo.azure }}
         repo{{ add $index 1 }}-path: /pgbackrest/{{ $.Release.Namespace }}/{{ default $.Release.Name $.name }}/repo{{ add $index 1 }}
-        {{- end }}
+          {{- end }}
         {{- end }}
       repos:
-      {{- range $index, $repo := .multiBackupRepos }}
+        {{- range $index, $repo := .multiBackupRepos }}
       - name: repo{{ add $index 1 }}
-        {{- if $repo.volume }}
+          {{- if $repo.volume }}
         volume:
           volumeClaimSpec:
             accessModes:
@@ -66,19 +66,19 @@ spec:
             resources:
               requests:
                 storage: {{ default "1Gi" $repo.volume.backupsSize | quote }}
-        {{- else if $repo.s3 }}
+          {{- else if $repo.s3 }}
         s3:
           bucket: {{ $repo.s3.bucket | quote }}
           endpoint: {{ $repo.s3.endpoint | quote }}
           region: {{ $repo.s3.region | quote }}
-        {{- else if $repo.gcs }}
+          {{- else if $repo.gcs }}
         gcs:
           bucket: {{ $repo.gcs.bucket | quote }}
-        {{- else if $repo.azure }}
+          {{- else if $repo.azure }}
         azure:
           container: {{ $repo.azure.container | quote }}
+          {{- end }}
         {{- end }}
-      {{- end }}
       {{- else if .s3 }}
       configuration:
       - secret:
@@ -125,7 +125,11 @@ spec:
               requests:
                 storage: {{ default "1Gi" .backupsSize | quote }}
       {{- end }}
-  {{- if or .pgBouncerReplicas .pgBouncerConfig }}
+      {{- if .restore }}
+      restore:
+{{ toYaml .restore | indent 8 }}
+      {{- end }}
+      {{- if or .pgBouncerReplicas .pgBouncerConfig }}
   proxy:
     pgBouncer:
       {{- if .imagePgBouncer }}
