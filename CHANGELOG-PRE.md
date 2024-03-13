@@ -1,3 +1,10 @@
+# [1.0.0-pre.110](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.109...v1.0.0-pre.110) (2024-03-13)
+
+
+### Features
+
+* **pgo:** add more configurability to crunchydata PG CRD ([91591e0](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/91591e0c9b268b6dd53ee834782442082fd8dc4e))
+
 # [1.0.0-pre.109](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.108...v1.0.0-pre.109) (2024-03-05)
 
 
