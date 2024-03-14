@@ -42,8 +42,8 @@ locals {
   # helm_chart_devel = strcontains(local.helm_chart_version, "-pre.") ? true:false
   helm_chart_devel = true
 
-  service_account_name = var.service_account_name == null ? "${local.helm_release_name}${local.helm_service_account_suffix}" : var.service_account_name
-  namespace_service_accounts = ["${local.helm_namespace}:${local.service_account_name}"]
+  cdr_service_account_name = var.cdr_service_account_name == null ? "${local.helm_release_name}${local.helm_service_account_suffix}" : var.cdr_service_account_name
+  cdr_namespace_service_accounts = ["${local.helm_namespace}:${local.cdr_service_account_name}"]
 
   helm_chart_values_provided = try(yamldecode(var.helm_chart_values[0]),null)
   helm_chart_values = concat(
@@ -75,12 +75,12 @@ locals {
               }
             } : {},
 
-          # Configure ServiceAccount if IAM role is enabled
-          local.iam_role_enabled ?
+          # Configure CDR ServiceAccount if IAM role is enabled
+          local.cdr_iam_role_enabled ?
             {
               serviceAccount =  {
                 create = true
-                name = local.service_account_name
+                name = local.cdr_service_account_name
                 annotations = {
                     "eks.amazonaws.com/role-arn" = local.iam_role_arn
                 }
@@ -143,19 +143,8 @@ locals {
               }
             } : {},
 
-          # Configure CrunchyPGO DB if enabled
-          length(var.db_users) == 0 ?
-            {
-              database = {
-                crunchypgo = {
-                  enabled = "true"
-                  internal = "true"
-                  config = {
-                    instanceReplicas = var.prod_mode ? 2 : 1
-                  }
-                }
-              }
-            } : {},
+          # Include CrunchyPGO Helm Configs
+          local.crunchy_pgo_helm_config,
 
           # Add classpath files
           length(var.helm_chart_mapped_files) > 0 ?
@@ -196,12 +185,11 @@ locals {
     var.tags
   )
 
-  # IAM
-  iam_role_enabled = var.enable_irsa == null ? (local.secrets_enabled || local.s3_enabled ? true:false) : var.enable_irsa
-  iam_role = local.iam_role_enabled ? module.smile_cdr_irsa_role[0] : null
+  # IAM for SCDR
+  cdr_iam_role_enabled = var.enable_irsa == null ? (local.secrets_enabled || local.s3_enabled ? true:false) : var.enable_irsa
+  iam_role = local.cdr_iam_role_enabled ? module.smile_cdr_irsa_role[0] : null
   iam_role_arn = local.iam_role.iam_role_arn
   cdr_irsa_role_name = "${local.name}-smilecdr-${local.resourcenames_suffix}"
-
 
   ###################
   # Secrets

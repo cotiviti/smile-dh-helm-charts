@@ -3,7 +3,7 @@
 ######################################
 
 module "smile_cdr_irsa_role" {
-  count = local.iam_role_enabled ? 1 : 0
+  count = local.cdr_iam_role_enabled ? 1 : 0
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
   version = "5.30.2"
 
@@ -14,7 +14,7 @@ module "smile_cdr_irsa_role" {
   oidc_providers = {
     ex = {
       provider_arn               = local.eks_cluster_oidc_provider_arn
-      namespace_service_accounts = local.namespace_service_accounts
+      namespace_service_accounts = local.cdr_namespace_service_accounts
     }
   }
 }
@@ -24,7 +24,7 @@ module "smile_cdr_irsa_role" {
 # RDS Secrets if used
 # S3 bucket if required
 data "aws_iam_policy_document" "get-secrets" {
-  count = local.iam_role_enabled ? 1 : 0
+  count = local.cdr_iam_role_enabled ? 1 : 0
   version = "2012-10-17"
 
   dynamic "statement" {
@@ -53,7 +53,7 @@ data "aws_iam_policy_document" "get-secrets" {
 }
 
 resource "aws_iam_policy" "get-secrets" {
-  count = local.iam_role_enabled ? 1 : 0
+  count = local.cdr_iam_role_enabled ? 1 : 0
   name        = "${local.name}-get-secrets-${local.resourcenames_suffix}"
   description = "Smile CDR Policy to get credentials secrets"
 
