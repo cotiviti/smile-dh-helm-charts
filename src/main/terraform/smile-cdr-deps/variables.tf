@@ -115,7 +115,7 @@ variable "helm_chart" {
 variable "helm_chart_version" {
   description = "The version of the Smile CDR Helm Chart to use"
   type        = string
-  default     = "1.0.0-pre.103"
+  default     = "1.0.0-pre.110"
 }
 
 variable "helm_chart_values" {
