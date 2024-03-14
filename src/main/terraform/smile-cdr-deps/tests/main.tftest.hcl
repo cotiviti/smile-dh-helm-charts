@@ -130,7 +130,7 @@ run "default_config" {
     }
 
     assert {
-      condition = local.namespace_service_accounts[0] == "smilecdr:${lower(var.name)}-smilecdr"
+      condition = local.cdr_namespace_service_accounts[0] == "smilecdr:${lower(var.name)}-smilecdr"
       error_message = "Error"
     }
 

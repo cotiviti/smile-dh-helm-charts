@@ -78,7 +78,7 @@ variable "namespace" {
   default     = null
 }
 
-variable "service_account_name" {
+variable "cdr_service_account_name" {
   description = "Override auto-generated service account name"
   type        = string
   default     = null
@@ -323,6 +323,66 @@ variable "db_users" {
   }))
   nullable    = false
   default     = []
+}
+
+variable "crunchy_pgo_config" {
+  description   = "CrunchyData PGO backup & restore configuration"
+  type        = object({
+    enabled                       = optional(bool)
+    helm_autoconf                 = optional(bool,true)
+    pgbackrest                    = optional(object({
+      enabled                     = optional(bool,false)
+      volume                      = optional(object({
+        backupsSize               = optional(string,"1Gi")
+        retention_full            = optional(number,3)
+        retention_incremental     = optional(number)
+        retention_differential    = optional(number)
+        manual_backup             = optional(string)
+      }))
+      s3                          = optional(object({
+        enabled                   = optional(bool,false)
+        use_existing_bucket       = optional(bool,false)
+        bucket_name               = optional(string)
+        bucket_name_prefix        = optional(string)
+        bucket_prefix             = optional(string,"pgbackrest")
+        reponumber                = optional(number,2)
+        reponame                  = optional(string)
+        retain_on_destroy         = optional(bool,false)
+        retention_full            = optional(number,10)
+        retention_incremental     = optional(number)
+        retention_differential    = optional(number)
+        manual_backup             = optional(string,"full")
+      }),{enabled=false})
+      schedules                   = optional(object({
+        full                      = optional(string)
+        incremental               = optional(string)
+        differential              = optional(string)
+      }))
+    }))
+    restore                       = optional(object({
+      enabled                     = optional(bool,false)
+      source                      = optional(string,"s3")
+      type                        = optional(string,"time")
+      restore_time                = optional(string)
+    }))
+    datasource                    = optional(any)
+  })
+
+  # validation {
+  #   condition = (
+  #     # If using an existing bucket, we MUST provide the name.
+  #     # Without these, we cannot determine the full DNS name to use.
+  #     length(split(".", var.ingress_config.public.parent_domain)) > 1 ||
+  #     length(split(".", var.ingress_config.public.hostname)) > 2
+  #   )
+  #   error_message = "You must provide parent_domain, or provide the full DNS name in hostname"
+  # }
+  default     = {
+    pgbackrest = {
+      enabled = false
+    }
+  }
+  nullable    = false
 }
 
 variable "extra_secrets" {
