@@ -21,6 +21,12 @@ output "helm_sa_annotation" {
   }
 }
 
+output "iam_users" {
+  value = {
+    iam_db_users = local.iam_db_users
+    db_users = var.db_users
+  }
+}
 output "helm_secret_configs" {
     value = concat([
       {

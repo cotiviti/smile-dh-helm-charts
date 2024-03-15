@@ -1,7 +1,6 @@
 # Vars we will need
 
 variable "name" {
-  # Want to keep the params to a minimum so it's easy to call
   description = "Name for related resources"
   type        = string
   default     = ""
@@ -81,8 +80,8 @@ variable "auth_type" {
   nullable    = false
   default     = "password"
   validation {
-    condition     = can(regex("^(password|iam)$",var.auth_type))
-    error_message = "The RDS authentication method must be `password` or `iam`"
+    condition     = can(regex("^(password|iam|secretsmanager)$",var.auth_type))
+    error_message = "The RDS authentication method must be `password`, `iam` or `secretsmanager`"
   }
 }
 

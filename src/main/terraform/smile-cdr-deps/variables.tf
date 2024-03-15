@@ -266,6 +266,13 @@ variable "db_subnet_ids" {
   nullable    = false
 }
 
+variable "db_use_old_helm_schema" {
+  description = "Subnet IDs where the Database will be located. If this is left null then an existing db_seubnet_group MUST be provided with db_subnet_group_name."
+  type        = bool
+  default     = true
+  nullable    = false
+}
+
 variable "db_instance_defaults" {
   description = "Default configuration for databases."
   type        = object({
@@ -319,6 +326,7 @@ variable "db_users" {
     cdr_modules                   = optional(list(string))
     dbusername                    = optional(string)
     dbname                        = optional(string)
+    auth_type                     = optional(string,"password")
 
   }))
   nullable    = false
