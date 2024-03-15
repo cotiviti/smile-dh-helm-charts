@@ -359,7 +359,7 @@ variable "crunchy_pgo_config" {
         retention_full            = optional(number,10)
         retention_incremental     = optional(number)
         retention_differential    = optional(number)
-        manual_backup             = optional(string,"full")
+        manual_backup             = optional(string)
       }),{enabled=false})
       schedules                   = optional(object({
         full                      = optional(string)
@@ -369,7 +369,7 @@ variable "crunchy_pgo_config" {
     }))
     restore                       = optional(object({
       enabled                     = optional(bool,false)
-      source                      = optional(string,"s3")
+      source                      = optional(string)
       type                        = optional(string,"time")
       restore_time                = optional(string)
     }))

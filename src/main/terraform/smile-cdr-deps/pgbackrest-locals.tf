@@ -38,48 +38,67 @@ locals {
   }:null
 
   crunchy_pgo_backrest_helm_config = local.crunchy_pgo_backrest_enabled ? merge(
-    {
+    local.pgo_iam_role_enabled ? {
       metadata = {
-        annotations = local.pgo_iam_role_enabled ? {
+        annotations = {
           "eks.amazonaws.com/role-arn" = local.pgo_iam_role_arn
-        } : {}
+        }
       }
-    },{
+    }:null,
+    local.crunchy_pgo_backrest_s3_enabled ? {
       # This is not currently used by the Helm Chart, but may be
       # once we move away from the 'list' based approach.
-      s3 = local.crunchy_pgo_backrest_s3_enabled ? {
+      s3 = {
         repo      = local.crunchy_pgo_backrest_s3_reponame
         bucket    = local.crunchy_pgo_backrest_s3_bucket_name
         endpoint  = trimprefix(local.crunchy_pgo_backrest_s3_endpoint, "${local.crunchy_pgo_backrest_s3_bucket_name}.")
         region    = local.crunchy_pgo_backrest_s3_region
         prefix    = local.crunchy_pgo_backrest_s3_prefix
-      }:{}
-      pgBackRestConfig = merge(local.crunchy_pgo_backrest_global, local.crunchy_pgo_backrest_configuration, local.crunchy_pgo_backrest_repos, local.crunchy_pgo_backrest_manual)
-    },
+      }
+    }:null,
     {
+      pgBackRestConfig = merge(local.crunchy_pgo_backrest_global, local.crunchy_pgo_backrest_configuration, local.crunchy_pgo_backrest_repos, coalesce(local.crunchy_pgo_backrest_manual_s3, local.crunchy_pgo_backrest_manual_volume,{}))
+    },
+    local.crunchy_pgo_restore_configuration != null ? {
       restore = local.crunchy_pgo_restore_configuration
-    }
+    }:null
   ):null
 
-  crunchy_pgo_backrest_global = var.crunchy_pgo_config.pgbackrest.s3.enabled ? {
-    global = merge(
-      {
-        "${local.crunchy_pgo_backrest_s3_reponame}-retention-full" = tostring(var.crunchy_pgo_config.pgbackrest.s3.retention_full)
-      },
+  crunchy_pgo_retention_settings = merge(
+    local.crunchy_pgo_backrest_s3_enabled ? merge(
+      try(
+        {
+          "${local.crunchy_pgo_backrest_s3_reponame}-retention-full" = try(tostring(var.crunchy_pgo_config.pgbackrest.s3.retention_full),null)
+        },null
+      ),
       try(
         {
           "${local.crunchy_pgo_backrest_s3_reponame}-retention-incremental" = try(tostring(var.crunchy_pgo_config.pgbackrest.s3.retention_incremental),null)
-        },
-        null
+        },null
       ),
       try(
         {
           "${local.crunchy_pgo_backrest_s3_reponame}-retention-differential" = try(tostring(var.crunchy_pgo_config.pgbackrest.s3.retention_differential),null)
-        },
-        null
+        },null
       )
+    ):null,
+    # repo1 global settings
+    merge(
+      try(var.crunchy_pgo_config.pgbackrest.volume.retention_full,null) != null ? {
+          "repo1-retention-full" = tostring(var.crunchy_pgo_config.pgbackrest.volume.retention_full)
+      } : null,
+      try(var.crunchy_pgo_config.pgbackrest.volume.retention_incremental,null) != null ? {
+          "repo1-retention-incremental" = tostring(var.crunchy_pgo_config.pgbackrest.volume.retention_incremental)
+      } : null,
+      try(var.crunchy_pgo_config.pgbackrest.volume.retention_differential,null) != null ? {
+          "repo1-retention-differential" = tostring(var.crunchy_pgo_config.pgbackrest.volume.retention_differential)
+      } : null
     )
-  }:{}
+  )
+
+  crunchy_pgo_backrest_global = length(local.crunchy_pgo_retention_settings) > 0 ? {
+    global = local.crunchy_pgo_retention_settings
+   }:null
 
   crunchy_pgo_backrest_configuration = var.crunchy_pgo_config.pgbackrest.s3.enabled ? {
     configuration  = [
@@ -91,63 +110,82 @@ locals {
               ]
   }:{}
 
+  crunchy_pgo_backrest_schedules  = try(var.crunchy_pgo_config.pgbackrest.schedules,null) != null ? {
+    schedules = merge(
+      try(var.crunchy_pgo_config.pgbackrest.schedules.full,null) != null ? {
+        full    = var.crunchy_pgo_config.pgbackrest.schedules.full
+      }:null,
+      try(var.crunchy_pgo_config.pgbackrest.schedules.incremental,null) != null ? {
+        incremental    = var.crunchy_pgo_config.pgbackrest.schedules.incremental
+      }:null,
+      try(var.crunchy_pgo_config.pgbackrest.schedules.differential,null) != null ? {
+        differential    = var.crunchy_pgo_config.pgbackrest.schedules.differential
+      }:null,
+    )
+  }:null
+
   crunchy_pgo_backrest_repos = merge(
     var.crunchy_pgo_config.pgbackrest.s3.enabled ? {
       repos = [
-              {
-                name = coalesce(var.crunchy_pgo_config.pgbackrest.s3.reponame,"repo${var.crunchy_pgo_config.pgbackrest.s3.reponumber}","repo1")
-                s3   = {
-                  bucket    = local.crunchy_pgo_backrest_s3_bucket_name
-                  endpoint  = try(trimprefix(local.crunchy_pgo_backrest_s3_endpoint, "${local.crunchy_pgo_backrest_s3_bucket_name}."),null)
-                  region    = local.crunchy_pgo_backrest_s3_region
-                }
-                schedules   = try(var.crunchy_pgo_config.pgbackrest.schedules,{})
-              }
+              merge({
+                  name = coalesce(var.crunchy_pgo_config.pgbackrest.s3.reponame,"repo${var.crunchy_pgo_config.pgbackrest.s3.reponumber}","repo1")
+                  s3   = {
+                    bucket    = local.crunchy_pgo_backrest_s3_bucket_name
+                    endpoint  = try(trimprefix(local.crunchy_pgo_backrest_s3_endpoint, "${local.crunchy_pgo_backrest_s3_bucket_name}."),null)
+                    region    = local.crunchy_pgo_backrest_s3_region
+                  }
+                },
+                local.crunchy_pgo_backrest_schedules
+              )
             ]
     }:{},
     !var.crunchy_pgo_config.pgbackrest.s3.enabled ? {
       repos = [
-              {
-                name = "repo1"
-                volume = {
-                  volumeClaimSpec = {
-                    accessModes = ["ReadWriteOnce"]
-                    resources = {
-                      requests = {
-                        storage = try(var.crunchy_pgo_config.pgbackrest.volume.backupsSize,"1Gi")
+              merge({
+                  name = "repo1"
+                  volume = {
+                    volumeClaimSpec = {
+                      accessModes = ["ReadWriteOnce"]
+                      resources = {
+                        requests = {
+                          storage = try(var.crunchy_pgo_config.pgbackrest.volume.backupsSize,"1Gi")
+                        }
                       }
                     }
                   }
-                }
-                schedules   = try(var.crunchy_pgo_config.pgbackrest.schedules,{})
-              }
+                },
+                local.crunchy_pgo_backrest_schedules
+              )
             ]
     }:{}
   )
 
-  crunchy_pgo_backrest_manual = var.crunchy_pgo_config.pgbackrest.s3.enabled && can(var.crunchy_pgo_config.pgbackrest.s3.manual_backup) ? {
+  crunchy_pgo_backrest_manual_s3 = var.crunchy_pgo_config.pgbackrest.s3.enabled && (var.crunchy_pgo_config.pgbackrest.s3.manual_backup != null) ? {
     manual  = {
       repoName = local.crunchy_pgo_backrest_s3_reponame
       options = [
           "--type=${var.crunchy_pgo_config.pgbackrest.s3.manual_backup}"
       ]
     }
-  }:{}
+  }:null
 
-  crunchy_pgo_restore_configuration = merge(
-    try(var.crunchy_pgo_config.restore.enabled,false) ? {
-      enabled = var.crunchy_pgo_config.restore.enabled
-    }:{},
-    try(var.crunchy_pgo_config.restore.enabled,false) ? {
-      repoName = var.crunchy_pgo_config.restore.source == "s3" ? local.crunchy_pgo_backrest_s3_reponame : "repo1"
-    }:{},
-    try(var.crunchy_pgo_config.restore.enabled,false) ? {
+  crunchy_pgo_backrest_manual_volume = (try(var.crunchy_pgo_config.pgbackrest.volume.manual_backup,null) != null) ? {
+    manual  = {
+      repoName = "repo1"
       options = [
-          "--type=${var.crunchy_pgo_config.restore.type}",
-          "--target=\"${var.crunchy_pgo_config.restore.restore_time}\""
+          "--type=${var.crunchy_pgo_config.pgbackrest.volume.manual_backup}"
       ]
-    }:{}
-  )
+    }
+  }:null
+
+  crunchy_pgo_restore_configuration = var.crunchy_pgo_config.restore != null ? {
+    enabled = try(var.crunchy_pgo_config.restore.enabled,false)
+    repoName = var.crunchy_pgo_config.restore.source == "s3" ? local.crunchy_pgo_backrest_s3_reponame : "repo1"
+    options = [
+        "--type=${try(var.crunchy_pgo_config.restore.type,"time")}",
+        "--target=\"${try(var.crunchy_pgo_config.restore.restore_time,"")}\""
+    ]
+  }:null
 
   pgo_instance_sa_name = "${local.helm_release_name}-pg-instance"
   pgo_pgbackrest_sa_name = "${local.helm_release_name}-pg-pgbackrest"
