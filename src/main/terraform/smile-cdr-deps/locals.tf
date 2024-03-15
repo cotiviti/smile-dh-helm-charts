@@ -92,54 +92,11 @@ locals {
             {
               database = {
                 # Legacy DB configuration, before chart version xxx
-                external = {
-                  enabled = "true"
-                  credentials = {
-                    type = "sscsi"
-                    provider = "aws"
-                  }
-                  databases = [
-                    for db_user in module.postgres_db_user:
-                    {
-                      secretName = lower(db_user.name)
-                      module = db_user.helm_secret_config.cdr_modules[0]
-                      secretArn = db_user.helm_secret_config.secretArn
-                    }
-                  ]
-                }
-                # Soon to be released DB configuration from Helm Chart version xxx
-                external_new = {
-                  enabled = "true"
-                  defaults = {
-                    connectionConfigSource = {
-                      source = "sscsi"
-                      provider = "aws"
-                    }
-                    connectionConfig = {
-                      authentication = {
-                        type = "pwd"
-                      }
-                    }
-                  }
-                  databases = [
-                    for db_user in module.postgres_db_user:
-                    {
-                      name = db_user.name
-                      modules = db_user.helm_secret_config.cdr_modules
-
-                      connectionConfigSource = {
-                        source = "none"
-                      }
-                      connectionConfig = {
-                        authentication = {
-                          type = "secretsmanager"
-                          provider = "aws"
-                          secretArn = db_user.helm_secret_config.secretArn
-                        }
-                      }
-                    }
-                  ]
-                }
+                # external = var.db_use_old_helm_schema ? local.helm_config_external_db_old : local.helm_config_external_db
+                external = merge(
+                  var.db_use_old_helm_schema ? local.helm_config_external_db_old : null,
+                  var.db_use_old_helm_schema ? null : local.helm_config_external_db
+                )
               }
             } : {},
 
@@ -341,6 +298,56 @@ locals {
 
   create_rds_user_mgmt_lambda = length(var.db_users) > 0 ? true : false
   rds_iam_auth_enabled = length(local.iam_db_users) > 0 ? true : false
+
+  helm_config_external_db = {
+    enabled = "true"
+    defaults = {
+      connectionConfigSource = {
+        source = "sscsi"
+        provider = "aws"
+      }
+      connectionConfig = {
+        authentication = {
+          # type = "pass"
+          provider = "aws"
+        }
+      }
+    }
+    databases = [
+      for db_user in module.postgres_db_user:
+      {
+        name = db_user.name
+        modules = db_user.helm_secret_config.cdr_modules
+
+        connectionConfigSource = {
+          source = "sscsi"
+          secretName = lower(db_user.name)
+          secretArn = db_user.helm_secret_config.secretArn
+        }
+        connectionConfig = {
+          authentication = {
+            type = db_user.auth_type
+          }
+        }
+      }
+    ]
+  }
+
+  helm_config_external_db_old = {
+    enabled = "true"
+    credentials = {
+      type = "sscsi"
+      provider = "aws"
+    }
+    databases = [
+      for db_user in module.postgres_db_user:
+      {
+        secretName = lower(db_user.name)
+        module = db_user.helm_secret_config.cdr_modules[0]
+        secretArn = db_user.helm_secret_config.secretArn
+      }
+    ]
+  }
 
   # IAM module expects map of objects
   scdr_role_policy_arns = merge(
