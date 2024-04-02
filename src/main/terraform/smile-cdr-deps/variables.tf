@@ -6,13 +6,6 @@ variable "eks_cluster_name" {
 
 }
 
-variable "aws_region" {
-  description = "Region of the EKS cluster"
-  type        = string
-  default     = null
-
-}
-
 variable "eks_cluster_oidc_provider_url" {
   description = "Override auto-detected EKS OIDC Provider URL e.g., https://oidc.eks.<region.amazonaws.com/id/<ID>"
   type        = string
