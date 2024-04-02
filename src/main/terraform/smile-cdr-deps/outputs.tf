@@ -21,6 +21,10 @@ output "helm_sa_annotation" {
   }
 }
 
+output "helm_release_notes" {
+  value = try(data.helm_template.smilecdr[0].notes,null)
+}
+
 output "iam_users" {
   value = {
     iam_db_users = local.iam_db_users

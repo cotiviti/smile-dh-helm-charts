@@ -296,34 +296,3 @@ resource "aws_route53_record" "publicdns" {
       evaluate_target_health = false
   }
 }
-
-# provider "kubernetes" {
-#   host                   = local.eks_cluster_endpoint
-#   cluster_ca_certificate = base64decode(local.eks_cluster_ca_certificate)
-#   token                  = data.aws_eks_cluster_auth.this.token
-
-#   # exec {
-#   #   api_version = "client.authentication.k8s.io/v1beta1"
-#   #   args        = ["eks", "get-token", "--cluster-name", var.eks_cluster_name]
-#   #   command     = "aws"
-#   # }
-# }
-
-# provider "helm" {
-
-#   kubernetes {
-#     host                   = local.eks_cluster_endpoint
-#     cluster_ca_certificate = base64decode(local.eks_cluster_ca_certificate)
-#     token                  = data.aws_eks_cluster_auth.this.token
-
-#     # exec {
-#     #   api_version = "client.authentication.k8s.io/v1beta1"
-#     #   args        = ["eks", "get-token", "--cluster-name", var.eks_cluster_name]
-#     #   command     = "aws"
-#     # }
-#   }
-# }
-
-# provider "aws" {
-#   region = try(var.aws_region,null)
-# }

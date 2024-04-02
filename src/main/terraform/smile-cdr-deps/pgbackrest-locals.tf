@@ -1,8 +1,8 @@
 locals {
 
   # Crunchy PGO
-  # 
-  
+  #
+
   crunchy_pgo_enabled = try(var.crunchy_pgo_config.enabled, null) == null ? (length(var.db_users) == 0 ? true:false) : var.crunchy_pgo_config.enabled
   crunchy_pgo_backrest_enabled = local.crunchy_pgo_enabled && try(var.crunchy_pgo_config.pgbackrest.enabled, false)
 
@@ -13,7 +13,7 @@ locals {
     var.crunchy_pgo_config.pgbackrest.s3.bucket_name,
     "${local.name}-pgbackrest-${local.resourcenames_suffix}"
   ))
-  
+
   crunchy_pgo_backrest_s3_bucket_name = local.crunchy_pgo_backrest_s3_create_bucket ? local.crunchy_pgo_backrest_s3_create_bucket_name : var.crunchy_pgo_config.pgbackrest.s3.bucket_name
 
   crunchy_pgo_backrest_s3_bucket_arn = try(module.s3_bucket_pgo_backrest[0].s3_bucket_arn, data.aws_s3_bucket.s3_bucket_pgo_backrest[0].arn, null)
@@ -198,7 +198,7 @@ locals {
   # Enable if:
   # * Using Crunchy PGO
   # * Using S3 for backup
-  # 
+  #
   # IRSA has to be used in this case, or error. We are not providing long lived credentials for this.
   pgo_iam_role_enabled = local.crunchy_pgo_enabled && try(var.crunchy_pgo_config.pgbackrest.s3.enabled, false)
   pgo_iam_role = try(module.pgo_irsa_role[0], null)
