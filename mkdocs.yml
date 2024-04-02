@@ -53,11 +53,10 @@ nav:
       - 'Overview': charts/smilecdr/smilecdr.md
       - 'Changelog': charts/smilecdr/CHANGELOG-PRE.md
   - Quickstart:
-    - quickstart/index.md
-    - 'Requirements': quickstart/requirements.md
-    - 'Configure Helm Repository': quickstart/helm-repo.md
-    - 'Create Values File': quickstart/values-file.md
-    - 'Install Smile CDR': quickstart/install-smilecdr.md
+    - quickstart-aws/index.md
+    - 'Prepare EKS Cluster': quickstart-aws/eks-cluster.md
+    - 'Prepare AWS Resources': quickstart-aws/aws-resources.md
+    - 'Deploy Smile CDR with Terraform': quickstart-aws/deploy-terraform.md
   - 'User Guide':
     - guide/index.md
     - 'General':

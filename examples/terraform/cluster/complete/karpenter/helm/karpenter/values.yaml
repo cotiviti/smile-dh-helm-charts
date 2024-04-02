@@ -1,0 +1,7 @@
+replicas: 1
+# -- Global Settings to configure Karpenter
+settings:
+  featureGates:
+    # -- spotToSpotConsolidation is ALPHA and is disabled by default.
+    # Setting this to true will enable spot replacement consolidation for both single and multi-node consolidation.
+    spotToSpotConsolidation: true
