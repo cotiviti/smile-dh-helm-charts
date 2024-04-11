@@ -24,5 +24,5 @@ module "eks_blueprints_addon_strimzi" {
 
   depends_on = [
     module.eks_blueprints_addon_karpenter_provisioner_config
-  ] 
+  ]
 }

@@ -77,7 +77,7 @@ module "eks" {
 #    to provision load balancers.
 #
 # As a result of the above, the cluster must be destroyed in a very controlled manner:
-# 
+#
 # 1. Destroy any applications on the cluster
 # 2. Destroy any ingress addons
 # 3. Destroy the components EKS Blueprint Addons (terraform destroy -target module.eks_blueprints_addons_components)
@@ -249,7 +249,7 @@ module "eks_blueprints_addons_ingress" {
 
   # depends_on = [
   #   module.eks_blueprints_addons_components
-  # ] 
+  # ]
 
   tags = local.tags
 }

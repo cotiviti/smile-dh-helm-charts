@@ -27,7 +27,7 @@ The Terraform Backend can then be configured accordingly:
 
 ```
 terraform {
-  
+
   # Uncomment and update settings to use S3 backend for Terraform state
   backend "s3" {
     bucket = "terraform-state-backend-<account_id>-<region>"

@@ -168,7 +168,7 @@ Failure to do this will likely leave the Terraform project in a 'stuck' state wh
 4. Destroy the core EKS module
    ```
    terraform destroy -target module.eks
-   ```    
+   ```
 5. Destroy the remaining resources
    ```
    terraform destroy
