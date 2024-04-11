@@ -1,3 +1,15 @@
+# [1.0.0-pre.111](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.110...v1.0.0-pre.111) (2024-04-11)
+
+
+### Bug Fixes
+
+* **smilecdr:** auto-set s3 cp recursive option ([045463d](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/045463d66c7c6f3615a0fba2751821c380b714cf))
+
+
+### BREAKING CHANGES
+
+* **smilecdr:** - If you currently specify a source path without a trailing slash, it will no longer try to recursively copy the files.
+
 # [1.0.0-pre.110](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.109...v1.0.0-pre.110) (2024-03-13)
 
 
