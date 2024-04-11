@@ -22,7 +22,7 @@ copyFiles:
       url: https://source.example.com/file.jar
     - type: s3
       bucket: s3-bucket-name
-      path: /path-to/classes
+      path: /path-to/classes/
   # Copies files to the customerlib directory using curl/s3
   customerlib:
     #syncDefaults: false
@@ -32,4 +32,4 @@ copyFiles:
       url: https://source.example.com/file.jar
     - type: s3
       bucket: s3-bucket-name
-      path: /path-to/classes
+      path: /path-to/classes/

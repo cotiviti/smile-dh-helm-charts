@@ -403,7 +403,6 @@ spec:
           - cp
           - s3://bucketname/path/to/file.jar
           - /tmp/smilecdr-volumes/javaagent/
-          - --recursive
           image: public.ecr.aws/aws-cli/aws-cli:2.13.19
           imagePullPolicy: IfNotPresent
           name: init-pull-javaagent-s3

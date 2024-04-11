@@ -600,7 +600,7 @@ spec:
         - args:
           - s3
           - cp
-          - s3://s3-bucket-name/path-to/classes
+          - s3://s3-bucket-name/path-to/classes/
           - /tmp/smilecdr-volumes/customerlib/
           - --recursive
           image: privaterepo/aws-cli:2.13.19

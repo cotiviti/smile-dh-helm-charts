@@ -483,12 +483,12 @@ spec:
         - args:
           - s3
           - cp
-          - s3://classes-bucket-1/path-to/classes1
+          - s3://classes-bucket-1/path-to/classes1/
           - /tmp/smilecdr-volumes/classes/
           - --recursive
           image: public.ecr.aws/aws-cli/aws-cli:2.13.19
           imagePullPolicy: IfNotPresent
-          name: init-pull-classes-s3-712b963d76ad37f9b92617d77d0a6bd9
+          name: init-pull-classes-s3-5374249a70626125ce739618ac23b3d9
           resources:
             limits:
               cpu: 500m
@@ -513,12 +513,12 @@ spec:
         - args:
           - s3
           - cp
-          - s3://classes-bucket-2/path-to/classes2
+          - s3://classes-bucket-2/path-to/classes2/
           - /tmp/smilecdr-volumes/classes/
           - --recursive
           image: public.ecr.aws/aws-cli/aws-cli:2.13.19
           imagePullPolicy: IfNotPresent
-          name: init-pull-classes-s3-103188b161a095efcd250c7e0cb960c3
+          name: init-pull-classes-s3-8c79f743b4c28032a2f3ea5f00bdd1d1
           resources:
             limits:
               cpu: 500m
@@ -625,12 +625,12 @@ spec:
         - args:
           - s3
           - cp
-          - s3://customer-lib-bucket-1/path-to/customerlib1
+          - s3://customer-lib-bucket-1/path-to/customerlib1/
           - /tmp/smilecdr-volumes/customerlib/
           - --recursive
           image: public.ecr.aws/aws-cli/aws-cli:2.13.19
           imagePullPolicy: IfNotPresent
-          name: init-pull-customerlib-s3-89e1b650ff920706999af0fd85d0119a
+          name: init-pull-customerlib-s3-4350432a1355df850faca8ffe6c35aca
           resources:
             limits:
               cpu: 500m
@@ -655,12 +655,12 @@ spec:
         - args:
           - s3
           - cp
-          - s3://customer-lib-bucket-2/path-to/customerlib2
+          - s3://customer-lib-bucket-2/path-to/customerlib2/
           - /tmp/smilecdr-volumes/customerlib/
           - --recursive
           image: public.ecr.aws/aws-cli/aws-cli:2.13.19
           imagePullPolicy: IfNotPresent
-          name: init-pull-customerlib-s3-61dad293b28bc07cb6da8948395d03a0
+          name: init-pull-customerlib-s3-e5279bf55e431a686a21626816c53102
           resources:
             limits:
               cpu: 500m

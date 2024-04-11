@@ -84,7 +84,11 @@ passwords
       {{- $bucketFullPath := printf "s3://%s%s" $bucket $bucketPath -}}
       {{- $containerSpec := deepCopy (omit $s3ContainerSpec "repository" "tag") -}}
       {{- $_ := set $containerSpec "name" "init-pull-classpath-s3" -}}
-      {{- $_ := set $containerSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/admin-volumes/classpath/" )  -}}
+      {{- $recursive := "" -}}
+      {{- if hasSuffix "/" $bucketFullPath -}}
+        {{- $recursive = "--recursive" -}}
+      {{- end -}}
+      {{- $_ := set $containerSpec "args" (compact (list "s3" "cp" $bucketFullPath "/tmp/admin-volumes/classpath/" $recursive))  -}}
       {{- $_ := set $containerSpec "volumeMounts" (list (dict "name" "admin-classpath" "mountPath" "/tmp/admin-volumes/classpath/") (dict "name" "aws-cli" "mountPath" "/.aws")) -}}
       {{- $initContainers = append $initContainers $containerSpec -}}
     {{- else if eq $v.type "curl" -}}

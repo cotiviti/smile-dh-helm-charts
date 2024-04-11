@@ -6,4 +6,4 @@ copyFiles:
     sources:
     - type: s3
       bucket: s3-bucket-name
-      path: /path-to/customerlib
+      path: /path-to/customerlib/

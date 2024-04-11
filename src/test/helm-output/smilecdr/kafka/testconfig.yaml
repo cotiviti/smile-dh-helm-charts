@@ -107,6 +107,12 @@ tests:
     - ../default-test-values.yaml
     - ../default-test-disabled-features.yaml
     - values-admin-iam-s3copy.yaml
+  adminIamS3CopyRecursive:
+    outputFile: output-admin-iam-s3copy-recursive.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-admin-iam-s3copy-recursive.yaml
   adminIamNoCopy:
     outputFile: output-admin-iam-nocopy.yaml
     valueFiles:
