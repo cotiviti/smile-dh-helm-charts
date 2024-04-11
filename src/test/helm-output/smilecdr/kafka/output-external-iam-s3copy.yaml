@@ -470,7 +470,6 @@ spec:
           - cp
           - s3://s3-bucket-for-iam/path/tojarfile/aws-msk-iam-auth-1.1.6-all.jar
           - /tmp/smilecdr-volumes/customerlib/
-          - --recursive
           image: public.ecr.aws/aws-cli/aws-cli:2.13.19
           imagePullPolicy: IfNotPresent
           name: init-pull-customerlib-s3

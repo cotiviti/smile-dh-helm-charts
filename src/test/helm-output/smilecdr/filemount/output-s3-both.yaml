@@ -427,7 +427,7 @@ spec:
         - args:
           - s3
           - cp
-          - s3://s3-bucket-name/path-to/classes
+          - s3://s3-bucket-name/path-to/classes/
           - /tmp/smilecdr-volumes/classes/
           - --recursive
           image: public.ecr.aws/aws-cli/aws-cli:2.13.19
@@ -483,7 +483,7 @@ spec:
         - args:
           - s3
           - cp
-          - s3://s3-bucket-name/path-to/customerlib
+          - s3://s3-bucket-name/path-to/customerlib/
           - /tmp/smilecdr-volumes/customerlib/
           - --recursive
           image: public.ecr.aws/aws-cli/aws-cli:2.13.19

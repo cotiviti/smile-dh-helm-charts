@@ -224,7 +224,11 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- /* Only append hash if there is more than one S3 init-pull container for the classes dir */ -}}
         {{- $imageNameSuffix := ternary (printf "-%s" ($bucketFullPath | sha256sum | trunc 32)) "" (gt $classesS3SourceCount 1) -}}
         {{- $_ := set $containerSpec "name" (printf "init-pull-classes-s3%s" $imageNameSuffix ) -}}
-        {{- $_ := set $containerSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/classes/" "--recursive" )  -}}
+        {{- $recursive := "" -}}
+        {{- if hasSuffix "/" $bucketFullPath -}}
+          {{- $recursive = "--recursive" -}}
+        {{- end -}}
+        {{- $_ := set $containerSpec "args" (compact (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/classes/" $recursive ))  -}}
         {{- $_ := set $containerSpec "volumeMounts" (list (dict "name" "scdr-volume-classes" "mountPath" "/tmp/smilecdr-volumes/classes/") (dict "name" "aws-cli" "mountPath" "/.aws")) -}}
         {{- $initPullContainers = append $initPullContainers $containerSpec -}}
       {{- else if eq $theFileSource.type "curl" -}}
@@ -275,7 +279,11 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- /* Only append hash if there is more than one S3 init-pull container for the classes dir */ -}}
         {{- $imageNameSuffix := ternary (printf "-%s" ($bucketFullPath | sha256sum | trunc 32)) "" (gt $customerlibS3SourceCount 1) -}}
         {{- $_ := set $containerSpec "name" (printf "init-pull-customerlib-s3%s" $imageNameSuffix ) -}}
-        {{- $_ := set $containerSpec "args" (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/customerlib/" "--recursive" )  -}}
+        {{- $recursive := "" -}}
+        {{- if hasSuffix "/" $bucketFullPath -}}
+          {{- $recursive = "--recursive" -}}
+        {{- end -}}
+        {{- $_ := set $containerSpec "args" (compact (list "s3" "cp" $bucketFullPath "/tmp/smilecdr-volumes/customerlib/" $recursive ))  -}}
         {{- $_ := set $containerSpec "volumeMounts" (list (dict "name" "scdr-volume-customerlib" "mountPath" "/tmp/smilecdr-volumes/customerlib/") (dict "name" "aws-cli" "mountPath" "/.aws")) -}}
         {{- $initPullContainers = append $initPullContainers $containerSpec -}}
       {{- else if eq .type "curl" -}}
@@ -317,7 +325,11 @@ Volumes are defined in `smilecdr.fileVolumes`
         {{- $fileFullPath := "/tmp/smilecdr-volumes/javaagent/" -}}
         {{- $imageNameSuffix := ternary (printf "-%s" ($fileFullPath | sha256sum | trunc 32)) "" (gt $javaAgentS3SourceCount 1) -}}
         {{- $_ := set $containerSpec "name" (printf "init-pull-javaagent-s3%s" $imageNameSuffix ) -}}
-        {{- $_ := set $containerSpec "args" (list "s3" "cp" $theFileSource.url $fileFullPath "--recursive" )  -}}
+        {{- $recursive := "" -}}
+        {{- if hasSuffix "/" $theFileSource.url -}}
+          {{- $recursive = "--recursive" -}}
+        {{- end -}}
+        {{- $_ := set $containerSpec "args" (compact (list "s3" "cp" $theFileSource.url $fileFullPath $recursive ))  -}}
         {{- $_ := set $containerSpec "volumeMounts" (list (dict "name" "scdr-volume-javaagent" "mountPath" "/tmp/smilecdr-volumes/javaagent/") (dict "name" "aws-cli" "mountPath" "/.aws")) -}}
         {{- $initPullContainers = append $initPullContainers $containerSpec -}}
       {{- else if eq .type "curl" -}}

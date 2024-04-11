@@ -6,10 +6,10 @@ copyFiles:
     sources:
     - type: s3
       bucket: s3-bucket-name
-      path: /path-to/classes
+      path: /path-to/classes/
   # Copies files from S3 to the customerlib directory
   customerlib:
     sources:
     - type: s3
       bucket: s3-bucket-name
-      path: /path-to/customerlib
+      path: /path-to/customerlib/

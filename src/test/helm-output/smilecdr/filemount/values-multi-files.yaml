@@ -13,10 +13,10 @@ copyFiles:
       url: https://website.com/path/to/script2.js
     - type: s3
       bucket: classes-bucket-1
-      path: /path-to/classes1
+      path: /path-to/classes1/
     - type: s3
       bucket: classes-bucket-2
-      path: /path-to/classes2
+      path: /path-to/classes2/
   # Copies files using curl to the customerlib directory
   customerlib:
     sources:
@@ -28,7 +28,7 @@ copyFiles:
       url: https://website.com/path/to/file2.jar
     - type: s3
       bucket: customer-lib-bucket-1
-      path: /path-to/customerlib1
+      path: /path-to/customerlib1/
     - type: s3
       bucket: customer-lib-bucket-2
-      path: /path-to/customerlib2
+      path: /path-to/customerlib2/

@@ -21,7 +21,7 @@ copyFiles:
     #syncDefaults: false
     - type: s3
       bucket: s3-bucket-name
-      path: /path-to/classes
+      path: /path-to/classes/
   config:
     curl:
       repository: privaterepo/curl
