@@ -3,7 +3,7 @@ locals {
   name   = "MyClusterName"
   region = "us-west-2"
   vpc_id = "vpc-064b63b6d921d75d1"
-  
+
   # Provide subnet discovery tag or override by providing subnet ids
   subnet_discovery_tags = {
     Tier = "Private"
@@ -81,8 +81,8 @@ module "eks" {
 #    to provision load balancers.
 #
 # As a result of the above, the cluster must be destroyed in a very controlled manner:
-# 
-# 1. Destroy any applications or operators installed on the cluster 
+#
+# 1. Destroy any applications or operators installed on the cluster
 # 2. Destroy any ingress addons (terraform destroy -target module.eks_blueprints_addons_ingress)
 # 4. Destroy the core EKS Blueprint Addons (terraform destroy -target module.eks_blueprints_addons_core)
 
@@ -233,7 +233,7 @@ module "eks_blueprints_addons_ingress" {
 
   # depends_on = [
   #   module.eks_blueprints_addons_core
-  # ] 
+  # ]
 
   tags = local.tags
 }
@@ -343,13 +343,13 @@ output "debug_output" {
 }
 
 locals {
-  
+
   cluster_subnet_ids = coalesce(local.subnet_ids, data.aws_subnets.tagged.ids)
   azs = [
     for subnet in data.aws_subnet.existing:
       subnet.availability_zone
   ]
-  
+
   tags = {
     EnvironmentName = local.name
     CreatedBy = "CloudFactory-tf"

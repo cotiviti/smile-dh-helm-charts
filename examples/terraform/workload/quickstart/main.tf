@@ -44,5 +44,5 @@ module "smile_cdr_dependencies" {
 }
 
 output "helm_release_notes" {
-  value = module.smile_cdr_dependencies.helm_release_notes 
+  value = module.smile_cdr_dependencies.helm_release_notes
 }

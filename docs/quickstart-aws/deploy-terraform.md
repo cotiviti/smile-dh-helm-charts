@@ -56,7 +56,7 @@ module "smile_cdr_dependencies" {
 
   # If you pre-provisoned a shared Container Registry secret, uncomment this line and add the secret's ARN
   # cdr_regcred_secret_arn = "arn:aws:secretsmanager:<region>:012345678910:secret:shared/regcred/my.registry.com/username"
-  
+
   prod_mode = false
 
   ingress_config = {
@@ -351,5 +351,3 @@ terraform destroy
 ```
 
 >**Warning!:** If you have deployed any in-cluster stateful resources, such as a Postgres cluster or Strimzi Kafka cluster, they will also be destroyed using this command. Data will be irreversibly lost unless you have configured backups.
-
-

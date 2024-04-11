@@ -13,5 +13,5 @@ module "eks_blueprints_addon_crunchypgo" {
 
   depends_on = [
     module.eks_blueprints_addon_karpenter_provisioner_config
-  ] 
+  ]
 }
