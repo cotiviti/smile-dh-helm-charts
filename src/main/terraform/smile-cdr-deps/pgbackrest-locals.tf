@@ -21,6 +21,8 @@ locals {
   crunchy_pgo_backrest_s3_endpoint = try(module.s3_bucket_pgo_backrest[0].s3_bucket_bucket_regional_domain_name, data.aws_s3_bucket.s3_bucket_pgo_backrest[0].bucket_regional_domain_name, null)
   crunchy_pgo_backrest_s3_prefix = var.crunchy_pgo_config.pgbackrest.s3.bucket_prefix
   crunchy_pgo_backrest_s3_reponame = coalesce(var.crunchy_pgo_config.pgbackrest.s3.reponame,"repo${var.crunchy_pgo_config.pgbackrest.s3.reponumber}","repo1")
+  # Auto-configure restore source. Can be overridden
+  crunchy_pgo_backrest_restore_source = local.crunchy_pgo_backrest_s3_enabled || try(lower(var.crunchy_pgo_config.restore.source),"") == "s3" ? local.crunchy_pgo_backrest_s3_reponame : "repo1"
 
   crunchy_pgo_helm_config = local.crunchy_pgo_enabled && try(var.crunchy_pgo_config.helm_autoconf,false) ? {
     database = {
@@ -83,7 +85,7 @@ locals {
       )
     ):null,
     # repo1 global settings
-    merge(
+    !local.crunchy_pgo_backrest_s3_enabled ? merge(
       try(var.crunchy_pgo_config.pgbackrest.volume.retention_full,null) != null ? {
           "repo1-retention-full" = tostring(var.crunchy_pgo_config.pgbackrest.volume.retention_full)
       } : null,
@@ -93,7 +95,7 @@ locals {
       try(var.crunchy_pgo_config.pgbackrest.volume.retention_differential,null) != null ? {
           "repo1-retention-differential" = tostring(var.crunchy_pgo_config.pgbackrest.volume.retention_differential)
       } : null
-    )
+    ):null
   )
 
   crunchy_pgo_backrest_global = length(local.crunchy_pgo_retention_settings) > 0 ? {
@@ -124,7 +126,9 @@ locals {
     )
   }:null
 
+  # Currently only supports a single repo. S3 or 'in-cluster', which is the default if S3 is not enabled.
   crunchy_pgo_backrest_repos = merge(
+    # Repo2 - S3
     var.crunchy_pgo_config.pgbackrest.s3.enabled ? {
       repos = [
               merge({
@@ -139,6 +143,7 @@ locals {
               )
             ]
     }:{},
+    # Repo1 - 'in-cluster' repo.
     !var.crunchy_pgo_config.pgbackrest.s3.enabled ? {
       repos = [
               merge({
@@ -180,7 +185,7 @@ locals {
 
   crunchy_pgo_restore_configuration = var.crunchy_pgo_config.restore != null ? {
     enabled = try(var.crunchy_pgo_config.restore.enabled,false)
-    repoName = var.crunchy_pgo_config.restore.source == "s3" ? local.crunchy_pgo_backrest_s3_reponame : "repo1"
+    repoName = local.crunchy_pgo_backrest_restore_source
     options = [
         "--type=${try(var.crunchy_pgo_config.restore.type,"time")}",
         "--target=\"${try(var.crunchy_pgo_config.restore.restore_time,"")}\""
