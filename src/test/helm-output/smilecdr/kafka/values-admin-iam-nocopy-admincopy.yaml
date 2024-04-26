@@ -10,6 +10,5 @@ messageBroker:
         type: iam
         iamConfig:
           autoJarCopy: false
-          adminAutoJarCopy: false
   adminPod:
     enabled: true

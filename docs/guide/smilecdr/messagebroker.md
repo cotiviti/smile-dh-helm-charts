@@ -176,6 +176,24 @@ messageBroker:
 
 >**Note:** You do not need to provide a trust certificate as Amazon MSK uses endpoints with publically signed TLS certificates
 
+If you plan to manually copy the required IAM authentication Jar file into a custom image, then you can disable the automatic file copying like so:
+```yaml
+messageBroker:
+  external:
+    enabled: true
+    config:
+      connection:
+        type: tls
+        bootstrapAddress: my-msk-bootstrap-address1.amazon.com:9098
+      authentication:
+        type: iam
+        iamConfig:
+          autoJarCopy: false
+          # adminAutoJarCopy: false # Optional: See note below
+```
+>**Note:** If you are using the [Kafka Admin](#admin-pod) pod and you wish to also disable the automated jar copying for this, then you will need to provide a custom Kafka image.
+
+
 ### Consumer & Producer properties
 Custom consumer properties and producer properties can be configured using the `messageBroker.clientConfiguration` section as follows:
 
@@ -256,6 +274,27 @@ If you change the `nodeId` (in `cdrNodes`) or alter the default module configura
 
 As a convenience, this Helm Chart provides methods to help with this.
 
+### Strimzi
+If using the Strimzi Operator, initial `batch2` and `subscription` topics will automatically be created from the `KafkaTopic` CRDs that get created. You can add or override topics in a declarative fashion using the `messageBroker.topics` section.
+
+>**Note:** You can disable topic management by the Helm Chart & Strimzi by setting `messageBroker.manageTopics` to `false`.
+
+```yaml
+messageBroker:
+  manageTopics: true
+  topics:
+    batch2:
+      name: "batch2.work.notification.Masterdev.persistence"
+      partitions: 10
+    subscription:
+      name: "subscription.matching.Masterdev.persistence"
+      partitions: 10
+```
+
+When using this method, the Helm Chart will create a `KafkaTopic` resource for each of the provided topics. Topic creation, configuration and deletion will then be managed by the Strimzi Topic Operator. The Kafka brokers will be configured with `auto.create.topics.enable` set to `false` as per best practice for production environments.
+
+Using this method allows you to define the configuration of your Kafka topics in code for increased repeatability and reliability.
+
 ### Admin Pod
 This ***experimental*** feature will let you create a `Kafka Admin` pod in the same namespace as your Smile CDR instance. It can be enabled as follows:
 
@@ -279,33 +318,12 @@ kubectl exec -ti <admin-pod-name> -- sh
 ./bin/kafka-topics.sh --list
 ```
 
-* Connect to the Kafka Admin pod
+* Check consumer groups
 ```sh
 ./bin/kafka-consumer-groups.sh --describe --group smilecdr
 ```
 
 >**Note:** You do not need to provide a config file or bootstrap address on the command-line as it is auto configured.
-
-### Strimzi
-If using the Strimzi Operator, you can define topics in a declarative fashion using the `messageBroker.topics` section.
-
-```yaml
-messageBroker:
-  manageTopics: true
-  topics:
-    batch2:
-      name: "batch2.work.notification.Masterdev.persistence"
-      partitions: 10
-    subscription:
-      name: "subscription.matching.Masterdev.persistence"
-      partitions: 10
-```
-
-When using this method, the Helm Chart will create a `KafkaTopic` resource for each of the provided topics. Topic creation, configuration and deletion will then be managed by the Strimzi Topic Operator. The Kafka brokers will be configured with `auto.create.topics.enable` set to `false` as per best practice for production environments.
-
-Using this method allows you to define the configuration of your Kafka topics in code for increased repeatability and reliability.
-
-You can disable topic management by the Helm Chart & Strimzi by setting `messageBroker.manageTopics` to `false`.
 
 ## Provisioning Kafka with Strimzi
 If you have the Strimzi Operator installed in your cluster, you can use the following values file

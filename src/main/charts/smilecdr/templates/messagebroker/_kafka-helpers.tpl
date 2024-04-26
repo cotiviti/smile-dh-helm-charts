@@ -385,54 +385,69 @@ passwords
 {{- end -}}
 
 {{/*
-Define any file copies required by Kafka
+Define any file copies required by Amazon MSK IAM auth
 */}}
-{{ define "kafka.customerlib.sources" }}
-
-  {{- $customerlibFileSources := list -}}
-
-  {{- /* Add Kafka MSK IAM Jar, only if auth type is set to `iam` */ -}}
-  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
-  {{- if and $kafkaConfig.enabled (eq $kafkaConfig.authentication.type "iam") -}}
-    {{- /* TODO: This `disableAutoJarCopy` is currently broken. The authentication
-           settings are not propagated through the `kafka.config` template. Although
-           this should be fixed, doing so means that using this option would also
-           disable the copy for the Kafka Admin pod, which would then break.
-
-           A different solution needs to be found so that the Jar copy can be disabled
-           for the main Smile CDR pod but still enabled for the Kafka Admin pod.
-           END OF TODO.
-
-           The enablement, filename and URL can be overriden if required.
-           Set `disableAutoJarCopy` to true to disable copying this file. This will break
-           IAM auth unless you add the file using `copyFiles`.
-           This is an undocumented feature - if different files need to be added,
-           the user should use the existing `copyFiles` feature instead. This override
-           should only be used if troubleshooting this feature.
-
-           This feature may need to become documented... If the cluster does not have internet
-           access, then this process will not work and the user will need to use a different
-           method to get the file into the pod.
-           */ -}}
-    {{- /* Autojar copy enabled by default */ -}}
+{{- define "kafka.iamJarConfig" -}}
+    {{- $kafkaConfig := . -}}
     {{- $iamConfig := dict -}}
+    {{- /* Autojar copy enabled by default */ -}}
     {{- $_ := set $iamConfig "autoJarCopy" true -}}
+    {{- $_ := set $iamConfig "adminAutoJarCopy" true -}}
     {{- $_ := set $iamConfig "copyType" "curl" -}}
     {{- $_ := set $iamConfig "fileName" "aws-msk-iam-auth-1.1.9-all.jar" -}}
     {{- $_ := set $iamConfig "url" "https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.9/aws-msk-iam-auth-1.1.9-all.jar" -}}
     {{- if hasKey $kafkaConfig.authentication "iamConfig" -}}
       {{- $iamConfig = deepCopy (mergeOverwrite $iamConfig $kafkaConfig.authentication.iamConfig ) -}}
     {{- end -}}
-    {{- if $iamConfig.autoJarCopy -}}
-      {{- if eq $iamConfig.copyType "curl" -}}
-        {{- $url := required "You must specify a URL to copy classes files from." $iamConfig.url -}}
-        {{- $fileName := required "You must specify a destination `fileName` for classes files." $iamConfig.fileName -}}
-        {{- $customerlibFileSources = append $customerlibFileSources (dict "type" "curl" "url" $url "fileName" $fileName) -}}
-      {{- else if eq $iamConfig.copyType "s3" -}}
-        {{- $bucket := required "You must specify an S3 bucket to copy IAM auth Jar file from." $iamConfig.bucket -}}
-        {{- $bucketPath := required "You must specify the full S3 bucket path for the IAM auth Jar file." $iamConfig.path -}}
-        {{- $customerlibFileSources = append $customerlibFileSources (dict "type" "s3" "bucket" $bucket "path" $bucketPath) -}}
-      {{- end -}}
+    {{- $iamConfig | toYaml -}}
+{{- end -}}
+
+
+{{/*
+Define any file copies required by Amazon MSK IAM auth
+*/}}
+{{ define "kafka.iamJar.sources" }}
+  {{- $iamConfig := . -}}
+  {{- $iamJarSource := dict -}}
+  {{- if eq $iamConfig.copyType "curl" -}}
+    {{- $url := required "You must specify a URL to copy classes files from." $iamConfig.url -}}
+    {{- $fileName := required "You must specify a destination `fileName` for classes files." $iamConfig.fileName -}}
+    {{- $iamJarSource = (dict "type" "curl" "url" $url "fileName" $fileName) -}}
+  {{- else if eq $iamConfig.copyType "s3" -}}
+    {{- $bucket := required "You must specify an S3 bucket to copy IAM auth Jar file from." $iamConfig.bucket -}}
+    {{- $bucketPath := required "You must specify the full S3 bucket path for the IAM auth Jar file." $iamConfig.path -}}
+    {{- $iamJarSource = (dict "type" "s3" "bucket" $bucket "path" $bucketPath) -}}
+  {{- end -}}
+  {{- $iamJarSource | toYaml -}}
+{{- end -}}
+
+{{/*
+Define any file copies required by Kafka for Smile CDR
+*/}}
+{{- define "kafka.customerlib.sources" -}}
+  {{- $customerlibFileSources := list -}}
+  {{- /* Add Kafka MSK IAM Jar, only if auth type is set to `iam` */ -}}
+  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
+  {{- if and $kafkaConfig.enabled (eq $kafkaConfig.authentication.type "iam") -}}
+    {{- $kafkaIamConfig := (include "kafka.iamJarConfig" $kafkaConfig | fromYaml) -}}
+    {{- if $kafkaIamConfig.autoJarCopy -}}
+      {{- $customerlibFileSources = append $customerlibFileSources (include "kafka.iamJar.sources" $kafkaIamConfig | fromYaml) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $customerlibFileSources | toYaml  -}}
+{{- end -}}
+
+{{/*
+Define any file copies required by Kafka for Admin Pod
+*/}}
+{{- define "kafka.admin.classpath.sources" -}}
+  {{- $customerlibFileSources := list -}}
+  {{- /* Add Kafka MSK IAM Jar, only if auth type is set to `iam` */ -}}
+  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
+  {{- if and $kafkaConfig.enabled (eq $kafkaConfig.authentication.type "iam") -}}
+    {{- $kafkaIamConfig := (include "kafka.iamJarConfig" $kafkaConfig | fromYaml) -}}
+    {{- if $kafkaIamConfig.adminAutoJarCopy -}}
+      {{- $customerlibFileSources = append $customerlibFileSources (include "kafka.iamJar.sources" $kafkaIamConfig | fromYaml) -}}
     {{- end -}}
   {{- end -}}
   {{- $customerlibFileSources | toYaml  -}}
