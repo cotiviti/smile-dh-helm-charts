@@ -120,7 +120,7 @@ pages-test:
   variables:
     PAGES_BRANCH: gl-pages
   before_script:
-  - pip install -r requirements.txt
+  - pip install -r mkdocs-requirements.txt
   - git config user.name smile-docs-bot
   - git config user.email smile-docs-bot@smilecdr.com
   - git fetch origin $PAGES_BRANCH && git -b checkout $PAGES_BRANCH origin/$PAGES_BRANCH || git checkout $PAGES_BRANCH || echo "Pages branch not deployed yet."
@@ -196,7 +196,7 @@ pages:
     PAGES_BRANCH: gl-pages
     HTTPS_REMOTE: https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/${CI_PROJECT_PATH}.git
   before_script:
-  - pip install -r requirements.txt
+  - pip install -r mkdocs-requirements.txt
   - git config user.name smile-docs-bot
   - git config user.email smile-docs-bot@smilecdr.com
   - git fetch origin $PAGES_BRANCH && git -b checkout $PAGES_BRANCH origin/$PAGES_BRANCH || git checkout $PAGES_BRANCH || echo "Pages branch not deployed yet."
