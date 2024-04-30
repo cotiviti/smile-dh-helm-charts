@@ -1,21 +1,25 @@
-.PHONY: help run-all-tests build helm-update-outputs helm-update-outputs-debug helm-update-outputs-force helm-check-outputs helm-lint helm-doc
+.PHONY: help pre-commit run-all-tests build helm-update-outputs helm-update-outputs-debug helm-update-outputs-force helm-check-outputs helm-lint helm-docs mkdocs-serve
 
 help:
 	    @echo "Smile Digital Healh helm charts"
 	    @echo ""
 	    @echo "Commands:"
-	    @echo "run-all-tests - run all tests, duh! Currently only runs check-helm-outputs"
+	    @echo "pre-commit - run pre-commit checks"
+		@echo "run-all-tests - run all tests, duh! Currently only runs check-helm-outputs"
 		@echo "build - TBD. Needs to update helm outputs, increment chart version etc"
 	    @echo "helm-check-outputs - run tests to make sure helm template gives expected output"
 		@echo "helm-update-outputs - update expected output files for helm template if they differ semantically"
 		@echo "helm-update-outputs-force - force update of expected output files for helm template"
 		@echo "helm-update-outputs-debug - force update of expected output files for helm template in debug mode. This may produce invalid manifests!"
 		@echo "helm-lint - run helm lint on all charts"
-		@echo "helm-doc - update Helm Chart readme for all charts"
+		@echo "helm-docs - update Helm Chart readme for all charts"
 
 .DEFAULT_GOAL := help
 
 run-all-tests: helm-lint check-helm-outputs
+
+pre-commit:
+	pre-commit run --all-files
 
 clean: clean-charts
 
@@ -38,6 +42,21 @@ helm-lint:
 
 helm-docs:
 	helm-docs --chart-search-root=./src/main/charts --template-files=helm-docs/_templates.gotmpl --template-files=README.md.gotmpl
+
+venv: venv/touchfile
+
+venv/touchfile: mkdocs-requirements.txt commitizen-requirements.txt
+	test -d venv || virtualenv venv
+	. venv/bin/activate; pip install -U -r mkdocs-requirements.txt -r commitizen-requirements.txt
+	touch venv/touchfile
+
+mkdocs-serve: venv
+	. ./venv/bin/activate; \
+	mkdocs serve
+
+cz-check: venv
+	. ./venv/bin/activate; \
+	cz check --rev-range HEAD
 
 clean-charts:
 	./scripts/clean-charts.sh -s ./src
