@@ -103,12 +103,42 @@ variable "engine" {
   description = "RDS engine to use"
   type        = string
   default     = "aurora-postgresql-serverless-v2"
+  validation {
+    condition = contains(["aurora-postgresql-serverless-v2"], var.engine)
+    error_message = "Invalid RDS engine. Available options are: \"aurora-postgresql-serverless-v2\""
+  }
 }
 
 variable "engine_version" {
   description = "RDS engine version to use"
   type        = string
-  default     = "14.5"
+  default     = "14.9"
+}
+
+variable "serverless_configuration" {
+  description = "Aurora Serverless Configuration"
+  type        = object({
+    min_capacity = optional(number,0.5)
+    max_capacity = optional(number,10)
+  })
+  default = {
+    min_capacity = 0.5
+    max_capacity = 10
+  }
+  
+  validation {
+    condition = var.serverless_configuration.min_capacity >= 0.5
+    error_message = "Serverless `min_capacity` cannot be lower than 0.5"
+  }
+
+  validation {
+    condition = var.serverless_configuration.max_capacity <= 128
+    error_message = "Serverless `max_capacity` cannot be greater than 128"
+  }
+  validation {
+    condition = var.serverless_configuration.min_capacity <= var.serverless_configuration.max_capacity
+    error_message = "Serverless `min_capacity` cannot be greater than `max_capacity`"
+  }
 }
 
 variable "master_username" {

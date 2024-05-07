@@ -12,7 +12,7 @@ locals {
   ###################
 
   rds_instance_name = var.name
-  rds_engine_version = var.engine_version
+  
   rds_master_username = var.master_username
   rds_dbname = var.dbname
   rds_dbport = var.dbport
@@ -25,15 +25,31 @@ locals {
   # * "aurora-postgresql-serverless-v2"
   #   Provisions an RDS Aurora PostgreSQL DB with serverless V2
 
-  rds_aurora = can(regex("^(aurora-)",var.engine))
+  rds_aurora = can(regex("^(aurora-)", var.engine))
+
+  # Set engine to `aurora`, `aurora-mysql` or `aurora-postgresql`.
+  # For now, we are only supporting `aurora-postgresql`.
+  rds_aurora_engine = try(regex("^aurora-postgresql",var.engine),null)
+  rds_aurora_engine_version = var.engine_version
+
   # Rather misleadingly, Serverless V2 uses 'provisioned' rather than 'serverless'
   #  (hint: it's not really 'serverless'. It's just very good autoscaling.
   #   It still creates a provisioned primary cluster instance)
-  # TODO: Rework this logic when adding RDS types
+  # TODO: Rework this logic when adding other RDS types
+  
   engine_mode = can(regex("(-serverless-v2)$",var.engine)) ? "provisioned" : null
   instance_class = can(regex("(-serverless-v2)$",var.engine)) ? "db.serverless" : null
-  # Set engine to "aurora-postgresql"
-  rds_engine = try(regex("^aurora-postgresql",var.engine),"aurora-postgresql")
+
+  ##############################
+  # RDS serverless configuration
+  ##############################
+  #
+
+  rds_aurora_serverlessv2_scaling_configuration = local.rds_aurora ? {
+    min_capacity = var.serverless_configuration.min_capacity
+    max_capacity = var.serverless_configuration.max_capacity
+  } : null
+
 
   ########################################
   # RDS Networking

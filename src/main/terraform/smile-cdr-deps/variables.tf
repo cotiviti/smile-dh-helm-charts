@@ -276,11 +276,17 @@ variable "db_instance_defaults" {
     engine                        = optional(string,"aurora-postgresql-serverless-v2")
     enable_cdr_rds_secrets        = optional(bool,true)
     publicly_accessible           = optional(bool,false)
+    serverless_configuration      = optional(map(string))
+
 
   })
   default     = {
     engine = "aurora-postgresql-serverless-v2"
-    enable_cdr_rds_secrets = true
+    enable_cdr_rds_secrets        = true
+    serverless_configuration      = {
+      min_capacity = 0.5
+      max_capacity = 10
+    }
   }
   nullable    = false
 }
@@ -306,6 +312,7 @@ variable "db_instances" {
     dbname                        = optional(string)
     dbport                        = optional(number)
     default_auth_type             = optional(string)
+    serverless_configuration      = optional(map(string))
 
   }))
   nullable    = false
