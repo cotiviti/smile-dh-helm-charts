@@ -112,7 +112,7 @@ data:
     module.fhir_endpoint.requires.PERSISTENCE_ALL 	= persistence
     module.fhir_endpoint.requires.SECURITY_IN_UP 	= local_security
     module.fhir_endpoint.config.anonymous.access.enabled 	= true
-    module.fhir_endpoint.config.base_url.fixed 	= http://localhost:8000/fhir_request
+    module.fhir_endpoint.config.base_url.fixed 	= https://smilecdr-example.local/fhir_request
     module.fhir_endpoint.config.browser_highlight.enabled 	= true
     module.fhir_endpoint.config.context_path 	= /fhir_request
     module.fhir_endpoint.config.cors.enable 	= true
@@ -190,7 +190,7 @@ data:
     module.smart_auth.requires.SECURITY_IN_UP 	= local_security
     module.smart_auth.config.context_path 	= /smartauth
     module.smart_auth.config.https_forwarding_assumed 	= true
-    module.smart_auth.config.issuer.url 	= https://smile.com/smartauth
+    module.smart_auth.config.issuer.url 	= https://smilecdr-example.local/smartauth
     module.smart_auth.config.openid.signing.keystore_id 	= default-keystore
     module.smart_auth.config.port 	= 9200
     module.smart_auth.config.respect_forward_headers 	= true
@@ -526,7 +526,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: smile.com
+    - host: smilecdr-example.local
       http:
         paths:
         - backend:
@@ -542,6 +542,13 @@ spec:
               port:
                 number: 9100
           path: /
+          pathType: Prefix
+        - backend:
+            service:
+              name: release-name-scdr-svc-fhir
+              port:
+                number: 8000
+          path: /fhir_request
           pathType: Prefix
         - backend:
             service:

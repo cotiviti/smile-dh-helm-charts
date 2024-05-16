@@ -53,3 +53,66 @@ tests:
     - ../default-test-values.yaml
     - ../default-test-disabled-features.yaml
     - values-custom-default-ingress.yaml
+  tls-singlebackend-nginx:
+    outputFile: output-tls-singlebackend-nginx.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-singlebackend-nginx.yaml
+  tls-singlebackend-aws-alb:
+    outputFile: output-tls-singlebackend-aws-alb.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-singlebackend-aws-alb.yaml
+  tls-singlebackend-azure-agic:
+    outputFile: output-tls-singlebackend-azure-agic.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-singlebackend-azure-agic.yaml
+  tls-dualbackend-nginx:
+    outputFile: output-tls-dualbackend-nginx.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-dualbackend-nginx.yaml
+  tls-singlecustomcert:
+    outputFile: output-tls-singlecustomcert.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-singlecustomcert.yaml
+  tls-singlecustomissuer:
+    outputFile: output-tls-singlecustomissuer.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-singlecustomissuer.yaml
+  tls-multiplecustomcerts:
+    outputFile: output-tls-multiplecustomcerts.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-multiplecustomcerts.yaml
+  tls-multiplecustomissuers:
+    outputFile: output-tls-multiplecustomissuers.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-multiplecustomissuers.yaml
+  # nginx-ingress-tls-cluster:
+  #   outputFile: output-nginx-ingress-tls-cluster.yaml
+  #   valueFiles:
+  #   - ../default-test-values.yaml
+  #   - ../default-test-disabled-features.yaml
+  #   - enable-default-ingresses.yaml
+  #   - values-nginx-ingress-tls-cluster.yaml

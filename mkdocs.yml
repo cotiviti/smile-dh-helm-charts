@@ -73,6 +73,7 @@ nav:
         - 'Modules': guide/smilecdr/modules.md
         - 'Database': guide/smilecdr/database.md
         - 'Ingress': guide/smilecdr/ingress.md
+        - 'TLS Encryption': guide/smilecdr/tls-encryption.md
         - 'Cluster Configuration': guide/smilecdr/cdrnode.md
         - 'Including Extra Files': guide/smilecdr/files.md
         - 'License Module': guide/smilecdr/cdr-license.md

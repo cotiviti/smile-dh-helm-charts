@@ -1,0 +1,32 @@
+# Basic TLS configuration using default issuers and certificate
+# * Self signed Root CA Issuer
+# * Cluster local Cluster-Local CA Issuer (Signed by Root CA Issuer)
+# * Default Certificate for Smile CDR, signed by cluster-local issuer
+# * All endpoints configured for TLS except fhirweb which uses HTTP
+# * Ingress backends using HTTPS
+
+tls:
+  certificateIssuers:
+    default:
+      enabled: true
+  certificates:
+    default:
+      enabled: true
+  defaultEndpointConfig:
+    enabled: true
+
+ingresses:
+  fhirweb-ingress:
+    enabled: true
+    type: nginx-ingress
+
+
+modules:
+  fhirweb_endpoint:
+    service:
+      tlsEnabled: false
+      # null, or `default`, or one of the tls.certificates.* entries.
+      # tlsCertificate: fhirWebCertificate
+      ingresses:
+        fhirweb-ingress:
+          enabled: true

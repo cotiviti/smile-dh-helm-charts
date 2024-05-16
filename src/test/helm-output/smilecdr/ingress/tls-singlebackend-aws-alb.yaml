@@ -1,0 +1,20 @@
+# Basic TLS configuration using default issuers and certificate
+# * Self signed Root CA Issuer
+# * Cluster local Cluster-Local CA Issuer (Signed by Root CA Issuer)
+# * Default Certificate for Smile CDR, signed by cluster-local issuer
+# * All endpoints configured for TLS
+# * Ingress backends using HTTPS
+
+tls:
+  certificateIssuers:
+    default:
+      enabled: true
+  certificates:
+    default:
+      enabled: true
+  defaultEndpointConfig:
+    enabled: true
+
+ingresses:
+  default:
+    type: aws-lbc-alb

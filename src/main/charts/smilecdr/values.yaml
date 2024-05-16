@@ -336,7 +336,7 @@ copyFiles: {}
 ## @section Ingresses
 ## @param ingresses Map of ingress definitions
 ## @param ingresses.<ingressName>.enabled Enable Ingress
-## @param ingresses.<ingressName>.type Ingress type (`nginx-ingress`,`aws-lbc-alb`,`azure-appgw`)
+## @param ingresses.<ingressName>.type Ingress type (`nginx-ingress`,`aws-lbc-alb`, `azure-agic`)
 ##
 ingresses:
   # This existing entry configures the default ingress.
@@ -357,11 +357,11 @@ ingresses:
     # - This will automatically use the `nginx` ingressClass
     # aws-lbc-alb - AWS Load Balancer Controller (Application Load Balancer)
     # - This will automatically use the `nginx` ingressClass
-    # azure-appgw - Azure Application Gateway
+    # azure-agic - Azure Application Gateway Ingress Controller
     # - This will automatically use the `alb` ingressClass
     # other - If it is none of the above, or unset, no default Ingress annotations will be created. It is up to
     #         you to provide appropriate `extraAnnotations` below
-    # -- Ingress type (`nginx-ingress`,`aws-lbc-alb`,`azure-appgw`)
+    # -- Ingress type (`nginx-ingress`,`aws-lbc-alb`,`azure-agic`)
     type: nginx-ingress
 
     # Should this ingress be publicly accessible. Enabled by default for the default ingress.
@@ -382,6 +382,20 @@ ingresses:
   #   public: false
   #   annotations: {}
 
+tls:
+  certificateIssuers:
+    default:
+      enabled: false
+      defaultIssuer: true
+
+  certificates:
+    default:
+      enabled: false
+      defaultCertificate: true
+
+  # Here we can easily enable TLS on all HTTP endpoint modules in Smile CDR
+  defaultEndpointConfig:
+    enabled: false
 
 ## @section Service Account (IRSA)
 ## @param serviceAccount.create Specifies whether a service account should be created

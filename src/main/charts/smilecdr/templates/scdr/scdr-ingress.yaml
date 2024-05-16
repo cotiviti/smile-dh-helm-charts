@@ -1,6 +1,8 @@
 {{- $cdrNodes := include "smilecdr.nodes" . | fromYaml  -}}
+{{- $rootCTX := . -}}
 {{- range $theIngressName, $theIngressSpec := include "smilecdr.ingresses" . | fromYaml -}}
   {{- $ingressRules := (include "smilecdr.ingress.rules" (dict "ingressSpec" $theIngressSpec "cdrNodes" $cdrNodes) | fromYamlArray) -}}
+  {{- $ingressTLSConfig := (include "smilecdr.ingress.tls.config" (dict "ingressSpec" $theIngressSpec "cdrNodes" $cdrNodes "rootCTX" $rootCTX) | fromYaml) -}}
   {{- if $ingressRules -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -11,12 +13,19 @@ metadata:
     {{ include "smilecdr.labels" $ | nindent 4 | trim }}
   annotations:
     {{- $theIngressSpec.annotations | toYaml | nindent 4 }}
+    {{- with $ingressTLSConfig.annotations -}}
+      {{- . | toYaml | nindent 4 }}
+    {{- end }}
 spec:
   {{ with $theIngressSpec.ingressClassName -}}
   ingressClassName: {{ . }}
   {{ end -}}
   rules:
     {{- $ingressRules | toYaml | nindent 4 }}
+  {{ with $ingressTLSConfig.tls -}}
+  tls:
+    {{- . | toYaml | nindent 2 }}
+  {{ end }}
 ---
   {{ end }}
 {{ end }}
