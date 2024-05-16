@@ -84,9 +84,9 @@
 
   {{- /* Validate that readiness probe is only enabled for exactly one endpoint. */ -}}
   {{- if eq (len $servicesWithReadinessProbe) 0 -}}
-    {{- fail "You must define one readiness probe per node. Review your module configuration and ensure an enabled module with an enabled service has `enableReadinessProbe` set to true" -}}
+    {{- fail "You have not enabled any readiness probes.\nYou must define one readiness probe per Smile CDR Node. Review your module configuration and ensure an enabled module with an enabled service has `enableReadinessProbe` set to true" -}}
   {{- else if gt (len $servicesWithReadinessProbe) 1 -}}
-    {{- fail "You can only define one readiness probe per node. Review your module configuration and ensure only one module has `enableReadinessProbe` set to true" -}}
+    {{- fail "You have enabled multiple readiness probes.\nYou can only define one readiness probe per Smile CDR Node. Review your module configuration and ensure only one module has `enableReadinessProbe` set to true" -}}
   {{- else -}}
     {{- /* Validation passed. Generate readiness probe */ -}}
     {{- $_ := set $probeSpec "failureThreshold" (default 2 ($ctx.readinessProbe).failureThreshold) -}}
@@ -100,6 +100,12 @@
     {{- $httpGetSpec := dict -}}
     {{- $_ := set $httpGetSpec "path" $theServiceSpec.healthcheckPath -}}
     {{- $_ := set $httpGetSpec "port" $theServiceSpec.port -}}
+    {{- /* Configure scheme and Host header if using TLS */ -}}
+    {{- if $theServiceSpec.tls.enabled -}}
+      {{- $hostHeader := list (dict "name" "Host" "value" $theServiceSpec.hostName) -}}
+      {{- $_ := set $httpGetSpec "scheme" "HTTPS" -}}
+      {{- $_ := set $httpGetSpec "httpHeaders" $hostHeader -}}
+    {{- end -}}
     {{- $_ := set $probeSpec "httpGet" $httpGetSpec -}}
   {{- end -}}
 
@@ -123,6 +129,8 @@ provide a single entry point.
   {{- $envVars = concat $envVars (include "messagebroker.amq.envVars" . | fromYamlArray ) -}}
   {{- /* Include observability env vars - This is for Java agent injection etc */ -}}
   {{- $envVars = concat $envVars (include "observability.envVars" . | fromYamlArray ) -}}
+  {{- /* Include cert-manafger env vars - This is for tls configuration keystore and passwords */ -}}
+  {{- $envVars = concat $envVars (include "certmanager.envVars" . | fromYamlArray ) -}}
   {{- /* Include global extra env vars */ -}}
   {{- $envVars = concat $envVars .Values.extraEnvVars -}}
   {{- /* Include JVM settings */ -}}

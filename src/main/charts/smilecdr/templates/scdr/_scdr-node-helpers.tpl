@@ -16,7 +16,6 @@ Define CDR Nodes
     {{- end -}}
   {{- end -}}
   {{- if lt $numEnabledNodes 1 -}}
-    {{- $fff := $numEnabledNodes.helpme -}}
     {{- fail "\nYou have not enabled any Smile CDR Nodes.\n\nYou must enable at least one in `cdrNodes`" -}}
   {{- end -}}
   {{- range $theNodeName, $theNodeSpec := $globalValues.cdrNodes -}}
@@ -178,6 +177,8 @@ Define CDR Nodes
       {{- $_ := set $parsedNodeValues "serviceAccountName" (include "smilecdr.serviceAccountName" $nodeHelperCTX) -}}
 
       {{- $_ := set $parsedNodeValues "initContainers" (include "smilecdr.initContainers" $nodeHelperCTX | fromYamlArray) -}}
+
+      {{- $_ := set $parsedNodeValues "certificates" (include "certmanager.certificates" $nodeHelperCTX | fromYaml) -}}
 
       {{- $_ := set $parsedNodeValues "envVars" (include "smilecdr.envVars" $nodeHelperCTX | fromYamlArray) -}}
 

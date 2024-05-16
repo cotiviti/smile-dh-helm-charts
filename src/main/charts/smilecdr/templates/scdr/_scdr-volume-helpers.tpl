@@ -19,6 +19,12 @@ Define volumes and volume mounts based on combining:
   {{- with ( include "observability.volumes" . | fromYamlArray ) -}}
     {{- $volumes = concat $volumes . -}}
   {{- end -}}
+
+  {{- /* Include any volumes required by TLS configurations. (Currently only for cert-manager generated keystores ) */ -}}
+  {{- with ( include "certmanager.volumes" . | fromYamlArray ) -}}
+    {{- $volumes = concat $volumes . -}}
+  {{- end -}}
+
   {{- /* Include any volumes required by custom logging configuraions */ -}}
   {{- /* with ( include "logging.logback.volumes" . | fromYamlArray ) -}}
     {{- $volumes = concat $volumes . -}}
@@ -76,6 +82,11 @@ Define volumes and volume mounts based on combining:
   {{- with ( include "observability.volumeMounts" . | fromYamlArray ) -}}
     {{- $volumeMounts = concat $volumeMounts . -}}
   {{- end -}}
+
+  {{- with ( include "certmanager.volumeMounts" . | fromYamlArray ) -}}
+    {{- $volumeMounts = concat $volumeMounts . -}}
+  {{- end -}}
+
   {{- /* with ( include "logging.logback.volumeMounts" . | fromYamlArray ) -}}
     {{- $volumeMounts = concat $volumeMounts . -}}
   {{- end */ -}}

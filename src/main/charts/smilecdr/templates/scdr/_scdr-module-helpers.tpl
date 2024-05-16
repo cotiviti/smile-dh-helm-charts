@@ -34,6 +34,7 @@ Currently, this is the canonical module source for the following template helper
   {{- $modules := include "smilecdr.modules.raw" . | fromYaml -}}
   {{- $modulePrefixes := (include "smilecdr.moduleprefixeswithendpoints" . | fromYamlArray) -}}
   {{- $cdrNodeValues := $.Values -}}
+  {{- $tlsConfig := $cdrNodeValues.tls -}}
   {{- $ingresses := include "smilecdr.ingresses" . | fromYaml -}}
   {{- range $theModuleName, $theModuleSpec := $modules -}}
     {{- $theModuleIsClustermgr := ternary true false (eq $theModuleName "clustermgr") -}}
@@ -60,6 +61,7 @@ Currently, this is the canonical module source for the following template helper
         {{- $theService := $theModuleSpec.service -}}
 
         {{- /* Canonically define the Kubernetes service resource name and service type */ -}}
+        {{- /* TODO: Should this be moved to "smilecdr.services.enabledServices"? */ -}}
         {{- $svcName := lower (printf "%s-scdrnode-%s-%s" $.Release.Name $cdrNodeValues.nodeId $theService.svcName) -}}
         {{- if $cdrNodeValues.oldResourceNaming -}}
           {{- $svcName = lower (printf "%s-scdr-svc-%s" $.Release.Name $theService.svcName) -}}
@@ -78,15 +80,18 @@ Currently, this is the canonical module source for the following template helper
 
         {{- /* If we do not define the ingress, or if we do not set it to false,
             then set the service to use the default ingress */ -}}
-        {{- /* If we do not define the ingress, or if we do not set it to false,
-            then set the service to use the default ingress */ -}}
         {{- /* TODO: Make the condition logic more readable? */ -}}
+
+        {{- /* The handling of the default ingress is pretty ugly.
+               Needs a refactor. */ -}}
 
         {{- if $serviceHasEndpoint -}}
           {{- /* Determine if the service has any ingress objects defined */ -}}
           {{- $ingressDefined := false -}}
           {{- $useDefaultIngress := true -}}
           {{- $forceDefaultIngress := false -}}
+          {{- /* Create list of enabled ingresses */ -}}
+          {{- $enabledIngressNames := list -}}
           {{- if hasKey $theService "ingresses" -}}
             {{- range $theIngressName, $theIngressSpec := $theService.ingresses -}}
               {{- /* Check to see if default ingress is explicitly enabled or disabled */ -}}
@@ -95,6 +100,7 @@ Currently, this is the canonical module source for the following template helper
                 {{- if $theIngressSpec.enabled -}}
                 {{- /* ... Either forcefully enable it. */ -}}
                   {{- $forceDefaultIngress = true -}}
+                  {{- $enabledIngressNames = append $enabledIngressNames "default" -}}
                 {{- else -}}
                 {{- /* ... Or disable it */ -}}
                   {{- $useDefaultIngress = false -}}
@@ -106,11 +112,15 @@ Currently, this is the canonical module source for the following template helper
                 {{- /* Check to make sure that the configured ingress has been defined */ -}}
                 {{- if hasKey $ingresses $theIngressName -}}
                   {{- $ingressDefined = true -}}
+                  {{- $enabledIngressNames = append $enabledIngressNames $theIngressName -}}
                 {{- else -}}
                   {{- fail (printf "Ingress `%s` configured in module `%s` has not been defined and cannot be used." $theIngressName $theModuleName ) -}}
                 {{- end -}}
               {{- end -}}
             {{- end -}}
+          {{- else -}}
+            {{- /* `ingresses` not defined, so we will use the default one */ -}}
+            {{- $enabledIngressNames = append $enabledIngressNames "default" -}}
           {{- end -}}
 
           {{- if $ingressDefined -}}
@@ -121,14 +131,16 @@ Currently, this is the canonical module source for the following template helper
             {{- /* Here we enable default ingress unless it was explicitly disabled */ -}}
             {{- $_ := set $theService "defaultIngress" $useDefaultIngress -}}
           {{- end -}}
+          {{- $_ := set $theService "enabledIngressNames" $enabledIngressNames -}}
         {{- end -}}
+
 
         {{- /* Canonically define the Kubernetes service type, which depends on the ingress being used.
               This will use the first ingress found for this service. If multiple ingressses are defined
               they must use the same ingress type. */ -}}
         {{- $svcType := "ClusterIP" -}}
         {{- range $theIngressName, $theIngressSpec := $ingresses -}}
-          {{- if or (eq "aws-lbc-alb" $theIngressSpec.type) (eq "azure-appgw" $theIngressSpec.type) -}}
+          {{- if contains (lower $theIngressSpec.type) "aws-lbc-alb azure-agic azure-appgw" -}}
             {{- $svcType = "NodePort" -}}
           {{- end -}}
         {{- end -}}
@@ -188,7 +200,7 @@ Currently, this is the canonical module source for the following template helper
           {{- $_ := set $theModuleSpec.config "context_path" (trimAll "/" $theModuleSpec.config.context_path) -}}
           {{- $fullPathElements = append $fullPathElements $theModuleSpec.config.context_path -}}
         {{- end -}}
-        {{- /* Create `full_path` based on `rootPath` and `context_path` */ -}}
+        {{- /* Create `fullPath` based on `rootPath` and `context_path` */ -}}
         {{- if gt (len $fullPathElements) 1 -}}
           {{- $_ := set $theService "fullPath" (join "/" $fullPathElements) -}}
         {{- else if eq (first $fullPathElements) "" -}}
@@ -197,7 +209,7 @@ Currently, this is the canonical module source for the following template helper
 
         {{- $annotations := dict -}}
         {{- range $theIngressName, $theIngressSpec := $ingresses -}}
-          {{ if eq "azure-appgw" $theIngressSpec.type -}}
+          {{ if contains (lower $theIngressSpec.type) "azure-agic azure-appgw" -}}
             {{- $path := join "/" (append $fullPathElements "endpoint-health") -}}
             {{- /* $path := printf "%sendpoint-health" (default "/" $theService.fullPath) */ -}}
             {{- /* $path := printf "%sendpoint-health" (default "/" $theModuleSpec.config.context_path) */ -}}
@@ -217,6 +229,87 @@ Currently, this is the canonical module source for the following template helper
           {{- $_ := set $theService "enableReadinessProbe" false -}}
         {{- end -}}
 
+        {{- /* Determine TLS configuration for module/service */ -}}
+        {{- /* This can be enabled in 2 places:
+                1. tls.defaultEndpointConfig
+                2. modules.modulename.service(Takes priority)
+              */ -}}
+        {{- $tlsSpec := dict "enabled" false -}}
+        {{- $defaultTlsCertificate := "default" -}}
+        {{- if $tlsConfig.defaultEndpointConfig.enabled -}}
+          {{- $defaultTlsCertificate = default "default" $tlsConfig.defaultEndpointConfig.tlsCertificate -}}
+          {{- if and (hasKey $theService "tlsEnabled") (not $theService.tlsEnabled) -}}
+            {{- /* Default is enabled, but this service has TLS explicitly disabled. Do nothing. */ -}}
+          {{- else -}}
+            {{- $_ := set $tlsSpec "enabled" true -}}
+            {{- $_ := set $tlsSpec "tlsCertificate" (default $defaultTlsCertificate $theService.tlsCertificate) -}}
+          {{- end -}}
+        {{- else -}}
+          {{- /* defaultEndpointConfig is disabled. Allow explicit enablement in the service */ -}}
+          {{- if $theService.tlsEnabled -}}
+            {{- $_ := set $tlsSpec "enabled" true -}}
+            {{- $_ := set $tlsSpec "tlsCertificate" (default $defaultTlsCertificate $theService.tlsCertificate) -}}
+          {{- end -}}
+        {{- end -}}
+        {{- $_ := set $theService "tls" $tlsSpec -}}
+
+        {{- /* Smile CDR module TLS Configuration */ -}}
+        {{- if $theService.tls.enabled -}}
+          {{- /* If the "smilecdr.modules" helper gets called 'directly' rather than via "smilecdr.nodes"
+                 Then the generated certificate specs will not be in the context. This doesn't matter though
+                 as the service only gets rendered when called via the nodes helper. There may be some
+                 structural refactoring required here to make this easier to work with.
+                 For now, this 'hack' works without breaking anything :) */ -}}
+          {{- if hasKey $cdrNodeValues "certificates" -}}
+            {{- $certificates := $cdrNodeValues.certificates -}}
+            {{- $theCertificateName := $theService.tls.tlsCertificate -}}
+
+            {{- /* Determine certificate name if using the default */ -}}
+            {{- if eq (lower $theService.tls.tlsCertificate) "default" -}}
+              {{- $defaultCertificateName := (include "certmanager.defaultCertificate" $certificates) -}}
+              {{- if ne $defaultCertificateName "" -}}
+                {{- $theCertificateName = $defaultCertificateName -}}
+              {{- else -}}
+                {{- fail (printf "You are using the default TLS certificate, but no default has been defined and enabled.") -}}
+              {{- end -}}
+            {{- /* If not using default, check tht certificate name has been defined and enabled */ -}}
+            {{- else -}}
+              {{- if not (hasKey $certificates $theCertificateName) -}}
+                {{- fail (printf "You have specified a TLS certificate, `%s`, that has not been defined and enabled." $theCertificateName) -}}
+              {{- end -}}
+            {{- end -}}
+
+            {{- /* Get a copy of the certificate spec to work with */ -}}
+
+            {{- $theCertificate := get $certificates $theCertificateName -}}
+            {{- $theCertificateSecretName := $theCertificate.name -}}
+            {{- $keystoreCredentialsSecret := $theCertificate.spec.keystores.pkcs12.passwordSecretRef -}}
+            {{- $keystoreCredentialValue := "" -}}
+
+            {{- /* Determine how to pass in the keystore secret*/ -}}
+            {{- $keystorePasswordConfig := default (dict) $theCertificate.keystorePassword -}}
+
+            {{- if and (hasKey $keystorePasswordConfig "useSecret") (not $keystorePasswordConfig.useSecret) -}}
+              {{- /* Secret is disabled - Currently not supported */ -}}
+              {{- fail "Disabling secret for cert-manager generated keystores is not currently supported. " -}}
+              {{- $keystoreCredentialValue = default "changeit" $keystorePasswordConfig.valueOverride -}}
+            {{- else -}}
+              {{- $keystoreCredentialValue = printf "#{env['%s_TLS_KEYSTORE_PASS']}" (upper $theCertificateSecretName) -}}
+            {{- end -}}
+
+            {{- $keystoreFileName := printf "%s-tls-keystore.p12" $theCertificateSecretName -}}
+            {{- $_ := set $theModuleConfig "tls.enabled" true -}}
+            {{- $_ := set $theModuleConfig "tls.keystore.file" (printf "classpath:tls/%s" $keystoreFileName) -}}
+            {{- $_ := set $theModuleConfig "tls.keystore.password" $keystoreCredentialValue -}}
+            {{- $_ := set $theModuleConfig "tls.keystore.keyalias" 1 -}}
+            {{- $_ := set $theModuleConfig "tls.keystore.keypass" $keystoreCredentialValue -}}
+
+            {{- /* Some other required module config if using TLS */ -}}
+            {{- $_ := set $theModuleConfig "https_forwarding_assumed" false -}}
+            {{- $_ := set $theModuleConfig "respect_forward_headers" false -}}
+
+          {{- end -}}
+        {{- end -}}
       {{- end -}}
       {{- $deepConfig := include "sdhCommon.unFlattenDict" $theModuleConfig | fromYaml -}}
       {{- $_ := set $theModuleSpec "config" $deepConfig -}}
@@ -368,40 +461,4 @@ Generate the configuration options in text format for all the enabled modules
     {{- end -}}
   {{- end -}}
   {{- $moduleText -}}
-{{- end -}}
-
-{{/*
-Define enabled services, extracted from the module definitions
-Outputs as Serialized Yaml. If you need to parse the output, include it like so:
-{{- $modules := include "smilecdr.services" . | fromYaml -}}
-*/}}
-{{- define "smilecdr.services" -}}
-  {{- $services := dict -}}
-  {{- $modules := include "smilecdr.modules" . | fromYaml -}}
-  {{- range $theModuleName, $theModuleSpec := $modules -}}
-    {{- $theService := dict -}}
-    {{- if ($theModuleSpec.service).enabled -}}
-      {{- $theService = $theModuleSpec.service -}}
-      {{/* Creating each module key, if enabled and if it has an enabled endpoint. */}}
-      {{- $service := dict -}}
-      {{- $_ := set $service "contextPath" $theModuleSpec.config.context_path -}}
-      {{- $_ := set $service "fullPath" $theService.fullPath -}}
-      {{- $_ := set $service "healthcheckPath" (join "/" (list (trimSuffix "/" $theService.fullPath) (trimAll "/" (default "endpoint-health" ($theModuleSpec.config.endpoint_health).path)))) -}}
-      {{- $_ := set $service "svcName" ($theService.svcName | lower) -}}
-      {{- $_ := set $service "resourceName" ($theService.resourceName | lower) -}}
-      {{- $_ := set $service "serviceType" ($theService.serviceType) -}}
-      {{- $_ := set $service "enableReadinessProbe" ($theService.enableReadinessProbe ) -}}
-      {{- if or (not (hasKey $theService "hostName")) (eq $theService.hostName "default") -}}
-        {{- $_ := set $service "hostName" ($.Values.specs.hostname | lower) -}}
-      {{- else -}}
-        {{- $_ := set $service "hostName" ($theService.hostName | lower) -}}
-      {{- end -}}
-      {{- $_ := set $service "port" $theModuleSpec.config.port -}}
-      {{- $_ := set $service "defaultIngress" $theService.defaultIngress -}}
-      {{- $_ := set $service "ingresses" $theService.ingresses -}}
-      {{- $_ := set $service "annotations" $theService.annotations -}}
-      {{- $_ := set $services $theModuleName $service -}}
-    {{- end -}}
-  {{- end -}}
-  {{- $services | toYaml -}}
 {{- end -}}

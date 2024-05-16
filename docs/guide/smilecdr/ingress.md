@@ -8,9 +8,9 @@ This chart uses a concept of ingress `Type` to determine what kind of Ingress Co
 
 The following ingress types are currently supported:
 
-* `nginx-ingress`
+* `nginx-ingress` (Default)
 * `aws-lbc-alb`
-* `azure-appgw`
+* `azure-agic`
 
 This setting is used to help automatically configure the `Service` and `Ingress` resources so that the configured Ingress Controller can configure infrastructure resources appropriately.
 
@@ -42,8 +42,8 @@ You will still need to add some extra annotations, such as `alb.ingress.kubernet
 #### Known Problems
 There is currently a problem with the AWS Load Balancer Controller configuration where the health checks do not function as expected. This is somewhat mitigated by the fact that the `Service` objects are using `NodePort`. This will be addressed in a future release of this chart.
 
-### Azure Application Gateway Controller
-If you wish to use the Azure Application Gateway Controller, set `ingresses.default.type` to `azure-appgw`. By default, this option uses the `azure/application-gateway` ingress class.
+### Azure Application Gateway Ingress Controller
+If you wish to use the Azure Application Gateway Ingress Controller (AGIC), set `ingresses.default.type` to `azure-agic`. By default, this option uses the `azure/application-gateway` ingress class.
 
 When using this method, the chart will automatically add `Ingress` annotations for the Azure Application Gateway Controller. The controller will then create an Azure Application Gateway to be used as ingress.
 
@@ -98,7 +98,7 @@ The pre-defined Ingress Configuration can be reconfigured as follows:
 ```
 ingresses:
   default:
-    type: azure-appgw
+    type: azure-agic
 ```
 
 #### Disabling the pre-defined Default Ingress Configuration
@@ -212,7 +212,7 @@ This chart uses the following default class names for the different ingress type
 | --------------- | --------------------------- |
 | `nginx-ingress` | `nginx`                     |
 | `aws-lbc-alb`   | `alb`                       |
-| `azure-appgw`   | `azure/application-gateway` |
+| `azure-agic`    | `azure/application-gateway` |
 
 If you have configured your Ingress Controller with a different `ingressClass` name, you can override it using `ingresses.default.ingressClassNameOverride`.
 

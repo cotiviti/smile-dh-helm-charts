@@ -1,0 +1,16 @@
+{{- /* Use the nodes helper template that defines everything for a single CDR Node */ -}}
+{{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
+  {{- $theNodeSpec := $theNodeCtx.Values -}}
+  {{- range $theCertificate := $theNodeSpec.certificates -}}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ $theCertificate.resourceName }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{ include "smilecdr.labels" $ | nindent 4 | trim }}
+spec:
+  {{- $theCertificate.spec | toYaml | nindent 2 }}
+---
+  {{ end }}
+{{ end }}

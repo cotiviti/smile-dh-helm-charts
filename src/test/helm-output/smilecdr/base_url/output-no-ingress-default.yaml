@@ -545,13 +545,6 @@ spec:
           pathType: Prefix
         - backend:
             service:
-              name: release-name-scdr-svc-fhir
-              port:
-                number: 8000
-          path: /fhir_request
-          pathType: Prefix
-        - backend:
-            service:
               name: release-name-scdr-svc-fhirweb
               port:
                 number: 8001
