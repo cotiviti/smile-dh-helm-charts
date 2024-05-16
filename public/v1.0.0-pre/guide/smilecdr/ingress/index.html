@@ -14,11 +14,11 @@
         <link rel="prev" href="../database/">
       
       
-        <link rel="next" href="../cdrnode/">
+        <link rel="next" href="../tls-encryption/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.20">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.23">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.66ac8b77.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6543a935.min.css">
       
       
   
@@ -1011,6 +1011,8 @@
       
         
       
+        
+      
     
     
       
@@ -1167,9 +1169,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#azure-application-gateway-controller" class="md-nav__link">
+  <a href="#azure-application-gateway-ingress-controller" class="md-nav__link">
     <span class="md-ellipsis">
-      Azure Application Gateway Controller
+      Azure Application Gateway Ingress Controller
     </span>
   </a>
   
@@ -1262,6 +1264,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tls-encryption/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TLS Encryption
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1829,9 +1852,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#azure-application-gateway-controller" class="md-nav__link">
+  <a href="#azure-application-gateway-ingress-controller" class="md-nav__link">
     <span class="md-ellipsis">
-      Azure Application Gateway Controller
+      Azure Application Gateway Ingress Controller
     </span>
   </a>
   
@@ -1945,9 +1968,9 @@
 <p>This chart uses a concept of ingress <code>Type</code> to determine what kind of Ingress Controller is being used. It should not be confused with the <code>IngressClass</code>.</p>
 <p>The following ingress types are currently supported:</p>
 <ul>
-<li><code>nginx-ingress</code></li>
+<li><code>nginx-ingress</code> (Default)</li>
 <li><code>aws-lbc-alb</code></li>
-<li><code>azure-appgw</code></li>
+<li><code>azure-agic</code></li>
 </ul>
 <p>This setting is used to help automatically configure the <code>Service</code> and <code>Ingress</code> resources so that the configured Ingress Controller can configure infrastructure resources appropriately.</p>
 <p>The ingress type for any given ingress can be set with <code>ingresses.default.type: ingress-type</code>.</p>
@@ -1970,8 +1993,8 @@
 </blockquote>
 <h4 id="known-problems">Known Problems<a class="headerlink" href="#known-problems" title="Permanent link">&para;</a></h4>
 <p>There is currently a problem with the AWS Load Balancer Controller configuration where the health checks do not function as expected. This is somewhat mitigated by the fact that the <code>Service</code> objects are using <code>NodePort</code>. This will be addressed in a future release of this chart.</p>
-<h3 id="azure-application-gateway-controller">Azure Application Gateway Controller<a class="headerlink" href="#azure-application-gateway-controller" title="Permanent link">&para;</a></h3>
-<p>If you wish to use the Azure Application Gateway Controller, set <code>ingresses.default.type</code> to <code>azure-appgw</code>. By default, this option uses the <code>azure/application-gateway</code> ingress class.</p>
+<h3 id="azure-application-gateway-ingress-controller">Azure Application Gateway Ingress Controller<a class="headerlink" href="#azure-application-gateway-ingress-controller" title="Permanent link">&para;</a></h3>
+<p>If you wish to use the Azure Application Gateway Ingress Controller (AGIC), set <code>ingresses.default.type</code> to <code>azure-agic</code>. By default, this option uses the <code>azure/application-gateway</code> ingress class.</p>
 <p>When using this method, the chart will automatically add <code>Ingress</code> annotations for the Azure Application Gateway Controller. The controller will then create an Azure Application Gateway to be used as ingress.</p>
 <p>You will still need to add some extra annotations, such as <code>appgw.ingress.kubernetes.io/appgw-ssl-certificate</code>. See the <a href="#extra-annotations">Extra Annotations</a> section below for more info.</p>
 <blockquote>
@@ -2012,7 +2035,7 @@ With the above pre-defined ingress, any module with an endpoint-enabled service 
 <p>The pre-defined Ingress Configuration can be reconfigured as follows:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ingresses:
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  default:
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    type: azure-appgw
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    type: azure-agic
 </code></pre></div></p>
 <h4 id="disabling-the-pre-defined-default-ingress-configuration">Disabling the pre-defined Default Ingress Configuration<a class="headerlink" href="#disabling-the-pre-defined-default-ingress-configuration" title="Permanent link">&para;</a></h4>
 <p>If you are creating multiple custom Ingress Configurations, you may wish to disable the pre-defined default ingress. This can be done as follows:
@@ -2125,7 +2148,7 @@ In the above example we are telling the module named <code>fhirweb_endpoint</cod
 <td><code>alb</code></td>
 </tr>
 <tr>
-<td><code>azure-appgw</code></td>
+<td><code>azure-agic</code></td>
 <td><code>azure/application-gateway</code></td>
 </tr>
 </tbody>
@@ -2209,7 +2232,7 @@ The default <code>Service</code> created by this chart is <code>ClusterIP</code>
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.dd8806f2.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.ebd0bdb7.min.js"></script>
       
     
   </body>
