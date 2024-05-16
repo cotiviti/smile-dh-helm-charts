@@ -1,3 +1,10 @@
+# [1.0.0-pre.112](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.111...v1.0.0-pre.112) (2024-05-16)
+
+
+### Features
+
+* **smilecdr:** add cert-manager support ([17e3be5](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/17e3be5b8c3861129f01fde3240b005b71266a0b))
+
 # [1.0.0-pre.111](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.110...v1.0.0-pre.111) (2024-04-11)
 
 
