@@ -75,7 +75,7 @@ passwords
   {{- $_ := set $initContainerResources "limits" (dict "cpu" "500m" "memory" "500Mi") -}}
 
   {{- /* The libs needed by Kafka for the current configuration */ -}}
-  {{- $classpathFileSources := include "kafka.customerlib.sources" . | fromYamlArray -}}
+  {{- $classpathFileSources := include "kafka.admin.classpath.sources" . | fromYamlArray -}}
 
   {{- range $v := $classpathFileSources -}}
     {{- if eq $v.type "s3" -}}
@@ -115,7 +115,7 @@ passwords
   {{- $volumes = append $volumes $classpathVolume -}}
 
 
-  {{- $classpathFileSources := include "kafka.customerlib.sources" . | fromYamlArray -}}
+  {{- $classpathFileSources := include "kafka.admin.classpath.sources" . | fromYamlArray -}}
   {{- if gt (len $classpathFileSources) 0 -}}
     {{- $hasS3Sources := false -}}
     {{- range $v := $classpathFileSources -}}
