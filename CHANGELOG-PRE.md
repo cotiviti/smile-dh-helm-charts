@@ -1,3 +1,10 @@
+# [1.0.0-pre.113](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.112...v1.0.0-pre.113) (2024-05-17)
+
+
+### Bug Fixes
+
+* **kafka:** fix Kafka Admin pod IAM auth ([6a84d77](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/6a84d7738bae6303cf16cb696a6d833c88ff0436))
+
 # [1.0.0-pre.112](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.111...v1.0.0-pre.112) (2024-05-16)
 
 
