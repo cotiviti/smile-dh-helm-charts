@@ -1,5 +1,0 @@
-tests:
-  default:
-    outputFile: output.yaml
-    valueFiles:
-    - ../default-test-values.yaml
