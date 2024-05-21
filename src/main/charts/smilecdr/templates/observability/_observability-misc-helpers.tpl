@@ -118,7 +118,7 @@ Define observability related volumes requird by Smile CDR pod when observability
   {{- if (include "observability.promagent" . | fromYaml ).enabled -}}
     {{- /* Mount client jmx config file */ -}}
     {{- $configText := include "observability.prometheus.agent.config.text" . -}}
-    {{- $cmName := printf "%s-scdr-prom-agent-config-%s-node%s" .Release.Name (.Values.nodeId | lower) (include "smilecdr.getConfigMapNameHashSuffix" (dict "Values" .Values "data" (printf "%s" $configText))) -}}
+    {{- $cmName := printf "%s-scdr-prom-agent-config-%s-node%s" .Release.Name (.Values.cdrNodeId | lower) (include "smilecdr.getConfigMapNameHashSuffix" (dict "Values" .Values "data" (printf "%s" $configText))) -}}
     {{- $configMap := (dict "name" $cmName) -}}
     {{- $propsVolume := dict "name" "jmx-config" "configMap" $configMap -}}
     {{- $volumes = append $volumes $propsVolume -}}

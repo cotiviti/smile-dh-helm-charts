@@ -13,10 +13,10 @@ use by a node.
 */ -}}
 {{- define "smilecdr.fileConfigMaps" -}}
 {{- $fileCfgMaps := list -}}
-{{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
-  {{- $theNodeSpec := $theNodeCtx.Values -}}
-  {{- if gt (len $theNodeSpec.mappedFiles) 0 -}}
-    {{- range $theMappedFileKey, $theMappedFile := $theNodeSpec.mappedFiles -}}
+{{- range $theCdrNodeName, $theCdrNodeCtx := include "smilecdr.cdrNodes" . | fromYaml -}}
+  {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
+  {{- if gt (len $theCdrNodeSpec.mappedFiles) 0 -}}
+    {{- range $theMappedFileKey, $theMappedFile := $theCdrNodeSpec.mappedFiles -}}
       {{- /* if and (not (contains $fileCfgMaps $theMappedFileKey)) (hasKey $theMappedFile "data") */ -}}
       {{- if hasKey $theMappedFile "data" -}}
         {{- $cmDict := (dict "name" ( $theMappedFileKey ) "fileName" (default $theMappedFileKey $theMappedFile.fileName) "data" $theMappedFile.data "hash" ( sha256sum $theMappedFile.data )) -}}

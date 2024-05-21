@@ -1,27 +1,27 @@
-{{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
-  {{- $theNodeSpec := $theNodeCtx.Values -}}
-  {{- if $theNodeSpec.autoscaling.enabled -}}
+{{- range $theCdrNodeName, $theCdrNodeCtx := include "smilecdr.cdrNodes" . | fromYaml -}}
+  {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
+  {{- if $theCdrNodeSpec.autoscaling.enabled -}}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ $.Release.Name }}-{{ $theNodeSpec.resourceSuffix }}
+  name: {{ $.Release.Name }}-{{ $theCdrNodeSpec.resourceSuffix }}
   namespace: {{ $.Release.Namespace }}
   labels:
-    {{- toYaml $theNodeSpec.cdrNodeLabels | nindent 4 }}
+    {{- toYaml $theCdrNodeSpec.cdrNodeLabels | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ $.Release.Name }}-{{ $theNodeSpec.resourceSuffix }}
-  minReplicas: {{ default 1 $theNodeSpec.autoscaling.minReplicas }}
-  maxReplicas: {{ default 4 $theNodeSpec.autoscaling.maxReplicas }}
+    name: {{ $.Release.Name }}-{{ $theCdrNodeSpec.resourceSuffix }}
+  minReplicas: {{ default 1 $theCdrNodeSpec.autoscaling.minReplicas }}
+  maxReplicas: {{ default 4 $theCdrNodeSpec.autoscaling.maxReplicas }}
   metrics:
   - type: Resource
     resource:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: {{ default 80 $theNodeSpec.autoscaling.targetCPUUtilizationPercentage }}
+        averageUtilization: {{ default 80 $theCdrNodeSpec.autoscaling.targetCPUUtilizationPercentage }}
 ---
 {{ end }}
 {{- end -}}

@@ -1,18 +1,18 @@
-{{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
-  {{- $theNodeSpec := $theNodeCtx.Values -}}
+{{- range $theCdrNodeName, $theCdrNodeCtx := include "smilecdr.cdrNodes" . | fromYaml -}}
+  {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
   {{- /* Find the module that has the healthcheck. We will use this for the
       Helm test hook */ -}}
-  {{- /* $modules := include "smilecdr.modules" $theNodeSpec | fromYaml */ -}}
+  {{- /* $modules := include "smilecdr.modules" $theCdrNodeSpec | fromYaml */ -}}
   {{- $localURL := "" -}}
-  {{- range $theServiceName, $theServiceSpec := $theNodeSpec.services -}}
+  {{- range $theServiceName, $theServiceSpec := $theCdrNodeSpec.services -}}
     {{- if $theServiceSpec.enableReadinessProbe -}}
       {{- $localURL = printf "%s:%d" $theServiceSpec.resourceName (int $theServiceSpec.port) -}}
     {{- end -}}
   {{- end -}}
-  {{- $podName := printf "%s-%s-test-connection" $.Release.Name ($theNodeSpec.nodeId | lower) -}}
+  {{- $podName := printf "%s-%s-test-connection" $.Release.Name ($theCdrNodeSpec.cdrNodeId | lower) -}}
   {{- /* The below are just overrides for compatibility mode and will be removed in the future. */ -}}
-  {{- if $theNodeSpec.oldResourceNaming -}}
-    {{- $localURL = printf "smilecdr-admin_web:%d" (int $theNodeSpec.services.admin_web.port) -}}
+  {{- if $theCdrNodeSpec.oldResourceNaming -}}
+    {{- $localURL = printf "smilecdr-admin_web:%d" (int $theCdrNodeSpec.services.admin_web.port) -}}
     {{- $podName = printf "%s-smilecdr-test-connection" $.Release.Name -}}
   {{- end -}}
 apiVersion: v1
@@ -20,7 +20,7 @@ kind: Pod
 metadata:
   name: {{ $podName | quote }}
   labels:
-    {{- toYaml $theNodeSpec.cdrNodeLabels | nindent 4 }}
+    {{- toYaml $theCdrNodeSpec.cdrNodeLabels | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:

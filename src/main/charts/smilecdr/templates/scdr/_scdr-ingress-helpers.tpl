@@ -57,14 +57,14 @@
     {{- end -}}
 
   {{- else if hasKey .Values "ingresses" -}}
-    {{- /* Only call "smilecdr.nodes" if the 'cdrNodes' key is still present
+    {{- /* Only call "smilecdr.cdrNodes" if the 'cdrNodes' key is still present
            This is because sometimes "smilecdr.ingresses" can be called out of
            context. In these cases (reference or validation) the cdrNodes is not
            required in this template.
            TODO: Fix this ugliness when we refactor template structure. */ -}}
     {{- $cdrNodes := dict -}}
     {{- if hasKey .Values "cdrNodes" -}}
-      {{- $cdrNodes = include "smilecdr.nodes" . | fromYaml  -}}
+      {{- $cdrNodes = include "smilecdr.cdrNodes" . | fromYaml  -}}
     {{- end -}}
     {{- $numEnabledIngresses := 0 -}}
     {{- $defaultIngressName := "" -}}
@@ -130,7 +130,7 @@
         {{- /* Determine if the backend rules use HTTP or HTTPS */ -}}
         {{- /* Check for ALL nodes for TLS-enabled services */ -}}
         {{- /* TODO: Cleanup on refactor */ -}}
-        {{- /* If the "smilecdr.modules" helper gets called 'directly' rather than via "smilecdr.nodes"
+        {{- /* If the "smilecdr.modules" helper gets called 'directly' rather than via "smilecdr.cdrNodes"
                       Then the generated certificate specs will not be in the context. This doesn't matter though
                       as the service only gets rendered when called via the nodes helper. There may be some
                       structural refactoring required here to make this easier to work with.
@@ -140,9 +140,9 @@
         {{- $httpsCount := 0 -}}
 
         {{- /* We need to check services in ALL CDR Nodes... */ -}}
-        {{- range $theNodeName, $theNodeCtx := $cdrNodes -}}
-          {{- $theNodeSpec := $theNodeCtx.Values -}}
-          {{- range $theServiceName, $theServiceSpec := $theNodeSpec.services -}}
+        {{- range $theCdrNodeName, $theCdrNodeCtx := $cdrNodes -}}
+          {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
+          {{- range $theServiceName, $theServiceSpec := $theCdrNodeSpec.services -}}
 
             {{- /* First determine if this service uses this ingress */ -}}
             {{- $serviceUsesIngress := false -}}
@@ -296,10 +296,10 @@ specified cloud provider
   {{- $hostselectors := dict -}}
   {{- $ingressRules := list -}}
 
-  {{- range $theNodeName, $theNodeCtx := $cdrNodes -}}
-    {{- $theNodeSpec := $theNodeCtx.Values -}}
+  {{- range $theCdrNodeName, $theCdrNodeCtx := $cdrNodes -}}
+    {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
     {{- /* Get list of all hosts used by services in current CDR Node */ -}}
-    {{- range $theServiceName, $theServiceSpec := $theNodeSpec.services -}}
+    {{- range $theServiceName, $theServiceSpec := $theCdrNodeSpec.services -}}
       {{- /* Determine if the service is using the provided `ingressSpec`. Only include hosts if it is. */ -}}
 
       {{- /* First determine if this service uses this ingress */ -}}
@@ -383,11 +383,11 @@ specified cloud provider
 
   {{- if $enableTLSConfig -}}
     {{- /* The ingressSpec.tls needs a list of hosts used in the certificate that will be used by this ingress. */ -}}
-    {{- range $theNodeName, $theNodeCtx := $cdrNodes -}}
-      {{- $theNodeSpec := $theNodeCtx.Values -}}
+    {{- range $theCdrNodeName, $theCdrNodeCtx := $cdrNodes -}}
+      {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
       {{- /* Get list of all hosts used by services in current CDR Node
              We get this from the service definitions. */ -}}
-      {{- range $theServiceName, $theServiceSpec := $theNodeSpec.services -}}
+      {{- range $theServiceName, $theServiceSpec := $theCdrNodeSpec.services -}}
         {{- /* Determine if the service is using the provided `ingressSpec`. Only include hosts if it is. */ -}}
 
         {{- /* First determine if this service uses this ingress */ -}}

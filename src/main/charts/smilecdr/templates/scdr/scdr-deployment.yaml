@@ -1,24 +1,24 @@
 {{- /* Use the nodes helper template that defines everything for a single CDR Node */ -}}
-{{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
-  {{- $theNodeSpec := $theNodeCtx.Values -}}
+{{- range $theCdrNodeName, $theCdrNodeCtx := include "smilecdr.cdrNodes" . | fromYaml -}}
+  {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ $.Release.Name }}-{{ $theNodeSpec.resourceSuffix }}
+  name: {{ $.Release.Name }}-{{ $theCdrNodeSpec.resourceSuffix }}
   namespace: {{ $.Release.Namespace }}
   labels:
-    {{- toYaml $theNodeSpec.cdrNodeLabels | nindent 4 }}
-  {{- with $theNodeSpec.deploymentAnnotations }}
+    {{- toYaml $theCdrNodeSpec.cdrNodeLabels | nindent 4 }}
+  {{- with $theCdrNodeSpec.deploymentAnnotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if not ($theNodeSpec.autoscaling).enabled }}
-  replicas: {{ $theNodeSpec.replicaCount }}
+  {{- if not ($theCdrNodeSpec.autoscaling).enabled }}
+  replicas: {{ $theCdrNodeSpec.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-    {{- toYaml $theNodeSpec.cdrNodeSelectorLabels | nindent 6 }}
+    {{- toYaml $theCdrNodeSpec.cdrNodeSelectorLabels | nindent 6 }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -26,63 +26,63 @@ spec:
       maxUnavailable: 0
   template:
     metadata:
-      {{- with $theNodeSpec.podAnnotations }}
+      {{- with $theCdrNodeSpec.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- toYaml $theNodeSpec.cdrNodeLabels | nindent 8 }}
+        {{- toYaml $theCdrNodeSpec.cdrNodeLabels | nindent 8 }}
     spec:
       imagePullSecrets:
-        {{- toYaml $theNodeSpec.imagePullSecretsList | nindent 8 }}
-      serviceAccountName: {{ toYaml $theNodeSpec.serviceAccountName }}
+        {{- toYaml $theCdrNodeSpec.imagePullSecretsList | nindent 8 }}
+      serviceAccountName: {{ toYaml $theCdrNodeSpec.serviceAccountName }}
       securityContext:
-        {{- toYaml $theNodeSpec.podSecurityContext | nindent 8 }}
+        {{- toYaml $theCdrNodeSpec.podSecurityContext | nindent 8 }}
       initContainers:
-        {{- toYaml $theNodeSpec.initContainers | nindent 8 }}
+        {{- toYaml $theCdrNodeSpec.initContainers | nindent 8 }}
       terminationGracePeriodSeconds: 60
       containers:
         - name: smilecdr
           securityContext:
-            {{- toYaml $theNodeSpec.securityContext | nindent 12 }}
-          {{- $image := printf "%s:%s" $theNodeSpec.image.repository (default $.Chart.AppVersion $theNodeSpec.image.tag) }}
+            {{- toYaml $theCdrNodeSpec.securityContext | nindent 12 }}
+          {{- $image := printf "%s:%s" $theCdrNodeSpec.image.repository (default $.Chart.AppVersion $theCdrNodeSpec.image.tag) }}
           image: {{ quote $image }}
-          imagePullPolicy: {{ $theNodeSpec.image.pullPolicy }}
+          imagePullPolicy: {{ $theCdrNodeSpec.image.pullPolicy }}
           lifecycle:
             preStop:
               exec:
                 command: ["sleep", "30"]
-            {{- with $theNodeSpec.startupProbe }}
+            {{- with $theCdrNodeSpec.startupProbe }}
           startupProbe:
               {{- toYaml . | nindent 12 }}
             {{- end }}
-            {{- with $theNodeSpec.readinessProbe }}
+            {{- with $theCdrNodeSpec.readinessProbe }}
           readinessProbe:
             {{- toYaml . | nindent 12 }}
             {{- end }}
-            {{- with $theNodeSpec.livenessProbe }}
+            {{- with $theCdrNodeSpec.livenessProbe }}
           livenessProbe:
               {{- toYaml . | nindent 12 }}
             {{- end }}
           resources:
-            {{- toYaml $theNodeSpec.resources | nindent 12 }}
+            {{- toYaml $theCdrNodeSpec.resources | nindent 12 }}
           env:
-            {{- toYaml $theNodeSpec.envVars | nindent 12 }}
+            {{- toYaml $theCdrNodeSpec.envVars | nindent 12 }}
           ports:
-            {{- range $k, $v := $theNodeSpec.services }}
+            {{- range $k, $v := $theCdrNodeSpec.services }}
             - name: {{ $v.svcName }}
               containerPort: {{ $v.port }}
               protocol: TCP
             {{- end }}
-            {{- if (include "observability.promagent" $theNodeCtx | fromYaml).enabled -}}
+            {{- if (include "observability.promagent" $theCdrNodeCtx | fromYaml).enabled -}}
             - name: prom-metrics
-              containerPort: {{ (include "observability.promagent" $theNodeCtx | fromYaml).port }}
+              containerPort: {{ (include "observability.promagent" $theCdrNodeCtx | fromYaml).port }}
               protocol: TCP
             {{- end }}
           volumeMounts:
-            {{ toYaml $theNodeSpec.volumeMounts | nindent 12 | trim }}
+            {{ toYaml $theCdrNodeSpec.volumeMounts | nindent 12 | trim }}
       volumes:
-        {{ toYaml $theNodeSpec.volumes | nindent 8 | trim }}
+        {{ toYaml $theCdrNodeSpec.volumes | nindent 8 | trim }}
       restartPolicy: Always
 ---
 {{ end }}

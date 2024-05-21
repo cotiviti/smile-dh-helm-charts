@@ -11,11 +11,11 @@ them all into a readable config file, complete with section headers.
 {{- define "smilecdr.cdrConfigText" -}}
   {{- $moduleText := "" -}}
   {{- $separatorText := "################################################################################" -}}
-  {{/* Main Node Config Section */}}
+  {{/* Main cdrNode Config Section */}}
   {{- $moduleText = printf "%s%s\n" $moduleText $separatorText -}}
   {{- $moduleText = printf "%s# Node Configuration\n" $moduleText -}}
   {{- $moduleText = printf "%s%s\n" $moduleText $separatorText -}}
-  {{- $moduleText = printf "%snode.id \t= %s\n" $moduleText .Values.nodeId -}}
+  {{- $moduleText = printf "%snode.id \t= %s\n" $moduleText .Values.cdrNodeId -}}
   {{- if (.Values.config).database -}}
     {{- $moduleText = printf "%snode.propertysource \t= %s\n" $moduleText "DATABASE" -}}
     {{- $moduleText = printf "%snode.config.locked \t= false\n" $moduleText -}}
