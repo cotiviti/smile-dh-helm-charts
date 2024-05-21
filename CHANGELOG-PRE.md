@@ -1,3 +1,10 @@
+# [1.0.0-pre.114](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.113...v1.0.0-pre.114) (2024-05-21)
+
+
+### Features
+
+* **smilecdr:** allow configurable pod topology ([349bf32](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/349bf32e67de906b97a86a11066f2f85578e394f))
+
 # [1.0.0-pre.113](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.112...v1.0.0-pre.113) (2024-05-17)
 
 
