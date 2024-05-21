@@ -209,6 +209,20 @@ Define CDR Nodes
       {{- $_ := set $parsedNodeValues "volumeMounts" (include "smilecdr.volumeMounts" $cdrNodeHelperCTX | fromYamlArray) -}}
       {{- $_ := set $parsedNodeValues "volumes" (include "smilecdr.volumes" $cdrNodeHelperCTX | fromYamlArray) -}}
 
+      {{- /* Sane pod topologySpreadConstraints */ -}}
+      {{- if not $parsedNodeValues.disableDefaultTopologyConstraints -}}
+      {{- /* if and (hasKey $parsedNodeValues "enableDefaultTopologyConstraints") $parsedNodeValues.enableDefaultTopologyConstraints */ -}}
+        {{- $constraintDefaults := dict "maxSkew" 1 "labelSelector" (dict "matchLabels" $cdrNodeSelectorLabels) "matchLabelKeys" (list "pod-template-hash") -}}
+        {{- $zoneConstraint := merge (deepCopy $constraintDefaults) (dict "topologyKey" "topology.kubernetes.io/zone" "whenUnsatisfiable" "ScheduleAnyway") -}}
+        {{- $nodeConstraint := merge (deepCopy $constraintDefaults) (dict "topologyKey" "kubernetes.io/hostname" "whenUnsatisfiable" "ScheduleAnyway") -}}
+        {{- $defaultConstraints := (list $zoneConstraint $nodeConstraint) -}}
+        {{- if not (hasKey $parsedNodeValues "topologySpreadConstraints") -}}
+          {{- $_ := set $parsedNodeValues "topologySpreadConstraints" $defaultConstraints -}}
+        {{- /* There is not much of a use-case to define new topology contraints in *addition* to the defaults. So we just use the defaults OR the provided ones */ -}}
+        {{- /* else -}}
+          {{- $_ := set $parsedNodeValues "topologySpreadConstraints" (uniq (concat $defaultConstraints $parsedNodeValues.topologySpreadConstraints)) */ -}}
+        {{- end -}}
+      {{- end -}}
 
       {{- /* $ingressConfig := dict "annotations" (include "ingress.annotations" $cdrNodeHelperCTX | fromYaml) -}}
       {{- $_ := set $ingressConfig "hosts" (include "ingress.hosts" $cdrNodeHelperCTX | fromYamlArray) -}}

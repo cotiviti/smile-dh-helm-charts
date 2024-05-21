@@ -84,5 +84,20 @@ spec:
       volumes:
         {{ toYaml $theCdrNodeSpec.volumes | nindent 8 | trim }}
       restartPolicy: Always
+      {{- with $theCdrNodeSpec.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $theCdrNodeSpec.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $theCdrNodeSpec.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      {{- with $theCdrNodeSpec.nodeName }}
+      nodeName: {{ . }}
+      {{- end }}
 ---
 {{ end }}

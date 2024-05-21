@@ -82,6 +82,7 @@ nav:
         - 'Resource Tuning': guide/smilecdr/resources.md
         - 'Environment Variables': guide/smilecdr/envvars.md
         - 'Logging': guide/smilecdr/logging.md
+        - 'Pod Scheduling': guide/smilecdr/podscheduling.md
       - 'Applying Changes': guide/smilecdr/updating.md
   - Examples:
     - examples/index.md

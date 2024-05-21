@@ -576,6 +576,25 @@ spec:
             sizeLimit: 10Gi
           name: scdr-volume-log
       restartPolicy: Always
+      topologySpreadConstraints:
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: release-name
+            app.kubernetes.io/name: smilecdr
+        matchLabelKeys:
+        - pod-template-hash
+        maxSkew: 1
+        topologyKey: topology.kubernetes.io/zone
+        whenUnsatisfiable: ScheduleAnyway
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: release-name
+            app.kubernetes.io/name: smilecdr
+        matchLabelKeys:
+        - pod-template-hash
+        maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
 ---
 # Source: smilecdr/templates/messagebroker/strimzi-kafka-cluster.yaml
 apiVersion: kafka.strimzi.io/v1beta2

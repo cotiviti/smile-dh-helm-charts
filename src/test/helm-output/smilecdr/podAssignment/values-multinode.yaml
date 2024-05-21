@@ -1,0 +1,23 @@
+oldResourceNaming: false
+cdrNodes:
+  masterdev:
+    enabled: false
+  admin:
+    name: AdminNode
+    enabled: true
+
+  fhir:
+    name: FhirNode
+    enabled: true
+    disableDefaultTopologyConstraints: false
+    nodeSelector:
+      karpenter.sh/capacity-type: on-demand
+    nodeName: myFhirNode
+
+# GLobal defaults
+disableDefaultTopologyConstraints: true
+
+nodeSelector:
+  karpenter.sh/capacity-type: spot
+
+nodeName: myDefaultNode
