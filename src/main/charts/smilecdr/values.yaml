@@ -223,9 +223,9 @@ database:
 
 
 ## @skip cdrNodes
-# This is where we define multiple node configurations for Smile CDR
+# This is where we define multiple CDR node configurations for Smile CDR
 # This is a developing feature and there may be breaking changes later on.
-# Any of the top level keys may be used within a node definition.
+# Any of the top level keys may be used within a CDR node definition.
 # If something is not defined, it will fall back to the default top level definition.
 # @ignored
 cdrNodes:

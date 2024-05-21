@@ -137,11 +137,11 @@ Current providers supported:
 {{- end -}}
 
 {{- define "sscsi.secretProviderClassName" -}}
-  {{- /* Old resource naming does not include node name as only a single Secret Provider Class is created */ -}}
+  {{- /* Old resource naming does not include CDR node name as only a single Secret Provider Class is created */ -}}
   {{- if (.Values.oldResourceNaming) -}}
     {{- printf "%s-scdr" .Release.Name -}}
   {{- else -}}
-    {{- printf "%s-scdrnode-%s" .Release.Name (lower .Values.nodeId) -}}
+    {{- printf "%s-scdrnode-%s" .Release.Name (lower .Values.cdrNodeId) -}}
   {{- end -}}
 {{- end -}}
 

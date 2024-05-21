@@ -1,4 +1,4 @@
-{{- $cdrNodes := include "smilecdr.nodes" . | fromYaml  -}}
+{{- $cdrNodes := include "smilecdr.cdrNodes" . | fromYaml  -}}
 {{- $rootCTX := . -}}
 {{- range $theIngressName, $theIngressSpec := include "smilecdr.ingresses" . | fromYaml -}}
   {{- $ingressRules := (include "smilecdr.ingress.rules" (dict "ingressSpec" $theIngressSpec "cdrNodes" $cdrNodes) | fromYamlArray) -}}

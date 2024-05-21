@@ -1,15 +1,15 @@
-{{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
-  {{- $theNodeSpec := $theNodeCtx.Values -}}
-  {{- if (include "observability.promagent" $theNodeCtx | fromYaml).enabled -}}
-  {{- $jmxConfigData := include "observability.prometheus.agent.config.text" $theNodeCtx -}}
+{{- range $theCdrNodeName, $theCdrNodeCtx := include "smilecdr.cdrNodes" . | fromYaml -}}
+  {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
+  {{- if (include "observability.promagent" $theCdrNodeCtx | fromYaml).enabled -}}
+  {{- $jmxConfigData := include "observability.prometheus.agent.config.text" $theCdrNodeCtx -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ printf "%s-scdr-prom-agent-config-%s-node%s" $theNodeCtx.Release.Name ($theNodeSpec.nodeId | lower) (include "smilecdr.getConfigMapNameHashSuffix" (dict "Values" $theNodeSpec "data" (printf "%s" $jmxConfigData))) }}
-  namespace: {{ $theNodeCtx.Release.Namespace }}
+  name: {{ printf "%s-scdr-prom-agent-config-%s-node%s" $theCdrNodeCtx.Release.Name ($theCdrNodeSpec.cdrNodeId | lower) (include "smilecdr.getConfigMapNameHashSuffix" (dict "Values" $theCdrNodeSpec "data" (printf "%s" $jmxConfigData))) }}
+  namespace: {{ $theCdrNodeCtx.Release.Namespace }}
   labels:
-    {{- toYaml $theNodeSpec.cdrNodeLabels | nindent 4 }}
-  {{- if ($theNodeSpec.argocd).enabled }}
+    {{- toYaml $theCdrNodeSpec.cdrNodeLabels | nindent 4 }}
+  {{- if ($theCdrNodeSpec.argocd).enabled }}
   annotations:
     argocd.argoproj.io/compare-options: IgnoreExtraneous
     argocd.argoproj.io/sync-options: Prune=false

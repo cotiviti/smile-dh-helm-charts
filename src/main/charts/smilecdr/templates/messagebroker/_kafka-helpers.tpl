@@ -6,8 +6,8 @@ Lightweight template to determine if Kafka is enabled
   {{- /* Determine if this is being called in a 'cdrNode' context or root Helm Values context */ -}}
   {{- $ctx := dict -}}
 
-  {{- if hasKey $.Values "nodeId"  -}}
-    {{- /* This is a dynamically generated cdrNode, so we will just return if Kafka is enabled for *this* node */ -}}
+  {{- if hasKey $.Values "cdrNodeId"  -}}
+    {{- /* This is a dynamically generated cdrNode, so we will only return if Kafka is enabled for *this* cdrNode */ -}}
 
     {{- $strimziEnabled := ternary true false (eq ((include "kafka.strimzi.enabled" . ) | trim ) "true") -}}
     {{- $externalEnabled := ternary true false (eq ((include "kafka.external.enabled" . ) | trim ) "true") -}}
@@ -21,8 +21,8 @@ Lightweight template to determine if Kafka is enabled
   {{- else -}}
     {{- /* This is the root context, which means we need to cycle through all nodes to determine if Kafka is enabled in any of them */ -}}
     {{- /* We can simply do this with recursion */ -}}
-    {{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
-      {{- if eq ((include "kafka.enabled" $theNodeCtx ) | trim ) "true" -}}
+    {{- range $theCdrNodeName, $theCdrNodeCtx := include "smilecdr.cdrNodes" . | fromYaml -}}
+      {{- if eq ((include "kafka.enabled" $theCdrNodeCtx ) | trim ) "true" -}}
         {{- $kafkaEnabled = "true" -}}
       {{- end -}}
     {{- end -}}
@@ -40,7 +40,7 @@ on either external or Strimzi settings.
   {{- /* Some configurations only make sense in the context of a cdrNode */ -}}
   {{- /* This flag helps decide whether or not to render them */ -}}
   {{- $contextType := "root" -}}
-  {{- if hasKey $ctx "nodeId"  -}}
+  {{- if hasKey $ctx "cdrNodeId"  -}}
     {{- $contextType = "cdrNode" -}}
   {{- end -}}
   {{- $strimziSpec := (include "kafka.strimzi.spec" . | fromYaml) -}}
@@ -228,12 +228,12 @@ on either external or Strimzi settings.
     {{- $propsHashSuffix := ternary (printf "-%s" (include "smilecdr.getHashSuffix" (printf "%s/n%s" $consumerPropertiesData $producerPropertiesData))) "" $ctx.autoDeploy -}}
 
     {{- /* Set name for Kafka client properties ConfigMap */ -}}
-    {{- /* Only include node name in client properties if in 'cdrNode' context */ -}}
+    {{- /* Only include cdrNode name in client properties if in 'cdrNode' context */ -}}
     {{- if eq $contextType "cdrNode" -}}
-      {{- $_ := set $kafkaConfig "propertiesResourceName" (printf "%s-kafka-client-properties-%s-node%s" $.Release.Name ($ctx.nodeName | lower) $propsHashSuffix) -}}
+      {{- $_ := set $kafkaConfig "propertiesResourceName" (printf "%s-kafka-client-properties-%s-node%s" $.Release.Name ($ctx.cdrNodeName | lower) $propsHashSuffix) -}}
       {{- /* TODO: Remove when `oldResourceNaming` is removed */ -}}
       {{- if $ctx.oldResourceNaming -}}
-        {{- $_ := set $kafkaConfig "propertiesResourceName" (printf "%s-kafka-client-properties-%s-node%s" $.Release.Name ($ctx.nodeName | lower) $propsHashSuffix) -}}
+        {{- $_ := set $kafkaConfig "propertiesResourceName" (printf "%s-kafka-client-properties-%s-node%s" $.Release.Name ($ctx.cdrNodeName | lower) $propsHashSuffix) -}}
       {{- end -}}
     {{- else -}}
       {{- $_ := set $kafkaConfig "propertiesResourceName" (printf "%s-kafka-client-properties-%s" $.Release.Name $propsHashSuffix) -}}
@@ -254,7 +254,7 @@ in to pods
   {{- /* This can be called in cdrNode or root contexts (For the Admin pod) */ -}}
   {{- /* When called in root context, we need to call the kafka config template first */ -}}
   {{- $kafkaConfig := dict -}}
-  {{- if hasKey $ctx "nodeId"  -}}
+  {{- if hasKey $ctx "cdrNodeId"  -}}
     {{- $kafkaConfig = $ctx.kafka -}}
   {{- else -}}
     {{- $kafkaConfig = (include "kafka.config" . | fromYaml) -}}

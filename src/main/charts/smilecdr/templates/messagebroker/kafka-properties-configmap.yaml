@@ -1,10 +1,10 @@
-{{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
-  {{- $theNodeSpec := $theNodeCtx.Values -}}
-  {{- if ($theNodeSpec.kafka).enabled -}}
+{{- range $theCdrNodeName, $theCdrNodeCtx := include "smilecdr.cdrNodes" . | fromYaml -}}
+  {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
+  {{- if ($theCdrNodeSpec.kafka).enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ $theNodeSpec.kafka.propertiesResourceName }}
+  name: {{ $theCdrNodeSpec.kafka.propertiesResourceName }}
   namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "smilecdr.labels" $ | nindent 4 }}
@@ -15,9 +15,9 @@ metadata:
   {{- end }}
 data:
   consumer.properties: |-
-    {{- printf $theNodeSpec.kafka.consumerPropertiesData | nindent 4 }}
+    {{- printf $theCdrNodeSpec.kafka.consumerPropertiesData | nindent 4 }}
   producer.properties: |-
-    {{- printf $theNodeSpec.kafka.producerPropertiesData | nindent 4 }}
+    {{- printf $theCdrNodeSpec.kafka.producerPropertiesData | nindent 4 }}
 ---
   {{ end }}
 {{ end }}

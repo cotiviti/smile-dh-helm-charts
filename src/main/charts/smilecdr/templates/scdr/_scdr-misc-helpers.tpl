@@ -238,7 +238,7 @@ Use this for generating deprecation notices and other warnings about the configu
   {{- end -}}
 
   {{- $defaultIngress := false -}}
-  {{- $cdrNodes := include "smilecdr.nodes" . | fromYaml  -}}
+  {{- $cdrNodes := include "smilecdr.cdrNodes" . | fromYaml  -}}
   {{- $ingresses := include "smilecdr.ingresses" . | fromYaml -}}
   {{- range $theIngressName, $theIngressSpec := $ingresses -}}
     {{- if $theIngressSpec.defaultIngress  -}}
@@ -284,10 +284,10 @@ Use this for generating deprecation notices and other warnings about the configu
     {{- end -}}
   {{- end -}}
   {{- /* Check for using unsupported database propertysource mode */ -}}
-  {{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
-    {{- $theNodeSpec := $theNodeCtx.Values -}}
-    {{- if ($theNodeSpec.config).database -}}
-      {{- $warningMessage = printf "%s\n\nWARNING: `config.database` is enabled for Smile CDR node: %s" $warningMessage $theNodeName -}}
+  {{- range $theCdrNodeName, $theCdrNodeCtx := include "smilecdr.cdrNodes" . | fromYaml -}}
+    {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
+    {{- if ($theCdrNodeSpec.config).database -}}
+      {{- $warningMessage = printf "%s\n\nWARNING: `config.database` is enabled for Smile CDR node: %s" $warningMessage $theCdrNodeName -}}
       {{- $warningMessage = printf "%s\n         This mode is unsupported and not recommended for use when deploying using Helm" $warningMessage -}}
       {{- $warningMessage = printf "%s\n         Possible side effects that you may encounter with this mode enabled are:" $warningMessage -}}
       {{- $warningMessage = printf "%s\n        * If modules are added or altered in the console, the environment will" $warningMessage -}}
@@ -299,7 +299,7 @@ Use this for generating deprecation notices and other warnings about the configu
       {{- $warningMessage = printf "%s\n          incorrectly configured, resulting to critical system faults." $warningMessage -}}
     {{- end -}}
 
-    {{- if $theNodeSpec.oldResourceNaming -}}
+    {{- if $theCdrNodeSpec.oldResourceNaming -}}
       {{- $warningMessage = printf "%s\n\nDEPRECATED: The `oldResourceNaming` setting has been configured for backwards compatibility." $warningMessage  -}}
       {{- $warningMessage = printf "%s\n            This mode is a temporary feature to allow a controlled migration to chart version `1.0.0-pre.93` and newer." $warningMessage -}}
       {{- $warningMessage = printf "%s\n            This will be removed in a future version so it's recommended to disable this feature and allow the" $warningMessage -}}

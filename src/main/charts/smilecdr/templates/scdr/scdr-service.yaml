@@ -1,13 +1,13 @@
-{{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
-  {{- $theNodeSpec := $theNodeCtx.Values -}}
-  {{- range $theServiceName, $theServiceSpec := $theNodeSpec.services }}
+{{- range $theCdrNodeName, $theCdrNodeCtx := include "smilecdr.cdrNodes" . | fromYaml -}}
+  {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
+  {{- range $theServiceName, $theServiceSpec := $theCdrNodeSpec.services }}
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ $theServiceSpec.resourceName }}
   namespace: {{ $.Release.Namespace }}
   labels:
-    {{- toYaml $theNodeSpec.cdrNodeLabels | nindent 4 }}
+    {{- toYaml $theCdrNodeSpec.cdrNodeLabels | nindent 4 }}
   annotations:
     {{- toYaml $theServiceSpec.annotations | nindent 4 }}
 spec:
@@ -18,7 +18,7 @@ spec:
       targetPort: {{ $theServiceSpec.port }}
       protocol: TCP
   selector:
-    {{- toYaml $theNodeSpec.cdrNodeSelectorLabels | nindent 4 }}
+    {{- toYaml $theCdrNodeSpec.cdrNodeSelectorLabels | nindent 4 }}
 ---
   {{ end }}
 {{ end }}

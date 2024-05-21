@@ -1,7 +1,7 @@
-{{- /* Use the nodes helper template that defines everything for a single CDR Node */ -}}
-{{- range $theNodeName, $theNodeCtx := include "smilecdr.nodes" . | fromYaml -}}
-  {{- $theNodeSpec := $theNodeCtx.Values -}}
-  {{- range $theCertificate := $theNodeSpec.certificates -}}
+{{- /* Use the cdrNodes helper template that defines everything for a single CDR Node */ -}}
+{{- range $theCdrNodeName, $theCdrNodeCtx := include "smilecdr.cdrNodes" . | fromYaml -}}
+  {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
+  {{- range $theCertificate := $theCdrNodeSpec.certificates -}}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:

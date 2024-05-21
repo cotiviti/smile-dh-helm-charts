@@ -62,7 +62,7 @@ Currently, this is the canonical module source for the following template helper
 
         {{- /* Canonically define the Kubernetes service resource name and service type */ -}}
         {{- /* TODO: Should this be moved to "smilecdr.services.enabledServices"? */ -}}
-        {{- $svcName := lower (printf "%s-scdrnode-%s-%s" $.Release.Name $cdrNodeValues.nodeId $theService.svcName) -}}
+        {{- $svcName := lower (printf "%s-scdrnode-%s-%s" $.Release.Name $cdrNodeValues.cdrNodeId $theService.svcName) -}}
         {{- if $cdrNodeValues.oldResourceNaming -}}
           {{- $svcName = lower (printf "%s-scdr-svc-%s" $.Release.Name $theService.svcName) -}}
         {{- end -}}
@@ -255,7 +255,7 @@ Currently, this is the canonical module source for the following template helper
 
         {{- /* Smile CDR module TLS Configuration */ -}}
         {{- if $theService.tls.enabled -}}
-          {{- /* If the "smilecdr.modules" helper gets called 'directly' rather than via "smilecdr.nodes"
+          {{- /* If the "smilecdr.modules" helper gets called 'directly' rather than via "smilecdr.cdrNodes"
                  Then the generated certificate specs will not be in the context. This doesn't matter though
                  as the service only gets rendered when called via the nodes helper. There may be some
                  structural refactoring required here to make this easier to work with.
