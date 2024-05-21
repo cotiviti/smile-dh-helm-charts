@@ -166,6 +166,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/podscheduling/</loc>
+         <lastmod>2024-05-21</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/guide/smilecdr/requirements/</loc>
          <lastmod>2024-05-21</lastmod>
          <changefreq>daily</changefreq>
