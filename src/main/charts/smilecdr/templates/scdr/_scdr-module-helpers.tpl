@@ -206,20 +206,33 @@ Currently, this is the canonical module source for the following template helper
         {{- else if eq (first $fullPathElements) "" -}}
           {{- $_ := set $theService "fullPath" "/" -}}
         {{- end -}}
+        {{- $healthcheckPath := join "/" (list (trimSuffix "/" $theService.fullPath) (trimAll "/" (default "endpoint-health" (get $theModuleSpec.config "endpoint_health.path")))) -}}
+
+        {{- /* Determine allowed HTTP response codes allowed for health checks. */ -}}
+        {{- $allowedHealthcheckResponses := "" -}}
+        {{- if hasKey $theService "allowedHealthcheckResponses" -}}
+          {{- $allowedHealthcheckResponses = join "," $theService.allowedHealthcheckResponses -}}
+        {{- end -}}
+        {{- if not (contains "200" $allowedHealthcheckResponses) -}}
+          {{- $allowedHealthcheckResponses = join "," (compact (prepend (splitList "," $allowedHealthcheckResponses) "200")) -}}
+        {{- end -}}
 
         {{- $annotations := dict -}}
         {{- range $theIngressName, $theIngressSpec := $ingresses -}}
-          {{ if contains (lower $theIngressSpec.type) "azure-agic azure-appgw" -}}
-            {{- $path := join "/" (append $fullPathElements "endpoint-health") -}}
-            {{- /* $path := printf "%sendpoint-health" (default "/" $theService.fullPath) */ -}}
-            {{- /* $path := printf "%sendpoint-health" (default "/" $theModuleSpec.config.context_path) */ -}}
-            {{- /* if $theService.contextPath -}}
-              {{- $path = join "/" (append $fullPathElements $theService.contextPath "eendpoint-health") -}}
-            {{- end */ -}}
-            {{- $_ := set $annotations "appgw.ingress.kubernetes.io/health-probe-path" $path -}}
+          {{ if contains (lower $theIngressSpec.type) "aws-lbc-alb" -}}
+            {{- $_ := set $annotations "alb.ingress.kubernetes.io/healthcheck-path" $healthcheckPath -}}
+            {{- $_ := set $annotations "alb.ingress.kubernetes.io/success-codes" $allowedHealthcheckResponses -}}
+
+          {{- else if contains (lower $theIngressSpec.type) "azure-agic azure-appgw" -}}
+            {{- $_ := set $annotations "appgw.ingress.kubernetes.io/health-probe-path" $healthcheckPath -}}
+            {{- $_ := set $annotations "appgw.ingress.kubernetes.io/health-probe-status-codes" $allowedHealthcheckResponses -}}
           {{- end -}}
         {{- end -}}
-        {{- $_ := set $theService "annotations" $annotations -}}
+        {{- if not (hasKey $theService "annotations") -}}
+          {{- $_ := set $theService "annotations" $annotations -}}
+        {{- else -}}
+          {{- $_ := set $theService "annotations" (merge $annotations $theService.annotations)  -}}
+        {{- end -}}
 
         {{- /* If this module has the Readiness Probe enabled, then
             enable it in the service */ -}}
