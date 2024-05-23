@@ -224,6 +224,7 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /json-admin/endpoint-health
+    appgw.ingress.kubernetes.io/health-probe-status-codes: 200,401
 spec:
   type: NodePort
   ports:
@@ -249,6 +250,7 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /endpoint-health
+    appgw.ingress.kubernetes.io/health-probe-status-codes: "200"
 spec:
   type: NodePort
   ports:
@@ -274,6 +276,7 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /fhir_request/endpoint-health
+    appgw.ingress.kubernetes.io/health-probe-status-codes: "200"
 spec:
   type: NodePort
   ports:
@@ -299,6 +302,7 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /fhirweb/endpoint-health
+    appgw.ingress.kubernetes.io/health-probe-status-codes: 200,302
 spec:
   type: NodePort
   ports:
@@ -324,6 +328,7 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /package_registry/endpoint-health
+    appgw.ingress.kubernetes.io/health-probe-status-codes: "200"
 spec:
   type: NodePort
   ports:
@@ -349,6 +354,7 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
     appgw.ingress.kubernetes.io/health-probe-path: /smartauth/endpoint-health
+    appgw.ingress.kubernetes.io/health-probe-status-codes: "200"
 spec:
   type: NodePort
   ports:
@@ -548,7 +554,7 @@ metadata:
     appgw.ingress.kubernetes.io/extra-annotation-3: annotation3-squoted-quoted-value
     appgw.ingress.kubernetes.io/extra-annotation-4: annotation4-escaped-quoted-value
     appgw.ingress.kubernetes.io/health-probe-interval: "6"
-    appgw.ingress.kubernetes.io/health-probe-status-codes: 200-401
+    appgw.ingress.kubernetes.io/health-probe-status-codes: "200"
     appgw.ingress.kubernetes.io/health-probe-timeout: "5"
     appgw.ingress.kubernetes.io/override-frontend-port: "443"
     appgw.ingress.kubernetes.io/use-private-ip: "false"

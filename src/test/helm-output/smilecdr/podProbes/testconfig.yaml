@@ -5,6 +5,12 @@ tests:
     - ../default-test-values.yaml
     - ../default-test-disabled-features.yaml
     - values-healthcheck-path.yaml
+  healthcheckPathALB:
+    outputFile: output-healthcheck-path-alb.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-healthcheck-path-alb.yaml
   startupProbe:
     outputFile: output-startupProbe.yaml
     valueFiles:

@@ -232,20 +232,21 @@ specified cloud provider
   {{- $ingressSpec := get . "ingressSpec" -}}
   {{- $annotations := dict -}}
 
+  {{- $backendProtocol := "HTTP" -}}
+  {{- if $ingressSpec.backendEncrypted -}}
+    {{- $backendProtocol = "HTTPS" -}}
+  {{- end -}}
+
   {{- if contains (lower $ingressSpec.type) "azure-agic azure-appgw" -}}
     {{- /*
     Azure Application Gateway Annotations (No Nginx Ingress)
     */ -}}
-    {{- if $ingressSpec.backendEncrypted -}}
-      {{- $_ := set $annotations "appgw.ingress.kubernetes.io/backend-protocol" "https" -}}
-    {{- else -}}
-      {{- $_ := set $annotations "appgw.ingress.kubernetes.io/backend-protocol" "http" -}}
-    {{- end -}}
+    {{- $_ := set $annotations "appgw.ingress.kubernetes.io/backend-protocol" (lower $backendProtocol) -}}
     {{- $_ := set $annotations "appgw.ingress.kubernetes.io/cookie-based-affinity" "false" -}}
     {{- $_ := set $annotations "appgw.ingress.kubernetes.io/use-private-ip" "false" -}}
     {{- $_ := set $annotations "appgw.ingress.kubernetes.io/health-probe-interval" "6" -}}
     {{- $_ := set $annotations "appgw.ingress.kubernetes.io/health-probe-timeout" "5" -}}
-    {{- $_ := set $annotations "appgw.ingress.kubernetes.io/health-probe-status-codes" "200-401" -}}
+    {{- $_ := set $annotations "appgw.ingress.kubernetes.io/health-probe-status-codes" "200" -}}
     {{- $_ := set $annotations "appgw.ingress.kubernetes.io/override-frontend-port" "443" -}}
   {{- else if eq (lower $ingressSpec.type) "nginx-ingress" -}}
     {{- /*
@@ -253,8 +254,8 @@ specified cloud provider
     Note: Most of the general annotations are defined in the
     nginx-ingress controller.
     */ -}}
-    {{- if $ingressSpec.backendEncrypted -}}
-      {{- $_ := set $annotations "nginx.ingress.kubernetes.io/backend-protocol" "HTTPS" -}}
+    {{- if eq $backendProtocol "HTTPS" -}}
+      {{- $_ := set $annotations "nginx.ingress.kubernetes.io/backend-protocol" $backendProtocol -}}
     {{- end -}}
     {{- $_ := set $annotations "nginx.ingress.kubernetes.io/force-ssl-redirect" "true" -}}
   {{- else if eq (lower $ingressSpec.type) "aws-lbc-alb" -}}
@@ -262,22 +263,16 @@ specified cloud provider
     AWS Load Balancer Controller Annotations (ALB)
     Be sure to specify all required annotations
     */ -}}
-    {{- if $ingressSpec.backendEncrypted -}}
-      {{- $_ := set $annotations "alb.ingress.kubernetes.io/backend-protocol" "HTTPS" -}}
-      {{- $_ := set $annotations "alb.ingress.kubernetes.io/healthcheck-protocol" "HTTPS" -}}
-    {{- else -}}
-      {{- $_ := set $annotations "alb.ingress.kubernetes.io/backend-protocol" "HTTP" -}}
-      {{- $_ := set $annotations "alb.ingress.kubernetes.io/healthcheck-protocol" "HTTP" -}}
-    {{- end -}}
+    {{- $_ := set $annotations "alb.ingress.kubernetes.io/backend-protocol" $backendProtocol -}}
+    {{- $_ := set $annotations "alb.ingress.kubernetes.io/healthcheck-protocol" $backendProtocol -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/healthcheck-port" "traffic-port" -}}
-    {{- $_ := set $annotations "alb.ingress.kubernetes.io/healthcheck-path" "/signin" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/healthcheck-interval-seconds" "6" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/healthcheck-timeout-seconds" "5" -}}
-    {{- $_ := set $annotations "alb.ingress.kubernetes.io/success-codes" "200-401" -}}
+    {{- $_ := set $annotations "alb.ingress.kubernetes.io/success-codes" "200" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/listen-ports" "[{\"HTTPS\":443}]" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/ssl-policy" "ELBSecurityPolicy-2016-08" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/ssl-redirect" "443" -}}
-    {{- $_ := set $annotations "alb.ingress.kubernetes.io/target-type" "instance" -}}
+    {{- $_ := set $annotations "alb.ingress.kubernetes.io/target-type" "ip" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/scheme" "internet-facing" -}}
   {{- end -}}
   {{ $annotations | toYaml }}

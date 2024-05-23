@@ -263,7 +263,8 @@ metadata:
     app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
-    {}
+    alb.ingress.kubernetes.io/healthcheck-path: /json-admin/endpoint-health
+    alb.ingress.kubernetes.io/success-codes: 200,401
 spec:
   type: NodePort
   ports:
@@ -288,7 +289,8 @@ metadata:
     app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
-    {}
+    alb.ingress.kubernetes.io/healthcheck-path: /endpoint-health
+    alb.ingress.kubernetes.io/success-codes: "200"
 spec:
   type: NodePort
   ports:
@@ -313,7 +315,8 @@ metadata:
     app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
-    {}
+    alb.ingress.kubernetes.io/healthcheck-path: /fhir_request/endpoint-health
+    alb.ingress.kubernetes.io/success-codes: "200"
 spec:
   type: NodePort
   ports:
@@ -338,7 +341,8 @@ metadata:
     app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
-    {}
+    alb.ingress.kubernetes.io/healthcheck-path: /fhirweb/endpoint-health
+    alb.ingress.kubernetes.io/success-codes: 200,302
 spec:
   type: NodePort
   ports:
@@ -363,7 +367,8 @@ metadata:
     app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
-    {}
+    alb.ingress.kubernetes.io/healthcheck-path: /package_registry/endpoint-health
+    alb.ingress.kubernetes.io/success-codes: "200"
 spec:
   type: NodePort
   ports:
@@ -388,7 +393,8 @@ metadata:
     app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
-    {}
+    alb.ingress.kubernetes.io/healthcheck-path: /smartauth/endpoint-health
+    alb.ingress.kubernetes.io/success-codes: "200"
 spec:
   type: NodePort
   ports:
@@ -602,7 +608,6 @@ metadata:
   annotations:
     alb.ingress.kubernetes.io/backend-protocol: HTTPS
     alb.ingress.kubernetes.io/healthcheck-interval-seconds: "6"
-    alb.ingress.kubernetes.io/healthcheck-path: /signin
     alb.ingress.kubernetes.io/healthcheck-port: traffic-port
     alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
     alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
@@ -610,8 +615,8 @@ metadata:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-2016-08
     alb.ingress.kubernetes.io/ssl-redirect: "443"
-    alb.ingress.kubernetes.io/success-codes: 200-401
-    alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/success-codes: "200"
+    alb.ingress.kubernetes.io/target-type: ip
 spec:
   ingressClassName: alb
   rules:

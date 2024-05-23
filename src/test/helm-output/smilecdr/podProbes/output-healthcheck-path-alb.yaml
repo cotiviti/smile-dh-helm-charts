@@ -118,6 +118,7 @@ data:
     module.fhir_endpoint.config.cors.enable 	= true
     module.fhir_endpoint.config.default_encoding 	= JSON
     module.fhir_endpoint.config.default_pretty_print 	= true
+    module.fhir_endpoint.config.endpoint_health.path 	= /differenthealthcheckpath
     module.fhir_endpoint.config.https_forwarding_assumed 	= true
     module.fhir_endpoint.config.port 	= 8000
     module.fhir_endpoint.config.request_validating.enabled 	= false
@@ -275,7 +276,7 @@ metadata:
     app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
-    alb.ingress.kubernetes.io/healthcheck-path: /fhir_request/endpoint-health
+    alb.ingress.kubernetes.io/healthcheck-path: /fhir_request/differenthealthcheckpath
     alb.ingress.kubernetes.io/success-codes: "200"
 spec:
   type: NodePort
@@ -434,7 +435,7 @@ spec:
           readinessProbe:
             failureThreshold: 2
             httpGet:
-              path: /fhir_request/endpoint-health
+              path: /fhir_request/differenthealthcheckpath
               port: 8000
             periodSeconds: 10
             timeoutSeconds: 10

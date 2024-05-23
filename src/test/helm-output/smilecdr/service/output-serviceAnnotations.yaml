@@ -225,6 +225,7 @@ metadata:
   annotations:
     alb.ingress.kubernetes.io/healthcheck-path: /json-admin/endpoint-health
     alb.ingress.kubernetes.io/success-codes: 200,401
+    myannotation: admin_json_annotation_value
 spec:
   type: NodePort
   ports:
@@ -251,6 +252,7 @@ metadata:
   annotations:
     alb.ingress.kubernetes.io/healthcheck-path: /endpoint-health
     alb.ingress.kubernetes.io/success-codes: "200"
+    myannotation: admin_web_annotation_value
 spec:
   type: NodePort
   ports:

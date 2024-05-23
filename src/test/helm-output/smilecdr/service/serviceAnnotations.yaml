@@ -1,0 +1,14 @@
+# This file defines configurations specific for this test
+
+ingress:
+  type: aws-lbc-alb
+
+modules:
+  admin_web:
+    service:
+      annotations:
+        myannotation: admin_web_annotation_value
+  admin_json:
+    service:
+      annotations:
+        myannotation: admin_json_annotation_value

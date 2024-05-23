@@ -48,6 +48,8 @@ modules:
     service:
       enabled: true
       svcName: admin-json
+      allowedHealthcheckResponses:
+      - 401
     requires:
       SECURITY_IN_UP: local_security
     config:
@@ -103,6 +105,8 @@ modules:
     service:
       enabled: true
       svcName: fhirweb
+      allowedHealthcheckResponses:
+      - 302
     requires:
       SECURITY_IN_UP: local_security
       ENDPOINT_FHIR: fhir_endpoint
