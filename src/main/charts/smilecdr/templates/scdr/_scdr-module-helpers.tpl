@@ -32,7 +32,7 @@ Currently, this is the canonical module source for the following template helper
 */}}
 {{- define "smilecdr.modules" -}}
   {{- $modules := include "smilecdr.modules.raw" . | fromYaml -}}
-  {{- $modulePrefixes := (include "smilecdr.moduleprefixeswithendpoints" . | fromYamlArray) -}}
+  {{- $endpointModulePrefixes := (include "smilecdr.endpointModulePrefixes" . | fromYamlArray) -}}
   {{- $cdrNodeValues := $.Values -}}
   {{- $tlsConfig := $cdrNodeValues.tls -}}
   {{- $ingresses := include "smilecdr.ingresses" . | fromYaml -}}
@@ -72,7 +72,7 @@ Currently, this is the canonical module source for the following template helper
 
         {{- /* Determine if service is an endpoint */ -}}
         {{- $serviceHasEndpoint := false -}}
-        {{- range $modulePrefix := $modulePrefixes -}}
+        {{- range $modulePrefix := $endpointModulePrefixes -}}
           {{- if hasPrefix $modulePrefix $theModuleType -}}
             {{- $serviceHasEndpoint = true -}}
           {{- end -}}
@@ -92,6 +92,8 @@ Currently, this is the canonical module source for the following template helper
           {{- $forceDefaultIngress := false -}}
           {{- /* Create list of enabled ingresses */ -}}
           {{- $enabledIngressNames := list -}}
+          {{- $enabledIngressTypes := list -}}
+
           {{- if hasKey $theService "ingresses" -}}
             {{- range $theIngressName, $theIngressSpec := $theService.ingresses -}}
               {{- /* Check to see if default ingress is explicitly enabled or disabled */ -}}
@@ -123,6 +125,12 @@ Currently, this is the canonical module source for the following template helper
             {{- $enabledIngressNames = append $enabledIngressNames "default" -}}
           {{- end -}}
 
+          {{- range $theIngressName, $theIngressSpec := $ingresses -}}
+            {{- if has $theIngressName $enabledIngressNames -}}
+              {{- $enabledIngressTypes = uniq (append $enabledIngressTypes (lower $theIngressSpec.type)) -}}
+            {{- end -}}
+          {{- end -}}
+
           {{- if $ingressDefined -}}
             {{- /* Here we disable default ingress in the case that ingress is defined
                 and the default ingress is not explicitly enabled */ -}}
@@ -132,197 +140,200 @@ Currently, this is the canonical module source for the following template helper
             {{- $_ := set $theService "defaultIngress" $useDefaultIngress -}}
           {{- end -}}
           {{- $_ := set $theService "enabledIngressNames" $enabledIngressNames -}}
-        {{- end -}}
 
-
-        {{- /* Canonically define the Kubernetes service type, which depends on the ingress being used.
-              This will use the first ingress found for this service. If multiple ingressses are defined
-              they must use the same ingress type. */ -}}
-        {{- $svcType := "ClusterIP" -}}
-        {{- range $theIngressName, $theIngressSpec := $ingresses -}}
-          {{- if contains (lower $theIngressSpec.type) "aws-lbc-alb azure-agic azure-appgw" -}}
+          {{- /* Canonically define the Kubernetes service type, which depends on the ingress being used.
+                This will use the first ingress found for this service. If multiple ingressses are defined
+                they must use the same ingress type. */ -}}
+          {{- $svcType := "ClusterIP" -}}
+          {{ if or (has "aws-lbc-alb" $enabledIngressTypes) (has "azure-agic" $enabledIngressTypes) (has "azure-appgw" $enabledIngressTypes) -}}
             {{- $svcType = "NodePort" -}}
           {{- end -}}
-        {{- end -}}
-        {{- $_ := set $theService "serviceType" $svcType -}}
+          {{- $_ := set $theService "serviceType" $svcType -}}
 
-        {{- /* Set `base_url.fixed` for FHIR endpoint modules */ -}}
-        {{- if or (hasPrefix "ENDPOINT_FHIR_" $theModuleType) (hasPrefix "ENDPOINT_HYBRID_PROVIDERS" $theModuleType) -}}
-          {{- /* Only update if not manually set! */ -}}
-          {{- if not (hasKey $theModuleSpec.config "base_url.fixed") -}}
-            {{- if $theService.defaultIngress -}}
-              {{- $_ := set $theModuleConfig "base_url.fixed" "default" -}}
-            {{- else -}}
-              {{- $_ := set $theModuleConfig "base_url.fixed" "service" -}}
-            {{- end -}}
-          {{- else -}}
-            {{- /* If `base_url.fixed` is defined but does not match the ingress
-                  options, then throw an error. Ideally `base_url.fixed` should
-                  not be explicitly defined as this is autoconfigured based on
-                  ingress settings. If the user really must override this, then
-                  they must enable using `base_url.mismatch_allowed: true`. This
-                  is not supported and may lead to unpredictable behaviour. It
-                  is only suitable for troubleshooting where you need to override
-                  the value. */ -}}
-            {{- if $theService.defaultIngress -}}
-              {{- if ne (get $theModuleConfig "base_url.fixed") "default" -}}
-                {{- if not (get $theModuleConfig "base_url.mismatch_allowed") -}}
-                  {{- fail (printf "`base_url.fixed` is set to `%s` for the `%s` module. This will not work as ingress is enabled for this module." (get $theModuleConfig "base_url.fixed") $theModuleName ) -}}
-                {{- end -}}
-              {{- end -}}
-            {{- else -}}
-              {{- /* Ingress is disabled, but `base_url.fixed` is still set to default
-                    We change it here to `service` in this case so that it's handled
-                    correctly later on. */ -}}
-              {{- if eq (get $theModuleConfig "base_url.fixed") "default" -}}
+          {{- /* Set `base_url.fixed` for FHIR endpoint modules */ -}}
+          {{- if or (hasPrefix "ENDPOINT_FHIR_" $theModuleType) (hasPrefix "ENDPOINT_HYBRID_PROVIDERS" $theModuleType) -}}
+            {{- /* Only update if not manually set! */ -}}
+            {{- if not (hasKey $theModuleSpec.config "base_url.fixed") -}}
+              {{- if $theService.defaultIngress -}}
+                {{- $_ := set $theModuleConfig "base_url.fixed" "default" -}}
+              {{- else -}}
                 {{- $_ := set $theModuleConfig "base_url.fixed" "service" -}}
               {{- end -}}
+            {{- else -}}
+              {{- /* If `base_url.fixed` is defined but does not match the ingress
+                    options, then throw an error. Ideally `base_url.fixed` should
+                    not be explicitly defined as this is autoconfigured based on
+                    ingress settings. If the user really must override this, then
+                    they must enable using `base_url.mismatch_allowed: true`. This
+                    is not supported and may lead to unpredictable behaviour. It
+                    is only suitable for troubleshooting where you need to override
+                    the value. */ -}}
+              {{- if $theService.defaultIngress -}}
+                {{- if ne (get $theModuleConfig "base_url.fixed") "default" -}}
+                  {{- if not (get $theModuleConfig "base_url.mismatch_allowed") -}}
+                    {{- fail (printf "`base_url.fixed` is set to `%s` for the `%s` module. This will not work as ingress is enabled for this module." (get $theModuleConfig "base_url.fixed") $theModuleName ) -}}
+                  {{- end -}}
+                {{- end -}}
+              {{- else -}}
+                {{- /* Ingress is disabled, but `base_url.fixed` is still set to default
+                      We change it here to `service` in this case so that it's handled
+                      correctly later on. */ -}}
+                {{- if eq (get $theModuleConfig "base_url.fixed") "default" -}}
+                  {{- $_ := set $theModuleConfig "base_url.fixed" "service" -}}
+                {{- end -}}
+              {{- end -}}
             {{- end -}}
           {{- end -}}
-        {{- end -}}
 
-        {{- /* Generate fullPath and normalize context_path */ -}}
-        {{- /* TODO: Clean this up to make it more readable. */ -}}
-        {{- /* fullPath = /rootpath/context_path
-               contextPath = /context_path
-               normalized paths have no trailing slash  */ -}}
-        {{- $fullPathElements := list -}}
-        {{- if and (hasKey $cdrNodeValues.specs "rootPath") (ne $cdrNodeValues.specs.rootPath "/") -}}
-          {{- $_ := set $theService "rootPath" (printf "/%s" (trimAll "/" $cdrNodeValues.specs.rootPath)) -}}
-          {{- /* $fullPathElements = append $fullPathElements $theModuleSpec.rootPath */ -}}
-          {{- $fullPathElements = append $fullPathElements $theService.rootPath -}}
-        {{- else -}}
-          {{- /* Add empty string so that join puts a '/' at the beginning. */ -}}
-          {{- $fullPathElements = append $fullPathElements "" -}}
-        {{- end -}}
-        {{- /* Normalize `context_path` if it exists. */ -}}
-        {{- if and (hasKey $theModuleSpec.config "context_path") (ne $theModuleSpec.config.context_path "") -}}
-          {{- $_ := set $theModuleSpec.config "context_path" (trimAll "/" $theModuleSpec.config.context_path) -}}
-          {{- $fullPathElements = append $fullPathElements $theModuleSpec.config.context_path -}}
-        {{- end -}}
-        {{- /* Create `fullPath` based on `rootPath` and `context_path` */ -}}
-        {{- if gt (len $fullPathElements) 1 -}}
-          {{- $_ := set $theService "fullPath" (join "/" $fullPathElements) -}}
-        {{- else if eq (first $fullPathElements) "" -}}
-          {{- $_ := set $theService "fullPath" "/" -}}
-        {{- end -}}
-        {{- $healthcheckPath := join "/" (list (trimSuffix "/" $theService.fullPath) (trimAll "/" (default "endpoint-health" (get $theModuleSpec.config "endpoint_health.path")))) -}}
 
-        {{- /* Determine allowed HTTP response codes allowed for health checks. */ -}}
-        {{- $allowedHealthcheckResponses := "" -}}
-        {{- if hasKey $theService "allowedHealthcheckResponses" -}}
-          {{- $allowedHealthcheckResponses = join "," $theService.allowedHealthcheckResponses -}}
-        {{- end -}}
-        {{- if not (contains "200" $allowedHealthcheckResponses) -}}
-          {{- $allowedHealthcheckResponses = join "," (compact (prepend (splitList "," $allowedHealthcheckResponses) "200")) -}}
-        {{- end -}}
+          {{- /* Generate fullPath and normalize context_path */ -}}
+          {{- /* TODO: Clean this up to make it more readable. */ -}}
+          {{- /* fullPath = /rootpath/context_path
+                contextPath = /context_path
+                normalized paths have no trailing slash  */ -}}
+          {{- $fullPathElements := list -}}
+          {{- if and (hasKey $cdrNodeValues.specs "rootPath") (ne $cdrNodeValues.specs.rootPath "/") -}}
+            {{- $_ := set $theService "rootPath" (printf "/%s" (trimAll "/" $cdrNodeValues.specs.rootPath)) -}}
+            {{- /* $fullPathElements = append $fullPathElements $theModuleSpec.rootPath */ -}}
+            {{- $fullPathElements = append $fullPathElements $theService.rootPath -}}
+          {{- else -}}
+            {{- /* Add empty string so that join puts a '/' at the beginning. */ -}}
+            {{- $fullPathElements = append $fullPathElements "" -}}
+          {{- end -}}
+          {{- /* Normalize `context_path` if it exists. */ -}}
+          {{- if and (hasKey $theModuleSpec.config "context_path") (ne $theModuleSpec.config.context_path "") -}}
+            {{- $_ := set $theModuleSpec.config "context_path" (trimAll "/" $theModuleSpec.config.context_path) -}}
+            {{- $fullPathElements = append $fullPathElements $theModuleSpec.config.context_path -}}
+          {{- end -}}
+          {{- /* Create `fullPath` based on `rootPath` and `context_path` */ -}}
+          {{- if gt (len $fullPathElements) 1 -}}
+            {{- $_ := set $theService "fullPath" (join "/" $fullPathElements) -}}
+          {{- else if eq (first $fullPathElements) "" -}}
+            {{- $_ := set $theService "fullPath" "/" -}}
+          {{- end -}}
+          {{- $healthcheckPath := join "/" (list (trimSuffix "/" $theService.fullPath) (trimAll "/" (default "endpoint-health" (get $theModuleSpec.config "endpoint_health.path")))) -}}
 
-        {{- $annotations := dict -}}
-        {{- range $theIngressName, $theIngressSpec := $ingresses -}}
-          {{ if contains (lower $theIngressSpec.type) "aws-lbc-alb" -}}
+          {{- /* Determine allowed HTTP response codes allowed for health checks. */ -}}
+          {{- $allowedHealthcheckResponses := "" -}}
+          {{- if hasKey $theService "allowedHealthcheckResponses" -}}
+            {{- $allowedHealthcheckResponses = join "," $theService.allowedHealthcheckResponses -}}
+          {{- end -}}
+          {{- if not (contains "200" $allowedHealthcheckResponses) -}}
+            {{- $allowedHealthcheckResponses = join "," (compact (prepend (splitList "," $allowedHealthcheckResponses) "200")) -}}
+          {{- end -}}
+
+          {{- /* TODO: Determine health probe tuning parameters.
+                 Make them the same as the Readiness Probe tuning parameters??? */ -}}
+
+          {{- /* Set service annotations. Typically used by Ingress controllers such as AWS Load Balancer Controller or Azure AGIC */ -}}
+          {{- $annotations := dict -}}
+          {{ if has "aws-lbc-alb" $enabledIngressTypes -}}
             {{- $_ := set $annotations "alb.ingress.kubernetes.io/healthcheck-path" $healthcheckPath -}}
             {{- $_ := set $annotations "alb.ingress.kubernetes.io/success-codes" $allowedHealthcheckResponses -}}
-
-          {{- else if contains (lower $theIngressSpec.type) "azure-agic azure-appgw" -}}
+            {{- /* TODO: Add AWS ALB health probe tuning parameters */ -}}
+          {{- else if or (has "azure-agic" $enabledIngressTypes) (has "azure-appgw" $enabledIngressTypes) -}}
             {{- $_ := set $annotations "appgw.ingress.kubernetes.io/health-probe-path" $healthcheckPath -}}
             {{- $_ := set $annotations "appgw.ingress.kubernetes.io/health-probe-status-codes" $allowedHealthcheckResponses -}}
+            {{- /* TODO: Add Azure LB/AGIC health probe tuning parameters */ -}}
           {{- end -}}
-        {{- end -}}
-        {{- if not (hasKey $theService "annotations") -}}
-          {{- $_ := set $theService "annotations" $annotations -}}
-        {{- else -}}
-          {{- $_ := set $theService "annotations" (merge $annotations $theService.annotations)  -}}
-        {{- end -}}
 
-        {{- /* If this module has the Readiness Probe enabled, then
-            enable it in the service */ -}}
-        {{- if hasKey $theModuleSpec "enableReadinessProbe" -}}
-          {{- $_ := set $theService "enableReadinessProbe" $theModuleSpec.enableReadinessProbe -}}
-        {{- else -}}
-          {{- $_ := set $theService "enableReadinessProbe" false -}}
-        {{- end -}}
-
-        {{- /* Determine TLS configuration for module/service */ -}}
-        {{- /* This can be enabled in 2 places:
-                1. tls.defaultEndpointConfig
-                2. modules.modulename.service(Takes priority)
-              */ -}}
-        {{- $tlsSpec := dict "enabled" false -}}
-        {{- $defaultTlsCertificate := "default" -}}
-        {{- if $tlsConfig.defaultEndpointConfig.enabled -}}
-          {{- $defaultTlsCertificate = default "default" $tlsConfig.defaultEndpointConfig.tlsCertificate -}}
-          {{- if and (hasKey $theService "tlsEnabled") (not $theService.tlsEnabled) -}}
-            {{- /* Default is enabled, but this service has TLS explicitly disabled. Do nothing. */ -}}
+          {{- /* Either set the new annotations if there are none, or merge with any existing ones */ -}}
+          {{- if not (hasKey $theService "annotations") -}}
+            {{- $_ := set $theService "annotations" $annotations -}}
           {{- else -}}
-            {{- $_ := set $tlsSpec "enabled" true -}}
-            {{- $_ := set $tlsSpec "tlsCertificate" (default $defaultTlsCertificate $theService.tlsCertificate) -}}
+            {{- $_ := set $theService "annotations" (merge $annotations $theService.annotations)  -}}
           {{- end -}}
-        {{- else -}}
-          {{- /* defaultEndpointConfig is disabled. Allow explicit enablement in the service */ -}}
-          {{- if $theService.tlsEnabled -}}
-            {{- $_ := set $tlsSpec "enabled" true -}}
-            {{- $_ := set $tlsSpec "tlsCertificate" (default $defaultTlsCertificate $theService.tlsCertificate) -}}
+
+          {{- /* If this module has the Readiness Probe enabled, then
+              enable it in the service */ -}}
+          {{- if hasKey $theModuleSpec "enableReadinessProbe" -}}
+            {{- $_ := set $theService "enableReadinessProbe" $theModuleSpec.enableReadinessProbe -}}
+          {{- else -}}
+            {{- $_ := set $theService "enableReadinessProbe" false -}}
           {{- end -}}
-        {{- end -}}
-        {{- $_ := set $theService "tls" $tlsSpec -}}
 
-        {{- /* Smile CDR module TLS Configuration */ -}}
-        {{- if $theService.tls.enabled -}}
-          {{- /* If the "smilecdr.modules" helper gets called 'directly' rather than via "smilecdr.cdrNodes"
-                 Then the generated certificate specs will not be in the context. This doesn't matter though
-                 as the service only gets rendered when called via the nodes helper. There may be some
-                 structural refactoring required here to make this easier to work with.
-                 For now, this 'hack' works without breaking anything :) */ -}}
-          {{- if hasKey $cdrNodeValues "certificates" -}}
-            {{- $certificates := $cdrNodeValues.certificates -}}
-            {{- $theCertificateName := $theService.tls.tlsCertificate -}}
+          {{- /* Determine TLS certificate configuration for the modules service */ -}}
+          {{- /* This can be enabled in 2 places:
+                  1. tls.defaultEndpointConfig
+                  2. modules.modulename.service(Takes priority)
+                */ -}}
+          {{- $tlsSpec := dict "enabled" false -}}
+          {{- $defaultTlsCertificate := "default" -}}
+          {{- if $tlsConfig.defaultEndpointConfig.enabled -}}
+            {{- $defaultTlsCertificate = default "default" $tlsConfig.defaultEndpointConfig.tlsCertificate -}}
+            {{- if and (hasKey $theService "tlsEnabled") (not $theService.tlsEnabled) -}}
+              {{- /* Default is enabled, but this service has TLS explicitly disabled. Do nothing. */ -}}
+            {{- else -}}
+              {{- $_ := set $tlsSpec "enabled" true -}}
+              {{- $_ := set $tlsSpec "tlsCertificate" (default $defaultTlsCertificate $theService.tlsCertificate) -}}
+            {{- end -}}
+          {{- else -}}
+            {{- /* defaultEndpointConfig is disabled. Allow explicit enablement in the service */ -}}
+            {{- if $theService.tlsEnabled -}}
+              {{- $_ := set $tlsSpec "enabled" true -}}
+              {{- $_ := set $tlsSpec "tlsCertificate" (default $defaultTlsCertificate $theService.tlsCertificate) -}}
+            {{- end -}}
+          {{- end -}}
+          {{- $_ := set $theService "tls" $tlsSpec -}}
 
-            {{- /* Determine certificate name if using the default */ -}}
-            {{- if eq (lower $theService.tls.tlsCertificate) "default" -}}
-              {{- $defaultCertificateName := (include "certmanager.defaultCertificate" $certificates) -}}
-              {{- if ne $defaultCertificateName "" -}}
-                {{- $theCertificateName = $defaultCertificateName -}}
+          {{- /* Smile CDR module TLS Configuration */ -}}
+          {{- if $theService.tls.enabled -}}
+            {{- /* If the "smilecdr.modules" helper gets called 'directly' rather than via "smilecdr.cdrNodes"
+                  Then the generated certificate specs will not be in the context. This doesn't matter though
+                  as the service only gets rendered when called via the nodes helper. There may be some
+                  structural refactoring required here to make this easier to work with.
+                  For now, this 'hack' works without breaking anything :) */ -}}
+            {{- if hasKey $cdrNodeValues "certificates" -}}
+              {{- $certificates := $cdrNodeValues.certificates -}}
+              {{- $theCertificateName := $theService.tls.tlsCertificate -}}
+
+              {{- /* Determine certificate name if using the default */ -}}
+              {{- if eq (lower $theService.tls.tlsCertificate) "default" -}}
+                {{- $defaultCertificateName := (include "certmanager.defaultCertificate" $certificates) -}}
+                {{- if ne $defaultCertificateName "" -}}
+                  {{- $theCertificateName = $defaultCertificateName -}}
+                {{- else -}}
+                  {{- fail (printf "You are using the default TLS certificate, but no default has been defined and enabled.") -}}
+                {{- end -}}
+              {{- /* If not using default, check tht certificate name has been defined and enabled */ -}}
               {{- else -}}
-                {{- fail (printf "You are using the default TLS certificate, but no default has been defined and enabled.") -}}
+                {{- if not (hasKey $certificates $theCertificateName) -}}
+                  {{- fail (printf "You have specified a TLS certificate, `%s`, that has not been defined and enabled." $theCertificateName) -}}
+                {{- end -}}
               {{- end -}}
-            {{- /* If not using default, check tht certificate name has been defined and enabled */ -}}
-            {{- else -}}
-              {{- if not (hasKey $certificates $theCertificateName) -}}
-                {{- fail (printf "You have specified a TLS certificate, `%s`, that has not been defined and enabled." $theCertificateName) -}}
+
+              {{- /* Get a copy of the certificate spec to work with */ -}}
+
+              {{- $theCertificate := get $certificates $theCertificateName -}}
+              {{- $theCertificateSecretName := $theCertificate.name -}}
+              {{- $keystoreCredentialsSecret := $theCertificate.spec.keystores.pkcs12.passwordSecretRef -}}
+              {{- $keystoreCredentialValue := "" -}}
+
+              {{- /* Determine how to pass in the keystore secret*/ -}}
+              {{- $keystorePasswordConfig := default (dict) $theCertificate.keystorePassword -}}
+
+              {{- if and (hasKey $keystorePasswordConfig "useSecret") (not $keystorePasswordConfig.useSecret) -}}
+                {{- /* Secret is disabled - Currently not supported */ -}}
+                {{- fail "Disabling secret for cert-manager generated keystores is not currently supported. " -}}
+                {{- $keystoreCredentialValue = default "changeit" $keystorePasswordConfig.valueOverride -}}
+              {{- else -}}
+                {{- $keystoreCredentialValue = printf "#{env['%s_TLS_KEYSTORE_PASS']}" (upper $theCertificateSecretName) -}}
               {{- end -}}
+
+              {{- $keystoreFileName := printf "%s-tls-keystore.p12" $theCertificateSecretName -}}
+              {{- $_ := set $theModuleConfig "tls.enabled" true -}}
+              {{- $_ := set $theModuleConfig "tls.keystore.file" (printf "classpath:tls/%s" $keystoreFileName) -}}
+              {{- $_ := set $theModuleConfig "tls.keystore.password" $keystoreCredentialValue -}}
+              {{- $_ := set $theModuleConfig "tls.keystore.keyalias" 1 -}}
+              {{- $_ := set $theModuleConfig "tls.keystore.keypass" $keystoreCredentialValue -}}
+
+              {{- /* Some other required module config if using TLS */ -}}
+              {{- $_ := set $theModuleConfig "https_forwarding_assumed" false -}}
+              {{- $_ := set $theModuleConfig "respect_forward_headers" false -}}
+
             {{- end -}}
-
-            {{- /* Get a copy of the certificate spec to work with */ -}}
-
-            {{- $theCertificate := get $certificates $theCertificateName -}}
-            {{- $theCertificateSecretName := $theCertificate.name -}}
-            {{- $keystoreCredentialsSecret := $theCertificate.spec.keystores.pkcs12.passwordSecretRef -}}
-            {{- $keystoreCredentialValue := "" -}}
-
-            {{- /* Determine how to pass in the keystore secret*/ -}}
-            {{- $keystorePasswordConfig := default (dict) $theCertificate.keystorePassword -}}
-
-            {{- if and (hasKey $keystorePasswordConfig "useSecret") (not $keystorePasswordConfig.useSecret) -}}
-              {{- /* Secret is disabled - Currently not supported */ -}}
-              {{- fail "Disabling secret for cert-manager generated keystores is not currently supported. " -}}
-              {{- $keystoreCredentialValue = default "changeit" $keystorePasswordConfig.valueOverride -}}
-            {{- else -}}
-              {{- $keystoreCredentialValue = printf "#{env['%s_TLS_KEYSTORE_PASS']}" (upper $theCertificateSecretName) -}}
-            {{- end -}}
-
-            {{- $keystoreFileName := printf "%s-tls-keystore.p12" $theCertificateSecretName -}}
-            {{- $_ := set $theModuleConfig "tls.enabled" true -}}
-            {{- $_ := set $theModuleConfig "tls.keystore.file" (printf "classpath:tls/%s" $keystoreFileName) -}}
-            {{- $_ := set $theModuleConfig "tls.keystore.password" $keystoreCredentialValue -}}
-            {{- $_ := set $theModuleConfig "tls.keystore.keyalias" 1 -}}
-            {{- $_ := set $theModuleConfig "tls.keystore.keypass" $keystoreCredentialValue -}}
-
-            {{- /* Some other required module config if using TLS */ -}}
-            {{- $_ := set $theModuleConfig "https_forwarding_assumed" false -}}
-            {{- $_ := set $theModuleConfig "respect_forward_headers" false -}}
-
-          {{- end -}}
-        {{- end -}}
+          {{- end -}}{{- /* end of if $theService.tls.enabled */ -}}
+        {{- end -}}{{- /* end of if $serviceHasEndpoint */ -}}
       {{- end -}}
       {{- $deepConfig := include "sdhCommon.unFlattenDict" $theModuleConfig | fromYaml -}}
       {{- $_ := set $theModuleSpec "config" $deepConfig -}}
@@ -341,7 +352,7 @@ Define modules that expose HTTP listeners
 This will ultimately be refactored into a full validation function
 that will use the appropriate module prototypes
 */}}
-{{- define "smilecdr.moduleprefixeswithendpoints" -}}
+{{- define "smilecdr.endpointModulePrefixes" -}}
   {{- $modulesWithEndpoints := list -}}
   {{- /* We will accept module prefixes to make this a whole less verbose */ -}}
   {{- /* All workload endpoint modules, eg, FHIR_REST and FHIRWEB  */ -}}
