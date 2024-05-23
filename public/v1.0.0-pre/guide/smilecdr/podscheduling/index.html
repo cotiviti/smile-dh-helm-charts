@@ -1975,7 +1975,7 @@
 <li><code>nodeName</code></li>
 <li><code>topologySpreadConstraints</code></li>
 </ul>
-<p>As the configuration of pod allocation strategies can get very complicated depending on the architecture, this Helm Chart does not currently perform any validation or auto-configuration (Aside from the default <code>topologySpreadConstraints</code> mentioned above). </p>
+<p>As the configuration of pod allocation strategies can get very complicated depending on the architecture, this Helm Chart does not currently perform any validation or auto-configuration (Aside from the default <code>topologySpreadConstraints</code> mentioned above).</p>
 <p>If you provide a configuration for <code>topologySpreadConstraints</code>, then the defaults will not be used.</p>
 <p>Any provided configurations are passed through to the <code>podSpec</code> that is generated, without any alterations.</p>
 <p>Configurations may be provided in the root context as a global setting, or in a <code>cdrNode</code> context if you are using <a href="../cdrnode/">multiple CDR Nodes</a> and wish to set this on a per-cdrNode basis.</p>
