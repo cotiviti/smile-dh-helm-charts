@@ -85,7 +85,7 @@ You can provide any of the following pod allocation configurations:
 * `nodeName`
 * `topologySpreadConstraints`
 
-As the configuration of pod allocation strategies can get very complicated depending on the architecture, this Helm Chart does not currently perform any validation or auto-configuration (Aside from the default `topologySpreadConstraints` mentioned above). 
+As the configuration of pod allocation strategies can get very complicated depending on the architecture, this Helm Chart does not currently perform any validation or auto-configuration (Aside from the default `topologySpreadConstraints` mentioned above).
 
 If you provide a configuration for `topologySpreadConstraints`, then the defaults will not be used.
 
@@ -201,4 +201,3 @@ topologySpreadConstraints:
   topologyKey: kubernetes.io/hostname
   whenUnsatisfiable: ScheduleAnyway
 ```
-
