@@ -1,3 +1,10 @@
+# [1.0.0-pre.115](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.114...v1.0.0-pre.115) (2024-05-23)
+
+
+### Features
+
+* **smilecdr:** add service annotations for ALB ([1d9b82b](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/1d9b82b735cc9474e8ffbc2ad735a79921822553))
+
 # [1.0.0-pre.114](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.113...v1.0.0-pre.114) (2024-05-21)
 
 
