@@ -1,3 +1,13 @@
+# [1.0.0-pre.116](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.115...v1.0.0-pre.116) (2024-05-24)
+
+
+### Features
+
+* **smilecdr:** allow global endpoint configurations ([1fe5b0e](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/1fe5b0ee94af025c584138c589633bcc8cb2c4e6))
+* **smilecdr:** disable SNI verification with ALB ([b196587](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/b196587e95a1748928a80f58cab7f8a8ee19496d))
+* **smilecdr:** enforce TLSv1.3 encryption ([49cd696](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/49cd69673df09a90baa0762f108b1db9868ba400))
+* **smilecdr:** update default ELB security policy ([0e49cc0](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/0e49cc09343bbe2882b08a94b1a7602cbf07d7a9))
+
 # [1.0.0-pre.115](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.114...v1.0.0-pre.115) (2024-05-23)
 
 

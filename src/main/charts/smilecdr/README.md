@@ -1,6 +1,6 @@
 # Smile CDR
 
-![Version: 1.0.0-pre.115](https://img.shields.io/badge/Version-1.0.0--pre.115-informational?style=flat-square) ![Smile CDR Version: 2023.08.R01](https://img.shields.io/badge/Smile%20CDR%20Version-2023.08.R01-informational?style=flat-square)
+![Version: 1.0.0-pre.116](https://img.shields.io/badge/Version-1.0.0--pre.116-informational?style=flat-square) ![Smile CDR Version: 2023.08.R01](https://img.shields.io/badge/Smile%20CDR%20Version-2023.08.R01-informational?style=flat-square)
 
 This chart provides a flexible and consistent process to deploy Smile CDR in a self-managed Kubernetes cluster.
 
@@ -8,7 +8,7 @@ It is provided by Smile Digital Health as a starting point for creating a refere
 It has been fully tested on Amazon EKS and has growing compatibility for Azure AKS.
 
 ## ** PRE-RELEASE WARNING **
-This is ***PRE-RELEASE*** version 1.0.0-pre.115
+This is ***PRE-RELEASE*** version 1.0.0-pre.116
 
 As this is a pre-release version of this chart, there may be **breaking changes** introduced without notice.
 
@@ -107,6 +107,7 @@ The below section gives an overview of the default values available. Consult the
 | ingresses.default.defaultIngress | bool | `true` |  |
 | ingresses.default.enabled | bool | `true` | Enable ingress |
 | ingresses.default.public | bool | `true` |  |
+| ingresses.default.tls13NginxConfigSnippet | bool | `true` |  |
 | ingresses.default.type | string | `"nginx-ingress"` | Ingress type (`nginx-ingress`,`aws-lbc-alb`,`azure-agic`) |
 | ingresses.default.useLegacyResourceSuffix | bool | `true` |  |
 | jvm.args | list | `["-Dsun.net.inetaddr.ttl=60","-Djava.security.egd=file:/dev/./urandom"]` | Set extra JVM args |
@@ -188,5 +189,5 @@ The below section gives an overview of the default values available. Consult the
 | tls.certificates.default.defaultCertificate | bool | `true` |  |
 | tls.certificates.default.enabled | bool | `false` |  |
 | tls.defaultEndpointConfig.enabled | bool | `false` |  |
-| tls.defaultEndpointConfig.extraCdrConfig."tls.protocol.cipher_whitelist" | string | `"TLS_AES_128_CCM_8_SHA256"` |  |
+| tls.defaultEndpointConfig.extraCdrConfig."tls.protocol.cipher_whitelist" | string | `"TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256"` |  |
 | tls.defaultEndpointConfig.extraCdrConfig."tls.protocol.protocol_whitelist" | string | `"TLSv1.3"` |  |
