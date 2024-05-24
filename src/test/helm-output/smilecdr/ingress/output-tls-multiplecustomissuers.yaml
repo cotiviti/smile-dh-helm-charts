@@ -106,6 +106,8 @@ data:
     module.admin_json.config.tls.keystore.keyalias 	= 1
     module.admin_json.config.tls.keystore.keypass 	= #{env['CDRCERTIFICATE_TLS_KEYSTORE_PASS']}
     module.admin_json.config.tls.keystore.password 	= #{env['CDRCERTIFICATE_TLS_KEYSTORE_PASS']}
+    module.admin_json.config.tls.protocol.cipher_whitelist 	= TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256
+    module.admin_json.config.tls.protocol.protocol_whitelist 	= TLSv1.3
     ################################################################################
     # ENDPOINT: Web Admin
     ################################################################################
@@ -120,6 +122,8 @@ data:
     module.admin_web.config.tls.keystore.keyalias 	= 1
     module.admin_web.config.tls.keystore.keypass 	= #{env['CDRCERTIFICATE_TLS_KEYSTORE_PASS']}
     module.admin_web.config.tls.keystore.password 	= #{env['CDRCERTIFICATE_TLS_KEYSTORE_PASS']}
+    module.admin_web.config.tls.protocol.cipher_whitelist 	= TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256
+    module.admin_web.config.tls.protocol.protocol_whitelist 	= TLSv1.3
     ################################################################################
     # External Audit DB Config
     ################################################################################
@@ -174,6 +178,8 @@ data:
     module.fhir_endpoint.config.tls.keystore.keyalias 	= 1
     module.fhir_endpoint.config.tls.keystore.keypass 	= #{env['CDRCERTIFICATE_TLS_KEYSTORE_PASS']}
     module.fhir_endpoint.config.tls.keystore.password 	= #{env['CDRCERTIFICATE_TLS_KEYSTORE_PASS']}
+    module.fhir_endpoint.config.tls.protocol.cipher_whitelist 	= TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256
+    module.fhir_endpoint.config.tls.protocol.protocol_whitelist 	= TLSv1.3
     ################################################################################
     # ENDPOINT: FHIRWeb Console
     ################################################################################
@@ -192,6 +198,8 @@ data:
     module.fhirweb_endpoint.config.tls.keystore.keyalias 	= 1
     module.fhirweb_endpoint.config.tls.keystore.keypass 	= #{env['FHIRWEBCERTIFICATE_TLS_KEYSTORE_PASS']}
     module.fhirweb_endpoint.config.tls.keystore.password 	= #{env['FHIRWEBCERTIFICATE_TLS_KEYSTORE_PASS']}
+    module.fhirweb_endpoint.config.tls.protocol.cipher_whitelist 	= TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256
+    module.fhirweb_endpoint.config.tls.protocol.protocol_whitelist 	= TLSv1.3
     ################################################################################
     # license
     ################################################################################
@@ -219,6 +227,8 @@ data:
     module.package_registry.config.tls.keystore.keyalias 	= 1
     module.package_registry.config.tls.keystore.keypass 	= #{env['CDRCERTIFICATE_TLS_KEYSTORE_PASS']}
     module.package_registry.config.tls.keystore.password 	= #{env['CDRCERTIFICATE_TLS_KEYSTORE_PASS']}
+    module.package_registry.config.tls.protocol.cipher_whitelist 	= TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256
+    module.package_registry.config.tls.protocol.protocol_whitelist 	= TLSv1.3
     ################################################################################
     # Database Configuration
     ################################################################################
@@ -251,6 +261,8 @@ data:
     module.smart_auth.config.tls.keystore.keyalias 	= 1
     module.smart_auth.config.tls.keystore.keypass 	= #{env['CDRCERTIFICATE_TLS_KEYSTORE_PASS']}
     module.smart_auth.config.tls.keystore.password 	= #{env['CDRCERTIFICATE_TLS_KEYSTORE_PASS']}
+    module.smart_auth.config.tls.protocol.cipher_whitelist 	= TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256
+    module.smart_auth.config.tls.protocol.protocol_whitelist 	= TLSv1.3
     ################################################################################
     # Subscription
     ################################################################################
@@ -632,6 +644,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/configuration-snippet: proxy_ssl_protocols TLSv1.3;
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   ingressClassName: nginx

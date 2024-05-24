@@ -256,6 +256,16 @@ specified cloud provider
     */ -}}
     {{- if eq $backendProtocol "HTTPS" -}}
       {{- $_ := set $annotations "nginx.ingress.kubernetes.io/backend-protocol" $backendProtocol -}}
+
+      {{- /* The below annotation does not currently work and may be addressed in some upcoming release of Ingress-Nginx.
+            See: https://github.com/kubernetes/ingress-nginx/issues/8633#issuecomment-2094105356 */ -}}
+      {{- /* $_ := set $annotations "nginx.ingress.kubernetes.io/proxy-ssl-protocols" "TLSv1.3" */ -}}
+      {{- /* In the meantime, need to set via configuration-snippet if not set globally on the ingress-nginx configuration */ -}}
+      {{- if $ingressSpec.tls13NginxConfigSnippet -}}
+        {{- $nginxCipherConfig := "proxy_ssl_protocols TLSv1.3;" -}}
+        {{- $_ := set $annotations "nginx.ingress.kubernetes.io/configuration-snippet" $nginxCipherConfig -}}
+      {{- end -}}
+
     {{- end -}}
     {{- $_ := set $annotations "nginx.ingress.kubernetes.io/force-ssl-redirect" "true" -}}
   {{- else if eq (lower $ingressSpec.type) "aws-lbc-alb" -}}
@@ -270,7 +280,7 @@ specified cloud provider
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/healthcheck-timeout-seconds" "5" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/success-codes" "200" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/listen-ports" "[{\"HTTPS\":443}]" -}}
-    {{- $_ := set $annotations "alb.ingress.kubernetes.io/ssl-policy" "ELBSecurityPolicy-2016-08" -}}
+    {{- $_ := set $annotations "alb.ingress.kubernetes.io/ssl-policy" "ELBSecurityPolicy-TLS13-1-2-FIPS-2023-04" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/ssl-redirect" "443" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/target-type" "ip" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/scheme" "internet-facing" -}}

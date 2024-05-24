@@ -188,3 +188,5 @@ The below section gives an overview of the default values available. Consult the
 | tls.certificates.default.defaultCertificate | bool | `true` |  |
 | tls.certificates.default.enabled | bool | `false` |  |
 | tls.defaultEndpointConfig.enabled | bool | `false` |  |
+| tls.defaultEndpointConfig.extraCdrConfig."tls.protocol.cipher_whitelist" | string | `"TLS_AES_128_CCM_8_SHA256"` |  |
+| tls.defaultEndpointConfig.extraCdrConfig."tls.protocol.protocol_whitelist" | string | `"TLSv1.3"` |  |
