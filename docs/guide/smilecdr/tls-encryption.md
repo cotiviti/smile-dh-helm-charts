@@ -85,19 +85,22 @@ If you have left your ingress definition to use the default of `nginx-ingress` (
 * Kubernetes Readiness Probes updated to use HTTPS
 
 #### Using AWS Application Load Balancer for ingress
-If you have set your ingress definition to use `aws-lbc-alb` ([See Here](./ingress.md#aws-load-balancer-controller)), default end-2-end encryption will be configured as follows:
+If you have set your ingress definition to use `aws-lbc-alb` ([See Here](./ingress.md#aws-load-balancer-controller)), default end-to-end encryption will be configured as follows:
 
 * TLS encryption between client and the AWS Application Load Balancer using ACM certificate specified in your `Ingress` resource.
+* ELB Security policy is set to a secure default that supports TLSv1.3 (`ELBSecurityPolicy-TLS13-1-2-FIPS-2023-04`)
 * TLS encryption from the ALB to the Smile CDR pods using `cluster-signed` certificate.
 * AWS ALB Health Probes configured to use HTTPS
+
+These defaults may be updated via your Helm Values file. See the [Advanced Configuration](#advanced-configuration) below.
 
 #### Using Azure Application Gateway Ingress Controller for ingress
 If you have set your ingress definition to use `azure-agic` ([See Here](./ingress.md#azure-application-gateway-ingress-controller)), encryption is not currently supported.
 
-### Advanced Configuration
+## Advanced Configuration
 If the above defaults are not suitable, much of the functionality can be customized.
 
-#### Currently configurable options
+### Currently configurable options
 The following can be updated.
 >**Note:** If you need assistance while the advanced configuration documentation is still being created, please contact us.
 
@@ -106,10 +109,22 @@ The following can be updated.
 * Manually configure individual HTTP Endpoint modules to use different certificates
 * Configure using mixed-schema endpoints (i.e. some endpoints use HTTPS and some use HTTP). Note that multiple Ingress resources are required for this scenario
 
-#### Currently unsupported options
+### Currently unsupported options
 * Use pre-existing cert-manager `Certificate` resources
 * Use pre-existing cert-manager `Issuer` or `ClusterIssuer` resources
 * Create **Let's Encrypt** `Issuer` resources
 * Configure `ingress-nginx` to use `Ingress.tls` to configure its TLS termination, instead of the default `self-signed` cert
 * Securely import externally provisioned certificate material
 * TLS encryption on Azure
+
+### Adding global endpoint module configurations
+If you wish to set extra configurations for TLS endpoints, you may do so using the `defaultEndpointConfig` configuration like so:
+
+```
+tls:
+  defaultEndpointConfig:
+    extraCdrConfig:
+      tls.protocol.cipher_blacklist: "cipher1,cipher2"
+```
+
+In the above example, maybe you wish to set specific TLS cipher restrictions. By adding the configuration here, you do not need to manually add it to every endpoint module. This allows for simple configuration of TLS endpoints with reduced complexity and scope for errors. More information on available cipher/protocol restriction settings is available [here](https://smilecdr.com/docs/configuration_categories/tls_ssl_encryption.html#property-tls-cipher-blacklist)

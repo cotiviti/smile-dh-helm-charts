@@ -258,6 +258,7 @@ Currently, this is the canonical module source for the following template helper
                   2. modules.modulename.service(Takes priority)
                 */ -}}
           {{- $tlsSpec := dict "enabled" false -}}
+          {{- $moduleExtraConfig := dict -}}
           {{- $defaultTlsCertificate := "default" -}}
           {{- if $tlsConfig.defaultEndpointConfig.enabled -}}
             {{- $defaultTlsCertificate = default "default" $tlsConfig.defaultEndpointConfig.tlsCertificate -}}
@@ -266,6 +267,9 @@ Currently, this is the canonical module source for the following template helper
             {{- else -}}
               {{- $_ := set $tlsSpec "enabled" true -}}
               {{- $_ := set $tlsSpec "tlsCertificate" (default $defaultTlsCertificate $theService.tlsCertificate) -}}
+            {{- end -}}
+            {{- if hasKey  $tlsConfig.defaultEndpointConfig "extraCdrConfig" -}}
+              {{- $moduleExtraConfig = $tlsConfig.defaultEndpointConfig.extraCdrConfig -}}
             {{- end -}}
           {{- else -}}
             {{- /* defaultEndpointConfig is disabled. Allow explicit enablement in the service */ -}}
@@ -330,6 +334,10 @@ Currently, this is the canonical module source for the following template helper
               {{- /* Some other required module config if using TLS */ -}}
               {{- $_ := set $theModuleConfig "https_forwarding_assumed" false -}}
               {{- $_ := set $theModuleConfig "respect_forward_headers" false -}}
+
+              {{- range $theExtraConfigName, $theExtraConfigItem := $moduleExtraConfig -}}
+                {{- $_ := set $theModuleConfig $theExtraConfigName $theExtraConfigItem -}}
+              {{- end -}}
 
             {{- end -}}
           {{- end -}}{{- /* end of if $theService.tls.enabled */ -}}

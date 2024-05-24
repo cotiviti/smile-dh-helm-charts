@@ -109,10 +109,10 @@ tests:
     - ../default-test-disabled-features.yaml
     - enable-default-ingresses.yaml
     - tls-multiplecustomissuers.yaml
-  # nginx-ingress-tls-cluster:
-  #   outputFile: output-nginx-ingress-tls-cluster.yaml
-  #   valueFiles:
-  #   - ../default-test-values.yaml
-  #   - ../default-test-disabled-features.yaml
-  #   - enable-default-ingresses.yaml
-  #   - values-nginx-ingress-tls-cluster.yaml
+  tls-globalSettings:
+    outputFile: output-tls-globalSettings.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-globalSettings.yaml
