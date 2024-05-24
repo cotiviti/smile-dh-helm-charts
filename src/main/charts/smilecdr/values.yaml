@@ -363,6 +363,7 @@ ingresses:
     #         you to provide appropriate `extraAnnotations` below
     # -- Ingress type (`nginx-ingress`,`aws-lbc-alb`,`azure-agic`)
     type: nginx-ingress
+    tls13NginxConfigSnippet: true
 
     # Should this ingress be publicly accessible. Enabled by default for the default ingress.
     public: true
@@ -396,6 +397,9 @@ tls:
   # Here we can easily enable TLS on all HTTP endpoint modules in Smile CDR
   defaultEndpointConfig:
     enabled: false
+    extraCdrConfig:
+      tls.protocol.protocol_whitelist: TLSv1.3
+      tls.protocol.cipher_whitelist: TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256
 
 ## @section Service Account (IRSA)
 ## @param serviceAccount.create Specifies whether a service account should be created

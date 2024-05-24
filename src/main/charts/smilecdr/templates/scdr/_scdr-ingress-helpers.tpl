@@ -256,6 +256,16 @@ specified cloud provider
     */ -}}
     {{- if eq $backendProtocol "HTTPS" -}}
       {{- $_ := set $annotations "nginx.ingress.kubernetes.io/backend-protocol" $backendProtocol -}}
+
+      {{- /* The below annotation does not currently work and may be addressed in some upcoming release of Ingress-Nginx.
+            See: https://github.com/kubernetes/ingress-nginx/issues/8633#issuecomment-2094105356 */ -}}
+      {{- /* $_ := set $annotations "nginx.ingress.kubernetes.io/proxy-ssl-protocols" "TLSv1.3" */ -}}
+      {{- /* In the meantime, need to set via configuration-snippet if not set globally on the ingress-nginx configuration */ -}}
+      {{- if $ingressSpec.tls13NginxConfigSnippet -}}
+        {{- $nginxCipherConfig := "proxy_ssl_protocols TLSv1.3;" -}}
+        {{- $_ := set $annotations "nginx.ingress.kubernetes.io/configuration-snippet" $nginxCipherConfig -}}
+      {{- end -}}
+
     {{- end -}}
     {{- $_ := set $annotations "nginx.ingress.kubernetes.io/force-ssl-redirect" "true" -}}
   {{- else if eq (lower $ingressSpec.type) "aws-lbc-alb" -}}
