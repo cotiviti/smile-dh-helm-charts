@@ -24,6 +24,40 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 
 {{/*
+Generate a consistent resource name from a provided name
+Based on "smilecdr.fullname" above, but used for generating different resources with a consistent
+schema for the prefix.
+
+Unlike the above template, this needs a dict object to be passed in, that contains the following:
+rootCTX: - The root context (Required for access to Release name, chart name and values)
+name: - The name of the resource which you wish to prepend a consistent resource name prefix
+*/}}
+{{- define "smilecdr.resourceName" -}}
+  {{- $rootCTX := get . "rootCTX" -}}
+  {{- $releaseName := $rootCTX.Release.Name -}}
+  {{- $fullnameOverride := $rootCTX.Values.fullnameOverride -}}
+  {{- $chartName := default $rootCTX.Chart.Name $rootCTX.Values.nameOverride -}}
+  {{- $name := get . "name" -}}
+  {{- /* https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#rfc-1035-label-names */ -}}
+  {{- /* Sub from 62 instead of 63 as we add a hyphen back */ -}}
+  {{- $maxPrefixLength := sub (len $name) 63 | int -}}
+  {{- $resourceNamePrefix := "" -}}
+  {{- if $fullnameOverride -}}
+    {{- /* If fullnameOverride is being used, then we will use this for all resource name prefixes */ -}}
+    {{- $resourceNamePrefix = $fullnameOverride| trimSuffix "-" | trunc $maxPrefixLength -}}
+  {{- else -}}
+    {{- if contains $chartName $releaseName -}}
+      {{- /* If the release name contains the chart name, no need to include the chart name */ -}}
+      {{- $resourceNamePrefix = $releaseName | trimSuffix "-" | trunc $maxPrefixLength -}}
+    {{- else -}}
+      {{- /* Include the release name and chart name in the resource name prefix */ -}}
+      {{- $resourceNamePrefix = printf "%s-%s" $releaseName $chartName | trimSuffix "-" | trunc $maxPrefixLength -}}
+    {{- end -}}
+  {{- end -}}
+  {{- lower (printf "%s-%s" $resourceNamePrefix $name) -}}
+{{- end -}}
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "smilecdr.chart" -}}
