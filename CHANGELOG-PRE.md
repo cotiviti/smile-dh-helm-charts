@@ -1,3 +1,10 @@
+# [1.0.0-pre.117](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.116...v1.0.0-pre.117) (2024-05-24)
+
+
+### Bug Fixes
+
+* **smilecdr:** update keystore secret creation and naming ([beb397f](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/beb397f2709f9f1372556125edfef36fbb7ba207))
+
 # [1.0.0-pre.116](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.115...v1.0.0-pre.116) (2024-05-24)
 
 
