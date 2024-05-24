@@ -90,6 +90,7 @@ data:
     module.admin_json.config.tls.keystore.keyalias 	= 1
     module.admin_json.config.tls.keystore.keypass 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
     module.admin_json.config.tls.keystore.password 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
+    module.admin_json.config.tls_debug_disable_sni_check 	= true
     ################################################################################
     # ENDPOINT: Web Admin
     ################################################################################
@@ -104,6 +105,7 @@ data:
     module.admin_web.config.tls.keystore.keyalias 	= 1
     module.admin_web.config.tls.keystore.keypass 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
     module.admin_web.config.tls.keystore.password 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
+    module.admin_web.config.tls_debug_disable_sni_check 	= true
     ################################################################################
     # External Audit DB Config
     ################################################################################
@@ -158,6 +160,7 @@ data:
     module.fhir_endpoint.config.tls.keystore.keyalias 	= 1
     module.fhir_endpoint.config.tls.keystore.keypass 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
     module.fhir_endpoint.config.tls.keystore.password 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
+    module.fhir_endpoint.config.tls_debug_disable_sni_check 	= true
     ################################################################################
     # ENDPOINT: FHIRWeb Console
     ################################################################################
@@ -176,6 +179,7 @@ data:
     module.fhirweb_endpoint.config.tls.keystore.keyalias 	= 1
     module.fhirweb_endpoint.config.tls.keystore.keypass 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
     module.fhirweb_endpoint.config.tls.keystore.password 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
+    module.fhirweb_endpoint.config.tls_debug_disable_sni_check 	= true
     ################################################################################
     # license
     ################################################################################
@@ -203,6 +207,7 @@ data:
     module.package_registry.config.tls.keystore.keyalias 	= 1
     module.package_registry.config.tls.keystore.keypass 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
     module.package_registry.config.tls.keystore.password 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
+    module.package_registry.config.tls_debug_disable_sni_check 	= true
     ################################################################################
     # Database Configuration
     ################################################################################
@@ -235,6 +240,7 @@ data:
     module.smart_auth.config.tls.keystore.keyalias 	= 1
     module.smart_auth.config.tls.keystore.keypass 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
     module.smart_auth.config.tls.keystore.password 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
+    module.smart_auth.config.tls_debug_disable_sni_check 	= true
     ################################################################################
     # Subscription
     ################################################################################

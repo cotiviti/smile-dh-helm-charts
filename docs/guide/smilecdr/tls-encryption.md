@@ -91,6 +91,10 @@ If you have set your ingress definition to use `aws-lbc-alb` ([See Here](./ingre
 * ELB Security policy is set to a secure default that supports TLSv1.3 (`ELBSecurityPolicy-TLS13-1-2-FIPS-2023-04`)
 * TLS encryption from the ALB to the Smile CDR pods using `cluster-signed` certificate.
 * AWS ALB Health Probes configured to use HTTPS
+* Smile CDR module endpoints configured as follows:
+   * `tls_debug_disable_sni_check` set to true.
+
+>**Note:** In order for the HTTPS healthchecks to work when using the AWS ALB, the disable sni check option must be set. Currently, this will result in a warning in the Smile CDR console suggesting to disable the option. This is unavoidble at this time.
 
 These defaults may be updated via your Helm Values file. See the [Advanced Configuration](#advanced-configuration) below.
 

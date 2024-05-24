@@ -335,6 +335,12 @@ Currently, this is the canonical module source for the following template helper
               {{- $_ := set $theModuleConfig "https_forwarding_assumed" false -}}
               {{- $_ := set $theModuleConfig "respect_forward_headers" false -}}
 
+              {{- /* If using AWS ALB, then we need to disable SNI checking in the Smile CDR module.
+                  This may be overridden using `extraCdrConfig` */ -}}
+              {{ if has "aws-lbc-alb" $enabledIngressTypes -}}
+                {{- $_ := set $theModuleConfig "tls_debug_disable_sni_check" true -}}
+              {{- end -}}
+
               {{- range $theExtraConfigName, $theExtraConfigItem := $moduleExtraConfig -}}
                 {{- $_ := set $theModuleConfig $theExtraConfigName $theExtraConfigItem -}}
               {{- end -}}
