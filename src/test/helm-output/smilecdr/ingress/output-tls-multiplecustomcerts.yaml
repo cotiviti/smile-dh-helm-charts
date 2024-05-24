@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: cdrCertificate-tls-keystorepass
+  name: release-name-smilecdr-cdrcertificate-tls-keystorepass
   namespace: default
   labels:
     helm.sh/chart: No Chart Version - Unit Testing
@@ -38,7 +38,7 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: fhirWebCertificate-tls-keystorepass
+  name: release-name-smilecdr-fhirwebcertificate-tls-keystorepass
   namespace: default
   labels:
     helm.sh/chart: No Chart Version - Unit Testing
@@ -539,12 +539,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: cdrCertificate-tls-keystorepass
+                  name: release-name-smilecdr-cdrcertificate-tls-keystorepass
             - name: FHIRWEBCERTIFICATE_TLS_KEYSTORE_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: fhirWebCertificate-tls-keystorepass
+                  name: release-name-smilecdr-fhirwebcertificate-tls-keystorepass
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
           ports:
@@ -741,7 +741,7 @@ spec:
       create: true
       passwordSecretRef:
         key: password
-        name: cdrCertificate-tls-keystorepass
+        name: release-name-smilecdr-cdrcertificate-tls-keystorepass
   secretName: release-name-cdrcertificate-tls
 ---
 # Source: smilecdr/templates/certmanager/certmgr-certificate.yaml
@@ -798,7 +798,7 @@ spec:
       create: true
       passwordSecretRef:
         key: password
-        name: fhirWebCertificate-tls-keystorepass
+        name: release-name-smilecdr-fhirwebcertificate-tls-keystorepass
   secretName: release-name-fhirwebcertificate-tls
 ---
 # Source: smilecdr/templates/certmanager/certmgr-issuer.yaml

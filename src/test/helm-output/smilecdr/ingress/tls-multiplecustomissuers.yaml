@@ -29,6 +29,8 @@ tls:
       hostnameOverride: myoverriddenhost.mycompany.com
       keystorePassword:
         valueOverride: custompass
+        secretKey: differentKey
+        secretRef: mysecretname
       extraHostnames:
       - extrahost1.extrahostname.com
       - extrahost2.extrahostname.com

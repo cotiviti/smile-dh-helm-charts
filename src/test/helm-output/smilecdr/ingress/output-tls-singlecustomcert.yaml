@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: default-tls-keystorepass
+  name: release-name-smilecdr-default-tls-keystorepass
   namespace: default
   labels:
     helm.sh/chart: No Chart Version - Unit Testing
@@ -38,7 +38,7 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: myCert-tls-keystorepass
+  name: release-name-smilecdr-mycert-tls-keystorepass
   namespace: default
   labels:
     helm.sh/chart: No Chart Version - Unit Testing
@@ -539,12 +539,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: default-tls-keystorepass
+                  name: release-name-smilecdr-default-tls-keystorepass
             - name: MYCERT_TLS_KEYSTORE_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: myCert-tls-keystorepass
+                  name: release-name-smilecdr-mycert-tls-keystorepass
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
           ports:
@@ -739,7 +739,7 @@ spec:
       create: true
       passwordSecretRef:
         key: password
-        name: default-tls-keystorepass
+        name: release-name-smilecdr-default-tls-keystorepass
   secretName: release-name-default-tls
 ---
 # Source: smilecdr/templates/certmanager/certmgr-certificate.yaml
@@ -794,7 +794,7 @@ spec:
       create: true
       passwordSecretRef:
         key: password
-        name: myCert-tls-keystorepass
+        name: release-name-smilecdr-mycert-tls-keystorepass
   secretName: release-name-mycert-tls
 ---
 # Source: smilecdr/templates/certmanager/certmgr-issuer.yaml

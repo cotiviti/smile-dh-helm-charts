@@ -153,7 +153,7 @@
 
       {{- $_ := set $certificate "enabled" $theCertificateSpec.enabled -}}
       {{- $_ := set $certificate "defaultCertificate" $theCertificateSpec.defaultCertificate -}}
-      {{- $_ := set $certificate "keystorePassword" $theCertificateSpec.keystorePassword -}}
+      {{- $_ := set $certificate "keystorePasswordd" $theCertificateSpec.keystorePassword -}}
 
       {{- $issuerName := "" -}}
       {{- if and $theCertificateSpec.issuerConfigName (ne (lower $theCertificateSpec.issuerConfigName) "default") -}}
@@ -178,20 +178,39 @@
       {{- /* We need to create a compatible PKCS12 keystore in order to use in Smile CDR */ -}}
       {{- $keystores := dict "pkcs12" (dict "create" true) -}}
 
-      {{- /* Determine how to pass in the keystore secret*/ -}}
+      {{- /* Configure the keystore secret*/ -}}
       {{- $keystorePasswordConfig := default (dict) $theCertificateSpec.keystorePassword -}}
 
       {{- if and (hasKey $keystorePasswordConfig "useSecret") (not $keystorePasswordConfig.useSecret) -}}
         {{- /* Secret is disabled - Currently not supported */ -}}
-        {{- fail "Disabling secret for cert-manager generated keystores is not currently supported. " -}}
+        {{- fail "Disabling secret is not currently supported for cert-manager generated keystores. (1)" -}}
+        {{- $_ := set $keystorePasswordConfig "useSecret" false -}}
         {{- /* TODO: Add in the required `Certificate` spec changes once this has been implemented in cert-manager */ -}}
       {{- else -}}
-        {{- $secretRef := default (printf "%s-tls-keystorepass" $theCertificateName) $keystorePasswordConfig.secretRef -}}
+        {{- $_ := set $keystorePasswordConfig "useSecret" true -}}
         {{- $secretKey := default "password" $keystorePasswordConfig.secretKey -}}
+        {{- $keystorePasswordSecret := dict "key" $secretKey -}}
 
-        {{- $keystorePasswordSecret := dict "name" $secretRef "key" $secretKey -}}
+        {{- if $keystorePasswordConfig.secretRef -}}
+          {{- /* Using an existing secret */ -}}
+          {{- $_ := set $keystorePasswordConfig "createSecret" false -}}
+          {{- $_ := set $keystorePasswordSecret "name" $keystorePasswordConfig.secretRef -}}
+        {{- else -}}
+          {{- /* Create a new secret */ -}}
+          {{- $_ := set $keystorePasswordConfig "createSecret" true -}}
+          {{- $resourceName := include "smilecdr.resourceName" (dict "rootCTX" $ "name" (printf "%s-tls-keystorepass" $theCertificateName)) -}}
+          {{- $_ := set $keystorePasswordSecret "name" $resourceName -}}
+
+          {{- $secretKey := default "password" $keystorePasswordConfig.secretKey -}}
+          {{- $encodedValue := b64enc (default "changeit" $keystorePasswordConfig.valueOverride) -}}
+          {{- $_ := set $keystorePasswordConfig "secretData" (dict "data" (dict $secretKey $encodedValue)) -}}
+        {{- end -}}
+
+        {{- $_ := set $keystorePasswordConfig "resourceName" $keystorePasswordSecret.name -}}
         {{- $_ := set $keystores.pkcs12 "passwordSecretRef" $keystorePasswordSecret -}}
-      {{- end -}}
+      {{- end -}} {{- /* end of 'if use secret' */ -}}
+
+      {{- $_ := set $certificate "keystorePasswordConfig" $keystorePasswordConfig -}}
 
       {{- /* TODO: Provide option to enable this. Not required, but should use if using cert-manager 1.14 or above. */ -}}
       {{- $certManagerKeystoreProfilesSupport := false -}}
@@ -365,21 +384,19 @@ Define cert-manager related env vars
 
   {{- range $theCertificateName, $theCertificate := .Values.certificates -}}
     {{- if and $theCertificate.enabled (($theCertificate.spec.keystores).pkcs12).create -}}
+      {{- /* TODO: Only include the keystore password if it is used in this cdr node */ -}}
       {{- $env := dict "name" (upper (printf "%s_TLS_KEYSTORE_PASS" $theCertificateName)) -}}
 
-      {{- /* Determine how to pass in the keystore secret*/ -}}
-      {{- $keystorePasswordConfig := default (dict) $theCertificate.keystorePassword -}}
-
-      {{- if and (hasKey $keystorePasswordConfig "useSecret") (not $keystorePasswordConfig.useSecret) -}}
-        {{- /* Secret is disabled - Currently not supported */ -}}
-        {{- fail "Disabling secret for cert-manager generated keystores is not currently supported. " -}}
-        {{- $_ := set $env "value" (default "changeit"  $keystorePasswordConfig.valueOverride) -}}
-      {{- else -}}
-        {{- $secretRef := default (printf "%s-tls-keystorepass" $theCertificateName) $keystorePasswordConfig.secretRef -}}
+      {{- $keystorePasswordConfig := $theCertificate.keystorePasswordConfig -}}
+      {{- if $keystorePasswordConfig.useSecret -}}
+        {{- $secretName := $keystorePasswordConfig.resourceName -}}
         {{- $secretKey := default "password" $keystorePasswordConfig.secretKey -}}
-        {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (dict "name" $secretRef "key" $secretKey)) -}}
+        {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (dict "name" $secretName "key" $secretKey)) -}}
+      {{- else -}}
+        {{- /* Secret is disabled - Currently not supported */ -}}
+        {{- fail "Disabling secret is not currently supported for cert-manager generated keystores. (2) " -}}
+        {{- $_ := set $env "value" (default "changeit"  $keystorePasswordConfig.valueOverride) -}}
       {{- end -}}
-
       {{- $envVars = append $envVars $env -}}
     {{- end -}}
   {{- end -}}

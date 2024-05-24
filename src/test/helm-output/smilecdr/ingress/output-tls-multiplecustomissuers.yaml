@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: cdrCertificate-tls-keystorepass
+  name: release-name-smilecdr-cdrcertificate-tls-keystorepass
   namespace: default
   labels:
     helm.sh/chart: No Chart Version - Unit Testing
@@ -33,22 +33,6 @@ metadata:
 type: Opaque
 data:
   password: Y2hhbmdlaXQ=
----
-# Source: smilecdr/templates/certmanager/certmgr-keystore-secret.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: fhirWebCertificate-tls-keystorepass
-  namespace: default
-  labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
-    app.kubernetes.io/managed-by: Helm
-type: Opaque
-data:
-  password: Y3VzdG9tcGFzcw==
 ---
 # Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
@@ -539,12 +523,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: cdrCertificate-tls-keystorepass
+                  name: release-name-smilecdr-cdrcertificate-tls-keystorepass
             - name: FHIRWEBCERTIFICATE_TLS_KEYSTORE_PASS
               valueFrom:
                 secretKeyRef:
-                  key: password
-                  name: fhirWebCertificate-tls-keystorepass
+                  key: differentKey
+                  name: mysecretname
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
           ports:
@@ -741,7 +725,7 @@ spec:
       create: true
       passwordSecretRef:
         key: password
-        name: cdrCertificate-tls-keystorepass
+        name: release-name-smilecdr-cdrcertificate-tls-keystorepass
   secretName: release-name-cdrcertificate-tls
 ---
 # Source: smilecdr/templates/certmanager/certmgr-certificate.yaml
@@ -773,8 +757,8 @@ spec:
     pkcs12:
       create: true
       passwordSecretRef:
-        key: password
-        name: fhirWebCertificate-tls-keystorepass
+        key: differentKey
+        name: mysecretname
   secretName: release-name-fhirwebcertificate-tls
 ---
 # Source: smilecdr/templates/certmanager/certmgr-certificate.yaml
