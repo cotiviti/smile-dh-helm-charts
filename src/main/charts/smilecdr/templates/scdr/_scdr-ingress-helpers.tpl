@@ -270,7 +270,7 @@ specified cloud provider
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/healthcheck-timeout-seconds" "5" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/success-codes" "200" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/listen-ports" "[{\"HTTPS\":443}]" -}}
-    {{- $_ := set $annotations "alb.ingress.kubernetes.io/ssl-policy" "ELBSecurityPolicy-2016-08" -}}
+    {{- $_ := set $annotations "alb.ingress.kubernetes.io/ssl-policy" "ELBSecurityPolicy-TLS13-1-2-FIPS-2023-04" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/ssl-redirect" "443" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/target-type" "ip" -}}
     {{- $_ := set $annotations "alb.ingress.kubernetes.io/scheme" "internet-facing" -}}
