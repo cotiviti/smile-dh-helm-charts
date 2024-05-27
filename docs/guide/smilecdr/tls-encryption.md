@@ -126,13 +126,52 @@ The following can be updated.
 * Manually configure individual HTTP Endpoint modules to use different certificates
 * Configure using mixed-schema endpoints (i.e. some endpoints use HTTPS and some use HTTP). Note that multiple Ingress resources are required for this scenario
 
-### Currently unsupported options
-* Use pre-existing cert-manager `Certificate` resources
-* Use pre-existing cert-manager `Issuer` or `ClusterIssuer` resources
-* Create **Let's Encrypt** `Issuer` resources
-* Configure `ingress-nginx` to use `Ingress.tls` to configure its TLS termination, instead of the default `self-signed` cert
-* Securely import externally provisioned certificate material
-* TLS encryption on Azure
+### Create **Let's Encrypt** `Issuer` resources
+This Helm Chart can be configured to easily and automatically provision a lets-encrypt, or other ACME compliant issuer.
+
+In order to enable this feature, your `certificateIssuer` configuration must include at the minimum the following:
+
+* `signingMethod: public-signed`
+* `acmeSpec.email: your@email.com`
+
+>**Note:** Although cert issuance functions with an invalid e-mail address, it is used by the provider to track your certificates and provide notifications about the status of your certificates. It's advisable to use a correct e-mail address.
+
+Here is how that would look in your values file.
+```
+tls:
+  certificateIssuers:
+    acmeStaging:
+      enabled: true
+      signingMethod: public-signed
+      acmeSpec:
+        email: your@email.com
+```
+
+By default, the above will use the Let's Encrypt ***Staging*** servers and produce an `Issuer` resource with the following spec:
+
+```
+spec:
+  acme:
+    email: your@email.com
+    privateKeySecretRef:
+      name: release-name-smilecdr-acmestaging-key
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    solvers:
+    - http01:
+        ingress:
+          ingressClassName: nginx
+```
+
+For convenience, you may set `acmeSpec.server` to some pre-defined friendly names. You can also set it directly to an ACME server of your choosing.
+
+The following convenience server names are provided:
+
+* `lets-encrypt-staging` - `https://acme-staging-v02.api.letsencrypt.org/directory` (Default)
+* `lets-encrypt-prod` - `https://acme-v02.api.letsencrypt.org/directory`
+
+At this time, the automatically generated ACME Issuer only works if your environment is configured to use the `ingress-nginx` Ingress Controller.
+
+For more information on any other settings that may be used in the `acmeSpec`, please refer to the official cert-manager Issuer documentation [here](https://cert-manager.io/docs/configuration/issuers/).
 
 ### Adding global endpoint module configurations
 If you wish to set extra configurations for TLS endpoints, you may do so using the `defaultEndpointConfig` configuration like so:
@@ -150,3 +189,10 @@ By adding the configuration here, you do not need to manually add it to every en
 >**Note:** Exercise caution when manipulating the allowed ciphers, as incorrect choices may prevent the readiness probe or ALB health checks from functioning correctly.
 
 More information on available cipher/protocol restriction settings is available [here](https://smilecdr.com/docs/configuration_categories/tls_ssl_encryption.html#property-tls-cipher-blacklist)
+
+### Currently unsupported options
+* Use pre-existing cert-manager `Certificate` resources
+* Use pre-existing cert-manager `Issuer` or `ClusterIssuer` resources
+* Configure `ingress-nginx` to use `Ingress.tls` to configure its TLS termination, instead of the default `self-signed` cert
+* Securely import externally provisioned certificate material
+* TLS encryption on Azure
