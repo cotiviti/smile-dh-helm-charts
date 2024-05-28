@@ -1,3 +1,10 @@
+# [1.0.0-pre.118](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.117...v1.0.0-pre.118) (2024-05-28)
+
+
+### Features
+
+* **smilecdr:** enable creation of ACME issuers ([f44e770](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/f44e770a141f32165920915e322bdd7510e60f31))
+
 # [1.0.0-pre.117](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.116...v1.0.0-pre.117) (2024-05-24)
 
 
