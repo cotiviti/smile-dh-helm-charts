@@ -87,9 +87,10 @@
           {{- $acmeSpec := $theIssuerSpec.acmeSpec -}}
 
           {{- /* Configure the private key for this issuer */ -}}
-          {{- $pkSecretName := (printf "%s-key" $theIssuerName) -}}
-          {{- $pkSecretResourceName := default (include "smilecdr.resourceName" (dict "rootCTX" $ "name" $pkSecretName)) $acmeSpec.privateKeySecretRef -}}
+          {{- $pkSecretName := (printf "%s-issuer-key" $issuer.name) -}}
+          {{- $pkSecretResourceName := default (include "smilecdr.resourceName" (dict "rootCTX" $ "name" $pkSecretName)) $acmeSpec.privateKeySecretName -}}
           {{- $_ := set $acmeSpec "privateKeySecretRef" (dict "name" $pkSecretResourceName) -}}
+          {{- $_ := unset $acmeSpec "privateKeySecretName" -}}
 
           {{- /* Configure the email and server */ -}}
           {{- $_ := set $acmeSpec "email" (required "You must provide an e-mail for your ACME Issuer configuration." $acmeSpec.email) -}}

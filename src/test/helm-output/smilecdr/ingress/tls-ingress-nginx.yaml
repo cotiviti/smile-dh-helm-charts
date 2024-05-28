@@ -1,0 +1,41 @@
+# Basic Ingress TLS configuration using default issuer
+# * Self signed Root CA Issuer
+# * Cluster local Cluster-Local CA Issuer (Signed by Root CA Issuer)
+# * Default Certificate for Smile CDR, signed by cluster-local issuer
+# * Ingress backends using HTTP to simplify test
+
+ingresses:
+  default:
+    enabled: true
+    tlsConfig:
+      enabled: true
+  ingress2:
+    enabled: true
+    type: nginx-ingress
+    annotations: {}
+    tlsConfig:
+      enabled: true
+      issuerConfiguration: default
+      secretNameOverride: mysecret
+  ingress3:
+    enabled: true
+    type: nginx-ingress
+    annotations: {}
+    tlsConfig:
+      enabled: true
+      existingIssuer: my-existing-issuer-resource-name
+
+tls:
+  certificateIssuers:
+    default:
+      enabled: true
+
+
+modules:
+  admin_json:
+    service:
+      ingresses:
+        ingress2:
+          enabled: true
+        ingress3:
+          enabled: true

@@ -367,26 +367,36 @@ specified cloud provider
   {{- $cdrNodes := get . "cdrNodes" -}}
   {{- $ingressSpec := get . "ingressSpec" -}}
   {{- $rootCTX := get . "rootCTX" -}}
-  {{- $tlsSpec := $rootCTX.Values.tls -}}
+  {{- $issuerConfig := dict -}}
   {{- $ingressTLSConfig := dict -}}
-  {{- $ingressTLSSecretName := "oh" -}}
   {{- $hostList := list -}}
   {{- $certManagerAnnotations := dict -}}
-  {{- $enableTLSConfig := false -}}
 
-  {{- if and (hasKey $ingressSpec "tlsConfig") (hasKey $tlsSpec $ingressSpec.tlsConfig) -}}
-    {{- if ne $ingressSpec.tlsConfig "default" -}}
-      {{- $currentTLSSpec := get $tlsSpec $ingressSpec.tlsConfig -}}
-      {{- if and (hasKey $currentTLSSpec "certificateType") (eq $currentTLSSpec.certificateType "cluster") -}}
-        {{- $enableTLSConfig = true -}}
-        {{- $ingressTLSSecretName = "secret-from-cert-manager" -}}
-        {{- $_ := set $certManagerAnnotations "cert-manager.io/issuer" (include "certmanager.issuer.name" (dict "tlsSpecName" $ingressSpec.tlsConfig "rootCTX" $rootCTX)) -}}
+  {{- if ($ingressSpec.tlsConfig).enabled -}}
+    {{- $issuerResourceName := "" -}}
+    {{- if and (hasKey $ingressSpec.tlsConfig "issuerConfiguration") (hasKey $ingressSpec.tlsConfig "existingIssuer") -}}
+      {{- fail (printf "You have defined `issuerConfiguration` and `existingIssuer` in your `%s` Ingress TLS configuration. Pleas use one or the other." $ingressSpec.name) -}}
+    {{- end -}}
+
+    {{- if hasKey $ingressSpec.tlsConfig "existingIssuer" -}}
+      {{- /* Get referenced existing issuer */ -}}
+      {{- $issuerResourceName = $ingressSpec.tlsConfig.existingIssuer -}}
+    {{- else -}}
+      {{- /* Get referenced issuer congfiguration, or use the default issuer congfiguration */ -}}
+      {{- $enabledIssuerConfigs := include "certmanager.issuers" $rootCTX | fromYaml -}}
+      {{- $currentIssuerConfig := get $enabledIssuerConfigs (default "default" $ingressSpec.tlsConfig.issuerConfiguration) -}}
+      {{- if $currentIssuerConfig.enabled -}}
+        {{- /* We are using a valid Issuer configuration which has been enabled.
+              Set the issuer and enable further generation of the `ingress.spec.tls` configuration */ -}}
+        {{- $issuerResourceName = (include "certmanager.issuer.resourceName" (dict "issuerSpec" $currentIssuerConfig "rootCTX" $rootCTX)) -}}
+      {{- else -}}
+        {{- fail (printf "Ingress configuration `%s` is trying to use a certificate Issuer configuration that does not exist or is not enabled.\n\tDisable the Ingress tlsConfig or enable the Issuer" $ingressSpec.name) -}}
       {{- end -}}
     {{- end -}}
+    {{- $_ := set $certManagerAnnotations "cert-manager.io/issuer" $issuerResourceName -}}
   {{- end -}}
 
-
-  {{- if $enableTLSConfig -}}
+  {{- if hasKey $certManagerAnnotations "cert-manager.io/issuer" -}}
     {{- /* The ingressSpec.tls needs a list of hosts used in the certificate that will be used by this ingress. */ -}}
     {{- range $theCdrNodeName, $theCdrNodeCtx := $cdrNodes -}}
       {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
@@ -421,7 +431,9 @@ specified cloud provider
     {{- end -}}
 
     {{- /* Prepare tls config dict to return */ -}}
-    {{- $_ := set $ingressTLSConfig "tls" (list (dict "hosts" $hostList "secretName" $ingressTLSSecretName)) -}}
+    {{- $defaultSecretName := include "smilecdr.resourceName" (dict "name" (printf "%s-ingress-tls" $ingressSpec.name ) "rootCTX" $rootCTX) -}}
+    {{- $secretName := default $defaultSecretName $ingressSpec.tlsConfig.secretNameOverride -}}
+    {{- $_ := set $ingressTLSConfig "tlsSpec" (list (dict "hosts" $hostList "secretName" $secretName)) -}}
     {{- $_ := set $ingressTLSConfig "annotations" $certManagerAnnotations -}}
   {{- else -}}
     {{- /* Prepare empty tls config dict to return */ -}}

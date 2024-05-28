@@ -25,6 +25,84 @@ The behavior of the Nginx Ingress controller differs based on the cloud provider
 
 The `Service` objects will be set as `ClusterIP` rather than `NodePort`. This increases the security stance of the deployment as Kubernetes does not expose these services externally to the cluster. All traffic comes from the Nginx Ingress Controller pod, directly to the application pods.
 
+#### TLS Encryption
+By default the Nginx ingress uses a ***self-signed*** certificate. If this is sufficient for your needs (as the fronting AWS NLB does not need to verify the certificates), nothing else needs to be done.
+
+If, however, you need to use a ***publicly-signed*** TLS certificate in the Nginx ingress (for example, using TLS passthrough on the fronting load balancer) then you can configure Nginx Ingress to use cert-manager and Let's Encrypt to automatically provision a suitable TLS certificate.
+
+For a detailed explanation of how this solution works, refer to the [ingress-nginx](https://kubernetes.github.io/ingress-nginx/user-guide/tls/#automated-certificate-management-with-cert-manager) and [cert-manager](https://cert-manager.io/docs/tutorials/acme/nginx-ingress/) documentation.
+
+This can currently be configured using the Helm Chart using two methods
+
+##### Option 1
+**Create Let's Encrypt Staging `Issuer` Resource**
+
+**Step 1**
+
+Use the below `values.yaml` snippet to enable the Helm Chart to generate a Let's Encrypt issuer.
+```
+tls:
+  certificateIssuers:
+    default:
+      enabled: true
+      signingMethod: public-signed
+      acmeSpec:
+        email: test@example2.com
+```
+
+**Step 2**
+
+Update your ingress configuration to enable TLS and use the issuer configuration defined above.
+```
+ingresses:
+  default:
+    tlsConfig:
+      enabled: true
+      issuerConfiguration: default
+```
+
+##### Option 2
+**Use pre-existing `Issuer` Resource**
+
+**Step 1**
+
+Create a suitable public-signing `Issuer` resource. Refer to the cert-manager documentation for instructions on doing this.
+
+In the rest of this example, we will assume that this existing `Issuer` resource is named `my-existing-lets-encrypt-issuer`
+
+**Step 2**
+
+Use the below `values.yaml` snippet to define the pre-existing Issuer in a way that it can be used by multiple sections of the Helm Chart.
+```
+tls:
+  certificateIssuers:
+    myExistingLetsEncryptIssuer:
+      enabled: true
+      signingMethod: public-signed
+      existingIssuer: my-existing-lets-encrypt-issuer
+```
+>**Note:** Although the above is not technically mandatory for Ingress TLS configuration, it's advisable to use this mechanism.
+By doing so, the same issuer can easily be used to create other certificates that can be used in the Smile CDR deployment.
+
+**Step 3**
+
+Update your ingress configuration to enable TLS and use the issuer defined above. Note that you can either reference the above-defined `tls.certificateIssuers` configuration,
+or you can directly reference the pre-existing `Issuer` resource that you created.
+```
+ingresses:
+  default:
+    tlsConfig:
+      enabled: true
+      issuerConfiguration: myExistingLetsEncryptIssuer
+      # If directly referencing the pre-existing `Issuer` resource that you created, use the following instead
+      # existingIssuer: my-existing-lets-encrypt-issuer
+```
+
+>**Note:** For brevity, these examples do not enable back-end encryption to the Smile CDR pods. Please see the [TLS Encryption](./tls-encryption.md) section for more information on enabling back-end encryption, configuring Issuers, Certificates and using them in Smile CDR.
+
+##### BYO Certificate
+At this time, the Helm Chart does not support providing your own externally-provisioned TLS certificate. This feature will be added at a future date.
+
 #### Dedicated Nginx Ingress
 By default, this option uses the `nginx` ingress class. If multiple ingresses all use the same default IngressClass, then they will share the same underlying NLB.
 
