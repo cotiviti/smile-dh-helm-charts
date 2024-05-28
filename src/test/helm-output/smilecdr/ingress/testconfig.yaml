@@ -123,3 +123,9 @@ tests:
     - ../default-test-disabled-features.yaml
     - enable-default-ingresses.yaml
     - tls-acmeIssuer.yaml
+  tls-ingress-nginx:
+    outputFile: output-tls-ingress-nginx.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - tls-ingress-nginx.yaml

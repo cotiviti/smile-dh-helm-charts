@@ -20,7 +20,7 @@ tls:
       acmeSpec:
         server: lets-encrypt-prod
         email: testy@example.com
-        privateKeySecretRef: myPrivateKeySecretResourceName
+        privateKeySecretName: myPrivateKeySecretResourceName
 
   certificates:
     default:

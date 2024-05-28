@@ -18,38 +18,6 @@ spec:
       app.kubernetes.io/instance: release-name
       app.kubernetes.io/name: smilecdr
 ---
-# Source: smilecdr/templates/certmanager/certmgr-keystore-secret.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: release-name-smilecdr-default-tls-keystorepass
-  namespace: default
-  labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
-    app.kubernetes.io/managed-by: Helm
-type: Opaque
-data:
-  password: Y2hhbmdlaXQ=
----
-# Source: smilecdr/templates/certmanager/certmgr-keystore-secret.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: release-name-smilecdr-prod-tls-keystorepass
-  namespace: default
-  labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
-    app.kubernetes.io/managed-by: Helm
-type: Opaque
-data:
-  password: Y2hhbmdlaXQ=
----
 # Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -97,33 +65,21 @@ data:
     module.admin_json.requires.SECURITY_IN_UP 	= local_security
     module.admin_json.config.anonymous.access.enabled 	= true
     module.admin_json.config.context_path 	= /json-admin
-    module.admin_json.config.https_forwarding_assumed 	= false
+    module.admin_json.config.https_forwarding_assumed 	= true
     module.admin_json.config.port 	= 9000
-    module.admin_json.config.respect_forward_headers 	= false
+    module.admin_json.config.respect_forward_headers 	= true
     module.admin_json.config.security.http.basic.enabled 	= true
-    module.admin_json.config.tls.enabled 	= true
-    module.admin_json.config.tls.keystore.file 	= classpath:tls/default-tls-keystore.p12
-    module.admin_json.config.tls.keystore.keyalias 	= 1
-    module.admin_json.config.tls.keystore.keypass 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
-    module.admin_json.config.tls.keystore.password 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
-    module.admin_json.config.tls.protocol.cipher_whitelist 	= TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256
-    module.admin_json.config.tls.protocol.protocol_whitelist 	= TLSv1.3
+    module.admin_json.config.tls.enabled 	= false
     ################################################################################
     # ENDPOINT: Web Admin
     ################################################################################
     module.admin_web.type 	= ADMIN_WEB
     module.admin_web.requires.SECURITY_IN_UP 	= local_security
     module.admin_web.config.context_path 	= /
-    module.admin_web.config.https_forwarding_assumed 	= false
+    module.admin_web.config.https_forwarding_assumed 	= true
     module.admin_web.config.port 	= 9100
-    module.admin_web.config.respect_forward_headers 	= false
-    module.admin_web.config.tls.enabled 	= true
-    module.admin_web.config.tls.keystore.file 	= classpath:tls/default-tls-keystore.p12
-    module.admin_web.config.tls.keystore.keyalias 	= 1
-    module.admin_web.config.tls.keystore.keypass 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
-    module.admin_web.config.tls.keystore.password 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
-    module.admin_web.config.tls.protocol.cipher_whitelist 	= TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256
-    module.admin_web.config.tls.protocol.protocol_whitelist 	= TLSv1.3
+    module.admin_web.config.respect_forward_headers 	= true
+    module.admin_web.config.tls.enabled 	= false
     ################################################################################
     # External Audit DB Config
     ################################################################################
@@ -162,24 +118,18 @@ data:
     module.fhir_endpoint.config.cors.enable 	= true
     module.fhir_endpoint.config.default_encoding 	= JSON
     module.fhir_endpoint.config.default_pretty_print 	= true
-    module.fhir_endpoint.config.https_forwarding_assumed 	= false
+    module.fhir_endpoint.config.https_forwarding_assumed 	= true
     module.fhir_endpoint.config.port 	= 8000
     module.fhir_endpoint.config.request_validating.enabled 	= false
     module.fhir_endpoint.config.request_validating.fail_on_severity 	= ERROR
     module.fhir_endpoint.config.request_validating.require_explicit_profile_definition.enabled 	= false
     module.fhir_endpoint.config.request_validating.response_headers.enabled 	= false
     module.fhir_endpoint.config.request_validating.tags.enabled 	= false
-    module.fhir_endpoint.config.respect_forward_headers 	= false
+    module.fhir_endpoint.config.respect_forward_headers 	= true
     module.fhir_endpoint.config.security.http.basic.enabled 	= true
     module.fhir_endpoint.config.threadpool.max 	= 10
     module.fhir_endpoint.config.threadpool.min 	= 2
-    module.fhir_endpoint.config.tls.enabled 	= true
-    module.fhir_endpoint.config.tls.keystore.file 	= classpath:tls/default-tls-keystore.p12
-    module.fhir_endpoint.config.tls.keystore.keyalias 	= 1
-    module.fhir_endpoint.config.tls.keystore.keypass 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
-    module.fhir_endpoint.config.tls.keystore.password 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
-    module.fhir_endpoint.config.tls.protocol.cipher_whitelist 	= TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256
-    module.fhir_endpoint.config.tls.protocol.protocol_whitelist 	= TLSv1.3
+    module.fhir_endpoint.config.tls.enabled 	= false
     ################################################################################
     # ENDPOINT: FHIRWeb Console
     ################################################################################
@@ -188,18 +138,12 @@ data:
     module.fhirweb_endpoint.requires.SECURITY_IN_UP 	= local_security
     module.fhirweb_endpoint.config.anonymous.access.enabled 	= false
     module.fhirweb_endpoint.config.context_path 	= /fhirweb
-    module.fhirweb_endpoint.config.https_forwarding_assumed 	= false
+    module.fhirweb_endpoint.config.https_forwarding_assumed 	= true
     module.fhirweb_endpoint.config.port 	= 8001
-    module.fhirweb_endpoint.config.respect_forward_headers 	= false
+    module.fhirweb_endpoint.config.respect_forward_headers 	= true
     module.fhirweb_endpoint.config.threadpool.max 	= 10
     module.fhirweb_endpoint.config.threadpool.min 	= 2
-    module.fhirweb_endpoint.config.tls.enabled 	= true
-    module.fhirweb_endpoint.config.tls.keystore.file 	= classpath:tls/default-tls-keystore.p12
-    module.fhirweb_endpoint.config.tls.keystore.keyalias 	= 1
-    module.fhirweb_endpoint.config.tls.keystore.keypass 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
-    module.fhirweb_endpoint.config.tls.keystore.password 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
-    module.fhirweb_endpoint.config.tls.protocol.cipher_whitelist 	= TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256
-    module.fhirweb_endpoint.config.tls.protocol.protocol_whitelist 	= TLSv1.3
+    module.fhirweb_endpoint.config.tls.enabled 	= false
     ################################################################################
     # license
     ################################################################################
@@ -218,17 +162,11 @@ data:
     module.package_registry.requires.SECURITY_IN_UP 	= local_security
     module.package_registry.config.anonymous.access.enabled 	= true
     module.package_registry.config.context_path 	= /package_registry
-    module.package_registry.config.https_forwarding_assumed 	= false
+    module.package_registry.config.https_forwarding_assumed 	= true
     module.package_registry.config.port 	= 8002
-    module.package_registry.config.respect_forward_headers 	= false
+    module.package_registry.config.respect_forward_headers 	= true
     module.package_registry.config.security.http.basic.enabled 	= true
-    module.package_registry.config.tls.enabled 	= true
-    module.package_registry.config.tls.keystore.file 	= classpath:tls/default-tls-keystore.p12
-    module.package_registry.config.tls.keystore.keyalias 	= 1
-    module.package_registry.config.tls.keystore.keypass 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
-    module.package_registry.config.tls.keystore.password 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
-    module.package_registry.config.tls.protocol.cipher_whitelist 	= TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256
-    module.package_registry.config.tls.protocol.protocol_whitelist 	= TLSv1.3
+    module.package_registry.config.tls.enabled 	= false
     ################################################################################
     # Database Configuration
     ################################################################################
@@ -251,18 +189,12 @@ data:
     module.smart_auth.requires.CLUSTERMGR 	= clustermgr
     module.smart_auth.requires.SECURITY_IN_UP 	= local_security
     module.smart_auth.config.context_path 	= /smartauth
-    module.smart_auth.config.https_forwarding_assumed 	= false
+    module.smart_auth.config.https_forwarding_assumed 	= true
     module.smart_auth.config.issuer.url 	= https://smilecdr-example.local/smartauth
     module.smart_auth.config.openid.signing.keystore_id 	= default-keystore
     module.smart_auth.config.port 	= 9200
-    module.smart_auth.config.respect_forward_headers 	= false
-    module.smart_auth.config.tls.enabled 	= true
-    module.smart_auth.config.tls.keystore.file 	= classpath:tls/default-tls-keystore.p12
-    module.smart_auth.config.tls.keystore.keyalias 	= 1
-    module.smart_auth.config.tls.keystore.keypass 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
-    module.smart_auth.config.tls.keystore.password 	= #{env['DEFAULT_TLS_KEYSTORE_PASS']}
-    module.smart_auth.config.tls.protocol.cipher_whitelist 	= TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256
-    module.smart_auth.config.tls.protocol.protocol_whitelist 	= TLSv1.3
+    module.smart_auth.config.respect_forward_headers 	= true
+    module.smart_auth.config.tls.enabled 	= false
     ################################################################################
     # Subscription
     ################################################################################
@@ -496,12 +428,8 @@ spec:
           readinessProbe:
             failureThreshold: 2
             httpGet:
-              httpHeaders:
-              - name: Host
-                value: smilecdr-example.local
               path: /fhir_request/endpoint-health
               port: 8000
-              scheme: HTTPS
             periodSeconds: 10
             timeoutSeconds: 10
           resources:
@@ -535,16 +463,6 @@ spec:
                 secretKeyRef:
                   key: password
                   name: smilecdr
-            - name: DEFAULT_TLS_KEYSTORE_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: release-name-smilecdr-default-tls-keystorepass
-            - name: PROD_TLS_KEYSTORE_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: release-name-smilecdr-prod-tls-keystorepass
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
           ports:
@@ -567,14 +485,6 @@ spec:
               containerPort: 9200
               protocol: TCP
           volumeMounts:
-            - mountPath: /home/smile/smilecdr/classes/tls/default-tls-keystore.p12
-              name: default-tls-keystore
-              readOnly: true
-              subPath: default-tls-keystore.p12
-            - mountPath: /home/smile/smilecdr/classes/tls/prod-tls-keystore.p12
-              name: prod-tls-keystore
-              readOnly: true
-              subPath: prod-tls-keystore.p12
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
@@ -585,18 +495,6 @@ spec:
             - mountPath: /home/smile/smilecdr/activemq-data
               name: scdr-volume-amq
       volumes:
-        - name: default-tls-keystore
-          secret:
-            items:
-            - key: keystore.p12
-              path: default-tls-keystore.p12
-            secretName: release-name-default-tls
-        - name: prod-tls-keystore
-          secret:
-            items:
-            - key: keystore.p12
-              path: prod-tls-keystore.p12
-            secretName: release-name-prod-tls
         - configMap:
             name: release-name-scdr-masterdev-node
           name: scdr-config-release-name
@@ -643,8 +541,7 @@ metadata:
     app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
   annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-    nginx.ingress.kubernetes.io/configuration-snippet: proxy_ssl_protocols TLSv1.3;
+    cert-manager.io/issuer: release-name-default-ca
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   ingressClassName: nginx
@@ -652,13 +549,6 @@ spec:
     - host: smilecdr-example.local
       http:
         paths:
-        - backend:
-            service:
-              name: release-name-scdr-svc-admin-json
-              port:
-                number: 9000
-          path: /json-admin
-          pathType: Prefix
         - backend:
             service:
               name: release-name-scdr-svc-admin-web
@@ -694,12 +584,16 @@ spec:
                 number: 9200
           path: /smartauth
           pathType: Prefix
+  tls:
+  - hosts:
+    - smilecdr-example.local
+    secretName: release-name-smilecdr-default-ingress-tls
 ---
-# Source: smilecdr/templates/certmanager/certmgr-certificate.yaml
-apiVersion: cert-manager.io/v1
-kind: Certificate
+# Source: smilecdr/templates/scdr/scdr-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: release-name-default
+  name: release-name-scdr-ingress2
   namespace: default
   labels:
     helm.sh/chart: No Chart Version - Unit Testing
@@ -707,20 +601,59 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
+  annotations:
+    cert-manager.io/issuer: release-name-default-ca
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
-  dnsNames:
-  - smilecdr-example.local
-  issuerRef:
-    group: cert-manager.io
-    kind: Issuer
-    name: release-name-acmestaging
-  keystores:
-    pkcs12:
-      create: true
-      passwordSecretRef:
-        key: password
-        name: release-name-smilecdr-default-tls-keystorepass
-  secretName: release-name-default-tls
+  ingressClassName: nginx
+  rules:
+    - host: smilecdr-example.local
+      http:
+        paths:
+        - backend:
+            service:
+              name: release-name-scdr-svc-admin-json
+              port:
+                number: 9000
+          path: /json-admin
+          pathType: Prefix
+  tls:
+  - hosts:
+    - smilecdr-example.local
+    secretName: mysecret
+---
+# Source: smilecdr/templates/scdr/scdr-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-scdr-ingress3
+  namespace: default
+  labels:
+    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    cert-manager.io/issuer: my-existing-issuer-resource-name
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: smilecdr-example.local
+      http:
+        paths:
+        - backend:
+            service:
+              name: release-name-scdr-svc-admin-json
+              port:
+                number: 9000
+          path: /json-admin
+          pathType: Prefix
+  tls:
+  - hosts:
+    - smilecdr-example.local
+    secretName: release-name-smilecdr-ingress3-ingress-tls
 ---
 # Source: smilecdr/templates/certmanager/certmgr-certificate.yaml
 apiVersion: cert-manager.io/v1
@@ -745,79 +678,6 @@ spec:
     algorithm: ECDSA
     size: 256
   secretName: release-name-default-ca-tls
----
-# Source: smilecdr/templates/certmanager/certmgr-certificate.yaml
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: release-name-prod
-  namespace: default
-  labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
-    app.kubernetes.io/managed-by: Helm
-spec:
-  dnsNames:
-  - smilecdr-example.local
-  issuerRef:
-    group: cert-manager.io
-    kind: Issuer
-    name: release-name-acmeprod
-  keystores:
-    pkcs12:
-      create: true
-      passwordSecretRef:
-        key: password
-        name: release-name-smilecdr-prod-tls-keystorepass
-  secretName: release-name-prod-tls
----
-# Source: smilecdr/templates/certmanager/certmgr-issuer.yaml
-apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: release-name-acmeprod
-  namespace: default
-  labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
-    app.kubernetes.io/managed-by: Helm
-spec:
-  acme:
-    email: testy@example.com
-    privateKeySecretRef:
-      name: myPrivateKeySecretResourceName
-    server: https://acme-v02.api.letsencrypt.org/directory
-    solvers:
-    - http01:
-        ingress:
-          ingressClassName: nginx
----
-# Source: smilecdr/templates/certmanager/certmgr-issuer.yaml
-apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: release-name-acmestaging
-  namespace: default
-  labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
-    app.kubernetes.io/managed-by: Helm
-spec:
-  acme:
-    email: testy@example.com
-    privateKeySecretRef:
-      name: release-name-smilecdr-acmestaging-issuer-key
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
-    solvers:
-    - http01:
-        ingress:
-          ingressClassName: nginx
 ---
 # Source: smilecdr/templates/certmanager/certmgr-issuer.yaml
 apiVersion: cert-manager.io/v1
