@@ -1,3 +1,10 @@
+# [1.0.0-pre.120](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.119...v1.0.0-pre.120) (2024-05-28)
+
+
+### Features
+
+* **smilecdr:** add ingress TLS support ([75b3955](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/75b39559aa7bdb4db4ae9cb09348e123d089fa6b))
+
 # [1.0.0-pre.119](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.118...v1.0.0-pre.119) (2024-05-28)
 
 
