@@ -2004,6 +2004,65 @@
 <p>By default, this chart is configured to use the <a href="https://kubernetes.github.io/ingress-nginx/">Nginx Ingress Controller</a>. <code>ingresses.default.type</code> is already set to <code>nginx-ingress</code> so you do not need to do anything to use this Ingress Controller.</p>
 <p>The behavior of the Nginx Ingress controller differs based on the cloud provider being used. When used in conjunction with the <a href="https://kubernetes-sigs.github.io/aws-load-balancer-controller">AWS Load Balancer Controller</a>, the Nginx Ingress will be backed by an AWS NLB (Network Load Balancer).</p>
 <p>The <code>Service</code> objects will be set as <code>ClusterIP</code> rather than <code>NodePort</code>. This increases the security stance of the deployment as Kubernetes does not expose these services externally to the cluster. All traffic comes from the Nginx Ingress Controller pod, directly to the application pods.</p>
+<h4 id="tls-encryption">TLS Encryption<a class="headerlink" href="#tls-encryption" title="Permanent link">&para;</a></h4>
+<p>By default the Nginx ingress uses a <strong><em>self-signed</em></strong> certificate. If this is sufficient for your needs (as the fronting AWS NLB does not need to verify the certificates), nothing else needs to be done.</p>
+<p>If, however, you need to use a <strong><em>publicly-signed</em></strong> TLS certificate in the Nginx ingress (for example, using TLS passthrough on the fronting load balancer) then you can configure Nginx Ingress to use cert-manager and Let's Encrypt to automatically provision a suitable TLS certificate.</p>
+<p>For a detailed explanation of how this solution works, refer to the <a href="https://kubernetes.github.io/ingress-nginx/user-guide/tls/#automated-certificate-management-with-cert-manager">ingress-nginx</a> and <a href="https://cert-manager.io/docs/tutorials/acme/nginx-ingress/">cert-manager</a> documentation.</p>
+<p>This can currently be configured using the Helm Chart using two methods</p>
+<h5 id="option-1">Option 1<a class="headerlink" href="#option-1" title="Permanent link">&para;</a></h5>
+<p><strong>Create Let's Encrypt Staging <code>Issuer</code> Resource</strong></p>
+<p><strong>Step 1</strong></p>
+<p>Use the below <code>values.yaml</code> snippet to enable the Helm Chart to generate a Let's Encrypt issuer.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>tls:
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  certificateIssuers:
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    default:
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>      enabled: true
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>      signingMethod: public-signed
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>      acmeSpec:
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        email: test@example2.com
+</code></pre></div></p>
+<p><strong>Step 2</strong></p>
+<p>Update your ingress configuration to enable TLS and use the issuer configuration defined above.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ingresses:
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  default:
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    tlsConfig:
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>      enabled: true
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>      issuerConfiguration: default
+</code></pre></div></p>
+<h5 id="option-2">Option 2<a class="headerlink" href="#option-2" title="Permanent link">&para;</a></h5>
+<p><strong>Use pre-existing <code>Issuer</code> Resource</strong></p>
+<p><strong>Step 1</strong></p>
+<p>Create a suitable public-signing <code>Issuer</code> resource. Refer to the cert-manager documentation for instructions on doing this.</p>
+<p>In the rest of this example, we will assume that this existing <code>Issuer</code> resource is named <code>my-existing-lets-encrypt-issuer</code></p>
+<p><strong>Step 2</strong></p>
+<p>Use the below <code>values.yaml</code> snippet to define the pre-existing Issuer in a way that it can be used by multiple sections of the Helm Chart.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>tls:
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  certificateIssuers:
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    myExistingLetsEncryptIssuer:
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>      enabled: true
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>      signingMethod: public-signed
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>      existingIssuer: my-existing-lets-encrypt-issuer
+</code></pre></div></p>
+<blockquote>
+<p><strong>Note:</strong> Although the above is not technically mandatory for Ingress TLS configuration, it's advisable to use this mechanism.
+By doing so, the same issuer can easily be used to create other certificates that can be used in the Smile CDR deployment.</p>
+</blockquote>
+<p><strong>Step 3</strong></p>
+<p>Update your ingress configuration to enable TLS and use the issuer defined above. Note that you can either reference the above-defined <code>tls.certificateIssuers</code> configuration,
+or you can directly reference the pre-existing <code>Issuer</code> resource that you created.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ingresses:
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  default:
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    tlsConfig:
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>      enabled: true
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>      issuerConfiguration: myExistingLetsEncryptIssuer
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>      # If directly referencing the pre-existing `Issuer` resource that you created, use the following instead
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>      # existingIssuer: my-existing-lets-encrypt-issuer
+</code></pre></div></p>
+<blockquote>
+<p><strong>Note:</strong> For brevity, these examples do not enable back-end encryption to the Smile CDR pods. Please see the <a href="../tls-encryption/">TLS Encryption</a> section for more information on enabling back-end encryption, configuring Issuers, Certificates and using them in Smile CDR.</p>
+</blockquote>
+<h5 id="byo-certificate">BYO Certificate<a class="headerlink" href="#byo-certificate" title="Permanent link">&para;</a></h5>
+<p>At this time, the Helm Chart does not support providing your own externally-provisioned TLS certificate. This feature will be added at a future date.</p>
 <h4 id="dedicated-nginx-ingress">Dedicated Nginx Ingress<a class="headerlink" href="#dedicated-nginx-ingress" title="Permanent link">&para;</a></h4>
 <p>By default, this option uses the <code>nginx</code> ingress class. If multiple ingresses all use the same default IngressClass, then they will share the same underlying NLB.</p>
 <p>If you need to use a dedicated (or multiple) NLBs for this deployment, you can do so by first creating any required Nginx Ingress Controllers with a different IngressClass name. You can then specify this ingress class with <code>ingresses.default.ingressClassNameOverride</code>.</p>
@@ -2031,71 +2090,71 @@
 <p>The default Ingress resource will be used for any Smile CDR modules that have not explicitly defined <code>service.ingresses</code> in their configuration.</p>
 <h4 id="the-pre-defined-default-ingress-configuration">The pre-defined Default Ingress Configuration<a class="headerlink" href="#the-pre-defined-default-ingress-configuration" title="Permanent link">&para;</a></h4>
 <p>If no changes are made to the <code>ingresses</code> section of your Helm Values, a pre-defined Ingress Configuration is created, that effectively looks like this:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ingresses:
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  default:
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    enabled: true
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    type: nginx-ingress
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    defaultIngress: true
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    ingressClassName: nginx
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ingresses:
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  default:
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    enabled: true
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    type: nginx-ingress
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    defaultIngress: true
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    ingressClassName: nginx
 </code></pre></div>
 With the above pre-defined ingress, any module with an endpoint-enabled service will have rules injected into the <code>Ingress</code> resource created by this configuration.</p>
 <h4 id="the-defaultingress-setting">The <code>defaultIngress</code> setting<a class="headerlink" href="#the-defaultingress-setting" title="Permanent link">&para;</a></h4>
 <p>This setting tells an Ingress resource to serve as the active <em>default ingress</em>. This setting can only be enabled for a single Ingress Configuration at a time.</p>
 <p>If you are defining a custom default Ingress Configuration and do not wish to use the pre-defined one, you need to disable it like so:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ingresses:
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  default:
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    enabled: false
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  myCustomDefaultIngress
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    enabled: true
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    type: nginx-ingress
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    defaultIngress: true
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    ...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>ingresses:
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  default:
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    enabled: false
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>  myCustomDefaultIngress
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    enabled: true
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    type: nginx-ingress
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    defaultIngress: true
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    ...
 </code></pre></div>
 <blockquote>
 <p><strong>NOTE:</strong> If there are no Ingress Configurations with this setting enabled, then any Smile CDR modules that <strong><em>HAVE NOT</em></strong> explicitly defined <code>service.ingresses</code> in their configuration will not be exposed externally to the K8s cluster.</p>
 </blockquote>
 <h4 id="configuring-the-pre-defined-default-ingress-configuration">Configuring the pre-defined Default Ingress Configuration<a class="headerlink" href="#configuring-the-pre-defined-default-ingress-configuration" title="Permanent link">&para;</a></h4>
 <p>The pre-defined Ingress Configuration can be reconfigured as follows:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ingresses:
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  default:
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    type: azure-agic
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ingresses:
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  default:
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    type: azure-agic
 </code></pre></div></p>
 <h4 id="disabling-the-pre-defined-default-ingress-configuration">Disabling the pre-defined Default Ingress Configuration<a class="headerlink" href="#disabling-the-pre-defined-default-ingress-configuration" title="Permanent link">&para;</a></h4>
 <p>If you are creating multiple custom Ingress Configurations, you may wish to disable the pre-defined default ingress. This can be done as follows:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ingresses:
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  default:
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    enabled: false
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>ingresses:
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  default:
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    enabled: false
 </code></pre></div></p>
 <blockquote>
 <p><strong>NOTE:</strong> If you disable the default ingress, then you must define at least one alternative Ingress Configuration if you wish to allow access from outside the Kubernetes cluster.</p>
 </blockquote>
 <h3 id="defining-custom-ingress-configurations">Defining Custom Ingress Configurations<a class="headerlink" href="#defining-custom-ingress-configurations" title="Permanent link">&para;</a></h3>
 <p>To allow for complex ingress architectures, you may define an arbitrary number of Ingress Configurations like so
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ingresses:
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  default:
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    enabled: false
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  myPrivateNginx:
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    enabled: true
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    type: nginx-ingress
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    defaultIngress: true
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>  myPublicNginx:
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    enabled: true
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    type: nginx-ingress
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    ingressClassNameOverride: nginx-public
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a># These two are just to demonstrate using the
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>#  AWS Load Balancer Controller for Ingress
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>  myPrivateALB:
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    enabled: true
-<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    type: aws-lbc-alb
-<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>    annotations:
-<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>      alb.ingress.kubernetes.io/scheme: internal
-<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>  myPublicALB:
-<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>    enabled: true
-<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>    type: aws-lbc-alb
-<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>    annotations:
-<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>      alb.ingress.kubernetes.io/scheme: internet-facing
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>ingresses:
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>  default:
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    enabled: false
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>  myPrivateNginx:
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    enabled: true
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    type: nginx-ingress
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    defaultIngress: true
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>  myPublicNginx:
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    enabled: true
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    type: nginx-ingress
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    ingressClassNameOverride: nginx-public
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a># These two are just to demonstrate using the
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>#  AWS Load Balancer Controller for Ingress
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>  myPrivateALB:
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>    enabled: true
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>    type: aws-lbc-alb
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>    annotations:
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>      alb.ingress.kubernetes.io/scheme: internal
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>  myPublicALB:
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>    enabled: true
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>    type: aws-lbc-alb
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>    annotations:
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>      alb.ingress.kubernetes.io/scheme: internet-facing
 </code></pre></div>
 In the above example we are:</p>
 <ul>
@@ -2123,13 +2182,13 @@ In the above example we are:</p>
 <p>Smile CDR modules will automatically be configured to use whichever ingress has the <code>defaultIngress</code> setting enabled.</p>
 <p>If you do not want a module to use the default Ingress resource, or if there is no default Ingress Configuration defined, then you need to explicitly configure the <code>service.ingresses</code> for any Smile CDR modules that need to be accessed from outside the Kubernetes cluster.</p>
 <p>To configure a Smile CDR module to use a specific ingress, specify it in the <code>moduleSpec.service.ingresses</code> map as follows:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>modules:
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  fhirweb_endpoint:
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    service:
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>      hostName: myFhirwebHost.example.com
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>      ingresses:
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>        myPublicNginx:
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>          enabled: true
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>modules:
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>  fhirweb_endpoint:
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    service:
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>      hostName: myFhirwebHost.example.com
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>      ingresses:
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>        myPublicNginx:
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>          enabled: true
 </code></pre></div>
 In the above example we are telling the module named <code>fhirweb_endpoint</code> to use the <code>myPublicNginx</code> ingress specified previously mentioned. With the sample 'Multiple Ingress' configurations provided in on this page, all Smile CDR modules will only be accessible via the <code>myPrivateNginx</code> ingress, except for the <code>fhirweb_endpoint</code> module which will be available via the public access route.</p>
 <blockquote>
@@ -2140,17 +2199,17 @@ In the above example we are telling the module named <code>fhirweb_endpoint</cod
 <p>Depending on the ingress type you select, the chart will automatically add a set of default annotations that are appropriate for the ingress type being used.</p>
 <p>However, it is not possible for the chart to automatically include all annotations as some need to be specified in your configuration.</p>
 <p>To add any extra annotations, or override existing ones, include them in your values file like so:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">ingresses</span><span class="p">:</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">default</span><span class="p">:</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nt">annotations</span><span class="p">:</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">      </span><span class="nt">alb.ingress.kubernetes.io/certificate-arn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arn:aws:acm::01234567890:certificate/abcdef</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">      </span><span class="nt">alb.ingress.kubernetes.io/inbound-cidrs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;0.0.0.0/0&#39;</span><span class="p p-Indicator">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">ingresses</span><span class="p">:</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">default</span><span class="p">:</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="nt">annotations</span><span class="p">:</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">      </span><span class="nt">alb.ingress.kubernetes.io/certificate-arn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arn:aws:acm::01234567890:certificate/abcdef</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">      </span><span class="nt">alb.ingress.kubernetes.io/inbound-cidrs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;0.0.0.0/0&#39;</span><span class="p p-Indicator">]</span>
 </code></pre></div>
 <p>or
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">ingresses</span><span class="p">:</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">default</span><span class="p">:</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">annotations</span><span class="p">:</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">      </span><span class="nt">appgw.ingress.kubernetes.io/appgw-ssl-certificate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysslcert</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">ingresses</span><span class="p">:</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">default</span><span class="p">:</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="nt">annotations</span><span class="p">:</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">      </span><span class="nt">appgw.ingress.kubernetes.io/appgw-ssl-certificate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysslcert</span>
 </code></pre></div></p>
 <h2 id="ingress-class-name">Ingress Class Name<a class="headerlink" href="#ingress-class-name" title="Permanent link">&para;</a></h2>
 <p>This chart uses the following default class names for the different ingress types</p>
@@ -2178,19 +2237,19 @@ In the above example we are telling the module named <code>fhirweb_endpoint</cod
 </table>
 <p>If you have configured your Ingress Controller with a different <code>ingressClass</code> name, you can override it using <code>ingresses.default.ingressClassNameOverride</code>.</p>
 <p>For example, if you had a dedicated Nginx Ingress Controller with the <code>IngressClass</code> of <code>nginx-dedicated</code>, you would include it in your values file like so:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">ingresses</span><span class="p">:</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">default</span><span class="p">:</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nt">ingressClassNameOverride</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-dedicated</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">ingresses</span><span class="p">:</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">default</span><span class="p">:</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="nt">ingressClassNameOverride</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-dedicated</span>
 </code></pre></div>
 <h2 id="disabling-ingress">Disabling Ingress<a class="headerlink" href="#disabling-ingress" title="Permanent link">&para;</a></h2>
 <p>In some scenarios, you may wish to disable external ingress for certain modules. For example, if you have a FHIR Rest Endpoint module that is behind a FHIR Gateway module, you may not want to expose the FHIR Rest endpoint externally to the cluster.</p>
 <p>In this case, you can disable the ingress for a given service like so:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">modules</span><span class="p">:</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">fhir_endpoint</span><span class="p">:</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="nt">service</span><span class="p">:</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">      </span><span class="nt">ingresses</span><span class="p">:</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">        </span><span class="nt">default</span><span class="p">:</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">          </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">modules</span><span class="p">:</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">fhir_endpoint</span><span class="p">:</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="nt">service</span><span class="p">:</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">      </span><span class="nt">ingresses</span><span class="p">:</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">        </span><span class="nt">default</span><span class="p">:</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">          </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </code></pre></div></p>
 <p>Configuring your module like this will prevent any rules from being added to the default Ingress resource that is generated.</p>
 <p>If your module is a FHIR Rest Endpoint module, the <code>base_url.fixed</code> setting will be automatically configured appropriately and there is no need for you set this in your <code>moduleSpec.config</code>.</p>
