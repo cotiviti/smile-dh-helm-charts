@@ -14,8 +14,8 @@
     {{- end -}}
 
     {{- $_ := set $issuer "signingMethod" (lower (default "cluster-signed" $theIssuerSpec.signingMethod)) -}}
-    {{- if not (contains $issuer.signingMethod "public cluster-signed") -}}
-      {{- fail (printf "Signing method `%s` not supported. Use `public` or `cluster-signed`" $theIssuerSpec.signingMethod ) -}}
+    {{- if not (contains $issuer.signingMethod "public-signed cluster-signed") -}}
+      {{- fail (printf "Signing method `%s` not supported. Use `public-signed` or `cluster-signed`" $theIssuerSpec.signingMethod ) -}}
     {{- end -}}
 
     {{- $_ := set $issuer "defaultIssuer" $theIssuerSpec.defaultIssuer -}}
@@ -25,6 +25,7 @@
       {{- /* Are we creating this issuer */ -}}
       {{- if or (not (hasKey $theIssuerSpec "createIssuer")) $theIssuerSpec.createIssuer -}}
         {{- $_ := set $issuer "createIssuer" true -}}
+        {{- $_ := set $issuer "name" (default $theIssuerName $theIssuerSpec.caIssuerName) -}}
 
         {{- if eq $issuer.signingMethod "cluster-signed" -}}
           {{- /* Cluster signed
@@ -36,16 +37,18 @@
 
           {{- if eq "default" $theIssuerName -}}
             {{- /* Append '-ca' to the 'default' issuer so that its 'default' certificate does not clash with the 'default' certificate used by Smile CDR. */ -}}
-            {{- $theIssuerName = printf "%s-ca" $theIssuerName -}}
+            {{- /* $theIssuerName = printf "%s-ca" $theIssuerName */ -}}
+            {{- $_ := set $issuer "name" (printf "%s-ca" $issuer.name) -}}
           {{- end -}}
           {{- $_ := set $issuer "selfSignedConfig" (default dict $theIssuerSpec.selfSignedConfig) -}}
 
           {{- /* Root self-signer issuer */ -}}
-          {{- $rootIssuerName := default (printf "%s-root" $theIssuerName) $theIssuerSpec.rootIssuerName -}}
+          {{- $rootIssuerName := default (printf "%s-root" $issuer.name) $theIssuerSpec.rootIssuerName -}}
           {{- if not ($theIssuerSpec.existingRootIssuer) -}}
             {{- $rootIssuer := dict "createIssuer" true -}}
             {{- $_ := set $rootIssuer "name" $rootIssuerName -}}
             {{- $_ := set $rootIssuer "resourceName" (include "certmanager.issuer.resourceName" (dict "issuerSpec" $rootIssuer "rootCTX" $)) -}}
+            {{- /* $_ := set $rootIssuer "signingMethod" "selfSigned" */ -}}
             {{- $_ := set $rootIssuer "spec" (dict "selfSigned" dict) -}}
             {{- $_ := set $issuers $rootIssuerName $rootIssuer -}}
           {{- else -}}
@@ -53,20 +56,53 @@
           {{- end -}}
 
           {{- /* Root signed CA issuer */ -}}
-          {{- $_ := set $issuer "name" (default $theIssuerName $theIssuerSpec.caIssuerName) -}}
           {{- $_ := set $issuer "rootIssuer" $rootIssuerName -}}
-          {{- $_ := set $issuer "resourceName" (include "certmanager.issuer.resourceName" (dict "issuerSpec" $issuer "rootCTX" $)) -}}
 
           {{- /* We need to reference the Certificate for the cluster-signed CA
                  The "certmanager.certificate.issuerCert" template defines this certificate based on the CA issuer spec */ -}}
           {{- $issuerCertificate := (include "certmanager.certificate.issuerCert" (dict "issuerSpec" $issuer "issuers" dict "rootCTX" $) | fromYaml ) -}}
 
           {{- $_ := set $issuer "spec" (dict "ca" (dict "secretName" $issuerCertificate.spec.secretName)) -}}
-          {{- $_ := set $issuers $issuer.name $issuer -}}
-        {{- else if eq $issuer.signingMethod "public" -}}
-          {{- /* TODO: Implement letsencrypt or generic ACME Issuer type. */ -}}
+        {{- else if eq $issuer.signingMethod "public-signed" -}}
+          {{- /* Public signed
+                Create single namespace-scoped Issuer (As opposed to ClusterIssuer)
+                * No root issuer
+                * No certificate required
+                */ -}}
+
+          {{- if not $theIssuerSpec.acmeSpec -}}
+          {{- /* if not (hasKey $issuer "acmeSpec") */ -}}
+            {{- fail (printf "Error creating public-signed issuer `%s`. You must provide an `acmeSpec` section." $theIssuerName) -}}
+          {{- end -}}
+          {{- /* $_ := set $issuer "acmeSpec" (default dict $theIssuerSpec.acmeSpec) */ -}}
+          {{- $acmeSpec := $theIssuerSpec.acmeSpec -}}
+
+          {{- /* Configure the private key for this issuer */ -}}
+          {{- $pkSecretName := (printf "%s-key" $theIssuerName) -}}
+          {{- $pkSecretResourceName := default (include "smilecdr.resourceName" (dict "rootCTX" $ "name" $pkSecretName)) $acmeSpec.privateKeySecretRef -}}
+          {{- $_ := set $acmeSpec "privateKeySecretRef" (dict "name" $pkSecretResourceName) -}}
+
+          {{- /* Configure the email and server */ -}}
+          {{- $_ := set $acmeSpec "email" (required "You must provide an e-mail for your ACME Issuer configuration." $acmeSpec.email) -}}
+
+          {{- /* We default to the lets encrypt staging server */ -}}
+          {{- if not $acmeSpec.server -}}
+            {{- /* fail "You must provide an `issuer.server`` if trying to use ACME certificates" */ -}}
+            {{- $_ := set $acmeSpec "server" "https://acme-staging-v02.api.letsencrypt.org/directory" -}}
+          {{- else if eq $acmeSpec.server "lets-encrypt-staging" -}}
+            {{- $_ := set $acmeSpec "server" "https://acme-staging-v02.api.letsencrypt.org/directory" -}}
+          {{- else if eq $acmeSpec.server "lets-encrypt-prod" -}}
+            {{- $_ := set $acmeSpec "server" "https://acme-v02.api.letsencrypt.org/directory" -}}
+          {{- end -}}
+
+          {{- $nginxSolver := dict "http01" (dict "ingress" (dict "ingressClassName" "nginx")) -}}
+          {{- $_ := set $acmeSpec "solvers" (default (list $nginxSolver) $acmeSpec.solvers) -}}
+          {{- $_ := set $issuer "spec" (dict "acme" $acmeSpec) -}}
         {{- end -}}
+        {{- /* If we are creating this issuer, we need to set an appropriate resource name. */ -}}
+        {{- $_ := set $issuer "resourceName" (include "certmanager.issuer.resourceName" (dict "issuerSpec" $issuer "rootCTX" $)) -}}
       {{- end -}}
+      {{- $_ := set $issuers $theIssuerName $issuer -}}
     {{- end -}}
   {{- end -}}
   {{- $issuers | toYaml -}}
@@ -237,8 +273,8 @@
         {{- $dnsNames = concat $dnsNames $theCertificateSpec.extraHostnames -}}
       {{- end -}}
 
-      {{- /* If we are using cluster-signed then we can add all the local kubernetes host names. */ -}}
       {{- if eq $issuerSpec.signingMethod "cluster-signed" -}}
+        {{- /* We are using a cluster-signed issuer, so we can add all the local kubernetes host names. */ -}}
         {{- $namespace := $.Release.Namespace -}}
 
         {{- /* Add main hostname unless disabled with `hostnameEnabled: false` */ -}}
@@ -283,6 +319,9 @@
             {{- end -}}
           {{- end -}}
         {{- end -}}
+      {{- else if eq $issuerSpec.signingMethod "public-signed" -}}
+        {{- /* We are using a public-signed issuer, so we can only add the valid hostname.
+            This is already done further up */ -}}
       {{- end -}}
       {{- $_ := set $certificate.spec "dnsNames" (uniq $dnsNames) -}}
 
