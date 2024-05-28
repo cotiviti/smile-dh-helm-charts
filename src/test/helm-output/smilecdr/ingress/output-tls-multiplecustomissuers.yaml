@@ -34,6 +34,38 @@ type: Opaque
 data:
   password: Y2hhbmdlaXQ=
 ---
+# Source: smilecdr/templates/certmanager/certmgr-keystore-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: release-name-smilecdr-certwithexistingissuer-tls-keystorepass
+  namespace: default
+  labels:
+    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/managed-by: Helm
+type: Opaque
+data:
+  password: Y2hhbmdlaXQ=
+---
+# Source: smilecdr/templates/certmanager/certmgr-keystore-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ease-name-smilecdr-certwithexistingpublicissuer-tls-keystorepass
+  namespace: default
+  labels:
+    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/managed-by: Helm
+type: Opaque
+data:
+  password: Y2hhbmdlaXQ=
+---
 # Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -86,10 +118,10 @@ data:
     module.admin_json.config.respect_forward_headers 	= false
     module.admin_json.config.security.http.basic.enabled 	= true
     module.admin_json.config.tls.enabled 	= true
-    module.admin_json.config.tls.keystore.file 	= classpath:tls/cdrCertificate-tls-keystore.p12
+    module.admin_json.config.tls.keystore.file 	= classpath:tls/certWithExistingIssuer-tls-keystore.p12
     module.admin_json.config.tls.keystore.keyalias 	= 1
-    module.admin_json.config.tls.keystore.keypass 	= #{env['CDRCERTIFICATE_TLS_KEYSTORE_PASS']}
-    module.admin_json.config.tls.keystore.password 	= #{env['CDRCERTIFICATE_TLS_KEYSTORE_PASS']}
+    module.admin_json.config.tls.keystore.keypass 	= #{env['CERTWITHEXISTINGISSUER_TLS_KEYSTORE_PASS']}
+    module.admin_json.config.tls.keystore.password 	= #{env['CERTWITHEXISTINGISSUER_TLS_KEYSTORE_PASS']}
     module.admin_json.config.tls.protocol.cipher_whitelist 	= TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256
     module.admin_json.config.tls.protocol.protocol_whitelist 	= TLSv1.3
     ################################################################################
@@ -102,10 +134,10 @@ data:
     module.admin_web.config.port 	= 9100
     module.admin_web.config.respect_forward_headers 	= false
     module.admin_web.config.tls.enabled 	= true
-    module.admin_web.config.tls.keystore.file 	= classpath:tls/cdrCertificate-tls-keystore.p12
+    module.admin_web.config.tls.keystore.file 	= classpath:tls/certWithExistingPublicIssuer-tls-keystore.p12
     module.admin_web.config.tls.keystore.keyalias 	= 1
-    module.admin_web.config.tls.keystore.keypass 	= #{env['CDRCERTIFICATE_TLS_KEYSTORE_PASS']}
-    module.admin_web.config.tls.keystore.password 	= #{env['CDRCERTIFICATE_TLS_KEYSTORE_PASS']}
+    module.admin_web.config.tls.keystore.keypass 	= #{env['CERTWITHEXISTINGPUBLICISSUER_TLS_KEYSTORE_PASS']}
+    module.admin_web.config.tls.keystore.password 	= #{env['CERTWITHEXISTINGPUBLICISSUER_TLS_KEYSTORE_PASS']}
     module.admin_web.config.tls.protocol.cipher_whitelist 	= TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256
     module.admin_web.config.tls.protocol.protocol_whitelist 	= TLSv1.3
     ################################################################################
@@ -524,6 +556,16 @@ spec:
                 secretKeyRef:
                   key: password
                   name: release-name-smilecdr-cdrcertificate-tls-keystorepass
+            - name: CERTWITHEXISTINGISSUER_TLS_KEYSTORE_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: release-name-smilecdr-certwithexistingissuer-tls-keystorepass
+            - name: CERTWITHEXISTINGPUBLICISSUER_TLS_KEYSTORE_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: ease-name-smilecdr-certwithexistingpublicissuer-tls-keystorepass
             - name: FHIRWEBCERTIFICATE_TLS_KEYSTORE_PASS
               valueFrom:
                 secretKeyRef:
@@ -555,6 +597,14 @@ spec:
               name: cdrCertificate-tls-keystore
               readOnly: true
               subPath: cdrCertificate-tls-keystore.p12
+            - mountPath: /home/smile/smilecdr/classes/tls/certWithExistingIssuer-tls-keystore.p12
+              name: certWithExistingIssuer-tls-keystore
+              readOnly: true
+              subPath: certWithExistingIssuer-tls-keystore.p12
+            - mountPath: /home/smile/smilecdr/classes/tls/certWithExistingPublicIssuer-tls-keystore.p12
+              name: certWithExistingPublicIssuer-tls-keystore
+              readOnly: true
+              subPath: certWithExistingPublicIssuer-tls-keystore.p12
             - mountPath: /home/smile/smilecdr/classes/tls/fhirWebCertificate-tls-keystore.p12
               name: fhirWebCertificate-tls-keystore
               readOnly: true
@@ -575,6 +625,18 @@ spec:
             - key: keystore.p12
               path: cdrCertificate-tls-keystore.p12
             secretName: release-name-cdrcertificate-tls
+        - name: certWithExistingIssuer-tls-keystore
+          secret:
+            items:
+            - key: keystore.p12
+              path: certWithExistingIssuer-tls-keystore.p12
+            secretName: release-name-certwithexistingissuer-tls
+        - name: certWithExistingPublicIssuer-tls-keystore
+          secret:
+            items:
+            - key: keystore.p12
+              path: certWithExistingPublicIssuer-tls-keystore.p12
+            secretName: release-name-certwithexistingpublicissuer-tls
         - name: fhirWebCertificate-tls-keystore
           secret:
             items:
@@ -696,14 +758,6 @@ spec:
   - smilecdr-example.local
   - '*.default.svc.cluster.local'
   - localhost
-  - release-name-scdr-svc-admin-json.default.svc.cluster.local
-  - release-name-scdr-svc-admin-json.default.svc
-  - release-name-scdr-svc-admin-json.default
-  - release-name-scdr-svc-admin-json
-  - release-name-scdr-svc-admin-web.default.svc.cluster.local
-  - release-name-scdr-svc-admin-web.default.svc
-  - release-name-scdr-svc-admin-web.default
-  - release-name-scdr-svc-admin-web
   - release-name-scdr-svc-fhir.default.svc.cluster.local
   - release-name-scdr-svc-fhir.default.svc
   - release-name-scdr-svc-fhir.default
@@ -727,6 +781,64 @@ spec:
         key: password
         name: release-name-smilecdr-cdrcertificate-tls-keystorepass
   secretName: release-name-cdrcertificate-tls
+---
+# Source: smilecdr/templates/certmanager/certmgr-certificate.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: release-name-certwithexistingissuer
+  namespace: default
+  labels:
+    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/managed-by: Helm
+spec:
+  dnsNames:
+  - smilecdr-example.local
+  - release-name-scdr-svc-admin-json.default.svc.cluster.local
+  - release-name-scdr-svc-admin-json.default.svc
+  - release-name-scdr-svc-admin-json.default
+  - release-name-scdr-svc-admin-json
+  issuerRef:
+    group: cert-manager.io
+    kind: Issuer
+    name: myExistingIssuerResourceName
+  keystores:
+    pkcs12:
+      create: true
+      passwordSecretRef:
+        key: password
+        name: release-name-smilecdr-certwithexistingissuer-tls-keystorepass
+  secretName: release-name-certwithexistingissuer-tls
+---
+# Source: smilecdr/templates/certmanager/certmgr-certificate.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: release-name-certwithexistingpublicissuer
+  namespace: default
+  labels:
+    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/managed-by: Helm
+spec:
+  dnsNames:
+  - smilecdr-example.local
+  issuerRef:
+    group: cert-manager.io
+    kind: Issuer
+    name: myExistingPublicIssuerResourceName
+  keystores:
+    pkcs12:
+      create: true
+      passwordSecretRef:
+        key: password
+        name: ease-name-smilecdr-certwithexistingpublicissuer-tls-keystorepass
+  secretName: release-name-certwithexistingpublicissuer-tls
 ---
 # Source: smilecdr/templates/certmanager/certmgr-certificate.yaml
 apiVersion: cert-manager.io/v1

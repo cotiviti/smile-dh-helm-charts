@@ -14,6 +14,13 @@ tls:
       defaultIssuer: true
     myOtherIssuer:
       enabled: true
+    existingIssuer:
+      enabled: true
+      existingIssuer: myExistingIssuerResourceName
+    existingPublicSignedIssuer:
+      enabled: true
+      signingMethod: public-signed
+      existingIssuer: myExistingPublicIssuerResourceName
 
   certificates:
     default:
@@ -34,6 +41,12 @@ tls:
       extraHostnames:
       - extrahost1.extrahostname.com
       - extrahost2.extrahostname.com
+    certWithExistingIssuer:
+      enabled: true
+      issuerConfigName: existingIssuer
+    certWithExistingPublicIssuer:
+      enabled: true
+      issuerConfigName: existingPublicSignedIssuer
 
   # Enable TLS on all HTTP endpoint modules in Smile CDR
   defaultEndpointConfig:
@@ -45,3 +58,11 @@ modules:
     service:
       # null, or `default`, or one of the tls.certificates.* entries.
       tlsCertificate: fhirWebCertificate
+  admin_json:
+    service:
+      # null, or `default`, or one of the tls.certificates.* entries.
+      tlsCertificate: certWithExistingIssuer
+  admin_web:
+    service:
+      # null, or `default`, or one of the tls.certificates.* entries.
+      tlsCertificate: certWithExistingPublicIssuer

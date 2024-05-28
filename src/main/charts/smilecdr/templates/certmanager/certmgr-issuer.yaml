@@ -1,4 +1,5 @@
 {{- range $theIssuerKey, $theIssuer := include "certmanager.issuers" . | fromYaml -}}
+  {{- if $theIssuer.createIssuer -}}
 
 apiVersion: cert-manager.io/v1
 kind: Issuer
@@ -10,4 +11,5 @@ metadata:
 spec:
   {{- $theIssuer.spec | toYaml | nindent 2 }}
 ---
+  {{ end }}
 {{ end }}

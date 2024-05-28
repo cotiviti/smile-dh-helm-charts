@@ -23,10 +23,24 @@
 
     {{- if $theIssuerSpec.enabled -}}
       {{- /* Are we creating this issuer */ -}}
-      {{- if or (not (hasKey $theIssuerSpec "createIssuer")) $theIssuerSpec.createIssuer -}}
-        {{- $_ := set $issuer "createIssuer" true -}}
-        {{- $_ := set $issuer "name" (default $theIssuerName $theIssuerSpec.caIssuerName) -}}
+      {{- $_ := set $issuer "createIssuer" true -}}
+      {{- if and (hasKey $theIssuerSpec "existingIssuer") (hasKey $theIssuerSpec "existingClusterIssuer") -}}
+        {{- fail (printf "You have configured Issuer configuration `%s` to use `existingIssuer` and `existingClusterIssuer`.\nYou can only choose one or the other (or neither if you want the Issuer to be created for you.)" $theIssuerName) -}}
+      {{- end -}}
 
+      {{- /* if or $theIssuerSpec.existingIssuer $theIssuerSpec.existingClusterIssuer */ -}}
+      {{- if or (hasKey $theIssuerSpec "existingIssuer") (hasKey $theIssuerSpec "existingClusterIssuer") -}}
+        {{- /* Don't create if we are using an existing issuer. */ -}}
+        {{- $_ := set $issuer "createIssuer" false -}}
+      {{- end -}}
+
+      {{- if $issuer.createIssuer -}}
+        {{- $_ := set $issuer "name" (default $theIssuerName $theIssuerSpec.name) -}}
+        {{- if eq "default" $issuer.name -}}
+          {{- /* Append '-ca' to the 'default' issuer so that its 'default' certificate does not clash with the 'default' certificate used by Smile CDR. */ -}}
+          {{- $_ := set $issuer "name" (printf "%s-ca" $issuer.name) -}}
+        {{- end -}}
+        {{- $_ := set $issuer "issuerKind" "Issuer" -}}
         {{- if eq $issuer.signingMethod "cluster-signed" -}}
           {{- /* Cluster signed
                  Create the following namespace-scoped Issuers (As opposed to ClusterIssuers)
@@ -35,11 +49,6 @@
                    Note that "certmanager.certificates" will auto-create a matching certificate for this issuer
                  */ -}}
 
-          {{- if eq "default" $theIssuerName -}}
-            {{- /* Append '-ca' to the 'default' issuer so that its 'default' certificate does not clash with the 'default' certificate used by Smile CDR. */ -}}
-            {{- /* $theIssuerName = printf "%s-ca" $theIssuerName */ -}}
-            {{- $_ := set $issuer "name" (printf "%s-ca" $issuer.name) -}}
-          {{- end -}}
           {{- $_ := set $issuer "selfSignedConfig" (default dict $theIssuerSpec.selfSignedConfig) -}}
 
           {{- /* Root self-signer issuer */ -}}
@@ -48,7 +57,7 @@
             {{- $rootIssuer := dict "createIssuer" true -}}
             {{- $_ := set $rootIssuer "name" $rootIssuerName -}}
             {{- $_ := set $rootIssuer "resourceName" (include "certmanager.issuer.resourceName" (dict "issuerSpec" $rootIssuer "rootCTX" $)) -}}
-            {{- /* $_ := set $rootIssuer "signingMethod" "selfSigned" */ -}}
+            {{- $_ := set $rootIssuer "signingMethod" "selfSigned" -}}
             {{- $_ := set $rootIssuer "spec" (dict "selfSigned" dict) -}}
             {{- $_ := set $issuers $rootIssuerName $rootIssuer -}}
           {{- else -}}
@@ -101,6 +110,17 @@
         {{- end -}}
         {{- /* If we are creating this issuer, we need to set an appropriate resource name. */ -}}
         {{- $_ := set $issuer "resourceName" (include "certmanager.issuer.resourceName" (dict "issuerSpec" $issuer "rootCTX" $)) -}}
+      {{- else -}}
+        {{- /* This config is for an existing Issuer, so we are NOT creating this issuer */ -}}
+        {{- if $theIssuerSpec.existingIssuer -}}
+          {{- $_ := set $issuer "issuerKind" "Issuer" -}}
+          {{- $_ := set $issuer "name" $theIssuerSpec.existingIssuer -}}
+        {{- else if $theIssuerSpec.existingClusterIssuer -}}
+        {{- $_ := set $issuer "issuerKind" "ClusterIssuer" -}}
+          {{- $_ := set $issuer "name" $theIssuerSpec.existingClusterIssuer -}}
+        {{- end -}}
+        {{- /* This is an existing issuer, so we leave the resource name untouched. */ -}}
+        {{- $_ := set $issuer "resourceName" $issuer.name -}}
       {{- end -}}
       {{- $_ := set $issuers $theIssuerName $issuer -}}
     {{- end -}}
@@ -111,7 +131,11 @@
 {{- define "certmanager.issuer.resourceName" -}}
   {{- $rootCTX := get . "rootCTX" -}}
   {{- $issuerSpec := get . "issuerSpec" -}}
-  {{- lower (printf "%s-%s" $rootCTX.Release.Name $issuerSpec.name) -}}
+  {{- if $issuerSpec.createIssuer -}}
+    {{- lower (printf "%s-%s" $rootCTX.Release.Name $issuerSpec.name) -}}
+  {{- else -}}
+    {{- lower $issuerSpec.name -}}
+  {{- end -}}
 {{- end -}}
 
 {{- define "certmanager.certificate.resourceName" -}}
@@ -168,7 +192,7 @@
 
   {{- /* Add any certificates required by cluster-signed issuers */ -}}
   {{- range $theIssuerName, $theIssuerSpec := $issuers -}}
-    {{- if $theIssuerSpec.enabled -}}
+    {{- if $theIssuerSpec.createIssuer -}}
       {{- if contains (lower $theIssuerSpec.signingMethod) "cluster-signed" -}}
         {{- /* Generate the certificate for this 'root ca'
                It will be signed by the root signer */ -}}
@@ -181,7 +205,8 @@
   {{- /* Configure and add remaining configured certs */ -}}
   {{- range $theCertificateName, $theCertificateSpec := $tlsConfig.certificates -}}
     {{- if $theCertificateSpec.enabled -}}
-      {{- $certificate := dict "name" $theCertificateName "spec" dict -}}
+      {{- $certificate := dict "configName" $theCertificateName "spec" dict -}}
+      {{- $_ := set $certificate "name" (default $theCertificateName $theCertificateSpec.name) -}}
       {{- $_ := set $certificate "resourceName" (include "certmanager.certificate.resourceName" (dict "certificateSpec" $certificate "rootCTX" $)) -}}
 
       {{- $defaultSecretName := include "certmanager.certificate.secretName" (dict "certificate" $certificate "rootCTX" $) -}}
@@ -193,11 +218,11 @@
 
       {{- $issuerName := "" -}}
       {{- if and $theCertificateSpec.issuerConfigName (ne (lower $theCertificateSpec.issuerConfigName) "default") -}}
-        {{- $iss := $theCertificateSpec.issuerConfigName -}}
-        {{- if not (hasKey $issuers $iss) -}}
-          {{- fail (printf "Issuer `%s` specified in Certificate `%s` does not exist. Please choose from the available Issuers: %s" $iss $theCertificateName  (toString (keys $issuers))) -}}
-        {{- end -}}
         {{- $issuerName = $theCertificateSpec.issuerConfigName -}}
+        {{- if not (hasKey $issuers $issuerName) -}}
+          {{- fail (printf "Issuer `%s` specified in Certificate `%s` does not exist. Please choose from the available Issuers: %s" (toPrettyJson $issuers) $theCertificateName  (toString (keys $issuers))) -}}
+        {{- end -}}
+
       {{- else -}}
         {{- if not $defaultIssuer -}}
           {{- fail (printf "You have not specified an issuer for certificate `%s` and there are no default issuers available.\nPlease either configure a default Issuer or choose from the available Issuers: %s" $theCertificateName  (toString (keys $issuers))) -}}
@@ -208,7 +233,7 @@
             Configure the certificate based on the kind of issuer being used */ -}}
 
       {{- $issuerSpec := get $issuers $issuerName -}}
-      {{- $issuerRef := dict "name" $issuerSpec.resourceName "kind" "Issuer" "group" "cert-manager.io" -}}
+      {{- $issuerRef := dict "name" $issuerSpec.resourceName "kind" $issuerSpec.issuerKind "group" "cert-manager.io" -}}
       {{- $_ := set $certificate.spec "issuerRef" $issuerRef -}}
 
       {{- /* We need to create a compatible PKCS12 keystore in order to use in Smile CDR */ -}}
