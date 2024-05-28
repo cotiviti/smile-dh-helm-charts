@@ -1,3 +1,10 @@
+# [1.0.0-pre.119](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.118...v1.0.0-pre.119) (2024-05-28)
+
+
+### Features
+
+* **smilecdr:** allow using existing certificate Issuers ([106daf2](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/106daf294862ba2aabd34d2678c3d514047c199b))
+
 # [1.0.0-pre.118](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.117...v1.0.0-pre.118) (2024-05-28)
 
 
