@@ -1258,6 +1258,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#use-pre-existing-cert-manager-issuer-or-clusterissuer-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use pre-existing cert-manager Issuer or ClusterIssuer resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#adding-global-endpoint-module-configurations" class="md-nav__link">
     <span class="md-ellipsis">
       Adding global endpoint module configurations
@@ -1938,6 +1947,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#use-pre-existing-cert-manager-issuer-or-clusterissuer-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use pre-existing cert-manager Issuer or ClusterIssuer resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#adding-global-endpoint-module-configurations" class="md-nav__link">
     <span class="md-ellipsis">
       Adding global endpoint module configurations
@@ -2136,14 +2154,90 @@ By enabling this option, all HTTP endpoint modules will use whichever <code>Cert
 <li><code>lets-encrypt-staging</code> - <code>https://acme-staging-v02.api.letsencrypt.org/directory</code> (Default)</li>
 <li><code>lets-encrypt-prod</code> - <code>https://acme-v02.api.letsencrypt.org/directory</code></li>
 </ul>
-<p>At this time, the automatically generated ACME Issuer only works if your environment is configured to use the <code>ingress-nginx</code> Ingress Controller.</p>
+<h4 id="using-acme-issuer-with-aws-alb">Using ACME Issuer with AWS ALB<a class="headerlink" href="#using-acme-issuer-with-aws-alb" title="Permanent link">&para;</a></h4>
+<p>At this time, the automatically generated ACME Issuer uses <a href="https://cert-manager.io/docs/configuration/acme/http01/">HTTP01 Challenges</a> and will only work if your environment is configured to use the <code>ingress-nginx</code> Ingress Controller. If you wish to use ACME certificates with AWS ALB, there are some challenges as the cert-manager <code>Challenge</code> resource creates an Ingress resource with <code>IngressClass: alb</code>.</p>
+<p>As this challenge mechanism relies on creating an ingress route that is resolvable from the environment's URL, it needs to use the same AWS ALB instance. In order to achieve this, the following steps need to be taken:</p>
+<ul>
+<li>Re-deploy your ALB ingress using the <code>alb.ingress.kubernetes.io/group.name: tlstest</code> annotation.</li>
+<li>Note that if you are adding this value, your existing ALB may be destroyed replaced by thwe AWS Load Balancer Controller. Any DNS entries pointing to the old one may need to be updated.</li>
+<li>Define and manually create an <code>Issuer</code> resource that uses an <code>ingressTemplate</code> that includes the same group name annotation.</li>
+<li>Configure an Issuer (in your values file) that references the above Issuer resource that you manually created.</li>
+<li>See the <a href="#use-pre-existing-cert-manager-issuer-or-clusterissuer-resources">pre-existing Issuers</a> section below for more info on using existing Issuers or ClusterIssuers.</li>
+</ul>
+<p>Now, when the <code>Certificate</code> resource is created, an <code>HTTP01</code> challenge route will be created on the existing AWS ALB and the certificate will be provisioned.</p>
+<p>The following snippets demonstrate how to achieve this:</p>
+<p>In your <code>values.yaml</code> file
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ingresses:
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  default:
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    type: aws-lbc-alb
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    annotations:
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>      alb.ingress.kubernetes.io/group.name: tlstest
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>tls:
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>  certificateIssuers:
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    default:
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>      enabled: true
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>      signingMethod: public-signed
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>      existingIssuer: my-existing-le-issuer-with-alb
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>  certificates:
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    default:
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>      enabled: true
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>  defaultEndpointConfig:
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>    enabled: true
+</code></pre></div></p>
+<p>Manually created <code>Issuer</code> resource:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>apiVersion: cert-manager.io/v1
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>kind: Issuer
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>metadata:
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  name: my-existing-le-issuer-with-alb
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>spec:
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>  acme:
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    email: test2@exampledomain.com
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    privateKeySecretRef:
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>      name: smilecdr-my-existing-le-issuer-key
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    server: https://acme-staging-v02.api.letsencrypt.org/directory
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    solvers:
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    - http01:
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        ingress:
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>          ingressClassName: alb
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>          ingressTemplate:
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>            metadata:
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>              annotations:
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>                alb.ingress.kubernetes.io/group.name: tlstest
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>                alb.ingress.kubernetes.io/listen-ports: &quot;[{\&quot;HTTP\&quot;:80},{\&quot;HTTPS\&quot;:443}]&quot;
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>                alb.ingress.kubernetes.io/scheme: internet-facing
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>                alb.ingress.kubernetes.io/ssl-redirect: &quot;443&quot;
+</code></pre></div></p>
+<p>Note that it is important for all of the above annotations to be present so that the <code>HTTP01</code> challenge gets successfully set up. The ingress resource that is created is transient and will only be present for the duration of the certificate ordering process.</p>
 <p>For more information on any other settings that may be used in the <code>acmeSpec</code>, please refer to the official cert-manager Issuer documentation <a href="https://cert-manager.io/docs/configuration/issuers/">here</a>.</p>
+<h3 id="use-pre-existing-cert-manager-issuer-or-clusterissuer-resources">Use pre-existing cert-manager <code>Issuer</code> or <code>ClusterIssuer</code> resources<a class="headerlink" href="#use-pre-existing-cert-manager-issuer-or-clusterissuer-resources" title="Permanent link">&para;</a></h3>
+<p>If you have already provisioned one or more cert-manager issuers through other mechanisms, you can use them instead of having the Helm Chart create them for you.</p>
+<p>To do this, you will still need to create an issuer configuration under <code>certificateIssuers</code> so that the Helm Chart knows what kind of issuer it is working with.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>tls:
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  certificateIssuers:
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    myExistingIssuer:
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>      enabled: true
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>      existingIssuer: theIssuerResourceName
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>      # existingClusterIssuer: theClusterIssuerResourceName
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>      # signingMethod: public-signed
+</code></pre></div>
+<p>By default, this issuer will be treated as a 'cluster-signed' issuer. This means that any certificate requests may include Kubernetes service entries in the SAN list of the cert.</p>
+<p>If you wish to use an existing public-signed issuer (such as an ACME provider like Let's Encrypt) then you need to set <code>signingMethod: public-signed</code>. This will prevent the creation of certificates that contain host entries that cannot be included when using these issuers.</p>
+<p>If your existing issuer is a namespace-local issuer, use <code>existingIssuer</code>. If it is a Cluster-wide issuer, use <code>existingClusterIssuer</code>. Using the correct type here ensures that certificate requests use the correct one.</p>
+<p>When definging certificates to use your existing issuer, they should reference the configuration key under <code>certificateIssuers</code> rather than the Issuer resource name. To use the above existing certificate issuer, your certificate definition may look like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>tls:
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  certificates:
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    certWithExistingIssuer:
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>      enabled: true
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>      issuerConfigName: myExistingIssuer
+</code></pre></div>
 <h3 id="adding-global-endpoint-module-configurations">Adding global endpoint module configurations<a class="headerlink" href="#adding-global-endpoint-module-configurations" title="Permanent link">&para;</a></h3>
 <p>If you wish to set extra configurations for TLS endpoints, you may do so using the <code>defaultEndpointConfig</code> configuration like so:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>tls:
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  defaultEndpointConfig:
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    extraCdrConfig:
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>      tls.protocol.cipher_blacklist: &quot;cipher1,cipher2&quot;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>tls:
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  defaultEndpointConfig:
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    extraCdrConfig:
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>      tls.protocol.cipher_blacklist: &quot;cipher1,cipher2&quot;
 </code></pre></div>
 <p>In the above example, maybe you wish to set specific TLS cipher restrictions.</p>
 <p>By adding the configuration here, you do not need to manually add it to every endpoint module. This allows for simple configuration of TLS endpoints with reduced complexity and scope for errors.</p>
@@ -2154,7 +2248,6 @@ By enabling this option, all HTTP endpoint modules will use whichever <code>Cert
 <h3 id="currently-unsupported-options">Currently unsupported options<a class="headerlink" href="#currently-unsupported-options" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Use pre-existing cert-manager <code>Certificate</code> resources</li>
-<li>Use pre-existing cert-manager <code>Issuer</code> or <code>ClusterIssuer</code> resources</li>
 <li>Configure <code>ingress-nginx</code> to use <code>Ingress.tls</code> to configure its TLS termination, instead of the default <code>self-signed</code> cert</li>
 <li>Securely import externally provisioned certificate material</li>
 <li>TLS encryption on Azure</li>
