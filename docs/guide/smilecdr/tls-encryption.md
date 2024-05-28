@@ -169,9 +169,103 @@ The following convenience server names are provided:
 * `lets-encrypt-staging` - `https://acme-staging-v02.api.letsencrypt.org/directory` (Default)
 * `lets-encrypt-prod` - `https://acme-v02.api.letsencrypt.org/directory`
 
-At this time, the automatically generated ACME Issuer only works if your environment is configured to use the `ingress-nginx` Ingress Controller.
+#### Using ACME Issuer with AWS ALB
+At this time, the automatically generated ACME Issuer uses [HTTP01 Challenges](https://cert-manager.io/docs/configuration/acme/http01/) and will only work if your environment is configured to use the `ingress-nginx` Ingress Controller. If you wish to use ACME certificates with AWS ALB, there are some challenges as the cert-manager `Challenge` resource creates an Ingress resource with `IngressClass: alb`.
+
+As this challenge mechanism relies on creating an ingress route that is resolvable from the environment's URL, it needs to use the same AWS ALB instance. In order to achieve this, the following steps need to be taken:
+
+* Re-deploy your ALB ingress using the `alb.ingress.kubernetes.io/group.name: tlstest` annotation.
+   * Note that if you are adding this value, your existing ALB may be destroyed replaced by thwe AWS Load Balancer Controller. Any DNS entries pointing to the old one may need to be updated.
+* Define and manually create an `Issuer` resource that uses an `ingressTemplate` that includes the same group name annotation.
+* Configure an Issuer (in your values file) that references the above Issuer resource that you manually created.
+   * See the [pre-existing Issuers](#use-pre-existing-cert-manager-issuer-or-clusterissuer-resources) section below for more info on using existing Issuers or ClusterIssuers.
+
+Now, when the `Certificate` resource is created, an `HTTP01` challenge route will be created on the existing AWS ALB and the certificate will be provisioned.
+
+The following snippets demonstrate how to achieve this:
+
+In your `values.yaml` file
+```
+ingresses:
+  default:
+    type: aws-lbc-alb
+    annotations:
+      alb.ingress.kubernetes.io/group.name: tlstest
+
+tls:
+  certificateIssuers:
+    default:
+      enabled: true
+      signingMethod: public-signed
+      existingIssuer: my-existing-le-issuer-with-alb
+  certificates:
+    default:
+      enabled: true
+  defaultEndpointConfig:
+    enabled: true
+```
+
+Manually created `Issuer` resource:
+```
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: my-existing-le-issuer-with-alb
+spec:
+  acme:
+    email: test2@exampledomain.com
+    privateKeySecretRef:
+      name: smilecdr-my-existing-le-issuer-key
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+
+    solvers:
+    - http01:
+        ingress:
+          ingressClassName: alb
+          ingressTemplate:
+            metadata:
+              annotations:
+                alb.ingress.kubernetes.io/group.name: tlstest
+                alb.ingress.kubernetes.io/listen-ports: "[{\"HTTP\":80},{\"HTTPS\":443}]"
+                alb.ingress.kubernetes.io/scheme: internet-facing
+                alb.ingress.kubernetes.io/ssl-redirect: "443"
+```
+
+Note that it is important for all of the above annotations to be present so that the `HTTP01` challenge gets successfully set up. The ingress resource that is created is transient and will only be present for the duration of the certificate ordering process.
 
 For more information on any other settings that may be used in the `acmeSpec`, please refer to the official cert-manager Issuer documentation [here](https://cert-manager.io/docs/configuration/issuers/).
+
+### Use pre-existing cert-manager `Issuer` or `ClusterIssuer` resources
+If you have already provisioned one or more cert-manager issuers through other mechanisms, you can use them instead of having the Helm Chart create them for you.
+
+To do this, you will still need to create an issuer configuration under `certificateIssuers` so that the Helm Chart knows what kind of issuer it is working with.
+
+```
+tls:
+  certificateIssuers:
+    myExistingIssuer:
+      enabled: true
+      existingIssuer: theIssuerResourceName
+      # existingClusterIssuer: theClusterIssuerResourceName
+      # signingMethod: public-signed
+
+```
+
+By default, this issuer will be treated as a 'cluster-signed' issuer. This means that any certificate requests may include Kubernetes service entries in the SAN list of the cert.
+
+If you wish to use an existing public-signed issuer (such as an ACME provider like Let's Encrypt) then you need to set `signingMethod: public-signed`. This will prevent the creation of certificates that contain host entries that cannot be included when using these issuers.
+
+If your existing issuer is a namespace-local issuer, use `existingIssuer`. If it is a Cluster-wide issuer, use `existingClusterIssuer`. Using the correct type here ensures that certificate requests use the correct one.
+
+When definging certificates to use your existing issuer, they should reference the configuration key under `certificateIssuers` rather than the Issuer resource name. To use the above existing certificate issuer, your certificate definition may look like this:
+
+```
+tls:
+  certificates:
+    certWithExistingIssuer:
+      enabled: true
+      issuerConfigName: myExistingIssuer
+```
 
 ### Adding global endpoint module configurations
 If you wish to set extra configurations for TLS endpoints, you may do so using the `defaultEndpointConfig` configuration like so:
@@ -192,7 +286,6 @@ More information on available cipher/protocol restriction settings is available 
 
 ### Currently unsupported options
 * Use pre-existing cert-manager `Certificate` resources
-* Use pre-existing cert-manager `Issuer` or `ClusterIssuer` resources
 * Configure `ingress-nginx` to use `Ingress.tls` to configure its TLS termination, instead of the default `self-signed` cert
 * Securely import externally provisioned certificate material
 * TLS encryption on Azure
