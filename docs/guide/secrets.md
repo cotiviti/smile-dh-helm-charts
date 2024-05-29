@@ -53,7 +53,7 @@ The way the secret is configured in your `values` file differs depending on the 
 * [Database Credentials](smilecdr/database.md#example-secret-configuration)
 * [Smile CDR License](smilecdr/cdr-license.md)
 
->**Note:** At this time, there is no support for adding arbitrary secrets to the environment using this mechanism. An `extraSecrets` configuration will be added in a future Helm Chart release to enable this. In the meantime, if you need to inject secrets into a JavaScript callback script, you can retrieve secrets directly from AWS SecretsManager by following the instructions in the [wahhwahh section]().
+>**Note:** At this time, there is no support for adding arbitrary secrets to the environment using this mechanism. An `extraSecrets` configuration will be added in a future Helm Chart release to enable this. In the meantime, if you need to inject secrets into a JavaScript callback script, you can retrieve secrets directly from AWS SecretsManager by following the instructions in the [Use Secrets In JavaScript Execution Environment](#use-secrets-in-javascript-execution-environment) section.
 
 ### Kubernetes Secret
 
@@ -67,7 +67,7 @@ Finally, we do support providing credentials in the values file itself. This is 
 
 >**WARNING:** This is not a recommended approach as it is insecure. This functionality may be removed in future versions of the charts as it can lead to insecure habits/practices forming.
 
-## Use Secrets From JavaScript Execution Environment
+## Use Secrets In JavaScript Execution Environment
 
 If you are using a [callback function](https://smilecdr.com/docs/javascript_execution_environment/introduction.html) in your Smile CDR configuration, there are 2 ways you could use secrets from the script.
 
