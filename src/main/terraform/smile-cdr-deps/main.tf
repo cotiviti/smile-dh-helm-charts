@@ -196,6 +196,7 @@ module "managed_database" {
   rds_kms_arn = try(each.value.rds_kms_arn, var.rds_kms_arn)
 
   engine = coalesce(each.value.engine, var.db_instance_defaults.engine)
+  serverless_configuration = coalesce(each.value.serverless_configuration, var.db_instance_defaults.serverless_configuration)
 
   kms_deletion_window = try(each.value.kms_deletion_window, var.kms_deletion_window)
   secrets_kms_key_arn = try(each.value.secrets_kms_key_arn, local.secrets_kms_key_arn)

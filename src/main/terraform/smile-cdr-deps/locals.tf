@@ -159,7 +159,8 @@ locals {
 
   create_secrets = local.secrets_enabled && (
                         local.create_cdr_regcred_secret ||
-                        local.create_cdr_license_secret
+                        local.create_cdr_license_secret ||
+                        local.enable_cdr_rds_secrets
                       )
 
   # Secrets KMS

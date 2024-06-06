@@ -20,12 +20,12 @@ resource "aws_kms_alias" "rds_key_alias" {
 module "aurora_database" {
   count = local.rds_aurora ? 1 : 0
   source  = "terraform-aws-modules/rds-aurora/aws"
-  version = "8.5.0"
+  version = "9.3.1"
 
   name           = lower(local.clustername)
   # cluster_use_name_prefix = true
-  engine         = local.rds_engine
-  engine_version = local.rds_engine_version
+  engine         = local.rds_aurora_engine
+  engine_version = local.rds_aurora_engine_version
 
 
   engine_mode    = local.engine_mode
@@ -37,6 +37,8 @@ module "aurora_database" {
     # two = {}
   }
 
+  serverlessv2_scaling_configuration = local.rds_aurora_serverlessv2_scaling_configuration
+
   master_username = local.rds_master_username
   database_name = can(regex("^postgres$",local.rds_dbname))  ? null : local.rds_dbname
   manage_master_user_password = var.manage_master_user_password
@@ -44,15 +46,11 @@ module "aurora_database" {
 
   iam_database_authentication_enabled = var.iam_database_authentication_enabled
 
-  # We are opinionated: Storage encryption should be forced
+  # We are opinionated: Storage encryption should be enforced
   storage_encrypted = true
   kms_key_id = local.rds_kms_arn
 
-  # TODO: Parameterise this
-  serverlessv2_scaling_configuration = {
-    min_capacity = 0.5
-    max_capacity = 10
-  }
+
 
   # Only for dev. Make this conditional
   # TODO: Parameterise this
