@@ -88,9 +88,15 @@ module "eks_blueprints_addons_core" {
   oidc_provider_arn = module.eks.oidc_provider_arn
 
   eks_addons = {
-    coredns = {}
-    vpc-cni    = {}
-    kube-proxy = {}
+    coredns = {
+      most_recent              = true
+    }
+    vpc-cni    = {
+      most_recent              = true
+    }
+    kube-proxy = {
+      most_recent              = true
+    }
     aws-ebs-csi-driver = {
       most_recent              = true
       service_account_role_arn = module.ebs_csi_driver_irsa.iam_role_arn
@@ -102,6 +108,10 @@ module "eks_blueprints_addons_core" {
   karpenter_node = {
     # Use static name so that it matches what is defined in `karpenter.yaml` example manifest
     iam_role_use_name_prefix = false
+  }
+
+  karpenter = {
+    values      = [file("${path.module}/helm/karpenter/values.yaml")]
   }
 
   enable_aws_load_balancer_controller = true
@@ -125,6 +135,9 @@ module "eks_blueprints_addons_core" {
         syncSecret = {
           enabled = true
         }
+        
+        enableSecretRotation = true
+        
         linux = {
           # This should probably be set as a default, as it's a Daemonset that is required on all nodes.
           # https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/
@@ -136,6 +149,14 @@ module "eks_blueprints_addons_core" {
   enable_secrets_store_csi_driver_provider_aws = true
 
   enable_cert_manager = true
+  cert_manager = {
+    chart_version    = "v1.14.5"
+    values  = [yamlencode(
+      {
+        enableCertificateOwnerRef = true
+      }
+    )]
+  }
 
   enable_metrics_server = true
 
