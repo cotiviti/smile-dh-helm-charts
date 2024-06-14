@@ -44,9 +44,65 @@ data:
     # This creates a config file for use by Kafka CLI commands
     /usr/bin/envsubst < /tmp/templates/client.properties.template > /opt/kafka/custom-config/client.properties
     # Modify the kafka-run-class to include the above config file and the bootstrap address from the environment.
-    # It seems there is no built-in way to auto configure these details in Kafka...
-    /bin/sed -i -E 's/(\$KAFKA_OPTS \"\$@\")$/\1 --command-config \/opt\/kafka\/custom-config\/client.properties --bootstrap-server \${KAFKA_BOOTSTRAP_ADDRESS}/g' /opt/kafka/bin/kafka-run-class.sh
-    sleep 360000
+    # It seems there is no built-in way to auto configure client config in the Kafka cli commands
+    # In addition to that, some commands use different client options than others.
+
+    # Define the code snippet to inject into `kafka-run-class.sh`
+    sed -i '/^# Launch mode/i\
+    # Determine if the invoked command requires `command-config`, `consumer.config` or `producer.config`\
+    if [ "$1" = "kafka.tools.ConsoleConsumer" ]; then\
+      CLIENT_PROPERTIES="--consumer.config /opt/kafka/custom-config/client.properties"\
+    elif [ "$1" = "kafka.tools.ConsoleProducer" ]; then\
+      CLIENT_PROPERTIES="--producer.config /opt/kafka/custom-config/client.properties"\
+    else\
+      CLIENT_PROPERTIES="--command-config /opt/kafka/custom-config/client.properties"\
+    fi\
+    ' /opt/kafka/bin/kafka-run-class.sh
+
+    /bin/sed -i -E 's/(\$KAFKA_OPTS \"\$@\")$/\1 ${CLIENT_PROPERTIES} --bootstrap-server \${KAFKA_BOOTSTRAP_ADDRESS}/g' /opt/kafka/bin/kafka-run-class.sh
+    sleep infinity
+  kafkaconsumerhelper.sh: |-
+    # Some Helper aliases for running Kafka CLI commands.
+    # TODO: Create helper command to convert the timestamp when using `--property print.timestamp=true`
+    alias convert_timestamp='awk -F "[\t]" '"'"'{
+      timestamp = substr($1,12);
+      milliseconds = substr(timestamp, length(timestamp)-2);
+      seconds = substr(timestamp, 1, length(timestamp)-3);
+      printf "CreateTime: %s\t%s\n", strftime("%Y-%m-%d %H:%M:%S", seconds) "." milliseconds, $2;
+    }'"'"''
+  testmessage.json: |-
+    {"myTestMessage":{"hello":"there!"}}
+  loginmessage.sh: |-
+    # Kafka Admin Pod Login Message
+    echo "*************************************************"
+    echo "*                                               *"
+    echo "*  Welcome to the Kafka Admin Pod environment!  *"
+    echo "*                                               *"
+    echo "*************************************************"
+    echo "The Kafka CLI commands in this environment have"
+    echo "been modified so that you do not need to specify"
+    echo "client configurations or bootstrap servers."
+    echo ""
+    echo "Example commands:"
+    echo "* Check Available Topics"
+    echo "./bin/kafka-topics.sh --list"
+    echo ""
+    echo "* Check Consumer Groups"
+    echo "./bin/kafka-consumer-groups.sh --describe --group smilecdr"
+    echo ""
+    echo "* Run Console Consumer (With message publishing timestamps)"
+    echo "./bin/kafka-console-consumer.sh --property print.timestamp=true --topic batch2.work.notification.Masterdev.persistence"
+    echo ""
+    echo "* Run Console Consumer From Beginnning (Be careful, if there are a lot of messages, this may flood your terminal connection!)"
+    echo "./bin/kafka-console-consumer.sh --property print.timestamp=true --topic batch2.work.notification.Masterdev.persistence --from-beginning"
+    echo ""
+    echo "* Convert consumer timestamps by piping into the \`convert_timestamp\` alias like so..."
+    echo "./bin/kafka-console-consumer.sh --property print.timestamp=true --topic batch2.work.notification.Masterdev.persistence --from-beginning | convert_timestamp"
+    echo ""
+    echo "* Send a message to a topic using the Console Producer..."
+    echo "cat /tmp/testmessage.json | ./bin/kafka-console-producer.sh --topic batch2.work.notification.Masterdev.persistence"
+    echo ""
+    echo "******************************************"
 ---
 # Source: smilecdr/templates/messagebroker/kafka-properties-configmap.yaml
 apiVersion: v1
@@ -514,6 +570,15 @@ spec:
             - mountPath: /tmp/entrypoint.sh
               name: kafka-admin
               subPath: entrypoint.sh
+            - mountPath: /etc/profile.d/kafkaconsumerhelper.sh
+              name: kafka-admin
+              subPath: kafkaconsumerhelper.sh
+            - mountPath: /etc/profile.d/loginmessage.sh
+              name: kafka-admin
+              subPath: loginmessage.sh
+            - mountPath: /tmp/testmessage.json
+              name: kafka-admin
+              subPath: testmessage.json
             - mountPath: /opt/kafka/classes
               name: admin-classpath
           resources:

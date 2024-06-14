@@ -46,6 +46,15 @@ spec:
             - mountPath: /tmp/entrypoint.sh
               name: kafka-admin
               subPath: entrypoint.sh
+            - mountPath: /etc/profile.d/kafkaconsumerhelper.sh
+              name: kafka-admin
+              subPath: kafkaconsumerhelper.sh
+            - mountPath: /etc/profile.d/loginmessage.sh
+              name: kafka-admin
+              subPath: loginmessage.sh
+            - mountPath: /tmp/testmessage.json
+              name: kafka-admin
+              subPath: testmessage.json
             {{ include "kafka.admin.volumeMounts" . | nindent 12 | trim }}
           resources:
             limits:
