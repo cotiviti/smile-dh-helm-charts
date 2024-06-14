@@ -135,9 +135,7 @@ module "eks_blueprints_addons_core" {
         syncSecret = {
           enabled = true
         }
-        
         enableSecretRotation = true
-        
         linux = {
           # This should probably be set as a default, as it's a Daemonset that is required on all nodes.
           # https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/
