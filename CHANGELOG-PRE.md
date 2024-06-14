@@ -1,3 +1,10 @@
+# [1.0.0-pre.122](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.121...v1.0.0-pre.122) (2024-06-14)
+
+
+### Bug Fixes
+
+* **kafka:** update kafka admin pod scripts ([45a6136](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/45a61365851dc5fc095e23bc9cf55cde781ace39))
+
 # [1.0.0-pre.121](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.120...v1.0.0-pre.121) (2024-06-14)
 
 
