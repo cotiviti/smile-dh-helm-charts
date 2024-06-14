@@ -1,3 +1,10 @@
+# [1.0.0-pre.121](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.120...v1.0.0-pre.121) (2024-06-14)
+
+
+### Features
+
+* **smilecdr:** add support for tolerations ([b02059b](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/b02059b760abacf8c0f24d25f9a8cdd32f8aaa00))
+
 # [1.0.0-pre.120](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.119...v1.0.0-pre.120) (2024-05-28)
 
 
