@@ -149,29 +149,58 @@ database:
   external:
     # -- Enable database external to K8s cluster
     enabled: false
-    credentials: {}
-    # Choose `sscsi` or `k8sSecret`
-    # type: sscsi
-    # provider: aws
-    # @skip databases
-    databases:
-    - secretName: smilecdr
-      module: clustermgr
-      # You can specify the key name to extract the value from the secret
-      urlKey: url
-      portKey: port
-      dbnameKey: dbname
-      userKey: user
-      passKey: password
+    defaults:
+      connectionConfigSource:
+        # Default secret used for connection configuration. Type sscsi or k8sSecret
+        source: k8sSecret
+        # If using sscsi, provider must be specified
+        # provider: aws
+      connectionConfig:
+        authentication:
+          # Authentication type: `password`, `iam` or `secretsmanager`
+          type: password
+          # `provider` required with types `iam` or `secretsmanager`. Currently only supports `aws`
+          provider: aws
+    # Per-database configurations
+    # databases:
+    # - name: exampleDatabaseConfiguration
+    #   enabled: false
+    #   # List of modules that use this database
+    #   modules:
+    #     - clustermgr
+    #     - persistence
+    #     - audit
+    #     - transaction
+    #   # Use this to override the default connectionConfigSource
+    #   connectionConfigSource:
+    #     # `source` - The source of the secret that contains connection details.
+    #     # Options: `k8sSecret`, `sscsi` or `none` if using IAM and required details are provided in `connectionOverrides`
+    #     # source: k8sSecret
+    #
+    #     # `secretName` is required with `k8sSecret` source. Must be a pre-existing Kubernetes Secret object in the same namespace.
+    #     secretName: smilecdr
+    #
+    #     # `provider` is required with `sscsi` source.
+    #     provider: aws
+    #     # `secretArn` required with `sscsi` source and `aws` provider
+    #     secretArn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:dbsecretname"
 
-      # Alternatively, you can specify values for connection parameters.
-      # Any values specified here will take priority over parameters from
-      # secret keys, except the password, which MUST come from the secret key.
-      # url: "db-url"
-      # port: 5432
-      # dbname: cdr
-      # user: username
-      # passKey: password
+    #     # Optional: If your vault secret has different key names, you can override
+    #     # them with secretKeyMappings
+    #     secretKeyMappings:
+    #       urlKey: url
+    #       userKey: user
+    #   # Use this to override the default connectionConfig. Useful if different DB connections
+    #   # use different authentication mechanisms.
+    #   connectionConfig:
+    #     authentication:
+    #       type: iam
+    #     # The below are optional and override any values provided by the secret configured in `connectionConfigSource`
+    #     # url: theDatabaseUrl
+    #     # port: 6543
+    #     # dbname: theDatabaseName
+    #     # user: theDBUserName
+    #     # You cannot override password. You MUST use a secret, IAM or Secrets Manager authentication.
 
   ## @section CrunchyData PGO Database Configuration
   ## @param database.crunchypgo.enabled Enable database provisioned in-cluster via CrunchyData PGO

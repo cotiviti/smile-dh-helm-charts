@@ -353,7 +353,8 @@ Volumes are defined in `smilecdr.fileVolumes`
          Using the Smile CDR image as it's already present on the node
          and will do what is needed.
         */ -}}
-  {{- if hasKey .Values "license" -}}
+  {{- $licenseConfig := (include "smilecdr.license" . | fromYaml) -}}
+  {{- if and $licenseConfig.enabled $licenseConfig.directCopy -}}
     {{- $containerSpec := deepCopy (omit $syncContainerSpec "repository" "tag") -}}
     {{- $_ := set $containerSpec "name" "copy-cdr-license" -}}
     {{- $_ := set $containerSpec "command" (list "/bin/sh" "-c") -}}

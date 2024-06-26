@@ -652,31 +652,6 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: url
-                  name: smilecdr
-            - name: DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: smilecdr
-            - name: DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: dbname
-                  name: smilecdr
-            - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
-                  name: smilecdr
-            - name: DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: smilecdr
             - name: KAFKA_BOOTSTRAP_ADDRESS
               value: test1-kafka-bootstrap:9093, test2-kafka-bootstrap:9093
             - name: KAFKA_SSL_ENABLED

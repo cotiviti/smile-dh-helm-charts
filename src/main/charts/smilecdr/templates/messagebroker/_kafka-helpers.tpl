@@ -43,6 +43,7 @@ on either external or Strimzi settings.
   {{- if hasKey $ctx "cdrNodeId"  -}}
     {{- $contextType = "cdrNode" -}}
   {{- end -}}
+  {{- $secretsList := list -}}
   {{- $strimziSpec := (include "kafka.strimzi.spec" . | fromYaml) -}}
   {{- $externalConfig := (include "kafka.external.config" . | fromYaml) -}}
   {{- $kafkaConfig := dict "externalConfig" $externalConfig "strimziSpec" $strimziSpec -}}
@@ -55,7 +56,6 @@ on either external or Strimzi settings.
 
     {{- /* Set default to tls + tls (mTLS) */ -}}
     {{- $kafkaConnectionType := "tls" -}}
-    {{- /* $kafkaAuthenticationType := "tls" */ -}}
     {{- $kafkaAuthentication := dict "type" "tls" -}}
     {{- $kafkaConnectionSecretType := "" -}}
     {{- $kafkaAuthenticationSecretType := "" -}}
@@ -66,7 +66,6 @@ on either external or Strimzi settings.
     {{- if $externalConfig.enabled -}}
       {{- $kafkaBootstrapAddress = required "Kafka: You must provide `bootstrapAddress`" $externalConfig.connection.bootstrapAddress -}}
       {{- $kafkaConnectionType = ($externalConfig.connection).type -}}
-      {{- /* $kafkaAuthenticationType = ($externalConfig.authentication).type */ -}}
       {{- $kafkaAuthentication = deepCopy (mergeOverwrite $kafkaAuthentication $externalConfig.authentication) -}}
       {{- $defaultSecretNamePrefix := (printf "%s-kafka" .Release.Name) -}}
       {{- if eq $kafkaConnectionType "tls" -}}
@@ -95,9 +94,23 @@ on either external or Strimzi settings.
           {{- /* Fail as `caCert.type` is set to an unsupported value */ -}}
           {{- fail (printf "Kafka: CA certificate secret of type `%s` is not currently supported.") -}}
         {{- end -}}
+
         {{- if $privateCa -}}
           {{- $kafkaConnectionSecretType = $caCertType -}}
           {{- $_ := set $kafkaConfig "caCertSecretName" $secretName -}}
+
+          {{- /* Set up the secret for TLS connection CA Cert... Only if using a private CA */ -}}
+          {{- $secretSpec := deepCopy $externalConfig.connection.caCert -}}
+          {{- $_ := set $secretSpec "volumeName" "kafka-broker-ca-cert" -}}
+          {{- $_ := set $secretSpec "secretName" $secretName -}}
+          {{- $_ := set $secretSpec "secretKeyMap" dict -}}
+          {{- $_ := set $secretSpec.secretKeyMap "cacert" (dict "secretKeyName" "ca.p12" "k8sSecretKeyName" "ca.p12" "mountSpec" (dict "mountPath" "/home/smile/smilecdr/classes/client_certificates/kafka-ca-cert.p12")) -}}
+          {{- $_ := set $secretSpec.secretKeyMap "cacertpassword" (dict "secretKeyName" "ca.password" "k8sSecretKeyName" "ca.password" "envVarName" "KAFKA_BROKER_CA_CERT_PWD") -}}
+          {{- $_ := set $secretSpec "useKeyNamesAsAlias" true -}}
+          {{- $_ := set $secretSpec "objectAliasDisabled" true -}}
+          {{- $secretConfig := include "sdhCommon.secretConfig" (dict "rootCTX" $ "secretSpec" $secretSpec) | fromYaml -}}
+          {{- $secretsList = append $secretsList $secretConfig -}}
+
         {{- end -}}
         {{- $_ := set $kafkaConfig "privateca" $privateCa -}}
       {{- end -}}
@@ -128,6 +141,19 @@ on either external or Strimzi settings.
         {{- end -}}
         {{- $kafkaAuthenticationSecretType = $userCertType -}}
         {{- $_ := set $kafkaConfig "userCertSecretName" $secretName -}}
+
+        {{- /* Set up the secret object */ -}}
+        {{- $secretSpec := deepCopy $externalConfig.authentication.userCert -}}
+        {{- $_ := set $secretSpec "volumeName" "kafka-client-cert" -}}
+        {{- $_ := set $secretSpec "secretName" $secretName -}}
+        {{- $_ := set $secretSpec "secretKeyMap" dict -}}
+        {{- $_ := set $secretSpec.secretKeyMap "usercert" (dict "secretKeyName" "user.p12" "k8sSecretKeyName" "user.p12" "mountSpec" (dict "mountPath" "/home/smile/smilecdr/classes/client_certificates/kafka-client-cert.p12")) -}}
+        {{- $_ := set $secretSpec.secretKeyMap "usercertpassword" (dict "secretKeyName" "user.password" "k8sSecretKeyName" "user.password" "envVarName" "KAFKA_CLIENT_CERT_PWD") -}}
+        {{- $_ := set $secretSpec "useKeyNamesAsAlias" true -}}
+        {{- $_ := set $secretSpec "objectAliasDisabled" true -}}
+        {{- $secretConfig := include "sdhCommon.secretConfig" (dict "rootCTX" $ "secretSpec" $secretSpec) | fromYaml -}}
+        {{- $secretsList = append $secretsList $secretConfig -}}
+
       {{- else if contains $kafkaAuthentication.type "password" -}}
         {{- if or (not (hasKey $externalConfig.authentication "password")) (lt (len ($externalConfig.authentication).password) 1) -}}
           {{- fail "Kafka: You must configure `password` if using password authentication." -}}
@@ -150,6 +176,18 @@ on either external or Strimzi settings.
         {{- end -}}
         {{- $kafkaAuthenticationSecretType = $passwordSource -}}
         {{- $_ := set $kafkaConfig "passwordSecretName" $secretName -}}
+
+        {{- /* Set up the secret object */ -}}
+        {{- $secretSpec := deepCopy $externalConfig.authentication.password -}}
+        {{- $_ := set $secretSpec "name" "kafka-authentication-password" -}}
+        {{- $_ := set $secretSpec "secretName" $secretName -}}
+        {{- $_ := set $secretSpec "secretKeyMap" dict -}}
+        {{- $_ := set $secretSpec.secretKeyMap "username" (dict "secretKeyName" "username" "k8sSecretKeyName" "username" "envVarName" "KAFKA_CLIENT_USER") -}}
+        {{- $_ := set $secretSpec.secretKeyMap "password" (dict "secretKeyName" "password" "k8sSecretKeyName" "password" "envVarName" "KAFKA_CLIENT_PASS") -}}
+        {{- $_ := set $secretSpec "useKeyNamesAsAlias" true -}}
+        {{- $_ := set $secretSpec "objectAliasDisabled" true -}}
+        {{- $secretConfig := include "sdhCommon.secretConfig" (dict "rootCTX" $ "secretSpec" $secretSpec) | fromYaml -}}
+        {{- $secretsList = append $secretsList $secretConfig -}}
       {{- end -}}
 
     {{- /* Strimzi Specific config */ -}}
@@ -162,16 +200,43 @@ on either external or Strimzi settings.
       {{- /* Settings for TLS with Strimzi */ -}}
       {{- if eq $kafkaConnectionType "tls" -}}
         {{- /* K8s secret name for Strimzi ca cert */ -}}
-        {{- $_ := set $kafkaConfig "caCertSecretName" (printf "%s-cluster-ca-cert" .Release.Name) -}}
+        {{- $secretName := (printf "%s-cluster-ca-cert" .Release.Name) -}}
+        {{- $_ := set $kafkaConfig "caCertSecretName" $secretName -}}
+
+        {{- /* Set up the secret for TLS connection CA Cert... Only if using a private CA */ -}}
+        {{- $secretSpec := dict "secretName" $secretName -}}
+        {{- $_ := set $secretSpec "volumeName" "kafka-broker-ca-cert" -}}
+        {{- $_ := set $secretSpec "secretKeyMap" dict -}}
+        {{- $_ := set $secretSpec.secretKeyMap "cacert" (dict "secretKeyName" "ca.p12" "k8sSecretKeyName" "ca.p12" "mountSpec" (dict "mountPath" "/home/smile/smilecdr/classes/client_certificates/kafka-ca-cert.p12")) -}}
+        {{- $_ := set $secretSpec.secretKeyMap "cacertpassword" (dict "secretKeyName" "ca.password" "k8sSecretKeyName" "ca.password" "envVarName" "KAFKA_BROKER_CA_CERT_PWD") -}}
+        {{- $_ := set $secretSpec "useKeyNamesAsAlias" true -}}
+        {{- $_ := set $secretSpec "objectAliasDisabled" true -}}
+        {{- $secretConfig := include "sdhCommon.secretConfig" (dict "rootCTX" $ "secretSpec" $secretSpec) | fromYaml -}}
+        {{- $secretsList = append $secretsList $secretConfig -}}
+
         {{- /* Kafka bootstrap servers for Strimzi tls listener */ -}}
         {{- /*TODO: Make the bootstrap address autoconfigure from the Strimzi configuration */ -}}
         {{- $kafkaBootstrapAddress = printf "%s-kafka-bootstrap:9093" .Release.Name -}}
       {{- else -}}
         {{- $kafkaBootstrapAddress = printf "%s-kafka-bootstrap:9093" .Release.Name -}}
       {{- end -}}
-      {{- /* Set the K8s secret name for Strimzi user cert */ -}}
+
       {{- if contains $kafkaAuthentication.type "mtls tls" -}}
-        {{- $_ := set $kafkaConfig "userCertSecretName" (printf "%s-kafka-user" .Release.Name) -}}
+        {{- /* Set the K8s secret name for Strimzi user cert */ -}}
+        {{- $secretName := (printf "%s-kafka-user" .Release.Name) -}}
+        {{- $_ := set $kafkaConfig "userCertSecretName" $secretName -}}
+
+        {{- /* Set up the secret for TLS connection CA Cert... Only if using a private CA */ -}}
+        {{- $secretSpec := dict "secretName" $secretName -}}
+        {{- $_ := set $secretSpec "volumeName" "kafka-client-cert" -}}
+        {{- $_ := set $secretSpec "secretKeyMap" dict -}}
+        {{- $_ := set $secretSpec.secretKeyMap "cacert" (dict "secretKeyName" "user.p12" "k8sSecretKeyName" "user.p12" "mountSpec" (dict "mountPath" "/home/smile/smilecdr/classes/client_certificates/kafka-client-cert.p12")) -}}
+        {{- $_ := set $secretSpec.secretKeyMap "cacertpassword" (dict "secretKeyName" "user.password" "k8sSecretKeyName" "user.password" "envVarName" "KAFKA_CLIENT_CERT_PWD") -}}
+        {{- $_ := set $secretSpec "useKeyNamesAsAlias" true -}}
+        {{- $_ := set $secretSpec "objectAliasDisabled" true -}}
+        {{- $secretConfig := include "sdhCommon.secretConfig" (dict "rootCTX" $ "secretSpec" $secretSpec) | fromYaml -}}
+        {{- $secretsList = append $secretsList $secretConfig -}}
+
       {{- end -}}
     {{- end -}}
 
@@ -239,39 +304,12 @@ on either external or Strimzi settings.
       {{- $_ := set $kafkaConfig "propertiesResourceName" (printf "%s-kafka-client-properties-%s" $.Release.Name $propsHashSuffix) -}}
     {{- end -}}
 
+    {{- if gt (len $secretsList) 0 -}}
+      {{- $_ := set $kafkaConfig "secrets" $secretsList -}}
+    {{- end -}}
+
   {{- end -}}
   {{- $kafkaConfig | toYaml -}}
-{{- end -}}
-
-{{- /*
-Define the volumes that will be used to mount Kafka certificates
-in to pods
-*/ -}}
-{{- define "kafka.certificate.volumes" -}}
-  {{- $ctx := get . "Values" -}}
-  {{- $volumes := list -}}
-  {{- /* $kafkaConfig := (include "kafka.config" . | fromYaml) */ -}}
-  {{- /* This can be called in cdrNode or root contexts (For the Admin pod) */ -}}
-  {{- /* When called in root context, we need to call the kafka config template first */ -}}
-  {{- $kafkaConfig := dict -}}
-  {{- if hasKey $ctx "cdrNodeId"  -}}
-    {{- $kafkaConfig = $ctx.kafka -}}
-  {{- else -}}
-    {{- $kafkaConfig = (include "kafka.config" . | fromYaml) -}}
-  {{- end -}}
-  {{- /* Mount CA cert if using TLS and private cert */ -}}
-  {{- if and (eq $kafkaConfig.connection.type "tls") $kafkaConfig.privateca -}}
-    {{- $secretProjection := (dict "secretName" $kafkaConfig.caCertSecretName) -}}
-    {{- $certVolume := dict "name" "kafka-broker-ca-cert" "secret" $secretProjection -}}
-    {{- $volumes = append $volumes $certVolume -}}
-  {{- end -}}
-  {{- /* Mount client cert if using mTLS */ -}}
-  {{- if eq $kafkaConfig.authentication.type "tls" -}}
-    {{- $secretProjection := (dict "secretName" $kafkaConfig.userCertSecretName) -}}
-    {{- $certVolume := dict "name" "kafka-client-cert" "secret" $secretProjection -}}
-    {{- $volumes = append $volumes $certVolume -}}
-  {{- end -}}
-  {{- $volumes | toYaml -}}
 {{- end -}}
 
 {{- /*
@@ -281,7 +319,7 @@ Currently only supports mounting of the properties files
 {{- define "kafka.volumes" -}}
   {{- $volumes := list -}}
 
-  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
+  {{- $kafkaConfig := include "kafka.config" . | fromYaml -}}
   {{- if $kafkaConfig.enabled -}}
   {{- /* if eq ((include "kafka.enabled" . ) | trim ) "true" */ -}}
     {{- /* $kafkaConfig := (include "kafka.config" . | fromYaml) */ -}}
@@ -291,36 +329,16 @@ Currently only supports mounting of the properties files
     {{- $configMap := (dict "name" $kafkaConfig.propertiesResourceName) -}}
     {{- $propsVolume := dict "name" "kafka-client-config" "configMap" $configMap -}}
     {{- $volumes = append $volumes $propsVolume -}}
-    {{- $volumes = concat $volumes (include "kafka.certificate.volumes" . | fromYamlArray) -}}
+
+    {{- /* Mount any certs defined in secrets */ -}}
+    {{- range $secret := $kafkaConfig.secrets -}}
+      {{- range $volume := $secret.volumeMap -}}
+        {{- $volumes = append $volumes $volume -}}
+      {{- end -}}
+    {{- end -}}
 
   {{- end -}}
   {{- $volumes | toYaml -}}
-{{- end -}}
-
-{{- /*
-Define the volume mounts that will be used to mount Kafka certificates
-in to pods
-*/ -}}
-{{- define "kafka.certificate.volumeMounts" -}}
-  {{- $volumeMounts := list -}}
-  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
-  {{- /* Mount CA cert if using TLS with private cert */ -}}
-  {{- if and (eq $kafkaConfig.connection.type "tls") $kafkaConfig.privateca -}}
-    {{- $volumeMount := dict "name" "kafka-broker-ca-cert" -}}
-    {{- $_ := set $volumeMount "mountPath" "/home/smile/smilecdr/classes/client_certificates/kafka-ca-cert.p12" -}}
-    {{- $_ := set $volumeMount "subPath" "ca.p12" -}}
-    {{- $_ := set $volumeMount "readOnly" true -}}
-    {{- $volumeMounts = append $volumeMounts $volumeMount -}}
-  {{- end -}}
-  {{- /* Mount client cert if using mTLS */ -}}
-  {{- if eq $kafkaConfig.authentication.type "tls" -}}
-    {{- $volumeMount := dict "name" "kafka-client-cert" -}}
-    {{- $_ := set $volumeMount "mountPath" "/home/smile/smilecdr/classes/client_certificates/kafka-client-cert.p12" -}}
-    {{- $_ := set $volumeMount "subPath" "user.p12" -}}
-    {{- $_ := set $volumeMount "readOnly" true -}}
-    {{- $volumeMounts = append $volumeMounts $volumeMount -}}
-  {{- end -}}
-  {{- $volumeMounts | toYaml -}}
 {{- end -}}
 
 {{- /*
@@ -328,7 +346,8 @@ Define Kafka related volume mounts requird by Smile CDR container
 */ -}}
 {{- define "kafka.volumeMounts" -}}
   {{- $volumeMounts := list -}}
-  {{- if eq ((include "kafka.enabled" . ) | trim ) "true" -}}
+  {{- $kafkaConfig := include "kafka.config" . | fromYaml -}}
+  {{- if $kafkaConfig.enabled -}}
     {{- /* Mount consumer properties file */ -}}
     {{- $volumeMount := dict "name" "kafka-client-config" -}}
     {{- $_ := set $volumeMount "mountPath" "/home/smile/smilecdr/classes/cdr_kafka_config/cdr-kafka-consumer-config.properties" -}}
@@ -341,7 +360,12 @@ Define Kafka related volume mounts requird by Smile CDR container
     {{- $_ := set $volumeMount "subPath" "producer.properties" -}}
     {{- $_ := set $volumeMount "readOnly" true -}}
     {{- $volumeMounts = append $volumeMounts $volumeMount -}}
-    {{- $volumeMounts = concat $volumeMounts (include "kafka.certificate.volumeMounts" . | fromYamlArray) -}}
+    {{- /* Mount any certs defined in secrets */ -}}
+    {{- range $secret := $kafkaConfig.secrets -}}
+      {{- range $volumeMount := $secret.volumeMountMap -}}
+        {{- $volumeMounts = append $volumeMounts $volumeMount -}}
+      {{- end -}}
+    {{- end -}}
   {{- end -}}
   {{- $volumeMounts | toYaml -}}
 {{- end -}}
@@ -354,31 +378,22 @@ passwords
   {{- $envVars := list -}}
   {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
   {{- if $kafkaConfig.enabled -}}
+
     {{- /* Global Env vars */ -}}
     {{- $envVars = append $envVars (dict "name" "KAFKA_BOOTSTRAP_ADDRESS" "value" $kafkaConfig.bootstrapAddress) -}}
+
     {{- /* Env vars if using TLS and private cert */ -}}
     {{- if eq $kafkaConfig.connection.type "tls" -}}
       {{- $envVars = append $envVars (dict "name" "KAFKA_SSL_ENABLED" "value" "true") -}}
-      {{- if $kafkaConfig.privateca -}}
-        {{- $env := dict "name" "KAFKA_BROKER_CA_CERT_PWD" -}}
-        {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (dict "name" $kafkaConfig.caCertSecretName "key" "ca.password")) -}}
-        {{- $envVars = append $envVars $env -}}
-      {{- end -}}
     {{- else -}}
       {{- $envVars = append $envVars (dict "name" "KAFKA_SSL_ENABLED" "value" "false") -}}
     {{- end -}}
-    {{- /* Env vars if using mTLS */ -}}
-    {{- if contains $kafkaConfig.authentication.type "mtls tls" -}}
-      {{- $env := dict "name" "KAFKA_CLIENT_CERT_PWD" -}}
-      {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (dict "name" $kafkaConfig.userCertSecretName "key" "user.password")) -}}
-      {{- $envVars = append $envVars $env -}}
-    {{- else if eq $kafkaConfig.authentication.type "password" -}}
-      {{- $env := dict "name" "KAFKA_CLIENT_USER" -}}
-      {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (dict "name" $kafkaConfig.passwordSecretName "key" "user")) -}}
-      {{- $envVars = append $envVars $env -}}
-      {{- $env := dict "name" "KAFKA_CLIENT_PASS" -}}
-      {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (dict "name" $kafkaConfig.passwordSecretName "key" "pass")) -}}
-      {{- $envVars = append $envVars $env -}}
+
+    {{- /* Env Vars mapped to secrets */ -}}
+    {{- range $theKafkaSecretSpec := $kafkaConfig.secrets -}}
+      {{- range $env := $theKafkaSecretSpec.envMap -}}
+        {{- $envVars = append $envVars $env -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
   {{- $envVars | toYaml -}}

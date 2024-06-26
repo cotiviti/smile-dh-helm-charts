@@ -28,8 +28,7 @@ Define env vars that will be used for Kafka certificate
 passwords
 */ -}}
 {{- define "kafka.admin.envVars" -}}
-  {{- $envVars := (include "kafka.envVars" . | fromYamlArray) -}}
-  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
+  {{- $envVars := include "kafka.envVars" . | fromYamlArray -}}
 
   {{- /* TODO: Add this IAM file definition to the generic kafka config */ -}}
   {{- $envVars = append $envVars (dict "name" "CLASSPATH" "value" "/opt/kafka/classes/aws-msk-iam-auth-1.1.9-all.jar") -}}
@@ -109,7 +108,13 @@ passwords
 
 {{- define "kafka.admin.volumes" -}}
   {{- $volumes := list -}}
-  {{- $volumes = concat $volumes (include "kafka.certificate.volumes" . | fromYamlArray) -}}
+  {{- /* Mount any certs defined in secrets */ -}}
+  {{- $kafkaConfig := include "kafka.config" . | fromYaml -}}
+  {{- range $secret := $kafkaConfig.secrets -}}
+    {{- range $volume := $secret.volumeMap -}}
+      {{- $volumes = append $volumes $volume -}}
+    {{- end -}}
+  {{- end -}}
   {{- $classpathVolume := dict "name" "admin-classpath" -}}
   {{- $_ := set $classpathVolume "emptyDir" (dict "sizeLimit" "20Mi") -}}
   {{- $volumes = append $volumes $classpathVolume -}}
@@ -135,7 +140,13 @@ passwords
 
 {{ define "kafka.admin.volumeMounts" }}
   {{- $volumeMounts := list -}}
-  {{- $volumeMounts = concat $volumeMounts (include "kafka.certificate.volumeMounts" . | fromYamlArray) -}}
+  {{- /* Mount any certs defined in secrets */ -}}
+  {{- $kafkaConfig := include "kafka.config" . | fromYaml -}}
+  {{- range $secret := $kafkaConfig.secrets -}}
+    {{- range $volumeMount := $secret.volumeMountMap -}}
+      {{- $volumeMounts = append $volumeMounts $volumeMount -}}
+    {{- end -}}
+  {{- end -}}
   {{- $classpathVolumeMount := dict "name" "admin-classpath" -}}
   {{- $_ := set $classpathVolumeMount "mountPath" "/opt/kafka/classes" -}}
   {{- $volumeMounts = append $volumeMounts $classpathVolumeMount -}}
