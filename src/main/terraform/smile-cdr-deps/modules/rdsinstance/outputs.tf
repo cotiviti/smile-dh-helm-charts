@@ -5,6 +5,12 @@ output "master_secret_arn" {
     aws_secretsmanager_secret.rds_master[0].arn)
 }
 
+output "master_secret_kms_key_id" {
+ value = var.manage_master_user_password ? (
+    module.aurora_database[0].cluster_master_user_secret[0].kms_key_id) : (
+    aws_secretsmanager_secret.rds_master[0].kms_key_id)
+}
+
 output "db_endpoint" {
  value = module.aurora_database[0].cluster_endpoint
 }
