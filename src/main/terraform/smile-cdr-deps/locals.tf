@@ -196,6 +196,7 @@ locals {
         db,
         {
           existing_arn = db.master_secret_arn
+          kms_key_id = db.master_secret_kms_key_id
           arn = db.master_secret_arn
         }
       )
@@ -242,20 +243,21 @@ locals {
       if try(secret.existing_arn, null) == null
   }
 
+  # This represents all secrets that were created outside of this module. This includes any rds secrets.
   existing_secrets = {
+    # Convert list into map
     for secret in concat(
         [local.cdr_regcred_secret, local.cdr_license_secret],
         local.rds_secrets,
-        var.extra_secrets
       ):
+      # Use secret.name as the map key name. Merge the secret object with the new values:
+      # * kms_key_id
+      # * arn
       secret.name => merge(
         secret,
         {
-          # Set full secret name unless name_override is enabled, in which case set it to secret.name
-          secret_name = try(secret.name_override, false) ? secret.name : "${local.name}-${secret.name}-${local.resourcenames_suffix}"
-
           # Set the KMS Key ARN for the existing secret if provided. Otherwise leave it out and the default KMS key will be used
-          kms_key_id  = try(secret.existing_kms_arn,null) == null ? null : secret.existing_kms_arn
+          kms_key_id  = try(secret.kms_key_id, secret.existing_kms_arn, null)
           arn = secret.existing_arn
         }
       )
@@ -270,12 +272,12 @@ locals {
   ]
 
   # Get list of all KMS key ARNs used for secrets
-  all_secret_kms_key_arns = compact([
+  all_secret_kms_key_arns = distinct(compact([
     # for secret in merge(local.secrets_to_create,local.existing_secrets):
     for secret in merge(aws_secretsmanager_secret.secrets,local.existing_secrets):
       secret.kms_key_id
       if can(secret.kms_key_id)
-  ])
+  ]))
 
   secrets_enabled = var.enable_cdr_regcred_secret || var.enable_cdr_license_secret || local.enable_cdr_rds_secrets  ? true:false
 

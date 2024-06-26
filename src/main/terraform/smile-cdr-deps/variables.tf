@@ -260,7 +260,7 @@ variable "db_subnet_ids" {
 }
 
 variable "db_use_old_helm_schema" {
-  description = "Subnet IDs where the Database will be located. If this is left null then an existing db_seubnet_group MUST be provided with db_subnet_group_name."
+  description = "Use database connection configuration schema from v1.0.0-pre.121 and earlier."
   type        = bool
   default     = true
   nullable    = false

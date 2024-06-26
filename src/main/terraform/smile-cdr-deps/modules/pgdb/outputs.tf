@@ -6,6 +6,10 @@ output "secret_arn" {
   value = aws_secretsmanager_secret.pg_user_db.arn
 }
 
+output "kms_key_id" {
+  value = aws_secretsmanager_secret.pg_user_db.kms_key_id
+}
+
 # TODO: Refactor this out
 output "secret_version" {
   value = aws_secretsmanager_secret_version.pg_user_db.arn
