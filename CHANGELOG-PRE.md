@@ -1,3 +1,10 @@
+# [1.0.0-pre.123](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.122...v1.0.0-pre.123) (2024-06-27)
+
+
+### Features
+
+* **smilecdr:** update Secrets mechanisms ([158f2c3](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/158f2c3da94206abe8945e60c064ba20d8d53ec7))
+
 # [1.0.0-pre.122](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.121...v1.0.0-pre.122) (2024-06-14)
 
 
