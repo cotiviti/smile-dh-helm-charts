@@ -5,18 +5,15 @@ database:
     enabled: false
   external:
     enabled: true
-    defaults:
-      connectionConfigSource:
-        source: k8sSecret
-        secretName: mySharedDBSecret
-      connectionConfig:
-        authentication:
-         type: password
     databases:
-    - name: smilecdr-db
-      modules:
-      - clustermgr
-      - persistence
+    - secretName: smilecdrSecret
+      module: clustermgr
+      url: thedatabaseurl
+      dbType: postgres
+      port: 5432
+      dbname: cdr
+      user: username
+      passKey: password
 
 modules:
   useDefaultModules: false
