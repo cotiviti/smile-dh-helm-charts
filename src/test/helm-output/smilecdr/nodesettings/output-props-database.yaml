@@ -18,22 +18,6 @@ spec:
       app.kubernetes.io/instance: release-name
       app.kubernetes.io/name: smilecdr
 ---
-# Source: smilecdr/templates/scdr/scdr-image-pull-secret.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: release-name-scdr-image-pull-secrets
-  namespace: default
-  labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
-    app.kubernetes.io/managed-by: Helm
-type: kubernetes.io/dockerconfigjson
-data:
-  .dockerconfigjson: eyJhdXRocyI6eyJkb2NrZXIuc21pbGVjZHIuY29tIjp7ImF1dGgiOiJaRzlqYTJWeUxYVnpaWEk2Y0dGemN3PT0ifX19
----
 # Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -409,7 +393,7 @@ spec:
         helm.sh/chart: No Chart Version - Unit Testing
     spec:
       imagePullSecrets:
-        - name: release-name-scdr-image-pull-secrets
+        []
       serviceAccountName: default
       securityContext:
         fsGroup: 1000
@@ -454,31 +438,6 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: url
-                  name: smilecdr
-            - name: DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: smilecdr
-            - name: DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: dbname
-                  name: smilecdr
-            - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
-                  name: smilecdr
-            - name: DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: smilecdr
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
           ports:

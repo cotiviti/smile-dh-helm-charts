@@ -1,6 +1,8 @@
 # This tests DB environments for multiple shared externally provisioned CrunchyData DB
 
 database:
+  external:
+    enabled: false
   crunchypgo:
     enabled: true
     internal: true

@@ -1,0 +1,8 @@
+# This file defines configurations specific for this test
+
+unitTesting: false
+
+# Enable a database to prevent unit testing failure
+database:
+  crunchypgo:
+    enabled: true

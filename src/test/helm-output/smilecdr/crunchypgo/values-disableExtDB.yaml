@@ -1,5 +1,5 @@
 # This file defines the minimum required settings to use this Helm Chart.
 
-autoDeploy: false
-
-unitTesting: true
+database:
+  external:
+    enabled: false

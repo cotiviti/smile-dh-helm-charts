@@ -469,31 +469,6 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: url
-                  name: smilecdr
-            - name: DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: smilecdr
-            - name: DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: dbname
-                  name: smilecdr
-            - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
-                  name: smilecdr
-            - name: DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: smilecdr
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
           ports:

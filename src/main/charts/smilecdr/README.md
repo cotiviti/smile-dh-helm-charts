@@ -88,14 +88,9 @@ The below section gives an overview of the default values available. Consult the
 | database.crunchypgo.users[2].name | string | `"transaction"` |  |
 | database.crunchypgo.users[3].module | string | `"persistence"` |  |
 | database.crunchypgo.users[3].name | string | `"persistence"` |  |
-| database.external.credentials | object | `{}` |  |
-| database.external.databases[0].dbnameKey | string | `"dbname"` |  |
-| database.external.databases[0].module | string | `"clustermgr"` |  |
-| database.external.databases[0].passKey | string | `"password"` |  |
-| database.external.databases[0].portKey | string | `"port"` |  |
-| database.external.databases[0].secretName | string | `"smilecdr"` |  |
-| database.external.databases[0].urlKey | string | `"url"` |  |
-| database.external.databases[0].userKey | string | `"user"` |  |
+| database.external.defaults.connectionConfig.authentication.provider | string | `"aws"` |  |
+| database.external.defaults.connectionConfig.authentication.type | string | `"password"` |  |
+| database.external.defaults.connectionConfigSource.source | string | `"k8sSecret"` |  |
 | database.external.enabled | bool | `false` | Enable database external to K8s cluster |
 | extraEnvVars | list | `[]` |  |
 | extraVolumeMounts | object | `{}` |  |

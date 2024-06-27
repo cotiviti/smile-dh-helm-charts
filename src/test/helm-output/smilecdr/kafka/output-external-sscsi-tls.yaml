@@ -468,31 +468,6 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: url
-                  name: smilecdr
-            - name: DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: smilecdr
-            - name: DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: dbname
-                  name: smilecdr
-            - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
-                  name: smilecdr
-            - name: DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: smilecdr
             - name: KAFKA_BOOTSTRAP_ADDRESS
               value: test1-kafka-bootstrap:9093, test2-kafka-bootstrap:9093
             - name: KAFKA_SSL_ENABLED
@@ -602,7 +577,7 @@ spec:
       - jmesPath:
         - objectAlias: ca.p12
           path: ca.p12
-        - objectAlias: ca.p12
+        - objectAlias: ca.password
           path: ca.password
         objectName: arn:aws:secretsmanager:us-east-1:012345678901:secret:kafkacacert
   secretObjects:
@@ -611,7 +586,7 @@ spec:
       objectName: ca.p12
     - key: ca.password
       objectName: ca.password
-    secretName: kafka-ca-cert
+    secretName: release-name-kafka-ca-cert
     type: Opaque
 ---
 # Source: smilecdr/templates/tests/test-connection.yaml

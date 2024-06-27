@@ -438,80 +438,80 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: CLUSTERMGR_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: clustermgrsecret
-            - name: CLUSTERMGR_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: clustermgrsecret
             - name: CLUSTERMGR_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
                   name: clustermgrsecret
-            - name: CLUSTERMGR_DB_USER
+            - name: CLUSTERMGR_DB_URL
               valueFrom:
                 secretKeyRef:
-                  key: username
+                  key: host
                   name: clustermgrsecret
             - name: CLUSTERMGR_DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
                   name: clustermgrsecret
-            - name: AUDIT_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: auditsecret
-            - name: AUDIT_DB_PORT
+            - name: CLUSTERMGR_DB_PORT
               valueFrom:
                 secretKeyRef:
                   key: port
-                  name: auditsecret
+                  name: clustermgrsecret
+            - name: CLUSTERMGR_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: clustermgrsecret
             - name: AUDIT_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
                   name: auditsecret
-            - name: AUDIT_DB_USER
+            - name: AUDIT_DB_URL
               valueFrom:
                 secretKeyRef:
-                  key: username
+                  key: host
                   name: auditsecret
             - name: AUDIT_DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
                   name: auditsecret
+            - name: AUDIT_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: auditsecret
+            - name: AUDIT_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: auditsecret
+            - name: PERSISTENCE_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: persistencesecret
             - name: PERSISTENCE_DB_URL
               valueFrom:
                 secretKeyRef:
                   key: host
+                  name: persistencesecret
+            - name: PERSISTENCE_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
                   name: persistencesecret
             - name: PERSISTENCE_DB_PORT
               valueFrom:
                 secretKeyRef:
                   key: port
                   name: persistencesecret
-            - name: PERSISTENCE_DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: dbname
-                  name: persistencesecret
             - name: PERSISTENCE_DB_USER
               valueFrom:
                 secretKeyRef:
                   key: username
-                  name: persistencesecret
-            - name: PERSISTENCE_DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
                   name: persistencesecret
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom

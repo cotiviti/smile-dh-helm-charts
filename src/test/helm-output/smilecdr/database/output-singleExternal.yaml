@@ -193,19 +193,19 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: DB_URL
-              value: thedatabaseurl
-            - name: DB_PORT
-              value: "5432"
             - name: DB_DATABASE
               value: cdr
-            - name: DB_USER
-              value: username
+            - name: DB_URL
+              value: thedatabaseurl
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: smilecdrSecret
+                  name: smilecdrsecret
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              value: username
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
           ports:

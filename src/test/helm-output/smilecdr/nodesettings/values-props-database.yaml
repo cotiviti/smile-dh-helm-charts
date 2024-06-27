@@ -4,7 +4,3 @@ cdrNodes:
     name: OverriddenNodeId
     config:
       database: true
-
-image:
-  credentials:
-    type: values

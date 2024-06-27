@@ -24,12 +24,6 @@ database:
       passKey: password
     - secretName: smilecdrSecret3
       module: persistence
-      urlKey: host
-      dbTypeKey: type
-      portKey: port
-      dbnameKey: dbname
-      userKey: user
-      passKey: password
     - secretName: smilecdrSecret4
       module: persistence2
       hostKey: host

@@ -17,6 +17,218 @@ installed in the cluster. Then specify sscsi as the type
 */}}
 
 {{/*
+Secrets are used in a number of places.
+In each case, the logic to determine the secret type has been repeated
+in an inconsistent manner.
+
+This helper is the single place to deal with this and can be used
+anywhere in the chart that needs secrets injected.
+
+Pass in root context as `rootCTX` and a `secretSpec` object as `secretSpec`.
+secretSpec should contain the raw configuration from the values file as well
+as any contextually required info.
+Returns... stuff?
+
+*/}}
+{{- define "sdhCommon.secretConfig" -}}
+  {{- /* Add function call tracing for troubleshooting rendering performance issues */ -}}
+  {{- if (.Values).enableFunctionCounting -}}
+    {{- $_ := set .Values.templateCalls "secretConfig" (add (default 0 .Values.templateCalls.secretConfig) 1) -}}
+  {{- end -}}
+  {{- $rootCTX := get . "rootCTX" -}}
+  {{- $secretSpec := get . "secretSpec" -}}
+  {{- /*
+  secretSpec:
+    # You must provide name or secretName at the minimum.
+    # If you only provide name, secret name will be generated using release name
+    name: Optional, used to auto generate name
+    nameSuffix: Optional, used to auto generate name
+    secretName: Optional, used to override name
+    type: Optional, defaults to k8sSecret
+    provider: Only required of type is sscsi
+    secretArn: Only required of type is sscsi & provider is aws
+    envName: Optional, provides environment configuration
+    mountPath: Optional, provides secret mounting configuration
+  */ -}}
+
+  {{- /* Determine secret name */ -}}
+  {{- $name := "" -}}
+  {{- if $secretSpec.secretName -}}
+    {{- $_ := set $secretSpec "name" (lower $secretSpec.secretName) -}}
+  {{- else if $secretSpec.name -}}
+    {{- $_ := set $secretSpec "name" (printf "%s-%s" $rootCTX.Release.Name $secretSpec.name) -}}
+    {{- if $secretSpec.nameSuffix -}}
+      {{-  $_ := set $secretSpec "name" (printf "%s-%s" $name $secretSpec.nameSuffix) -}}
+    {{- end -}}
+
+  {{- else -}}
+    {{- fail (printf "You must provide `secretName` or `name` for secret configurations.") -}}
+  {{- end -}}
+
+  {{/* Determine secret type */}}
+  {{- $_ := set $secretSpec "type" (default "k8sSecret" $secretSpec.type) -}}
+  {{- if not (contains $secretSpec.type "k8sSecret sscsi") -}}
+    {{- fail (printf "Secret type of `%s` is not supported. Please use `sscsi` or `k8sSecret`" $secretSpec.type) -}}
+  {{- end -}}
+
+  {{- /* Determine sscsi config */ -}}
+  {{- if eq $secretSpec.type "sscsi" -}}
+    {{- $_ := set $secretSpec "sscsiProvider" (required (printf "You must specify a provider when using sscsi for secret %s" $name ) $secretSpec.provider) -}}
+
+    {{- /* Implementation for AWS Secrets Manager provider */ -}}
+    {{- if eq (lower $secretSpec.provider) "aws" -}}
+      {{- $_ := required (printf "You must specify a secretArn when using sscsi for secret %s" $name ) $secretSpec.secretArn -}}
+      {{- $_ := required (printf "A dict of secret key mappings must be provided when using sscsi for secret %s" $name ) $secretSpec.secretKeyMap -}}
+      {{- if $secretSpec.useArnShaSuffix -}}
+        {{- $nameSuffix := trunc 8 (sha256sum $secretSpec.secretArn) -}}
+        {{- $_ := set $secretSpec "name" (printf "%s-%s" $secretSpec.name $nameSuffix) -}}
+      {{- end -}}
+
+      {{- /* For each AWS secrets manager secret, we will need the following:
+          * SecretProviderClass.spec.parameters.objects object with:
+            objectName <Secrets Manager ARN>
+            objectAlias <Alias for referencing this secret elsewhere in SecretProviderClass resource> Only required if syncing secret to k8s secret.
+            jmesPath: <List of jmesPathSpec> Only required if syncing secret to k8s secret.
+
+            jmesPathSpec:
+              path: <key name in secrets manager secret>
+              objectAlias <Alias for referencing this key elsewhere in SecretProviderClass resource>
+
+          For secrets that are to be synced to K8s secrets, we need the following:
+          * SecretProviderClass.spec.secretObjects object with:
+            secretName: <K8s Secret resource name>
+            type: <K8s secret type> Defaults to 'Opaque'
+            data: <List of dataSpec>
+
+            dataSpec:
+              key: <Key to use in the K8s secret>
+              objectName: <ObjectName or ObjectAlias from SecretProviderClass.spec.parameters.objects object
+
+          */ -}}
+
+      {{- /* Generate SecretProviderClass.spec.parameters.objects object */ -}}
+      {{- $sscsiParameterObject := dict "objectName" $secretSpec.secretArn -}}
+      {{- if not $secretSpec.objectAliasDisabled -}}
+        {{- $_ := set $sscsiParameterObject "objectAlias" $secretSpec.name -}}
+      {{- end -}}
+
+      {{- /* Only create jmesPath, secretObject and environment map entries if we are syncing the secret */ -}}
+      {{- $syncSecret := false -}}
+
+      {{- $sscsiSecretObject := dict "secretName" $secretSpec.name -}}
+
+      {{- $jmesPathList := list -}}
+      {{- $dataSpecList := list -}}
+
+      {{- range $keyName, $keySpec := $secretSpec.secretKeyMap -}}
+        {{- if or $secretSpec.syncSecret (hasKey $keySpec "envVarName") (hasKey $keySpec "mountSpec") -}}
+          {{- $syncSecret = true -}}
+          {{- /* Define the alias used for this key */ -}}
+          {{- $objectAlias := $secretSpec.name -}}
+
+          {{- /* Suffix is only needed if there are multiple keys to map */ -}}
+          {{- if gt (len $secretSpec.secretKeyMap) 1 -}}
+            {{- /* Added for compatibility with old mechanism. Allows setting of objectAlias
+                such as <secretname>-<extraSuffix>-<key>
+                */ -}}
+            {{- $internalName := ternary $keySpec.internalName $keyName (hasKey $keySpec "internalName") -}}
+            {{- $aliasSuffix := ternary (printf "%s-%s" $secretSpec.objectAliasExtraSuffix $internalName) $internalName (hasKey $secretSpec "objectAliasExtraSuffix") -}}
+            {{- $objectAlias = (printf "%s-%s" $secretSpec.name $aliasSuffix)  -}}
+          {{- end -}}
+
+          {{- $k8sSecretKeyName := ternary $keySpec.k8sSecretKeyName $keySpec.secretKeyName (hasKey $keySpec "k8sSecretKeyName") -}}
+          {{- if $secretSpec.useKeyNamesAsAlias -}}
+            {{- $objectAlias = $k8sSecretKeyName -}}
+          {{- else if $secretSpec.useKeyMapAsAlias -}}
+            {{- $objectAlias = $keyName -}}
+          {{- end -}}
+
+          {{- /* Define and add the SecretProviderClass.spec.parameters.objects.jmesPath for this key */ -}}
+          {{- $jmesPath := dict "path" $keySpec.secretKeyName "objectAlias" $objectAlias -}}
+          {{- $jmesPathList = append $jmesPathList $jmesPath -}}
+
+          {{- /* Define and add the SecretProviderClass.spec.secretObjects.data for this key */ -}}
+
+          {{- $dataSpec := dict "key" $k8sSecretKeyName "objectName" $objectAlias -}}
+          {{- /* This method uses the overridden key name for the env variable */ -}}
+          {{- /* $dataSpec := dict "key" $keySpec.secretKeyName "objectName" $objectAlias */ -}}
+          {{- /* This method uses the default key name for the env variable */ -}}
+          {{- /* $dataSpec := dict "key" $keySpec.defaultKeyName "objectName" $objectAlias */ -}}
+          {{- $dataSpecList = append $dataSpecList $dataSpec -}}
+
+        {{- end -}}
+      {{- end -}}
+
+      {{- if $syncSecret -}}
+        {{- /* Add jmesPath and data lists to their respective objects */ -}}
+        {{- $_ := set $sscsiParameterObject "jmesPath" $jmesPathList -}}
+        {{- $_ := set $sscsiSecretObject "data" $dataSpecList -}}
+
+        {{- /* Set type for secretObject and add it to the secretSpec */ -}}
+        {{- $_ := set $sscsiSecretObject "type" (default "Opaque" $secretSpec.secretObjectType) -}}
+        {{- $_ := set $secretSpec "sscsiSecretObject" $sscsiSecretObject -}}
+      {{- end -}}
+
+      {{- /* Add sscsiParameterObject to the secretSpec */ -}}
+      {{- $_ := set $secretSpec "sscsiParameterObject" $sscsiParameterObject -}}
+
+      {{/*
+      Define other providers here:
+      {{- else if eq (lower $secretSpec.provider) "otherprovider" -}}
+      - add code to build $sscsiObject and include in secretSpec
+      */}}
+
+    {{- else -}}
+      {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported (E100)." $secretSpec.provider) -}}
+    {{- end -}}
+
+  {{- end -}}
+
+  {{- /* Build the envMaps if required */ -}}
+  {{- $envMap := list -}}
+  {{- range $keyName, $keySpec := $secretSpec.secretKeyMap -}}
+    {{- if $keySpec.envVarName -}}
+      {{- $env := dict "name" $keySpec.envVarName -}}
+      {{- $_ := set $env "valueFrom" (dict "secretKeyRef" (dict "name" $secretSpec.name "key" $keySpec.k8sSecretKeyName)) -}}
+      {{- $envMap = append $envMap $env -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if gt (len $envMap) 0 -}}
+    {{- /* Pass through environment mapping if required */ -}}
+    {{- $_ := set $secretSpec "envMap" $envMap -}}
+  {{- end -}}
+
+  {{- /* Build the volume and mount Maps if required */ -}}
+  {{- $volumeMap := list -}}
+  {{- $volumeMountMap := list -}}
+  {{- range $keyName, $keySpec := $secretSpec.secretKeyMap -}}
+    {{- if $keySpec.mountSpec -}}
+      {{- $volumeName := coalesce $secretSpec.volumeName $secretSpec.name -}}
+      {{- $secretProjection := (dict "secretName" $secretSpec.secretName) -}}
+      {{- $volume := dict "name" $volumeName "secret" $secretProjection -}}
+      {{- $volumeMap = append $volumeMap $volume -}}
+
+      {{- $volumeMount := dict "name" $volumeName -}}
+      {{- $_ := set $volumeMount "mountPath" $keySpec.mountSpec.mountPath -}}
+      {{- $_ := set $volumeMount "subPath" $keySpec.k8sSecretKeyName -}}
+      {{- $_ := set $volumeMount "readOnly" true -}}
+      {{- $volumeMountMap = append $volumeMountMap $volumeMount -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if gt (len $volumeMap) 0 -}}
+    {{- /* Pass through volume mount mapping if required */ -}}
+    {{- $_ := set $secretSpec "volumeMap" $volumeMap -}}
+  {{- end -}}
+  {{- if gt (len $volumeMountMap) 0 -}}
+    {{- /* Pass through volume mount mapping if required */ -}}
+    {{- $_ := set $secretSpec "volumeMountMap" $volumeMountMap -}}
+  {{- end -}}
+
+  {{- $secretSpec | toYaml -}}
+{{- end -}}
+
+{{/*
 Create list of image pull secrets to use.
 Sets up default parameters so this can easily
 be used elsewhere in the chart
@@ -24,60 +236,57 @@ be used elsewhere in the chart
 {{- define "imagePullSecrets" -}}
   {{- $imagePullSecrets := list -}}
   {{- range $i, $v := .Values.image.imagePullSecrets -}}
-    {{- $name := printf "%s-scdr-image-pull-secrets" $.Release.Name -}}
-    {{- $type := default "k8sSecret" .type -}}
-    {{- if eq $type "k8sSecret" -}}
-      {{- $name = .name -}}
-      {{- $secretDict := dict "name" $name "type" "k8sSecret" -}}
-      {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
-    {{- else if eq $type "sscsi" -}}
-      {{- $provider := required (printf "You must specify a provider when using sscsi for imagePullSecret %s" $name ) .provider -}}
-      {{- $secretArn := required (printf "You must specify a secretArn when using sscsi for imagePullSecret %s" $name ) .secretArn -}}
-      {{- $nameSuffix := "" -}}
-      {{- if gt (len $.Values.image.imagePullSecrets) 1 -}}
-        {{- $nameSuffix = printf "-%s" (trunc 8 (sha256sum $secretArn)) -}}
-      {{- end -}}
-      {{- $name = ternary .nameOverride (printf "%s%s" $name $nameSuffix) (hasKey . "nameOverride") -}}
-      {{- $secretDict := dict "name" $name "type" "sscsi" "provider" $provider "secretArn" $secretArn -}}
-      {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
-    {{- else if eq $type "values" -}}
-      {{- $registry := required (printf "You must specify a registry when using values for imagePullSecret %s" $name ) .registry -}}
-      {{- $username := required (printf "You must specify a username when using values for imagePullSecret %s" $name ) .username -}}
-      {{- $password := required (printf "You must specify a password when using values for imagePullSecret %s" $name ) .password -}}
-      {{- $nameSuffix := "" -}}
-      {{- if gt (len $.Values.image.imagePullSecrets) 1 -}}
-        {{- $nameSuffix = printf "-%s" (trunc 8 (sha256sum $registry)) -}}
-      {{- end -}}
-      {{- $name = ternary .nameOverride (printf "%s%s" $name $nameSuffix) (hasKey . "nameOverride") -}}
-      {{- $secretDict := dict "name" $name "type" "values" "registry" $registry "username" $username "password" $password -}}
-      {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
-    {{- else -}}
-      {{- fail (printf "Secrets of type `%s` are not supported. Please use `sscsi` or `k8sSecret`" $type) -}}
+    {{- $secretSpec := deepCopy $v -}}
+    {{- /* Set the name and suffixing for the secret object */ -}}
+    {{- $_ := set $secretSpec "name" (default "scdr-image-pull-secrets" $secretSpec.name) -}}
+    {{- if gt (len $.Values.image.imagePullSecrets) 1 -}}
+      {{- $_ := set $secretSpec "useArnShaSuffix" true -}}
     {{- end -}}
+    {{- /* Set the key mapping so that the correct secret object keys get created for imagePullSecrets*/ -}}
+    {{- $keyMapping := dict "secretKeyName" "dockerconfigjson" -}}
+    {{- $_ := set $keyMapping "k8sSecretKeyName" ".dockerconfigjson" -}}
+    {{- $_ := set $secretSpec "secretKeyMap" (dict ".dockerconfigjson" $keyMapping) -}}
+    {{- $_ := set $secretSpec "secretObjectType" "kubernetes.io/dockerconfigjson" -}}
+    {{- $_ := set $secretSpec "objectAliasDisabled" true -}}
+    {{- $_ := set $secretSpec "syncSecret" true -}}
+    {{- $secretConfig := include "sdhCommon.secretConfig" (dict "rootCTX" $ "secretSpec" $secretSpec) | fromYaml -}}
+    {{- $imagePullSecrets = append $imagePullSecrets $secretConfig -}}
   {{- end -}}
 
   {{- /* Begin Deprecation Warning */ -}}
-  {{- /* `image.credentials.type` is deprecated */ -}}
+  {{- /* `image.credentials.type` has been removed */ -}}
   {{- with (.Values.image.credentials) -}}
-    {{- $name := printf "%s-scdr-image-pull-secrets" $.Release.Name -}}
-    {{- $type := default "k8sSecret" .type -}}
-    {{- if eq $type "k8sSecret" -}}
-      {{- /* The legacy implementation only used the first secret in the list */ -}}
-      {{- $name = (index .pullSecrets 0).name -}}
-      {{- $secretDict := dict "name" $name "type" "k8sSecret" -}}
-      {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
-    {{- else if eq $type "sscsi" -}}
-      {{- $provider := required (printf "You must specify a provider when using sscsi for imagePullSecret %s" $name ) .provider -}}
-      {{- $secretArn := required (printf "You must specify a secretArn when using sscsi for imagePullSecret %s" $name ) .secretArn -}}
-      {{- $secretDict := dict "name" $name "type" "sscsi" "provider" .provider "secretArn" .secretArn -}}
-      {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
-    {{- else if eq $type "values" -}}
-      {{- $secretDict := dict "name" $name "type" "values" "registry" (default "docker.smilecdr.com" .registry) "username" (default "docker-user" .username) "password" (default "pass" .password) -}}
-      {{- $imagePullSecrets = append $imagePullSecrets $secretDict -}}
-    {{- else -}}
-      {{- fail (printf "Secrets of type `%s` are not supported. Please use `sscsi` or `k8sSecret`" $type) -}}
+    {{- $secretSpec := deepCopy . -}}
+    {{- /* Set the name for the secret object */ -}}
+    {{- $_ := set $secretSpec "name" (default "scdr-image-pull-secrets" $secretSpec.name) -}}
+
+    {{- /* The legacy implementation only used the first secret in the list, if set */ -}}
+    {{- if and $secretSpec.pullSecrets (gt (len $secretSpec.pullSecrets) 0) -}}
+      {{- $_ := set $secretSpec "secretName" (index .pullSecrets 0).name -}}
     {{- end -}}
+
+    {{- /* Set the key mapping so that the correct secret object keys get created for imagePullSecrets*/ -}}
+    {{- $keyMapping := dict "secretKeyName" "dockerconfigjson" -}}
+    {{- $_ := set $keyMapping "k8sSecretKeyName" ".dockerconfigjson" -}}
+    {{- $_ := set $secretSpec "secretKeyMap" (dict ".dockerconfigjson" $keyMapping) -}}
+    {{- $_ := set $secretSpec "secretObjectType" "kubernetes.io/dockerconfigjson" -}}
+    {{- $_ := set $secretSpec "objectAliasDisabled" true -}}
+    {{- $_ := set $secretSpec "syncSecret" true -}}
+    {{- $secretConfig := include "sdhCommon.secretConfig" (dict "rootCTX" $ "secretSpec" $secretSpec) | fromYaml -}}
+    {{- $imagePullSecrets = append $imagePullSecrets $secretConfig -}}
+
   {{- end -}}
+
+  {{- /* TODO: When removing this functionality, replace with the below. */ -}}
+  {{- /* `image.credentials.type` has been removed */ -}}
+  {{- /* if hasKey .Values.image "credentials" -}}
+    {{- $errorMessage := printf "\n\nERROR: `image.credentials`\n" -}}
+    {{- $errorMessage = printf "%s\n     The use of `image.credentials` is no longer supported and has been removed." $errorMessage -}}
+    {{- $errorMessage = printf "%s\n     Please use `image.imagePullSecrets` instead." $errorMessage -}}
+    {{- $errorMessage = printf "%s\n     Refer to the docs for more info on how to configure image pull secrets." $errorMessage -}}
+    {{- fail $errorMessage -}}
+  {{- end */ -}}
+
   {{- /* End Deprecation Warning */ -}}
 
   {{- if ne (len $imagePullSecrets) 0 -}}
@@ -97,27 +306,62 @@ Re-creates list, only using the 'name' keys for each entry.
   {{- $list | toYaml -}}
 {{- end -}}
 
-{{/*
-The following helpers are used to create configurations and volume mounts for
-the Secrets Store CSI Driver.
-Current providers supported:
-* AWS Secrets Manager
-*/}}
 
+{{- define "smilecdr.extraSecrets" -}}
+  {{- $extraSecretsConf := dict -}}
+  {{- $extraSecrets := list -}}
+  {{- $sscsiEnabled := false -}}
+  {{- range $theSecretName, $theSecretSpec := .Values.secrets -}}
+    {{- $secretSpec := deepCopy $theSecretSpec -}}
+    {{- /* Set the name and suffixing for the secret object */ -}}
+    {{- /* TODO:
+        * Validations: 'name',
+        */ -}}
+    {{- $_ := set $secretSpec "objectAliasDisabled" true -}}
+    {{- $_ := set $secretSpec "syncSecret" true -}}
+    {{- $secretConfig := include "sdhCommon.secretConfig" (dict "rootCTX" $ "secretSpec" $secretSpec) | fromYaml -}}
+    {{- $extraSecrets = append $extraSecrets $secretConfig -}}
+    {{- if eq $secretConfig.type "sscsi" -}}
+      {{- $sscsiEnabled = true -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if gt (len $extraSecrets) 0 -}}
+    {{- $_ := set $extraSecretsConf "enabled" true -}}
+    {{- $_ := set $extraSecretsConf "sscsiEnabled" $sscsiEnabled -}}
+    {{- $_ := set $extraSecretsConf "secrets" $extraSecrets -}}
+  {{- end -}}
+  {{- $extraSecretsConf | toYaml -}}
+{{- end -}}
+
+{{/*
+"sscsi.enabled" - Checks various configuration conditions to see if
+Secrets Store CSI driver (sscsi) is being used.
+*/}}
 {{- define "sscsi.enabled" -}}
+  {{- /* Add function call tracing for troubleshooting rendering performance issues */ -}}
+  {{- if .Values.enableFunctionCounting -}}
+    {{- $_ := set .Values.templateCalls "sscsiEnabled" (add (default 0 .Values.templateCalls.sscsiEnabled) 1) -}}
+  {{- end -}}
   {{- $sscsiEnabled := "false" -}}
-  {{/* Enabled if using sscsi for image pull or db secrets */}}
+  {{/* Enabled if using sscsi for image pull secrets */}}
   {{- range $v := (include "imagePullSecrets" . | fromYamlArray) -}}
     {{- if eq $v.type "sscsi" -}}
       {{- $sscsiEnabled = "true" -}}
     {{- end -}}
   {{- end -}}
+  {{/* Enabled if any database secrets are using sscsi */}}
+  {{- $extDBSecrets := include "smilecdr.database.external.secrets" . | fromYamlArray -}}
+  {{- range $theDBSecretSpec := $extDBSecrets -}}
+    {{- if eq $theDBSecretSpec.type "sscsi" -}}
+      {{- $sscsiEnabled = "true" -}}
+    {{- end -}}
+  {{- end -}}
+  {{/* Enabled if using sscsi for Smile CDR license */}}
   {{- if and (hasKey .Values "license") (eq (.Values.license).type "sscsi") -}}
     {{- $sscsiEnabled = "true" -}}
   {{- end -}}
-  {{- if and .Values.database.external.enabled (eq ((.Values.database.external).credentials).type "sscsi") -}}
-    {{- $sscsiEnabled = "true" -}}
-  {{- end -}}
+  {{/* Enabled if using sscsi for Kafka connection(TLS) or auth (mTLS) certificates */}}
   {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
   {{- if $kafkaConfig.enabled -}}
     {{- if eq $kafkaConfig.connection.secretType "sscsi" -}}
@@ -132,6 +376,10 @@ Current providers supported:
     {{- if eq $amqConfig.authentication.type "sscsi" -}}
       {{- $sscsiEnabled = "true" -}}
     {{- end -}}
+  {{- end -}}
+  {{- $extraSecrets := (include "smilecdr.extraSecrets" . | fromYaml) -}}
+  {{- if $extraSecrets.sscsiEnabled -}}
+    {{- $sscsiEnabled = "true" -}}
   {{- end -}}
   {{- $sscsiEnabled -}}
 {{- end -}}
@@ -154,167 +402,48 @@ pod's filesystem
   {{- $sscsiObjects := list -}}
   {{- /* Include SSCSI Objects for Image Pull Secrets */ -}}
   {{- range $v := (include "imagePullSecrets" . | fromYamlArray) -}}
-    {{- if eq $v.type "sscsi" -}}
-      {{- if eq $v.provider "aws" -}}
-        {{- $sscsiObject := dict "objectName" $v.secretArn -}}
-        {{- $jmesPath := dict "path" "dockerconfigjson" "objectAlias" $v.name -}}
-        {{- $_ := set $sscsiObject "jmesPath" (list $jmesPath) -}}
-        {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
-        {{/*
-          Define other providers here:
-          {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
-          - add code to build $sscsiObject and append to $sscsiObjects
-        */}}
-      {{- else -}}
-        {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported." $v.provider) -}}
-      {{- end -}}
+    {{- if $v.sscsiParameterObject -}}
+      {{- $sscsiObjects = append $sscsiObjects $v.sscsiParameterObject -}}
     {{- end -}}
   {{- end -}}
-  {{- /* Include SSCSI Objects for External Database Credentials */ -}}
-  {{- if and .Values.database.external.enabled (eq ((.Values.database.external).credentials).type "sscsi") -}}
-    {{- if eq ((.Values.database.external).credentials).provider "aws" -}}
-      {{- range $v := .Values.database.external.databases -}}
-        {{- /*
-          Make sure we don't define the same Object twice. If we are specifying the same ARN or secretName twice in the values
-          file we need to handle it differently.
-        */ -}}
-        {{- $unique := true -}}
-        {{- range $origlistvalue := $sscsiObjects -}}
-          {{- if eq $origlistvalue.objectName (required "You must provide `secretArn` as well as `secretName` for the DB credentials secret" $v.secretArn) -}}
-            {{- /* Not unique, so disable object creation further down */ -}}
-            {{- $unique = false -}}
-            {{- /* Merging keys is not possible unless we refactor how the key handling
-                  is done. Instead, for now at least, we will fail if the same secret
-                  ARN is used, to avoid unexpected failures */ -}}
-            {{- fail "You cannot specify the same AWS Secret ARN for multiple databases" -}}
-          {{- end -}}
-          {{- if eq $origlistvalue.objectAlias (required "You must provide `secretName` as well as `secretArn` for the DB credentials secret" $v.secretName) -}}
-            {{- /* Not unique, so disable object creation further down */ -}}
-            {{- $unique = false -}}
-            {{- /* Merging keys is not possible unless we refactor how the key handling
-                  is done. Instead, for now at least, we will fail if the same secret
-                  ARN is used, to avoid unexpected failures */ -}}
-            {{- fail "You cannot specify the same K8s secretName for multiple databases" -}}
-          {{- end -}}
-        {{- end -}}
-        {{- if $unique -}}
-          {{- $sscsiObject := dict "objectName" $v.secretArn -}}
-          {{- $_ := set $sscsiObject "objectAlias" $v.secretName -}}
-          {{- $jmesPathList := list (dict "path" (default "password" $v.passKey) "objectAlias" (printf "%s-db-password" $v.secretName)) -}}
-          {{- $jmesPathList = append $jmesPathList (dict "path" (default "host" $v.urlKey) "objectAlias" (printf "%s-db-host" $v.secretName)) -}}
-          {{- $jmesPathList = append $jmesPathList (dict "path" (default "username" $v.userKey) "objectAlias" (printf "%s-db-user" $v.secretName)) -}}
-          {{- $jmesPathList = append $jmesPathList (dict "path" (default "port" $v.portKey) "objectAlias" (printf "%s-db-port" $v.secretName)) -}}
-          {{- $jmesPathList = append $jmesPathList (dict "path" (default "dbname" $v.dbnameKey) "objectAlias" (printf "%s-db-dbname" $v.secretName)) -}}
-          {{- $jmesPathList = append $jmesPathList (dict "path" (default "engine" $v.engineKey) "objectAlias" (printf "%s-db-engine" $v.secretName)) -}}
-          {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
-          {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
-        {{- end -}}
-      {{- end -}}
-    {{/*
-    Define other providers here:
-    {{- else if eq ((.Values.database.external).credentials).provider "otherprovider" -}}
-    - add code to build $sscsiObject and append to $sscsiObjects
-    */}}
-    {{- else -}}
-      {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported." ((.Values.database.external).credentials).provider) -}}
+
+  {{- /* Get the canonical list of external DB secrets */ -}}
+  {{- $extDBSecrets := include "smilecdr.database.external.secrets" . | fromYamlArray -}}
+  {{- range $theDBSecretSpec := $extDBSecrets -}}
+    {{- if $theDBSecretSpec.sscsiParameterObject -}}
+      {{- $sscsiObjects = append $sscsiObjects $theDBSecretSpec.sscsiParameterObject -}}
     {{- end -}}
   {{- end -}}
 
   {{- /* Include SSCSI Objects for External Kafka certificates & credentials */ -}}
-  {{- $kafkaExternalConfig := (include "kafka.external.config" . | fromYaml) -}}
-  {{- $kafkaExternalCacert := ($kafkaExternalConfig.connection).caCert -}}
-  {{- $kafkaExternalUserCredentials := $kafkaExternalConfig.authentication -}}
-  {{- if $kafkaExternalConfig.enabled -}}
-    {{- if eq $kafkaExternalCacert.type "sscsi" -}}
-      {{- if eq $kafkaExternalCacert.provider "aws" -}}
-        {{- $sscsiObject := dict "objectName" $kafkaExternalCacert.secretArn -}}
-        {{- $jmesPathList := list (dict "path" "ca.p12" "objectAlias" "ca.p12") -}}
-        {{- $jmesPathList = append $jmesPathList (dict "path" "ca.password" "objectAlias" "ca.p12") -}}
-        {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
-        {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
-        {{/*
-          Define other providers here:
-          {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
-          - add code to build $sscsiObject and append to $sscsiObjects
-        */}}
-      {{- else -}}
-        {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for Kafka certificate authority certificates (caCert)." $kafkaExternalCacert.provider) -}}
-      {{- end -}}
-    {{- end -}}
+  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
 
-    {{- if contains $kafkaExternalUserCredentials.type "mtls tls" -}}
-      {{- $kafkaExternalUserCert := required "Kafka: You must provide a user certificate if using mtls/tls authentication" $kafkaExternalUserCredentials.userCert -}}
-      {{- if eq $kafkaExternalUserCert.type "sscsi" -}}
-        {{- if eq $kafkaExternalUserCert.provider "aws" -}}
-          {{- $sscsiObject := dict "objectName" $kafkaExternalUserCert.secretArn -}}
-          {{- $jmesPathList := list (dict "path" "user.p12" "objectAlias" "user.p12") -}}
-          {{- $jmesPathList = append $jmesPathList (dict "path" "user.password" "objectAlias" "user.p12") -}}
-          {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
-          {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
-          {{/*
-            Define other providers here:
-            {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
-            - add code to build $sscsiObject and append to $sscsiObjects
-          */}}
-        {{- else -}}
-          {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for Kafka user certificates (userCert)." ($kafkaExternalUserCredentials.userCert).provider) -}}
-        {{- end -}}
-      {{- end -}}
-    {{- end -}}
-
-    {{- if and (contains (lower $kafkaExternalUserCredentials.type) "password" ) (eq ($kafkaExternalUserCredentials.password).type "sscsi") -}}
-      {{- if eq $kafkaExternalUserCredentials.password.provider "aws" -}}
-        {{- $sscsiObject := dict "objectName" $kafkaExternalUserCredentials.password.secretArn -}}
-        {{- $jmesPathList := list (dict "path" "username" "objectAlias" "username") -}}
-        {{- $jmesPathList = append $jmesPathList (dict "path" "password" "objectAlias" "password") -}}
-        {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
-        {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
-        {{/*
-          Define other providers here:
-          {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
-          - add code to build $sscsiObject and append to $sscsiObjects
-        */}}
-      {{- else -}}
-        {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for Kafka user credentials." $kafkaExternalUserCredentials.provider) -}}
-      {{- end -}}
+  {{- range $theKafkaSecretSpec := $kafkaConfig.secrets -}}
+    {{- if $theKafkaSecretSpec.sscsiParameterObject -}}
+      {{- $sscsiObjects = append $sscsiObjects $theKafkaSecretSpec.sscsiParameterObject -}}
     {{- end -}}
   {{- end -}}
 
   {{- /* Include SSCSI Objects for External ActiveMQ credentials */ -}}
   {{- $amqConfig := (include "messagebroker.amq.config" . | fromYaml) -}}
-  {{- if and ($amqConfig.enabled) (eq $amqConfig.authentication.type "sscsi") -}}
-    {{- if eq $amqConfig.authentication.provider "aws" -}}
-      {{- $sscsiObject := dict "objectName" $amqConfig.authentication.secretArn -}}
-      {{- $jmesPathList := list (dict "path" "username" "objectAlias" "username") -}}
-      {{- $jmesPathList = append $jmesPathList (dict "path" "password" "objectAlias" "password") -}}
-      {{- $_ := set $sscsiObject "jmesPath" $jmesPathList -}}
-      {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
-      {{/*
-        Define other providers here:
-        {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
-        - add code to build $sscsiObject and append to $sscsiObjects
-      */}}
-    {{- else -}}
-      {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for Active MQ user credentials." $amqConfig.authentication.provider) -}}
-    {{- end -}}
+  {{- if and $amqConfig.secret $amqConfig.secret.sscsiParameterObject -}}
+    {{- $sscsiObjects = append $sscsiObjects $amqConfig.secret.sscsiParameterObject -}}
   {{- end -}}
 
   {{- /* Include SSCSI Objects for CDR license */ -}}
-  {{- if eq (.Values.license).type "sscsi" -}}
-    {{- if eq .Values.license.provider "aws" -}}
-      {{- $sscsiObject := dict "objectName" .Values.license.secretArn -}}
-      {{- $jmesPath := dict "path" "jwt" "objectAlias" "license.jwt" -}}
-      {{- $_ := set $sscsiObject "jmesPath" (list $jmesPath) -}}
-      {{- $sscsiObjects = append $sscsiObjects $sscsiObject -}}
-      {{/*
-        Define other providers here:
-        {{- else if eq .Values.image.credentials.provider "otherprovider" -}}
-        - add code to build $sscsiObject and append to $sscsiObjects
-      */}}
-    {{- else -}}
-      {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for CDR License." .Values.license.provider) -}}
+  {{- $licenseConfig := (include "smilecdr.license" . | fromYaml) -}}
+  {{- if and $licenseConfig.secret $licenseConfig.secret.sscsiParameterObject -}}
+    {{- $sscsiObjects = append $sscsiObjects $licenseConfig.secret.sscsiParameterObject -}}
+  {{- end -}}
+
+  {{- /* Include SSCSI Objects for extra secrets */ -}}
+  {{- $extraSecrets := (include "smilecdr.extraSecrets" . | fromYaml) -}}
+  {{- range $extraSecret :=  $extraSecrets.secrets -}}
+    {{- if $extraSecret.sscsiParameterObject -}}
+      {{- $sscsiObjects = append $sscsiObjects $extraSecret.sscsiParameterObject -}}
     {{- end -}}
   {{- end -}}
+
   {{- $sscsiObjects | toYaml -}}
 {{- end -}}
 
@@ -324,104 +453,48 @@ These are used to create Kubernetes Secrets that are synced to mounted SSCSI sec
 */}}
 {{- define "sscsi.secretObjects" -}}
   {{- $sscsiSyncedSecrets := list -}}
-  {{- range $v := (include "imagePullSecrets" . | fromYamlArray) -}}
-    {{- if eq $v.type "sscsi" -}}
-      {{- $sscsiSyncedSecret := dict "secretName" $v.name -}}
-      {{- $_ := set $sscsiSyncedSecret "type" "kubernetes.io/dockerconfigjson" -}}
-      {{- $data := dict "key" ".dockerconfigjson" "objectName" $v.name -}}
-      {{- $_ := set $sscsiSyncedSecret "data" (list $data) -}}
-      {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
+  {{- range $theImagePullSecretSpec := (include "imagePullSecrets" . | fromYamlArray) -}}
+    {{- if $theImagePullSecretSpec.sscsiSecretObject -}}
+      {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $theImagePullSecretSpec.sscsiSecretObject -}}
     {{- end -}}
   {{- end -}}
 
   {{- /* External Database credentials */ -}}
-  {{- if and .Values.database.external.enabled (eq ((.Values.database.external).credentials).type "sscsi") -}}
-    {{- range $v := .Values.database.external.databases -}}
-      {{- $sscsiSyncedSecret := dict "secretName" (required "You must provide `secretName` for the DB credentials secret" $v.secretName) -}}
-      {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
-      {{- $dataList := list (dict "key" "password" "objectName" (printf "%s-db-password" $v.secretName)) -}}
-      {{- $dataList = append $dataList (dict "key" "host" "objectName" (printf "%s-db-host" $v.secretName)) -}}
-      {{- $dataList = append $dataList (dict "key" "username" "objectName" (printf "%s-db-user" $v.secretName)) -}}
-      {{- $dataList = append $dataList (dict "key" "port" "objectName" (printf "%s-db-port" $v.secretName)) -}}
-      {{- $dataList = append $dataList (dict "key" "dbname" "objectName" (printf "%s-db-dbname" $v.secretName)) -}}
-      {{- $dataList = append $dataList (dict "key" "engine" "objectName" (printf "%s-db-engine" $v.secretName)) -}}
-      {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
-      {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
+  {{- $extDBSecrets := include "smilecdr.database.external.secrets" . | fromYamlArray -}}
+  {{- range $theDBSecretSpec := $extDBSecrets -}}
+    {{- if $theDBSecretSpec.sscsiSecretObject -}}
+      {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $theDBSecretSpec.sscsiSecretObject -}}
     {{- end -}}
   {{- end -}}
 
   {{- /* External Kafka credentials */ -}}
-  {{- $kafkaExternalConfig := (include "kafka.external.config" . | fromYaml) -}}
-  {{- $kafkaExternalCacert := ($kafkaExternalConfig.connection).caCert -}}
-  {{- $kafkaExternalUserCredentials := $kafkaExternalConfig.authentication -}}
-  {{- if $kafkaExternalConfig.enabled -}}
-    {{- if eq $kafkaExternalCacert.type "sscsi" -}}
-      {{- if eq $kafkaExternalCacert.provider "aws" -}}
-        {{- $sscsiSyncedSecret := dict "secretName" (default "kafka-ca-cert" $kafkaExternalCacert.secretName) -}}
-        {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
-        {{- $dataList := list (dict "key" "ca.p12" "objectName" "ca.p12") -}}
-        {{- $dataList := append $dataList (dict "key" "ca.password" "objectName" "ca.password") -}}
-        {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
-        {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
-      {{- else -}}
-        {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for Kafka certificate authority certificates (caCert)." $kafkaExternalCacert.provider) -}}
-      {{- end -}}
-    {{- end -}}
-
-    {{- if contains $kafkaExternalUserCredentials.type "mtls tls" -}}
-      {{- $kafkaExternalUserCert := required "Kafka: You must provide a user certificate if using mtls/tls authentication" $kafkaExternalUserCredentials.userCert -}}
-      {{- if eq $kafkaExternalUserCert.type "sscsi" -}}
-        {{- if eq $kafkaExternalUserCert.provider "aws" -}}
-          {{- $sscsiSyncedSecret := dict "secretName" (default "kafka-user-cert" $kafkaExternalUserCredentials.userCert.secretName) -}}
-          {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
-          {{- $dataList := list (dict "key" "user.p12" "objectName" "user.p12") -}}
-          {{- $dataList := append $dataList (dict "key" "user.password" "objectName" "user.password") -}}
-          {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
-          {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
-        {{- else -}}
-          {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for Kafka user certificates (userCert)." ($kafkaExternalUserCredentials.userCert).provider) -}}
-        {{- end -}}
-      {{- end -}}
-    {{- end -}}
-
-    {{- if contains $kafkaExternalUserCredentials.type "password" -}}
-      {{- $kafkaExternalUserPassword := required "Kafka: You must provide a user password configuration if using password authentication" $kafkaExternalUserCredentials.password -}}
-      {{- if eq $kafkaExternalUserPassword.type "sscsi" -}}
-        {{- if eq $kafkaExternalUserPassword.provider "aws" -}}
-          {{- $sscsiSyncedSecret := dict "secretName" (default "kafka-user-credentials" $kafkaExternalUserPassword.secretName) -}}
-          {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
-          {{- $dataList := list (dict "key" "username" "objectName" "username") -}}
-          {{- $dataList := append $dataList (dict "key" "password" "objectName" "password") -}}
-          {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
-          {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
-        {{- else -}}
-          {{- fail (printf "The `%s` Secrets Store CSI provider is not currently supported for Kafka user credentials." $kafkaExternalUserPassword.provider) -}}
-        {{- end -}}
-      {{- end -}}
+  {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
+   {{- range $theKafkaSecretSpec := $kafkaConfig.secrets -}}
+    {{- if $theKafkaSecretSpec.sscsiSecretObject -}}
+      {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $theKafkaSecretSpec.sscsiSecretObject -}}
     {{- end -}}
   {{- end -}}
 
-  {{- /* Remote Active MQ credentials */ -}}
+  {{- /* Include SSCSI Objects for External ActiveMQ credentials */ -}}
   {{- $amqConfig := (include "messagebroker.amq.config" . | fromYaml) -}}
-  {{- if $amqConfig.enabled -}}
-    {{- $amqUserCredentials := $amqConfig.authentication -}}
-    {{- if eq $amqUserCredentials.type "sscsi" -}}
-      {{- $sscsiSyncedSecret := dict "secretName" $amqUserCredentials.secretName -}}
-      {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
-      {{- $dataList := list (dict "key" "username" "objectName" "username") -}}
-      {{- $dataList := append $dataList (dict "key" "password" "objectName" "password") -}}
-      {{- $_ := set $sscsiSyncedSecret "data" $dataList -}}
-      {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
+  {{- if and $amqConfig.secret $amqConfig.secret.sscsiSecretObject -}}
+    {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $amqConfig.secret.sscsiSecretObject -}}
+  {{- end -}}
+
+  {{- /* Include SSCSI Objects for CDR license */ -}}
+  {{- $licenseConfig := (include "smilecdr.license" . | fromYaml) -}}
+  {{- if and $licenseConfig.secret $licenseConfig.secret.sscsiSecretObject -}}
+    {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $licenseConfig.secret.sscsiSecretObject -}}
+  {{- end -}}
+
+  {{- /* Include SSCSI Objects for extra secrets */ -}}
+  {{- $extraSecrets := (include "smilecdr.extraSecrets" . | fromYaml) -}}
+  {{- range $extraSecret :=  $extraSecrets.secrets -}}
+    {{- if $extraSecret.sscsiSecretObject -}}
+      {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $extraSecret.sscsiSecretObject -}}
     {{- end -}}
   {{- end -}}
 
-  {{- if eq (.Values.license).type "sscsi" -}}
-    {{- $sscsiSyncedSecret := dict "secretName" "cdrlicense" -}}
-    {{- $_ := set $sscsiSyncedSecret "type" "Opaque" -}}
-    {{- $data := dict "key" "jwt" "objectName" "license.jwt" -}}
-    {{- $_ := set $sscsiSyncedSecret "data" (list $data) -}}
-    {{- $sscsiSyncedSecrets = append $sscsiSyncedSecrets $sscsiSyncedSecret -}}
-  {{- end -}}
   {{- $sscsiSyncedSecrets | toYaml -}}
 {{- end -}}
 

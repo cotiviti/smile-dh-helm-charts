@@ -8,6 +8,8 @@ database:
       module: clustermgr
     - name: persistence
       module: persistence
+  external:
+    enabled: false
 
 modules:
   useDefaultModules: false
