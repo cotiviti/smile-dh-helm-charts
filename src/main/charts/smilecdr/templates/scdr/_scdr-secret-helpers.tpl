@@ -54,9 +54,10 @@ Returns... stuff?
   {{- /* Determine secret name */ -}}
   {{- $name := "" -}}
   {{- if $secretSpec.secretName -}}
+    {{- $_ := set $secretSpec "secretName" (lower $secretSpec.secretName) -}}
     {{- $_ := set $secretSpec "name" (lower $secretSpec.secretName) -}}
   {{- else if $secretSpec.name -}}
-    {{- $_ := set $secretSpec "name" (printf "%s-%s" $rootCTX.Release.Name $secretSpec.name) -}}
+    {{- $_ := set $secretSpec "name" (lower (printf "%s-%s" $rootCTX.Release.Name $secretSpec.name)) -}}
     {{- if $secretSpec.nameSuffix -}}
       {{-  $_ := set $secretSpec "name" (printf "%s-%s" $name $secretSpec.nameSuffix) -}}
     {{- end -}}

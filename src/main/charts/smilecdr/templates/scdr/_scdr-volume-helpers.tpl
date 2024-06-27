@@ -25,6 +25,20 @@ Define volumes and volume mounts based on combining:
     {{- $volumes = concat $volumes . -}}
   {{- end -}}
 
+  {{- /* Include volume for CDR license */ -}}
+  {{- $licenseConfig := (include "smilecdr.license" . | fromYaml) -}}
+  {{- if and $licenseConfig.secret $licenseConfig.secret.volumeMap -}}
+    {{- $volumes = concat $volumes $licenseConfig.secret.volumeMap -}}
+  {{- end -}}
+
+  {{- /* Include volume for extraSecrets */ -}}
+  {{- $extraSecrets := (include "smilecdr.extraSecrets" . | fromYaml) -}}
+  {{- range $extraSecret :=  $extraSecrets.secrets -}}
+    {{- range $volume := $extraSecret.volumeMap -}}
+      {{- $volumes = append $volumes $volume -}}
+    {{- end -}}
+  {{- end -}}
+
   {{- /* Include any volumes required by custom logging configuraions */ -}}
   {{- /* with ( include "logging.logback.volumes" . | fromYamlArray ) -}}
     {{- $volumes = concat $volumes . -}}
@@ -85,6 +99,20 @@ Define volumes and volume mounts based on combining:
 
   {{- with ( include "certmanager.volumeMounts" . | fromYamlArray ) -}}
     {{- $volumeMounts = concat $volumeMounts . -}}
+  {{- end -}}
+
+  {{- /* Include volumeMount for CDR license */ -}}
+  {{- $licenseConfig := (include "smilecdr.license" . | fromYaml) -}}
+  {{- if and $licenseConfig.secret $licenseConfig.secret.volumeMountMap -}}
+    {{- $volumeMounts = concat $volumeMounts $licenseConfig.secret.volumeMountMap -}}
+  {{- end -}}
+
+  {{- /* Include volumeMounts for extraSecrets */ -}}
+  {{- $extraSecrets := (include "smilecdr.extraSecrets" . | fromYaml) -}}
+  {{- range $extraSecret :=  $extraSecrets.secrets -}}
+    {{- range $volumeMount := $extraSecret.volumeMountMap -}}
+      {{- $volumeMounts = append $volumeMounts $volumeMount -}}
+    {{- end -}}
   {{- end -}}
 
   {{- /* with ( include "logging.logback.volumeMounts" . | fromYamlArray ) -}}

@@ -131,6 +131,13 @@ provide a single entry point.
   {{- $envVars = concat $envVars (include "observability.envVars" . | fromYamlArray ) -}}
   {{- /* Include cert-manafger env vars - This is for tls configuration keystore and passwords */ -}}
   {{- $envVars = concat $envVars (include "certmanager.envVars" . | fromYamlArray ) -}}
+  {{- /* Include extraSecrets env vars */ -}}
+  {{- $extraSecrets := (include "smilecdr.extraSecrets" . | fromYaml) -}}
+  {{- range $extraSecret :=  $extraSecrets.secrets -}}
+    {{- range $env := $extraSecret.envMap -}}
+      {{- $envVars = append $envVars $env -}}
+    {{- end -}}
+  {{- end -}}
   {{- /* Include global extra env vars */ -}}
   {{- $envVars = concat $envVars .Values.extraEnvVars -}}
   {{- /* Include JVM settings */ -}}
@@ -313,7 +320,7 @@ Use this for generating deprecation notices and other warnings about the configu
   {{- if hasKey .Values.image "credentials" -}}
     {{- $warningMessage = printf "%s\n\nDEPRECATED: `image.credentials`" $warningMessage -}}
     {{- $warningMessage = printf "%s\n            The use of `image.credentials` has been deprecated. Support for this will be" $warningMessage -}}
-    {{- $warningMessage = printf "%s\n            removed in a future version of the Helm Chart. Please use `image.pullSecrets` instead." $warningMessage -}}
+    {{- $warningMessage = printf "%s\n            removed in a future version of the Helm Chart. Please use `image.imagePullSecrets` instead." $warningMessage -}}
     {{- $warningMessage = printf "%s\n            Refer to the docs for more info on how to configure image pull secrets." $warningMessage -}}
   {{- end -}}
   {{- /* Check for module mis-configurations. */ -}}
