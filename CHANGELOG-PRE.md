@@ -1,3 +1,10 @@
+# [1.0.0-pre.124](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.123...v1.0.0-pre.124) (2024-06-27)
+
+
+### Features
+
+* **smilecdr:** add IAM auth for RDS support ([881ee35](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/881ee35a01619097ca8ad00ea2506c96b64d7f16))
+
 # [1.0.0-pre.123](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.122...v1.0.0-pre.123) (2024-06-27)
 
 
