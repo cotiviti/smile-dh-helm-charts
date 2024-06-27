@@ -22,7 +22,7 @@ not do any validation or sanitation of the configuration.
 {{/*
 Define canonical dict/map of enabled modules and configurations. This is a validated and sanitised
 version of the modules defined above.
-Consume this elsewhere in the chart by unserializing it like so:
+Consume this elsewhere in the chart like so:
 {{- $modules := include "smilecdr.modules" . | fromYaml -}}
 Currently, this is the canonical module source for the following template helpers:
 * smilecdr.services
@@ -36,6 +36,7 @@ Currently, this is the canonical module source for the following template helper
   {{- $cdrNodeValues := $.Values -}}
   {{- $tlsConfig := $cdrNodeValues.tls -}}
   {{- $ingresses := include "smilecdr.ingresses" . | fromYaml -}}
+  {{- $extDBConnections := (include "smilecdr.database.external.connections" $) | fromYamlArray -}}
   {{- range $theModuleName, $theModuleSpec := $modules -}}
     {{- $theModuleIsClustermgr := ternary true false (eq $theModuleName "clustermgr") -}}
     {{- /*
@@ -349,6 +350,54 @@ Currently, this is the canonical module source for the following template helper
           {{- end -}}{{- /* end of if $theService.tls.enabled */ -}}
         {{- end -}}{{- /* end of if $serviceHasEndpoint */ -}}
       {{- end -}}
+
+      {{- /* Add configuration for RDS IAM auth */ -}}
+      {{- $dbConnections := (include "smilecdr.database.external.connections" $) | fromYamlArray -}}
+      {{- range $theDBConnectionSpec := $dbConnections -}}
+        {{- if and (eq $theDBConnectionSpec.connectionConfig.authentication.type "iam") (has $theModuleName $theDBConnectionSpec.modules) -}}
+          {{- if eq $theDBConnectionSpec.connectionConfig.authentication.iamProvider "aws" -}}
+            {{- /* Enable IAM authentication */ -}}
+            {{- $_ := set $theModuleSpec.config "db.auth_using_iam" true -}}
+            {{- /* Set this to 15 mins max as per https://smilecdr.com/docs/database_administration/iam_auth.html */ -}}
+            {{- /* If it's already defined in this module, use that value if it's under the iam Token Lifetime value */ -}}
+            {{- $connMaxlifetimeMillis := $theDBConnectionSpec.connectionConfig.authentication.iamTokenLifetimeMillis -}}
+            {{- /* Need to unflatten as we don't know if this setting is configured flattened or not in the values file */ -}}
+            {{- $unFlattenedConfig := include "sdhCommon.unFlattenDict" $theModuleSpec.config | fromYaml -}}
+            {{- if hasKey ((($unFlattenedConfig).db).connectionpool).maxlifetime "millis" -}}
+              {{- $connMaxlifetimeMillis = min $unFlattenedConfig.db.connectionpool.maxlifetime.millis $theDBConnectionSpec.connectionConfig.iamTokenLifetimeMillis -}}
+            {{- end -}}
+            {{- $_ := set $theModuleSpec.config "db.connectionpool.maxlifetime.millis" $connMaxlifetimeMillis -}}
+            {{- /* Do not provide password when using IAM auth */ -}}
+            {{- $_ := unset $theModuleSpec.config "db.password" -}}
+          {{- else -}}
+            {{- fail (printf "IAM not supported by `%s` provider." $theDBConnectionSpec.connectionConfig.authentication.iamProvider) -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+      {{- /* Add configuration for Secrets Manager auth */ -}}
+      {{- range $theDBConnectionSpec := $extDBConnections -}}
+        {{- if and (eq $theDBConnectionSpec.connectionConfig.authentication.type "secretsmanager") (has $theModuleName $theDBConnectionSpec.modules) -}}
+          {{- if eq $theDBConnectionSpec.connectionConfig.authentication.secretsManagerProvider "aws" -}}
+            {{- /* Enable Secrets Manager authentication */ -}}
+            {{- $_ := set $theModuleSpec.config "db.secrets_manager" "AWS" -}}
+            {{- $_ := set $theModuleSpec.config "db.username" $theDBConnectionSpec.connectionConfig.authentication.secretArn  -}}
+            {{- /* $_ := set $theModuleSpec.config "db.url" "jdbc-secretsmanager:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require" */ -}}
+            {{- /* TODO: Update Secrets Manager configuration as so:
+                * If using Secrets Manager secrets with the appropriate structure, all DB connection details can be provided from the secret. You do not need to mount the secret into the pod.
+                * It's also possible to provide DB connection details using a Secret mounted via SSCSI
+                * It's also possible to provide DB connection details directly in the values file.
+                Of course, using Secrets Manager would be the preferred option here as no connection configuration needs to be brought into the pod, other than the Secret ARN
+                This means there are various options of configuration that will work with this.
+                */ -}}
+            {{- $_ := set $theModuleSpec.config "db.url" $theDBConnectionSpec.connectionConfig.authentication.secretArn -}}
+            {{- /* Do not provide password when using SecretsManager auth */ -}}
+            {{- $_ := unset $theModuleSpec.config "db.password" -}}
+          {{- else -}}
+            {{- fail (printf "Secretsmanager secrets not supported by `%s` provider." $theDBConnectionSpec.connectionConfig.authentication.secretsManagerProvider) -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+
       {{- $deepConfig := include "sdhCommon.unFlattenDict" $theModuleConfig | fromYaml -}}
       {{- $_ := set $theModuleSpec "config" $deepConfig -}}
       {{- /* We don't need the enabled key any longer */ -}}
@@ -387,6 +436,7 @@ Generate the configuration options in text format for all the enabled modules
   {{- $modules := include "smilecdr.modules" . | fromYaml -}}
   {{- $moduleText := "" -}}
   {{- $separatorText := "################################################################################" -}}
+  {{- $extDBConnections := include "smilecdr.database.external.connections" $ | fromYamlArray -}}
   {{- /* Loop through all defined modules */ -}}
   {{- range $theModuleName, $theModuleSpec := $modules -}}
     {{- $name := default $theModuleName $theModuleSpec.name -}}
@@ -431,7 +481,18 @@ Generate the configuration options in text format for all the enabled modules
     {{- /*
     If either CrunchyData or External DB has more than one DB then create prefix
     */ -}}
-    {{- if or (and $.Values.database.crunchypgo.enabled (gt (len $.Values.database.crunchypgo.users) 1)) (and $.Values.database.external.enabled (gt (len $.Values.database.external.databases) 1)) -}}
+    {{- $numCrunchyUsersWithModules := 0 -}}
+    {{- range $crunchyUser := $.Values.database.crunchypgo.users -}}
+      {{- if hasKey $crunchyUser "module" -}}
+        {{- $numCrunchyUsersWithModules = add $numCrunchyUsersWithModules 1 -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- $numDBConnectionModuleAssignments := 0 -}}
+    {{- range $extConnectionConfig := $extDBConnections -}}
+      {{- $numDBConnectionModuleAssignments = add $numDBConnectionModuleAssignments (len $extConnectionConfig.modules) -}}
+    {{- end -}}
+    {{- if or (and $.Values.database.crunchypgo.enabled (gt $numCrunchyUsersWithModules 1)) (gt $numDBConnectionModuleAssignments 1) -}}
       {{- $envDBPrefix = printf "%s_" ( upper $theModuleName ) -}}
     {{- end -}}
 
@@ -442,8 +503,7 @@ Generate the configuration options in text format for all the enabled modules
     {{- range $theConfigItemName, $theConfigItemValue := $flattenedConf -}}
       {{- $theConfigItemValue = toString $theConfigItemValue -}}
 
-      {{- /* TODO: Move all of these special use cases into config parsing template.
-          */ -}}
+      {{- /* TODO: Move all of these special use cases into separate config parsing template. */ -}}
 
       {{- /*
       If the value contains "DB_" then add the env prefix

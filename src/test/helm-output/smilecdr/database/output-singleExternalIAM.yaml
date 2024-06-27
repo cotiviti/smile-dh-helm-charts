@@ -71,8 +71,9 @@ data:
     ################################################################################
     # Cluster Manager Configuration
     ################################################################################
+    module.clustermgr.config.db.auth_using_iam 	= true
+    module.clustermgr.config.db.connectionpool.maxlifetime.millis 	= 900000
     module.clustermgr.config.db.driver 	= POSTGRES_9_4
-    module.clustermgr.config.db.password 	= #{env['CLUSTERMGR_DB_PASS']}
     module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['CLUSTERMGR_DB_URL']}:#{env['CLUSTERMGR_DB_PORT']/#{env['CLUSTERMGR_DB_DATABASE']}?sslmode=require
     module.clustermgr.config.db.username 	= #{env['CLUSTERMGR_DB_USER']}
     ################################################################################
@@ -85,8 +86,9 @@ data:
     # Database Configuration
     ################################################################################
     module.persistence.type 	= PERSISTENCE_R4
+    module.persistence.config.db.auth_using_iam 	= true
+    module.persistence.config.db.connectionpool.maxlifetime.millis 	= 900000
     module.persistence.config.db.driver 	= POSTGRES_9_4
-    module.persistence.config.db.password 	= #{env['PERSISTENCE_DB_PASS']}
     module.persistence.config.db.url 	= jdbc:postgresql://#{env['PERSISTENCE_DB_URL']}:#{env['PERSISTENCE_DB_PORT']/#{env['PERSISTENCE_DB_DATABASE']}?sslmode=require
     module.persistence.config.db.username 	= #{env['PERSISTENCE_DB_USER']}
 ---
@@ -194,55 +196,33 @@ spec:
               cpu: "1"
           env:
             - name: CLUSTERMGR_DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: dbname
-                  name: myshareddbsecret
+              value: clustermgr-db-name
             - name: CLUSTERMGR_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: myshareddbsecret
-            - name: CLUSTERMGR_DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: myshareddbsecret
+              value: clustermgr-db-url
             - name: CLUSTERMGR_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: myshareddbsecret
+              value: clustermgr-db-port
             - name: CLUSTERMGR_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: username
-                  name: myshareddbsecret
+              value: clustermgr-db-user
             - name: PERSISTENCE_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: myshareddbsecret
+                  name: smilecdrsecretp
             - name: PERSISTENCE_DB_URL
               valueFrom:
                 secretKeyRef:
                   key: host
-                  name: myshareddbsecret
-            - name: PERSISTENCE_DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: myshareddbsecret
+                  name: smilecdrsecretp
             - name: PERSISTENCE_DB_PORT
               valueFrom:
                 secretKeyRef:
                   key: port
-                  name: myshareddbsecret
+                  name: smilecdrsecretp
             - name: PERSISTENCE_DB_USER
               valueFrom:
                 secretKeyRef:
                   key: username
-                  name: myshareddbsecret
+                  name: smilecdrsecretp
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
           ports:
@@ -250,6 +230,9 @@ spec:
               containerPort: 9100
               protocol: TCP
           volumeMounts:
+            - mountPath: /mnt/sscsi
+              name: release-name-scdr
+              readOnly: true
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
@@ -260,6 +243,12 @@ spec:
             - mountPath: /home/smile/smilecdr/activemq-data
               name: scdr-volume-amq
       volumes:
+        - csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: release-name-scdr
+          name: release-name-scdr
         - configMap:
             name: release-name-scdr-masterdev-node
           name: scdr-config-release-name
@@ -292,6 +281,68 @@ spec:
         maxSkew: 1
         topologyKey: kubernetes.io/hostname
         whenUnsatisfiable: ScheduleAnyway
+---
+# Source: smilecdr/templates/scdr/scdr-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-scdr
+  namespace: default
+  labels:
+    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: smilecdr-example.local
+      http:
+        paths:
+        - backend:
+            service:
+              name: release-name-scdr-svc-admin-web
+              port:
+                number: 9100
+          path: /
+          pathType: Prefix
+---
+# Source: smilecdr/templates/scdr/scdr-secret-provider-class.yaml
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: release-name-scdr
+  namespace: default
+spec:
+  provider: aws
+  parameters:
+    objects: |
+      - jmesPath:
+        - objectAlias: smilecdrsecretp-db-dbname
+          path: dbname
+        - objectAlias: smilecdrsecretp-db-host
+          path: host
+        - objectAlias: smilecdrsecretp-db-port
+          path: port
+        - objectAlias: smilecdrsecretp-db-user
+          path: username
+        objectAlias: smilecdrsecretp
+        objectName: arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname
+  secretObjects:
+  - data:
+    - key: dbname
+      objectName: smilecdrsecretp-db-dbname
+    - key: host
+      objectName: smilecdrsecretp-db-host
+    - key: port
+      objectName: smilecdrsecretp-db-port
+    - key: username
+      objectName: smilecdrsecretp-db-user
+    secretName: smilecdrsecretp
+    type: Opaque
 ---
 # Source: smilecdr/templates/tests/test-connection.yaml
 apiVersion: v1

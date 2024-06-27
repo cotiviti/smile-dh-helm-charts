@@ -1,4 +1,4 @@
-# This tests DB environments for single shared external DB
+# This tests DB environments for single shared external DB with IAM configuration
 
 database:
   crunchypgo:
@@ -7,16 +7,40 @@ database:
     enabled: true
     defaults:
       connectionConfigSource:
-        source: k8sSecret
-        secretName: mySharedDBSecret
+        # sscsi or k8sSecret
+        source: sscsi
+        provider: aws
+        # pwd or iam
       connectionConfig:
         authentication:
-         type: password
+         type: pwd
     databases:
-    - name: smilecdr-db
+    - name: clustermgrdb-iam
       modules:
       - clustermgr
-      - persistence
+      connectionConfigSource:
+        source: none
+      connectionConfig:
+        authentication:
+          type: iam
+          provider: aws
+        url: clustermgr-db-url
+        port: clustermgr-db-port
+        dbName: clustermgr-db-name
+        user: clustermgr-db-user
+    - name: persistence-iam-sscsi
+      modules:
+        - persistence
+      connectionConfigSource:
+        source: sscsi
+        provider: aws
+        secretArn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
+        secretName: smilecdrSecretp
+      connectionConfig:
+        authentication:
+          type: iam
+          provider: aws
+
 
 modules:
   useDefaultModules: false
@@ -28,6 +52,10 @@ modules:
       db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
       db.password: "#{env['DB_PASS']}"
       db.username: "#{env['DB_USER']}"
+      # It will allow you to configure the below if under 15 mins
+      # db.connectionpool.maxlifetime.millis: 600000
+      # db.connectionpool.maxlifetime.millis: 10
+      # db.connectionpool.maxlifetime.millis: 900001
 
   persistence:
     name: Database Configuration
@@ -65,5 +93,3 @@ modules:
       # Can be removed if the default gets fixed. May be good to leave it explicit.
       # Note: Smile CDR still chooses the wrong default as of `2022.11.R01`
       password_encoding_type: BCRYPT_12_ROUND
-
-autoDeploy: false

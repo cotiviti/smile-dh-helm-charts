@@ -5,6 +5,12 @@ tests:
     - ../default-test-values.yaml
     - ../default-test-disabled-features.yaml
     - values-singleExternal.yaml
+  singleExternalLegacy:
+    outputFile: output-singleExternalLegacy.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-singleExternalLegacy.yaml
   auditExternal:
     outputFile: output-auditExternal.yaml
     valueFiles:
@@ -41,3 +47,8 @@ tests:
     - ../default-test-values.yaml
     - ../default-test-disabled-features.yaml
     - values-multiInternalCrunchy.yaml
+  singleExternalIAM:
+    outputFile: output-singleExternalIAM.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - values-singleExternalIAM.yaml
