@@ -508,8 +508,8 @@ spec:
             - containerPort: 9200
               name: smart-auth
               protocol: TCP
-            - name: prom-metrics
-              containerPort: 17171
+            - containerPort: 17171
+              name: prom-metrics
               protocol: TCP
           volumeMounts:
             - mountPath: /home/smile/smilecdr/javaagent

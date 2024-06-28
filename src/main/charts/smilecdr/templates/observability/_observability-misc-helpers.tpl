@@ -262,7 +262,7 @@ Define env vars that will be used for observability
       {{- /* Create any required env vars for resource attributes
           For each resource attribute, there is an env var as well as a reference to the env var in the
           `OTEL_RESOURCE_ATTRIBUTES` env var. This mirrors the behaviour of the OTEL Agent operator. */ -}}
-      
+
       {{- /* The `$resourceAttributes` list is ultimately rendered into the env var as follows:
           `name: OTEL_RESOURCE_ATTRIBUTES`
           `value: k8s.deployment.name=$(OTEL_RESOURCE_ATTRIBUTES_K8S_DEPLOYMENT_NAME),k8s.node.name=$(OTEL_RESOURCE_ATTRIBUTES_K8S_NODE_NAME)`
@@ -342,12 +342,12 @@ Define env vars that will be used for observability
           {{- /* This here is why the theAgentSpec 'env' sections need to be represented as a list,
               so that we can do this merge. */ -}}
           {{- $customEnvVars = deepCopy (mergeOverwrite $customEnvVars $theAgentSpec.java.env) -}}
-          {{- /* fail (printf "\n$customEnvVars: \n\n%s\n" (toPrettyJson $customEnvVars)) */ -}}        
-        {{- end -}}      
+          {{- /* fail (printf "\n$customEnvVars: \n\n%s\n" (toPrettyJson $customEnvVars)) */ -}}
+        {{- end -}}
 
       {{- end -}}
-      
-      {{- /* fail (printf "$customEnvVars: \n\n%s\n" (toPrettyJson $customEnvVars)) -}}   
+
+      {{- /* fail (printf "$customEnvVars: \n\n%s\n" (toPrettyJson $customEnvVars)) -}}
       {{- fail (printf "Existing env vars:\n%s\n\n" (toPrettyJson $envVars)) */ -}}
 
       {{- $resourceAttributesOverrideEnvVar := false -}}
@@ -461,13 +461,13 @@ Some helpers to reduce verbosity of if statements elsewhere.
         Note that we cannot set any defaults in the values file
         with `observability...env` as you cannot merge lists in Helm.
         Instead we must programatically set the defaults here.
-        
+
         Ideally, we should change the spec to use dicts instead of lists to avoid
         this issue. But it's already in use. This may be hard to deprecate.
-        
+
         Not only that, but the OTEL operator already uses lists in its CRD. It makes
         sense to use the same schema.
-        
+
         Solution is to provide `specOverrides` - a dict that can be used to modify the spoec
         */ -}}
 
@@ -477,7 +477,7 @@ Some helpers to reduce verbosity of if statements elsewhere.
     {{- /* Before doing any merging, copy 'spec' items and convert elements of type list to dict */ -}}
     {{- $specDict := deepCopy $otelAgentConfig.spec -}}
     {{- /* fail (printf "\n$specDict:\n%s\n\n$otelAgentConfig.spec:\n%s\n" (toPrettyJson $specDict) (toPrettyJson $otelAgentConfig.spec) ) */ -}}
-    
+
     {{- /* Convert `spec.resourceAttributes' list to dict */ -}}
     {{- if hasKey $specDict "resourceAttributes" -}}
       {{- $oldList := deepCopy $specDict.resourceAttributes -}}
@@ -495,7 +495,7 @@ Some helpers to reduce verbosity of if statements elsewhere.
         {{- $_ := set $specDict.env $theEnvVar.name $theEnvVar -}}
       {{- end -}}
     {{- end -}}
-    
+
 
     {{- /* Convert `spec.java.env' list to dict */ -}}
     {{- if hasKey $specDict.java "env" -}}
@@ -506,7 +506,7 @@ Some helpers to reduce verbosity of if statements elsewhere.
       {{- end -}}
       {{- /* fail (printf "\n$specDict:\n%s\n\n$oldList:\n\n%s\n" (toPrettyJson $specDict) (toPrettyJson $oldList) ) */ -}}
     {{- end -}}
-    
+
 
     {{- /* Now we can set defaults */ -}}
     {{- $otelAgentDefaultSpec := dict "env" dict -}}
@@ -576,7 +576,7 @@ Some helpers to reduce verbosity of if statements elsewhere.
     {{- end */ -}}
 
     {{- /* fail (printf "OLD:\n%s\n\nNEW:\n%s\n\n" (toPrettyJson $origSpec) (toPrettyJson $otelAgentConfig.spec)) */ -}}
-    
+
   {{- end -}}
   {{- $otelAgentConfig | toYaml -}}
 {{- end -}}

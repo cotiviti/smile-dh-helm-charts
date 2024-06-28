@@ -8,7 +8,7 @@ observability:
       otelAgent:
         enabled: true
         mode: operator
-        # Anything defined in specOverrides will be merged with the 
+        # Anything defined in specOverrides will be merged with the
         # specOverrides:
         #   resourceAttributes:
         #     deployment.environment:
@@ -16,7 +16,7 @@ observability:
         #         podLabel: envvv
         #     compose_service:
         #       value: smilecdr
-        #   # 
+        #   #
         #   env:
         #     OTEL_METRICS_EXPORTER:
         #       name: OTEL_METRICS_EXPORTER
