@@ -184,6 +184,8 @@ Define CDR Nodes
 
       {{- $_ := set $parsedNodeValues "services" (include "smilecdr.services" $cdrNodeHelperCTX | fromYaml) -}}
 
+      {{- $_ := set $parsedNodeValues "containerPorts" (include "smilecdr.containerPorts" $cdrNodeHelperCTX | fromYamlArray) -}}
+
       {{- /* Include container probe definitions */ -}}
       {{- $_ := set $parsedNodeValues "startupProbe" (include "smilecdr.startupProbe" $cdrNodeHelperCTX | fromYaml) -}}
       {{- $_ := set $parsedNodeValues "readinessProbe" (include "smilecdr.readinessProbe" $cdrNodeHelperCTX | fromYaml) -}}
