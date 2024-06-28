@@ -4,7 +4,12 @@ Environment variables for databases
 */}}
 {{- define "smilecdr.dbEnvVars" -}}
   {{- $envVars := list -}}
-  {{- if eq .Values.database.crunchypgo.enabled .Values.database.external.enabled -}}
+  {{- /* Weird hack to ensure we are dealing with booleans.
+      Required in case an option is enabled using the string "true" instead
+      of the boolean true */ -}}
+  {{- $crunchyEnabled := and .Values.database.crunchypgo.enabled true -}}
+  {{- $externalEnabled := and .Values.database.external.enabled true -}}
+  {{- if eq $crunchyEnabled $externalEnabled -}}
     {{- /* You must configure exactly one of crunchypgo or external database.
         This check is skipped for unit testing. */ -}}
     {{- if not .Values.unitTesting -}}
