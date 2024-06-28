@@ -443,7 +443,7 @@ spec:
           - /bin/sh
           - -c
           - /bin/cp -Rvp /home/smile/smilecdr/customerlib/* /tmp/smilecdr-volumes/customerlib/
-          image: docker.smilecdr.com/smilecdr:2023.08.R01
+          image: docker.smilecdr.com/smilecdr:2024.05.R03
           imagePullPolicy: IfNotPresent
           name: init-sync-customerlib
           resources:
@@ -506,7 +506,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2023.08.R01"
+          image: "docker.smilecdr.com/smilecdr:2024.05.R03"
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
