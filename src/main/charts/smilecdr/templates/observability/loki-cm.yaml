@@ -1,0 +1,71 @@
+{{- if (include "observability.lokideployment.enabled" . | fromYaml) -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-loki-cm
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "smilecdr.labels" $ | nindent 4 }}
+  annotations: {}
+data:
+  # Ref: https://github.com/grafana/loki/issues/10278
+  local-config.yaml: |
+    auth_enabled: false
+    server:
+      http_listen_port: 3100
+
+    common:
+      path_prefix: /loki
+      # storage:
+      #   filesystem:
+      #     chunks_directory: /loki/chunks
+      #     rules_directory: /loki/rules
+      storage:
+        bucketNames:
+          chunks: pmpdev2-loki-chunks
+          ruler: pmpdev2-loki-ruler
+          admin: pmpdev2-loki-admin
+        type: 's3'
+        s3:
+          region: us-west-2
+          # Using IAM/IRSA
+          # endpoint: foo.aws.com
+          # secretAccessKey: supersecret
+          # accessKeyId: secret
+      replication_factor: 1
+      ring:
+        kvstore:
+          store: inmemory
+
+    query_range:
+      align_queries_with_step: true
+      max_retries: 5
+      cache_results: true
+      results_cache:
+        cache:
+          enable_fifocache: false
+          embedded_cache:
+            enabled: true
+            max_size_mb: 500
+            ttl: 24h
+
+    chunk_store_config:
+      max_look_back_period: 0s
+      chunk_cache_config:
+        embedded_cache:
+          enabled: true
+          max_size_mb: 500
+          ttl: 24h
+
+    schema_config:
+      configs:
+        - from: 2020-10-24
+          store: boltdb-shipper
+          object_store: filesystem
+          schema: v11
+          index:
+            prefix: index_
+            period: 24h
+    analytics:
+      reporting_enabled: false
+{{- end -}}

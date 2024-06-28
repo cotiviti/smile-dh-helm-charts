@@ -10,3 +10,149 @@ observability:
         mode: operator
       otelCollector:
         enabled: true
+        configOverride: |
+          receivers:
+            otlp:
+              protocols:
+                grpc:
+            # Collect prometheus metrics
+            prometheus:
+              config:
+                scrape_configs:
+                # Collect own metrics
+                # - job_name: 'otel-collector'
+                #   scrape_interval: 10s
+                #   static_configs:
+                #   - targets: ['0.0.0.0:8888']
+                # - job_name: 'jmx'
+                #   scrape_interval: 10s
+                #   static_configs:
+                #   - targets: ['0.0.0.0:17171']
+                - job_name: 'smilecdr-releasename'
+                  scrape_interval: 10s
+                  static_configs:
+                  - targets: ['localhost:9000']
+                  metrics_path: '/json-admin/metrics/local/metrics'
+                  params:
+                    format: ["PROMETHEUS"]
+                  basic_auth:
+                    username: 'admin'
+                    password: 'password'
+                  # Ugh, not supported in openTelemetry...
+                  # https://github.com/open-telemetry/opentelemetry-collector-contrib/issues/5001
+                  # metric_relabel_configs:
+                  # - source_labels: [__name__]
+                  #   action: replace
+                  #   regex: (.*)_http_responses_[2,3,4,5]xx_total
+                  #   target_label: cdr_module_name
+                  # - source_labels: [__name__]
+                  #   action: replace
+                  #   regex: .*_http_responses_([2,3,4,5]xx)_total
+                  #   target_label: http_code
+                  # - source_labels: [__name__]
+                  #   action: replace
+                  #   regex: .*_http_responses_[2,3,4,5]xx_total
+                  #   replacement: http_responses_total
+                  #   target_label: __name__
+
+                  # - source_labels: [__name__]
+                  #   action: replace
+                  #   regex: (.*)_http_(idle)|(busy)_threads
+                  #   target_label: cdr_module_name
+                  # - source_labels: [__name__]
+                  #   action: replace
+                  #   regex: .*_(http_(idle)|(busy)_threads)
+                  #   target_label: __name__
+
+                  # - source_labels: [cdr_module_name]
+                  #   action: replace
+                  #   regex: fhir_endpoint|fhirweb_endpoint
+                  #   replacement: fhir
+                  #   target_label: endpoint_type
+                  # - source_labels: [cdr_module_name]
+                  #   action: replace
+                  #   regex: admin_json|admin_web
+                  #   replacement: admin
+                  #   target_label: endpoint_type
+
+                  # - source_labels: [__name__]
+                  #   action: replace
+                  #   regex: (.*)_overall_transaction.*
+                  #   target_label: cdr_module_name
+                  # - source_labels: [__name__]
+                  #   action: replace
+                  #   regex: .*_(overall_transaction.*)
+                  #   target_label: __name__
+
+                  # - source_labels: [__name__]
+                  #   action: replace
+                  #   regex: (.*)_timer_measure.*
+                  #   target_label: cdr_module_name
+                  # - source_labels: [__name__]
+                  #   action: replace
+                  #   regex: .*_(timer_measure.*)
+                  #   target_label: __name__
+
+                  # - source_labels: [__name__]
+                  #   action: replace
+                  #   regex: (.*)_db_num_(active)|(idle)
+                  #   target_label: cdr_module_name
+                  # - source_labels: [__name__]
+                  #   action: replace
+                  #   regex: .*_(db_num_(active)|(idle))
+                  #   target_label: __name__
+          processors:
+            attributes:
+              actions:
+                - action: insert
+                  key: loki.attribute.labels
+                  value: log.file.name
+            filter:
+              metrics:
+                # Temporary to fix bug until https://github.com/open-telemetry/opentelemetry-collector-contrib/issues/18194 is fixed
+                exclude:
+                  match_type: strict
+                  metric_names:
+                    - queueSize
+                    - queueSize_ratio
+          exporters:
+            logging:
+            otlp/traces:
+              endpoint: tempo-simplest-distributor:4317
+              tls:
+                insecure: true
+            # otlp is not currently supported by Prometheus
+            # otlp/metrics:
+            #   endpoint: http://prometheus-operated:9090
+            #   tls:
+            #     insecure: true
+            # Using prometheus scrape until otlp is supported
+            prometheus:
+              endpoint: 0.0.0.0:9090
+              send_timestamps: true
+              metric_expiration: 180m
+              resource_to_telemetry_conversion:
+                enabled: true
+            otlp/logs:
+              endpoint: http://loki:3100/loki/api/v1/push
+              tls:
+                insecure: true
+            loki:
+              endpoint: http://loki:3100/loki/api/v1/push
+          service:
+            pipelines:
+              traces:
+                receivers: [otlp]
+                processors: []
+                exporters: [otlp/traces]
+              metrics:
+                # receivers: [otlp,prometheus]
+                receivers: [otlp]
+                processors: [filter]
+                # Not yet supported, but will be soon
+                # exporters: [otlp/metrics]
+                exporters: [prometheus]
+              logs:
+                receivers: [otlp]
+                processors: [attributes,filter]
+                exporters: [loki]

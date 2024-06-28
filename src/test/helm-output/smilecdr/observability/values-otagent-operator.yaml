@@ -8,5 +8,45 @@ observability:
       otelAgent:
         enabled: true
         mode: operator
+        # Anything defined in specOverrides will be merged with the 
+        # specOverrides:
+        #   resourceAttributes:
+        #     deployment.environment:
+        #       valueFrom:
+        #         podLabel: envvv
+        #     compose_service:
+        #       value: smilecdr
+        #   # 
+        #   env:
+        #     OTEL_METRICS_EXPORTER:
+        #       name: OTEL_METRICS_EXPORTER
+        #       value: mymetrics
+        #   java:
+        #     env:
+        #       java_env_var_name:
+        #         name: JAVA_ENV_VAR_NAME
+        #         value: envvarvalue
+        # Using spec will wipe any defaults.
+        # We cannot change this to a dict as we wish to use the same schema that's used by the OTEL operator CRD
+        # spec:
+
+        #   resourceAttributes:
+        #   - name: deployment.environment
+        #     valueFrom:
+        #       podLabel: env
+        #   - name: compose_service
+        #     value: smilecdr
+        #   env:
+        #   - name: OTEL_METRICS_EXPORTER
+        #     value: "prometheus"
+        #   - name: OTEL_LOGS_EXPORTER
+        #     value: "otel"
+        #   - name: OTEL_EXPORTER_PROMETHEUS_PORT
+        #     value: "9464"
+        #   java:
+        #     env:
+        #     - name: OTEL_INSTRUMENTATION_METHODS_INCLUDE
+        #       value: "ca.uhn.hl7v2.app.Responder[processMessage];ca.cdr.broker.kafka.channel.CdrKafkaAcknowledgingListener[onMessage]"
+
       otelCollector:
         enabled: false

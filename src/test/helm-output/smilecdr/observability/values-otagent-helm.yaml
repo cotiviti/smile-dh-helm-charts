@@ -8,6 +8,25 @@ observability:
       enabled: true
       otelAgent:
         enabled: true
-        mode: helm
+        # This defaults to `helm` so not really needed
+        # mode: helm
+        spec:
+          resourceAttributes:
+          - name: deployment.environment
+            valueFrom:
+              podLabel: env
+          - name: compose_service
+            value: smilecdr
+          env:
+          - name: OTEL_METRICS_EXPORTER
+            value: "prometheus"
+          - name: OTEL_EXPORTER_PROMETHEUS_PORT
+            value: "9464"
+          java:
+            env:
+            - name: OTEL_LOGS_EXPORTER
+              value: "otel"
+            - name: OTEL_INSTRUMENTATION_METHODS_INCLUDE
+              value: "ca.uhn.hl7v2.app.Responder[processMessage];ca.cdr.broker.kafka.channel.CdrKafkaAcknowledgingListener[onMessage]"
       otelCollector:
         enabled: false

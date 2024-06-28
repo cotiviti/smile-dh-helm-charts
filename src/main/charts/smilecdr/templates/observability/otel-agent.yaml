@@ -1,4 +1,5 @@
-{{- if (include "observability.otelagent" . | fromYaml).crdEnabled -}}
+{{- $otelAgentConfig := (include "observability.otelagent" . | fromYaml) -}}
+{{- if $otelAgentConfig.useOperator -}}
 apiVersion: opentelemetry.io/v1alpha1
 kind: Instrumentation
 metadata:
@@ -7,30 +8,6 @@ metadata:
   labels:
     {{- include "smilecdr.labels" $ | nindent 4 }}
 spec:
-  exporter:
-    endpoint: http://localhost:4317
-  java:
-    # image: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java:1.26.0
-    resources:
-      limits:
-        cpu: 500m
-        memory: 64Mi
-      requests:
-        cpu: 50m
-        memory: 64Mi
-    env:
-      - name: OTEL_LOGS_EXPORTER
-        value: otlp
-  propagators:
-  - tracecontext
-  - baggage
-  - b3
+    {{- $otelAgentConfig.spec | toYaml | nindent 4 }}
 
-  sampler:
-    # Probability that a given sample will be retained.
-    # https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/sdk.md#sampling
-    # Lower probability if there is a lot of traffic. Increase or enable always on if doing one-off testing and you
-    # need to see each span
-    argument: "1"
-    type: parentbased_traceidratio
 {{- end -}}

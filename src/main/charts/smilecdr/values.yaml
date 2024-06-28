@@ -563,7 +563,16 @@ messageBroker:
 observability:
   # Enable/disable entire observability suite
   enabled: false
+  # Configuraion for instrumentation of Smile CDR
   instrumentation:
+    # Which type of telemetry will we collect
+    metrics:
+      enabled: false
+    tracing:
+      enabled: false
+    logging:
+      enabled: false
+    # Open Telemetry instrumentation configuration
     openTelemetry:
       enabled: true
       otelAgent:
@@ -593,30 +602,40 @@ observability:
           # - name: custom_attribute_2
           #   value: $(ENV_VAR_NAME)
           exporter:
+            # This likely needs to be auto-configured if collector is installed
             endpoint: http://localhost:4317
           env: []
           # - name: OTEL_LOGS_EXPORTER
           #   value: otlp
-          # - name: OTEL_METRICS_EXPORTER
-          #   value: "prometheus"
-          # - name: OTEL_EXPORTER_PROMETHEUS_PORT
-          #   value: 9464
           java:
-            env: []
-          # propagators:
-          # - baggage
-          # - b3
-          # sampler:
-          #   argument: 1
-          #   type: parentbased_traceidratio
+            # image: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java:1.26.0
+            resources:
+              limits:
+                cpu: 500m
+                memory: 64Mi
+              requests:
+                cpu: 50m
+                memory: 64Mi
+          propagators:
+          - tracecontext
+          - baggage
+          - b3
+          sampler:
+            # Probability that a given sample will be retained.
+            # https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/sdk.md#sampling
+            # Lower probability if there is a lot of traffic. Increase or enable always on if doing one-off testing and you
+            # need to see every span
+            argument: "1"
+            type: parentbased_traceidratio
       otelCollector:
-        # Install OpenTelemetry Sidecar container into Smile CDR pods to collect and ship JVM metrics
-        enabled: true
+        # Install OpenTelemetry Collector Sidecar container into Smile CDR pods to collect and ship JVM metrics
+        enabled: false
         # Select how to install the collector.
-        # Currently only supports using the otel operator
-        # Choose sidecar (Default), deployment or helm(Not yet implemented)
+        # Currently only supports using the OTEL operator
+        # Choose sidecar (Default) or deployment
         mode: sidecar
 
+    # Prometheus instrumentation configuration
     prometheus:
       enabled: false
       # Sets up pod monitor CR so the prometheus operator can discover Smile CDR
@@ -625,10 +644,35 @@ observability:
       # Install Java Agent into Smile CDR pods to expose JVM metrics
       promAgent:
         enabled: true
+        # agentJarName: "jmx_prometheus_javaagent-0.17.2.jar"
         config:
           port: 17171
           rules:
           - pattern: ".*"
+  # Configuration of back-end services required to aggregate and store telemetry data
+  services:
+    metrics:
+      enabled: false
+      prometheus:
+        enabled: false
+    tracing:
+      enabled: false
+      tempo:
+        enabled: false
+    logging:
+      enabled: false
+      loki:
+        enabled: false
+
+  # Dashboard configuration
+  dashboard:
+    grafana:
+      enabled: false
+      useOperator: true
+      ingress:
+        ingressClassName: nginx
+        hostName: default
+        path: /grafana
 
 ## @section Extra labels
 ## @param labels Extra labels to apply to all resources

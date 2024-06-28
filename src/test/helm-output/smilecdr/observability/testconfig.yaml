@@ -1,23 +1,5 @@
 tests:
-  OTAgent:
-    outputFile: output-otagent-operator.yaml
-    # set:
-    # - key: keyName
-    #   value: theValue
-    valueFiles:
-    - ../default-test-values.yaml
-    - ../default-test-disabled-features.yaml
-    - values-otagent-operator.yaml
-  OTAgentWithCollector:
-    outputFile: output-otagentcollector.yaml
-    # set:
-    # - key: keyName
-    #   value: theValue
-    valueFiles:
-    - ../default-test-values.yaml
-    - ../default-test-disabled-features.yaml
-    - values-otagentcollector.yaml
-  OTAgentHelm:
+  OTAgentHelmNoS3:
     outputFile: output-otagent-helm.yaml
     # set:
     # - key: keyName
@@ -27,6 +9,24 @@ tests:
     - ../default-test-disabled-features.yaml
     - values-otagent-helm.yaml
     # - extra-values.yaml
+  OTAgentOperator:
+    outputFile: output-otagent-operator.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-otagent-operator.yaml
+  OTAgentWithCollectorOperator:
+    outputFile: output-otagentcollector.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-otagentcollector.yaml
   OTAgentHelmS3:
     outputFile: output-otagent-helm-s3.yaml
     # set:
@@ -46,4 +46,24 @@ tests:
     - ../default-test-values.yaml
     - ../default-test-disabled-features.yaml
     - values-promagent.yaml
+    # - extra-values.yaml
+  grafanaLogs:
+    outputFile: output-grafana-logs.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-grafana-logs.yaml
+    # - extra-values.yaml
+  grafanaDashboards:
+    outputFile: output-grafana-dashboards.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-grafana-dashboards.yaml
     # - extra-values.yaml

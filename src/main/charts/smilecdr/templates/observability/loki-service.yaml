@@ -1,0 +1,21 @@
+{{- if (include "observability.lokideployment.enabled" . | fromYaml) -}}
+apiVersion: v1
+kind: Service
+metadata:
+  # name: {{ .Release.Name }}-loki
+  name: loki
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "smilecdr.labels" $ | nindent 4 }}
+  annotations: {}
+spec:
+  type: "ClusterIP"
+  ports:
+    - name: loki
+      port: 3100
+      targetPort: loki
+      protocol: TCP
+  selector:
+    app: loki
+    release: {{ .Release.Name }}
+{{- end -}}
