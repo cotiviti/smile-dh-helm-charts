@@ -69,16 +69,7 @@ spec:
           env:
             {{- toYaml $theCdrNodeSpec.envVars | nindent 12 }}
           ports:
-            {{- range $k, $v := $theCdrNodeSpec.services }}
-            - name: {{ $v.svcName }}
-              containerPort: {{ $v.port }}
-              protocol: TCP
-            {{- end }}
-            {{- if (include "observability.promagent" $theCdrNodeCtx | fromYaml).enabled -}}
-            - name: prom-metrics
-              containerPort: {{ (include "observability.promagent" $theCdrNodeCtx | fromYaml).port }}
-              protocol: TCP
-            {{- end }}
+            {{- toYaml $theCdrNodeSpec.containerPorts | nindent 12 }}
           volumeMounts:
             {{ toYaml $theCdrNodeSpec.volumeMounts | nindent 12 | trim }}
       volumes:

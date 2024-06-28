@@ -36,6 +36,16 @@ Outputs as Serialized Yaml. If you need to parse the output, include it like so:
   {{- $services | toYaml -}}
 {{- end -}}
 
+{{/*
+Define ports to expose, based on all the enabled services. Adds any additional ports.
+*/}}
+{{- define "smilecdr.containerPorts" -}}
+  {{- $ports := list -}}
+  {{- range $theServiceName, $theServiceSpec := .Values.services -}}
+    {{- $ports = append $ports (dict "name" $theServiceSpec.svcName "containerPort" $theServiceSpec.port "protocol" "TCP") -}}
+  {{- end -}}
+  {{- $ports | toYaml -}}
+{{- end -}}
 
 {{- /* This helper is used to get the full list of services without any dependencies on
        other templates for auto-configuring the service spec. This is used to avoid some

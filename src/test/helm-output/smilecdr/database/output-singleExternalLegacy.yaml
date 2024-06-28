@@ -209,8 +209,8 @@ spec:
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
           ports:
-            - name: admin-web
-              containerPort: 9100
+            - containerPort: 9100
+              name: admin-web
               protocol: TCP
           volumeMounts:
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
