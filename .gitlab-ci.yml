@@ -11,7 +11,7 @@ variables:
 
 workflow:
   rules:
-    
+
     # Workflow rules to determine when to run pipelines.
     # TODO: Improve this workflow. Study these:
     #  * https://stackoverflow.com/questions/70290807/difference-between-different-gitlab-ci-merge-request-rules
@@ -22,25 +22,25 @@ workflow:
     # even if used as the source of a Merge Request
     - if: $CI_COMMIT_MESSAGE =~ $SKIP_CI_COMMIT_MESSAGE
       when: never
-    
+
     # Don't run pipelines for temporary branches
     # - if: $CI_COMMIT_REF_NAME =~ $TEMPORARY_BRANCHES_PATTERN
     #   when: never
 
     # Run pipeline if this commit is a part of a merge request.
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    
+
     # Prevent duplicate pipelines in the case that this commit is also part of a merge request
     - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
       when: never
-    
+
     # Prevent pipeline running if there is no commit sha.
     - if: $CI_COMMIT_BEFORE_SHA == "0000000000000000000000000000000000000000"
       when: never
-    
+
     # Run release pipeline.
     - if: $CI_COMMIT_REF_NAME =~ $ALL_RELEASE_BRANCHES_PATTERN
-    
+
     # If this were enabled, any commit that is not matched above will run the pipeline. We do not want this.
     # - if: $CI_COMMIT_BRANCH
 
