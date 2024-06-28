@@ -39,7 +39,7 @@ workflow:
       when: never
     
     # Run release pipeline.
-    - if: $CI_COMMIT_REF_NAME =~ $ALL_RELEASE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+    - if: $CI_COMMIT_REF_NAME =~ $ALL_RELEASE_BRANCHES_PATTERN
     
     # If this were enabled, any commit that is not matched above will run the pipeline. We do not want this.
     # - if: $CI_COMMIT_BRANCH
