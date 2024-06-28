@@ -46,7 +46,7 @@ for CHART in ${CHARTS}; do
     CURRENT_CHART_DIR="${CHARTS_DIR}/${CHART}"
 
     debugPrint "Linting %s chart with default values file\n" "${CHART}"
-    HELM_OUTPUT=$(helm lint --set database.external.enabled=true "${CURRENT_CHART_DIR}")
+    HELM_OUTPUT=$(helm lint --set unitTesting=true "${CURRENT_CHART_DIR}")
     HELM_RES=$?
     if [ "${HELM_RES}" != "0" ]; then
         printf "Linting failed for %s chart using default values file\n\n" "${CHART}"
