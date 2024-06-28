@@ -76,7 +76,7 @@ helm-lint:
     - apk add bash jq yq
   script:
     - echo "Linting Charts..."
-    - ./scripts/lint-charts.sh ./src
+    - ./scripts/lint-charts.sh -s ./src
 
 # Disabling as this does not actually do anything right now
 # other than waste GitLab runner resources
