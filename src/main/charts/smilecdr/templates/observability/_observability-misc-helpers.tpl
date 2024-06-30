@@ -511,7 +511,7 @@ Some helpers to reduce verbosity of if statements elsewhere.
     {{- /* Now we can set defaults */ -}}
     {{- $otelAgentDefaultSpec := dict "env" dict -}}
     {{- $_ := set $otelAgentDefaultSpec.env "OTEL_METRICS_EXPORTER" (dict "value" "none") -}}
-    {{- $_ := set $otelAgentDefaultSpec.env "OTEL_LOGS_EXPORTER" (dict "value" "none") -}}
+    {{- $_ := set $otelAgentDefaultSpec.env "OTEL_LOGS_EXPORTER" (dict "value" "otlp") -}}
     {{- $_ := set $otelAgentDefaultSpec.env "OTEL_TRACES_EXPORTER" (dict "value" "none") -}}
 
     {{- /* Java defaults */ -}}
