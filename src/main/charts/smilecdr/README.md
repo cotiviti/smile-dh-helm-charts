@@ -1,0 +1,188 @@
+# Smile CDR
+
+![Version: 1.0.0-pre.127](https://img.shields.io/badge/Version-1.0.0--pre.127-informational?style=flat-square) ![Smile CDR Version: 2024.05.R03](https://img.shields.io/badge/Smile%20CDR%20Version-2024.05.R03-informational?style=flat-square)
+
+This chart provides a flexible and consistent process to deploy Smile CDR in a self-managed Kubernetes cluster.
+
+It is provided by Smile Digital Health as a starting point for creating a reference implementation of Smile CDR on K8s.
+It has been fully tested on Amazon EKS and has growing compatibility for Azure AKS.
+
+## ** PRE-RELEASE WARNING **
+This is ***PRE-RELEASE*** version 1.0.0-pre.127
+
+As this is a pre-release version of this chart, there may be **breaking changes** introduced without notice.
+
+Only use this version of the chart for evaluation or testing.
+
+Before performing a `helm upgrade` on your release, first get the current version using
+`helm list` and check the [Change Log](../../../CHANGELOG-PRE.md) for information on any
+breaking changes you may need to prepare for.
+
+## Features
+
+* Uses the latest official Smile CDR Docker images
+  * Also supports previous Smile CDR versions
+* 'Configuration-as-code' management of all Smile CDR module definitions & settings
+* Automatic configuration of Kubernetes Services and Ingresses
+* Multiple databases supported (Separate DB for cluster manager and one or more persistence DB)
+* Flexible JVM tuning with sane defaults
+* Adding extra files to the deployment without building new images
+* Kafka configuration
+* Multiple ingress options with TLS termination at load Balancer
+    * [Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
+    * [AWS Load Balancer Controller](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html)
+    * [Azure Application Gateway Ingress Controller](https://azure.github.io/application-gateway-kubernetes-ingress/)
+* [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) -
+  Smile CDR pods run with their own IAM role, independent and isolated from other workloads on the cluster.
+* [Secrets Store CSI Driver](https://secrets-store-csi-driver.sigs.k8s.io/) - Store secrets in a secure vault, and not in your code.
+    * Currently only implemented with [AWS SSCSI Provider](https://github.com/aws/secrets-store-csi-driver-provider-aws) -
+    (Uses [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/))
+    * Support for other [SSCSI providers](https://secrets-store-csi-driver.sigs.k8s.io/providers.html) may be implemented as required
+* Fault Tolerance & High Availability when running 2 or more Pods
+* Zero-downtime configuration changes
+* Horizontal Auto-Scaling (Within bounds of Smile CDR license) - to ensure cost effective use of compute resources
+
+### Automated dependency provisioning
+You can use this chart to configure and automatically deploy the following components.
+If enabled, they will automatically be configured in a production-like configuration, although we do not
+recommend using them in production environments at this time.
+
+* Postgres Database - Using the [CrunchyData Postgres Operator](https://access.crunchydata.com/documentation/postgres-operator/v5/)
+* Kafka Cluster - Using the [Strimzi Kafka Operator](https://strimzi.io/docs/operators/latest/overview.html)
+* Coming soon...
+  * MongoDB
+
+> With these components installed in your Kubernetes cluster, you can provision an entire Smile CDR stack,
+complete with persistent backed-up database and a Kafka cluster in about 5-10 mins.
+May take longer if your K8s cluster needs to scale up nodes first.
+
+# Getting Started
+For a guide on how to get up and running, see the Quickstart section in the main [documentation](https://smilecdr-public.gitlab.io/smile-dh-helm-charts)
+
+# Default Values
+
+The below section gives an overview of the default values available. Consult the docs for more detailed information.
+## Values
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| autoDeploy | bool | `true` | Enable or disable automatic deployment of changes to Smile CDR configuration |
+| autoscaling.enabled | bool | `false` | Enable or disable autoscaling |
+| autoscaling.maxReplicas | int | `4` | Depends on peak workload requirements and available licensing |
+| autoscaling.minReplicas | int | `1` | Recommend 1 for dev environments, 2 for prod or 3 for HA prod |
+| autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| copyFiles | object | `{}` |  |
+| database.crunchypgo.config.backupsSize | string | `"10Gi"` | PostgrSQL backups storage allocation |
+| database.crunchypgo.config.instanceCPU | int | `1` | PostgrSQL cpu allocation |
+| database.crunchypgo.config.instanceMemory | string | `"2Gi"` | PostgrSQL memory allocation |
+| database.crunchypgo.config.instanceReplicas | int | `2` | Number of Postgres instances to run (For HA) |
+| database.crunchypgo.config.instanceSize | string | `"10Gi"` | PostgrSQL storage allocation |
+| database.crunchypgo.config.postgresVersion | int | `14` | PostgreSQL version to use |
+| database.crunchypgo.enabled | bool | `false` | Enable database provisioned in-cluster via CrunchyData PGO |
+| database.crunchypgo.internal | bool | `false` | Create the Postgres database as part of this Helm Chart |
+| database.crunchypgo.users[0].module | string | `"clustermgr"` | Smile CDR module that will use this user/database |
+| database.crunchypgo.users[0].name | string | `"smilecdr"` |  |
+| database.crunchypgo.users[1].module | string | `"audit"` |  |
+| database.crunchypgo.users[1].name | string | `"audit"` |  |
+| database.crunchypgo.users[2].module | string | `"transaction"` |  |
+| database.crunchypgo.users[2].name | string | `"transaction"` |  |
+| database.crunchypgo.users[3].module | string | `"persistence"` |  |
+| database.crunchypgo.users[3].name | string | `"persistence"` |  |
+| database.external.defaults.connectionConfig.authentication.provider | string | `"aws"` |  |
+| database.external.defaults.connectionConfig.authentication.type | string | `"password"` |  |
+| database.external.defaults.connectionConfigSource.source | string | `"k8sSecret"` |  |
+| database.external.enabled | bool | `false` | Enable database external to K8s cluster |
+| extraEnvVars | list | `[]` |  |
+| extraVolumeMounts | object | `{}` |  |
+| extraVolumes | object | `{}` |  |
+| image.imagePullSecrets | list | `[]` | You may leave undefined if using ECR and your worker nodes have instance profiles with an appropriate IAM role to access the registry. |
+| image.pullPolicy | string | `"IfNotPresent"` | Image Pull Policy |
+| image.repository | string | `"docker.smilecdr.com/smilecdr"` | OCI repository with Smile CDR images |
+| image.tag | string | `""` | Smile CDR version to install. Default is the chart appVersion. |
+| ingresses.default.defaultIngress | bool | `true` |  |
+| ingresses.default.enabled | bool | `true` | Enable ingress |
+| ingresses.default.public | bool | `true` |  |
+| ingresses.default.tls13NginxConfigSnippet | bool | `true` |  |
+| ingresses.default.type | string | `"nginx-ingress"` | Ingress type (`nginx-ingress`,`aws-lbc-alb`,`azure-agic`) |
+| ingresses.default.useLegacyResourceSuffix | bool | `true` |  |
+| jvm.args | list | `["-Dsun.net.inetaddr.ttl=60","-Djava.security.egd=file:/dev/./urandom"]` | Set extra JVM args |
+| jvm.memoryFactor | float | `0.5` | JVM HeapSize factor. `limits.memory` is multiplied this to calculate `-Xmx` |
+| jvm.xms | bool | `true` | Set JVM heap `-Xms` == `-Xmx` |
+| labels | object | `{}` | Extra labels to apply to all resources |
+| logsDirSize | string | `"10Gi"` |  |
+| mappedFiles | object | `{}` | Map of file definitions to map into the Smile CDR instance |
+| messageBroker.adminPod.enabled | bool | `false` |  |
+| messageBroker.clientConfiguration.consumerProperties."heartbeat.interval.ms" | int | `3000` |  |
+| messageBroker.clientConfiguration.consumerProperties."max.poll.interval.ms" | int | `300000` |  |
+| messageBroker.clientConfiguration.consumerProperties."max.poll.records" | int | `20` |  |
+| messageBroker.clientConfiguration.consumerProperties."session.timeout.ms" | int | `10000` |  |
+| messageBroker.clientConfiguration.producerProperties | object | `{}` |  |
+| messageBroker.external.config.authentication.type | string | `"tls"` |  |
+| messageBroker.external.config.authentication.userCert | object | `{}` |  |
+| messageBroker.external.config.connection.caCert | object | `{}` | Mandatory: External message broker bootstrap address bootstrapAddress: kafka-example1.local, kafka-example2.local |
+| messageBroker.external.config.connection.type | string | `"tls"` |  |
+| messageBroker.external.enabled | bool | `false` |  |
+| messageBroker.external.type | string | `"kafka"` | External message broker type. `kafka` or `activemq` |
+| messageBroker.manageTopics | bool | `true` |  |
+| messageBroker.strimzi.enabled | bool | `false` | Enable provisioning of Kafka using Strimzi Operator |
+| messageBroker.strimzi.kafka.authentication.type | string | `"tls"` |  |
+| messageBroker.strimzi.kafka.connection.type | string | `"tls"` |  |
+| messageBroker.strimzi.kafka.protocolVersion | string | `"3.3"` |  |
+| messageBroker.strimzi.kafka.replicas | int | `3` |  |
+| messageBroker.strimzi.kafka.resources.limits.memory | string | `"1Gi"` |  |
+| messageBroker.strimzi.kafka.resources.requests.cpu | string | `"0.5"` |  |
+| messageBroker.strimzi.kafka.resources.requests.memory | string | `"1Gi"` |  |
+| messageBroker.strimzi.kafka.version | string | `"3.3.1"` |  |
+| messageBroker.strimzi.kafka.volumeSize | string | `"10Gi"` |  |
+| messageBroker.strimzi.zookeeper.replicas | int | `3` |  |
+| messageBroker.strimzi.zookeeper.resources.limits.memory | string | `"512Mi"` |  |
+| messageBroker.strimzi.zookeeper.resources.requests.cpu | float | `0.5` |  |
+| messageBroker.strimzi.zookeeper.resources.requests.memory | string | `"512Mi"` |  |
+| messageBroker.strimzi.zookeeper.volumeSize | string | `"10Gi"` |  |
+| messageBroker.topics.batch2.name | string | `"batch2.work.notification.Masterdev.persistence"` |  |
+| messageBroker.topics.batch2.partitions | int | `10` |  |
+| messageBroker.topics.subscription.name | string | `"subscription.matching.Masterdev.persistence"` |  |
+| messageBroker.topics.subscription.partitions | int | `10` |  |
+| modules.useDefaultModules | bool | `true` | Enable or disable included default modules configuration |
+| observability.enabled | bool | `false` |  |
+| observability.instrumentation.openTelemetry.enabled | bool | `true` |  |
+| observability.instrumentation.openTelemetry.otelAgent.enabled | bool | `true` |  |
+| observability.instrumentation.openTelemetry.otelAgent.mode | string | `"helm"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.env | list | `[]` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.exporter.endpoint | string | `"http://localhost:4317"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.java.env | list | `[]` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[0].name | string | `"k8s.container.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[0].valueFrom | string | `"container.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[1].name | string | `"k8s.deployment.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[1].valueFrom | string | `"deployment.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[2].name | string | `"k8s.namespace.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[2].valueFrom | string | `"namespace.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[3].name | string | `"k8s.node.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[3].valueFrom | string | `"spec.nodeName"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[4].name | string | `"k8s.pod.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[4].valueFrom | string | `"metadata.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[5].name | string | `"k8s.replicaset.name"` |  |
+| observability.instrumentation.openTelemetry.otelAgent.spec.resourceAttributes[5].valueFrom | string | `"replicaset.name"` |  |
+| observability.instrumentation.openTelemetry.otelCollector.enabled | bool | `true` |  |
+| observability.instrumentation.openTelemetry.otelCollector.mode | string | `"sidecar"` |  |
+| observability.instrumentation.prometheus.enabled | bool | `false` |  |
+| observability.instrumentation.prometheus.operatorConfig.enabled | bool | `false` |  |
+| observability.instrumentation.prometheus.promAgent.config.port | int | `17171` |  |
+| observability.instrumentation.prometheus.promAgent.config.rules[0].pattern | string | `".*"` |  |
+| observability.instrumentation.prometheus.promAgent.enabled | bool | `true` |  |
+| oldResourceNaming | bool | `true` |  |
+| replicaCount | int | `1` | Number of replicas to deploy. Note that this setting is ignored if autoscaling is enabled. Should always start a new installation with 1 |
+| resources.limits.memory | string | `"4Gi"` | Memory allocation |
+| resources.requests.cpu | string | `"1"` | CPU Requests |
+| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
+| serviceAccount.create | bool | `false` | Specifies whether a service account should be created |
+| serviceAccount.name | string | `""` | Autogenerated if not set |
+| specs.hostname | string | `"smilecdr-example.local"` | Hostname for Smile CDR instance |
+| specs.rootPath | string | `"/"` |  |
+| tls.certificateIssuers.default.defaultIssuer | bool | `true` |  |
+| tls.certificateIssuers.default.enabled | bool | `false` |  |
+| tls.certificates.default.defaultCertificate | bool | `true` |  |
+| tls.certificates.default.enabled | bool | `false` |  |
+| tls.defaultEndpointConfig.enabled | bool | `false` |  |
+| tls.defaultEndpointConfig.extraCdrConfig."tls.protocol.cipher_whitelist" | string | `"TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256"` |  |
+| tls.defaultEndpointConfig.extraCdrConfig."tls.protocol.protocol_whitelist" | string | `"TLSv1.3"` |  |

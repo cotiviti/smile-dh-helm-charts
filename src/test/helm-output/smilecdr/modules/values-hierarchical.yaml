@@ -1,0 +1,26 @@
+modules:
+  # The test framework does not currently support fail scenarios
+  # so only uncomment this when manually testing the failure
+  # The following three modules should fail due to missing keys
+  # modulewithoutenabledkey:
+  #   type: nonexistent_type
+  # enabledmodulewithouttypekey:
+  #   enabled: true
+  disabledmodulewithouttypekey:
+    enabled: false
+    config:
+      configitem1: value
+
+  heirarchytest:
+    enabled: true
+    type: test
+    config:
+      heirarchical:
+        setting1:
+          value1: value1
+          value2: value2
+        setting2:
+          value1: value1
+      flattended.setting1.value1: value1
+      flattended.setting1.value2: value2
+      flattended.setting2.value1: value1

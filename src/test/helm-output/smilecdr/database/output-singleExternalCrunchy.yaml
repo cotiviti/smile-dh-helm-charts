@@ -1,0 +1,297 @@
+---
+# Source: smilecdr/templates/scdr/scdr-pdb.yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: release-name-scdr
+  namespace: default
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: smilecdr
+---
+# Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-scdr-masterdev-node
+  namespace: default
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
+data:
+  cdr-config-Master.properties: |-
+    ################################################################################
+    # Node Configuration
+    ################################################################################
+    node.id 	= Masterdev
+    node.propertysource 	= PROPERTIES
+    node.config.locked 	= true
+    node.security.strict 	= false
+
+    module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
+
+    ################################################################################
+    # Other Modules are Configured Below
+    ################################################################################
+
+    # The following setting controls where module configuration is ultimately stored.
+    # When set to "DATABASE" (which is the default), the clustermgr configuration is
+    # always read but the other modules are stored in the database upon the first
+    # launch and their configuration is read from the database on subsequent
+    # launches. When set to "PROPERTIES", values in this file are always used.
+    #
+    # In other words, in DATABASE mode, the module definitions below this line are
+    # only used to seed the database upon the very first startup of the sytem, and
+    # will be ignored after that. In PROPERTIES mode, the module definitions below
+    # are read every time the system starts, and existing definitions and config are
+    # overwritten by what is in this file.
+    #
+    ################################################################################
+    # ENDPOINT: Web Admin
+    ################################################################################
+    module.admin_web.type 	= ADMIN_WEB
+    module.admin_web.requires.SECURITY_IN_UP 	= local_security
+    module.admin_web.config.context_path 	= /
+    module.admin_web.config.https_forwarding_assumed 	= true
+    module.admin_web.config.port 	= 9100
+    module.admin_web.config.respect_forward_headers 	= true
+    module.admin_web.config.tls.enabled 	= false
+    ################################################################################
+    # Cluster Manager Configuration
+    ################################################################################
+    module.clustermgr.config.db.driver 	= POSTGRES_9_4
+    module.clustermgr.config.db.password 	= #{env['DB_PASS']}
+    module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+    module.clustermgr.config.db.username 	= #{env['DB_USER']}
+    ################################################################################
+    # Local Storage Inbound Security
+    ################################################################################
+    module.local_security.type 	= SECURITY_IN_LOCAL
+    module.local_security.config.password_encoding_type 	= BCRYPT_12_ROUND
+    module.local_security.config.seed.users.file 	= classpath:/config_seeding/users.json
+    ################################################################################
+    # Database Configuration
+    ################################################################################
+    module.persistence.type 	= PERSISTENCE_R4
+    module.persistence.config.db.driver 	= POSTGRES_9_4
+    module.persistence.config.db.password 	= #{env['DB_PASS']}
+    module.persistence.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+    module.persistence.config.db.username 	= #{env['DB_USER']}
+---
+# Source: smilecdr/templates/scdr/scdr-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-scdr-svc-admin-web
+  namespace: default
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
+  annotations:
+    {}
+spec:
+  type: ClusterIP
+  ports:
+    - name: admin-web
+      port: 9100
+      targetPort: 9100
+      protocol: TCP
+  selector:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: smilecdr
+---
+# Source: smilecdr/templates/scdr/scdr-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-scdr
+  namespace: default
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: smilecdr
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: smilecdr
+        app.kubernetes.io/version: No App Version - Unit Testing
+        helm.sh/chart: No Chart Version - Unit Testing
+    spec:
+      imagePullSecrets:
+        []
+      serviceAccountName: default
+      securityContext:
+        fsGroup: 1000
+      initContainers:
+        []
+      terminationGracePeriodSeconds: 60
+      containers:
+        - name: smilecdr
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "docker.smilecdr.com/smilecdr:2024.05.R03"
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sleep", "30"]
+          startupProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - /bin/grep "Smile, we're up and running! :)" /home/smile/smilecdr/log/smile.log
+            failureThreshold: 30
+            periodSeconds: 10
+          readinessProbe:
+            failureThreshold: 2
+            httpGet:
+              path: /endpoint-health
+              port: 9100
+            periodSeconds: 10
+            timeoutSeconds: 10
+          resources:
+            limits:
+              memory: 4Gi
+            requests:
+              cpu: "1"
+          env:
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: release-name-pg-pguser-smilecdr
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: release-name-pg-pguser-smilecdr
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: release-name-pg-pguser-smilecdr
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: release-name-pg-pguser-smilecdr
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: release-name-pg-pguser-smilecdr
+            - name: JVMARGS
+              value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
+          ports:
+            - containerPort: 9100
+              name: admin-web
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
+              name: scdr-config-release-name
+              subPath: cdr-config-Master.properties
+            - mountPath: /home/smile/smilecdr/tmp
+              name: scdr-volume-tmp
+            - mountPath: /home/smile/smilecdr/log
+              name: scdr-volume-log
+            - mountPath: /home/smile/smilecdr/activemq-data
+              name: scdr-volume-amq
+      volumes:
+        - configMap:
+            name: release-name-scdr-masterdev-node
+          name: scdr-config-release-name
+        - emptyDir:
+            sizeLimit: 1Mi
+          name: scdr-volume-tmp
+        - emptyDir:
+            sizeLimit: 10Gi
+          name: scdr-volume-log
+        - emptyDir:
+            sizeLimit: 10Mi
+          name: scdr-volume-amq
+      restartPolicy: Always
+      topologySpreadConstraints:
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: release-name
+            app.kubernetes.io/name: smilecdr
+        matchLabelKeys:
+        - pod-template-hash
+        maxSkew: 1
+        topologyKey: topology.kubernetes.io/zone
+        whenUnsatisfiable: ScheduleAnyway
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: release-name
+            app.kubernetes.io/name: smilecdr
+        matchLabelKeys:
+        - pod-template-hash
+        maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+---
+# Source: smilecdr/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "release-name-smilecdr-test-connection"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/version: No App Version - Unit Testing
+    helm.sh/chart: No Chart Version - Unit Testing
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['smilecdr-admin_web:9100']
+      resources:
+        limits:
+          cpu: 10m
+          memory: 128Mi
+        requests:
+          cpu: 10m
+          memory: 128Mi
+  restartPolicy: Never

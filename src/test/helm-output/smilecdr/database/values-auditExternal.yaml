@@ -1,0 +1,16 @@
+# This tests DB environments for multiple external DB
+
+database:
+  crunchypgo:
+    enabled: false
+  external:
+    enabled: true
+    databases:
+    - secretName: clustermgrsecret
+      module: clustermgr
+    - secretName: auditsecret
+      module: audit
+    - secretName: persistencesecret
+      module: persistence
+
+autoDeploy: false

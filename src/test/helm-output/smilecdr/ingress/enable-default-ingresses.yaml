@@ -1,0 +1,4 @@
+# Re-enable default ingress for tests that rely on it.
+ingresses:
+  default:
+    enabled: true

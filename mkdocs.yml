@@ -1,0 +1,113 @@
+site_name: Smile Digital Health Helm Charts
+site_url: https://smilecdr-public.gitlab.io/smile-dh-helm-charts/
+docs_dir: 'docs'
+site_dir: public
+repo_url: https://gitlab.com/smilecdr-public/smile-dh-helm-charts
+repo_name: smile-dh-helm-charts
+# strict: true
+extra:
+  version:
+    provider: mike
+theme:
+  name: material
+  features:
+  - navigation.sections
+  - navigation.tabs
+  - navigation.tabs.sticky
+  - navigation.indexes
+  - navigation.expand
+  - navigation.instant
+  - navigation.instant.prefetch
+  - navigation.top
+
+  font:
+    test: Lato
+  icon:
+    repo: fontawesome/brands/gitlab
+    admonition:
+      note: octicons/tag-16
+markdown_extensions:
+- toc:
+    permalink: true
+    toc_depth: 3
+- pymdownx.highlight:
+    anchor_linenums: true
+- pymdownx.inlinehilite
+- pymdownx.snippets
+- pymdownx.details
+- pymdownx.superfences:
+    custom_fences:
+    - name: mermaid
+      class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_code_format
+- pymdownx.tilde
+- attr_list
+- pymdownx.emoji:
+    emoji_index: !!python/name:materialx.emoji.twemoji
+    emoji_generator: !!python/name:materialx.emoji.to_svg
+- admonition
+nav:
+  - Home:
+    - index.md
+    - 'Smile CDR':
+      - charts/smilecdr/index.md
+      - 'Overview': charts/smilecdr/smilecdr.md
+      - 'Changelog': charts/smilecdr/CHANGELOG-PRE.md
+  - Quickstart:
+    - quickstart-aws/index.md
+    - 'Prepare EKS Cluster': quickstart-aws/eks-cluster.md
+    - 'Prepare AWS Resources': quickstart-aws/aws-resources.md
+    - 'Deploy Smile CDR with Terraform': quickstart-aws/deploy-terraform.md
+  - 'User Guide':
+    - guide/index.md
+    - 'General':
+      - 'Helm Repository Setup': guide/helm-repo.md
+      - 'Secrets Handling': guide/secrets.md
+      - 'Service Accounts': guide/serviceaccount.md
+      - 'Values Files': guide/values-files-management.md
+    - 'Smile CDR':
+      - guide/smilecdr/index.md
+      - 'Requirements': guide/smilecdr/requirements.md
+      - 'Versions': guide/smilecdr/cdrversions.md
+      - 'Installation': guide/smilecdr/install.md
+      - 'Configuration':
+        - 'Modules': guide/smilecdr/modules.md
+        - 'Database': guide/smilecdr/database.md
+        - 'Ingress': guide/smilecdr/ingress.md
+        - 'TLS Encryption': guide/smilecdr/tls-encryption.md
+        - 'Cluster Configuration': guide/smilecdr/cdrnode.md
+        - 'Including Extra Files': guide/smilecdr/files.md
+        - 'License Module': guide/smilecdr/cdr-license.md
+        - 'Message Broker': guide/smilecdr/messagebroker.md
+        - 'HL7V2 Endpoint Module': guide/smilecdr/hl7v2.md
+        - 'Resource Tuning': guide/smilecdr/resources.md
+        - 'Environment Variables': guide/smilecdr/envvars.md
+        - 'Logging': guide/smilecdr/logging.md
+        - 'Pod Scheduling': guide/smilecdr/podscheduling.md
+      - 'Applying Changes': guide/smilecdr/updating.md
+  - Examples:
+    - examples/index.md
+    - 'Minimal Config': examples/minimal.md
+    - 'Single External Database': examples/external-db.md
+    - 'Multiple External Databases': examples/external-db-multi.md
+    - 'Simple Module Configuration': examples/modules-simple.md
+    - 'Advanced Module Configuration': examples/modules-advanced.md
+    - 'Adding Files using Helm': examples/extra-files-helm.md
+    - 'Adding Files using External': examples/extra-files-external.md
+    - 'Use Previous Versions of Smile CDR': examples/previousrootversion.md
+    - 'Configure AWS Dependencies': examples/aws-dependencies.md
+    - 'Quickstart': examples/quickstart.md
+
+    # - 'Using Kubernetes Secrets': examples/k8ssecrets.md
+    # - 'Kafka': examples/kafka.md
+    # - 'Aurora Postgres': examples/aurora.md
+    # - 'Module Configuration': examples/modules.md
+    # - 'Custom Logging': examples/logback.md
+    # - 'Zero-outage config changes': examples/zocc.md
+    # - 'JVM fine tuning': examples/jvm.md
+    # - '': examples/.md
+    # - '': examples/.md
+
+extra_css:
+  - https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css
+  - stylesheets/colours.css

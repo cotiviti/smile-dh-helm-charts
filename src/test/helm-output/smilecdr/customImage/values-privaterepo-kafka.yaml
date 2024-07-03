@@ -1,0 +1,29 @@
+# This test ensures the a custom repo is used for the Kafka Admin Pod.
+
+# This values files enables provisioning Kafka using the Strimzi operator
+messageBroker:
+  external:
+    enabled: true
+    config:
+      connection:
+        type: tls
+        bootstrapAddress: test1-kafka-bootstrap:9093, test2-kafka-bootstrap:9093
+      authentication:
+        type: iam
+  adminPod:
+    enabled: true
+    image:
+      repository: privaterepo/kafka
+
+copyFiles:
+  customerlib:
+    sources:
+    #syncDefaults: false
+    - type: s3
+      bucket: s3-bucket-name
+      path: /path-to/classes/
+  config:
+    curl:
+      repository: privaterepo/curl
+    s3:
+      repository: privaterepo/aws-cli

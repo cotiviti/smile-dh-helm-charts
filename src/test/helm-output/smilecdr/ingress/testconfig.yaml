@@ -1,0 +1,131 @@
+tests:
+  agw:
+    outputFile: output-agw.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-agw.yaml
+  agw-a:
+    outputFile: output-agw-a.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-agw-a.yaml
+  aws-lbc-alb:
+    outputFile: output-aws-lbc-alb.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-aws-lbc-alb.yaml
+  aws-lbc-alb-a:
+    outputFile: output-aws-lbc-alb-a.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-aws-lbc-alb-a.yaml
+  nginx-ingress-legacy:
+    outputFile: output-nginx-ingress-legacy.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-nginx-ingress-legacy.yaml
+  nginx-ingress:
+    outputFile: output-nginx-ingress.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-nginx-ingress.yaml
+  nginx-ingress-a:
+    outputFile: output-nginx-ingress-a.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-nginx-ingress-a.yaml
+  nginx-ingress-svc-config:
+    outputFile: output-nginx-ingress-svc-config.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-nginx-ingress-svc-config.yaml
+  custom-default-ingress:
+    outputFile: output-custom-default-ingress.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-custom-default-ingress.yaml
+  tls-singlebackend-nginx:
+    outputFile: output-tls-singlebackend-nginx.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-singlebackend-nginx.yaml
+  tls-singlebackend-aws-alb:
+    outputFile: output-tls-singlebackend-aws-alb.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-singlebackend-aws-alb.yaml
+  tls-singlebackend-azure-agic:
+    outputFile: output-tls-singlebackend-azure-agic.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-singlebackend-azure-agic.yaml
+  tls-dualbackend-nginx:
+    outputFile: output-tls-dualbackend-nginx.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-dualbackend-nginx.yaml
+  tls-singlecustomcert:
+    outputFile: output-tls-singlecustomcert.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-singlecustomcert.yaml
+  tls-singlecustomissuer:
+    outputFile: output-tls-singlecustomissuer.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-singlecustomissuer.yaml
+  tls-multiplecustomcerts:
+    outputFile: output-tls-multiplecustomcerts.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-multiplecustomcerts.yaml
+  tls-multiplecustomissuers:
+    outputFile: output-tls-multiplecustomissuers.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-multiplecustomissuers.yaml
+  tls-globalSettings:
+    outputFile: output-tls-globalSettings.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-globalSettings.yaml
+  tls-acmeIssuer:
+    outputFile: output-tls-acmeIssuer.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - enable-default-ingresses.yaml
+    - tls-acmeIssuer.yaml
+  tls-ingress-nginx:
+    outputFile: output-tls-ingress-nginx.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - tls-ingress-nginx.yaml

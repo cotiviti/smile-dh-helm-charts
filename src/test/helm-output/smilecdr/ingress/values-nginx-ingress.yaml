@@ -1,0 +1,8 @@
+ingresses:
+  default:
+    enabled: true
+  myCustomNonPublicIngress:
+    enabled: true
+    type: nginx-ingress
+    public: false
+    annotations: {}

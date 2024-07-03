@@ -1,0 +1,6 @@
+# This values file tests if the endpoint health path gets picked up in the readiness probe
+
+modules:
+  fhir_endpoint:
+    config:
+      endpoint_health.path: /differenthealthcheckpath

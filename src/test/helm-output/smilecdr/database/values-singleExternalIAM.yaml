@@ -1,0 +1,95 @@
+# This tests DB environments for single shared external DB with IAM configuration
+
+database:
+  crunchypgo:
+    enabled: false
+  external:
+    enabled: true
+    defaults:
+      connectionConfigSource:
+        # sscsi or k8sSecret
+        source: sscsi
+        provider: aws
+        # pwd or iam
+      connectionConfig:
+        authentication:
+         type: pwd
+    databases:
+    - name: clustermgrdb-iam
+      modules:
+      - clustermgr
+      connectionConfigSource:
+        source: none
+      connectionConfig:
+        authentication:
+          type: iam
+          provider: aws
+        url: clustermgr-db-url
+        port: clustermgr-db-port
+        dbName: clustermgr-db-name
+        user: clustermgr-db-user
+    - name: persistence-iam-sscsi
+      modules:
+        - persistence
+      connectionConfigSource:
+        source: sscsi
+        provider: aws
+        secretArn: "arn:aws:secretsmanager:us-east-1:1234567890:secret:secretname"
+        secretName: smilecdrSecretp
+      connectionConfig:
+        authentication:
+          type: iam
+          provider: aws
+
+
+modules:
+  useDefaultModules: false
+  clustermgr:
+    name: Cluster Manager Configuration
+    enabled: true
+    config:
+      db.driver: POSTGRES_9_4
+      db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+      db.password: "#{env['DB_PASS']}"
+      db.username: "#{env['DB_USER']}"
+      # It will allow you to configure the below if under 15 mins
+      # db.connectionpool.maxlifetime.millis: 600000
+      # db.connectionpool.maxlifetime.millis: 10
+      # db.connectionpool.maxlifetime.millis: 900001
+
+  persistence:
+    name: Database Configuration
+    enabled: true
+    type: PERSISTENCE_R4
+    config:
+      db.driver: POSTGRES_9_4
+      db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']/#{env['DB_DATABASE']}?sslmode=require
+      db.password: "#{env['DB_PASS']}"
+      db.username: "#{env['DB_USER']}"
+  admin_web:
+    name: Web Admin
+    enabled: true
+    type: ADMIN_WEB
+    enableReadinessProbe: true
+    service:
+      enabled: true
+      svcName: admin-web
+      hostName: default
+    requires:
+      SECURITY_IN_UP: local_security
+    config:
+      context_path: ""
+      port: 9100
+      tls.enabled: false
+      https_forwarding_assumed: true
+      respect_forward_headers: true
+  local_security:
+    name: Local Storage Inbound Security
+    enabled: true
+    type: SECURITY_IN_LOCAL
+    config:
+      seed.users.file: classpath:/config_seeding/users.json
+      # This is required right now as the default is not being honored.
+      # Can be removed if the default gets fixed. May be good to leave it explicit.
+      # Note: Smile CDR still chooses the wrong default as of `2022.11.R01`
+      password_encoding_type: BCRYPT_12_ROUND

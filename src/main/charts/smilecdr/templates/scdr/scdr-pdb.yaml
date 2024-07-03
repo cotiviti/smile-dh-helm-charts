@@ -1,0 +1,16 @@
+{{- range $theCdrNodeName, $theCdrNodeCtx := include "smilecdr.cdrNodes" . | fromYaml -}}
+  {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ $.Release.Name }}-{{ $theCdrNodeSpec.resourceSuffix }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- toYaml $theCdrNodeSpec.cdrNodeLabels | nindent 4 }}
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      {{- toYaml $theCdrNodeSpec.cdrNodeSelectorLabels | nindent 6 }}
+---
+{{ end }}

@@ -1,0 +1,68 @@
+# Basic TLS configuration using default issuers and certificate
+# * Self signed Root CA Issuer
+# * Cluster local Cluster-Local CA Issuer (Signed by Root CA Issuer)
+# * Default Certificate for Smile CDR, signed by cluster-local issuer
+# * All endpoints configured for TLS except fhirweb which uses HTTP
+# * Ingress backends using HTTPS
+
+tls:
+  certificateIssuers:
+    default:
+      enabled: false
+    mySelfSignedIssuer:
+      enabled: true
+      defaultIssuer: true
+    myOtherIssuer:
+      enabled: true
+    existingIssuer:
+      enabled: true
+      existingIssuer: myExistingIssuerResourceName
+    existingPublicSignedIssuer:
+      enabled: true
+      signingMethod: public-signed
+      existingIssuer: myExistingPublicIssuerResourceName
+
+  certificates:
+    default:
+      enabled: false
+    cdrCertificate:
+      enabled: true
+      defaultCertificate: true
+      wildcardLevel: namespace
+      localhostEnabled: true
+    fhirWebCertificate:
+      enabled: true
+      issuerConfigName: myOtherIssuer
+      hostnameOverride: myoverriddenhost.mycompany.com
+      keystorePassword:
+        valueOverride: custompass
+        secretKey: differentKey
+        secretRef: mysecretname
+      extraHostnames:
+      - extrahost1.extrahostname.com
+      - extrahost2.extrahostname.com
+    certWithExistingIssuer:
+      enabled: true
+      issuerConfigName: existingIssuer
+    certWithExistingPublicIssuer:
+      enabled: true
+      issuerConfigName: existingPublicSignedIssuer
+
+  # Enable TLS on all HTTP endpoint modules in Smile CDR
+  defaultEndpointConfig:
+    enabled: true
+
+# Override TLS config on fhirweb endpoint
+modules:
+  fhirweb_endpoint:
+    service:
+      # null, or `default`, or one of the tls.certificates.* entries.
+      tlsCertificate: fhirWebCertificate
+  admin_json:
+    service:
+      # null, or `default`, or one of the tls.certificates.* entries.
+      tlsCertificate: certWithExistingIssuer
+  admin_web:
+    service:
+      # null, or `default`, or one of the tls.certificates.* entries.
+      tlsCertificate: certWithExistingPublicIssuer

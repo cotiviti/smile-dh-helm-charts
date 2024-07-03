@@ -1,0 +1,5 @@
+# This values file tests if the endpoint health path gets picked up in the readiness probe
+
+startupProbe:
+  failureThreshold: 40
+  periodSeconds: 5

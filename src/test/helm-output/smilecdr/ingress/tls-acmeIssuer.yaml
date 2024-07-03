@@ -1,0 +1,33 @@
+# Basic TLS configuration using default issuers and certificate
+# * Self signed Root CA Issuer
+# * Cluster local Cluster-Local CA Issuer (Signed by Root CA Issuer)
+# * Default Certificate for Smile CDR, signed by cluster-local issuer
+# * All endpoints configured for TLS except fhirweb which uses HTTP
+# * Ingress backends using HTTPS
+
+tls:
+  certificateIssuers:
+    default:
+      enabled: true
+    acmeStaging:
+      enabled: true
+      signingMethod: public-signed
+      acmeSpec:
+        email: testy@example.com
+    acmeProd:
+      enabled: true
+      signingMethod: public-signed
+      acmeSpec:
+        server: lets-encrypt-prod
+        email: testy@example.com
+        privateKeySecretName: myPrivateKeySecretResourceName
+
+  certificates:
+    default:
+      enabled: true
+      issuerConfigName: acmeStaging
+    prod:
+      enabled: true
+      issuerConfigName: acmeProd
+  defaultEndpointConfig:
+    enabled: true

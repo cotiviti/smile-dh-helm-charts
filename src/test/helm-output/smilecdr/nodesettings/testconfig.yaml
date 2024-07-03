@@ -1,0 +1,49 @@
+tests:
+  nodeid:
+    outputFile: output-nodeid.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-nodeid.yaml
+  valuesNodeidWithName:
+    outputFile: output-nodeid-with-name.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-nodeid-with-name.yaml
+  security:
+    outputFile: output-security.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-security.yaml
+  unlocked:
+    outputFile: output-unlocked.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-unlocked.yaml
+  troubleshooting:
+    outputFile: output-troubleshooting.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-troubleshooting.yaml
+  envvarsGlobal:
+    outputFile: output-envvars-global.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-envvars-global.yaml
+  volumesGlobal:
+    outputFile: output-volumes-global.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-volumes-global.yaml
+  props-database:
+    outputFile: output-props-database.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-props-database.yaml

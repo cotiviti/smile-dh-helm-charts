@@ -1,0 +1,31 @@
+tests:
+  affinity:
+    outputFile: output-affinity.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-affinity.yaml
+  nodeSelector:
+    outputFile: output-nodeSelector.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-nodeSelector.yaml
+  disableDefaultTopologyConstraints:
+    outputFile: output-disableDefaultTopologyConstraints.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-disableDefaultTopologyConstraints.yaml
+  topologyConstraintsOverride:
+    outputFile: output-topologyConstraints-override.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-topologyConstraints-override.yaml
+  podAssignmentMultiNode:
+    outputFile: output-multinode.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-multinode.yaml

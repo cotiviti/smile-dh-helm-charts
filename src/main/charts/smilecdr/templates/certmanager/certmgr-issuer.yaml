@@ -1,0 +1,15 @@
+{{- range $theIssuerKey, $theIssuer := include "certmanager.issuers" . | fromYaml -}}
+  {{- if $theIssuer.createIssuer -}}
+
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: {{ $theIssuer.resourceName }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{ include "smilecdr.labels" $ | nindent 4 | trim }}
+spec:
+  {{- $theIssuer.spec | toYaml | nindent 2 }}
+---
+  {{ end }}
+{{ end }}

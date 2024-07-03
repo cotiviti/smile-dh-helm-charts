@@ -1,0 +1,56 @@
+{{ include "chartWarnings" . }}
+{{ if .Release.IsInstall }}
+Thank you for installing Smile CDR by Smile Digital Health!
+
+                              ,.,;pppppQQQQQQQQppppppppppppp;,..
+                      .s#################################SlSSS#######pp,
+                 ;s######################################SlSSSSSSSS#######Np.
+              ;###Sl#####################################SlSSSSSSSS###########p.
+            ;#SGSSSl#####################################SlSSSSSSSS#############Qp
+          .SGGGGSSSl#####################################SlSSSSSSSS###############p
+         .lGGGGGSSSl#####################################SlSSSSSSSS###############bp
+         lSGGGGGSSSl#####################################SlSSSSSSSS###############bG
+         lGGGGGGSSSl#####################################SlSSSSSSSS###############bC
+         lGGGGSSS###########################################SSSSSSS###############bC
+        :GGSG#Tb""^"""T88#####$8$$8888888##############$TTG$S#SSSSS#######$TT8@###b
+        ISGb^             ?@#               ^"6@######p    !@#SSSSS#####b     @###b
+        $G      .;ppp;,.  ;#b     ,,,,,,,.      '8@###b    !$#SSSSS#####b     @###b
+       'G     ;##S$$$#######b     @#########p.    '8##p    !$#SSSSS#####b     @##b|
+       :G     8$#SSl########b     @###########N     8#b    !$#SSSSSS####b     @##b
+       !Sp     "6@S#########b     @############b    '@p    l$##SSS######N     @##b
+       GG$p.      ^"T8@#####b     @############N     GC     ^^^^^^^^^^^^^     @##b
+       GGGGSSp         '8@##b     @############b     GC                       @#bb
+      'GGGGGGGS##Sp       7@#     @############b     $C    ;#############     @#b
+      !GGGGGGGGGS$$##N.    l$     @############b    '@p    !@#SSSS$$$###b     @#b
+      GGGSGGGGGGSSSS$#N    '$     @###########b     $#b    !$#SSSSS#####b     @#b
+      GGGTT8$GSSS#####b    l#     @########b^     ,###b    !$#SSSSS#####b     @#~
+     !GGG     '^^^^^      ;##     '"*"^^'       ,#####b    !$#SSSSS#####b     $G
+     !GGG.             ,s###b               ,s########~    j@#SSSSS#####b     $G
+     !GGG$#SQppppppQ###################################QQQQ##SSSSSS#######QQQ##C
+     GGGGGGGGGGGGSS$$$##################################$$SSSSSSSSS########$##b
+    oGGGGGGGGGGGSSSl#####################################SlSSSSSSSS###########b
+    ^GGGGGGGGGGGSSSl#####################################SlSSSSSSSS##########bb
+     ?GGGGGGGGGGSSSl#####################################SlSSSSSSSS##########b
+      *GGGGGGGGGSSSl#####################################SlSSSSSSSS#########b
+        ?8GGGGGGSSSl#####################################SlSSSSSSSS#######b
+          '?GGGGSSSl#####################################SlSSSSSSSS###bb^
+              ^"G8$$######################################llSll$GG"*^
+                    ^^7T888888888888888#####88888888888TTT""^^
+
+Smile, we're up and running! :)
+
+{{- else if .Release.IsUpgrade }}
+**************************************
+*** Smile, we've been upgraded! :) ***
+**************************************
+{{- end }}
+{{- $ingresses := include "smilecdr.ingresses" . | fromYaml -}}
+{{- if gt (len $ingresses) 0 }}
+
+  You can access your Smile CDR instance at:
+
+  https://{{ $.Values.specs.hostname }}{{ $.Values.specs.rootPath }}
+{{- else }}
+
+  As ingress was not enabled, there is no way to access this instance.
+{{- end }}

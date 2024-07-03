@@ -1,0 +1,15 @@
+# This values file tests pulling `classes` and `customerlib` files from S3 while preserving the original files
+
+copyFiles:
+  # Copies files from S3 to the classes directory
+  classes:
+    sources:
+    - type: s3
+      bucket: s3-bucket-name
+      path: /path-to/classes/
+  # Copies files from S3 to the customerlib directory
+  customerlib:
+    sources:
+    - type: s3
+      bucket: s3-bucket-name
+      path: /path-to/customerlib/

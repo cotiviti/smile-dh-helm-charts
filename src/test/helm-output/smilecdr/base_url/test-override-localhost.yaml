@@ -1,0 +1,15 @@
+
+# This file defines configurations specific for this test
+
+specs:
+  hostname: smile.com
+
+ingresses:
+  default:
+    enabled: true
+
+modules:
+  fhir_endpoint:
+    config:
+      base_url.fixed: localhost
+      base_url.mismatch_allowed: true

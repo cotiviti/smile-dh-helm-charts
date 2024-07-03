@@ -1,0 +1,10 @@
+tests:
+  serviceAnnotations:
+    outputFile: output-serviceAnnotations.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - serviceAnnotations.yaml

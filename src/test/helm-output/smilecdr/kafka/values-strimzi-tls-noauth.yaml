@@ -1,0 +1,10 @@
+# This values files enables provisioning Kafka using the Strimzi operator
+messageBroker:
+  manageTopics: false
+  strimzi:
+    enabled: true
+    kafka:
+      connection:
+        type: tls
+      authentication:
+        type: none

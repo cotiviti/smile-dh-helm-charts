@@ -1,0 +1,65 @@
+{{- $strimziSpec := (include "kafka.strimzi.spec" . | fromYaml) -}}
+{{- if $strimziSpec.enabled -}}
+  {{- $strimziKafkaSpec := $strimziSpec.kafka -}}
+  {{- $kafkaConnectionType := $strimziKafkaSpec.connection.type -}}
+  {{- $kafkaAuthenticationType := $strimziKafkaSpec.authentication.type -}}
+  {{- $kafkaReplicas := $strimziKafkaSpec.replicas | int -}}
+  {{- $minInSyncReplicas := $strimziKafkaSpec.minInSyncReplicas -}}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "smilecdr.labels" . | nindent 4 }}
+spec:
+  kafka:
+    version: {{ $strimziKafkaSpec.version }}
+    replicas: {{ $strimziKafkaSpec.replicas }}
+    listeners:
+      {{- if eq $kafkaConnectionType "tls" }}
+      - name: tls
+        port: 9093
+        type: internal
+        tls: true
+        {{- if eq $kafkaAuthenticationType "tls" }}
+        authentication:
+          type: tls
+        {{- end }}
+      {{- else if eq $kafkaConnectionType "plaintext" }}
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+      {{- end }}
+    {{- if eq $kafkaAuthenticationType "tls" }}
+    authorization:
+      type: simple
+      {{- with ($strimziKafkaSpec.authorization).superUsers }}
+      superUsers:
+        {{- . | toYaml | nindent 6 }}
+      {{- end }}
+    {{- end }}
+    config:
+      {{- $strimziKafkaSpec.config | toYaml | nindent 6 }}
+    storage:
+      type: jbod
+      volumes:
+      - id: 0
+        type: persistent-claim
+        size: {{ $strimziKafkaSpec.volumeSize }}
+        deleteClaim: false
+    resources:
+      {{- toYaml $strimziKafkaSpec.resources | nindent 6 }}
+  zookeeper:
+    replicas: {{ $strimziSpec.zookeeper.replicas }}
+    storage:
+      type: persistent-claim
+      size: {{ $strimziSpec.zookeeper.volumeSize }}
+      deleteClaim: false
+    resources:
+      {{- toYaml $strimziSpec.zookeeper.resources | nindent 6 }}
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}
+{{- end -}}

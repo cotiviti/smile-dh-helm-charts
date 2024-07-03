@@ -1,0 +1,53 @@
+repos:
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v2.35.0
+    hooks:
+      - id: commitizen
+      - id: commitizen-branch
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0  # Use the ref you want to point at
+    hooks:
+      - id: check-added-large-files
+      - id: check-shebang-scripts-are-executable
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      # - id: check-symlinks
+      - id: check-json
+      - id: check-yaml
+        exclude: templates/.*\.yaml|output.*\.yaml|mkdocs.yml
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: local
+    hooks:
+      - id: prepare-helm-dependencies
+        name: prepare-helm-dependencies
+        entry: scripts/prepare-chart-dependencies.sh -s ./src
+        language: script
+        pass_filenames: false
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.17 # Get the latest from: https://github.com/gruntwork-io/pre-commit/releases
+    hooks:
+      - id: helmlint
+      - id: shellcheck
+  - repo: https://github.com/norwoodj/helm-docs
+    rev: v1.11.0
+    hooks:
+      - id: helm-docs
+        args:
+          # Make the tool search for charts only under the `src/main/charts` directory
+          - --chart-search-root=src/main/charts
+
+          # The `./` makes it relative to the chart-search-root set above
+          - --template-files=helm-docs/_templates.gotmpl
+
+          # Repeating the flag adds this to the list, now [helm-docs/_templates.gotmpl, README.md.gotmpl]
+          # A base filename makes it relative to each chart directory found
+          - --template-files=README.md.gotmpl
+  - repo: local
+    hooks:
+      - id: check_helm_outputs
+        name: check_helm_outputs
+        entry: scripts/check-outputs.sh -s ./src
+        language: script
+        pass_filenames: false

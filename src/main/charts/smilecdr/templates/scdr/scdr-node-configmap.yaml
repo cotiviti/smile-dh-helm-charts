@@ -1,0 +1,18 @@
+{{- range $theCdrNodeName, $theCdrNodeCtx := include "smilecdr.cdrNodes" . | fromYaml -}}
+  {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $.Release.Name }}-{{ $theCdrNodeSpec.configMapResourceSuffix }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- toYaml $theCdrNodeSpec.cdrNodeLabels | nindent 4 }}
+  {{- if ($theCdrNodeSpec.argocd).enabled }}
+  annotations:
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+    argocd.argoproj.io/sync-options: Prune=false
+  {{- end }}
+data:
+  {{- $theCdrNodeSpec.propertiesData | nindent 2 }}
+---
+{{ end }}

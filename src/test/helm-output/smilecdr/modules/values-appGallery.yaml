@@ -1,0 +1,19 @@
+modules:
+  useDefaultModules: true
+  clustermgr:
+    enabled: true
+  appSphere:
+    name: App Sphere
+    enabled: true
+    type: APP_GALLERY
+    service:
+      enabled: true
+      svcName: appsphere
+      hostName: default
+    config:
+      context_path: appsphere
+      port: 8000
+
+ingresses:
+  default:
+    enabled: true

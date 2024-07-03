@@ -1,0 +1,157 @@
+tests:
+  strimziDeprecated:
+    outputFile: output-strimzi-deprecated.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-strimzi-deprecated.yaml
+  strimziDefault:
+    outputFile: output-strimzi.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-strimzi.yaml
+  strimziCreateTopics:
+    outputFile: output-strimzitopics.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-strimzi-topics.yaml
+  strimziCreateTopicsNoValidation:
+    outputFile: output-strimzi-topics-novalidation.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-strimzi-topics-novalidation.yaml
+  strimziEnableDeleteTopics:
+    outputFile: output-strimzi-disable-delete-topics.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-strimzi-disable-delete-topics.yaml
+  strimziPlaintext:
+    outputFile: output-strimzi-plaintext.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-strimzi-plaintext.yaml
+  strimziMTls:
+    outputFile: output-strimzi-mtls.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-strimzi-mtls.yaml
+  strimziTlsNoAuth:
+    outputFile: output-strimzi-tls-noauth.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-strimzi-tls-noauth.yaml
+  externalK8sSecretMTls:
+    outputFile: output-external-k8s-secret-mtls.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-external-k8s-secret-mtls.yaml
+  externalK8sSecretTls:
+    outputFile: output-external-k8s-secret-tls.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-external-k8s-secret-tls.yaml
+  externalK8sSecretPassword:
+    outputFile: output-external-k8s-secret-password.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-external-k8s-secret-password.yaml
+  externalSscsiMTls:
+    outputFile: output-external-sscsi-mtls.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-external-sscsi-mtls.yaml
+  externalSscsiTls:
+    outputFile: output-external-sscsi-tls.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-external-sscsi-tls.yaml
+  externalSscsiPassword:
+    outputFile: output-external-sscsi-password.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-external-sscsi-password.yaml
+  externalIam:
+    outputFile: output-external-iam.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-external-iam.yaml
+  externalIam-s3Copy:
+    outputFile: output-external-iam-s3copy.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-external-iam-s3copy.yaml
+  adminIam:
+    outputFile: output-admin-iam.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-admin-iam.yaml
+  adminIamS3Copy:
+    outputFile: output-admin-iam-s3copy.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-admin-iam-s3copy.yaml
+  adminIamS3CopyRecursive:
+    outputFile: output-admin-iam-s3copy-recursive.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-admin-iam-s3copy-recursive.yaml
+  adminIamNoCopy:
+    outputFile: output-admin-iam-nocopy.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-admin-iam-nocopy.yaml
+  adminIamNoCopyAdminCopy:
+    outputFile: output-admin-iam-nocopy-admincopy.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-admin-iam-nocopy-admincopy.yaml
+  externalIamNoValidateTopics:
+    outputFile: output-admin-iam-novalidatetopics.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-admin-iam-novalidatetopics.yaml
+  adminStrimzi:
+    outputFile: output-admin-strimzi.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-admin-strimzi.yaml
+  adminSscsi:
+    outputFile: output-admin-sscsi.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-admin-sscsi.yaml
+  admink8sSecret:
+    outputFile: output-admin-k8s-secret.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-admin-k8s-secret.yaml
+  admink8sSecret:
+    outputFile: output-admin-k8s-secret.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-admin-k8s-secret.yaml

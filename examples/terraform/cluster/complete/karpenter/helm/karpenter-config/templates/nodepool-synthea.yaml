@@ -1,0 +1,33 @@
+apiVersion: karpenter.sh/v1beta1
+kind: NodePool
+metadata:
+  name: synthea
+spec:
+  weight: 10
+  template:
+    spec:
+      nodeClassRef:
+        name: default
+      requirements:
+      - key: "karpenter.k8s.aws/instance-category"
+        operator: In
+        values: ["c", "m"]
+      - key: "karpenter.k8s.aws/instance-cpu"
+        operator: In
+        values: ["2","4", "8", "16", "32"]
+      - key: "karpenter.k8s.aws/instance-hypervisor"
+        operator: In
+        values: ["nitro"]
+      - key: "topology.kubernetes.io/zone"
+        operator: In
+        values: {{ printf "[%s]" (join "," .Values.azs) }}
+      - key: "karpenter.sh/capacity-type" # If not included, the webhook for the AWS cloud provider will default to on-demand
+        operator: In
+        values: ["spot"]
+      taints:
+      - effect: NoSchedule
+        key: synthetic/generate
+  limits:
+    cpu: 1000
+  disruption:
+    consolidationPolicy: WhenUnderutilized

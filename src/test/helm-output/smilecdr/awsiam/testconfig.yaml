@@ -1,0 +1,11 @@
+tests:
+  default:
+    outputFile: output-awsiam.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-awsiam.yaml
+    # - extra-values.yaml

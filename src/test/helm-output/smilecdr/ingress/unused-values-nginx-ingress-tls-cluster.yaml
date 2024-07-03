@@ -1,0 +1,42 @@
+ingresses:
+  default:
+    enabled: true
+  http:
+    enabled: true
+    type: nginx-ingress
+
+tls:
+  certificateIssuers:
+    default:
+      enabled: false
+    mySelfSignedIssuer:
+      enabled: true
+      defaultIssuer: true
+
+  certificates:
+    default:
+      enabled: false
+    fhirWebCertificate:
+      enabled: true
+      hostnameOverride: myoverriddenhost.mycompany.com
+      keystorePassword:
+        valueOverride: letmein
+      extraHostnames:
+      - my.host.q
+      - my.host.ff
+    cdrCertificate:
+      enabled: true
+      defaultCertificate: true
+      wildcardLevel: namespace
+      localhostEnabled: true
+
+  # Here we can easily enable TLS on all HTTP endpoint modules in Smile CDR
+  defaultEndpointConfig:
+    enabled: true
+
+modules:
+  fhirweb_endpoint:
+    service:
+      ingresses:
+        http:
+          enabled: true

@@ -1,0 +1,29 @@
+{{- $cdrNodes := include "smilecdr.cdrNodes" . | fromYaml  -}}
+{{- $rootCTX := . -}}
+{{- range $theIngressName, $theIngressSpec := include "smilecdr.ingresses" . | fromYaml -}}
+  {{- $ingressRules := (include "smilecdr.ingress.rules" (dict "ingressSpec" $theIngressSpec "cdrNodes" $cdrNodes) | fromYamlArray) -}}
+  {{- $ingressTLSConfig := (include "smilecdr.ingress.tls.config" (dict "ingressSpec" $theIngressSpec "cdrNodes" $cdrNodes "rootCTX" $rootCTX) | fromYaml) -}}
+  {{- if $ingressRules -}}
+    {{- $annotations := merge $theIngressSpec.annotations (default (dict) $ingressTLSConfig.annotations) -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ printf "%s-%s" $.Release.Name $theIngressSpec.resourceSuffix }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{ include "smilecdr.labels" $ | nindent 4 | trim }}
+  annotations:
+    {{- $annotations | toYaml | nindent 4 }}
+spec:
+  {{ with $theIngressSpec.ingressClassName -}}
+  ingressClassName: {{ . }}
+  {{ end -}}
+  rules:
+    {{- $ingressRules | toYaml | nindent 4 }}
+  {{ with $ingressTLSConfig.tlsSpec -}}
+  tls:
+    {{- . | toYaml | nindent 2 }}
+  {{ end }}
+---
+  {{ end }}
+{{ end }}

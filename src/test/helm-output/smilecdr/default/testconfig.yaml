@@ -1,0 +1,19 @@
+tests:
+  default:
+    outputFile: output.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    # - ../default-test-disabled-features.yaml
+    - values.yaml
+  versions:
+    outputFile: output-versions.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    # - ../default-test-disabled-features.yaml
+    - values-versions.yaml

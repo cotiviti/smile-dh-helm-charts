@@ -1,0 +1,10 @@
+# Check that the generated node.id in the ConfigMap can be updated
+cdrNodes:
+  masterdev:
+    enabled: false
+  overriddenNodeId:
+    enabled: true
+
+ingresses:
+  default:
+    enabled: true

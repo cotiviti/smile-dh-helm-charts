@@ -1,0 +1,14 @@
+# This values files enables provisioning Kafka using the Strimzi operator
+messageBroker:
+  external:
+    enabled: true
+    config:
+      connection:
+        type: tls
+        bootstrapAddress: test1-kafka-bootstrap:9093, test2-kafka-bootstrap:9093
+      authentication:
+        type: iam
+        iamConfig:
+          autoJarCopy: false
+  adminPod:
+    enabled: true

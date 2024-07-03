@@ -1,0 +1,20 @@
+# Check that the generated node.id in the ConfigMap can be updated
+# cdrNodes:
+#   overriddenNodeId: {}
+
+# Manually specified environment variables to map into container
+extraVolumes:
+- name: extraVolume
+  emptyDir:
+    sizeLimit: 500Mi
+- name: foo
+  secret:
+    secretName: mysecret
+    optional: true
+
+extraVolumeMounts:
+- name: extraVolume
+  mountPath: /path/to/secret
+- name: foo
+  mountPath: /path/to/foo
+  readOnly: true

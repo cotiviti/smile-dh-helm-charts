@@ -1,0 +1,19 @@
+tests:
+  smileImage:
+    outputFile: output-smile-image.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-smile-image.yaml
+  privateRepo:
+    outputFile: output-privaterepo.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-privaterepo.yaml
+  kafkaAdminPod:
+    outputFile: output-privaterepo-kafka.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-privaterepo-kafka.yaml
