@@ -9,6 +9,7 @@ variables:
   TEMPORARY_BRANCHES_PATTERN: '/^(dev|temp|wip)-.*$/i'
   # Used to match against the auto-release commit. Used throughout, but there may be another way.
   SKIP_CI_COMMIT_MESSAGE: '/.*(\[skipci\]|\[skip-ci\]|\[skip_ci\]).*/i'
+  SKIP_HELM_CHECK_COMMIT_MESSAGE: '/.*(\[skiphelmcheck\]|\[skip-helmcheck\]|\[skip_helmcheck\]).*/i'
   RELEASE_COMMIT_MESSAGE: '/^chore\(auto-(pre)?release\)/'
 
 workflow:
@@ -108,6 +109,10 @@ helm-output-check:
   script:
     - echo "Checking Helm outputs..."
     - ./scripts/check-outputs.sh -s ${CI_PROJECT_DIR}/src
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ $SKIP_HELM_CHECK_COMMIT_MESSAGE
+      when: never
+    - if: $CI_COMMIT_MESSAGE
 
 helm-docs-check:
   stage: test
@@ -249,6 +254,9 @@ pages:
   # Don't run on the auto-release commit. There may be another way...
   - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
     when: never
+  # Don't run as part of a merge request event.
+  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    when: never    
   - if: $CI_COMMIT_REF_NAME =~ $PRE_RELEASE_BRANCHES_PATTERN
     when: always
   # This matches pre-releases
