@@ -4,6 +4,8 @@ variables:
   RELEASE_BRANCHES_PATTERN: '/^(main)$/'
   PRE_RELEASE_BRANCHES_PATTERN: '/^(next|pre-release|beta|alpha)$/'
   ALL_RELEASE_BRANCHES_PATTERN: '/^(main|next|pre-release|beta|alpha)$/'
+  ALL_MAINTENANCE_BRANCHES_PATTERN: '/^(maintenance\/([0-9])+\.)([0-9]+\.)?x/'
+  
   TEMPORARY_BRANCHES_PATTERN: '/^(dev|temp|wip)-.*$/i'
   # Used to match against the auto-release commit. Used throughout, but there may be another way.
   SKIP_CI_COMMIT_MESSAGE: '/.*(\[skipci\]|\[skip-ci\]|\[skip_ci\]).*/i'
@@ -40,6 +42,9 @@ workflow:
 
     # Run release pipeline.
     - if: $CI_COMMIT_REF_NAME =~ $ALL_RELEASE_BRANCHES_PATTERN
+
+    # Run maintenance branch pipeline.
+    - if: $CI_COMMIT_REF_NAME =~ $ALL_MAINTENANCE_BRANCHES_PATTERN
 
     # If this were enabled, any commit that is not matched above will run the pipeline. We do not want this.
     # - if: $CI_COMMIT_BRANCH
@@ -318,8 +323,41 @@ release:
       when: never
     - if: $CI_COMMIT_REF_NAME =~ $RELEASE_BRANCHES_PATTERN
       when: always
-    # This matches maintenance branches
-    - if: $CI_COMMIT_REF_NAME =~ /^(([0-9]+)\.)?([0-9]+)\.x/
+    # # This matches maintenance branches
+    # - if: $CI_COMMIT_REF_NAME =~ /^(([0-9]+)\.)?([0-9]+)\.x/
+    #   when: always
+  script:
+    - npx semantic-release
+  artifacts:
+    paths:
+      - "*.tgz"
+    expire_in: 1 week
+
+maintenance-release:
+  stage: release
+  tags:
+  - helm-ci
+  image:
+    name: node:20-alpine
+    entrypoint: ["sh", "-c"]
+  variables:
+    GIT_AUTHOR_NAME: smile-release-bot
+    GIT_AUTHOR_EMAIL: smile-release-bot@smilecdr.com
+    GIT_COMMITTER_NAME: smile-release-bot
+    GIT_COMMITTER_EMAIL: smile-release-bot@smilecdr.com
+  before_script:
+    - apk add bash curl jq yq git sed
+    # Install helm & dyff as they are needed in check outputs script.
+    - curl --silent --location https://get.helm.sh/helm-v3.10.1-linux-$(scripts/get-alpine-arch.sh helm).tar.gz | tar -xvzf - -C /usr/local/bin linux-$(scripts/get-alpine-arch.sh helm)/helm --strip-components 1
+    - curl --silent --location https://raw.githubusercontent.com/homeport/dyff/main/scripts/download-latest.sh | bash
+    # Install helm-docs as we need to update the Helm Chart docs when semantic-release bumps the version
+    - curl --silent --location https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_$(scripts/get-alpine-arch.sh).tar.gz | tar -xzf - -C /usr/local/bin helm-docs
+    - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/exec @semantic-release/git
+    - cp -p .semver-release/.releaserc-main.yml .releaserc.yml
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+      when: never
+    - if: $CI_COMMIT_REF_NAME =~ $ALL_MAINTENANCE_BRANCHES_PATTERN
       when: always
   script:
     - npx semantic-release

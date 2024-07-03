@@ -2,22 +2,20 @@ plugins:
   - "@semantic-release/commit-analyzer"
   - "@semantic-release/release-notes-generator"
   - "@semantic-release/changelog"
-  - - "@semantic-release/changelog"
-    - changelogFile: "CHANGELOG-PRE.md"
   - - "@semantic-release/exec"
     - prepareCmd: "./scripts/semantic-release-prepare.sh ./src/ ${nextRelease.version}"
   - - "@semantic-release/gitlab"
     - assets:
       - "*.tgz"
+      successComment: false
   - - "@semantic-release/git"
     - assets:
       - "src/"
       - "CHANGELOG.md"
-      - "CHANGELOG-PRE.md"
-      message: "chore(auto-release): do release ${nextRelease.version}\n\n${nextRelease.notes}"
+      message: "chore(auto-release): do release ${branch.channel} ${nextRelease.version}\n\n${nextRelease.notes}"
 
 branches:
-  - "+([0-9])?(.{+([0-9]),x}).x"
+  - "maintenance/+([0-9])?(.{+([0-9]),x}).x"
   - name: "main"
   - name: "alpha"
     prerelease: "alpha"
