@@ -254,9 +254,9 @@ pages:
   # Don't run on the auto-release commit. There may be another way...
   - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
     when: never
-  # Don't run as part of a merge request event.
+  # Don't run releases as part of a merge request event.
   - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    when: never    
+    when: never
   - if: $CI_COMMIT_REF_NAME =~ $PRE_RELEASE_BRANCHES_PATTERN
     when: always
   # This matches pre-releases
@@ -293,6 +293,9 @@ pre-release:
     # Don't run on the auto-release commit. There may be another way...
     - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
       when: never
+    # Don't run releases as part of a merge request event.
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
     - if: $CI_COMMIT_REF_NAME =~ $PRE_RELEASE_BRANCHES_PATTERN
       when: always
     # This matches pre-releases
@@ -328,6 +331,9 @@ release:
     - cp -p .semver-release/.releaserc-main.yml .releaserc.yml
   rules:
     - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+      when: never
+    # Don't run releases as part of a merge request event.
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
     - if: $CI_COMMIT_REF_NAME =~ $RELEASE_BRANCHES_PATTERN
       when: always
@@ -367,6 +373,9 @@ maintenance-release:
       when: never
     - if: $CI_COMMIT_REF_NAME =~ $ALL_MAINTENANCE_BRANCHES_PATTERN
       when: always
+    # Don't run releases as part of a merge request event.
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
   script:
     - npx semantic-release
   artifacts:
