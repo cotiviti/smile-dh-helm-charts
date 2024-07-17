@@ -54,9 +54,9 @@ workflow:
 stages:
 - validate        # Run commit message checking, check for default tests
 - test            # Run linters, unit tests, outut compare, docs, etc
-- release
+- release         # Automated release pipeline
 - package         # Package the Helm Charts
-- publish          # Deploy to Package Registry
+- publish         # Publish docs, publish Charts to Package Registry 
 
 commit-check:
   stage: validate
@@ -163,10 +163,14 @@ pages-test:
   - pip install -r mkdocs-requirements.txt
   - git config user.name smile-docs-bot
   - git config user.email smile-docs-bot@smilecdr.com
-  - git fetch origin $PAGES_BRANCH && git -b checkout $PAGES_BRANCH origin/$PAGES_BRANCH || git checkout $PAGES_BRANCH || echo "Pages branch not deployed yet."
+  - git fetch origin $PAGES_BRANCH && git checkout -b $PAGES_BRANCH origin/$PAGES_BRANCH || git checkout $PAGES_BRANCH || echo "Pages branch not deployed yet."
   - git checkout $CI_COMMIT_SHA
   script:
-  - mike deploy --rebase --prefix public -b $PAGES_BRANCH -u v1.0 latest
+  - export CHART_VERSION=$(scripts/get-chart-version.sh)
+  - export DOCS_VER=v$(scripts/get-docs-version.sh "${CHART_VERSION}")
+  # These do not actually publish the docs. It's just to test that it does not fail,
+  # therefore the actual aliases used are unimportant
+  - mike deploy --rebase --prefix public -b $PAGES_BRANCH -u v1.0 latest latest-prod latest-pre
   - mike set-default --rebase --prefix public -b $PAGES_BRANCH latest
   - rm -rf public/
   - git checkout $PAGES_BRANCH
@@ -187,7 +191,7 @@ helm-package:
   # before_script:
   #   - git config user.name smile-helm-repo-bot
   #   - git config user.email smile-helm-repo-bot@smilecdr.com
-  #   - git fetch origin $PAGES_BRANCH && git -b checkout $PAGES_BRANCH origin/$PAGES_BRANCH || git checkout $PAGES_BRANCH || echo "Pages branch not deployed yet."
+  #   - git fetch origin $PAGES_BRANCH && git checkout -b $PAGES_BRANCH origin/$PAGES_BRANCH || git checkout $PAGES_BRANCH || echo "Pages branch not deployed yet."
   #   - git checkout $CI_COMMIT_SHA
   script:
     - echo "Packaging Helm Charts..."
@@ -227,47 +231,6 @@ publish:
     # - 'curl --request POST --user gitlab-ci-token:$CI_JOB_TOKEN --form "chart=@" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/devel/charts"'
     - echo "Application successfully deployed."
 
-pages:
-  stage: release
-  tags:
-  - helm-ci
-  image: python:3.8-buster
-  variables:
-    PAGES_BRANCH: gl-pages
-    HTTPS_REMOTE: https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/${CI_PROJECT_PATH}.git
-  before_script:
-  - pip install -r mkdocs-requirements.txt
-  - git config user.name smile-docs-bot
-  - git config user.email smile-docs-bot@smilecdr.com
-  - git fetch origin $PAGES_BRANCH && git -b checkout $PAGES_BRANCH origin/$PAGES_BRANCH || git checkout $PAGES_BRANCH || echo "Pages branch not deployed yet."
-  - git checkout $CI_COMMIT_SHA
-  script:
-  - mike deploy --rebase --prefix public -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p -u v1.0.0-pre latest
-  - mike set-default --rebase --prefix public -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p latest
-  - rm -rf public/
-  - git checkout $PAGES_BRANCH -- public/
-  artifacts:
-    paths:
-    - public
-    expire_in: 1 week
-  rules:
-  # Don't run on the auto-release commit. There may be another way...
-  - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
-    when: never
-  # Don't run releases as part of a merge request event.
-  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    when: never
-  - if: $CI_COMMIT_REF_NAME =~ $PRE_RELEASE_BRANCHES_PATTERN
-    when: always
-  # This matches pre-releases
-  - if: $CI_COMMIT_REF_NAME =~ /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/
-    when: always
-  - if: $CI_COMMIT_REF_NAME =~ $RELEASE_BRANCHES_PATTERN
-    when: always
-  # This matches maintenance branches
-  - if: $CI_COMMIT_REF_NAME =~ /^(([0-9]+)\.)?([0-9]+)\.x/
-    when: always
-
 pre-release:
   stage: release
   tags:
@@ -288,6 +251,7 @@ pre-release:
     # Install helm-docs as we need to update the Helm Chart docs when semantic-release bumps the version
     - curl --silent --location https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_$(scripts/get-alpine-arch.sh).tar.gz | tar -xzf - -C /usr/local/bin helm-docs
     - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/exec @semantic-release/git
+    # Use the pre-release configuration for semantic release
     - cp -p .semver-release/.releaserc-pre.yml .releaserc.yml
   rules:
     # Don't run on the auto-release commit. There may be another way...
@@ -296,6 +260,7 @@ pre-release:
     # Don't run releases as part of a merge request event.
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
+    # Run the semver release for pre-release branches
     - if: $CI_COMMIT_REF_NAME =~ $PRE_RELEASE_BRANCHES_PATTERN
       when: always
     # This matches pre-releases
@@ -303,9 +268,13 @@ pre-release:
       when: always
   script:
     - npx semantic-release
+    # Test to see if semantic-release bumped the version. If not, then get the most recent version tag in this branch and use that.
+    # This is passed on to the following docs publish job so that the correct version of the docs is published.
+    - test -e .VERSION || (echo $(git describe --abbrev=0 --tags | tr -d v) > .VERSION && touch .NORELEASE)
   artifacts:
     paths:
-      - "*.tgz"
+      - ".VERSION"
+      - ".NORELEASE"
     expire_in: 1 week
 
 release:
@@ -328,24 +297,27 @@ release:
     # Install helm-docs as we need to update the Helm Chart docs when semantic-release bumps the version
     - curl --silent --location https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_$(scripts/get-alpine-arch.sh).tar.gz | tar -xzf - -C /usr/local/bin helm-docs
     - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/exec @semantic-release/git
+    # Use the release configuration for semantic release
     - cp -p .semver-release/.releaserc-main.yml .releaserc.yml
   rules:
+    # Don't run on the auto-release commit. There may be another way...
     - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
       when: never
     # Don't run releases as part of a merge request event.
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
+    # Run the semver release for release branches
     - if: $CI_COMMIT_REF_NAME =~ $RELEASE_BRANCHES_PATTERN
       when: always
-    # # This matches maintenance branches
-    # - if: $CI_COMMIT_REF_NAME =~ /^(([0-9]+)\.)?([0-9]+)\.x/
-    #   when: always
   script:
     - npx semantic-release
+    # Test to see if semantic-release bumped the version. If not, then get the most recent version tag in this branch and use that.
+    # This is passed on to the following docs publish job so that the correct version of the docs is published.
+    - test -e .VERSION || (echo $(git describe --abbrev=0 --tags | tr -d v) > .VERSION && touch .NORELEASE)
   artifacts:
     paths:
-      - "*.tgz"
-    expire_in: 1 week
+      - ".VERSION"
+      - ".NORELEASE"
 
 maintenance-release:
   stage: release
@@ -369,19 +341,88 @@ maintenance-release:
     - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/exec @semantic-release/git
     - cp -p .semver-release/.releaserc-main.yml .releaserc.yml
   rules:
+    # Don't run on the auto-release commit. There may be another way...
     - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
       when: never
-    - if: $CI_COMMIT_REF_NAME =~ $ALL_MAINTENANCE_BRANCHES_PATTERN
-      when: always
     # Don't run releases as part of a merge request event.
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
+    # Run the semver release for maintenance branchess
+    - if: $CI_COMMIT_REF_NAME =~ $ALL_MAINTENANCE_BRANCHES_PATTERN
+      when: always
+    # This matches maintenance branches
+    - if: $CI_COMMIT_REF_NAME =~ /^(([0-9]+)\.)?([0-9]+)\.x/
+      when: always
   script:
     - npx semantic-release
+    # Test to see if semantic-release bumped the version. If not, then get the most recent version tag in this branch and use that.
+    # This is passed on to the following docs publish job so that the correct version of the docs is published.
+    - test -e .VERSION || (echo $(git describe --abbrev=0 --tags | tr -d v) > .VERSION && touch .NORELEASE)
   artifacts:
     paths:
-      - "*.tgz"
-    expire_in: 1 week
+      - ".VERSION"
+      - ".NORELEASE"
+
+# Deploy GitLab pages. Job name MUST be `pages`, so do not change it.
+# Differing logic for different branches has to be decided within the job as you cannot have multiple `pages` jobs for different branches.
+pages:
+  stage: publish
+  tags:
+  - helm-ci
+  image: python:3.8-buster
+  variables:
+    PAGES_BRANCH: gl-pages
+    HTTPS_REMOTE: https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/${CI_PROJECT_PATH}.git
+  before_script:
+  - pip install -r mkdocs-requirements.txt
+  - git config user.name smile-docs-bot
+  - git config user.email smile-docs-bot@smilecdr.com
+  
+  script:
+  # Ensure that pages branch exists
+  - git fetch origin $PAGES_BRANCH && git checkout -b $PAGES_BRANCH origin/$PAGES_BRANCH || git checkout $PAGES_BRANCH || echo "Pages branch not deployed yet."
+  - git checkout $CI_COMMIT_SHA
+  # ./.VERSION passed as an artifact from release job.
+  - VERSION=$(cat  .VERSION)
+  - export CHART_VERSION=$(scripts/get-chart-version.sh)
+  - export DOCS_VER=v$(scripts/get-docs-version.sh "${VERSION}")
+  - export DOCS_ALIASES=$(scripts/get-docs-aliases.sh "${VERSION}")
+  - echo "Version ${VERSION}"
+  - echo "Docs Version ${DOCS_VER}"
+  - echo "Docs Aliases ${DOCS_ALIASES}"
+  # Mike will build the docs from the current commit and publish them to ${DOCS_VER}.
+  - mike deploy --rebase --prefix public -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p -u ${DOCS_VER} ${DOCS_ALIASES}
+  # We will only update the default if we are deploying the `latest` release.
+  - if [[ "${DOCS_ALIASES}" =~ latest-prod ]] ; then mike set-default --rebase --prefix public -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p ${DOCS_VER}; fi
+  # This rm step is required as mike populates is as a part of the release process.
+  - rm -rf public/
+  - git checkout $PAGES_BRANCH
+  artifacts:
+    paths:
+    - public
+  rules:
+  # Don't run on the auto-release commit. There may be another way...
+  - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+    when: never
+  # Don't run releases as part of a merge request event.
+  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    when: never
+  
+  ## Currently don't publish pre-release docs
+  - if: $CI_COMMIT_REF_NAME =~ $PRE_RELEASE_BRANCHES_PATTERN
+    when: never
+  # This matches pre-releases
+  - if: $CI_COMMIT_REF_NAME =~ /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/
+    when: never
+  
+  # Publish release docs
+  # This matches releases
+  - if: $CI_COMMIT_REF_NAME =~ $RELEASE_BRANCHES_PATTERN
+    when: always
+  # This matches maintenance branches
+  - if: $CI_COMMIT_REF_NAME =~ $ALL_MAINTENANCE_BRANCHES_PATTERN
+    when: always
+
 
 include:
   - template: Security/Secret-Detection.gitlab-ci.yml
