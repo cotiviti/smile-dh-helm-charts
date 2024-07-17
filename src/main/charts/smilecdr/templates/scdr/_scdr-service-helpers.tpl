@@ -44,6 +44,11 @@ Define ports to expose, based on all the enabled services. Adds any additional p
   {{- range $theServiceName, $theServiceSpec := .Values.services -}}
     {{- $ports = append $ports (dict "name" $theServiceSpec.svcName "containerPort" $theServiceSpec.port "protocol" "TCP") -}}
   {{- end -}}
+
+  {{- $promAgentConfig := (include "observability.promagent" . | fromYaml) -}}
+  {{- if $promAgentConfig.enabled -}}
+    {{- $ports = append $ports (dict "name" "prom-metrics" "containerPort" $promAgentConfig.config.port "protocol" "TCP") -}}
+  {{- end }}
   {{- $ports | toYaml -}}
 {{- end -}}
 

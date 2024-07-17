@@ -458,7 +458,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2023.08.R01"
+          image: "docker.smilecdr.com/smilecdr:2024.05.R03"
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
@@ -508,8 +508,8 @@ spec:
             - containerPort: 9200
               name: smart-auth
               protocol: TCP
-            - name: prom-metrics
-              containerPort: 17171
+            - containerPort: 17171
+              name: prom-metrics
               protocol: TCP
           volumeMounts:
             - mountPath: /home/smile/smilecdr/javaagent

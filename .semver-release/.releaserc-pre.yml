@@ -8,6 +8,7 @@ plugins:
   - - "@semantic-release/gitlab"
     - assets:
       - "*.tgz"
+      successComment: false
   - - "@semantic-release/git"
     - assets:
       - "src/"
@@ -15,7 +16,7 @@ plugins:
       message: "chore(auto-prerelease): do pre-release ${nextRelease.version}\n\n${nextRelease.notes}"
 
 branches:
-  - "+([0-9])?(.{+([0-9]),x}).x"
+  - "maintenance/+([0-9])?(.{+([0-9]),x}).x"
   - name: "main"
   - name: "alpha"
     prerelease: "alpha"

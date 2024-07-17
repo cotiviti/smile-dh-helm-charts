@@ -583,51 +583,26 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: url
-                  name: smilecdr
-            - name: DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: smilecdr
-            - name: DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: dbname
-                  name: smilecdr
-            - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
-                  name: smilecdr
-            - name: DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: smilecdr
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
           ports:
-            - name: admin-json
-              containerPort: 9000
+            - containerPort: 9000
+              name: admin-json
               protocol: TCP
-            - name: admin-web
-              containerPort: 9100
+            - containerPort: 9100
+              name: admin-web
               protocol: TCP
-            - name: fhir
-              containerPort: 8000
+            - containerPort: 8000
+              name: fhir
               protocol: TCP
-            - name: fhirweb
-              containerPort: 8001
+            - containerPort: 8001
+              name: fhirweb
               protocol: TCP
-            - name: pkg-registry
-              containerPort: 8002
+            - containerPort: 8002
+              name: pkg-registry
               protocol: TCP
-            - name: smart-auth
-              containerPort: 9200
+            - containerPort: 9200
+              name: smart-auth
               protocol: TCP
           volumeMounts:
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
@@ -653,6 +628,25 @@ spec:
             sizeLimit: 10Mi
           name: scdr-volume-amq
       restartPolicy: Always
+      topologySpreadConstraints:
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: release-name
+            app.kubernetes.io/name: smilecdr
+        matchLabelKeys:
+        - pod-template-hash
+        maxSkew: 1
+        topologyKey: topology.kubernetes.io/zone
+        whenUnsatisfiable: ScheduleAnyway
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: release-name
+            app.kubernetes.io/name: smilecdr
+        matchLabelKeys:
+        - pod-template-hash
+        maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
 ---
 # Source: smilecdr/templates/observability/graf.yaml
 apiVersion: grafana.integreatly.org/v1beta1
