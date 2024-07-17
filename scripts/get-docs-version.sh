@@ -26,5 +26,3 @@ else
   # Just return the minor version
   echo "${FULL_VERSION}" | sed -E 's/(^[v]?[0-9]+\.[0-9]+).*/\1/'
 fi
-
-

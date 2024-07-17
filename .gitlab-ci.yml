@@ -5,7 +5,7 @@ variables:
   PRE_RELEASE_BRANCHES_PATTERN: '/^(next|pre-release|beta|alpha)$/'
   ALL_RELEASE_BRANCHES_PATTERN: '/^(main|next|pre-release|beta|alpha)$/'
   ALL_MAINTENANCE_BRANCHES_PATTERN: '/^(maintenance\/([0-9])+\.)([0-9]+\.)?x/'
-  
+
   TEMPORARY_BRANCHES_PATTERN: '/^(dev|temp|wip)-.*$/i'
   # Used to match against the auto-release commit. Used throughout, but there may be another way.
   SKIP_CI_COMMIT_MESSAGE: '/.*(\[skipci\]|\[skip-ci\]|\[skip_ci\]).*/i'
@@ -56,7 +56,7 @@ stages:
 - test            # Run linters, unit tests, outut compare, docs, etc
 - release         # Automated release pipeline
 - package         # Package the Helm Charts
-- publish         # Publish docs, publish Charts to Package Registry 
+- publish         # Publish docs, publish Charts to Package Registry
 
 commit-check:
   stage: validate
@@ -396,7 +396,7 @@ pages:
   - pip install -r mkdocs-requirements.txt
   - git config user.name smile-docs-bot
   - git config user.email smile-docs-bot@smilecdr.com
-  
+
   script:
   # Ensure that pages branch exists
   - git fetch origin $PAGES_BRANCH && git checkout -b $PAGES_BRANCH origin/$PAGES_BRANCH || git checkout $PAGES_BRANCH || echo "Pages branch not deployed yet."
@@ -409,10 +409,11 @@ pages:
   - echo "Version ${VERSION}"
   - echo "Docs Version ${DOCS_VER}"
   - echo "Docs Aliases ${DOCS_ALIASES}"
+  # Deploy 'release' docs to root path and 'preview' docs to /pre path
+  - if [[ "${DOCS_ALIASES}" =~ latest-prod ]] ; then export DOCS_PREFIX=public; else export DOCS_PREFIX=public/pre; fi
   # Mike will build the docs from the current commit and publish them to ${DOCS_VER}.
-  - mike deploy --rebase --prefix public -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p -u ${DOCS_VER} ${DOCS_ALIASES}
-  # We will only update the default if we are deploying the `latest` release.
-  - if [[ "${DOCS_ALIASES}" =~ latest-prod ]] ; then mike set-default --rebase --prefix public -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p ${DOCS_VER}; fi
+  - mike deploy --rebase --prefix ${DOCS_PREFIX} -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p -u ${DOCS_VER} ${DOCS_ALIASES}
+  - mike set-default --rebase --prefix ${DOCS_PREFIX} -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p ${DOCS_VER}
   # This rm step is required as mike populates is as a part of the release process.
   - rm -rf public/
   - git checkout $PAGES_BRANCH
@@ -426,14 +427,14 @@ pages:
   # Don't run releases as part of a merge request event.
   - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     when: never
-  
-  ## Currently don't publish pre-release docs
+
+  # Publish pre-release docs
   - if: $CI_COMMIT_REF_NAME =~ $PRE_RELEASE_BRANCHES_PATTERN
-    when: never
+    when: always
   # This matches pre-releases
   - if: $CI_COMMIT_REF_NAME =~ /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/
-    when: never
-  
+    when: always
+
   # Publish release docs
   # This matches releases
   - if: $CI_COMMIT_REF_NAME =~ $RELEASE_BRANCHES_PATTERN
