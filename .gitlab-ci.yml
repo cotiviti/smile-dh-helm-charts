@@ -210,7 +210,7 @@ helm-package:
       - "*.tgz"
     expire_in: 1 week
 
-publish:
+helm-publish-devel:
   stage: publish  # It only runs when *both* jobs in the test stage complete successfully.
   tags:
     - helm-ci
@@ -220,16 +220,35 @@ publish:
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
-    - if: $CI_COMMIT_REF_NAME =~ $ALL_RELEASE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+    - if: $CI_COMMIT_REF_NAME =~ $PRE_RELEASE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
   before_script:
     - apk add bash curl
     # - 'helm repo add --username gitlab-ci-token --password ${CI_JOB_TOKEN} ${CI_PROJECT_NAME} ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/devel'
     # - 'helm plugin install https://github.com/chartmuseum/helm-push.git'
   script:
-    - echo "Deploying application..."
+    - echo "Publishing Helm Charts to DEVEL channel ..."
     - scripts/publish-charts.sh gitlab-ci-token:$CI_JOB_TOKEN ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api devel *.tgz
     # - 'curl --request POST --user gitlab-ci-token:$CI_JOB_TOKEN --form "chart=@" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/devel/charts"'
-    - echo "Application successfully deployed."
+    - echo "Helm Charts successfully published to DEVEL channel."
+
+helm-publish-stable:
+  stage: publish  # It only runs when *both* jobs in the test stage complete successfully.
+  tags:
+    - helm-ci
+  image:
+    name: alpine
+    # entrypoint: ["sh", "-c"]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
+    - if: $CI_COMMIT_REF_NAME =~ $PRE_RELEASE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+  before_script:
+    - apk add bash curl
+  script:
+    - echo "Publishing Helm Charts to STABLE channel ..."
+    - scripts/publish-charts.sh gitlab-ci-token:$CI_JOB_TOKEN ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api stable *.tgz
+    # - 'curl --request POST --user gitlab-ci-token:$CI_JOB_TOKEN --form "chart=@" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/devel/charts"'
+    - echo "Helm Charts successfully published to STABLE channel."
 
 pre-release:
   stage: release
