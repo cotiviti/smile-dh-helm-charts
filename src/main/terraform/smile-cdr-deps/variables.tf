@@ -108,7 +108,7 @@ variable "helm_chart" {
 variable "helm_chart_version" {
   description = "The version of the Smile CDR Helm Chart to use"
   type        = string
-  default     = "1.0.0-pre.110"
+  default     = "1.0.0"
 }
 
 variable "helm_chart_values" {
@@ -260,10 +260,10 @@ variable "db_subnet_ids" {
 }
 
 variable "db_use_old_helm_schema" {
-  description = "Use database connection configuration schema from v1.0.0-pre.121 and earlier."
+  description = "DEPRECATED: Use database connection configuration schema from v1.0.0-pre.121 and earlier."
   type        = bool
-  default     = true
-  nullable    = false
+  default     = false
+  nullable    = true
 }
 
 variable "db_instance_defaults" {
