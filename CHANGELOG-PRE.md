@@ -1,3 +1,10 @@
+# [1.0.0-pre.127](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.126...v1.0.0-pre.127) (2024-06-28)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix database enablement comparison ([82c8975](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/82c89759f84fde2445d9ff6ba8b8310d0089a677))
+
 # [1.0.0-pre.126](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.125...v1.0.0-pre.126) (2024-06-28)
 
 
