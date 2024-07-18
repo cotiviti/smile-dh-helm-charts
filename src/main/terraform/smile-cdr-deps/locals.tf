@@ -39,8 +39,8 @@ locals {
   helm_repository = var.helm_repository
   helm_chart = var.helm_chart
   helm_chart_version = var.helm_chart_version
-  # helm_chart_devel = strcontains(local.helm_chart_version, "-pre.") ? true:false
-  helm_chart_devel = true
+  helm_chart_devel = strcontains(local.helm_chart_version, "-pre.") ? true:false
+  # helm_chart_devel = true
 
   cdr_service_account_name = var.cdr_service_account_name == null ? "${local.helm_release_name}${local.helm_service_account_suffix}" : var.cdr_service_account_name
   cdr_namespace_service_accounts = ["${local.helm_namespace}:${local.cdr_service_account_name}"]
