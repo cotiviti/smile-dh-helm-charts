@@ -16,19 +16,14 @@ data:
 
     common:
       path_prefix: /loki
-      # storage:
-      #   filesystem:
-      #     chunks_directory: /loki/chunks
-      #     rules_directory: /loki/rules
       storage:
-        bucketNames:
-          chunks: pmpdev2-loki-chunks
-          ruler: pmpdev2-loki-ruler
-          admin: pmpdev2-loki-admin
-        type: 's3'
+        # filesystem:
+        #   chunks_directory: /loki/chunks
+        #   rules_directory: /loki/rules      
         s3:
-          region: us-west-2
-          # Using IAM/IRSA
+          bucketnames: pmpdev2-loki-chunks
+          # region: us-east-1
+          # Commented out as we are using IAM/IRSA
           # endpoint: foo.aws.com
           # secretAccessKey: supersecret
           # accessKeyId: secret
@@ -59,10 +54,10 @@ data:
 
     schema_config:
       configs:
-        - from: 2020-10-24
-          store: boltdb-shipper
+        - from: 2024-04-01
+          store: tdsb
           object_store: filesystem
-          schema: v11
+          schema: v13
           index:
             prefix: index_
             period: 24h
