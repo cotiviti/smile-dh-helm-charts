@@ -1,4 +1,5 @@
-{{- if (include "observability.lokideployment.enabled" . | fromYaml) -}}
+{{- $lokiConfig := include "observability.lokideployment.config" . | fromYaml -}}
+{{- if $lokiConfig.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -17,16 +18,16 @@ data:
     common:
       path_prefix: /loki
       storage:
-        # filesystem:
-        #   chunks_directory: /loki/chunks
-        #   rules_directory: /loki/rules      
-        s3:
-          bucketnames: pmpdev2-loki-chunks
-          # region: us-east-1
-          # Commented out as we are using IAM/IRSA
-          # endpoint: foo.aws.com
-          # secretAccessKey: supersecret
-          # accessKeyId: secret
+        filesystem:
+          chunks_directory: /loki/chunks
+          rules_directory: /loki/rules      
+        # s3:
+        #   bucketnames: {{ $lokiConfig.bucketNames.chunks }}
+        #   region: us-east-1
+        #   # Commented out as we are using IAM/IRSA
+        #   # endpoint: foo.aws.com
+        #   # secretAccessKey: supersecret
+        #   # accessKeyId: secret
       replication_factor: 1
       ring:
         kvstore:
@@ -55,7 +56,7 @@ data:
     schema_config:
       configs:
         - from: 2024-04-01
-          store: tdsb
+          store: tsdb
           object_store: filesystem
           schema: v13
           index:

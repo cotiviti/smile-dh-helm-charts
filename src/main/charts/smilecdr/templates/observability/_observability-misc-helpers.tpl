@@ -448,6 +448,63 @@ Some helpers to reduce verbosity of if statements elsewhere.
   {{- end -}}
 {{- end -}}
 
+{{- define "observability.lokideployment.config" -}}
+  {{- $lokiConf := dict -}}
+  {{- if .Values.observability.enabled -}}
+    {{- if or (and ((.Values.observability.services).logging).enabled .Values.observability.services.logging.loki.enabled) (and ((.Values.observability.services).tracing).enabled (.Values.observability.services.tracing.loki).enabled) -}}
+      {{- $_ := set $lokiConf "enabled" "true" -}}
+      {{- $saConfig := dict -}}
+      {{- $_ := set $saConfig "name" (default (printf "%s-%s" (include "smilecdr.fullname" .) "loki" ) (.Values.observability.services.logging.loki.serviceAccount).name) -}}
+      {{- /* if (.Values.observability.services.logging.loki.serviceAccount).name -}}
+        {{- $_ := set $saConfig "name"  -}}
+      {{- else -}}
+        {{- $_ := set $saConfig "name"  -}}
+      {{- end */ -}}
+      {{- $_ := set $saConfig "create" (default "true" ((.Values.observability.services.logging.loki.serviceAccount).create )) -}}
+      {{- /*if (.Values.observability.services.logging.loki.serviceAccount).create }}
+        {{- $_ := set $saConfig "create" true -}}
+      {{- else -}}
+        {{- $_ := set $lokiConf "create" false -}}
+      {{- end */ -}}
+      {{- $_ := set $saConfig "annotations" (default dict (.Values.observability.services.logging.loki.serviceAccount).annotations) -}}
+      {{- $_ := set $lokiConf "serviceAccount" $saConfig -}}
+      {{- $_ := set $lokiConf "bucketNames" .Values.observability.services.logging.loki.bucketNames -}}
+      {{- /* fail (printf "Loki bucket names: %s" (toPrettyJson .Values.observability.services.logging.loki)) */ -}}
+
+    {{- end -}}
+  {{- end -}}
+  {{- $lokiConf | toYaml -}}
+{{- end -}}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "observability.lokideployment.serviceAccountName" -}}
+{{- if .Values.observability.services.logging.loki.serviceAccount.create }}
+{{- default (include "observability.lokideployment.fullname" .) .Values.observability.services.logging.loki.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.observability.services.logging.loki.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
+Create a default fully qualified app name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
+*/}}
+{{- define "observability.lokideployment.fullname" -}}
+{{- if .Values.fullnameOverride }}
+{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- $name := default .Chart.Name .Values.nameOverride }}
+{{- if contains $name .Release.Name }}
+{{- .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+{{- end }}
+
 {{- define "observability.otelagent" -}}
   {{- /* Set defaults */ -}}
   {{- $otelAgentConfig := dict "enabled" false "useOperator" false -}}

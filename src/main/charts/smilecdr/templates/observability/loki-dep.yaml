@@ -1,4 +1,6 @@
-{{- if (include "observability.lokideployment.enabled" . | fromYaml) -}}
+{{- $lokiConfig := include "observability.lokideployment.config" . | fromYaml -}}
+{{- if $lokiConfig.enabled -}}
+{{- /* if (include "observability.lokideployment.enabled" . | fromYaml) */ -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,6 +21,7 @@ spec:
         app: loki
         release: {{ .Release.Name }}
     spec:
+      serviceAccountName: {{ $lokiConfig.serviceAccount.name }}
       containers:
       - name: loki
         image: grafana/loki:2.9.3
