@@ -10,7 +10,7 @@
     {{- $_ := set $lokiConf "host" (default "loki" .Values.observability.services.logging.loki.hostname) -}}
     {{- /* $_ := set $lokiConf "scheme" (default "http" .Values.observability.services.logging.loki.scheme) */ -}}
     {{- $_ := set $lokiConf "scheme" (ternary "https" "http" (default false .Values.observability.services.logging.loki.tls)) -}}
-    {{- $_ := set $lokiConf "url" (printf "%s://%s:%s" $lokiConf.scheme $lokiConf.host $lokiConf.http_port) -}}
+    {{- $_ := set $lokiConf "url" (printf "%s://%s:%s" $lokiConf.scheme $lokiConf.host (toString $lokiConf.http_port)) -}}
 
     {{- if and ((.Values.observability.services).logging).enabled .Values.observability.services.logging.loki.enabled .Values.observability.services.logging.loki.internal -}}
       {{- $_ := set $lokiConf "deployment" (dict "enabled" true) -}}

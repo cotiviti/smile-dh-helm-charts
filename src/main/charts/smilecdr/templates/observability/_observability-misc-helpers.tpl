@@ -625,14 +625,11 @@ Some helpers to reduce verbosity of if statements elsewhere.
         {{- $_ := set $processors "resource/loki" (dict "attributes" $attributeActions) -}}
       {{- end -}}
       
-
-      {{- /* $lokiHost := $lokiConfig.host */ -}}
-      {{- /* $lokiPort := $lokiConfig.http_port */ -}}
       {{- /* Loki exporter is deprecated. See Here: https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/lokiexporter/README.md */ -}}
       {{- /* $_ := set $exporters "loki" (dict "endpoint" (printf "http://%s:%s/loki/api/v1/push" $lokiHost $lokiPort)) */ -}}
       {{- /* Use `otlphttp` exporter instead: https://github.com/open-telemetry/opentelemetry-collector/tree/main/exporter/otlphttpexporter */ -}}
       {{- /* Note that `/v1/logs` is automatically appended to the endpoint, so it must not be added in the endpoint here */ -}}
-      {{- $_ := set $exporters "otlphttp/logs" (dict "endpoint" (printf "%s://%s:%s/otlp" $lokiConfig.scheme $lokiConfig.http_port) "headers" (dict "X-Scope-OrgID" $orgId)) -}}
+      {{- $_ := set $exporters "otlphttp/logs" (dict "endpoint" (printf "%s://%s:%s/otlp" $lokiConfig.scheme $lokiConfig.host (toString $lokiConfig.http_port)) "headers" (dict "X-Scope-OrgID" $orgId)) -}}
 
       {{- if eq $receiverType "otlpgrpc" -}}
         {{- $_ := set $receivers "otlp" (dict "protocols" (dict "grpc" dict)) -}}
