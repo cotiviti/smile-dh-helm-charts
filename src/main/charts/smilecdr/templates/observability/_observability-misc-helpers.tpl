@@ -440,39 +440,34 @@ Define env vars that will be used for observability
 Some helpers to reduce verbosity of if statements elsewhere.
 */}}
 
-{{- define "observability.lokideployment.enabled" -}}
-  {{- if .Values.observability.enabled -}}
-    {{- if or (and ((.Values.observability.services).logging).enabled .Values.observability.services.logging.loki.enabled) (and ((.Values.observability.services).tracing).enabled (.Values.observability.services.tracing.loki).enabled) -}}
-      {{- true -}}
-    {{- end -}}
-  {{- end -}}
-{{- end -}}
-
 {{- define "observability.lokideployment.config" -}}
   {{- $lokiConf := dict -}}
+  {{- $saConfig := dict "create" false -}}
   {{- if .Values.observability.enabled -}}
-    {{- if or (and ((.Values.observability.services).logging).enabled .Values.observability.services.logging.loki.enabled) (and ((.Values.observability.services).tracing).enabled (.Values.observability.services.tracing.loki).enabled) -}}
-      {{- $_ := set $lokiConf "enabled" "true" -}}
-      {{- $saConfig := dict -}}
+    {{- /* if or (and ((.Values.observability.services).logging).enabled .Values.observability.services.logging.loki.enabled) (and ((.Values.observability.services).tracing).enabled (.Values.observability.services.tracing.loki).enabled) */ -}}
+    {{- if and ((.Values.observability.services).logging).enabled .Values.observability.services.logging.loki.enabled .Values.observability.services.logging.loki.internal -}}
+      {{- $_ := set $lokiConf "enabled" true -}}
+      
       {{- $_ := set $saConfig "name" (default (printf "%s-%s" (include "smilecdr.fullname" .) "loki" ) (.Values.observability.services.logging.loki.serviceAccount).name) -}}
       {{- /* if (.Values.observability.services.logging.loki.serviceAccount).name -}}
         {{- $_ := set $saConfig "name"  -}}
       {{- else -}}
         {{- $_ := set $saConfig "name"  -}}
       {{- end */ -}}
-      {{- $_ := set $saConfig "create" (default "true" ((.Values.observability.services.logging.loki.serviceAccount).create )) -}}
+      {{- $_ := set $saConfig "create" (default true ((.Values.observability.services.logging.loki.serviceAccount).create )) -}}
       {{- /*if (.Values.observability.services.logging.loki.serviceAccount).create }}
         {{- $_ := set $saConfig "create" true -}}
       {{- else -}}
         {{- $_ := set $lokiConf "create" false -}}
       {{- end */ -}}
       {{- $_ := set $saConfig "annotations" (default dict (.Values.observability.services.logging.loki.serviceAccount).annotations) -}}
-      {{- $_ := set $lokiConf "serviceAccount" $saConfig -}}
+      
       {{- $_ := set $lokiConf "bucketNames" .Values.observability.services.logging.loki.bucketNames -}}
       {{- /* fail (printf "Loki bucket names: %s" (toPrettyJson .Values.observability.services.logging.loki)) */ -}}
 
     {{- end -}}
   {{- end -}}
+  {{- $_ := set $lokiConf "serviceAccount" $saConfig -}}
   {{- $lokiConf | toYaml -}}
 {{- end -}}
 
