@@ -14,17 +14,10 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: {{ $.Release.Name }}-grafana
+  {{- with $theDataSource }}
   datasource:
-    name: {{ $theDataSource.name }}
-    type: {{ $theDataSource.type }}
-    access: proxy
-    orgId: 1
-    url: {{ $theDataSource.url }}
-    basicAuth: false
-    # isDefault: true
-    jsonData:
-      {{ $theDataSource.jsonData | toYaml | nindent 6 }}
-    editable: false
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 ---
   {{ end }}
 {{- end -}}

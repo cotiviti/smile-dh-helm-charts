@@ -440,14 +440,6 @@ Define env vars that will be used for observability
 Some helpers to reduce verbosity of if statements elsewhere.
 */}}
 
-{{- define "observability.lokideployment.enabled" -}}
-  {{- if .Values.observability.enabled -}}
-    {{- if or (and ((.Values.observability.services).logging).enabled .Values.observability.services.logging.loki.enabled) (and ((.Values.observability.services).tracing).enabled (.Values.observability.services.tracing.loki).enabled) -}}
-      {{- true -}}
-    {{- end -}}
-  {{- end -}}
-{{- end -}}
-
 {{- define "observability.otelagent" -}}
   {{- /* Set defaults */ -}}
   {{- $otelAgentConfig := dict "enabled" false "useOperator" false -}}
@@ -584,6 +576,7 @@ Some helpers to reduce verbosity of if statements elsewhere.
 {{- define "observability.otelcoll" -}}
   {{- /* Set defaults */ -}}
   {{- $otelCollConfig := dict "enabled" false "useOperator" false -}}
+  {{- $orgId := include "observability.orgId" . -}}
 
   {{- if and .Values.observability.enabled (.Values.observability.instrumentation).openTelemetry.enabled ((.Values.observability.instrumentation.openTelemetry).otelCollector).enabled -}}
     {{- $otelCollConfig = deepCopy .Values.observability.instrumentation.openTelemetry.otelCollector -}}
@@ -603,6 +596,7 @@ Some helpers to reduce verbosity of if statements elsewhere.
     {{- $yamlConfig := dict -}}
     {{- if and (.Values.observability.instrumentation.logging).enabled ((.Values.observability.services.logging).loki).enabled -}}
       {{- $receiverType = "otlpgrpc" -}}
+      {{- $lokiConfig := include "observability.loki.config" . | fromYaml -}}
       {{- $lokiResourceLabels := list -}}
       {{- $lokiResourceLabels = append $lokiResourceLabels (dict "name" "namespace" "source" "k8s.namespace.name") -}}
       {{- $lokiResourceLabels = append $lokiResourceLabels (dict "name" "deployment" "source" "k8s.deployment.name") -}}
@@ -628,12 +622,14 @@ Some helpers to reduce verbosity of if statements elsewhere.
       {{- end -}}
       {{- if gt (len $lokiLabels) 0 -}}
         {{- $attributeActions = append $attributeActions (dict "action" "insert" "key" "loki.resource.labels" "value" (join "," $lokiLabels)) -}}
+        {{- $_ := set $processors "resource/loki" (dict "attributes" $attributeActions) -}}
       {{- end -}}
-      {{- $_ := set $processors "resource/loki" (dict "attributes" $attributeActions) -}}
-
-      {{- $lokiHost := "loki" -}}
-      {{- $lokiPort := "3100" -}}
-      {{- $_ := set $exporters "loki" (dict "endpoint" (printf "http://%s:%s/loki/api/v1/push" $lokiHost $lokiPort)) -}}
+      
+      {{- /* Loki exporter is deprecated. See Here: https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/lokiexporter/README.md */ -}}
+      {{- /* $_ := set $exporters "loki" (dict "endpoint" (printf "http://%s:%s/loki/api/v1/push" $lokiHost $lokiPort)) */ -}}
+      {{- /* Use `otlphttp` exporter instead: https://github.com/open-telemetry/opentelemetry-collector/tree/main/exporter/otlphttpexporter */ -}}
+      {{- /* Note that `/v1/logs` is automatically appended to the endpoint, so it must not be added in the endpoint here */ -}}
+      {{- $_ := set $exporters "otlphttp/logs" (dict "endpoint" (printf "%s://%s:%s/otlp" $lokiConfig.scheme $lokiConfig.host (toString $lokiConfig.http_port)) "headers" (dict "X-Scope-OrgID" $orgId)) -}}
 
       {{- if eq $receiverType "otlpgrpc" -}}
         {{- $_ := set $receivers "otlp" (dict "protocols" (dict "grpc" dict)) -}}
@@ -641,15 +637,21 @@ Some helpers to reduce verbosity of if statements elsewhere.
 
       {{- $logsPipeline := dict -}}
       {{- $_ := set $logsPipeline "receivers" (list "otlp") -}}
-      {{- $_ := set $logsPipeline "processors" (list "resource/loki") -}}
-      {{- $_ := set $logsPipeline "exporters"  (list "loki") -}}
+      {{- /* $_ := set $logsPipeline "processors" (list "resource/loki") */ -}}
+      {{- $_ := set $logsPipeline "exporters"  (list "otlphttp/logs") -}}
       {{- $_ := set $pipelines "logs" $logsPipeline -}}
 
     {{- end -}}
-    {{- $_ := set $yamlConfig "processors" $processors -}}
+    {{- /* $_ := set $yamlConfig "processors" $processors */ -}}
     {{- $_ := set $yamlConfig "exporters" $exporters -}}
     {{- $_ := set $yamlConfig "receivers" $receivers -}}
     {{- $_ := set $yamlConfig "service" (dict "pipelines" $pipelines) -}}
+
+    {{- /* Merge settings from values file, if any */ -}}
+    {{- with (.Values.observability.instrumentation.openTelemetry.otelCollector).config -}}
+      {{- $yamlConfig = deepCopy (mergeOverwrite (. | fromYaml) $yamlConfig) -}}
+    {{- end -}}
+
     {{- $_ := set $otelCollConfig "yamlConfig" $yamlConfig -}}
   {{- end -}}
   {{- $otelCollConfig | toYaml -}}
@@ -663,4 +665,11 @@ Some helpers to reduce verbosity of if statements elsewhere.
     {{- $_ := set $promAgentConfig "enabled" false -}}
   {{- end -}}
   {{- $promAgentConfig | toYaml -}}
+{{- end -}}
+
+{{- define "observability.orgId" -}}
+  {{- /* For now we just set it to <namespace>-<releasename> */ -}}
+  {{- $orgID := printf "%s-%s" .Release.Namespace .Release.Name -}}
+  {{- /* TODO: Implement some override */ -}}
+  {{- $orgID -}}
 {{- end -}}

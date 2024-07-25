@@ -1,4 +1,6 @@
-{{- if (include "observability.lokideployment.enabled" . | fromYaml) -}}
+{{- $lokiConfig := include "observability.loki.config" . | fromYaml -}}
+{{- if $lokiConfig.deployment.enabled -}}
+{{- /* if (include "observability.lokideployment.enabled" . | fromYaml) */ -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -12,7 +14,7 @@ spec:
   type: "ClusterIP"
   ports:
     - name: loki
-      port: 3100
+      port: {{ $lokiConfig.http_port }}
       targetPort: loki
       protocol: TCP
   selector:
