@@ -685,12 +685,17 @@ If release name contains chart name it will be used as a full name.
       {{- end -}}
       {{- if gt (len $lokiLabels) 0 -}}
         {{- $attributeActions = append $attributeActions (dict "action" "insert" "key" "loki.resource.labels" "value" (join "," $lokiLabels)) -}}
+        {{- $_ := set $processors "resource/loki" (dict "attributes" $attributeActions) -}}
       {{- end -}}
-      {{- $_ := set $processors "resource/loki" (dict "attributes" $attributeActions) -}}
+      
 
       {{- $lokiHost := "loki" -}}
       {{- $lokiPort := "3100" -}}
-      {{- $_ := set $exporters "loki" (dict "endpoint" (printf "http://%s:%s/loki/api/v1/push" $lokiHost $lokiPort)) -}}
+      {{- /* Loki exporter is deprecated. See Here: https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/lokiexporter/README.md */ -}}
+      {{- /* $_ := set $exporters "loki" (dict "endpoint" (printf "http://%s:%s/loki/api/v1/push" $lokiHost $lokiPort)) */ -}}
+      {{- /* Use `otlphttp` exporter instead: https://github.com/open-telemetry/opentelemetry-collector/tree/main/exporter/otlphttpexporter */ -}}
+      {{- /* Note that `/v1/logs` is automatically appended to the endpoint, so it must not be added in the endpoint here */ -}}
+      {{- $_ := set $exporters "otlphttp/logs" (dict "endpoint" (printf "http://%s:%s/otlp" $lokiHost $lokiPort)) -}}
 
       {{- if eq $receiverType "otlpgrpc" -}}
         {{- $_ := set $receivers "otlp" (dict "protocols" (dict "grpc" dict)) -}}
@@ -698,12 +703,12 @@ If release name contains chart name it will be used as a full name.
 
       {{- $logsPipeline := dict -}}
       {{- $_ := set $logsPipeline "receivers" (list "otlp") -}}
-      {{- $_ := set $logsPipeline "processors" (list "resource/loki") -}}
-      {{- $_ := set $logsPipeline "exporters"  (list "loki") -}}
+      {{- /* $_ := set $logsPipeline "processors" (list "resource/loki") */ -}}
+      {{- $_ := set $logsPipeline "exporters"  (list "otlphttp/logs") -}}
       {{- $_ := set $pipelines "logs" $logsPipeline -}}
 
     {{- end -}}
-    {{- $_ := set $yamlConfig "processors" $processors -}}
+    {{- /* $_ := set $yamlConfig "processors" $processors */ -}}
     {{- $_ := set $yamlConfig "exporters" $exporters -}}
     {{- $_ := set $yamlConfig "receivers" $receivers -}}
     {{- $_ := set $yamlConfig "service" (dict "pipelines" $pipelines) -}}
