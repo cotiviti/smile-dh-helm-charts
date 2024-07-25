@@ -55,6 +55,7 @@
 {{- define "observability.grafana" -}}
   {{- $grafanaConfig := dict -}}
   {{- $observabilityValues := .Values.observability -}}
+  {{- $orgId := include "observability.orgId" . -}}
   {{- if and $observabilityValues.enabled $observabilityValues.dashboard.grafana.enabled -}}
     {{- $grafanaValues := $observabilityValues.dashboard.grafana -}}
     {{- $_ := set $grafanaConfig "enabled" true -}}
@@ -79,10 +80,14 @@
         {{- /* $_ := set $lokiDataSource "type" $lokiDatasourceConfig.type -}}
         {{- $_ := set $lokiDataSource "resourceName" $lokiDatasourceConfig.resourceName */ -}}
         {{- $_ := set $lokiDataSource "url" $logsDataSourceEndpoint -}}
-        {{- /* $_ := set $lokiDataSource "basicAuth" false */ -}}
-        {{- /* $_ := set $lokiDataSource "isDefault" false */ -}}
+        {{- $_ := set $lokiDataSource "basicAuth" false -}}
+        {{- $_ := set $lokiDataSource "isDefault" false -}}
+        {{- $_ := set $lokiDataSource "orgId" 1 -}}
         {{- $jsonData := dict "tlsSkipVerify" true -}}
         {{- $_ := set $jsonData "timeInterval" "5s" -}}
+        {{- $_ := set $jsonData "httpHeaderName1" "X-Scope-OrgID" -}}
+        {{- $secureJsonData := dict -}}
+        {{- $_ := set $secureJsonData "httpHeaderValue1" $orgId -}}
         {{- /* If Tempo is enabled, for linking Spans to logs */ -}}
         {{- $derivedFields := list -}}
         {{- if false -}}
@@ -100,8 +105,9 @@
           {{- $_ := set $jsonData "derivedFields" $derivedFields -}}
         {{- end -}}
         {{- $_ := set $lokiDataSource "jsonData" $jsonData -}}
+        {{- $_ := set $lokiDataSource "secureJsonData" $secureJsonData -}}
         {{- $_ := set $lokiDataSource "editable" false -}}
-
+        {{- $_ := set $lokiDataSource "access" "proxy" -}}
         {{- $dataSources = append $dataSources $lokiDataSource -}}
       {{- end -}}
     {{- end -}}

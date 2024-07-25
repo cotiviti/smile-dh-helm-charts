@@ -641,6 +641,7 @@ If release name contains chart name it will be used as a full name.
 {{- define "observability.otelcoll" -}}
   {{- /* Set defaults */ -}}
   {{- $otelCollConfig := dict "enabled" false "useOperator" false -}}
+  {{- $orgId := include "observability.orgId" . -}}
 
   {{- if and .Values.observability.enabled (.Values.observability.instrumentation).openTelemetry.enabled ((.Values.observability.instrumentation.openTelemetry).otelCollector).enabled -}}
     {{- $otelCollConfig = deepCopy .Values.observability.instrumentation.openTelemetry.otelCollector -}}
@@ -695,7 +696,7 @@ If release name contains chart name it will be used as a full name.
       {{- /* $_ := set $exporters "loki" (dict "endpoint" (printf "http://%s:%s/loki/api/v1/push" $lokiHost $lokiPort)) */ -}}
       {{- /* Use `otlphttp` exporter instead: https://github.com/open-telemetry/opentelemetry-collector/tree/main/exporter/otlphttpexporter */ -}}
       {{- /* Note that `/v1/logs` is automatically appended to the endpoint, so it must not be added in the endpoint here */ -}}
-      {{- $_ := set $exporters "otlphttp/logs" (dict "endpoint" (printf "http://%s:%s/otlp" $lokiHost $lokiPort)) -}}
+      {{- $_ := set $exporters "otlphttp/logs" (dict "endpoint" (printf "http://%s:%s/otlp" $lokiHost $lokiPort) "headers" (dict "X-Scope-OrgID" $orgId)) -}}
 
       {{- if eq $receiverType "otlpgrpc" -}}
         {{- $_ := set $receivers "otlp" (dict "protocols" (dict "grpc" dict)) -}}
@@ -725,4 +726,11 @@ If release name contains chart name it will be used as a full name.
     {{- $_ := set $promAgentConfig "enabled" false -}}
   {{- end -}}
   {{- $promAgentConfig | toYaml -}}
+{{- end -}}
+
+{{- define "observability.orgId" -}}
+  {{- /* For now we just set it to <namespace>-<releasename> */ -}}
+  {{- $orgID := printf "%s-%s" .Release.Namespace .Release.Name -}}
+  {{- /* TODO: Implement some override */ -}}
+  {{- $orgID -}}
 {{- end -}}
