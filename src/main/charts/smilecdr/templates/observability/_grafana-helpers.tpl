@@ -67,19 +67,22 @@
     {{- if $observabilityValues.instrumentation.logging.enabled -}}
       {{- $logsDataSourceEndpoint := "" -}}
       {{- if $observabilityValues.services.logging.loki.enabled -}}
+        {{- $lokiConfig := include "observability.loki.config" . | fromYaml -}}
         {{- $lokiDatasourceConfig := include "observability.grafana.datasource.loki" . | fromYaml -}}
-        {{- if ((($grafanaValues.externalDataSources).logging).loki).enabled -}}
+        {{- /* if ((($grafanaValues.externalDataSources).logging).loki).enabled -}}
           {{- $logsDataSourceEndpoint = required "You must provide `externalEndpoint` if using external Loki instance" $grafanaValues.externalDataSources.logging.loki.externalEndpoint -}}
-        {{- else -}}
+        {{- else */ -}}
           {{- /* Use auto-provisioned loki */ -}}
           {{- /* TODO: Somehting like printf "http://%s-loki:3100"  .Release.Name */ -}}
           {{- /* $logsDataSourceEndpoint = "http://loki:3100/loki/api/v1/push" */ -}}
-          {{- $logsDataSourceEndpoint = "http://loki:3100" -}}
-        {{- end -}}
+          {{- /* $logsDataSourceEndpoint = "http://loki:3100" -}}
+        {{- end */ -}}
+
         {{- $lokiDataSource := omit $lokiDatasourceConfig "inputName" -}}
         {{- /* $_ := set $lokiDataSource "type" $lokiDatasourceConfig.type -}}
         {{- $_ := set $lokiDataSource "resourceName" $lokiDatasourceConfig.resourceName */ -}}
-        {{- $_ := set $lokiDataSource "url" $logsDataSourceEndpoint -}}
+        {{- /* $_ := set $lokiDataSource "url" $logsDataSourceEndpoint */ -}}
+        {{- $_ := set $lokiDataSource "url" $lokiConfig.url -}}
         {{- $_ := set $lokiDataSource "basicAuth" false -}}
         {{- $_ := set $lokiDataSource "isDefault" false -}}
         {{- $_ := set $lokiDataSource "orgId" 1 -}}
@@ -190,12 +193,13 @@
   {{- $panels := list -}}
 
   {{- $summaryPanels := list -}}
-  {{- $summaryPanels = append $summaryPanels (dict "title" "Total Logs" "level" "ALL" "pos" "0")  -}}
-  {{- $summaryPanels = append $summaryPanels (dict "title" "Error logs" "level" "ERROR" "pos" "1")  -}}
-  {{- $summaryPanels = append $summaryPanels (dict "title" "Warning Logs" "level" "WARN" "pos" "2")  -}}
+  {{- $summaryPanels = append $summaryPanels (dict "title" "Total Logs" "level" "ALL" "pos" "0" "color" "green")  -}}
+  {{- $summaryPanels = append $summaryPanels (dict "title" "Error logs" "level" "ERROR" "pos" "1" "color" "red")  -}}
+  {{- $summaryPanels = append $summaryPanels (dict "title" "Warning Logs" "level" "WARN" "pos" "2" "color" "semi-dark-orange")  -}}
 
   {{- $panelWidth := div 24 (len $summaryPanels) -}}
   {{- $panelHeight := 5 -}}
+                  
 
   {{- $selectorElements := list "k8s_namespace_name=~\"$namespace\"" "k8s_deployment_name=~\"$deployment\"" "k8s_replicaset_name=~\"$replicaset\"" "k8s_pod_name=~\"$pod\"" -}}
   {{- range $thePanel := $summaryPanels -}}
@@ -213,6 +217,8 @@
     {{- $expression := printf "sum(count_over_time({%s} %s [$__interval]))" (join "," $summarySelectorElements) $levelFilterElement -}}
     {{- $target := dict "expr" $expression "queryType" "range" -}}
     {{- $_ := set $panelSpec "targets" (list $target) -}}
+    {{- /* $fieldConfig := dict "overrides" (list (dict "properties" (list (dict "id" "color" "value" (dict "fixedColor" "semi-dark-orange" "mode" "fixed"))))) -}}
+    {{- $_ := set $panelSpec "fieldconfig" $fieldConfig */ -}}
     {{- $panels = append $panels $panelSpec -}}
   {{- end -}}
 

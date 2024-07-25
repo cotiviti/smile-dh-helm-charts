@@ -1,5 +1,5 @@
-{{- $lokiConfig := include "observability.lokideployment.config" . | fromYaml -}}
-{{- if $lokiConfig.enabled -}}
+{{- $lokiConfig := include "observability.loki.config" . | fromYaml -}}
+{{- if $lokiConfig.deployment.enabled -}}
 {{- /* if (include "observability.lokideployment.enabled" . | fromYaml) */ -}}
 apiVersion: v1
 kind: Service
@@ -14,31 +14,9 @@ spec:
   type: "ClusterIP"
   ports:
     - name: loki
-      port: 3100
+      port: {{ $lokiConfig.http_port }}
       targetPort: loki
       protocol: TCP
-  selector:
-    app: loki
-    release: {{ .Release.Name }}
----
-apiVersion: v1
-kind: Service
-metadata:
-  # name: {{ .Release.Name }}-loki
-  name: loki-memberlist
-  namespace: {{ .Release.Namespace }}
-  labels:
-    {{- include "smilecdr.labels" $ | nindent 4 }}
-  annotations: {}
-spec:
-  type: "ClusterIP"
-  # clusterIP: None
-  ports:
-    - name: tcp
-      port: 7946
-      targetPort: http-memberlist
-      protocol: TCP
-
   selector:
     app: loki
     release: {{ .Release.Name }}

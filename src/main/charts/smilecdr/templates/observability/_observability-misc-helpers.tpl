@@ -440,66 +440,6 @@ Define env vars that will be used for observability
 Some helpers to reduce verbosity of if statements elsewhere.
 */}}
 
-{{- define "observability.lokideployment.config" -}}
-  {{- $lokiConf := dict -}}
-  {{- $saConfig := dict "create" false -}}
-  {{- if .Values.observability.enabled -}}
-    {{- /* if or (and ((.Values.observability.services).logging).enabled .Values.observability.services.logging.loki.enabled) (and ((.Values.observability.services).tracing).enabled (.Values.observability.services.tracing.loki).enabled) */ -}}
-    {{- if and ((.Values.observability.services).logging).enabled .Values.observability.services.logging.loki.enabled .Values.observability.services.logging.loki.internal -}}
-      {{- $_ := set $lokiConf "enabled" true -}}
-      
-      {{- $_ := set $saConfig "name" (default (printf "%s-%s" (include "smilecdr.fullname" .) "loki" ) (.Values.observability.services.logging.loki.serviceAccount).name) -}}
-      {{- /* if (.Values.observability.services.logging.loki.serviceAccount).name -}}
-        {{- $_ := set $saConfig "name"  -}}
-      {{- else -}}
-        {{- $_ := set $saConfig "name"  -}}
-      {{- end */ -}}
-      {{- $_ := set $saConfig "create" (default true ((.Values.observability.services.logging.loki.serviceAccount).create )) -}}
-      {{- /*if (.Values.observability.services.logging.loki.serviceAccount).create }}
-        {{- $_ := set $saConfig "create" true -}}
-      {{- else -}}
-        {{- $_ := set $lokiConf "create" false -}}
-      {{- end */ -}}
-      {{- $_ := set $saConfig "annotations" (default dict (.Values.observability.services.logging.loki.serviceAccount).annotations) -}}
-      
-      {{- $_ := set $lokiConf "bucketNames" .Values.observability.services.logging.loki.bucketNames -}}
-      {{- /* fail (printf "Loki bucket names: %s" (toPrettyJson .Values.observability.services.logging.loki)) */ -}}
-
-    {{- end -}}
-  {{- end -}}
-  {{- $_ := set $lokiConf "serviceAccount" $saConfig -}}
-  {{- $lokiConf | toYaml -}}
-{{- end -}}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "observability.lokideployment.serviceAccountName" -}}
-{{- if .Values.observability.services.logging.loki.serviceAccount.create }}
-{{- default (include "observability.lokideployment.fullname" .) .Values.observability.services.logging.loki.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.observability.services.logging.loki.serviceAccount.name }}
-{{- end }}
-{{- end }}
-
-{{/*
-Create a default fully qualified app name.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-If release name contains chart name it will be used as a full name.
-*/}}
-{{- define "observability.lokideployment.fullname" -}}
-{{- if .Values.fullnameOverride }}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- $name := default .Chart.Name .Values.nameOverride }}
-{{- if contains $name .Release.Name }}
-{{- .Release.Name | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
-{{- end }}
-{{- end }}
-{{- end }}
-
 {{- define "observability.otelagent" -}}
   {{- /* Set defaults */ -}}
   {{- $otelAgentConfig := dict "enabled" false "useOperator" false -}}
@@ -656,6 +596,7 @@ If release name contains chart name it will be used as a full name.
     {{- $yamlConfig := dict -}}
     {{- if and (.Values.observability.instrumentation.logging).enabled ((.Values.observability.services.logging).loki).enabled -}}
       {{- $receiverType = "otlpgrpc" -}}
+      {{- $lokiConfig := include "observability.loki.config" . | fromYaml -}}
       {{- $lokiResourceLabels := list -}}
       {{- $lokiResourceLabels = append $lokiResourceLabels (dict "name" "namespace" "source" "k8s.namespace.name") -}}
       {{- $lokiResourceLabels = append $lokiResourceLabels (dict "name" "deployment" "source" "k8s.deployment.name") -}}
@@ -685,13 +626,13 @@ If release name contains chart name it will be used as a full name.
       {{- end -}}
       
 
-      {{- $lokiHost := "loki" -}}
-      {{- $lokiPort := "3100" -}}
+      {{- /* $lokiHost := $lokiConfig.host */ -}}
+      {{- /* $lokiPort := $lokiConfig.http_port */ -}}
       {{- /* Loki exporter is deprecated. See Here: https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/lokiexporter/README.md */ -}}
       {{- /* $_ := set $exporters "loki" (dict "endpoint" (printf "http://%s:%s/loki/api/v1/push" $lokiHost $lokiPort)) */ -}}
       {{- /* Use `otlphttp` exporter instead: https://github.com/open-telemetry/opentelemetry-collector/tree/main/exporter/otlphttpexporter */ -}}
       {{- /* Note that `/v1/logs` is automatically appended to the endpoint, so it must not be added in the endpoint here */ -}}
-      {{- $_ := set $exporters "otlphttp/logs" (dict "endpoint" (printf "http://%s:%s/otlp" $lokiHost $lokiPort) "headers" (dict "X-Scope-OrgID" $orgId)) -}}
+      {{- $_ := set $exporters "otlphttp/logs" (dict "endpoint" (printf "%s://%s:%s/otlp" $lokiConfig.scheme $lokiConfig.http_port) "headers" (dict "X-Scope-OrgID" $orgId)) -}}
 
       {{- if eq $receiverType "otlpgrpc" -}}
         {{- $_ := set $receivers "otlp" (dict "protocols" (dict "grpc" dict)) -}}
