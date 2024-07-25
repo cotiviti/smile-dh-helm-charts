@@ -646,6 +646,12 @@ Some helpers to reduce verbosity of if statements elsewhere.
     {{- $_ := set $yamlConfig "exporters" $exporters -}}
     {{- $_ := set $yamlConfig "receivers" $receivers -}}
     {{- $_ := set $yamlConfig "service" (dict "pipelines" $pipelines) -}}
+
+    {{- /* Merge settings from values file, if any */ -}}
+    {{- with (.Values.observability.instrumentation.openTelemetry.otelCollector).config -}}
+      {{- $yamlConfig = deepCopy (mergeOverwrite (. | fromYaml) $yamlConfig) -}}
+    {{- end -}}
+
     {{- $_ := set $otelCollConfig "yamlConfig" $yamlConfig -}}
   {{- end -}}
   {{- $otelCollConfig | toYaml -}}
