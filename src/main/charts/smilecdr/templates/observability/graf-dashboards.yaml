@@ -4,7 +4,7 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: {{ $.Release.Name }}-grafdash-{{ lower $theDashboardName }}
+  name: {{ printf "%s-%s" $.Release.Name (lower $theDashboardName) }}
   namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "smilecdr.labels" $ | nindent 4 }}

@@ -191,7 +191,7 @@
   {{- $panelWidth := div 24 (len $summaryPanels) -}}
   {{- $panelHeight := 5 -}}
 
-  {{- $selectorElements := list "namespace=~\"$namespace\"" "deployment=~\"$deployment\"" "replicaset=~\"$replicaset\"" "pod=~\"$pod\"" -}}
+  {{- $selectorElements := list "k8s_namespace_name=~\"$namespace\"" "k8s_deployment_name=~\"$deployment\"" "k8s_replicaset_name=~\"$replicaset\"" "k8s_pod_name=~\"$pod\"" -}}
   {{- range $thePanel := $summaryPanels -}}
     {{- $panelSpec := dict -}}
     {{- $_ := set $panelSpec "type" "timeseries" -}}
@@ -199,10 +199,12 @@
     {{- $_ := set $panelSpec "datasource" $lokiDatasource -}}
     {{- $_ := set $panelSpec "gridPos" (dict "h" $panelHeight "w" $panelWidth "y" 0 "x" (mul $thePanel.pos $panelWidth))  -}}
     {{- $summarySelectorElements := $selectorElements -}}
+    {{- $levelFilterElement := "" -}}
     {{- if contains $thePanel.level "ERROR WARN" -}}
-      {{- $summarySelectorElements = append $summarySelectorElements (printf "level=`%s`" $thePanel.level) -}}
+      {{- /* $summarySelectorElements = append $summarySelectorElements (printf "severity_text=`%s`" $thePanel.level) */ -}}
+      {{- $levelFilterElement = (printf "| severity_text=`%s`" $thePanel.level) -}}
     {{- end -}}
-    {{- $expression := printf "sum(count_over_time({%s} [$__interval]))" (join "," $summarySelectorElements) -}}
+    {{- $expression := printf "sum(count_over_time({%s} %s [$__interval]))" (join "," $summarySelectorElements) $levelFilterElement -}}
     {{- $target := dict "expr" $expression "queryType" "range" -}}
     {{- $_ := set $panelSpec "targets" (list $target) -}}
     {{- $panels = append $panels $panelSpec -}}
@@ -215,8 +217,11 @@
   {{- $_ := set $logsPanelSpec "gridPos" (dict "h" 15 "w" 24 "y" $panelHeight "x" 0)  -}}
   {{- $options := dict "showTime" true "wrapLogMessage" true -}}
   {{- $_ := set $logsPanelSpec "options" $options -}}
-  {{- $logSelectorElements := append $selectorElements "level=~\"$level\"" -}}
-  {{- $expression := printf "{%s} |~ `$search` | json | line_format `{{.pod}} [{{.attributes_thread_name}}] {{.level}} {{.instrumentation_scope_name}} {{.body}}`" (join "," $logSelectorElements) -}}
+  {{- $levelFilterElement := "| severity_text=~\"$level\"" -}}
+  {{- /* $logSelectorElements := append $selectorElements "level=~\"$level\"" */ -}}
+  {{- /* $expression := printf "{%s} |~ `$search` | json | line_format `{{.pod}} [{{.attributes_thread_name}}] {{.level}} {{.instrumentation_scope_name}} {{.body}}`" (join "," $logSelectorElements) */ -}}
+  {{- /* $expression := printf "{%s} %s | severity_text =~ `$level` |~ `$search` | line_format `{{.pod}} [{{.thread_name}}] {{.severity_text}} {{.scope_name}} {{__line__}}`" (join "," $logSelectorElements) $levelFilterElement */ -}}
+  {{- $expression := printf "{%s} %s |~ `$search` | line_format `{{.k8s_pod_name}} [{{.thread_name}}] {{.severity_text}} {{.scope_name}} {{__line__}}`" (join "," $selectorElements) $levelFilterElement -}}
   {{- $target := dict "expr" $expression "queryType" "range" -}}
   {{- $_ := set $logsPanelSpec "targets" (list $target) -}}
   {{- $panels = append $panels $logsPanelSpec -}}
@@ -226,12 +231,14 @@
   {{- $variableSpecs := list -}}
 
   {{- $variableDefinitions := list -}}
-  {{- $variableDefinitions = append $variableDefinitions (dict "name" "namespace" "label" "Namespace" "type" "query" "queryLabel" "namespace") -}}
-  {{- $variableDefinitions = append $variableDefinitions (dict "name" "deployment" "label" "Deployment" "type" "query" "queryLabel" "deployment") -}}
-  {{- $variableDefinitions = append $variableDefinitions (dict "name" "replicaset" "label" "ReplicaSet" "type" "query" "queryLabel" "replicaset") -}}
-  {{- $variableDefinitions = append $variableDefinitions (dict "name" "pod" "label" "Pod" "type" "query" "queryLabel" "pod") -}}
-  {{- $variableDefinitions = append $variableDefinitions (dict "name" "level" "label" "Level" "type" "query" "queryLabel" "level") -}}
+  {{- $variableDefinitions = append $variableDefinitions (dict "name" "namespace" "label" "Namespace" "type" "query" "queryLabel" "k8s_namespace_name") -}}
+  {{- $variableDefinitions = append $variableDefinitions (dict "name" "deployment" "label" "Deployment" "type" "query" "queryLabel" "k8s_deployment_name") -}}
+  {{- $variableDefinitions = append $variableDefinitions (dict "name" "replicaset" "label" "ReplicaSet" "type" "query" "queryLabel" "k8s_replicaset_name") -}}
+  {{- $variableDefinitions = append $variableDefinitions (dict "name" "pod" "label" "Pod" "type" "query" "queryLabel" "k8s_pod_name") -}}
+  {{- /* $variableDefinitions = append $variableDefinitions (dict "name" "level" "label" "Level" "type" "query" "queryLabel" "level") */ -}}
+  {{- $variableDefinitions = append $variableDefinitions (dict "name" "level" "label" "Level" "type" "custom" "query" "INFO,ERROR,WARN") -}}
   {{- $variableDefinitions = append $variableDefinitions (dict "name" "search" "label" "Search" "type" "textbox") -}}
+
   {{- range $theVariable := $variableDefinitions -}}
     {{- $theListSpec := dict "name" $theVariable.name -}}
     {{- $_ := set $theListSpec "type" $theVariable.type -}}
@@ -246,6 +253,10 @@
       {{- $_ := set $theListSpec "query" $query -}}
     {{- else if eq $theVariable.type "textbox" -}}
       {{- $_ := set $theListSpec "query" "" -}}
+    {{- else if eq $theVariable.type "custom" -}}
+      {{- $_ := set $theListSpec "query" $theVariable.query -}}
+      {{- $_ := set $theListSpec "multi" true -}}
+      {{- $_ := set $theListSpec "includeAll" true -}}
     {{- else -}}
       {{- fail "You must set a type in Grafana dashboard variables" -}}
     {{- end -}}
