@@ -163,6 +163,9 @@ locals {
                    }
                 }
             } : {},
+
+          # Configure Loki config if enabled
+          local.loki_helm_config, 
         )
       )
     ],
