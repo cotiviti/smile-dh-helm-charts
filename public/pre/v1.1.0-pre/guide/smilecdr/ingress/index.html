@@ -1,0 +1,2321 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1.0-pre/guide/smilecdr/ingress/">
+      
+      
+        <link rel="prev" href="../database/">
+      
+      
+        <link rel="next" href="../tls-encryption/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.31">
+    
+    
+      
+        <title>Ingress - Smile Digital Health Helm Charts</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.3cba04c6.min.css">
+      
+      
+  
+  
+    
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.752 1.752 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/></svg>');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/colours.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#configuring-ingress" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Smile Digital Health Helm Charts
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ingress
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81-2.9-.295-5.7.083-8.4 1.11-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.09 18.09 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3 4.7 0 9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    smile-dh-helm-charts
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../quickstart-aws/" class="md-tabs__link">
+          
+  
+    
+  
+  Quickstart
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+    
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../examples/" class="md-tabs__link">
+          
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Smile Digital Health Helm Charts
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81-2.9-.295-5.7.083-8.4 1.11-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.09 18.09 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3 4.7 0 9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    smile-dh-helm-charts
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../.." class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Home
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../charts/smilecdr/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Smile CDR
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Smile CDR
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../charts/smilecdr/smilecdr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../charts/smilecdr/CHANGELOG-PRE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Changelog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../quickstart-aws/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Quickstart
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quickstart
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart-aws/eks-cluster/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Prepare EKS Cluster
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart-aws/aws-resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Prepare AWS Resources
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart-aws/deploy-terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deploy Smile CDR with Terraform
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    User Guide
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            User Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    General
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            General
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../helm-repo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Helm Repository Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Secrets Handling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../serviceaccount/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Service Accounts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../values-files-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Values Files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Smile CDR
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Smile CDR
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requirements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Requirements
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cdrversions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Versions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_5" id="__nav_3_3_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Configuration
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Modules
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Database
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Ingress
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Ingress
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ingress-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ingress Type
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ingress Type">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nginx-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nginx Ingress
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aws-load-balancer-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      AWS Load Balancer Controller
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure-application-gateway-ingress-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Application Gateway Ingress Controller
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-ingress-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Ingress Resources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multiple Ingress Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#default-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      Default Ingress
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defining-custom-ingress-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Defining Custom Ingress Configurations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-ingress-for-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Ingress for Modules
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extra-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extra Annotations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ingress-class-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ingress Class Name
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disabling-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disabling Ingress
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Type
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tls-encryption/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TLS Encryption
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cdrnode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cluster Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Including Extra Files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cdr-license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    License Module
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../messagebroker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Message Broker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hl7v2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HL7V2 Endpoint Module
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resource Tuning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../envvars/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Environment Variables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logging/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Logging
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../podscheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pod Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../updating/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Applying Changes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../examples/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Examples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/minimal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Minimal Config
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/external-db/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Single External Database
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/external-db-multi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multiple External Databases
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/modules-simple/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Simple Module Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/modules-advanced/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Advanced Module Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/extra-files-helm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adding Files using Helm
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/extra-files-external/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adding Files using External
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/previousrootversion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Use Previous Versions of Smile CDR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/aws-dependencies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configure AWS Dependencies
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/quickstart/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quickstart
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ingress-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ingress Type
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ingress Type">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nginx-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nginx Ingress
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aws-load-balancer-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      AWS Load Balancer Controller
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure-application-gateway-ingress-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Application Gateway Ingress Controller
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-ingress-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Ingress Resources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multiple Ingress Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#default-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      Default Ingress
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defining-custom-ingress-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Defining Custom Ingress Configurations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-ingress-for-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Ingress for Modules
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extra-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extra Annotations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ingress-class-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ingress Class Name
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disabling-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disabling Ingress
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Type
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="configuring-ingress">Configuring Ingress<a class="headerlink" href="#configuring-ingress" title="Permanent link">&para;</a></h1>
+<p>This chart enables flexible Kubernetes Ingress resource configuration, supporting multiple Ingress and IngressClass resources for versatile application traffic routing.</p>
+<p>Currently supported controllers include Nginx Ingress, AWS Load Balancer, and Azure Application Gateway.</p>
+<h2 id="ingress-type">Ingress Type<a class="headerlink" href="#ingress-type" title="Permanent link">&para;</a></h2>
+<p>This chart uses a concept of ingress <code>Type</code> to determine what kind of Ingress Controller is being used. It should not be confused with the <code>IngressClass</code>.</p>
+<p>The following ingress types are currently supported:</p>
+<ul>
+<li><code>nginx-ingress</code> (Default)</li>
+<li><code>aws-lbc-alb</code></li>
+<li><code>azure-agic</code></li>
+</ul>
+<p>This setting is used to help automatically configure the <code>Service</code> and <code>Ingress</code> resources so that the configured Ingress Controller can configure infrastructure resources appropriately.</p>
+<p>The ingress type for any given ingress can be set with <code>ingresses.default.type: ingress-type</code>.</p>
+<blockquote>
+<p><strong>NOTE:</strong> If migrating from Helm Chart versions older than <code>v1.0.0-pre.104</code>, you will need to adjust from the old config schema to the new one. This can be done by moving any configurations that were previously under <code>ingress.*</code> to <code>ingresses.default.*</code>. e.g. <code>ingress.type: aws-lbc-alb</code> would become <code>ingresses.default.type: aws-lbc-alb</code></p>
+</blockquote>
+<h3 id="nginx-ingress">Nginx Ingress<a class="headerlink" href="#nginx-ingress" title="Permanent link">&para;</a></h3>
+<p>By default, this chart is configured to use the <a href="https://kubernetes.github.io/ingress-nginx/">Nginx Ingress Controller</a>. <code>ingresses.default.type</code> is already set to <code>nginx-ingress</code> so you do not need to do anything to use this Ingress Controller.</p>
+<p>The behavior of the Nginx Ingress controller differs based on the cloud provider being used. When used in conjunction with the <a href="https://kubernetes-sigs.github.io/aws-load-balancer-controller">AWS Load Balancer Controller</a>, the Nginx Ingress will be backed by an AWS NLB (Network Load Balancer).</p>
+<p>The <code>Service</code> objects will be set as <code>ClusterIP</code> rather than <code>NodePort</code>. This increases the security stance of the deployment as Kubernetes does not expose these services externally to the cluster. All traffic comes from the Nginx Ingress Controller pod, directly to the application pods.</p>
+<h4 id="tls-encryption">TLS Encryption<a class="headerlink" href="#tls-encryption" title="Permanent link">&para;</a></h4>
+<p>By default the Nginx ingress uses a <strong><em>self-signed</em></strong> certificate. If this is sufficient for your needs (as the fronting AWS NLB does not need to verify the certificates), nothing else needs to be done.</p>
+<p>If, however, you need to use a <strong><em>publicly-signed</em></strong> TLS certificate in the Nginx ingress (for example, using TLS passthrough on the fronting load balancer) then you can configure Nginx Ingress to use cert-manager and Let's Encrypt to automatically provision a suitable TLS certificate.</p>
+<p>For a detailed explanation of how this solution works, refer to the <a href="https://kubernetes.github.io/ingress-nginx/user-guide/tls/#automated-certificate-management-with-cert-manager">ingress-nginx</a> and <a href="https://cert-manager.io/docs/tutorials/acme/nginx-ingress/">cert-manager</a> documentation.</p>
+<p>This can currently be configured using the Helm Chart using two methods</p>
+<h5 id="option-1">Option 1<a class="headerlink" href="#option-1" title="Permanent link">&para;</a></h5>
+<p><strong>Create Let's Encrypt Staging <code>Issuer</code> Resource</strong></p>
+<p><strong>Step 1</strong></p>
+<p>Use the below <code>values.yaml</code> snippet to enable the Helm Chart to generate a Let's Encrypt issuer.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>tls:
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  certificateIssuers:
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    default:
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>      enabled: true
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>      signingMethod: public-signed
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>      acmeSpec:
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        email: test@example2.com
+</code></pre></div></p>
+<p><strong>Step 2</strong></p>
+<p>Update your ingress configuration to enable TLS and use the issuer configuration defined above.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ingresses:
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  default:
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    tlsConfig:
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>      enabled: true
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>      issuerConfiguration: default
+</code></pre></div></p>
+<h5 id="option-2">Option 2<a class="headerlink" href="#option-2" title="Permanent link">&para;</a></h5>
+<p><strong>Use pre-existing <code>Issuer</code> Resource</strong></p>
+<p><strong>Step 1</strong></p>
+<p>Create a suitable public-signing <code>Issuer</code> resource. Refer to the cert-manager documentation for instructions on doing this.</p>
+<p>In the rest of this example, we will assume that this existing <code>Issuer</code> resource is named <code>my-existing-lets-encrypt-issuer</code></p>
+<p><strong>Step 2</strong></p>
+<p>Use the below <code>values.yaml</code> snippet to define the pre-existing Issuer in a way that it can be used by multiple sections of the Helm Chart.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>tls:
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  certificateIssuers:
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    myExistingLetsEncryptIssuer:
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>      enabled: true
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>      signingMethod: public-signed
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>      existingIssuer: my-existing-lets-encrypt-issuer
+</code></pre></div></p>
+<blockquote>
+<p><strong>Note:</strong> Although the above is not technically mandatory for Ingress TLS configuration, it's advisable to use this mechanism.
+By doing so, the same issuer can easily be used to create other certificates that can be used in the Smile CDR deployment.</p>
+</blockquote>
+<p><strong>Step 3</strong></p>
+<p>Update your ingress configuration to enable TLS and use the issuer defined above. Note that you can either reference the above-defined <code>tls.certificateIssuers</code> configuration,
+or you can directly reference the pre-existing <code>Issuer</code> resource that you created.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ingresses:
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  default:
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    tlsConfig:
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>      enabled: true
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>      issuerConfiguration: myExistingLetsEncryptIssuer
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>      # If directly referencing the pre-existing `Issuer` resource that you created, use the following instead
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>      # existingIssuer: my-existing-lets-encrypt-issuer
+</code></pre></div></p>
+<blockquote>
+<p><strong>Note:</strong> For brevity, these examples do not enable back-end encryption to the Smile CDR pods. Please see the <a href="../tls-encryption/">TLS Encryption</a> section for more information on enabling back-end encryption, configuring Issuers, Certificates and using them in Smile CDR.</p>
+</blockquote>
+<h5 id="byo-certificate">BYO Certificate<a class="headerlink" href="#byo-certificate" title="Permanent link">&para;</a></h5>
+<p>At this time, the Helm Chart does not support providing your own externally-provisioned TLS certificate. This feature will be added at a future date.</p>
+<h4 id="dedicated-nginx-ingress">Dedicated Nginx Ingress<a class="headerlink" href="#dedicated-nginx-ingress" title="Permanent link">&para;</a></h4>
+<p>By default, this option uses the <code>nginx</code> ingress class. If multiple ingresses all use the same default IngressClass, then they will share the same underlying NLB.</p>
+<p>If you need to use a dedicated (or multiple) NLBs for this deployment, you can do so by first creating any required Nginx Ingress Controllers with a different IngressClass name. You can then specify this ingress class with <code>ingresses.default.ingressClassNameOverride</code>.</p>
+<h3 id="aws-load-balancer-controller">AWS Load Balancer Controller<a class="headerlink" href="#aws-load-balancer-controller" title="Permanent link">&para;</a></h3>
+<p>To directly use the AWS Load Balancer Controller set <code>ingresses.default.type</code> to <code>aws-lbc-alb</code>. By default, this option uses the <code>alb</code> ingress class.</p>
+<p>This automatically adds appropriate default <code>Ingress</code> annotations for the AWS Load Balancer Controller. The controller will then create an AWS ALB (Application Load Balancer).</p>
+<p>You will still need to add some extra annotations, such as <code>alb.ingress.kubernetes.io/certificate-arn</code>. See the <a href="#extra-annotations">Extra Annotations</a> section below for more info.</p>
+<blockquote>
+<p><strong>Warning</strong>: Be aware that the <code>Service</code> objects will be set as <code>NodePort</code> rather than  <code>ClusterIP</code>. This means that the application services will be made available externally to the cluster which may have security implications you need to be aware of.</p>
+</blockquote>
+<h4 id="known-problems">Known Problems<a class="headerlink" href="#known-problems" title="Permanent link">&para;</a></h4>
+<p>There is currently a problem with the AWS Load Balancer Controller configuration where the health checks do not function as expected. This is somewhat mitigated by the fact that the <code>Service</code> objects are using <code>NodePort</code>. This will be addressed in a future release of this chart.</p>
+<h3 id="azure-application-gateway-ingress-controller">Azure Application Gateway Ingress Controller<a class="headerlink" href="#azure-application-gateway-ingress-controller" title="Permanent link">&para;</a></h3>
+<p>If you wish to use the Azure Application Gateway Ingress Controller (AGIC), set <code>ingresses.default.type</code> to <code>azure-agic</code>. By default, this option uses the <code>azure/application-gateway</code> ingress class.</p>
+<p>When using this method, the chart will automatically add <code>Ingress</code> annotations for the Azure Application Gateway Controller. The controller will then create an Azure Application Gateway to be used as ingress.</p>
+<p>You will still need to add some extra annotations, such as <code>appgw.ingress.kubernetes.io/appgw-ssl-certificate</code>. See the <a href="#extra-annotations">Extra Annotations</a> section below for more info.</p>
+<blockquote>
+<p><strong>Warning</strong>: Be aware that the <code>Service</code> objects will be set as <code>NodePort</code> rather than  <code>ClusterIP</code>. This means that the application services will be made available externally to the cluster which may have security implications you need to be aware of.</p>
+</blockquote>
+<h2 id="multiple-ingress-resources">Multiple Ingress Resources<a class="headerlink" href="#multiple-ingress-resources" title="Permanent link">&para;</a></h2>
+<p>This chart allows for configurations using an arbitrary number of ingress resources and ingress classes.</p>
+<p>This enables the implementation of architectures that require multiple routes for accessing for your environment. For example, you may require some services available publically while others, such as the Admin Web Console, may only permit access from a private network.</p>
+<h3 id="default-ingress">Default Ingress<a class="headerlink" href="#default-ingress" title="Permanent link">&para;</a></h3>
+<p>In order to simplify deployment of certain architectures, this chart supports the concept of a 'default' Ingress resource.</p>
+<p>The default Ingress resource will be used for any Smile CDR modules that have not explicitly defined <code>service.ingresses</code> in their configuration.</p>
+<h4 id="the-pre-defined-default-ingress-configuration">The pre-defined Default Ingress Configuration<a class="headerlink" href="#the-pre-defined-default-ingress-configuration" title="Permanent link">&para;</a></h4>
+<p>If no changes are made to the <code>ingresses</code> section of your Helm Values, a pre-defined Ingress Configuration is created, that effectively looks like this:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ingresses:
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  default:
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    enabled: true
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    type: nginx-ingress
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    defaultIngress: true
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    ingressClassName: nginx
+</code></pre></div>
+With the above pre-defined ingress, any module with an endpoint-enabled service will have rules injected into the <code>Ingress</code> resource created by this configuration.</p>
+<h4 id="the-defaultingress-setting">The <code>defaultIngress</code> setting<a class="headerlink" href="#the-defaultingress-setting" title="Permanent link">&para;</a></h4>
+<p>This setting tells an Ingress resource to serve as the active <em>default ingress</em>. This setting can only be enabled for a single Ingress Configuration at a time.</p>
+<p>If you are defining a custom default Ingress Configuration and do not wish to use the pre-defined one, you need to disable it like so:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>ingresses:
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  default:
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    enabled: false
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>  myCustomDefaultIngress
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    enabled: true
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    type: nginx-ingress
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    defaultIngress: true
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    ...
+</code></pre></div>
+<blockquote>
+<p><strong>NOTE:</strong> If there are no Ingress Configurations with this setting enabled, then any Smile CDR modules that <strong><em>HAVE NOT</em></strong> explicitly defined <code>service.ingresses</code> in their configuration will not be exposed externally to the K8s cluster.</p>
+</blockquote>
+<h4 id="configuring-the-pre-defined-default-ingress-configuration">Configuring the pre-defined Default Ingress Configuration<a class="headerlink" href="#configuring-the-pre-defined-default-ingress-configuration" title="Permanent link">&para;</a></h4>
+<p>The pre-defined Ingress Configuration can be reconfigured as follows:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ingresses:
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  default:
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    type: azure-agic
+</code></pre></div></p>
+<h4 id="disabling-the-pre-defined-default-ingress-configuration">Disabling the pre-defined Default Ingress Configuration<a class="headerlink" href="#disabling-the-pre-defined-default-ingress-configuration" title="Permanent link">&para;</a></h4>
+<p>If you are creating multiple custom Ingress Configurations, you may wish to disable the pre-defined default ingress. This can be done as follows:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>ingresses:
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  default:
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    enabled: false
+</code></pre></div></p>
+<blockquote>
+<p><strong>NOTE:</strong> If you disable the default ingress, then you must define at least one alternative Ingress Configuration if you wish to allow access from outside the Kubernetes cluster.</p>
+</blockquote>
+<h3 id="defining-custom-ingress-configurations">Defining Custom Ingress Configurations<a class="headerlink" href="#defining-custom-ingress-configurations" title="Permanent link">&para;</a></h3>
+<p>To allow for complex ingress architectures, you may define an arbitrary number of Ingress Configurations like so
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>ingresses:
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>  default:
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    enabled: false
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>  myPrivateNginx:
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    enabled: true
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    type: nginx-ingress
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    defaultIngress: true
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>  myPublicNginx:
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    enabled: true
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    type: nginx-ingress
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    ingressClassNameOverride: nginx-public
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a># These two are just to demonstrate using the
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>#  AWS Load Balancer Controller for Ingress
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>  myPrivateALB:
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>    enabled: true
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>    type: aws-lbc-alb
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>    annotations:
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>      alb.ingress.kubernetes.io/scheme: internal
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>  myPublicALB:
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>    enabled: true
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>    type: aws-lbc-alb
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>    annotations:
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>      alb.ingress.kubernetes.io/scheme: internet-facing
+</code></pre></div>
+In the above example we are:</p>
+<ul>
+<li>Disabling the default Ingress Configuration (We do this, because we will be defining a new default Ingress Configuration)</li>
+<li>Creating a <code>myPrivateNginx</code> defult Ingress Configuration.</li>
+<li>Using <code>defaultIngress</code> creates the default Ingress resource. This will be used by any Smile CDR modules that do not explicitly define <code>service.ingresses</code>.</li>
+<li>The Ingress resource will use the Nginx Ingress Controller via the <code>ingressClass</code> resource named <code>nginx</code></li>
+<li>Creating a <code>myPublicNginx</code> Ingress Configuration.</li>
+<li>This ingress will not be used unless a module specifies that it should use this ingress.</li>
+<li>The Ingress resource will use the Nginx Ingress Controller via the <code>ingressClass</code> resource named <code>nginx-public</code>. This additional Nginx Ingress Controller will need to be deployed before trying to use this configuration.</li>
+</ul>
+<p>The following two are just to demonstrate how you would use the AWS Load Balancer Controller as an alternative mechanism.</p>
+<ul>
+<li>Creating a <code>myPrivateALB</code> Ingress Configuration.</li>
+<li>This will use the AWS Load Balancer Controller with an IngressClassName of <code>alb</code>.</li>
+<li>It uses AWS Load Balancer Controller annotations to set this ingress to use an internal only AWS Application Load Balancer.</li>
+<li>Creating a <code>myPublicALB</code> Ingress Configuration.</li>
+<li>This will use the Nginx Ingress controller with an IngressClassName of <code>alb</code>.</li>
+<li>It uses AWS Load Balancer Controller annotations to set this ingress to use an internet facing AWS Application Load Balancer.</li>
+</ul>
+<blockquote>
+<p><strong>NOTE:</strong> There are no restrictions on mixing the <code>type</code> for Ingress Configurations. For example, you may have some Ingress Configurations use <code>nginx-ingress</code> and others use <code>aws-lbc-alb</code>.</p>
+</blockquote>
+<h3 id="configure-ingress-for-modules">Configure Ingress for Modules<a class="headerlink" href="#configure-ingress-for-modules" title="Permanent link">&para;</a></h3>
+<p>Smile CDR modules will automatically be configured to use whichever ingress has the <code>defaultIngress</code> setting enabled.</p>
+<p>If you do not want a module to use the default Ingress resource, or if there is no default Ingress Configuration defined, then you need to explicitly configure the <code>service.ingresses</code> for any Smile CDR modules that need to be accessed from outside the Kubernetes cluster.</p>
+<p>To configure a Smile CDR module to use a specific ingress, specify it in the <code>moduleSpec.service.ingresses</code> map as follows:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>modules:
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>  fhirweb_endpoint:
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    service:
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>      hostName: myFhirwebHost.example.com
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>      ingresses:
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>        myPublicNginx:
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>          enabled: true
+</code></pre></div>
+In the above example we are telling the module named <code>fhirweb_endpoint</code> to use the <code>myPublicNginx</code> ingress specified previously mentioned. With the sample 'Multiple Ingress' configurations provided in on this page, all Smile CDR modules will only be accessible via the <code>myPrivateNginx</code> ingress, except for the <code>fhirweb_endpoint</code> module which will be available via the public access route.</p>
+<blockquote>
+<p><strong>NOTE:</strong> Although you can configure a module to use multiple Ingress resources, be careful doing this unless you are using a split-dns configuration that preserves the host name for all ingresses.</p>
+<p>Having an endpoint be accessible via multiple hostnames can cause issues with incorrect links to resources generated by the application. It's advisable to only have a given module be accessible via a single ingress/hostname.</p>
+</blockquote>
+<h2 id="extra-annotations">Extra Annotations<a class="headerlink" href="#extra-annotations" title="Permanent link">&para;</a></h2>
+<p>Depending on the ingress type you select, the chart will automatically add a set of default annotations that are appropriate for the ingress type being used.</p>
+<p>However, it is not possible for the chart to automatically include all annotations as some need to be specified in your configuration.</p>
+<p>To add any extra annotations, or override existing ones, include them in your values file like so:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">ingresses</span><span class="p">:</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">default</span><span class="p">:</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="nt">annotations</span><span class="p">:</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">      </span><span class="nt">alb.ingress.kubernetes.io/certificate-arn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arn:aws:acm::01234567890:certificate/abcdef</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">      </span><span class="nt">alb.ingress.kubernetes.io/inbound-cidrs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;0.0.0.0/0&#39;</span><span class="p p-Indicator">]</span>
+</code></pre></div>
+<p>or
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">ingresses</span><span class="p">:</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">default</span><span class="p">:</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="nt">annotations</span><span class="p">:</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">      </span><span class="nt">appgw.ingress.kubernetes.io/appgw-ssl-certificate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysslcert</span>
+</code></pre></div></p>
+<h2 id="ingress-class-name">Ingress Class Name<a class="headerlink" href="#ingress-class-name" title="Permanent link">&para;</a></h2>
+<p>This chart uses the following default class names for the different ingress types</p>
+<table>
+<thead>
+<tr>
+<th>Selected <code>ingresses.default.type</code></th>
+<th>Default <code>ingressClassName</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nginx-ingress</code></td>
+<td><code>nginx</code></td>
+</tr>
+<tr>
+<td><code>aws-lbc-alb</code></td>
+<td><code>alb</code></td>
+</tr>
+<tr>
+<td><code>azure-agic</code></td>
+<td><code>azure/application-gateway</code></td>
+</tr>
+</tbody>
+</table>
+<p>If you have configured your Ingress Controller with a different <code>ingressClass</code> name, you can override it using <code>ingresses.default.ingressClassNameOverride</code>.</p>
+<p>For example, if you had a dedicated Nginx Ingress Controller with the <code>IngressClass</code> of <code>nginx-dedicated</code>, you would include it in your values file like so:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">ingresses</span><span class="p">:</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">default</span><span class="p">:</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="nt">ingressClassNameOverride</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-dedicated</span>
+</code></pre></div>
+<h2 id="disabling-ingress">Disabling Ingress<a class="headerlink" href="#disabling-ingress" title="Permanent link">&para;</a></h2>
+<p>In some scenarios, you may wish to disable external ingress for certain modules. For example, if you have a FHIR Rest Endpoint module that is behind a FHIR Gateway module, you may not want to expose the FHIR Rest endpoint externally to the cluster.</p>
+<p>In this case, you can disable the ingress for a given service like so:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">modules</span><span class="p">:</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">fhir_endpoint</span><span class="p">:</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="nt">service</span><span class="p">:</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">      </span><span class="nt">ingresses</span><span class="p">:</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">        </span><span class="nt">default</span><span class="p">:</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">          </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</code></pre></div></p>
+<p>Configuring your module like this will prevent any rules from being added to the default Ingress resource that is generated.</p>
+<p>If your module is a FHIR Rest Endpoint module, the <code>base_url.fixed</code> setting will be automatically configured appropriately and there is no need for you set this in your <code>moduleSpec.config</code>.</p>
+<h2 id="service-type">Service Type<a class="headerlink" href="#service-type" title="Permanent link">&para;</a></h2>
+<p>The appropriate type for the <code>Service</code> resources depend on which Ingress type is being used.
+The default <code>Service</code> created by this chart is <code>ClusterIP</code>. This is the preferred option as it does not expose the Services externally to the cluster.</p>
+<p>When using the AWS Load Balancer Controller, or Azure Application Gateway Controller, the service objects are instead set to <code>NodePort</code>.</p>
+<p>This can be overriden using <code>service.type</code> in your values file, but it is not recommended and may cause unpredictable behaviour.</p>
+<!-- TODO: We may need to enable `target-type: ip` in the AWS Load Balancer Controller. If doing this, we will need to use pod readiness gates - https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/deploy/pod_readiness_gate/ . This will not work until healthchecks are functioning correctly. -->
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>
