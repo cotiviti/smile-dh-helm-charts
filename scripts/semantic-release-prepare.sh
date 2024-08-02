@@ -26,7 +26,7 @@ do
     fi
 done <   <(find "${CHARTS_DIR}" -mindepth 1 -maxdepth 1 -type d -print0)
 
-echo ${NEW_VER} > .VERSION
+echo "${NEW_VER}" > .VERSION
 
 # Update helm unit test outputs for new version
 echo "Updating Helm Chart Unit Tests..."
