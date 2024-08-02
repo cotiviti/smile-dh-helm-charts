@@ -1,3 +1,10 @@
+## [1.0.1-pre.1](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0...v1.0.1-pre.1) (2024-08-02)
+
+
+### Bug Fixes
+
+* **smilecdr:** set java.io.tmpdir to correct location ([7b85499](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/7b854999f9079e72cd341f4e56fa39800172083f))
+
 # [1.0.0-pre.127](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0-pre.126...v1.0.0-pre.127) (2024-06-28)
 
 
