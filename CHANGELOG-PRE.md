@@ -1,3 +1,10 @@
+# [1.1.0-pre.1](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.1-pre.1...v1.1.0-pre.1) (2024-08-02)
+
+
+### Features
+
+* **smilecdr:** allow ephemeral volume configuration ([1f74351](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/1f74351d1947c50ffcfdab75d1457812827c7f8f))
+
 ## [1.0.1-pre.1](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0...v1.0.1-pre.1) (2024-08-02)
 
 
