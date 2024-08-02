@@ -1,0 +1,12 @@
+volumeConfig:
+  cdr:
+    log:
+      size: 2Gi
+    tmp:
+      size: 2Gi
+    classes:
+      size: 2Gi
+    customerlib:
+      size: 2Gi
+    amq:
+      size: 2Gi
