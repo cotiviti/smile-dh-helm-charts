@@ -52,12 +52,12 @@ Define fileVolumes for user defined mapped files
   {{- /* Add init-sync shared volumes for classes and customerlib if enabled */ -}}
   {{- if or (ne (len (include "smilecdr.classes.sources" . | fromYamlArray)) 0) (hasKey .Values "license") -}}
     {{- $fileVolume := dict "name" "scdr-volume-classes" -}}
-    {{- $_ := set $fileVolume "emptyDir" (dict "sizeLimit" "500Mi") -}}
+    {{- $_ := set $fileVolume "emptyDir" (dict "sizeLimit" (default "500Mi" (((.Values.volumeConfig).cdr).classes).size)) -}}
     {{- $fileVolumes = append $fileVolumes $fileVolume -}}
   {{- end -}}
   {{- if (ne (len (include "smilecdr.customerlib.sources" . | fromYamlArray)) 0) -}}
     {{- $fileVolume := dict "name" "scdr-volume-customerlib" -}}
-    {{- $_ := set $fileVolume "emptyDir" (dict "sizeLimit" "500Mi") -}}
+    {{- $_ := set $fileVolume "emptyDir" (dict "sizeLimit" (default "500Mi" (((.Values.volumeConfig).cdr).customerlib).size)) -}}
     {{- $fileVolumes = append $fileVolumes $fileVolume -}}
   {{- end -}}
   {{- $fileVolumes | toYaml -}}

@@ -244,6 +244,14 @@ Use this for generating deprecation notices and other warnings about the configu
     {{- $warningMessage = printf "%s\n            Refer to the docs for more info on how to configure ingress." $warningMessage -}}
   {{- end -}}
 
+  {{- /* Storage config warnings */ -}}
+  {{- if hasKey .Values "logsDirSize" -}}
+    {{- $warningMessage = printf "%s\n\nDEPRECATED: `values.logsDirSize`" $warningMessage -}}
+    {{- $warningMessage = printf "%s\n            The use of `values.logsDirSize` has been deprecated. Support for this will be" $warningMessage -}}
+    {{- $warningMessage = printf "%s\n            removed in a future version of the Helm Chart. Please use `values.volumeConfig.log.size` instead." $warningMessage -}}
+    {{- $warningMessage = printf "%s\n            Refer to the docs for more info on how to configure ephermeral storage volumes." $warningMessage -}}
+  {{- end -}}
+
   {{- $defaultIngress := false -}}
   {{- $cdrNodes := include "smilecdr.cdrNodes" . | fromYaml  -}}
   {{- $ingresses := include "smilecdr.ingresses" . | fromYaml -}}
