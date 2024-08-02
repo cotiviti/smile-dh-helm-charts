@@ -295,7 +295,8 @@ spec:
                   key: username
                   name: smilecdrsecret5
             - name: JVMARGS
-              value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
+              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
+                -Djava.security.egd=file:/dev/./urandom
           ports:
             - containerPort: 9100
               name: admin-web

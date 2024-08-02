@@ -18,6 +18,7 @@ Creates JVM args based on:
     {{- $jvmArgs = printf "%s -Xms%s" $jvmArgs $jvmHeapBytesString  -}}
   {{- end -}}
   {{- $jvmArgs = printf "%s -Xmx%s" $jvmArgs $jvmHeapBytesString  -}}
+  {{- $jvmArgs = printf "%s -Djava.io.tmpdir=/home/smile/smilecdr/tmp" $jvmArgs -}}
   {{- range $v := .Values.jvm.args -}}
     {{- $jvmArgs = printf "%s %s" $jvmArgs $v -}}
   {{- end -}}
