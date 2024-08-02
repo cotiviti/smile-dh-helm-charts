@@ -48,6 +48,16 @@ Define volumes and volume mounts based on combining:
   {{- $configMapVolume := dict "name" (printf "scdr-config-%s" .Release.Name) -}}
   {{- $_ := set $configMapVolume "configMap" (dict "name" (printf "%s-%s" .Release.Name .Values.configMapResourceSuffix)) -}}
   {{- $volumes = append $volumes $configMapVolume -}}
+
+  {{- /* Helm Specific smileutil command */ -}}
+  {{- $configMapVolume := dict "name" "scdr-smileutil" -}}
+  {{- $cmName := printf "%s-scdr-smileutil" .Release.Name -}}
+  {{- if $.Values.autoDeploy -}}
+    {{- $cmName = printf "%s-scdr-smileutil-%s" .Release.Name (sha256sum (include "smilecdr.cdrSmileutilText" .)) -}}
+  {{- end -}}
+  {{- $_ := set $configMapVolume "configMap" (dict "name" $cmName "defaultMode" 0770 ) -}}
+  {{- $volumes = append $volumes $configMapVolume -}}
+
   {{- if eq true .Values.securityContext.readOnlyRootFilesystem -}}
     {{- $tmpVolume := dict "name" "scdr-volume-tmp" -}}
     {{- $_ := set $tmpVolume "emptyDir" (dict "sizeLimit" (default "1Mi" (((.Values.volumeConfig).cdr).tmp).size)) -}}
@@ -124,6 +134,13 @@ Define volumes and volume mounts based on combining:
   {{- $_ := set $configMapVolumeMount "mountPath" "/home/smile/smilecdr/classes/cdr-config-Master.properties" -}}
   {{- $_ := set $configMapVolumeMount "subPath" "cdr-config-Master.properties" -}}
   {{- $volumeMounts = append $volumeMounts $configMapVolumeMount -}}
+
+  {{- /* Helm Specific smileutil command */ -}}
+  {{- $smileutilVolumeMount := dict "name" "scdr-smileutil" -}}
+  {{- $_ := set $smileutilVolumeMount "mountPath" "/home/smile/smilecdr/bin/smileutil" -}}
+  {{- $_ := set $smileutilVolumeMount "subPath" "smileutil" -}}
+  {{- $volumeMounts = append $volumeMounts $smileutilVolumeMount -}}
+
   {{- if eq true .Values.securityContext.readOnlyRootFilesystem -}}
     {{- $tmpVolumeMount := dict "name" "scdr-volume-tmp" -}}
     {{- $_ := set $tmpVolumeMount "mountPath" "/home/smile/smilecdr/tmp" -}}
