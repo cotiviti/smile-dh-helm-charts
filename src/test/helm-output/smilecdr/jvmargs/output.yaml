@@ -439,7 +439,7 @@ spec:
               cpu: "1"
           env:
             - name: JVMARGS
-              value: -server -Xmx3276m -Dmyarg=SMILE
+              value: -server -Xmx3276m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dmyarg=SMILE
           ports:
             - containerPort: 9000
               name: admin-json
