@@ -29,6 +29,10 @@ use by a node.
       {{- end -}}
     {{- end -}}
   {{- end -}}
+  {{- /* Add updated smileutil script on each node */ -}}
+  {{- $smileutilData := include "smilecdr.cdrSmileutilText" . -}}
+  {{- $smileutilConfigMap := (dict "name" "smileutil" "fileName" "smileutil" "data" $smileutilData "hash" ( sha256sum $smileutilData )) -}}
+  {{- $fileCfgMaps = append $fileCfgMaps $smileutilConfigMap -}}
 {{- end -}}
 {{- $fileCfgMaps | toYaml -}}
 {{- end -}}
