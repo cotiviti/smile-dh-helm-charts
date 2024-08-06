@@ -1,3 +1,10 @@
+# [1.1.0-pre.2](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.1.0-pre.1...v1.1.0-pre.2) (2024-08-06)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix smileutil command ([c7efcbe](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/c7efcbef35e69b2fbce8a52d8435bde5dbfb8f10))
+
 # [1.1.0-pre.1](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.1-pre.1...v1.1.0-pre.1) (2024-08-02)
 
 
