@@ -4,7 +4,9 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 5.35.0"
+      # version = ">= 5.35.0"
+      # Temporary version constraint until underlying issue with newer provider is resolved
+      version = "~> 5.60.0"
     }
 
     helm = {
