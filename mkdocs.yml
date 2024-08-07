@@ -87,6 +87,8 @@ nav:
         - 'Including Extra Files': guide/smilecdr/storage/files.md
         - 'Ephemeral Volume Configuration': guide/smilecdr/storage/volumeConfig.md
       - 'Applying Changes': guide/smilecdr/updating.md
+      - 'Operational Tasks':
+        - 'Using the Smile CLI': guide/smilecdr/operations/smileutil.md
   - Examples:
     - examples/index.md
     - 'Minimal Config': examples/minimal.md
