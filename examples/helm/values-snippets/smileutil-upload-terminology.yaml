@@ -1,0 +1,35 @@
+# This example helm values file can be used to prepare an environment for running the `smileutil upload-terminology` command.
+# In this example, we assume that:
+#  * We will be using AWS S3 to copy a ~500MB terminology zip file to the customerlib directory
+#  * The zip file unzips to ~4GB in size
+
+# Configure the ephemeral volumes for `/home/smile/smilecdr/tmp` and `/home/smile/smilecdr/customerlib`
+volumeConfig:
+  cdr:
+    customerlib:
+      # This needs to be big enough to hold the zip file
+      size: 1Gi
+    tmp:
+      # This needs to be big enough to hold a copy of the zip file as well as the unzipped data
+      size: 8Gi
+    
+# Configure copying the file to the pod on startup
+copyFiles:
+  customerlib:
+    sources:
+    # Copies files recursively from S3 to the customerlib directory
+    - type: s3
+      bucket: <mySourceBucketName>
+      path: /<pathOfFileInBucket/
+
+
+# Ensure that the pod has enough memory to run this command
+cdrNodes:
+  masterdev:
+    resources:
+      requests:
+        # Required memory will depend on the size of the zip file.
+        memory: 4Gi
+      limits:
+        # Set this 2GB higher than `requests` if running the `smileutil` command from inside the pod.
+        memory: 6Gi
