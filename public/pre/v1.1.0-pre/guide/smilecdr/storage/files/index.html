@@ -8,25 +8,25 @@
       
       
       
-        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1.0-pre/guide/smilecdr/logging/">
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1.0-pre/guide/smilecdr/storage/files/">
       
       
-        <link rel="prev" href="../envvars/">
+        <link rel="prev" href="../../podscheduling/">
       
       
-        <link rel="next" href="../podscheduling/">
+        <link rel="next" href="../volumeConfig/">
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.31">
     
     
       
-        <title>Logging - Smile Digital Health Helm Charts</title>
+        <title>Including Extra Files - Smile Digital Health Helm Charts</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.3cba04c6.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.3cba04c6.min.css">
       
       
   
@@ -55,9 +55,9 @@
     
       <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
     
-      <link rel="stylesheet" href="../../../stylesheets/colours.css">
+      <link rel="stylesheet" href="../../../../stylesheets/colours.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#smile-cdr-application-logging" class="md-skip">
+        <a href="#including-extra-files" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+    <a href="../../../.." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Logging
+              Including Extra Files
             
           </span>
         </div>
@@ -193,7 +193,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../.." class="md-tabs__link">
+        <a href="../../../.." class="md-tabs__link">
           
   
     
@@ -213,7 +213,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../quickstart-aws/" class="md-tabs__link">
+        <a href="../../../../quickstart-aws/" class="md-tabs__link">
           
   
     
@@ -235,7 +235,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../" class="md-tabs__link">
+        <a href="../../../" class="md-tabs__link">
           
   
     
@@ -255,7 +255,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../examples/" class="md-tabs__link">
+        <a href="../../../../examples/" class="md-tabs__link">
           
   
     
@@ -296,7 +296,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+    <a href="../../../.." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -353,7 +353,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../.." class="md-nav__link ">
+            <a href="../../../.." class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -415,7 +415,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../charts/smilecdr/" class="md-nav__link ">
+            <a href="../../../../charts/smilecdr/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -448,7 +448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../charts/smilecdr/smilecdr/" class="md-nav__link">
+      <a href="../../../../charts/smilecdr/smilecdr/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -469,7 +469,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../charts/smilecdr/CHANGELOG-PRE/" class="md-nav__link">
+      <a href="../../../../charts/smilecdr/CHANGELOG-PRE/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -536,7 +536,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../quickstart-aws/" class="md-nav__link ">
+            <a href="../../../../quickstart-aws/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -569,7 +569,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../quickstart-aws/eks-cluster/" class="md-nav__link">
+      <a href="../../../../quickstart-aws/eks-cluster/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -590,7 +590,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../quickstart-aws/aws-resources/" class="md-nav__link">
+      <a href="../../../../quickstart-aws/aws-resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -611,7 +611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../quickstart-aws/deploy-terraform/" class="md-nav__link">
+      <a href="../../../../quickstart-aws/deploy-terraform/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -671,7 +671,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../" class="md-nav__link ">
+            <a href="../../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -759,7 +759,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../helm-repo/" class="md-nav__link">
+      <a href="../../../helm-repo/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -780,7 +780,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../secrets/" class="md-nav__link">
+      <a href="../../../secrets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -801,7 +801,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../serviceaccount/" class="md-nav__link">
+      <a href="../../../serviceaccount/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -822,7 +822,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../values-files-management/" class="md-nav__link">
+      <a href="../../../values-files-management/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -891,7 +891,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -924,7 +924,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../requirements/" class="md-nav__link">
+      <a href="../../requirements/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -945,7 +945,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cdrversions/" class="md-nav__link">
+      <a href="../../cdrversions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -966,7 +966,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../install/" class="md-nav__link">
+      <a href="../../install/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -984,10 +984,8 @@
                 
   
   
-    
   
   
-  
     
     
       
@@ -1023,11 +1021,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_5" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3_5" >
         
           
           <label class="md-nav__link" for="__nav_3_3_5" id="__nav_3_3_5_label" tabindex="0">
@@ -1041,7 +1041,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_3_5">
             <span class="md-nav__icon md-icon"></span>
             Configuration
@@ -1055,7 +1055,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/" class="md-nav__link">
+      <a href="../../modules/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1076,7 +1076,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../database/" class="md-nav__link">
+      <a href="../../database/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1097,7 +1097,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ingress/" class="md-nav__link">
+      <a href="../../ingress/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1118,7 +1118,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-encryption/" class="md-nav__link">
+      <a href="../../tls-encryption/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1139,7 +1139,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cdrnode/" class="md-nav__link">
+      <a href="../../cdrnode/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1160,7 +1160,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cdr-license/" class="md-nav__link">
+      <a href="../../cdr-license/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1181,7 +1181,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../messagebroker/" class="md-nav__link">
+      <a href="../../messagebroker/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1202,7 +1202,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../hl7v2/" class="md-nav__link">
+      <a href="../../hl7v2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1223,7 +1223,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../resources/" class="md-nav__link">
+      <a href="../../resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1244,7 +1244,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../envvars/" class="md-nav__link">
+      <a href="../../envvars/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1257,6 +1257,104 @@
   
 
               
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logging/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Logging
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../podscheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pod Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_6" id="__nav_3_3_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Storage
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Storage
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -1278,7 +1376,7 @@
           
   
   <span class="md-ellipsis">
-    Logging
+    Including Extra Files
   </span>
   
 
@@ -1289,7 +1387,7 @@
         
   
   <span class="md-ellipsis">
-    Logging
+    Including Extra Files
   </span>
   
 
@@ -1311,55 +1409,46 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#custom-log-configuration" class="md-nav__link">
+  <a href="#available-methods" class="md-nav__link">
     <span class="md-ellipsis">
-      Custom Log Configuration
+      Available Methods
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#automatic-log-configuration" class="md-nav__link">
+  <a href="#choosing-which-method-to-use" class="md-nav__link">
     <span class="md-ellipsis">
-      Automatic Log Configuration
+      Choosing Which Method To Use
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Automatic Log Configuration">
+    <nav class="md-nav" aria-label="Choosing Which Method To Use">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#enable-troubleshooting-loggers" class="md-nav__link">
+  <a href="#helm-chart-method" class="md-nav__link">
     <span class="md-ellipsis">
-      Enable Troubleshooting Loggers
+      Helm Chart Method
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#set-arbitrary-loggers" class="md-nav__link">
+  <a href="#external-pull-method" class="md-nav__link">
     <span class="md-ellipsis">
-      Set Arbitrary Loggers
+      External Pull Method
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#create-custom-loggers" class="md-nav__link">
+  <a href="#using-both-methods" class="md-nav__link">
     <span class="md-ellipsis">
-      Create Custom Loggers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#provide-raw-custom-log-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Provide Raw Custom Log Configuration
+      Using Both Methods:
     </span>
   </a>
   
@@ -1371,28 +1460,79 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#log-collection-and-aggregation" class="md-nav__link">
+  <a href="#using-the-helm-chart-method" class="md-nav__link">
     <span class="md-ellipsis">
-      Log Collection and Aggregation
+      Using the Helm Chart Method
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Log Collection and Aggregation">
+    <nav class="md-nav" aria-label="Using the Helm Chart Method">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#current-helm-chart-support" class="md-nav__link">
+  <a href="#include-file-in-helm-deployment" class="md-nav__link">
     <span class="md-ellipsis">
-      Current Helm Chart Support
+      Include File in Helm Deployment
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#future-helm-chart-support" class="md-nav__link">
+  <a href="#include-file-in-values-file" class="md-nav__link">
     <span class="md-ellipsis">
-      Future Helm Chart Support
+      Include File in Values File
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-external-pull-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the External Pull Method
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the External Pull Method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      S3 Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-note-on-file-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      A Note On File Versioning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-helm-values-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Helm Values File
     </span>
   </a>
   
@@ -1419,105 +1559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../podscheduling/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Pod Scheduling
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_3_3_6" id="__nav_3_3_6_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Storage
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_3_6">
-            <span class="md-nav__icon md-icon"></span>
-            Storage
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../storage/files/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Including Extra Files
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../storage/volumeConfig/" class="md-nav__link">
+      <a href="../volumeConfig/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1546,7 +1588,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../updating/" class="md-nav__link">
+      <a href="../../updating/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1627,7 +1669,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../examples/" class="md-nav__link ">
+            <a href="../../../../examples/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1660,7 +1702,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/minimal/" class="md-nav__link">
+      <a href="../../../../examples/minimal/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1681,7 +1723,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/external-db/" class="md-nav__link">
+      <a href="../../../../examples/external-db/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1702,7 +1744,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/external-db-multi/" class="md-nav__link">
+      <a href="../../../../examples/external-db-multi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1723,7 +1765,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/modules-simple/" class="md-nav__link">
+      <a href="../../../../examples/modules-simple/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1744,7 +1786,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/modules-advanced/" class="md-nav__link">
+      <a href="../../../../examples/modules-advanced/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1765,7 +1807,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/extra-files-helm/" class="md-nav__link">
+      <a href="../../../../examples/extra-files-helm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1786,7 +1828,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/extra-files-external/" class="md-nav__link">
+      <a href="../../../../examples/extra-files-external/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1807,7 +1849,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/previousrootversion/" class="md-nav__link">
+      <a href="../../../../examples/previousrootversion/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1828,7 +1870,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/aws-dependencies/" class="md-nav__link">
+      <a href="../../../../examples/aws-dependencies/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1849,7 +1891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/quickstart/" class="md-nav__link">
+      <a href="../../../../examples/quickstart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1897,55 +1939,46 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#custom-log-configuration" class="md-nav__link">
+  <a href="#available-methods" class="md-nav__link">
     <span class="md-ellipsis">
-      Custom Log Configuration
+      Available Methods
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#automatic-log-configuration" class="md-nav__link">
+  <a href="#choosing-which-method-to-use" class="md-nav__link">
     <span class="md-ellipsis">
-      Automatic Log Configuration
+      Choosing Which Method To Use
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Automatic Log Configuration">
+    <nav class="md-nav" aria-label="Choosing Which Method To Use">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#enable-troubleshooting-loggers" class="md-nav__link">
+  <a href="#helm-chart-method" class="md-nav__link">
     <span class="md-ellipsis">
-      Enable Troubleshooting Loggers
+      Helm Chart Method
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#set-arbitrary-loggers" class="md-nav__link">
+  <a href="#external-pull-method" class="md-nav__link">
     <span class="md-ellipsis">
-      Set Arbitrary Loggers
+      External Pull Method
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#create-custom-loggers" class="md-nav__link">
+  <a href="#using-both-methods" class="md-nav__link">
     <span class="md-ellipsis">
-      Create Custom Loggers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#provide-raw-custom-log-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Provide Raw Custom Log Configuration
+      Using Both Methods:
     </span>
   </a>
   
@@ -1957,28 +1990,79 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#log-collection-and-aggregation" class="md-nav__link">
+  <a href="#using-the-helm-chart-method" class="md-nav__link">
     <span class="md-ellipsis">
-      Log Collection and Aggregation
+      Using the Helm Chart Method
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Log Collection and Aggregation">
+    <nav class="md-nav" aria-label="Using the Helm Chart Method">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#current-helm-chart-support" class="md-nav__link">
+  <a href="#include-file-in-helm-deployment" class="md-nav__link">
     <span class="md-ellipsis">
-      Current Helm Chart Support
+      Include File in Helm Deployment
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#future-helm-chart-support" class="md-nav__link">
+  <a href="#include-file-in-values-file" class="md-nav__link">
     <span class="md-ellipsis">
-      Future Helm Chart Support
+      Include File in Values File
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-external-pull-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the External Pull Method
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the External Pull Method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      S3 Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-note-on-file-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      A Note On File Versioning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-helm-values-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Helm Values File
     </span>
   </a>
   
@@ -2007,88 +2091,204 @@
   
 
 
-<h1 id="smile-cdr-application-logging">Smile CDR Application Logging<a class="headerlink" href="#smile-cdr-application-logging" title="Permanent link">&para;</a></h1>
-<p>Smile CDR uses the Logback logging framework to collect application logs and can be configured based on individual requirements.</p>
-<p>Full documentation about the logging system is available <a href="https://smilecdr.com/docs/logging/system_logging.html">here</a>.</p>
-<h2 id="custom-log-configuration">Custom Log Configuration<a class="headerlink" href="#custom-log-configuration" title="Permanent link">&para;</a></h2>
-<p>As per the Smile CDR docs, <a href="https://smilecdr.com/docs/logging/custom_logging.html">custom log configurations</a> can be used by providing a custom <code>logback-smile-custom.xml</code> file.</p>
-<p>While you could create this file manually and include it in the Helm Chart deployment by using one of the <a href="../storage/files/">file copy methods</a>, editing this file and configuring the copying can be troublesome and error prone.</p>
-<h2 id="automatic-log-configuration">Automatic Log Configuration<a class="headerlink" href="#automatic-log-configuration" title="Permanent link">&para;</a></h2>
-<p>As an alternative to the above, you can specify common configurations for the custom logging directly in your Helm values file. This eliminates the need to to perform any extra steps. This can also be helpful for automating log configuration changes.</p>
-<p>All of the below mentioned techniques may be combined in a single configuration.</p>
-<h3 id="enable-troubleshooting-loggers">Enable Troubleshooting Loggers<a class="headerlink" href="#enable-troubleshooting-loggers" title="Permanent link">&para;</a></h3>
-<p>As per the Smile CDR documentation, you can enable <a href="https://smilecdr.com/docs/logging/troubleshooting_logs.html">Troubleshooting Logs</a> of various types.</p>
-<p>The same configurations can be enabled in your Helm Values file like so:</p>
-<p>This snippet shows how you would enable DEBUG logs for the <a href="https://smilecdr.com/docs/logging/troubleshooting_logs.html#http-troubleshooting-log">HTTP Troubleshooting Log</a>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>logging:
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  troubleshootingLoggers:
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    http_troubleshooting:
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>      enabled: true
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>      level: debug
+<h1 id="including-extra-files">Including Extra Files<a class="headerlink" href="#including-extra-files" title="Permanent link">&para;</a></h1>
+<p>It is often required to include extra files into your Smile CDR instance. This could be to provide updated configuration changes (e.g. a modified <code>logback.xml</code>), provide <code>.js</code> scripts, <code>.jar</code> files and other libraries to extend the functionality of Smile CDR.</p>
+<p>Rather than having to build a custom Smile CDR container image to include these files, it is possible to include them using this Helm Chart.</p>
+<h2 id="available-methods">Available Methods<a class="headerlink" href="#available-methods" title="Permanent link">&para;</a></h2>
+<p>There are two mechanisms available to load files.</p>
+<ul>
+<li>Including files in the Helm deployment</li>
+<li>Pulling files from an external location</li>
+</ul>
+<p>Each of these mechanisms has its own advantages.</p>
+<h2 id="choosing-which-method-to-use">Choosing Which Method To Use<a class="headerlink" href="#choosing-which-method-to-use" title="Permanent link">&para;</a></h2>
+<h3 id="helm-chart-method">Helm Chart Method<a class="headerlink" href="#helm-chart-method" title="Permanent link">&para;</a></h3>
+<p>Using the <strong>Helm Chart</strong> method is ideal when:</p>
+<ul>
+<li>The files are text based and under 1MiB in size<ul>
+<li>Config files and small scripts are good examples</li>
+<li>Not ideal for binary files, even if small</li>
+</ul>
+</li>
+<li>You do not have many files to add<ul>
+<li>Although there is no limit, your configuration will get very hard to manage if you use too many</li>
+<li>Between 5 &amp; 10 would be a good limit, but this is just a suggestion</li>
+</ul>
+</li>
+<li>You don't have a mechanism in place to stage the files somewhere (i.e. Amazon S3)<ul>
+<li>This method provides a simple deployment solution as it has no external dependencies</li>
+</ul>
+</li>
+</ul>
+<h3 id="external-pull-method">External Pull Method<a class="headerlink" href="#external-pull-method" title="Permanent link">&para;</a></h3>
+<p>Using the <strong>External Pull</strong> method is ideal when:</p>
+<ul>
+<li>You have binary files or large files<ul>
+<li>Any file over 1MiB requires you use this method</li>
+</ul>
+</li>
+<li>You have many files<ul>
+<li>This mechanism will copy files recursively without clogging up your configuration</li>
+</ul>
+</li>
+<li>You are able to stage your files and file updates on Amazon S3<ul>
+<li>Currently only S3 is supported, but other external file sources will be added as required</li>
+</ul>
+</li>
+<li>You wish to pull files that are publically hosted (e.g. public <code>.jar</code> files)</li>
+</ul>
+<h3 id="using-both-methods">Using Both Methods:<a class="headerlink" href="#using-both-methods" title="Permanent link">&para;</a></h3>
+<p>Using both methods is possible too:</p>
+<ul>
+<li>If you had a set of <code>.jar</code> files and scripts being staged on S3, you could still add files using the
+Helm chart method if it makes for a simpler workflow</li>
+<li>Be wary that having it split up like this could make your configuration more confusing (i.e. <em>"Where was that file copied from again?"</em>)</li>
+<li>Files copied using the Helm Chart method will take precedence over any files copied from an external source.</li>
+</ul>
+<h2 id="using-the-helm-chart-method">Using the Helm Chart Method<a class="headerlink" href="#using-the-helm-chart-method" title="Permanent link">&para;</a></h2>
+<p>To pass in files using the Helm Chart, there are two things you need to do:
+1. Use a Helm commandline option to load the file into the deployment
+2. Reference and configure the file in your values file.</p>
+<h3 id="include-file-in-helm-deployment">Include File in Helm Deployment<a class="headerlink" href="#include-file-in-helm-deployment" title="Permanent link">&para;</a></h3>
+<p>To include a file in the deployment, use the following commandline option:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>helm<span class="w"> </span>upgrade<span class="w"> </span>-i<span class="w"> </span>my-smile-env<span class="w"> </span>--devel<span class="w"> </span>-f<span class="w"> </span>my-values.yaml<span class="w"> </span>--set-file<span class="w"> </span>mappedFiles.logback<span class="se">\\</span>.xml.data<span class="o">=</span>logback.xml<span class="w"> </span>smiledh/smilecdr
 </code></pre></div></p>
-<p>Any of the troubleshooting loggers listed in the official docs can be enabled in the same way.</p>
-<h3 id="set-arbitrary-loggers">Set Arbitrary Loggers<a class="headerlink" href="#set-arbitrary-loggers" title="Permanent link">&para;</a></h3>
-<p>You can enable logging at any log level for any of the classes implemented within Smile CDR.</p>
-<p>In this example, we demonstrate how to quiesce some noisy log messages that may be flooding the logs.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>logging:
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  setLoggers:
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    thymeleaf:
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>      description: Mute Thymeleaf errors that were flooding the logs with errors.
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>      level: &quot;OFF&quot;
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>      paths:
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>      - org.thymeleaf.standard.processor.AbstractStandardFragmentInsertionTagProcessor
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>      - org.thymeleaf.standard.processor.StandardIncludeTagProcessor
+<blockquote>
+<p><strong>WARNING:</strong> Pay special attention to the escaping required to include the period in the filename.
+You need to use <code>\\.</code> when running this from a shell. This is just the way this works.</p>
+</blockquote>
+<p>This will encode the file and load it into the provided values under the <code>mappedFiles.logback.xml.data</code>
+key.</p>
+<h3 id="include-file-in-values-file">Include File in Values File<a class="headerlink" href="#include-file-in-values-file" title="Permanent link">&para;</a></h3>
+<p>The included file also needs to be referenced from your values file so that the chart knows where to mount the file in the application's Pod:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">mappedFiles</span><span class="p">:</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">logback.xml</span><span class="p">:</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/home/smile/smilecdr/classes</span>
 </code></pre></div>
-<p>Again, any Java class path can be enabled at any log level.</p>
-<h3 id="create-custom-loggers">Create Custom Loggers<a class="headerlink" href="#create-custom-loggers" title="Permanent link">&para;</a></h3>
-<p>If you have the requirement to store logs in an arbitrary log format, you can create a custom logger.</p>
-<p>The following defines a custom logger for a fictional Smile CDR component, 'x', and saves the logs to <code>myApp.log</code></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>logging:
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  customLoggers:
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    myCustomLogger:
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>      path: cdr.component.x
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>      enabled: true
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>      level: DEBUG
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>      pattern: &quot;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level M:%X{moduleId} R:%X{requestId} %logger{36} [%file:%line] %msg%n&quot;
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>      target: myApp.log
-</code></pre></div>
-<p>You can also set <code>logging.customLoggers.&lt;loggerName&gt;.target: STDOUT</code> to log to <code>stdout</code> instead of writing to a log file.</p>
-<h3 id="provide-raw-custom-log-configuration">Provide Raw Custom Log Configuration<a class="headerlink" href="#provide-raw-custom-log-configuration" title="Permanent link">&para;</a></h3>
-<p>Finally, if you need to provide custom Logback configurations instead of using the above techniques to generate it automatically, you can do so directly in your Helm values file like so:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>logging:
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  rawLogConfig: |-
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    &lt;included&gt;
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>      &lt;!--
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>      Custom logging config:
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>      This will override and replace any auto-generated logger configurations defined above.
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>      --&gt;
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    &lt;/included&gt;
-</code></pre></div>
-<h2 id="log-collection-and-aggregation">Log Collection and Aggregation<a class="headerlink" href="#log-collection-and-aggregation" title="Permanent link">&para;</a></h2>
-<p>As with any application running in Kubernetes, you should stream logs from the Pods and use an aggregation solution to persist them in a single location.</p>
-<p>There are numerous solutions available to perform this task. There is no single 'correct' solution as different organisations may have differing requirements for the persisting of application logs.</p>
-<p>At a high level, here are some foundational concepts that should be reviewed so that a suitable logging solution may be devised.</p>
-<p><a href="https://kubernetes.io/docs/concepts/cluster-administration/logging/">Kubernetes Logging Architecture</a></p>
-<h3 id="current-helm-chart-support">Current Helm Chart Support<a class="headerlink" href="#current-helm-chart-support" title="Permanent link">&para;</a></h3>
-<p>Currently this Helm Chart does not provide any functionality or guidance on how to perform these tasks.</p>
-<p>It is up to the architect/implementer to devise and implement a suitable solution.</p>
-<p>Some recommended solutions that are known to work are:</p>
+As the result of the above, a <code>ConfigMap</code> will be created and mapped into the pod at
+<code>/home/smile/smilecdr/classes/logback.xml</code> using <code>Volume</code> and <code>VolumeMount</code> resources. If the
+content of the file is changed, then it will be automatically picked up on the next deployment. (See <a href="../../updating/#automatic-deployment-of-config-changes">Automatic Deployment of Config Changes</a> for more info on this)</p>
+<h2 id="using-the-external-pull-method">Using the External Pull Method<a class="headerlink" href="#using-the-external-pull-method" title="Permanent link">&para;</a></h2>
+<p>The external pull method can be used to pull files from Amazon S3 or from public websites that publish resources (e.g. Maven).</p>
+<h3 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h3>
+<h4 id="shared-volumes">Shared Volumes<a class="headerlink" href="#shared-volumes" title="Permanent link">&para;</a></h4>
+<p>Pod-local shared volumes are used for the <code>classes</code> and <code>customerlib</code> directories so that the files can be copied there before the main Smile CDR container starts up.</p>
+<p>These volumes are only accessible to containers running inside the pods and are deleted when the pod is terminated so they are not accessible outside the pod's lifecycle.
+If the underlying Kubernetes node volume uses encrypted storage, then these volumes will also be encrypted.</p>
+<h4 id="init-containers">Init Containers<a class="headerlink" href="#init-containers" title="Permanent link">&para;</a></h4>
+<p>Kubernetes init containers are then used to pull files from S3, or some other location.</p>
+<p>It uses multiple Kubernetes <a href="https://kubernetes.io/docs/concepts/workloads/pods/init-containers/">init containers</a> to synchronize and pull files to these shared volumes during pod startup.</p>
+<p>This feature has been implemented to support Amazon S3 and curl. Other mechanisms may be introduced in a future version of this chart.</p>
+<p>The init containers are auto-configured based on the provided <code>copyFiles</code> settings. They function as follows:</p>
+<p><strong><code>init-sync-classes</code></strong></p>
 <ul>
-<li><a href="https://opentelemetry.io/">OpenTelemetry</a> + <a href="https://grafana.com/oss/loki/">Loki</a> + <a href="https://grafana.com/grafana/">Grafana</a></li>
-<li><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/deploy-container-insights-EKS.html">EKS Container Insights</a></li>
-<li><a href="https://www.datadoghq.com/">DataDog</a></li>
+<li>This container copies the default files from the classes directory from the Smile CDR base image to a <code>classes</code> shared volume that is local to the pod.</li>
+<li>The <code>init-pull-classes</code> container will overwrite any of these files with the same names.</li>
+<li>This is a required step if you wish to retain the default files. As such, it's enabled by default</li>
+<li>If you require a 'clean' <code>classes</code> directory, this step can be disabled using <code>copyFiles.classes.disableSyncDefaults: true</code>.<ul>
+<li>If disabled, you will need to provide all <code>classes</code> files that are required for Smile CDR to start up (With the exception of the config properties file which is generated by this Helm Chart).</li>
 </ul>
-<h3 id="future-helm-chart-support">Future Helm Chart Support<a class="headerlink" href="#future-helm-chart-support" title="Permanent link">&para;</a></h3>
-<p>There is a soon-to-be released feature of this Helm Chart that will automate the provisioning of a complete <strong>Observability Suite</strong> alongside your Smile CDR deployment.</p>
-<p>This feature will enable and configure all of the followinf just by enabling a few simple options inside your Helm values file.</p>
+</li>
+</ul>
+<p><strong><code>init-sync-customerlib</code></strong></p>
 <ul>
-<li>Full OpenTelemetry instrumentation (Metrics, Traces and Logs)</li>
-<li>OpenTelemetry Collector to aggregate telemetry data and send to backends</li>
-<li>Prometheus back-end for Metrics telemetry</li>
-<li>Loki back-end for Log file aggregation</li>
-<li>Tempo back-end for Trace telemetry</li>
-<li>Grafana with default dashboards connecting all of the above and providing overall view of Smile CDR cluster.</li>
+<li>This container copies the default files from the customerlib directory from the Smile CDR base image to a <code>customerlib</code> shared volume that is local to the pod.</li>
+<li>When using the default Smile CDR image, no files will be copied as the directory is empty.</li>
+<li>If using a customised image with files preloaded into the <code>customerlib</code> directory, this step is necessary to prevent those files being clobbered. As such, it's enabled by default.</li>
+<li>If you require a 'clean' <code>customerlib</code> directory, this step can be disabled using <code>copyFiles.classes.disableSyncDefaults: true</code>.</li>
 </ul>
+<p><strong><code>init-pull-classes-*</code></strong></p>
+<ul>
+<li>These containers copy files from the specified location to the <strong><em>classes</em></strong> shared volume</li>
+<li>Currently they support pulling files from Amazon S3 or downloading files from public websites using <code>curl</code>.</li>
+<li>Any files copied will be available to Smile CDR when it starts up</li>
+</ul>
+<p><strong><code>init-pull-customerlib-*</code></strong></p>
+<ul>
+<li>This container copies files from the specified location to the <strong><em>customerlib</em></strong> shared volume</li>
+<li>Currently they support pulling files from Amazon S3 or downloading files from public websites using <code>curl</code>.</li>
+<li>Any files copied will be available to Smile CDR when it starts up</li>
+</ul>
+<h3 id="s3-prerequisites">S3 Prerequisites<a class="headerlink" href="#s3-prerequisites" title="Permanent link">&para;</a></h3>
+<p>To pass in files from an Amazon S3 bucket, you need the following prerequisites in place:</p>
+<ul>
+<li>An S3 bucket with:<ul>
+<li>A folder containing your <code>classes</code> files</li>
+<li>A folder containing your <code>customerlib</code> files</li>
+<li>Ideally, these should be in a higher level folder to control versioning<ul>
+<li>e.g. <code>v1</code>, <code>v2</code> or a <code>UID</code></li>
+</ul>
+</li>
+<li>Bucket should not be publically accessible<ul>
+<li>It will work with public buckets too, but this is a bad security practice</li>
+</ul>
+</li>
+<li>Bucket should use encryption<ul>
+<li>Again, it will work without, but it's good security practice to encrypt everything by default</li>
+</ul>
+</li>
+<li>The mechanism to copy the files into this bucket is out of the scope of this Helm Chart</li>
+</ul>
+</li>
+<li>Service Account must be enabled and configured to use IRSA. See <a href="../../../serviceaccount/">here</a> for more info on this</li>
+<li>The IAM Role used for the Service Account must have read access to the S3 bucket</li>
+</ul>
+<details class="note">
+<summary>Required IAM policy actions for S3 copyFile configurations</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>{
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    &quot;Version&quot;: &quot;2012-10-17&quot;,
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    &quot;Statement&quot;: [
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>        {
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>            &quot;Sid&quot;: &quot;ListObjectsInBucket&quot;,
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>            &quot;Effect&quot;: &quot;Allow&quot;,
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>            &quot;Action&quot;: [&quot;s3:ListBucket&quot;],
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>            &quot;Resource&quot;: [&quot;arn:aws:s3:::bucket-name&quot;]
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        },
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>        {
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>            &quot;Sid&quot;: &quot;GetObjectActions&quot;,
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>            &quot;Effect&quot;: &quot;Allow&quot;,
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>            &quot;Action&quot;: [&quot;s3:GetObject&quot;], ## or s3:GetObjectVersion
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>            &quot;Resource&quot;: [&quot;arn:aws:s3:::bucket-name/*&quot;]
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>        }
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    ]
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>}
+</code></pre></div>
+</details>
+<h3 id="a-note-on-file-versioning">A Note On File Versioning<a class="headerlink" href="#a-note-on-file-versioning" title="Permanent link">&para;</a></h3>
+<p>Though not required, it is reccommended to include some versioning structure in your S3 bucket.</p>
+<p>While already running pods cannot be affected by this (As they have already copied their files), any new pods that start up (e.g in scaling or reconciliation events) may be adversely affected if files have been unexpectedly changed or deleted.</p>
+<p>By including a new version whenever a given set of files is updated, previous deployments of the application will remain unaffected. This is also beneficial during rollbacks as the previous set of files will remain.</p>
+<p>This does introduce challenges of file duplication and managing multiple old versions. As the number of files included is typically low, this should not be of huge concern.</p>
+<h3 id="configure-helm-values-file">Configure Helm Values File<a class="headerlink" href="#configure-helm-values-file" title="Permanent link">&para;</a></h3>
+<p>To enable this feature, add the following snipped to your values file. Replace the bucket name and path to match your environment.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">copyFiles</span><span class="p">:</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">classes</span><span class="p">:</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">sources</span><span class="p">:</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="c1"># Copies files recursively from S3 to the classes directory</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span><span class="c1"># disableSyncDefaults: true &lt;- Optional. Use with caution! (See above)</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">      </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3-bucket-name</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path-to/classes</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">      </span><span class="c1"># Example versioned locations.</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="c1"># path: /v1/classes</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">      </span><span class="c1"># path: /v1.1/classes</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">      </span><span class="c1"># path: /v2/classes</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">      </span><span class="c1"># path: /&lt;sha256-of-file-content&gt;/classes &lt;- You could generate a sha256 hash of the entire file contents.</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">      </span><span class="c1"># path: /&lt;UID&gt;/classes &lt;- You could generate a unique UID for each new version</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">  </span><span class="nt">customerlib</span><span class="p">:</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="nt">sources</span><span class="p">:</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">    </span><span class="c1"># Copies files recursively from S3 to the customerlib directory</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">      </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3-bucket-name</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path-to/customerlib-src</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">    </span><span class="c1"># Downloads a single file using curl to the customerlib directory (In this case, customerlib/elastic-apm/elastic-apm-agent-1.13.0.jar)</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">curl</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">      </span><span class="nt">fileName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">elastic-apm/elastic-apm-agent-1.13.0.jar</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://repo.maven.apache.org/maven2/co/elastic/apm/elastic-apm-agent/1.13.0/elastic-apm-agent-1.13.0.jar</span>
+</code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> The Service Account configurations have been left out for clarity. Please refer to the <a href="../../../serviceaccount/">Service Account guide</a> for instructions on enabling IRSA and IAM roles.</p>
+</blockquote>
 
 
 
@@ -2141,10 +2341,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top"], "search": "../../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
     
   </body>
