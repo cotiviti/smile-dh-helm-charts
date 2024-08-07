@@ -38,7 +38,7 @@ This following table shows you the Smile CDR features that are currently support
 |Postgres Database|:material-check:|:material-close:|Supports multiple databases. i.e. for Clustermgr, Persistence, Audit etc.<br>[Database Configuration using Helm Chart](../../guide/smilecdr/database.md)|`2023.08.R01`|`v1.0.0-pre92`|
 |JVM Tuning|:material-check:|:material-close:|[Resource Tuning using Helm Chart](../../guide/smilecdr/resources.md)|`2023.08.R01`|`v1.0.0-pre92`|
 |Kafka Message Broker|:material-check:|:material-close:|[Message Broker Configuration using Helm Chart](../../guide/smilecdr/messagebroker.md)|`2023.08.R01`|`v1.0.0-pre92`|
-|Add files to `classpath` or `customerlib`|:material-check:|:material-close:|[Including Files using Helm Chart](../../guide/smilecdr/files.md)|`2023.08.R01`|`v1.0.0-pre92`|
+|Add files to `classpath` or `customerlib`|:material-check:|:material-close:|[Including Files using Helm Chart](../../guide/smilecdr/storage/files.md)|`2023.08.R01`|`v1.0.0-pre92`|
 |HL7 v2.x with `HL7_OVER_HTTP`|:material-check:|:material-close:|[Configuring HL7 v2.x Endpoint using Helm Chart](../../guide/smilecdr/hl7v2.md)|`2023.08.R01`|`v1.0.0-pre92`|
 |License Module|:material-check:|:material-close:|[Configuring License using Helm Chart](../../guide/smilecdr/cdr-license.md)|`2023.08.R01`|`v1.0.0-pre92`|
 

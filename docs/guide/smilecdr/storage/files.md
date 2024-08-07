@@ -70,7 +70,7 @@ mappedFiles:
 ```
 As the result of the above, a `ConfigMap` will be created and mapped into the pod at
 `/home/smile/smilecdr/classes/logback.xml` using `Volume` and `VolumeMount` resources. If the
-content of the file is changed, then it will be automatically picked up on the next deployment. (See [Automatic Deployment of Config Changes](updating.md#automatic-deployment-of-config-changes) for more info on this)
+content of the file is changed, then it will be automatically picked up on the next deployment. (See [Automatic Deployment of Config Changes](../updating.md#automatic-deployment-of-config-changes) for more info on this)
 
 ## Using the External Pull Method
 The external pull method can be used to pull files from Amazon S3 or from public websites that publish resources (e.g. Maven).
@@ -131,7 +131,7 @@ To pass in files from an Amazon S3 bucket, you need the following prerequisites 
     * Bucket should use encryption
         * Again, it will work without, but it's good security practice to encrypt everything by default
     * The mechanism to copy the files into this bucket is out of the scope of this Helm Chart
-* Service Account must be enabled and configured to use IRSA. See [here](../serviceaccount.md) for more info on this
+* Service Account must be enabled and configured to use IRSA. See [here](../../serviceaccount.md) for more info on this
 * The IAM Role used for the Service Account must have read access to the S3 bucket
 
 ??? note "Required IAM policy actions for S3 copyFile configurations"
@@ -196,4 +196,4 @@ copyFiles:
       fileName: elastic-apm/elastic-apm-agent-1.13.0.jar
       url: https://repo.maven.apache.org/maven2/co/elastic/apm/elastic-apm-agent/1.13.0/elastic-apm-agent-1.13.0.jar
 ```
->**Note:** The Service Account configurations have been left out for clarity. Please refer to the [Service Account guide](../serviceaccount.md) for instructions on enabling IRSA and IAM roles.
+>**Note:** The Service Account configurations have been left out for clarity. Please refer to the [Service Account guide](../../serviceaccount.md) for instructions on enabling IRSA and IAM roles.

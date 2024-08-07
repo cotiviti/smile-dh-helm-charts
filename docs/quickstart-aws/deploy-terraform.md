@@ -143,7 +143,7 @@ helm_chart_values_set_overrides = {
 This Terraform module also provides some helper configurations to simplify some configrations that would otherwise be troublesome to implement.
 
 #### Mapped Files
-When using the ***Helm Chart Method*** for [Including Extra Files](../guide/smilecdr/files.md), you would typically pass the files as [commandline options](../guide/smilecdr/files.md#include-file-in-helm-deployment) like so:
+When using the ***Helm Chart Method*** for [Including Extra Files](../guide/smilecdr/storage/files.md), you would typically pass the files as [commandline options](../guide/smilecdr/storage/files.md#include-file-in-helm-deployment) like so:
 ```
 helm upgrade -i my-smile-env --devel -f my-values.yaml --set-file mappedFiles.logback\\.xml.data=logback.xml smiledh/smilecdr
 ```

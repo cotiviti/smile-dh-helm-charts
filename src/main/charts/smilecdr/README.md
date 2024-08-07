@@ -185,4 +185,4 @@ The below section gives an overview of the default values available. Consult the
 | tls.defaultEndpointConfig.enabled | bool | `false` |  |
 | tls.defaultEndpointConfig.extraCdrConfig."tls.protocol.cipher_whitelist" | string | `"TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256"` |  |
 | tls.defaultEndpointConfig.extraCdrConfig."tls.protocol.protocol_whitelist" | string | `"TLSv1.3"` |  |
-| volumeConfig.cdr.log.size | string | `"10Gi"` |  |
+| volumeConfig.cdr.log.sizeLimit | string | `"10Gi"` |  |

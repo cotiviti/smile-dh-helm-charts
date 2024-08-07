@@ -76,7 +76,6 @@ nav:
         - 'Ingress': guide/smilecdr/ingress.md
         - 'TLS Encryption': guide/smilecdr/tls-encryption.md
         - 'Cluster Configuration': guide/smilecdr/cdrnode.md
-        - 'Including Extra Files': guide/smilecdr/files.md
         - 'License Module': guide/smilecdr/cdr-license.md
         - 'Message Broker': guide/smilecdr/messagebroker.md
         - 'HL7V2 Endpoint Module': guide/smilecdr/hl7v2.md
@@ -84,6 +83,9 @@ nav:
         - 'Environment Variables': guide/smilecdr/envvars.md
         - 'Logging': guide/smilecdr/logging.md
         - 'Pod Scheduling': guide/smilecdr/podscheduling.md
+      - 'Storage':
+        - 'Including Extra Files': guide/smilecdr/storage/files.md
+        - 'Ephemeral Volume Configuration': guide/smilecdr/storage/volumeConfig.md
       - 'Applying Changes': guide/smilecdr/updating.md
   - Examples:
     - examples/index.md

@@ -47,9 +47,15 @@ tests:
     - ../default-test-values.yaml
     - ../default-test-disabled-features.yaml
     - values-props-database.yaml
-  volumeSizes:
-    outputFile: output-volumesizes.yaml
+  volumeConfigNode:
+    outputFile: output-volumeconfig-node.yaml
     valueFiles:
     - ../default-test-values.yaml
     - ../default-test-disabled-features.yaml
-    - values-volumesizes.yaml
+    - values-volumeconfig-node.yaml
+  volumeConfigGlobal:
+    outputFile: output-volumeconfig-global.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-volumeconfig-global.yaml
