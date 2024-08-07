@@ -1,0 +1,2479 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1/guide/smilecdr/tls-encryption/">
+      
+      
+        <link rel="prev" href="../ingress/">
+      
+      
+        <link rel="next" href="../cdrnode/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.31">
+    
+    
+      
+        <title>TLS Encryption - Smile Digital Health Helm Charts</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.3cba04c6.min.css">
+      
+      
+  
+  
+    
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.752 1.752 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/></svg>');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/colours.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#configuring-tls-encryption" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Smile Digital Health Helm Charts
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              TLS Encryption
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81-2.9-.295-5.7.083-8.4 1.11-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.09 18.09 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3 4.7 0 9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    smile-dh-helm-charts
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../quickstart-aws/" class="md-tabs__link">
+          
+  
+    
+  
+  Quickstart
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+    
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../examples/" class="md-tabs__link">
+          
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Smile Digital Health Helm Charts
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81-2.9-.295-5.7.083-8.4 1.11-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.09 18.09 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3 4.7 0 9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    smile-dh-helm-charts
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../.." class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Home
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../charts/smilecdr/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Smile CDR
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Smile CDR
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../charts/smilecdr/smilecdr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../charts/smilecdr/CHANGELOG-PRE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Changelog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../quickstart-aws/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Quickstart
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quickstart
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart-aws/eks-cluster/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Prepare EKS Cluster
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart-aws/aws-resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Prepare AWS Resources
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart-aws/deploy-terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deploy Smile CDR with Terraform
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    User Guide
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            User Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    General
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            General
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../helm-repo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Helm Repository Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Secrets Handling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../serviceaccount/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Service Accounts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../values-files-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Values Files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Smile CDR
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Smile CDR
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requirements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Requirements
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cdrversions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Versions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_5" id="__nav_3_3_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Configuration
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Modules
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Database
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ingress/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ingress
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    TLS Encryption
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    TLS Encryption
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#default-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Default Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Default Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-ingress-nginx-for-ingress-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using ingress-nginx for ingress (Default)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-aws-application-load-balancer-for-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using AWS Application Load Balancer for ingress
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-azure-application-gateway-ingress-controller-for-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Azure Application Gateway Ingress Controller for ingress
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enabling-tls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enabling TLS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enabling TLS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enable-default-cluster-signed-certificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enable Default 'cluster-signed' certificates
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#currently-configurable-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Currently configurable options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-lets-encrypt-issuer-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create Let's Encrypt Issuer resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-pre-existing-cert-manager-issuer-or-clusterissuer-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use pre-existing cert-manager Issuer or ClusterIssuer resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-global-endpoint-module-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding global endpoint module configurations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#currently-unsupported-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Currently unsupported options
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cdrnode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cluster Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cdr-license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    License Module
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../messagebroker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Message Broker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hl7v2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HL7V2 Endpoint Module
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resource Tuning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../envvars/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Environment Variables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logging/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Logging
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../podscheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pod Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_6" id="__nav_3_3_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Storage
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Storage
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage/files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Including Extra Files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage/volumeConfig/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ephemeral Volume Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../updating/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Applying Changes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_8" id="__nav_3_3_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Operational Tasks
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_8">
+            <span class="md-nav__icon md-icon"></span>
+            Operational Tasks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/smileutil/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Using the Smile CLI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../examples/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Examples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/minimal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Minimal Config
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/external-db/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Single External Database
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/external-db-multi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multiple External Databases
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/modules-simple/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Simple Module Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/modules-advanced/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Advanced Module Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/extra-files-helm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adding Files using Helm
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/extra-files-external/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adding Files using External
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/previousrootversion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Use Previous Versions of Smile CDR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/aws-dependencies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configure AWS Dependencies
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/quickstart/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quickstart
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#default-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Default Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Default Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-ingress-nginx-for-ingress-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using ingress-nginx for ingress (Default)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-aws-application-load-balancer-for-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using AWS Application Load Balancer for ingress
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-azure-application-gateway-ingress-controller-for-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Azure Application Gateway Ingress Controller for ingress
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enabling-tls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enabling TLS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enabling TLS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enable-default-cluster-signed-certificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enable Default 'cluster-signed' certificates
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#currently-configurable-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Currently configurable options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-lets-encrypt-issuer-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create Let's Encrypt Issuer resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-pre-existing-cert-manager-issuer-or-clusterissuer-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use pre-existing cert-manager Issuer or ClusterIssuer resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-global-endpoint-module-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding global endpoint module configurations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#currently-unsupported-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Currently unsupported options
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="configuring-tls-encryption">Configuring TLS Encryption<a class="headerlink" href="#configuring-tls-encryption" title="Permanent link">&para;</a></h1>
+<p>This Helm Chart supports multiple mechanisms for enabling encryption of data in transit. This feature is currently under active development in order to simplify the configuration of end-to-end encryption.</p>
+<p>End-to-end encryption is currently an opt-in feature that needs to be explicitly enabled.</p>
+<h2 id="default-configuration">Default Configuration<a class="headerlink" href="#default-configuration" title="Permanent link">&para;</a></h2>
+<p>Currently, even though the Helm Chart defaults enable TLS encryption for the end-user, it is not enabled by default directly on the Smile CDR HTTP endpoints used internally within the cluster.</p>
+<p>This results in the following encryption configurations between the client and Smile CDR, depending on your choice of ingress.</p>
+<h3 id="using-ingress-nginx-for-ingress-default">Using ingress-nginx for ingress (Default)<a class="headerlink" href="#using-ingress-nginx-for-ingress-default" title="Permanent link">&para;</a></h3>
+<p>If you have left your ingress definition to use the default of <code>nginx-ingress</code> (<a href="../ingress/#nginx-ingress">See Here</a>), encryption will be configured as follows:</p>
+<ul>
+<li>TLS encryption between client and the AWS Network Load Balancer using ACM certificate provided when configuring the ingress-nginx controller.</li>
+<li>TLS encryption from the NLB to the Nginx ingress controller using self-signed certificate automatically generated by the ingress controller.</li>
+<li>Unencrypted from the Nginx ingress controller to the Smile CDR pods.</li>
+</ul>
+<h3 id="using-aws-application-load-balancer-for-ingress">Using AWS Application Load Balancer for ingress<a class="headerlink" href="#using-aws-application-load-balancer-for-ingress" title="Permanent link">&para;</a></h3>
+<p>If you have set your ingress definition to use <code>aws-lbc-alb</code> (<a href="../ingress/#aws-load-balancer-controller">See Here</a>), encryption will be configured as follows:</p>
+<ul>
+<li>TLS encryption between client and the AWS Application Load Balancer using ACM certificate specified in your <code>Ingress</code> resource.</li>
+<li>Unencrypted from the ALB to the Smile CDR pods.</li>
+</ul>
+<h3 id="using-azure-application-gateway-ingress-controller-for-ingress">Using Azure Application Gateway Ingress Controller for ingress<a class="headerlink" href="#using-azure-application-gateway-ingress-controller-for-ingress" title="Permanent link">&para;</a></h3>
+<p>If you have set your ingress definition to use <code>azure-agic</code> (<a href="../ingress/#azure-application-gateway-ingress-controller">See Here</a>), encryption is not currently supported.</p>
+<h2 id="enabling-tls">Enabling TLS<a class="headerlink" href="#enabling-tls" title="Permanent link">&para;</a></h2>
+<p>This helm chart leverages the <a href="https://cert-manager.io/">cert-manager</a> X.509 certificate controller to provision and manage any required certificates. As such, this controller is a requirement to enable TLS beyond the default configurations mentioned above.</p>
+<p>TLS certificate generation is enabled by configuring <code>Issuer</code> and <code>Certificate</code> resources in the cluster. For convenience, the Helm Chart will create default issuers and certificates and auto-configure Smile CDR to use them. It is also possible to disable these defaults to define your own.</p>
+<h3 id="enable-default-cluster-signed-certificates">Enable Default 'cluster-signed' certificates<a class="headerlink" href="#enable-default-cluster-signed-certificates" title="Permanent link">&para;</a></h3>
+<p>To enable default <strong><em>end-to-end</em></strong> encryption, add the following to your <code>values.yaml</code> file.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>tls:
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  certificateIssuers:
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    default:
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>      enabled: true
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  certificates:
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    default:
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>      enabled: true
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  defaultEndpointConfig:
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    enabled: true
+</code></pre></div>
+<details class="explanation">
+<summary>Explanation</summary>
+<h4 id="certificateissuers"><code>certificateIssuers</code><a class="headerlink" href="#certificateissuers" title="Permanent link">&para;</a></h4>
+<p>The <code>certificateIssuers</code> configuration is used to define cert-manager <code>Issuer</code> resources.
+The provided <strong><em>default</em></strong> issuer configuration will create the following resources in the same namespace as the Smile CDR deployment:</p>
+<ul>
+<li>A <em>self-signed</em> Issuer that is used for signing the <em>cluster-local</em> Issuer that will act as the CA for this namespace.</li>
+<li>A <em>cluster-local</em> Issuer that is used for signing certificates to be used by Smile CDR<ul>
+<li>This <code>Issuer</code> resource is designated as the default issuer for any <code>Certificate</code> resources that do not explicitly specify an <code>Issuer</code>.</li>
+</ul>
+</li>
+</ul>
+<p>This default issuer can be used, or it can be disabled if you wish to define your own issuers.</p>
+<h4 id="certificates"><code>certificates</code><a class="headerlink" href="#certificates" title="Permanent link">&para;</a></h4>
+<p>The <code>certificates</code> configuration is used to define cert-manager <code>Certificate</code> resources.
+The provided <strong><em>default</em></strong> certificate configuration will create the following resources in the same namespace as the Smile CDR deployment:</p>
+<ul>
+<li>A certificate that is used as the default for any resources auto-configured to use TLS encryption</li>
+<li>A certificate that is used for enabling TLS encryption on Smile CDR HTTP Endpoint modules<ul>
+<li>This certificate is signed by whichever <code>Issuer</code> resource is designated as the default.</li>
+<li>This <code>Certificate</code> is designated as the default for any resources auto-configured to use TLS encryption</li>
+</ul>
+</li>
+</ul>
+<p>This default certificate can be used, or it can be disabled if you wish to define your own certificates.</p>
+<h4 id="defaultendpointconfig"><code>defaultEndpointConfig</code><a class="headerlink" href="#defaultendpointconfig" title="Permanent link">&para;</a></h4>
+<p>The <code>defaultEndpointConfig</code> configuration is used to set the default auto-configuration of the Smile CDR HTTP Endpoint modules.
+By enabling this option, all HTTP endpoint modules will use whichever <code>Certificate</code> is designated as the default.</p>
+<p>Individual modules may also be configured to use their own certificate configurations, this will override the <code>defaultEndpointConfig</code></p>
+</details>
+<p>Simply adding the above code will result in the following encryption configurations between the client and Smile CDR, depending on your choice of ingress.</p>
+<h4 id="using-ingress-nginx-for-ingress-default_1">Using ingress-nginx for ingress (Default)<a class="headerlink" href="#using-ingress-nginx-for-ingress-default_1" title="Permanent link">&para;</a></h4>
+<p>If you have left your ingress definition to use the default of <code>nginx-ingress</code> (<a href="../ingress/#nginx-ingress">See Here</a>), default end-2-end encryption will be configured as follows:</p>
+<ul>
+<li>TLS encryption between client and the AWS Network Load Balancer using ACM certificate provided when configuring the ingress-nginx controller.</li>
+<li>TLS encryption from the NLB to the Nginx ingress controller using self-signed certificate automatically generated by the ingress controller.<ul>
+<li>See below note on Nginx TLS configuration</li>
+</ul>
+</li>
+<li>TLSv1.3 encryption from the Nginx ingress controller to the Smile CDR pods using <code>cluster-signed</code> certificate.<ul>
+<li>Uses <code>nginx.ingress.kubernetes.io/configuration-snippet</code> annotation.</li>
+<li>If this annotation is disabled, then the Nginx ingress controller should be configured to use TLSv1.3</li>
+</ul>
+</li>
+<li>Kubernetes Readiness Probes updated to use HTTPS</li>
+<li>Smile CDR module endpoints configured as follows:<ul>
+<li>TLS Protocol restricted to <code>TLSv1.3</code></li>
+<li>TLS restricted to the following reccommended ciphers, which are known to work with the ELB Security Policy and the Kubernetes Kubelet:<ul>
+<li><code>TLS_AES_128_GCM_SHA256</code></li>
+<li><code>TLS_AES_256_GCM_SHA384</code></li>
+<li><code>TLS_CHACHA20_POLY1305_SHA256</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> If you wish to wish to avoid the use of the default self-signed certificate that is automatically provisioned by the Nginx Ingress controller,
+you can configure it to use one of the cert-manager <code>Issuer</code> resources to automatically provision a more appropriate certificate. Please see the <a href="../ingress/#tls-encryption">TLS Encryption section</a> of the <a href="../ingress/">Ingress documentation</a>.</p>
+</blockquote>
+<h4 id="using-aws-application-load-balancer-for-ingress_1">Using AWS Application Load Balancer for ingress<a class="headerlink" href="#using-aws-application-load-balancer-for-ingress_1" title="Permanent link">&para;</a></h4>
+<p>If you have set your ingress definition to use <code>aws-lbc-alb</code> (<a href="../ingress/#aws-load-balancer-controller">See Here</a>), default end-to-end encryption will be configured as follows:</p>
+<ul>
+<li>TLS encryption between client and the AWS Application Load Balancer using ACM certificate specified in your <code>Ingress</code> resource.</li>
+<li>ELB Security policy is set to a secure default that supports TLSv1.3 (<code>ELBSecurityPolicy-TLS13-1-2-FIPS-2023-04</code>)</li>
+<li>TLS encryption from the ALB to the Smile CDR pods using <code>cluster-signed</code> certificate.</li>
+<li>AWS ALB Health Probes configured to use HTTPS</li>
+<li>Smile CDR module endpoints configured as follows:</li>
+<li>TLS Protocol restricted to <code>TLSv1.3</code></li>
+<li>TLS restricted to the following reccommended ciphers, which are known to work with the ELB Security Policy and the Kubernetes Kubelet:<ul>
+<li><code>TLS_AES_128_GCM_SHA256</code></li>
+<li><code>TLS_AES_256_GCM_SHA384</code></li>
+<li><code>TLS_CHACHA20_POLY1305_SHA256</code></li>
+</ul>
+</li>
+<li><code>tls_debug_disable_sni_check</code> set to true.</li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> In order for the HTTPS healthchecks to work when using the AWS ALB, the disable sni check option must be set. Currently, this will result in a warning in the Smile CDR console suggesting to disable the option. This is unavoidble at this time.</p>
+</blockquote>
+<p>These defaults may be updated via your Helm Values file. See the <a href="#advanced-configuration">Advanced Configuration</a> below.</p>
+<h4 id="using-azure-application-gateway-ingress-controller-for-ingress_1">Using Azure Application Gateway Ingress Controller for ingress<a class="headerlink" href="#using-azure-application-gateway-ingress-controller-for-ingress_1" title="Permanent link">&para;</a></h4>
+<p>If you have set your ingress definition to use <code>azure-agic</code> (<a href="../ingress/#azure-application-gateway-ingress-controller">See Here</a>), encryption is not currently supported.</p>
+<h2 id="advanced-configuration">Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Permanent link">&para;</a></h2>
+<p>If the above defaults are not suitable, much of the functionality can be customized.</p>
+<h3 id="currently-configurable-options">Currently configurable options<a class="headerlink" href="#currently-configurable-options" title="Permanent link">&para;</a></h3>
+<p>The following can be updated.</p>
+<blockquote>
+<p><strong>Note:</strong> If you need assistance while the advanced configuration documentation is still being created, please contact us.</p>
+</blockquote>
+<ul>
+<li>Create custom cluster-local issuers</li>
+<li>Create custom certificates</li>
+<li>Manually configure individual HTTP Endpoint modules to use different certificates</li>
+<li>Configure using mixed-schema endpoints (i.e. some endpoints use HTTPS and some use HTTP). Note that multiple Ingress resources are required for this scenario</li>
+</ul>
+<h3 id="create-lets-encrypt-issuer-resources">Create <strong>Let's Encrypt</strong> <code>Issuer</code> resources<a class="headerlink" href="#create-lets-encrypt-issuer-resources" title="Permanent link">&para;</a></h3>
+<p>This Helm Chart can be configured to easily and automatically provision a lets-encrypt, or other ACME compliant issuer.</p>
+<p>In order to enable this feature, your <code>certificateIssuer</code> configuration must include at the minimum the following:</p>
+<ul>
+<li><code>signingMethod: public-signed</code></li>
+<li><code>acmeSpec.email: your@email.com</code></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> Although cert issuance functions with an invalid e-mail address, it is used by the provider to track your certificates and provide notifications about the status of your certificates. It's advisable to use a correct e-mail address.</p>
+</blockquote>
+<p>Here is how that would look in your values file.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>tls:
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  certificateIssuers:
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    acmeStaging:
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>      enabled: true
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>      signingMethod: public-signed
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>      acmeSpec:
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        email: your@email.com
+</code></pre></div></p>
+<p>By default, the above will use the Let's Encrypt <strong><em>Staging</em></strong> servers and produce an <code>Issuer</code> resource with the following spec:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>spec:
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  acme:
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    email: your@email.com
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    privateKeySecretName:
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>      name: release-name-smilecdr-acmestaging-key
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    server: https://acme-staging-v02.api.letsencrypt.org/directory
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    solvers:
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    - http01:
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        ingress:
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>          ingressClassName: nginx
+</code></pre></div>
+<p>For convenience, you may set <code>acmeSpec.server</code> to some pre-defined friendly names. You can also set it directly to an ACME server of your choosing.</p>
+<p>The following convenience server names are provided:</p>
+<ul>
+<li><code>lets-encrypt-staging</code> - <code>https://acme-staging-v02.api.letsencrypt.org/directory</code> (Default)</li>
+<li><code>lets-encrypt-prod</code> - <code>https://acme-v02.api.letsencrypt.org/directory</code></li>
+</ul>
+<h4 id="using-acme-issuer-with-aws-alb">Using ACME Issuer with AWS ALB<a class="headerlink" href="#using-acme-issuer-with-aws-alb" title="Permanent link">&para;</a></h4>
+<p>At this time, the automatically generated ACME Issuer uses <a href="https://cert-manager.io/docs/configuration/acme/http01/">HTTP01 Challenges</a> and will only work if your environment is configured to use the <code>ingress-nginx</code> Ingress Controller. If you wish to use ACME certificates with AWS ALB, there are some challenges as the cert-manager <code>Challenge</code> resource creates an Ingress resource with <code>IngressClass: alb</code>.</p>
+<p>As this challenge mechanism relies on creating an ingress route that is resolvable from the environment's URL, it needs to use the same AWS ALB instance. In order to achieve this, the following steps need to be taken:</p>
+<ul>
+<li>Re-deploy your ALB ingress using the <code>alb.ingress.kubernetes.io/group.name: tlstest</code> annotation.</li>
+<li>Note that if you are adding this value, your existing ALB may be destroyed replaced by thwe AWS Load Balancer Controller. Any DNS entries pointing to the old one may need to be updated.</li>
+<li>Define and manually create an <code>Issuer</code> resource that uses an <code>ingressTemplate</code> that includes the same group name annotation.</li>
+<li>Configure an Issuer (in your values file) that references the above Issuer resource that you manually created.</li>
+<li>See the <a href="#use-pre-existing-cert-manager-issuer-or-clusterissuer-resources">pre-existing Issuers</a> section below for more info on using existing Issuers or ClusterIssuers.</li>
+</ul>
+<p>Now, when the <code>Certificate</code> resource is created, an <code>HTTP01</code> challenge route will be created on the existing AWS ALB and the certificate will be provisioned.</p>
+<p>The following snippets demonstrate how to achieve this:</p>
+<p>In your <code>values.yaml</code> file
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ingresses:
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  default:
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    type: aws-lbc-alb
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    annotations:
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>      alb.ingress.kubernetes.io/group.name: tlstest
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>tls:
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>  certificateIssuers:
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    default:
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>      enabled: true
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>      signingMethod: public-signed
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>      existingIssuer: my-existing-le-issuer-with-alb
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>  certificates:
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    default:
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>      enabled: true
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>  defaultEndpointConfig:
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>    enabled: true
+</code></pre></div></p>
+<p>Manually created <code>Issuer</code> resource:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>apiVersion: cert-manager.io/v1
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>kind: Issuer
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>metadata:
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  name: my-existing-le-issuer-with-alb
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>spec:
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>  acme:
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    email: test2@exampledomain.com
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    privateKeySecretName:
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>      name: smilecdr-my-existing-le-issuer-key
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    server: https://acme-staging-v02.api.letsencrypt.org/directory
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    solvers:
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    - http01:
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        ingress:
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>          ingressClassName: alb
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>          ingressTemplate:
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>            metadata:
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>              annotations:
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>                alb.ingress.kubernetes.io/group.name: tlstest
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>                alb.ingress.kubernetes.io/listen-ports: &quot;[{\&quot;HTTP\&quot;:80},{\&quot;HTTPS\&quot;:443}]&quot;
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>                alb.ingress.kubernetes.io/scheme: internet-facing
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>                alb.ingress.kubernetes.io/ssl-redirect: &quot;443&quot;
+</code></pre></div></p>
+<p>Note that it is important for all of the above annotations to be present so that the <code>HTTP01</code> challenge gets successfully set up. The ingress resource that is created is transient and will only be present for the duration of the certificate ordering process.</p>
+<p>For more information on any other settings that may be used in the <code>acmeSpec</code>, please refer to the official cert-manager Issuer documentation <a href="https://cert-manager.io/docs/configuration/issuers/">here</a>.</p>
+<h3 id="use-pre-existing-cert-manager-issuer-or-clusterissuer-resources">Use pre-existing cert-manager <code>Issuer</code> or <code>ClusterIssuer</code> resources<a class="headerlink" href="#use-pre-existing-cert-manager-issuer-or-clusterissuer-resources" title="Permanent link">&para;</a></h3>
+<p>If you have already provisioned one or more cert-manager issuers through other mechanisms, you can use them instead of having the Helm Chart create them for you.</p>
+<p>To do this, you will still need to create an issuer configuration under <code>certificateIssuers</code> so that the Helm Chart knows what kind of issuer it is working with.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>tls:
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  certificateIssuers:
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    myExistingIssuer:
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>      enabled: true
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>      existingIssuer: theIssuerResourceName
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>      # existingClusterIssuer: theClusterIssuerResourceName
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>      # signingMethod: public-signed
+</code></pre></div>
+<p>By default, this issuer will be treated as a 'cluster-signed' issuer. This means that any certificate requests may include Kubernetes service entries in the SAN list of the cert.</p>
+<p>If you wish to use an existing public-signed issuer (such as an ACME provider like Let's Encrypt) then you need to set <code>signingMethod: public-signed</code>. This will prevent the creation of certificates that contain host entries that cannot be included when using these issuers.</p>
+<p>If your existing issuer is a namespace-local issuer, use <code>existingIssuer</code>. If it is a Cluster-wide issuer, use <code>existingClusterIssuer</code>. Using the correct type here ensures that certificate requests use the correct one.</p>
+<p>When definging certificates to use your existing issuer, they should reference the configuration key under <code>certificateIssuers</code> rather than the Issuer resource name. To use the above existing certificate issuer, your certificate definition may look like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>tls:
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  certificates:
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    certWithExistingIssuer:
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>      enabled: true
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>      issuerConfigName: myExistingIssuer
+</code></pre></div>
+<h3 id="adding-global-endpoint-module-configurations">Adding global endpoint module configurations<a class="headerlink" href="#adding-global-endpoint-module-configurations" title="Permanent link">&para;</a></h3>
+<p>If you wish to set extra configurations for TLS endpoints, you may do so using the <code>defaultEndpointConfig</code> configuration like so:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>tls:
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  defaultEndpointConfig:
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    extraCdrConfig:
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>      tls.protocol.cipher_blacklist: &quot;cipher1,cipher2&quot;
+</code></pre></div>
+<p>In the above example, maybe you wish to set specific TLS cipher restrictions.</p>
+<p>By adding the configuration here, you do not need to manually add it to every endpoint module. This allows for simple configuration of TLS endpoints with reduced complexity and scope for errors.</p>
+<blockquote>
+<p><strong>Note:</strong> Exercise caution when manipulating the allowed ciphers, as incorrect choices may prevent the readiness probe or ALB health checks from functioning correctly.</p>
+</blockquote>
+<p>More information on available cipher/protocol restriction settings is available <a href="https://smilecdr.com/docs/configuration_categories/tls_ssl_encryption.html#property-tls-cipher-blacklist">here</a></p>
+<h3 id="currently-unsupported-options">Currently unsupported options<a class="headerlink" href="#currently-unsupported-options" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Use pre-existing cert-manager <code>Certificate</code> resources</li>
+<li>Configure <code>ingress-nginx</code> to use <code>Ingress.tls</code> to configure its TLS termination, instead of the default <code>self-signed</code> cert</li>
+<li>Securely import externally provisioned certificate material</li>
+<li>TLS encryption on Azure</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>
