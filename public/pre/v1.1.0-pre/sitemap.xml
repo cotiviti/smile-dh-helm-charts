@@ -186,6 +186,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1.0-pre/guide/smilecdr/operations/smileutil/</loc>
+         <lastmod>2024-08-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1.0-pre/guide/smilecdr/storage/files/</loc>
          <lastmod>2024-08-07</lastmod>
          <changefreq>daily</changefreq>
