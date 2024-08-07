@@ -1,3 +1,10 @@
+# [1.1.0-pre.3](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.1.0-pre.2...v1.1.0-pre.3) (2024-08-07)
+
+
+### Features
+
+* **smilecdr:** update volumeConfig spec ([29390f7](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/29390f768afff4e81a6a56d6312dc7abb2cafb65))
+
 # [1.1.0-pre.2](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.1.0-pre.1...v1.1.0-pre.2) (2024-08-06)
 
 
