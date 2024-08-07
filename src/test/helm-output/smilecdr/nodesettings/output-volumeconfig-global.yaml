@@ -433,7 +433,114 @@ spec:
       securityContext:
         fsGroup: 1000
       initContainers:
-        []
+        - command:
+          - /bin/sh
+          - -c
+          - /bin/cp -Rvp /home/smile/smilecdr/classes/* /tmp/smilecdr-volumes/classes/
+          image: docker.smilecdr.com/smilecdr:2024.05.R03
+          imagePullPolicy: IfNotPresent
+          name: init-sync-classes
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/classes/
+            name: scdr-volume-classes
+        - args:
+          - -o
+          - /tmp/smilecdr-volumes/classes/mydownloadedscript.js
+          - --location
+          - --create-dirs
+          - https://website.com/path/to/file.js
+          image: quay.io/curl/curl:8.1.2
+          imagePullPolicy: IfNotPresent
+          name: init-pull-classes-curl
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 100
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/classes/
+            name: scdr-volume-classes
+        - command:
+          - /bin/sh
+          - -c
+          - /bin/cp -Rvp /home/smile/smilecdr/customerlib/* /tmp/smilecdr-volumes/customerlib/
+          image: docker.smilecdr.com/smilecdr:2024.05.R03
+          imagePullPolicy: IfNotPresent
+          name: init-sync-customerlib
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/customerlib/
+            name: scdr-volume-customerlib
+        - args:
+          - -o
+          - /tmp/smilecdr-volumes/customerlib/mydownloadedlib.jar
+          - --location
+          - --create-dirs
+          - https://website.com/path/to/file.jar
+          image: quay.io/curl/curl:8.1.2
+          imagePullPolicy: IfNotPresent
+          name: init-pull-customerlib-curl
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 100
+          volumeMounts:
+          - mountPath: /tmp/smilecdr-volumes/customerlib/
+            name: scdr-volume-customerlib
       terminationGracePeriodSeconds: 60
       containers:
         - name: smilecdr
@@ -496,6 +603,10 @@ spec:
               name: smart-auth
               protocol: TCP
           volumeMounts:
+            - mountPath: /home/smile/smilecdr/classes
+              name: scdr-volume-classes
+            - mountPath: /home/smile/smilecdr/customerlib
+              name: scdr-volume-customerlib
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
@@ -509,6 +620,12 @@ spec:
             - mountPath: /home/smile/smilecdr/activemq-data
               name: scdr-volume-amq
       volumes:
+        - emptyDir:
+            sizeLimit: 2Gi
+          name: scdr-volume-classes
+        - emptyDir:
+            sizeLimit: 2Gi
+          name: scdr-volume-customerlib
         - configMap:
             name: release-name-scdr-masterdev-node
           name: scdr-config-release-name

@@ -25,7 +25,7 @@ license:
 
 ## Alternative methods
 
-If you do not wish to use the above method, you can also include your license file using the existing method for including files as described in the [Including Extra Files](./files.md) section of this guide.
+If you do not wish to use the above method, you can also include your license file using the existing method for including files as described in the [Including Extra Files](./storage/files.md) section of this guide.
 
 If you use this method, you will also need to update your [module configuration](./modules.md) so that `license.config.jwt_file` points to the correct file.
 

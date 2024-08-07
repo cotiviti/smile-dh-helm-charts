@@ -60,18 +60,18 @@ Define volumes and volume mounts based on combining:
 
   {{- if eq true .Values.securityContext.readOnlyRootFilesystem -}}
     {{- $tmpVolume := dict "name" "scdr-volume-tmp" -}}
-    {{- $_ := set $tmpVolume "emptyDir" (dict "sizeLimit" (default "1Mi" (((.Values.volumeConfig).cdr).tmp).size)) -}}
+    {{- $_ := set $tmpVolume "emptyDir" (dict "sizeLimit" (default "1Mi" (((.Values.volumeConfig).cdr).tmp).sizeLimit)) -}}
     {{- $volumes = append $volumes $tmpVolume -}}
     {{- $logsVolume := dict "name" "scdr-volume-log" -}}
     {{- /* TODO: Remove the logsDirSize option after deprecation period. */ -}}
-    {{- /* $_ := set $logsVolume "emptyDir" (dict "sizeLimit" (default "10Gi" ((.Values.volumeConfig).logs).size)) */ -}}
-    {{- $_ := set $logsVolume "emptyDir" (dict "sizeLimit" (coalesce .Values.logsDirSize (((.Values.volumeConfig).cdr).log).size "10Gi") ) -}}
+    {{- /* $_ := set $logsVolume "emptyDir" (dict "sizeLimit" (default "10Gi" ((.Values.volumeConfig).log).sizeLimit)) */ -}}
+    {{- $_ := set $logsVolume "emptyDir" (dict "sizeLimit" (coalesce .Values.logsDirSize (((.Values.volumeConfig).cdr).log).sizeLimit "10Gi") ) -}}
     {{- $volumes = append $volumes $logsVolume -}}
     {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
     {{- $amqConfig := (include "messagebroker.amq.config" . | fromYaml) -}}
     {{- if and (not $kafkaConfig.enabled) (not $amqConfig.enabled) -}}
       {{- $amqVolume := dict "name" "scdr-volume-amq" -}}
-      {{- $_ := set $amqVolume "emptyDir" (dict "sizeLimit" (default "10Mi" (((.Values.volumeConfig).cdr).amq).size)) -}}
+      {{- $_ := set $amqVolume "emptyDir" (dict "sizeLimit" (default "10Mi" (((.Values.volumeConfig).cdr).amq).sizeLimit)) -}}
       {{- $volumes = append $volumes $amqVolume -}}
     {{- end -}}
     {{- $fileSources := (include "smilecdr.classes.sources" . | fromYamlArray ) -}}
