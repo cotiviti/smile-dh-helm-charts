@@ -88,27 +88,35 @@ variable "helm_release_name" {
   description = "The release name used in the Smile CDR Helm Chart"
   type        = string
   default     = "smilecdr"
-  nullable = false
+  nullable    = false
 }
 
 variable "helm_repository" {
   description = "The Helm Repo where the Smile CDR Helm Chart is hosted"
   type        = string
-  default     = "https://gitlab.com/api/v4/projects/40759898/packages/helm/devel"
-  nullable = false
+  default     = "https://gitlab.com/api/v4/projects/40759898/packages/helm/stable"
+  nullable    = false
 }
 
 variable "helm_chart" {
   description = "The name of the Smile CDR Helm Chart in the repository"
   type        = string
   default     = "smilecdr"
-  nullable = false
+  nullable    = false
 }
 
 variable "helm_chart_version" {
-  description = "The version of the Smile CDR Helm Chart to use"
+  description = "The version of the Smile CDR Helm Chart to use. If set to `null`, the latest chart version will be selected based on the use of the `helm_chart_devel` option"
   type        = string
-  default     = "1.0.0"
+  default     = "1.1.0"
+  nullable    = true
+}
+
+variable "helm_chart_devel" {
+  description = "If set to true, and if `helm_chart_version` is set to `null`, the latest pre-release chart version will be used"
+  type        = bool
+  default     = false
+  nullable    = false
 }
 
 variable "helm_chart_values" {
