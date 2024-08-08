@@ -1,3 +1,17 @@
+# [1.1.0](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0...v1.1.0) (2024-08-08)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix smileutil command ([c7efcbe](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/c7efcbef35e69b2fbce8a52d8435bde5dbfb8f10))
+* **smilecdr:** set java.io.tmpdir to correct location ([7b85499](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/7b854999f9079e72cd341f4e56fa39800172083f))
+
+
+### Features
+
+* **smilecdr:** allow ephemeral volume configuration ([1f74351](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/1f74351d1947c50ffcfdab75d1457812827c7f8f))
+* **smilecdr:** update volumeConfig spec ([29390f7](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/29390f768afff4e81a6a56d6312dc7abb2cafb65))
+
 # 1.0.0 (2024-07-03)
 
 
