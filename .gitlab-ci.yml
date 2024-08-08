@@ -241,7 +241,7 @@ helm-publish-stable:
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
-    - if: $CI_COMMIT_REF_NAME =~ $PRE_RELEASE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+    - if: $CI_COMMIT_REF_NAME =~ $RELEASE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
   before_script:
     - apk add bash curl
   script:
