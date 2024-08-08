@@ -25,12 +25,12 @@ extraEnvVars:
 
 This is a list of objects that follow the same `env` schema as the Kubernetes `podSpec.containers` [See here](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)
 
->**Note:** Although it is possible to use this to add secrets using `env.valueFrom.secretKeyRef`, it's recommended to use one of the existing mechanisms if you wish to pass in secret data to your pod. See the [Secrets](../secrets.md) section for more info on this.
+>**Note:** Although it is possible to use this to add secrets using `env.valueFrom.secretKeyRef`, it's recommended to use one of the existing mechanisms if you wish to pass in secret data to your pod. See the [Secrets](../index.md) section for more info on this.
 
 ## Multi-node configuration
 If deploying Smile CDR in a multi-node configuration, you may wish to have different environment variables for the different CDR Nodes.
 
->**Note:** For more details on how to deploy Smile CDR with multi-node configurations, please refer to the [CDR Nodes](./cdrnode.md) section.
+>**Note:** For more details on how to deploy Smile CDR with multi-node configurations, please refer to the [CDR Nodes](./modules/cdrnode.md) section.
 
 ```yaml
 cdrNodes:

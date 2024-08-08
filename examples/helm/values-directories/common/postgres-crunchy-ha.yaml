@@ -1,0 +1,11 @@
+# This Helm values overlay can be used to enable higher performance, High Availability Postgres settings.
+
+database:
+  crunchypgo:
+    config:
+      # -- Number of Postgres instances to run (For HA)
+      instanceReplicas: 3
+      # -- PostgreSQL cpu allocation
+      instanceCPU: 4
+      # -- PostgreSQL memory allocation
+      instanceMemory: 4Gi

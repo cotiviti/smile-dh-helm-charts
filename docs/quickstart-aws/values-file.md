@@ -30,7 +30,7 @@ a container repository that contains the Smile CDR Docker images.
 
 > **WARNING**: The following method of providing Docker credentials in the values file is insecure
 and only shown in this quick-start demonstration to show the chart in action.
-You should instead use an alternative such as an external secret vault. See the [secrets](../guide/secrets.md) section for more info.
+You should instead use an alternative such as an external secret vault. See the [secrets](../guide/secrets/index.md) section for more info.
 
 **`my-values.yaml` file**
 ```yaml

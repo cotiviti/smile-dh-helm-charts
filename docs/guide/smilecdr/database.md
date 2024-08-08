@@ -6,10 +6,10 @@ To use this chart, you must configure a database. There are two ways to do this:
   to use it.
 * As a quick-start convenience, support has been included to provision a PostgreSQL cluster locally in
   the Kubernetes cluster using the CrunchyData PostreSQL Operator. When enabling this option, the
-  database(s) will be automatically created and Smile CDR will be configured to connect to it.
+  database(s) will be automatically created and Smile CDR will be configured to connect to it/them.
 
 If you do not specify one or the other, the chart will fail to render any output and will return a
-descriptive error instead
+descriptive error instead.
 
 > **WARNING - Do not use built-in H2 database**:<br>
 Due to the ephemeral and stateless nature of Kubernetes Pods, there is no use case
@@ -17,33 +17,69 @@ where it makes sense to provision Smile CDR using the internal H2 database. You 
 your persistence module to do so, but every time the Pod restarts, it will start with an empty
 database and will perform a fresh install of Smile CDR. In addition to this, if you were to configure multiple replicas,
 each Pod would appear as its own distinct Smile CDR install.
-As such, you should not configure Smile CDR
-in this fashion and you must instead provision some external database.
+
+>As such, you should not configure Smile CDR in this fashion and you must instead provision some external database.
 
 ## Referencing Externally Provisioned Databases
 To reference a database that is external to the cluster, you will need:
 
 * Network connectivity from the K8s cluster to your database.
 * A secret containing the connection credentials in a structured Json format.
-  * It is common practice to include all connection credentials in DB secrets, this way it becomes simple
-  to manage the database without having to reconfigure Smile CDR. e.g. when 'restoring' an RDS instance, the
-  DB cluster name will typically change. By keeping these details inside the secret then any such change will be automatically applied without reconfiguring. See
-  [here](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres)
-  for info on the schema used by AWS for this purpose. Note that an app restart will be required to pick up the new secret value.
-  * The secret can be a Kubernetes `Secret` object that you provision through some external mechanism, or it can be a secret in a
-  secure secrets vault. The latter is the preferred option for increased security and the ability to easily
-  rotate credentials. At this time, the only supported secrets vault is AWS Secrets Manager, using the Secrets Store CSI Driver.
-  See the [Secrets Handling](../secrets.md) section for more info on this.
+    * It is common practice to include all connection credentials in DB secrets, this way it becomes simple
+    to manage the database without having to reconfigure Smile CDR. e.g. when 'restoring' an RDS instance, the
+    DB cluster name will typically change. By keeping these details inside the secret then any such change will be automatically applied without reconfiguring. See
+    [here](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres)
+    for info on the schema used by AWS for this purpose. Note that an app restart will be required to pick up the new secret value.
+    * The secret can be a Kubernetes `Secret` object that you provision through some external mechanism, or it can be a secret in a
+    secure secrets vault. The latter is the preferred option for increased security and the ability to easily
+    rotate credentials. At this time, the only supported secrets vault is AWS Secrets Manager, using the Secrets Store CSI Driver.
+    See the [Secrets Handling](../index.md) section for more info on this.
+    * It's also possible to configure connection details directly without using a secret object. However, any secret material such as passwords MUST use a secret mechanism or alternatively use IAM (See below).
+* Authorization can either use a password stored in a secret, or if using certain AWS RDS database types, it can use IAM Authentication.
+    * When using IAM Authentication, the IAM Role assigned to the Pod's `ServiceAccount` must have the appropriate IAM policy.
+    * Other connection details (e.g. DB URL, Port, database name, username) can either be configured using a Secret object as per above, or they can be specifuid directly in the configuration.
 
-If using AWS Secrets Manager, set the `credentials.type` to `sscsi` and `credentials.provider` to `aws`. If you have created a `Secret` object
-in Kubernetes through some othert mechanism, set `credentials.type` to `k8sSecret`.
+### Database Connection Configuration Schema
 
-### Example Secret Configurations
+External database connections are configured in the `database.external` section of your values file as follows:
+```yaml
+database:
+  external:
+    enabled: true
+    defaults:
+      connectionConfigSource:
+        # sscsi or k8sSecret
+        source: sscsi
+        provider: aws
+        # pwd or iam
+      connectionConfig:
+        authentication:
+         type: pwd
+    databases:
+    - name: clustermgrdb-iam
+      modules:
+      - clustermgr
+      connectionConfigSource:
+        source: none
+      connectionConfig:
+        authentication:
+          type: iam
+          provider: aws
+        url: clustermgr-db-url
+        port: clustermgr-db-port
+        dbName: clustermgr-db-name
+        user: clustermgr-db-user
+```
 
-#### Using AWS Secret Json structure
-If you are using the above mentioned Json [structure](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres) (i.e. `engine`, `host`, `username`, `password`, `dbname` and `port`) in your secret, then you should simply configure your secret as per the following yaml fragment. Those default keys will be used to extract the credentials.
+### Legacy Database Connection Configuration Schema
 
-#### `my-values.yaml`
+In Helm Chart version v1.0.0-pre.121 and older, the Database schema was more restrictive:
+
+* It did not allow for different credential mechanisms for each database
+* It did not follow the same `secretSpec` schema used elsewhere in the Helm Chart.
+#### Using AWS Secret JSON structure
+If you are using the above mentioned JSON [structure](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres) (i.e. `engine`, `host`, `username`, `password`, `dbname` and `port`) in your secret, then you should simply configure your secret as per the following yaml fragment. Those default keys will be used to extract the credentials.
+
 ```yaml
 database:
   external:
@@ -56,44 +92,277 @@ database:
       secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret
       module: clustermgr
 ```
-> **Note:** `clustermgrSecret` can be any friendly name, it's not important. The Kubernetes `Secret` resource will be named using this value.
-#### Using Custom Secret Json structure
+
+>**Note:** This legacy schema has been deprecated and will be removed from a future version of the Helm Chart.
+
+#### Migrating from legacy to new Database Connection Configuration Schema
+
+To aid in upgrading to the new version of the DB Connection Configuration Schema, Helm Chart version v1.0.0-pre.122 and newer will fail with a descriptive error message.
+<!-- In addition to this, it will attempt to convert your provided legacy configuration that can be used to replace the old one in your values file. -->
+
+To convert, you should do the following:
+
+* Move configuration from `database.external.credentials` section to `database.external.defaults.connectionConfigSource` or to `database.external.databases.[databaseIndex].connectionConfigSource`
+* Move `secretName` and `secretArn` from `database.external.databases.[databaseIndex]` to `database.external.databases.[databaseIndex].connectionConfigSource`
+* Change `database.external.databases.[databaseIndex].module` from a single value to an array of values at `database.external.databases.[databaseIndex].modules`
+
+The above provided example would become:
+
+```yaml
+database:
+  external:
+    enabled: true
+    defaults:
+      connectionConfigSource:
+        source: sscsi
+        provider: aws
+    databases:
+    - connectionConfigSource:
+        secretName: clustermgrSecret
+        secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret
+      modules:
+      - clustermgr
+```
+
+
+
+
+#### Settings Reference
+
+**`databases` Section**
+
+This section contains a list of all external database connection configurations.
+
+| Key | Value | Required | Notes |
+|-----|-------|----------|-------|
+|`name`|A friendly reference name for this connection.|:material-check:||
+|`modules`|List of modules that this connection is used by|:material-close:|If not present, connection may be used by any modules.|
+|`connectionConfigSource`|Source of connection credentials (e.g. secrets)|:material-close:|Not required if sufficient defaults are defined|
+|`connectionConfig`|Directly configured connection configurations|:material-close:|Not required if sufficient defaults are defined|
+
+**`connectionConfigSource` Section**
+
+This section configures where the database connection settings are pulled from.
+Any required configurations must come from the `defaults` section or from the per-connection section. If they are not provided anywhere, the chart will fail with a descriptive error message.
+
+| Key | Value | Required | Notes |
+|-----|-------|----------|-------|
+|`source`|`sscsi`,`k8sSecret` or `none`|:material-check:|Can only use `none` if using IAM Authentication|
+|`provider`|SSCSI Provider, e.g. `aws`|:material-close:|Required if using Secrets Store CSI Driver (sscsi). Only `aws` provider is currently supported.|
+|`secretName`|Secret object name|:material-close:|Required if using Kubernetes Secrets (`k8sSecret`) or Secrets Store CSI Driver (`sscsi`).|
+|`secretArn`|Secrets Manager ARN|:material-close:|Required if using Secrets Store CSI Driver (`sscsi`).|
+|`secretKeyMappings`|Dictionary of key mappings|:material-close:|If you are using key names in your secrets that differ from the defaults, you can provide a custom mapping|
+
+**`secretKeyMappings` Section**
+
+This section lets you configure custom key mappings. If you are not using the above mentioned Json [structure](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres) (i.e. `engine`, `host`, `username`, `password`, `dbname` and `port`) in your secret, they can be overridden by specifying them with the `*Key` attributes to override the defaults
+
+| Key | Value |
+|-----|-------|
+|`urlKey`|Secret Key Name for URL|
+|`portKey`|Secret Key Name for Port|
+|`dbNameKey`|Secret Key Name for db name|
+|`userKey`|Secret Key Name for username|
+|`passKey`|Secret Key Name for password|
+
+**`connectionConfig` Section**
+
+This section is used to directly specify DB connection configurations.
+
+| Key | Value | Required | Notes |
+|-----|-------|----------|-------|
+|`authentication`|Define authentication mechanism|:material-check:|Defaults to use 'password' authentication. This implies you cannot use `none` as the config source, as you need a password to be provided via a secure mechanism.|
+|`authentication.provider`|Define authentication provider|:material-close:|Required when using `iam` authentication. Only `aws` provider is currently supported.|
+|`url`|Database hostname|:material-close:|This value acts as an override and will be used even if the credential is provided in a secret object.|
+|`port`|Database port|:material-close:|This value acts as an override and will be used even if the credential is provided in a secret object.|
+|`dbName`|Database name|:material-close:|This value acts as an override and will be used even if the credential is provided in a secret object.|
+|`user`|Database username|:material-close:|This value acts as an override and will be used even if the credential is provided in a secret object.|
+
+#### `defaults` Section
+
+To avoid duplication of configuration settings, it's possible to set defaults for the `connectionConfigSource` and `connectionConfig` sections.
+
+## Example External Database Configurations
+
+### Using Secret Store CSI and default Json structure
+
+```yaml
+database:
+  external:
+    enabled: true
+    defaults:
+      connectionConfigSource:
+        source: sscsi
+        provider: aws
+      connectionConfig:
+        authentication:
+          type: pwd
+    databases:
+    - name: clustermgrSecret
+      modules:
+      - clustermgr
+      connectionConfigSource:
+        secretName: clustermgrSecret
+        secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret
+    - name: persistenceSecret
+      modules:
+      - persistence
+      connectionConfigSource:
+        secretName: persistenceSecret
+        secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:persistenceSecret
+    - name: auditSecret
+      modules:
+      - audit
+      connectionConfigSource:
+        secretName: auditSecret
+        secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:auditSecret
+    - name: transactionSecret
+      modules:
+      - transaction
+      connectionConfigSource:
+        secretName: transactionSecret
+        secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:transactionSecret
+```
+
+### Using Custom Secret Json structure
 If the Json keys in your secret are different than above, they can be overridden by specifying them with the `*Key` attributes to override the defaults.
 
-The below are just examples, to show how the Json keys can be overridden. You need to ensure that this matches the configuration of your secret and the keys it contains.
+The below is just an incomplete example to demonstrate how the Json keys can be overridden. You need to ensure that this matches the configuration of your secret and the keys it contains.
+
+> **Note:** `clustermgrSecret` can be any friendly name, it's not important. The Kubernetes `Secret` resource will be named using this value.
+#### Using Custom Secret JSON structure
+If the JSON keys in your secret are different than above, they can be overridden by specifying them with the `*Key` attributes to override the defaults.
+
+The below are just examples, to show how the JSON keys can be overridden. You need to ensure that this matches the configuration of your secret and the keys it contains.
 #### `my-values.yaml`
 ```yaml
 database:
   external:
     enabled: true
-    credentials:
-      type: sscsi
-      provider: aws
+    defaults:
+      connectionConfigSource:
+        source: sscsi
+        provider: aws
+        secretKeyMappings:
+          urlKey: url-key-name
+          portKey: port-key-name
+          dbnameKey: dbname-key-name
+          userKey: user-key-name
+          passKey: password-key-name
+      connectionConfig:
+        authentication:
+         type: pwd
     databases:
-    - secretName: clustermgrSecret
-      secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret
-      module: clustermgr
-      urlKey: url-key-name
-      portKey: port-key-name
-      dbnameKey: dbname-key-name
-      userKey: user-key-name
-      passKey: password-key-name
+    - name: clustermgrSecret
+      modules:
+      - clustermgr
+      connectionConfigSource:
+        secretName: clustermgrSecret
+        secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret
 ```
 
-If a required field is not included in the secret, you can specify it in your values file like so.
+### Using IAM Authentication with Secret for connection details
 
-#### `my-values.yaml`
 ```yaml
-- secretName: smilecdr
-  module: clustermgr
-  url: db-url # this is the actual url/hostname
-  port: 5432
-  dbname: dbname
-  user: username
-  passKey: password
+database:
+  external:
+    enabled: true
+    defaults:
+      connectionConfigSource:
+        source: sscsi
+        provider: aws
+      connectionConfig:
+        authentication:
+          type: iam
+          provider: aws
+    databases:
+    - name: clustermgrSecret
+      modules:
+      - clustermgr
+      connectionConfigSource:
+        secretName: clustermgrSecret
+        secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret
+    - name: persistenceSecret
+      modules:
+      - persistence
+      connectionConfigSource:
+        secretName: persistenceSecret
+        secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:persistenceSecret
+    - name: auditSecret
+      modules:
+      - audit
+      connectionConfigSource:
+        secretName: auditSecret
+        secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:auditSecret
+    - name: transactionSecret
+      modules:
+      - transaction
+      connectionConfigSource:
+        secretName: transactionSecret
+        secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:transactionSecret
+```
+
+### Using IAM Authentication without Secret for connection details
+
+```yaml
+database:
+  external:
+    enabled: true
+    defaults:
+      connectionConfigSource:
+        source: none
+      connectionConfig:
+        authentication:
+          type: iam
+          provider: aws
+        url: shared-db-url
+        port: shared-db-port
+    databases:
+    - name: clustermgrSecret
+      modules:
+      - clustermgr
+      connectionConfig:
+        dbName: clustermgr-db-name
+        user: clustermgr-db-user
+    - name: persistenceSecret
+      modules:
+      - persistence
+      connectionConfig:
+        dbName: persistence-db-name
+        user: persistence-db-user
+    - name: auditSecret
+      modules:
+      - audit
+      connectionConfig:
+        dbName: audit-db-name
+        user: audit-db-user
+    - name: transactionSecret
+      modules:
+      - transaction
+      connectionConfig:
+        dbName: transaction-db-name
+        user: transaction-db-user
+```
+
+### Provide connection details directly
+If a required field is not included in the secret, you can specify it in a database connection section like so.
+
+```yaml
+databases:
+  - name: clustermgrSecret
+    modules:
+    - clustermgr
+    connectionConfigSource:
+      secretName: clustermgrSecret
+      secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret
+    connectionConfig:
+      url: db-url # this is the actual url/hostname
+      port: 5432
+      dbname: dbname
+      user: username
 ```
 > **NOTE**: You cannot override the passKey value. The password will always come from the
-referenced secret.
+referenced secret unless you are using IAM.
 
 ## Using CrunchyData PGO Databases
 This chart supports automatic creation of an in-cluster Postgres database using the CrunchyData Postgres Operator (PGO).

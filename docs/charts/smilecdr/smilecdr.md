@@ -32,15 +32,15 @@ This following table shows you the Smile CDR features that are currently support
 |-----------------|---|-----|-----|-------------------|------------------|
 |Install Smile CDR `2023.08` |:material-check:|:material-close:|Smile CDR `2023.05` is the minimum supported version.<br>[Helm Install Guide](../../guide/smilecdr/install.md)|`2023.08.R01`|`v1.0.0-pre92`|
 |Minor version upgrades|:material-check:|:material-close:|Upgrade by overriding image tag.<br>[Smile CDR Upgrades](https://smilecdr.com/docs/installation/upgrading.html#upgrading-an-existing-installation)|`2023.08.R01`|`v1.0.0-pre92`|
-|Flexible *CDR Node* cluster configurations|:material-check:|:material-close:|Configuration for single-node or multi-node Smile CDR cluster designs. [Cluster Configuration](../../guide/smilecdr/cdrnode.md)|`2023.08.R01`|`v1.0.0-pre93`|
+|Flexible *CDR Node* cluster configurations|:material-check:|:material-close:|Configuration for single-node or multi-node Smile CDR cluster designs. [Cluster Configuration](../../guide/smilecdr/modules/cdrnode.md)|`2023.08.R01`|`v1.0.0-pre93`|
 |Cluster Scaling|:material-check:|:material-close:|Horizontal Pod Autoscaling may be enabled. You need sufficient licenced core allocation if using autoscaling.<br>[Smile CDR Scaling](https://smilecdr.com/docs/clustering/designing_a_cluster.html#adding-and-removing-processes)|`2023.08.R01`|`v1.0.0-pre92`|
-|Configuration of CDR Modules|:material-check:|:material-close:|All modules can be configured and updated with zero downtime.<br>[Module Configuration using Helm Chart](../../guide/smilecdr/modules.md)|`2023.08.R01`|`v1.0.0-pre92`|
+|Configuration of CDR Modules|:material-check:|:material-close:|All modules can be configured and updated with zero downtime.<br>[Module Configuration using Helm Chart](../../guide/smilecdr/modules/modules.md)|`2023.08.R01`|`v1.0.0-pre92`|
 |Postgres Database|:material-check:|:material-close:|Supports multiple databases. i.e. for Clustermgr, Persistence, Audit etc.<br>[Database Configuration using Helm Chart](../../guide/smilecdr/database.md)|`2023.08.R01`|`v1.0.0-pre92`|
 |JVM Tuning|:material-check:|:material-close:|[Resource Tuning using Helm Chart](../../guide/smilecdr/resources.md)|`2023.08.R01`|`v1.0.0-pre92`|
 |Kafka Message Broker|:material-check:|:material-close:|[Message Broker Configuration using Helm Chart](../../guide/smilecdr/messagebroker.md)|`2023.08.R01`|`v1.0.0-pre92`|
 |Add files to `classpath` or `customerlib`|:material-check:|:material-close:|[Including Files using Helm Chart](../../guide/smilecdr/storage/files.md)|`2023.08.R01`|`v1.0.0-pre92`|
-|HL7 v2.x with `HL7_OVER_HTTP`|:material-check:|:material-close:|[Configuring HL7 v2.x Endpoint using Helm Chart](../../guide/smilecdr/hl7v2.md)|`2023.08.R01`|`v1.0.0-pre92`|
-|License Module|:material-check:|:material-close:|[Configuring License using Helm Chart](../../guide/smilecdr/cdr-license.md)|`2023.08.R01`|`v1.0.0-pre92`|
+|HL7 v2.x with `HL7_OVER_HTTP`|:material-check:|:material-close:|[Configuring HL7 v2.x Endpoint using Helm Chart](../../guide/smilecdr/modules/hl7v2.md)|`2023.08.R01`|`v1.0.0-pre92`|
+|License Module|:material-check:|:material-close:|[Configuring License using Helm Chart](../../guide/smilecdr/modules/license.md)|`2023.08.R01`|`v1.0.0-pre92`|
 
 
 The following Smile CDR features are not currently supported:

@@ -120,7 +120,7 @@ provider "kubernetes" {
 The configuration provided so far is not sufficient for a typical install of Smile CDR. A more common pattern would require more configurations to be provided.
 
 ### Helm Values Files
-When deploying Smile CDR using the Helm Chart, configuration is performed by updating the Helm Values file. See the [Smile CDR Helm Chart User Guide](../guide/smilecdr/) for more information on how to create and organize your Values files.
+When deploying Smile CDR using the Helm Chart, configuration is performed by updating the Helm Values file. See the [Smile CDR Helm Chart User Guide](../guide/smilecdr/index.md) for more information on how to create and organize your Values files.
 
 Once you have prepared your Values files, they can be referenced from this Terraform module using the `helm_chart_values` configuration. Multiple values files may be referenced, which can greatly help with organising configuration.
 
@@ -168,7 +168,7 @@ helm_chart_mapped_files = [
 
 ### Further Configuration
 
-For further configuration options and examples, please refer to the [Smile CDR Dependencies Terraform Module](../terraform/smilecdrdeps/index.md) and [Smile CDR Helm Chart User Guide](../guide/smilecdr/) sections.
+For further configuration options and examples, please refer to the [Smile CDR Dependencies Terraform Module](../terraform/smilecdrdeps/index.md) and [Smile CDR Helm Chart User Guide](../guide/smilecdr/index.md) sections.
 
 ## Terraform 'Quickstart' Project
 

@@ -69,11 +69,11 @@ The following `smileutil` commands are currently supported.
 There are two ways to run the upload terminology command.
 
 #### Run from external location
-When running this command from an external location, the Smile CDR Pod will make a local copy of the zip file before unzipping it and processing the records.
+When running this command from an external location, the `smileutil` utility will upload the zip file to the Smile CDR Pod, which will keep a copy of the zip file in memory before unzipping it to the temp dir and processing the records.
 
 For this to work, the pod must be configured as follows:
 * JVM heap size must be sufficiently sized. This process requires a lot of memory when dealing with very large zip files. For example, a 600MB zip file will require about 4GB more heap size than normal.
-* Temp directory must be large enough to hold a copy of the zip file as well as all of the uncompressed data. For example, a typical 600MB terminology zip file may unzip to ~4GB. The temp directory should be set to at least 4GB
+* Temp directory must be large enough to hold the uncompressed data. For example, a typical 600MB terminology zip file may unzip to ~4GB. The temp directory should be set to at least 4GB
 
 Run the following command from your external location:
 ```
@@ -100,4 +100,5 @@ Run the following command from inside the pod:
 ```
 JAVA_OPTS=-Xmx2g /home/smile/smilecdr/bin/smileutil upload-terminology -d /home/smile/smilecdr/customerlib/terminologyfile.zip -v r4 -b user:password -t "http://localhost:8000/fhir_request/" -u "http://snomed.info/sct"
 ```
->**Note>** This assumes a default Smile CDR install with the FHIR endpoint running on port 8000
+>**Note 1:** This assumes a default Smile CDR install with the FHIR endpoint running on port 8000
+>**Note 2:** It is important to remove the `-s` option or set it to be a value LOWER than the size of the zip file you are uploading. This forces the command to run in 'local' mode where it copies the file to the temp directory and instructs the Smile CDR server to reference the local file before unzipping and processing.

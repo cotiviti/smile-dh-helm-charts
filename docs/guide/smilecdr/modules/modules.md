@@ -67,7 +67,7 @@ modules:
 ### Configure Ingress
 As this Helm Chart supports multiple Ingress resources, you may need to specify which ingress is used by any modules that need to be exposed externally to the Kubernetes cluster.
 
-See the [Ingress](./ingress.md) section for more information on Ingress Configurations.
+See the [Ingress](../ingress.md) section for more information on Ingress Configurations.
 
 #### Default Ingress Configuration
 In a default Helm Chart installation, only a single Ingress resource is created and any modules with enabled `service` configurations will use this ingress by default. No extra module configuration is required in this scenario.
@@ -75,7 +75,7 @@ In a default Helm Chart installation, only a single Ingress resource is created 
 #### Custom Ingress Configuration
 If you wish to use a non-default Ingress resource, then this needs to be specified on a per-module basis.
 
-Before specifying any ingresses here, a [custom Ingress Configuration](./ingress.md#defining-custom-ingress-configurations) needs to be created.
+Before specifying any ingresses here, a [custom Ingress Configuration](../ingress.md#defining-custom-ingress-configurations) needs to be created.
 
 In the following snippet, we will configure the **Web Admin Console** to use a custom internal Ingress resource and the **FHIR endpoint** to use a custom public Ingress resource. All other modules will use the default Ingress Resource.
 #### `my-module-values.yaml`

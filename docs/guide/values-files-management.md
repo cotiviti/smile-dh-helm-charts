@@ -16,29 +16,68 @@ Using multiple values files can be a more efficient way to manage configurations
 To use multiple values files, you would simply provide multiple `-f valuesfle.yaml` options on the `helm upgrade` command.
 
 ### Multiple Environments
-When deploying an application, it is often necessary to consider multiple environments, such as dev, uat, and prod. While it is possible to create a separate configuration for each environment, this approach can lead to repetition and duplication of settings.
+When deploying any application, it is often necessary to consider multiple environments, such as dev, uat, and prod. While it is possible to create a completely separate configuration for each environment, this approach can lead to a number of issues such as:
 
-This can be problematic, as it can result in configuration drift between environments. If there are changes that need to be made to the configuration, it can be challenging to ensure that the updates are applied consistently across all environments.
+* Repetition and duplication of settings.
+* Challenges synchronizing common settings in multiple environments.
+* Configuration drift between common settings in each environment.
 
->**TODO** Insert Diagram explaining Drift
+A more effective approach may be to use a base configuration for the common settings, using overlays for per-environment settings.
 
-A more effective approach may be to use a base configuration, with per-environment overlays. This allows you to define a set of common configuration settings that apply to all environments, while also allowing you to specify any environment-specific settings as needed. This can help to minimize repetition and ensure that the configuration is consistent across all environments.
+This allows you to define a set of common configuration settings that apply to all environments, while also allowing you to specify any environment-specific settings as needed. This can help to minimize repetition and ensure that the configuration is consistent across all environments.
 
-This can be easily achieved using multiple directories for the different environments like so:
->**TODO** Insert Diagram showing multiple configurations in a per-directory model
+This can be easily achieved for multiple environments using a directory structure similar to this:
+
+```
+├── common
+│   ├── common-values.yaml
+│   └── files
+│       └── common-extra-script1.js
+├── prod
+│   ├── files
+│   │   └── prod-extra-script1.js
+│   └── prod-values.yaml
+└── uat
+    ├── files
+    │   └── uat-extra-script1.js
+    └── uat-values.yaml
+```
+
+>**Note:** This is just an example directory structure to demonstrate the concept. You should design an environment configuration that suits your organisation's configuration management workflow.
 
 ### Modular Configurations
 Using multiple values files can also be a useful way to create modular units of configuration that can be easily included or excluded in your environment. This can help to make your configuration more flexible and adaptable to changing needs.
 
-For example, you might create a set of values files that represent different configurations or modules that have been fully tested and approved for use in your organization. These might include a base configuration file that defines the minimum requirements for running Smile CDR, as well as additional files for specific features or components, such as an R4 persistence module, a MongoDB persistence module, or an AWS Healthlake module.
+For example, you might create a set of values files that represent different configurations or modules that have been fully tested and approved for use in your organization. These might include a base configuration file that defines the minimum requirements for running Smile CDR, as well as additional files for specific features or components, such as an R4 persistence module, enabling settings for bulk data import, enabling Kafka, or an AWS Healthlake module.
 
->**TODO** Insert Diagram showing module files
+Expanding on the above example for multiple environments, you could do something similar to this:
+
+```
+├── common
+│   ├── bulk-delete.yaml
+│   ├── bulk-import.yaml
+│   ├── common-values.yaml
+│   ├── dqm.yaml
+│   ├── dtr.yaml
+│   ├── files
+│   │   └── common-extra-script1.js
+│   ├── kafka-strimzi.yaml
+│   ├── large-uploads.yaml
+│   ├── observability-dashboard.yaml
+│   ├── postgres-crunchy-ha.yaml
+│   ├── smart-auth.yaml
+│   └── troubleshooting.yaml
+├── prod
+...
+```
 
 This approach allows you to build your configuration in a modular way, which can be more manageable and easier to maintain. It also gives you the flexibility to selectively include or exclude certain modules as needed, depending on the specific requirements of your environment.
+
+For more examples of this directory layout, you can study the examples that are located [here](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/examples/helm/values-directories)
 
 ## Flexible Solution
 When it comes to managing values files, there isn't a single "right" way to do it - the approach that works best will depend on specific needs and organizational standards.
 
 Although the above techniques can be helpful for keeping things organized and efficient, they may not be right for you or your organization. You should use a technique that works for your team and organization. If this means using a single large values file per environment or some other technique, then that is fine.
 
-The aim here is to find a solution that helps you maintain a stable, well-organized configuration.
+The aim here is to find a solution that helps you maintain a stable, well-organized and easy to manage configuration repository.

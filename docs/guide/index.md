@@ -1,3 +1,3 @@
-# Chart Guides
+# Smile CDR Helm Chart Guide
 
-The guides in this section cover all details of configuration using the Helm Charts
+In this section, we cover various aspects of installing and configuring Smile CDR using the Helm Chart.

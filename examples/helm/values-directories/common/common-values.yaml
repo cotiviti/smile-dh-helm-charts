@@ -1,0 +1,17 @@
+# This Helm values overlay can be used as a base configuration
+
+database:
+  crunchypgo:
+    enabled: true
+    internal: true
+    config:
+      # -- PostgreSQL version to use
+      # postgresVersion: 14
+      instanceReplicas: 1
+      # -- PostgrSQL storage allocation
+      instanceSize: 10Gi
+      # -- PostgrSQL backups storage allocation
+      backupsSize: 25Gi
+      # If you need faster disk for the PostgreSQL cluster, you can specify a higher performance
+      # `storageClass` in your cluster and reference it here.
+      #storageClass: gp3-fast
