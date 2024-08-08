@@ -1,11 +1,22 @@
 # Smile CDR
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Smile CDR Version: 2024.05.R03](https://img.shields.io/badge/Smile%20CDR%20Version-2024.05.R03-informational?style=flat-square)
+![Version: 1.1.0-pre.3](https://img.shields.io/badge/Version-1.1.0--pre.3-informational?style=flat-square) ![Smile CDR Version: 2024.05.R03](https://img.shields.io/badge/Smile%20CDR%20Version-2024.05.R03-informational?style=flat-square)
 
 This chart provides a flexible and consistent process to deploy Smile CDR in a self-managed Kubernetes cluster.
 
 It is provided by Smile Digital Health as a starting point for creating a reference implementation of Smile CDR on K8s.
 It has been fully tested on Amazon EKS and has growing compatibility for Azure AKS.
+
+## ** PRE-RELEASE WARNING **
+This is ***PRE-RELEASE*** version 1.1.0-pre.3
+
+As this is a pre-release version of this chart, there may be **breaking changes** introduced without notice.
+
+Only use this version of the chart for evaluation or testing.
+
+Before performing a `helm upgrade` on your release, first get the current version using
+`helm list` and check the [Change Log](../../../CHANGELOG-PRE.md) for information on any
+breaking changes you may need to prepare for.
 
 ## Features
 
@@ -98,7 +109,6 @@ The below section gives an overview of the default values available. Consult the
 | jvm.memoryFactor | float | `0.5` | JVM HeapSize factor. `limits.memory` is multiplied this to calculate `-Xmx` |
 | jvm.xms | bool | `true` | Set JVM heap `-Xms` == `-Xmx` |
 | labels | object | `{}` | Extra labels to apply to all resources |
-| logsDirSize | string | `"10Gi"` |  |
 | mappedFiles | object | `{}` | Map of file definitions to map into the Smile CDR instance |
 | messageBroker.adminPod.enabled | bool | `false` |  |
 | messageBroker.clientConfiguration.consumerProperties."heartbeat.interval.ms" | int | `3000` |  |
@@ -175,3 +185,4 @@ The below section gives an overview of the default values available. Consult the
 | tls.defaultEndpointConfig.enabled | bool | `false` |  |
 | tls.defaultEndpointConfig.extraCdrConfig."tls.protocol.cipher_whitelist" | string | `"TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256"` |  |
 | tls.defaultEndpointConfig.extraCdrConfig."tls.protocol.protocol_whitelist" | string | `"TLSv1.3"` |  |
+| volumeConfig.cdr.log.sizeLimit | string | `"10Gi"` |  |

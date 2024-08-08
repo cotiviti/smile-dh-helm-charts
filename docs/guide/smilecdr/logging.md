@@ -6,7 +6,7 @@ Full documentation about the logging system is available [here](https://smilecdr
 ## Custom Log Configuration
 As per the Smile CDR docs, [custom log configurations](https://smilecdr.com/docs/logging/custom_logging.html) can be used by providing a custom `logback-smile-custom.xml` file.
 
-While you could create this file manually and include it in the Helm Chart deployment by using one of the [file copy methods](./files.md), editing this file and configuring the copying can be troublesome and error prone.
+While you could create this file manually and include it in the Helm Chart deployment by using one of the [file copy methods](./storage/files.md), editing this file and configuring the copying can be troublesome and error prone.
 
 ## Automatic Log Configuration
 As an alternative to the above, you can specify common configurations for the custom logging directly in your Helm values file. This eliminates the need to to perform any extra steps. This can also be helpful for automating log configuration changes.

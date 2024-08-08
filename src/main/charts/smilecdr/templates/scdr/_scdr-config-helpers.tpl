@@ -62,6 +62,32 @@ familiar to Smile CDR adminitrators when inspecting it.
 {{- end -}}
 
 {{/*
+This template defines the text of the updated smileutil script.
+*/}}
+{{- define "smilecdr.cdrSmileutilText" -}}
+#!/bin/bash
+
+# ----------------------------------------------------------------------------
+# CDR CLI Tool for use in Helm Chart deployment
+#
+
+# CDR home directory is hard coded as this is not configurable with the Helm Chart deployment method.
+CDRDIR=/home/smile/smilecdr/
+
+# Change the working directory to the CDR home directory
+cd $CDRDIR
+
+# Build the classpath
+CLASSPATH="$CDRDIR/classes:$CDRDIR/lib/*:$CDRDIR/customerlib/*"
+
+# Unset JAVA_TOOL_OPTIONS as it will cause failure if it includes any listeners (i.e. for JMX agent)
+unset JAVA_TOOL_OPTIONS
+
+JAVA_CMD="java $JAVA_OPTS -cp $CLASSPATH -Dsmile.basedir=$CDRDIR -Djava.io.tmpdir=$CDRDIR/tmp ca.cdr.cli.App $*"
+$JAVA_CMD
+{{- end -}}
+
+{{/*
 Defines all the data that will be included in the configmap.
 This is split out into a separate template so that it can be
 used to generate the hash of the data.

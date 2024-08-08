@@ -18,6 +18,41 @@ spec:
       app.kubernetes.io/instance: release-name
       app.kubernetes.io/name: smilecdr
 ---
+# Source: smilecdr/templates/scdr/scdr-file-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-scdr-smileutil
+  namespace: default
+  labels:
+    helm.sh/chart: No Chart Version - Unit Testing
+    app.kubernetes.io/name: smilecdr
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: No App Version - Unit Testing
+    app.kubernetes.io/managed-by: Helm
+data:
+  smileutil: |-
+    #!/bin/bash
+
+    # ----------------------------------------------------------------------------
+    # CDR CLI Tool for use in Helm Chart deployment
+    #
+
+    # CDR home directory is hard coded as this is not configurable with the Helm Chart deployment method.
+    CDRDIR=/home/smile/smilecdr/
+
+    # Change the working directory to the CDR home directory
+    cd $CDRDIR
+
+    # Build the classpath
+    CLASSPATH="$CDRDIR/classes:$CDRDIR/lib/*:$CDRDIR/customerlib/*"
+
+    # Unset JAVA_TOOL_OPTIONS as it will cause failure if it includes any listeners (i.e. for JMX agent)
+    unset JAVA_TOOL_OPTIONS
+
+    JAVA_CMD="java $JAVA_OPTS -cp $CLASSPATH -Dsmile.basedir=$CDRDIR -Djava.io.tmpdir=$CDRDIR/tmp ca.cdr.cli.App $*"
+    $JAVA_CMD
+---
 # Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -546,7 +581,8 @@ spec:
               cpu: "1"
           env:
             - name: JVMARGS
-              value: -server -Xms2048m -Xmx2048m -Dsun.net.inetaddr.ttl=60 -Djava.security.egd=file:/dev/./urandom
+              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
+                -Djava.security.egd=file:/dev/./urandom
           ports:
             - containerPort: 9000
               name: admin-json
@@ -574,6 +610,9 @@ spec:
             - mountPath: /home/smile/smilecdr/classes/cdr-config-Master.properties
               name: scdr-config-release-name
               subPath: cdr-config-Master.properties
+            - mountPath: /home/smile/smilecdr/bin/smileutil
+              name: scdr-smileutil
+              subPath: smileutil
             - mountPath: /home/smile/smilecdr/tmp
               name: scdr-volume-tmp
             - mountPath: /home/smile/smilecdr/log
@@ -590,6 +629,10 @@ spec:
         - configMap:
             name: release-name-scdr-masterdev-node
           name: scdr-config-release-name
+        - configMap:
+            defaultMode: 504
+            name: release-name-scdr-smileutil
+          name: scdr-smileutil
         - emptyDir:
             sizeLimit: 1Mi
           name: scdr-volume-tmp

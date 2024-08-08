@@ -48,18 +48,30 @@ Define volumes and volume mounts based on combining:
   {{- $configMapVolume := dict "name" (printf "scdr-config-%s" .Release.Name) -}}
   {{- $_ := set $configMapVolume "configMap" (dict "name" (printf "%s-%s" .Release.Name .Values.configMapResourceSuffix)) -}}
   {{- $volumes = append $volumes $configMapVolume -}}
+
+  {{- /* Helm Specific smileutil command */ -}}
+  {{- $configMapVolume := dict "name" "scdr-smileutil" -}}
+  {{- $cmName := printf "%s-scdr-smileutil" .Release.Name -}}
+  {{- if $.Values.autoDeploy -}}
+    {{- $cmName = printf "%s-scdr-smileutil-%s" .Release.Name (sha256sum (include "smilecdr.cdrSmileutilText" .)) -}}
+  {{- end -}}
+  {{- $_ := set $configMapVolume "configMap" (dict "name" $cmName "defaultMode" 0770 ) -}}
+  {{- $volumes = append $volumes $configMapVolume -}}
+
   {{- if eq true .Values.securityContext.readOnlyRootFilesystem -}}
     {{- $tmpVolume := dict "name" "scdr-volume-tmp" -}}
-    {{- $_ := set $tmpVolume "emptyDir" (dict "sizeLimit" "1Mi") -}}
+    {{- $_ := set $tmpVolume "emptyDir" (dict "sizeLimit" (default "1Mi" (((.Values.volumeConfig).cdr).tmp).sizeLimit)) -}}
     {{- $volumes = append $volumes $tmpVolume -}}
     {{- $logsVolume := dict "name" "scdr-volume-log" -}}
-    {{- $_ := set $logsVolume "emptyDir" (dict "sizeLimit" .Values.logsDirSize ) -}}
+    {{- /* TODO: Remove the logsDirSize option after deprecation period. */ -}}
+    {{- /* $_ := set $logsVolume "emptyDir" (dict "sizeLimit" (default "10Gi" ((.Values.volumeConfig).log).sizeLimit)) */ -}}
+    {{- $_ := set $logsVolume "emptyDir" (dict "sizeLimit" (coalesce .Values.logsDirSize (((.Values.volumeConfig).cdr).log).sizeLimit "10Gi") ) -}}
     {{- $volumes = append $volumes $logsVolume -}}
     {{- $kafkaConfig := (include "kafka.config" . | fromYaml) -}}
     {{- $amqConfig := (include "messagebroker.amq.config" . | fromYaml) -}}
     {{- if and (not $kafkaConfig.enabled) (not $amqConfig.enabled) -}}
       {{- $amqVolume := dict "name" "scdr-volume-amq" -}}
-      {{- $_ := set $amqVolume "emptyDir" (dict "sizeLimit" "10Mi") -}}
+      {{- $_ := set $amqVolume "emptyDir" (dict "sizeLimit" (default "10Mi" (((.Values.volumeConfig).cdr).amq).sizeLimit)) -}}
       {{- $volumes = append $volumes $amqVolume -}}
     {{- end -}}
     {{- $fileSources := (include "smilecdr.classes.sources" . | fromYamlArray ) -}}
@@ -122,6 +134,13 @@ Define volumes and volume mounts based on combining:
   {{- $_ := set $configMapVolumeMount "mountPath" "/home/smile/smilecdr/classes/cdr-config-Master.properties" -}}
   {{- $_ := set $configMapVolumeMount "subPath" "cdr-config-Master.properties" -}}
   {{- $volumeMounts = append $volumeMounts $configMapVolumeMount -}}
+
+  {{- /* Helm Specific smileutil command */ -}}
+  {{- $smileutilVolumeMount := dict "name" "scdr-smileutil" -}}
+  {{- $_ := set $smileutilVolumeMount "mountPath" "/home/smile/smilecdr/bin/smileutil" -}}
+  {{- $_ := set $smileutilVolumeMount "subPath" "smileutil" -}}
+  {{- $volumeMounts = append $volumeMounts $smileutilVolumeMount -}}
+
   {{- if eq true .Values.securityContext.readOnlyRootFilesystem -}}
     {{- $tmpVolumeMount := dict "name" "scdr-volume-tmp" -}}
     {{- $_ := set $tmpVolumeMount "mountPath" "/home/smile/smilecdr/tmp" -}}

@@ -27,8 +27,8 @@
 
 # The regexes defined in the GitLab CI definition include leading and trailing slashes.
 # This removes them so they can be used in this bash script
-PRE_RELEASE_BRANCHES_PATTERN=$(echo ${PRE_RELEASE_BRANCHES_PATTERN}| sed 's:^/::; s:/$::')
-RELEASE_BRANCHES_PATTERN=$(echo ${RELEASE_BRANCHES_PATTERN}| sed 's:^/::; s:/$::')
+PRE_RELEASE_BRANCHES_PATTERN=$(echo "${PRE_RELEASE_BRANCHES_PATTERN}"| sed 's:^/::; s:/$::')
+RELEASE_BRANCHES_PATTERN=$(echo "${RELEASE_BRANCHES_PATTERN}"| sed 's:^/::; s:/$::')
 
 
 if [[ "${CI_COMMIT_REF_NAME}" =~ ${PRE_RELEASE_BRANCHES_PATTERN} ]]; then

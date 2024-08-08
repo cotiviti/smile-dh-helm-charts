@@ -285,7 +285,10 @@ cdrNodes:
     security:
       strict: false
 
-logsDirSize: 10Gi
+volumeConfig:
+  cdr:
+    log:
+      sizeLimit: 10Gi
 
 ## @section Extra Environment Variables
 ## @param extraEnvVars map of environment variables to be passed directly to Smile CDR container spec.
