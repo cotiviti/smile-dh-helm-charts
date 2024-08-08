@@ -39,8 +39,17 @@ locals {
   helm_repository = var.helm_repository
   helm_chart = var.helm_chart
   helm_chart_version = var.helm_chart_version
-  helm_chart_devel = strcontains(local.helm_chart_version, "-pre.") ? true:false
-  # helm_chart_devel = true
+
+  # When Helm chart version set to `null`, the latest chart version is automatically selected as follows.
+  # * If the devel option IS NOT set, then it effectively uses the semVer 2 constraint `>0.0.0`.
+  #   This effectively selects the latest version that is NOT a pre-release
+  # * If the devel option IS set, then it effectively uses the semVer 2 constraint `>0.0.0-0`.
+  #   This effectively selects the latest version, INCLUDING pre-releases.
+  # As such:
+  # * If version is set, devel has no effect.
+  # * If devel is set, it only takes effect if version is set to null so there is no need to unset it here
+  
+  helm_chart_devel = var.helm_chart_devel
 
   cdr_service_account_name = var.cdr_service_account_name == null ? "${local.helm_release_name}${local.helm_service_account_suffix}" : var.cdr_service_account_name
   cdr_namespace_service_accounts = ["${local.helm_namespace}:${local.cdr_service_account_name}"]
