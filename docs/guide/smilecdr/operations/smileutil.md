@@ -72,6 +72,7 @@ There are two ways to run the upload terminology command.
 When running this command from an external location, the `smileutil` utility will upload the zip file to the Smile CDR Pod, which will keep a copy of the zip file in memory before unzipping it to the temp dir and processing the records.
 
 For this to work, the pod must be configured as follows:
+
 * JVM heap size must be sufficiently sized. This process requires a lot of memory when dealing with very large zip files. For example, a 600MB zip file will require about 4GB more heap size than normal.
 * Temp directory must be large enough to hold the uncompressed data. For example, a typical 600MB terminology zip file may unzip to ~4GB. The temp directory should be set to at least 4GB
 
@@ -85,6 +86,7 @@ Run the following command from your external location:
 To reduce resource usage, this command can be run from inside the Smile CDR pod. In this case, you will need to somehow copy the file into the Pod. This can be done either manually using `kubectl cp` or using the [add files](../storage/files.md) functionality to copy the file from S3 to the `customerlib` or `classes` directory. The `smileutil upload-terminology` command will then copy the file to the temp directory and the Smile CDR application will reference the file locally and unzip the file, also to the temp directory.
 
 For this to work, the pod must be configured as follows:
+
 * JVM heap size may need to be increased a little. There is still some overhead required in the Smile CDR JVM, as well as the Smile CLI JVM. A 600MB zip file seems to require ~2GB extra on both.
 * Temp directory must be large enough to hold a copy of the zip file as well as all of the uncompressed data. For example, a typical 600MB terminology zip file may unzip to ~4GB. The temp directory should be set to at least 4GB
 * The `customerlib` or `classes` directory used to upload the file will need to be large enough to hold the zip file.
@@ -101,4 +103,5 @@ Run the following command from inside the pod:
 JAVA_OPTS=-Xmx2g /home/smile/smilecdr/bin/smileutil upload-terminology -d /home/smile/smilecdr/customerlib/terminologyfile.zip -v r4 -b user:password -t "http://localhost:8000/fhir_request/" -u "http://snomed.info/sct"
 ```
 >**Note 1:** This assumes a default Smile CDR install with the FHIR endpoint running on port 8000
+
 >**Note 2:** It is important to remove the `-s` option or set it to be a value LOWER than the size of the zip file you are uploading. This forces the command to run in 'local' mode where it copies the file to the temp directory and instructs the Smile CDR server to reference the local file before unzipping and processing.
