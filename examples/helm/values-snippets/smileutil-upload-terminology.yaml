@@ -12,7 +12,7 @@ volumeConfig:
     tmp:
       # This needs to be big enough to hold a copy of the zip file as well as the unzipped data
       size: 8Gi
-    
+
 # Configure copying the file to the pod on startup
 copyFiles:
   customerlib:

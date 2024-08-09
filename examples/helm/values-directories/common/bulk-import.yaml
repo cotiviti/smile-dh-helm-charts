@@ -1,0 +1,27 @@
+# This Helm values overlay can be used to enable efficient bulk-import
+
+# Increase the CPU & Memory resources of the Smile CDR instances
+cdrNodes:
+  masterdev:
+    resources:
+      requests:
+        cpu: 4
+        memory: 7Gi
+      limits:
+        cpu: 4
+        memory: 7Gi
+
+# Enable some Smile CDR Module settings suitable for bulk-import
+modules:
+  persistence:
+    config:
+      ig_support.ips.enabled: true
+      dao_config.auto_create_placeholder_reference_targets.enabled: true
+      dao_config.allow_external_references.enabled: true
+      dao_config.allow_multiple_delete.enabled: true
+      dao_config.delete_expunge_enabled: true
+      dao_config.expunge_operation_enabled: true
+      cascading_delete.enabled: true
+  clustermgr:
+    config:
+      audit_log.db.enabled: false

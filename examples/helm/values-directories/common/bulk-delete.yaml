@@ -1,0 +1,9 @@
+# This Helm values overlay can be used to enable bulk deletion
+
+modules:
+  persistence:
+    config:
+      dao_config.allow_multiple_delete.enabled: true
+      dao_config.delete_expunge_enabled: true
+      dao_config.expunge_operation_enabled: true
+      cascading_delete.enabled: true

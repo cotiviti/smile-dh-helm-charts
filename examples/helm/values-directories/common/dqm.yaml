@@ -1,0 +1,21 @@
+# This Helm values overlay can be used to enable a single module. In this example, the DQM module is configured and enabled, along with the required CQL module.
+
+modules:
+  cql:
+    enabled: true
+    type: CQL
+
+  dqm:
+    enabled: true
+    type: DQM
+    requires:
+      PERSISTENCE_R4: persistence
+      ENDPOINT_FHIR: fhir_endpoint
+      CQL: cql
+    config: 
+      evaluate_measure.chunksize: 1000
+      evaluate_measure.threading_enabled: true
+      evaluate_measure.thread_number: 4
+      evaluate_measure.thread_batchsize: 250
+      submission_method: electronicHealthRecord
+      evaluate_measure.use_group_managing_entity_ref: true

@@ -1,0 +1,24 @@
+# This Helm values overlay can be used to enable smarth auth for use with front-end applications that use OAUTH
+
+modules:
+  fhir_endpoint:
+    requires:
+      SECURITY_IN_OIC: smart_auth
+    config:
+      security.oic.enabled: true
+      cors.enable: true
+
+  admin_json:
+    requires:
+      SECURITY_IN_OIC: smart_auth
+    config:
+      security.oic.enabled: true
+      cors.enable: true
+
+  smart_auth:
+    config:
+      seed_clients.file: classpath:/config_seeding/oidc-clients.json
+      cors.enable: true
+      cors.allowed_headers: Access-Control-Allow-Origin
+      # cors.origins should be defined in a per-environment values file.
+      # cors.origins: https://my-frontend-app.example.com

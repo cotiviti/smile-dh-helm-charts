@@ -52,7 +52,7 @@ nav:
     - 'Smile CDR':
       - charts/smilecdr/index.md
       - 'Overview': charts/smilecdr/smilecdr.md
-      - 'Changelog': charts/smilecdr/CHANGELOG-PRE.md
+      - 'Changelog': charts/smilecdr/CHANGELOG.md
   - Quickstart:
     - quickstart-aws/index.md
     - 'Prepare EKS Cluster': quickstart-aws/eks-cluster.md
@@ -62,7 +62,10 @@ nav:
     - guide/index.md
     - 'General':
       - 'Helm Repository Setup': guide/helm-repo.md
-      - 'Secrets Handling': guide/secrets.md
+      - 'Secrets Handling':
+        - guide/secrets/index.md
+        - 'Configuring Secrets': guide/secrets/configuring-secrets.md
+        - 'Extra Secrets': guide/secrets/extra-secrets.md
       - 'Service Accounts': guide/serviceaccount.md
       - 'Values Files': guide/values-files-management.md
     - 'Smile CDR':
@@ -70,22 +73,28 @@ nav:
       - 'Requirements': guide/smilecdr/requirements.md
       - 'Versions': guide/smilecdr/cdrversions.md
       - 'Installation': guide/smilecdr/install.md
-      - 'Configuration':
-        - 'Modules': guide/smilecdr/modules.md
-        - 'Database': guide/smilecdr/database.md
+      - 'Database': guide/smilecdr/database.md
+      - 'CDR Modules':
+        - guide/smilecdr/modules/index.md
+        - 'Modules': guide/smilecdr/modules/modules.md
+        - 'Cluster Configuration': guide/smilecdr/modules/cdrnode.md
+        - 'License Module': guide/smilecdr/modules/license.md
+        - 'HL7V2 Endpoint Module': guide/smilecdr/modules/hl7v2.md
+      - 'Message Broker':
+        - 'Message Broker': guide/smilecdr/messagebroker.md
+      - 'Ingress':
         - 'Ingress': guide/smilecdr/ingress.md
         - 'TLS Encryption': guide/smilecdr/tls-encryption.md
-        - 'Cluster Configuration': guide/smilecdr/cdrnode.md
-        - 'License Module': guide/smilecdr/cdr-license.md
-        - 'Message Broker': guide/smilecdr/messagebroker.md
-        - 'HL7V2 Endpoint Module': guide/smilecdr/hl7v2.md
-        - 'Resource Tuning': guide/smilecdr/resources.md
+      - 'Environment':
         - 'Environment Variables': guide/smilecdr/envvars.md
-        - 'Logging': guide/smilecdr/logging.md
-        - 'Pod Scheduling': guide/smilecdr/podscheduling.md
       - 'Storage':
         - 'Including Extra Files': guide/smilecdr/storage/files.md
         - 'Ephemeral Volume Configuration': guide/smilecdr/storage/volumeConfig.md
+      - 'Observability':
+        - 'Logging': guide/smilecdr/logging.md
+      - 'Smile CDR Tuning':
+        - 'Resource Tuning': guide/smilecdr/resources.md
+        - 'Pod Scheduling': guide/smilecdr/podscheduling.md
       - 'Applying Changes': guide/smilecdr/updating.md
       - 'Operational Tasks':
         - 'Using the Smile CLI': guide/smilecdr/operations/smileutil.md

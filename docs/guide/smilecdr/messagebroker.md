@@ -48,9 +48,9 @@ messageBroker:
 If your external Kafka cluster is configured with a TLS certificate that is signed with a public Certificate Authority (CA) then no further steps are required as the truststore that is included
 in the Java distribution will be used.
 
-However, if you need to provide a custom CA certificate, you can do so by providing a `caCert` configuration in the connection settings.
+However, if you need to provide a custom CA certificate or if you do not wish to use the default trust store included with the JVM, you can do so by providing a `caCert` configuration in the connection settings.
 
-This certificate can be provided using either the `k8sSecret` or `sscsi` secret mechanisms. See the [secrets](../secrets.md) section for more info.
+This certificate can be provided using either the `k8sSecret` or `sscsi` secret mechanisms. See the [secrets](../index.md) section for more info.
 
 **Using `k8sSecret`**
 ```yaml
@@ -90,18 +90,23 @@ This chart currently supports either Mutual TLS (mTLS) or IAM authentication, de
 
 | Cluster Type | mTLS | IAM |
 |--------|----------|----------|
-|External (Generic)|Y|N|
-|Amazon MSK|Y (With Private CA)|Y|
-|In-cluster (Strimzi)|Y (Default)|N|
+|External (Generic)|:material-check:|:material-close:|
+|Amazon MSK|:material-check: (With Private CA)|:material-check:|
+|Amazon MSK Serverless|:material-close:|:material-check:|
+|In-cluster (Strimzi)|:material-check: (Default)|:material-close:|
 
->**Note:** Other authentication mechanisms may be added at a later date.
+>**Note:** Additional authentication mechanisms may be added at a later date.
 
 ### mTLS Authentication
 To configure mTLS authentication you need to do the following
 
 * Configure Kafka cluster for mTLS.
-* Have access to the client certificate for the configured user.
+>**NOTE**: If using mTLS with Amazon MSK (Not Serverless) then you will also need to create an [AWS Private Certificate Authority](https://docs.aws.amazon.com/privateca/latest/userguide/PcaWelcome.html), to create any client certificates. This will incur additional expense. Configuration of MSK and user certificates is out of scope of this documentation, please refer to the AWS user guide.
+
+* Have access to the certificate for the configured user.
 * Configure the connection type to use TLS (See [above](#tls-connectivity)).
+* Configure the authentication type to use TLS.
+* Configure the userCert secret.
 
 Now you can provide the client certificate using `k8sSecret` or `sscsi` as follows:
 
@@ -153,13 +158,18 @@ The user certificate passed in to the chart must have 2 values, with the appropr
 ### IAM Authentication (Amazon MSK only)
 If you are using Amazon MSK as your message broker, IAM is the preferred method of authentication.
 
+>**NOTE**: Amazon MSK *Serverless* **ONLY** supports IAM authentication.
+
+#### IAM Prerequisites
 Before configuring Smile CDR to use this authentication method, you need to ensure that the following pre-requisites are in place:
 
 * Configure IRSA for the Smile CDR application. See the [Service Accounts](../serviceaccount.md) section for more info on this.
 * Ensure that your Smile CDR IAM role has a suitable MSK authorization policy attached. See the [AWS Documentation](https://docs.aws.amazon.com/msk/latest/developerguide/iam-access-control.html#create-iam-access-control-policies) for more information on how to create a suitable IAM authorization policy for MSK.
 
-**Client Configuration**
-The AWS documentation details the steps to configure clients to use IAM. This required configuration is automatically applied when enabling IAM in this Helm Chart and there is nothing further to do.
+#### Client Configuration
+The AWS documentation details the steps to configure clients to use IAM, which can be fairly complicated.
+
+To simplify this, the required configuration is automatically applied when enabling IAM authentication in this Helm Chart and there is nothing further to do on the client side.
 
 To enable IAM authentication:
 ```yaml
@@ -174,7 +184,7 @@ messageBroker:
         type: iam
 ```
 
->**Note:** You do not need to provide a trust certificate as Amazon MSK uses endpoints with publically signed TLS certificates
+>**Note:** You do not need to provide a trust certificate if using the Amazon MSK generated endpoints, as they use publically signed TLS certificates which are trusted by default.
 
 If you plan to manually copy the required IAM authentication Jar file into a custom image, then you can disable the automatic file copying like so:
 ```yaml

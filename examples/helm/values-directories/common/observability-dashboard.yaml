@@ -1,0 +1,31 @@
+# This Helm values overlay can be used to enable the full integrated observability suite
+# Note, this is currently an unreleased experimental feature. It's included here only as an example
+
+observability:
+  enabled: true
+  instrumentation:
+    # Tools to deploy and configure to get telemetry data from application
+    openTelemetry:
+      # Deploy and configure OpenTelemetry to extract
+      enabled: true
+      otelAgent:
+        enabled: true
+        mode: operator
+        spec:
+          java:
+            env:
+            - name: OTEL_LOGS_EXPORTER
+              value: "otlp"
+            - name: OTEL_METRICS_EXPORTER
+              value: "otlp"
+            - name: OTEL_INSTRUMENTATION_METHODS_INCLUDE
+              value: "ca.uhn.hl7v2.app.Responder[processMessage];ca.cdr.broker.kafka.channel.CdrKafkaAcknowledgingListener[onMessage]"
+      otelCollector:
+        enabled: true
+        mode: sidecar
+        
+  dashboard:
+    grafana:
+      enabled: true
+      autoConfigDataSources: true
+      autoConfigDashboards: true

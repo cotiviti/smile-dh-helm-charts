@@ -1,0 +1,14 @@
+# This Helm values overlay can be used to enable a single module. In this example, the DTR module is configured and enabled, along with the required CQL module.
+
+modules:
+  dtr:
+    name: DTR
+    enabled: true
+    type: DTR
+    requires:
+      PERSISTENCE_R4: persistence
+      CQL: cql
+      ENDPOINT_FHIR: fhir_endpoint
+  cql:
+    enabled: true
+    type: CQL

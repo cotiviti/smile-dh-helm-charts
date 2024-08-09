@@ -72,7 +72,7 @@ If you wish to provide your own, fine tuned, pod allocation strategies, then the
 ```
 disableDefaultTopologyConstraints: true
 ```
->**Note:** This can be added in the root context as a global setting, or in a `cdrNode` context if you are using [multiple CDR Nodes](./cdrnode.md) and wish to set this on a per-cdrNode basis.
+>**Note:** This can be added in the root context as a global setting, or in a `cdrNode` context if you are using [multiple CDR Nodes](./modules/cdrnode.md) and wish to set this on a per-cdrNode basis.
 
 You may then provide your own configuration as described below.
 
@@ -91,7 +91,7 @@ If you provide a configuration for `topologySpreadConstraints`, then the default
 
 Any provided configurations are passed through to the `podSpec` that is generated, without any alterations.
 
-Configurations may be provided in the root context as a global setting, or in a `cdrNode` context if you are using [multiple CDR Nodes](./cdrnode.md) and wish to set this on a per-cdrNode basis.
+Configurations may be provided in the root context as a global setting, or in a `cdrNode` context if you are using [multiple CDR Nodes](./modules/cdrnode.md) and wish to set this on a per-cdrNode basis.
 
 >**Warning:** Do not use these examples as-is. They are merely to demonstrate how to configure pod allocation strategies.
 
