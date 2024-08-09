@@ -19,7 +19,7 @@ This will configure Smile CDR as follows:
 * Image repository credentials stored in AWS Secrets Manager
 * AWS IAM Role configured to access AWS Secrets Manager
 * Multiple external Postgres databases provisioned and accessible from the Kubernetes cluster
-* Database credentials stored in AWS Secrets Manager using the [published Json structure](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres)
+* Database credentials stored in AWS Secrets Manager using the [published JSON structure](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres)
 
 ## Values File
 ```yaml

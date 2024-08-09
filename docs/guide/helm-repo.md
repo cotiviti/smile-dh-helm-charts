@@ -3,7 +3,7 @@
 Before you can use the Smile Digital Health Helm Charts, you need to configure your
 deployment tool to point to the repository where the charts are hosted.
 
-This will differ, depending on the method you will be using to deplpy the charts.
+This will differ, depending on the method you will be using to deploy the charts.
 
 ### Native Helm
 The simplest way to get up and running is by using the native `helm` commands.
@@ -11,7 +11,7 @@ The simplest way to get up and running is by using the native `helm` commands.
 Add the repository like so.
 
 ```shell
-$ helm repo add smiledh https://gitlab.com/api/v4/projects/40759898/packages/helm/devel
+$ helm repo add smiledh-stable https://gitlab.com/api/v4/projects/40759898/packages/helm/stable
 $ helm repo update
 ```
 
@@ -24,12 +24,21 @@ If installing the chart using Terraform, you may have a resource definition like
 ```
 resource "helm_release" "example" {
   name       = "my-smilecdr-release"
-  repository = "https://gitlab.com/api/v4/projects/40759898/packages/helm/devel"
+  repository = "https://gitlab.com/api/v4/projects/40759898/packages/helm/stable"
   chart      = "smilecdr"
-  # Use this to pin to a semantic version
-  # version    = "~1.0.0"
-  # Use this to use latest pre-release versions
-  devel      = "true"
+  # You can omit `version` and the current latest chart will be used.
+
+  # Ideally, specify a specific version or range of versions using semantic versioning
+  # Strict constraint to specify an exact version (v1.1.0)
+  # version    = "=1.1.0"
+  #
+  # To allow patch/fix releases, use the tilde
+  # constraint to specify versions >= v1.1.0 < v1.20
+  # version    = "~1.1.0"
+
+  # To allow minor/feature releases, use the caret
+  # constraint to specify versions >= v1.1.0 < v2.0.0
+  # version    = "^1.1.0"
 
   values = [
     "${file("my-values.yaml")}"
@@ -64,8 +73,8 @@ version: 1.0.0
 # moved to a root key that matches the `name` of the dependency.
 dependencies:
 - name: smilecdr
-  version: "~1.0.0-pre.10"
-  repository: "https://gitlab.com/api/v4/projects/40759898/packages/helm/devel"
+  version: "^1.1.0"
+  repository: "https://gitlab.com/api/v4/projects/40759898/packages/helm/stable"
 ```
 
 ## Provide Repo Credentials
@@ -91,7 +100,7 @@ In Kubernetes, this is done using a list of secret names in `pod.spec.imagePullS
 >**Note** For more information on using private container registries with
 Kubernetes, see the official documentation [here](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 
-More details can be found in the [Secrets Handling](secrets.md) section of these docs.
+More details can be found in the [Secrets Handling](./secrets/index.md) section of these docs.
 
 ### Configuring to use ECR Repository
 In order for Kubernetes worker nodes to pull images from ECR, they must have an Instance Profile/IAM Role that has an IAM policy with the following actions allowed for your ECR Repository
@@ -107,7 +116,7 @@ There are no extra steps after this, you do not need to specify any image pull s
 
 If you do define image pull secrets for other containe registries, this will not be affected. You do not need to remove them.
 ### Configuring Repo Credentials using Secrets Store CSI Driver
-Before using this configuration in your values file, ensure that you have followed the appropriate section in the [Secrets Handling](secrets.md#secrets-store-csi-driver) guide to set up Secrets Store CSI, the AWS Provider, your AWS Secret, your IAM Role and configured the `ServiceAccount`.
+Before using this configuration in your values file, ensure that you have followed the appropriate section in the [Secrets Handling](./secrets/index.md#secrets-store-csi-driver) guide to set up Secrets Store CSI, the AWS Provider, your AWS Secret, your IAM Role and configured the `ServiceAccount`.
 
 Once you have done that, you need to add an item to the `image.imagePullSecrets` list like so like so:
 
@@ -123,8 +132,10 @@ serviceAccount:
     eks.amazonaws.com/role-arn: "arn:aws:iam::123456789012:role/example-role-name"
 ```
 
+>**Note:** This uses the `secretSpec` schema defined [here](./secrets/configuring-secrets.md)
+
 ### Configuring Repo Credentials using Kubernetes Secret
-Before using this configuration, you need to create a Kubernetes `Secret` object of type `kubernetes.io/dockerconfigjson` using some external/manual mechanism. For more info on this, refer to the Kubernetes section in [Secrets Handling](secrets.md#kubernetes-secret).
+Before using this configuration, you need to create a Kubernetes `Secret` object of type `kubernetes.io/dockerconfigjson` using some external/manual mechanism. For more info on this, refer to the Kubernetes section in [Secrets Handling](./secrets/index.md#kubernetes-secret).
 
 Once this `Secret` object is created, you can add it in the same way that you would with a regular `imagePullSecrets` entry in the K8s [PodSpec](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#PodSpec):
 

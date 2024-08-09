@@ -1,0 +1,25 @@
+# This Helm values overlay can be used to provision and enable a Kafka message broker using the Strimzi Operator
+
+messageBroker:
+  strimzi:
+    enabled: true
+    kafka:
+      version: "3.5.1"
+      replicas: 1
+      volumeSize: 5Gi
+      resources:
+        requests:
+          cpu: 500m
+          memory: 1.5Gi
+        limits:
+          memory: 2Gi
+    zookeeper:
+      replicas: 1
+      volumeSize: 5Gi
+      resources:
+        requests:
+          cpu: 100m
+          memory: 512Mi
+        limits:
+          memory: 1024Mi
+  

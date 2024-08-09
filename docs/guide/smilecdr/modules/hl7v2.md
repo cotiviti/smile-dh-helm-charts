@@ -1,12 +1,12 @@
 # HL7 v2.x Listening Endpoint Module
-To use the HL7 v2.x Listening Endpoint module with this Helm Chart, special configuration is required. For info this module, please refer to the official Smile CDR documentation [here](https://smilecdr.com/docs/configuration_categories/hl7v2_mllp_listener.html)
+To use the HL7 v2.x Listening Endpoint module with this Helm Chart, special configuration is required. For more info on this module, please refer to the official Smile CDR documentation [here](https://smilecdr.com/docs/configuration_categories/hl7v2_mllp_listener.html)
 
 This module supports 2 transport mechanisms:
 
 * `HL7_OVER_HTTP`
 * `MLLP_OVER_TCP`
 
-Currently, this chart only supports using the `HL7_OVER_HTTP` transport protocol. `MLLP_OVER_TCP` support may be added in the future.
+Currently, the Helm Chart only supports using the `HL7_OVER_HTTP` transport protocol. `MLLP_OVER_TCP` support may be added in the future.
 
 ## Prerequisites
 To use this module, you need to configure an additional DNS entry. This is because this module will only function using the root context path (i.e. `https://hl7endpoint.mydomain.com/`) which prevents it from running on the same hostname as the other Smile CDR endpoints.

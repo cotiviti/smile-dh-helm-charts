@@ -1,0 +1,6 @@
+# This Helm values overlay can be used to enable the upload of larger files.
+
+ingresses:
+  default:
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-body-size: 25m

@@ -9,7 +9,7 @@ We will go over the creation of the following AWS resources in preparation for d
 
 >**Note:** These resources are configured in a way that is not obvious to an AWS administrator that has not dealt with IRSA before, which is why we are including them here. For other AWS resources (Such as RDS, S3, Certificates Manager etc) conventional configurations can be used, so we do not cover them in this example at this time.
 
-You will need both of these if you are using the recommended method of storing your container registry secrets - [using Secrets Store CSI Driver](../guide/secrets.md#secrets-store-csi-driver)
+You will need both of these if you are using the recommended method of storing your container registry secrets - [using Secrets Store CSI Driver](../guide/secrets/index.md#secrets-store-csi-driver)
 
 <!-- * ACM (Certificate Manager) (Coming Soon)
 * RDS (Coming Soon)
@@ -39,7 +39,7 @@ You will need to keep these resources in mind when creating your IAM Policy.
 
 >**Note:** When creating IAM Policies, you should keep the principle of least privilege in mind and only allow the minimum required access for the resources needed. Avoid using wildcard entries for `actions` and `resources` where possible.
 
-In this example, we will create a policy that only has access to the container repository secret that we create [below](#aws-secrets)
+In this example, we will create a policy that only has access to the container repository secret that we [create below](#create-secret)
 
 Following the AWS CLI instructions from [here](https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html) we would do the following:
 
@@ -154,11 +154,11 @@ In this example, we will create the `docker pull` secret manually via the AWS CL
 ### Create Secret
 The value of Kubernetes `imagePullSecrets` needs to be of type `kubernetes.io/dockercfg` or `kubernetes.io/dockerconfigjson`.
 
-This essentially means the secret value is a Json string representing the Docker `config.json` file. As an AWS Secrets Manager secret consists of a Json map of secrets and values, we end up with a nested Json data structure.
+This essentially means the secret value is a JSON string representing the Docker `config.json` file. As an AWS Secrets Manager secret consists of a JSON map of secrets and values, we end up with a nested JSON data structure.
 
-The easiest way to pass this to the AWS CLI command is to temporarily store the Json in a file which can be passed in to the `create-secret` command as a parameter.
+The easiest way to pass this to the AWS CLI command is to temporarily store the JSON in a file which can be passed in to the `create-secret` command as a parameter.
 
-1. Create the temporary password json file
+1. Create the temporary password JSON file
 
 Update your user & password before running the below.
 

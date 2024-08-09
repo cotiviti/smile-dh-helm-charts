@@ -1,0 +1,12 @@
+# This Helm values overlay can be used to temporarily enable settings suitable for troubleshooting
+
+logging:
+  troubleshootingLoggers:
+    http_troubleshooting:
+      enabled: true
+      level: debug
+
+modules:
+  transaction:
+    config:
+      transactionlog.show_request_body.enabled: true

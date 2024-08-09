@@ -1,0 +1,10 @@
+# This Helm values overlay can be used to set the specific smarth auth configuration for the prod environment.
+
+modules:
+  smart_auth:
+    config:
+      cors.origins: https://my-frontend-app.example.com
+      # The other smart auth config settings should already be set in the global configuration.
+      # seed_clients.file: classpath:/config_seeding/oidc-clients.json
+      # cors.enable: true
+      # cors.allowed_headers: Access-Control-Allow-Origin

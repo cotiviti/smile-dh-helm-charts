@@ -10,7 +10,7 @@ architecture design:
 * **Multi Node** Modules can be split amongst an arbitrary number of *Node*
 configurations.
 
-When using a multi node architecture, each *Node* will be deployed using separate Kubernetes
+When using a multi-node architecture, each *Node* will be deployed using separate Kubernetes
 resources. All configurations, such as the number of replicas, resource requests & limits,
 probes, autoscaling configurations, mapped files and CDR module configurations, can be configured
 separately for each Node.
@@ -163,7 +163,7 @@ Various concepts from the above will be covered in the below sections.
 
 ### Configuration Inheritance
 When defining a Node as per above, the Helm Chart will merge configurations from multiple locations
-to determing the correct value for any given setting. This applies to any of the Helm Chart settings
+to determine the correct value for any given setting. This applies to any of the Helm Chart settings
 that can be set in your `values.yaml` file.
 
 Configuration values are effectively determined by using the first entry found when looking in the following locations in order:
@@ -200,7 +200,7 @@ as it may become unclear which modules are defined where.
 * **Disable default modules and define all required modules yourself.** This is probably the most complicated solution,
 but offers improved manageability as all your modules will be defined in one location.
 
-In either of the options above, the same inheritance process will be used to determine the final module congfiguration.
+In either of the options above, the same inheritance process will be used to determine the final module configuration.
 
 **Module Inheritance with Default Modules Enabled**
 
@@ -264,12 +264,12 @@ as mentioned [above](#batch-job-visibility)) then:
     * The `maxidle` and `maxtotal` db connections can be reduced on the AdminNode
 
 ### Readiness Probes
-With a default single node configuraton of Smile CDR, the Kubernetes readiness probe is set up to use the healthcheck of the
+With a default single node configuration of Smile CDR, the Kubernetes readiness probe is set up to use the health-check of the
 FHIR Endpoint module. Although this is a reasonable compromise when it comes to the question of "What do I monitor",
 it falls short if you need to ensure that the Web Admin Console is always available.
 
 With a multi-node configuration this issue is solved as you will now have a separate readiness probe configuration for
-each node. This means your AdminNode could use the Web Admin Console healthcheck and your FhirNode could use the healthcheck
+each node. This means your AdminNode could use the Web Admin Console health-check and your FhirNode could use the health-check
 of the FHIR Endpoint.
 
 With such a configuration, both the Web Admin Console and the FHIR Endpoint will gain resilience and self-healing benefits
@@ -367,6 +367,7 @@ cdrNodes:
         config:
           context_path: fhir_request
           port: 8000
+          security.http.basic.enabled: true
 
 modules:
   useDefaultModules: false

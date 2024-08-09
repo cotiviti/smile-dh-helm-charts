@@ -2,7 +2,7 @@ Certain features of the application, when installed with these Helm Charts, requ
 
 Examples of this include:
 
-* [Retrieving credentials](secrets.md#use-secrets-management-tools) from secrets management systems (e.g. AWS Secrets Manager)
+* [Retrieving credentials](./secrets/index.md#use-secrets-management-tools) from secrets management systems (e.g. AWS Secrets Manager)
 * Accessing AWS managed services such as:
     * RDS authentication using IAM roles
     * AWS HealthLake
@@ -10,7 +10,7 @@ Examples of this include:
     * Accessing S3 buckets
 * Waiting for Kubernetes jobs to complete (i.e. during product upgrades and migration tasks)
 
-As explained in the [Secrets Handling](secrets.md#dont-store-secrets-in-your-configuration-code) section above, passing in secrets (such as AWS Access Keys & Tokens etc) directly to your configuration is a dangerous practice. Instead we can use the mechanisms provided by various infrastructure providers to use secure methods to gain access to these external systems.
+As explained in the [Secrets Handling](./secrets/index.md#dont-store-secrets-in-your-configuration-code) section above, passing in secrets (such as AWS Access Keys & Tokens etc) directly to your configuration is a dangerous practice. Instead we can use the mechanisms provided by various infrastructure providers to use secure methods to gain access to these external systems.
 
 ## IAM Roles For Service Accounts (IRSA)
 To give the application access to AWS resources, we use [IAM Roles For Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html), also known as IRSA. This attaches AWS IAM roles to a Kubernetes `ServiceAccount` which then gets attached to the application Pods.

@@ -31,7 +31,7 @@ Once you have these dependencies in place, you can proceed to deploying Smile CD
 ### Deploy Smile CDR with Terraform
 The [Deploy Smile CDR with Terraform](./deploy-terraform.md) section shows how to deploy Smile CDR via the provided Terraform module.
 
-If choosing to deploy directly with the Helm Chart instead, you will first need to deploy the Smile CDR dependency resources into your AWS account through other means. More details on these can be found in the [Requirements](../guide/smilecdr/requirements.md) section of the [Smile CDR Helm Chart User Guide](../guide/smilecdr/).
+If choosing to deploy directly with the Helm Chart instead, you will first need to deploy the Smile CDR dependency resources into your AWS account through other means. More details on these can be found in the [Requirements](../guide/smilecdr/requirements.md) section of the [Smile CDR Helm Chart User Guide](../guide/smilecdr/index.md).
 >**Note:** This method is out of scope for this quickstart guide.
 
 ## What's Next?

@@ -1,10 +1,10 @@
 # Configuring Smile CDR License
 
-Some components of Smile CDR require an additional license in order for them to function. In order to enable your license in a secure fashion, please follow this guide.
+Some components of Smile CDR require an additional license in order for them to function. This guide shows how to enable your license in a secure fashion.
 
 ## Prerequisites
 
-The recommended way to configure your Smile CDR license is by importing it from a secure secrets vault. Currently this chart only supports AWS Secrets Manager using the Secrets Store CSI Driver. For more information on these pre-requisites and how secrets are handled in this chart, please refer to the [Secrets Handling](../secrets.md) section of this guide.
+The recommended way to configure your Smile CDR license is by importing it from a secure secrets vault. Currently this chart only supports AWS Secrets Manager using the Secrets Store CSI Driver. For more information on these pre-requisites and how secrets are handled in this chart, please refer to the [Secrets Handling](../../index.md) section of this guide.
 
 ## Configure using Secrets Store CSI
 
@@ -23,9 +23,11 @@ license:
   secretArn: arn:aws:secretsmanager:us-east-1:111111111111:secret:my-smile-license
 ```
 
+>**Note:** This uses the `secretSpec` schema defined [here](../../secrets/configuring-secrets.md)
+
 ## Alternative methods
 
-If you do not wish to use the above method, you can also include your license file using the existing method for including files as described in the [Including Extra Files](./storage/files.md) section of this guide.
+If you do not wish to use the above method, you can also include your license file using the existing method for including files as described in the [Including Extra Files](../storage/files.md) section of this guide.
 
 If you use this method, you will also need to update your [module configuration](./modules.md) so that `license.config.jwt_file` points to the correct file.
 

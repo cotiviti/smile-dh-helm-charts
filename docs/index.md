@@ -1,16 +1,9 @@
 # Overview
 
-This is the documentation for the Helm Charts provided by Smile Digital Health.
+This is the documentation for the Smile CDR Helm Chart provided by Smile Digital Health.
 
-These Helm Charts are provided to simplify installation and configuration of Smile Digital Health
-products in Kubernetes environments using a number of best practices.
+This Helm Chart is provided to simplify installation and configuration of Smile CDR on Kubernetes using a number of best practices.
 
-Currently, the only chart available is for the core [Smile CDR](https://www.smilecdr.com/smilecdr) product.
-
->**WARNING: These charts are still in pre-release!**<br>
-As such, there may still be **breaking changes** introduced without notice.
-
-Only use this version of the chart for evaluation or testing.
 ## Required Helm Version
 
 To avoid unexpected issues, we recommend using the latest version of Helm v3.
@@ -26,5 +19,5 @@ To quickly see these charts in action, follow the guide in the [Quickstart](quic
 
 ## Configuration
 
-Full details on configuring the products using these charts are provided in the
+Full details on configuring Smile CDR using this Helm Chart is provided in the
 [User Guide](guide/index.md) section.
