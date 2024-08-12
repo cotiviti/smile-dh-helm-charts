@@ -31,6 +31,10 @@ theme:
       note: octicons/tag-16
     view: material/eye
     edit: material/pencil 
+plugins:
+- spellcheck:
+    backends:
+    - codespell
 markdown_extensions:
 - toc:
     permalink: true
