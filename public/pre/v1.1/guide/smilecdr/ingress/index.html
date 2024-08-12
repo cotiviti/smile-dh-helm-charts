@@ -128,43 +128,6 @@
     
     
     
-      <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
-        </button>
-      </nav>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-    
     
       <div class="md-header__source">
         <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts" title="Go to repository" class="md-source" data-md-component="source">
@@ -2511,6 +2474,14 @@
 
   
   
+    
+      
+    
+    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/guide/smilecdr/ingress.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5Z"/></svg>
+    </a>
+  
 
 
 <h1 id="configuring-ingress">Configuring Ingress<a class="headerlink" href="#configuring-ingress" title="Permanent link">&para;</a></h1>
@@ -2613,7 +2584,7 @@ or you can directly reference the pre-existing <code>Issuer</code> resource that
 </blockquote>
 <h2 id="multiple-ingress-resources">Multiple Ingress Resources<a class="headerlink" href="#multiple-ingress-resources" title="Permanent link">&para;</a></h2>
 <p>This chart allows for configurations using an arbitrary number of ingress resources and ingress classes.</p>
-<p>This enables the implementation of architectures that require multiple routes for accessing for your environment. For example, you may require some services available publically while others, such as the Admin Web Console, may only permit access from a private network.</p>
+<p>This enables the implementation of architectures that require multiple routes for accessing for your environment. For example, you may require some services available publicly while others, such as the Admin Web Console, may only permit access from a private network.</p>
 <h3 id="default-ingress">Default Ingress<a class="headerlink" href="#default-ingress" title="Permanent link">&para;</a></h3>
 <p>In order to simplify deployment of certain architectures, this chart supports the concept of a 'default' Ingress resource.</p>
 <p>The default Ingress resource will be used for any Smile CDR modules that have not explicitly defined <code>service.ingresses</code> in their configuration.</p>
@@ -2688,7 +2659,7 @@ With the above pre-defined ingress, any module with an endpoint-enabled service 
 In the above example we are:</p>
 <ul>
 <li>Disabling the default Ingress Configuration (We do this, because we will be defining a new default Ingress Configuration)</li>
-<li>Creating a <code>myPrivateNginx</code> defult Ingress Configuration.</li>
+<li>Creating a <code>myPrivateNginx</code> default Ingress Configuration.</li>
 <li>Using <code>defaultIngress</code> creates the default Ingress resource. This will be used by any Smile CDR modules that do not explicitly define <code>service.ingresses</code>.</li>
 <li>The Ingress resource will use the Nginx Ingress Controller via the <code>ingressClass</code> resource named <code>nginx</code></li>
 <li>Creating a <code>myPublicNginx</code> Ingress Configuration.</li>
@@ -2786,7 +2757,7 @@ In the above example we are telling the module named <code>fhirweb_endpoint</cod
 <p>The appropriate type for the <code>Service</code> resources depend on which Ingress type is being used.
 The default <code>Service</code> created by this chart is <code>ClusterIP</code>. This is the preferred option as it does not expose the Services externally to the cluster.</p>
 <p>When using the AWS Load Balancer Controller, or Azure Application Gateway Controller, the service objects are instead set to <code>NodePort</code>.</p>
-<p>This can be overriden using <code>service.type</code> in your values file, but it is not recommended and may cause unpredictable behaviour.</p>
+<p>This can be overridden using <code>service.type</code> in your values file, but it is not recommended and may cause unpredictable behaviour.</p>
 <!-- TODO: We may need to enable `target-type: ip` in the AWS Load Balancer Controller. If doing this, we will need to use pod readiness gates - https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/deploy/pod_readiness_gate/ . This will not work until healthchecks are functioning correctly. -->
 
 
@@ -2840,7 +2811,7 @@ The default <code>Service</code> created by this chart is <code>ClusterIP</code>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top", "content.action.view"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
