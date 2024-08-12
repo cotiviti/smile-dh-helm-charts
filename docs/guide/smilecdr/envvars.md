@@ -47,7 +47,7 @@ cdrNodes:
     - name: MYENVVARNAME
       value: my-node3-env-var-value
     - name: GLOBALENVVARNAME
-      value: node3-overriden-global-value
+      value: node3-overridden-global-value
 
 extraEnvVars:
 - name: GLOBALENVVARNAME
@@ -59,6 +59,6 @@ In the above configuration example:
 
 * Each node gets its own set of extra environment variables.
 * Each node gets the `GLOBALENVVARNAME` variable set to `my-global-env-var-value` except...
-* Node3 has overriden the `GLOBALENVVARNAME` variable to `node3-overriden-global-value`
+* Node3 has overridden the `GLOBALENVVARNAME` variable to `node3-overridden-global-value`
 
 This allows for flexible configuration of extra environment variables in any Smile CDR configuration.

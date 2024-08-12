@@ -5,7 +5,7 @@ At Smile Digital Health, we take security very seriously, so we have designed th
 
 ## Secrets Best Practices
 ### Use Temporary Credentials
-As a general security best-practice, avoid using long-lived credentials where possible. This practice can be achieved When using cloud based environments, using their underlying cloud provider technologies.
+As a general security best-practice, avoid using long-lived credentials where possible. This practice can be achieved when using cloud based environments, using their underlying cloud provider technologies.
 
 For example, on AWS the best practice is to [use temporary credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-workloads-use-roles) using IAM Instance Profiles and [IAM Roles For Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) (IRSA).
 
@@ -51,7 +51,7 @@ In order to use this method of configuring secrets, there are some pre-requisite
 
 ### Kubernetes Secret
 
-Alternatively, you can create the Kubernetes `Secret` object through some other method. Although it avoids the secret data being included in your code, it does not provide a centralized location to store, manage and controll access to secrets.
+Alternatively, you can create the Kubernetes `Secret` object through some other method. Although it avoids the secret data being included in your code, it does not provide a centralized location to store, manage and control access to secrets.
 
 Be wary of including custom Kubernetes `Secret` manifests alongside your Helm values files. Although this is a convenient way to provision them, it just re-introduces the problem of secrets residing in your code, which should be avoided.
 

@@ -412,7 +412,7 @@ db.url: jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE'
 db.password: "#{env['DB_PASS']}"
 db.username: "#{env['DB_USER']}"
 ```
-The Helm Chart will generate a Smile CDR properties file with automatically updated values to match the environment variabls, like so:
+The Helm Chart will generate a Smile CDR properties file with automatically updated values to match the environment variables, like so:
 
 ```jproperties
 module.clustermgr.config.db.url      = jdbc:postgresql://#{env['CLUSTERMGR_DB_URL']}:#{env['CLUSTERMGR_DB_PORT']}/#{env['CLUSTERMGR_DB_DATABASE']}?sslmode=require

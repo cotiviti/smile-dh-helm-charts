@@ -184,7 +184,7 @@ messageBroker:
         type: iam
 ```
 
->**Note:** You do not need to provide a trust certificate if using the Amazon MSK generated endpoints, as they use publically signed TLS certificates which are trusted by default.
+>**Note:** You do not need to provide a trust certificate if using the Amazon MSK generated endpoints, as they use publicly signed TLS certificates which are trusted by default.
 
 If you plan to manually copy the required IAM authentication Jar file into a custom image, then you can disable the automatic file copying like so:
 ```yaml
@@ -275,7 +275,7 @@ If you do not already have a process in place for creating Kafka topics, then th
 * Follow the official Kafka documentation for creating topics.</br>This usually involves using a workstation or server with the Kafka binaries and configuration to talk to your Kafka cluster. This can be a tricky process, depending on network security requirements and connectivity/authentication configuration.
 * Use a declarative approach to Kafka topic management. Your topics will be defined in code and can be applied to the Kafka cluster in a highly repeatable fashion.
 
-If using either of the above techniques, the default configuration of Smile CDR deployed by this Helm Chart will reqire the following two topics to be created:
+If using either of the above techniques, the default configuration of Smile CDR deployed by this Helm Chart will require the following two topics to be created:
 
 * `batch2.work.notification.Masterdev.persistence`
 * `subscription.matching.Masterdev.persistence`
@@ -416,6 +416,6 @@ messageBroker:
 * Anything under `messageBroker.strimzi.config.zookeeper` should be moved to `messageBroker.strimzi.zookeeper`
 * Anything remaining under `messageBroker.strimzi.config` should be moved to `messageBroker.strimzi`
 
-You will recieve a deprecation warning so that you have time to update your configurations before support for the old schema is removed.
+You will receive a deprecation warning so that you have time to update your configurations before support for the old schema is removed.
 
 For more details on how to configure Kafka using Strimzi, please consult the Strimzi Operator documentation [here](https://strimzi.io/docs/operators/latest/configuring.html)

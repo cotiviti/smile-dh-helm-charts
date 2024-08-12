@@ -88,7 +88,7 @@ If you have left your ingress definition to use the default of `nginx-ingress` (
 * Kubernetes Readiness Probes updated to use HTTPS
 * Smile CDR module endpoints configured as follows:
     * TLS Protocol restricted to `TLSv1.3`
-    * TLS restricted to the following reccommended ciphers, which are known to work with the ELB Security Policy and the Kubernetes Kubelet:
+    * TLS restricted to the following recommended ciphers, which are known to work with the ELB Security Policy and the Kubernetes Kubelet:
         * `TLS_AES_128_GCM_SHA256`
         * `TLS_AES_256_GCM_SHA384`
         * `TLS_CHACHA20_POLY1305_SHA256`
@@ -105,7 +105,7 @@ If you have set your ingress definition to use `aws-lbc-alb` ([See Here](./ingre
 * AWS ALB Health Probes configured to use HTTPS
 * Smile CDR module endpoints configured as follows:
    * TLS Protocol restricted to `TLSv1.3`
-   * TLS restricted to the following reccommended ciphers, which are known to work with the ELB Security Policy and the Kubernetes Kubelet:
+   * TLS restricted to the following recommended ciphers, which are known to work with the ELB Security Policy and the Kubernetes Kubelet:
       * `TLS_AES_128_GCM_SHA256`
       * `TLS_AES_256_GCM_SHA384`
       * `TLS_CHACHA20_POLY1305_SHA256`

@@ -9,8 +9,8 @@ It is based on the [Advanced Modules Configuration](./modules-advanced.md) examp
 This will configure Smile CDR as follows:
 
 * Container explicitly set to run as root
-* Completely custom Smile CDR module configuraton
-    * Disabled default module configuraton, including audit, transaction and license modules
+* Completely custom Smile CDR module configuration
+    * Disabled default module configuration, including audit, transaction and license modules
 * Ingress configured for `smilecdr.mycompany.com` using NginX Ingress
 * Docker registry credentials passed in via Secret Store CSI Driver using AWS Secrets Manager
 * Postgres DB automatically created

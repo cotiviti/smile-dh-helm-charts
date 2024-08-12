@@ -11,14 +11,14 @@ There are 2 ways that such operational tasks could be performed on a Pod in Kube
 
 **Exec into Pod**
 
-The simple way to perfom ad-hoc operational tasks is to directly `exec` into the pod using the `kubectl` tool.
+The simple way to perform ad-hoc operational tasks is to directly `exec` into the pod using the `kubectl` tool.
 
 When following best security practices, it is not advisable to allow administrators to directly connect to running Pods to perform operational tasks, as doing so may expose a number of security requirements and concerns:
 
 * User must have `kubectl` tooling on their workstation, along with any required credentials for the cloud account and Kubernetes cluster.
 * User must have `exec` RBAC permissions in the cluster
 * User may be able to view secret material mounted in the running environment
-* User may be able to interrupt the running applicaton
+* User may be able to interrupt the running application
 * No way to control which `smileutil` commands can be run
 * High chance of error when typing commands by hand.
 * Low repeatability and re-use of commands and parameters
@@ -43,7 +43,7 @@ Depending on the particular Smile CLI command you plan to run, you may need to a
 
 When running `smileutil`, it will run its own JVM, with its own memory heap. It may be required to increase the amount of unallocated memory in the Pod if there is not enough. This can be done in multiple ways:
 
-* Increase the Pod [resouce limits](../resources.md) and reduce the `memoryFactor` in the [JVM Heap Auto-Sizing](../resources.md#jvm-heap-auto-sizing).
+* Increase the Pod [resource limits](../resources.md) and reduce the `memoryFactor` in the [JVM Heap Auto-Sizing](../resources.md#jvm-heap-auto-sizing).
 * Specify a Pod memory limit that is larger than the Pod memory request. The difference between these two values signifies the amount of unallocated memory available to other commands like `smileutil`
 
 **Ephemeral Volumes**

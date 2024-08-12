@@ -109,7 +109,7 @@ Here are some additional fields/considerations that need to be included in your 
 
 Any configurations you specify will merge with the defaults, priority going to the values file.
 
-### Disabling included pre-defined module definitios
+### Disabling included pre-defined module definitions
 If you wish to disable any of the pre-defined default modules, you can do so individually, or you can disable all default modules and define your own from scratch.
 
 If you do the latter, it may be easier to determine the exact modules you have defined just by looking at your values files.

@@ -8,8 +8,8 @@ We will create a couple of examples.
 
 This will configure Smile CDR as follows:
 
-* Completely custom Smile CDR module configuraton
-    * Disabled default module configuraton
+* Completely custom Smile CDR module configuration
+    * Disabled default module configuration
 * Ingress configured for `smilecdr.mycompany.com` using NginX Ingress
 * Docker registry credentials passed in via Secret Store CSI Driver using AWS Secrets Manager
 * Postgres DB automatically created
