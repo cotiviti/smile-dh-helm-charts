@@ -132,7 +132,7 @@ You will still need to add some extra annotations, such as `appgw.ingress.kubern
 ## Multiple Ingress Resources
 This chart allows for configurations using an arbitrary number of ingress resources and ingress classes.
 
-This enables the implementation of architectures that require multiple routes for accessing for your environment. For example, you may require some services available publically while others, such as the Admin Web Console, may only permit access from a private network.
+This enables the implementation of architectures that require multiple routes for accessing for your environment. For example, you may require some services available publicly while others, such as the Admin Web Console, may only permit access from a private network.
 
 
 ### Default Ingress
@@ -221,7 +221,7 @@ ingresses:
 In the above example we are:
 
 * Disabling the default Ingress Configuration (We do this, because we will be defining a new default Ingress Configuration)
-* Creating a `myPrivateNginx` defult Ingress Configuration.
+* Creating a `myPrivateNginx` default Ingress Configuration.
   * Using `defaultIngress` creates the default Ingress resource. This will be used by any Smile CDR modules that do not explicitly define `service.ingresses`.
   * The Ingress resource will use the Nginx Ingress Controller via the `ingressClass` resource named `nginx`
 * Creating a `myPublicNginx` Ingress Configuration.
@@ -325,6 +325,6 @@ The default `Service` created by this chart is `ClusterIP`. This is the preferre
 
 When using the AWS Load Balancer Controller, or Azure Application Gateway Controller, the service objects are instead set to `NodePort`.
 
-This can be overriden using `service.type` in your values file, but it is not recommended and may cause unpredictable behaviour.
+This can be overridden using `service.type` in your values file, but it is not recommended and may cause unpredictable behaviour.
 
 <!-- TODO: We may need to enable `target-type: ip` in the AWS Load Balancer Controller. If doing this, we will need to use pod readiness gates - https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/deploy/pod_readiness_gate/ . This will not work until healthchecks are functioning correctly. -->

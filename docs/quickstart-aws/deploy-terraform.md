@@ -29,7 +29,7 @@ Review the section on [Private Container Registry Credentials](./aws-resources.m
 
 or
 
-* Are preprared to edit the secret that will be created by this Terraform Module.
+* Are prepared to edit the secret that will be created by this Terraform Module.
 
 >**Note:** The Smile CDR pods will not start up unless a container repository is accessible by the cluster.
 
@@ -46,7 +46,7 @@ or
 
 ## Minimal Configuration
 
-The mimimum required configuration to install Smile CDR using the Terraform module:
+The minimum required configuration to install Smile CDR using the Terraform module:
 
 ```
 module "smile_cdr_dependencies" {
@@ -140,7 +140,7 @@ helm_chart_values_set_overrides = {
 ```
 
 ### Terraform Module Helpers
-This Terraform module also provides some helper configurations to simplify some configrations that would otherwise be troublesome to implement.
+This Terraform module also provides some helper configurations to simplify some configurations that would otherwise be troublesome to implement.
 
 #### Mapped Files
 When using the ***Helm Chart Method*** for [Including Extra Files](../guide/smilecdr/storage/files.md), you would typically pass the files as [commandline options](../guide/smilecdr/storage/files.md#include-file-in-helm-deployment) like so:

@@ -10,7 +10,7 @@ These dependencies are sufficient to get you started with deploying an instance 
 * Access to a container repository with the required Smile CDR Docker images
     * e.g. `docker.smilecdr.com` or your own registry with a custom Docker image for Smile CDR
 * Kubernetes Cluster that you have suitable administrative permissions on.
-    * You will need permissions to create namespaces and maybe install Kubernetes add-ons
+    * You will need permissions to create namespaces and maybe install Kubernetes addons
 * Sufficient spare compute resources on the Kubernetes cluster.
     * Minimum spare of 1 vCPU and 4GB memory for a 1 pod install of just Smile CDR
 * One of the following supported Ingress controllers:

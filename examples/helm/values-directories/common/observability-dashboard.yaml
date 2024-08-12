@@ -23,7 +23,7 @@ observability:
       otelCollector:
         enabled: true
         mode: sidecar
-        
+
   dashboard:
     grafana:
       enabled: true

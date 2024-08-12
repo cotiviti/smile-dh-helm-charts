@@ -30,7 +30,7 @@ theme:
     admonition:
       note: octicons/tag-16
     view: material/eye
-    edit: material/pencil 
+    edit: material/pencil
 plugins:
 - spellcheck:
     backends:

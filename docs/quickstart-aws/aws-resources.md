@@ -13,7 +13,7 @@ If you use the Smile Digital Health container repository, or if you copy the Smi
 There are two ways that this can be achieved.
 
 ### Account-wide shared repository secret
-If you pr-provision an AWS Secrets Manager secret in the same AWS account, then you can provide the ARN of this secret when you configure your environment in the following section.
+If you pre-provision an AWS Secrets Manager secret in the same AWS account, then you can provide the ARN of this secret when you configure your environment in the following section.
 
 The Terraform module will automatically add this Secret to the IAM Policies used by the Smile CDR pods.
 

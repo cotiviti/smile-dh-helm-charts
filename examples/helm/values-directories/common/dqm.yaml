@@ -12,7 +12,7 @@ modules:
       PERSISTENCE_R4: persistence
       ENDPOINT_FHIR: fhir_endpoint
       CQL: cql
-    config: 
+    config:
       evaluate_measure.chunksize: 1000
       evaluate_measure.threading_enabled: true
       evaluate_measure.thread_number: 4
