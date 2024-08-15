@@ -1,3 +1,10 @@
+## [1.1.1-pre.1](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.1.0...v1.1.1-pre.1) (2024-08-15)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix environment variable aggregation logic ([089163d](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/089163d5cf13f1b1ea42d73f8fc16f232964ae29))
+
 # [1.1.0-pre.3](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.1.0-pre.2...v1.1.0-pre.3) (2024-08-07)
 
 
