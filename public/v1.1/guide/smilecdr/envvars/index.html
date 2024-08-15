@@ -1756,6 +1756,8 @@
       
         
       
+        
+      
     
     
       
@@ -1798,7 +1800,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../resources/" class="md-nav__link">
+      <a href="../tuning/jvm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    JVM Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tuning/resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1819,7 +1842,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../podscheduling/" class="md-nav__link">
+      <a href="../tuning/podscheduling/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2307,6 +2330,14 @@
 
   
   
+    
+      
+    
+    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/guide/smilecdr/envvars.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5Z"/></svg>
+    </a>
+  
 
 
 <h1 id="custom-environment-configuration">Custom Environment Configuration<a class="headerlink" href="#custom-environment-configuration" title="Permanent link">&para;</a></h1>
@@ -2319,7 +2350,7 @@
 <p>You can read more about these methods in the official Smile CDR documentation <a href="https://smilecdr.com/docs/installation/installing_smile_cdr.html#variable-substitution">here</a></p>
 <p>Currently, this Helm Chart only supports using the second mechanism - <strong><em>System Environment Variable Substitution</em></strong></p>
 <h2 id="passing-extra-environment-variables">Passing Extra Environment Variables<a class="headerlink" href="#passing-extra-environment-variables" title="Permanent link">&para;</a></h2>
-<p>In order to configure extra environment variables into the pod, use the <code>ExtraEnvVars</code> entry in your values file as follows:</p>
+<p>In order to configure extra environment variables into the pod, use the <code>extraEnvVars</code> section in your values file as follows:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">extraEnvVars</span><span class="p">:</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYENVVARNAME</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-env-var-value</span>
@@ -2328,7 +2359,8 @@
 </code></pre></div>
 <p>This is a list of objects that follow the same <code>env</code> schema as the Kubernetes <code>podSpec.containers</code> <a href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables">See here</a></p>
 <blockquote>
-<p><strong>Note:</strong> Although it is possible to use this to add secrets using <code>env.valueFrom.secretKeyRef</code>, it's recommended to use one of the existing mechanisms if you wish to pass in secret data to your pod. See the <a href="../../">Secrets</a> section for more info on this.</p>
+<p><strong>Note:</strong> Although it is possible to use this to add secrets using <code>env.valueFrom.secretKeyRef</code>, it's recommended to instead use one of the alternative mechanisms to pass in secret data to your pod. See the <a href="../../secrets/">Secrets</a> section for more info on this.</p>
+<p><strong>Warning:</strong> Do not use this mechanism to set the <code>JVMARGS</code> environment variable. If you attempt this, the chart will fail with a warning. If you need to pass extra arguments to the JVM, refer to the <a href="../tuning/jvm/#jvm-arguments">JVM Configuration</a> section.</p>
 </blockquote>
 <h2 id="multi-node-configuration">Multi-node configuration<a class="headerlink" href="#multi-node-configuration" title="Permanent link">&para;</a></h2>
 <p>If deploying Smile CDR in a multi-node configuration, you may wish to have different environment variables for the different CDR Nodes.</p>
@@ -2349,7 +2381,7 @@
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYENVVARNAME</span>
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-node3-env-var-value</span>
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GLOBALENVVARNAME</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node3-overriden-global-value</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node3-overridden-global-value</span>
 <a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
 <a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="nt">extraEnvVars</span><span class="p">:</span>
 <a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GLOBALENVVARNAME</span>
@@ -2359,7 +2391,7 @@
 <ul>
 <li>Each node gets its own set of extra environment variables.</li>
 <li>Each node gets the <code>GLOBALENVVARNAME</code> variable set to <code>my-global-env-var-value</code> except...</li>
-<li>Node3 has overriden the <code>GLOBALENVVARNAME</code> variable to <code>node3-overriden-global-value</code></li>
+<li>Node3 has overridden the <code>GLOBALENVVARNAME</code> variable to <code>node3-overridden-global-value</code></li>
 </ul>
 <p>This allows for flexible configuration of extra environment variables in any Smile CDR configuration.</p>
 
@@ -2414,7 +2446,7 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top", "content.action.view"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>

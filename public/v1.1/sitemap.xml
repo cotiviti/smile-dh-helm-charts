@@ -156,17 +156,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1/guide/smilecdr/podscheduling/</loc>
-         <lastmod>2024-08-15</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1/guide/smilecdr/requirements/</loc>
-         <lastmod>2024-08-15</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1/guide/smilecdr/resources/</loc>
          <lastmod>2024-08-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -217,6 +207,21 @@
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1/guide/smilecdr/storage/volumeConfig/</loc>
+         <lastmod>2024-08-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1/guide/smilecdr/tuning/jvm/</loc>
+         <lastmod>2024-08-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1/guide/smilecdr/tuning/podscheduling/</loc>
+         <lastmod>2024-08-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1/guide/smilecdr/tuning/resources/</loc>
          <lastmod>2024-08-15</lastmod>
          <changefreq>daily</changefreq>
     </url>

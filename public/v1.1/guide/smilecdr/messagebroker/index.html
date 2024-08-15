@@ -1915,6 +1915,8 @@
       
         
       
+        
+      
     
     
       
@@ -1957,7 +1959,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../resources/" class="md-nav__link">
+      <a href="../tuning/jvm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    JVM Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tuning/resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1978,7 +2001,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../podscheduling/" class="md-nav__link">
+      <a href="../tuning/podscheduling/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2625,6 +2648,14 @@
 
   
   
+    
+      
+    
+    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/guide/smilecdr/messagebroker.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5Z"/></svg>
+    </a>
+  
 
 
 <h1 id="message-broker-configuration">Message Broker Configuration<a class="headerlink" href="#message-broker-configuration" title="Permanent link">&para;</a></h1>
@@ -2837,7 +2868,7 @@ in the Java distribution will be used.</p>
 <a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">iam</span>
 </code></pre></div></p>
 <blockquote>
-<p><strong>Note:</strong> You do not need to provide a trust certificate if using the Amazon MSK generated endpoints, as they use publically signed TLS certificates which are trusted by default.</p>
+<p><strong>Note:</strong> You do not need to provide a trust certificate if using the Amazon MSK generated endpoints, as they use publicly signed TLS certificates which are trusted by default.</p>
 </blockquote>
 <p>If you plan to manually copy the required IAM authentication Jar file into a custom image, then you can disable the automatic file copying like so:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">messageBroker</span><span class="p">:</span>
@@ -2941,7 +2972,7 @@ If you do not already have a process in place for creating Kafka topics, then th
 <li>Follow the official Kafka documentation for creating topics.</br>This usually involves using a workstation or server with the Kafka binaries and configuration to talk to your Kafka cluster. This can be a tricky process, depending on network security requirements and connectivity/authentication configuration.</li>
 <li>Use a declarative approach to Kafka topic management. Your topics will be defined in code and can be applied to the Kafka cluster in a highly repeatable fashion.</li>
 </ul>
-<p>If using either of the above techniques, the default configuration of Smile CDR deployed by this Helm Chart will reqire the following two topics to be created:</p>
+<p>If using either of the above techniques, the default configuration of Smile CDR deployed by this Helm Chart will require the following two topics to be created:</p>
 <ul>
 <li><code>batch2.work.notification.Masterdev.persistence</code></li>
 <li><code>subscription.matching.Masterdev.persistence</code></li>
@@ -3071,7 +3102,7 @@ configured to use this Kafka cluster.
 <li>Anything under <code>messageBroker.strimzi.config.zookeeper</code> should be moved to <code>messageBroker.strimzi.zookeeper</code></li>
 <li>Anything remaining under <code>messageBroker.strimzi.config</code> should be moved to <code>messageBroker.strimzi</code></li>
 </ul>
-<p>You will recieve a deprecation warning so that you have time to update your configurations before support for the old schema is removed.</p>
+<p>You will receive a deprecation warning so that you have time to update your configurations before support for the old schema is removed.</p>
 <p>For more details on how to configure Kafka using Strimzi, please consult the Strimzi Operator documentation <a href="https://strimzi.io/docs/operators/latest/configuring.html">here</a></p>
 
 
@@ -3125,7 +3156,7 @@ configured to use this Kafka cluster.
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top", "content.action.view"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>

@@ -1927,6 +1927,8 @@
       
         
       
+        
+      
     
     
       
@@ -1969,7 +1971,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/resources/" class="md-nav__link">
+      <a href="../../guide/smilecdr/tuning/jvm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    JVM Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/smilecdr/tuning/resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1990,7 +2013,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/podscheduling/" class="md-nav__link">
+      <a href="../../guide/smilecdr/tuning/podscheduling/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2655,6 +2678,14 @@
 
   
   
+    
+      
+    
+    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/quickstart-aws/deploy-terraform.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5Z"/></svg>
+    </a>
+  
 
 
 <h1 id="deploy-smile-cdr-with-terraform">Deploy Smile CDR with Terraform<a class="headerlink" href="#deploy-smile-cdr-with-terraform" title="Permanent link">&para;</a></h1>
@@ -2685,7 +2716,7 @@
 </ul>
 <p>or</p>
 <ul>
-<li>Are preprared to edit the secret that will be created by this Terraform Module.</li>
+<li>Are prepared to edit the secret that will be created by this Terraform Module.</li>
 </ul>
 <blockquote>
 <p><strong>Note:</strong> The Smile CDR pods will not start up unless a container repository is accessible by the cluster.</p>
@@ -2703,7 +2734,7 @@
 <p><strong>Note:</strong>* Your Smile CDR instance will not be accessible until you create a DNS entry using one of the above mechanisms.</p>
 </blockquote>
 <h2 id="minimal-configuration">Minimal Configuration<a class="headerlink" href="#minimal-configuration" title="Permanent link">&para;</a></h2>
-<p>The mimimum required configuration to install Smile CDR using the Terraform module:</p>
+<p>The minimum required configuration to install Smile CDR using the Terraform module:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>module &quot;smile_cdr_dependencies&quot; {
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  source = &quot;git::https://gitlab.com/smilecdr-public/smile-dh-helm-charts//src/main/terraform/smile-cdr-deps?ref=terraform-module&quot;
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  name = &quot;myDeploymentName&quot;
@@ -2782,7 +2813,7 @@
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>}
 </code></pre></div>
 <h3 id="terraform-module-helpers">Terraform Module Helpers<a class="headerlink" href="#terraform-module-helpers" title="Permanent link">&para;</a></h3>
-<p>This Terraform module also provides some helper configurations to simplify some configrations that would otherwise be troublesome to implement.</p>
+<p>This Terraform module also provides some helper configurations to simplify some configurations that would otherwise be troublesome to implement.</p>
 <h4 id="mapped-files">Mapped Files<a class="headerlink" href="#mapped-files" title="Permanent link">&para;</a></h4>
 <p>When using the <strong><em>Helm Chart Method</em></strong> for <a href="../../guide/smilecdr/storage/files/">Including Extra Files</a>, you would typically pass the files as <a href="../../guide/smilecdr/storage/files/#include-file-in-helm-deployment">commandline options</a> like so:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>helm upgrade -i my-smile-env --devel -f my-values.yaml --set-file mappedFiles.logback\\.xml.data=logback.xml smiledh/smilecdr
@@ -3005,7 +3036,7 @@ Double check that you are using the correct AWS account and have a suitable IAM 
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top", "content.action.view"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>

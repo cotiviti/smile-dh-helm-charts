@@ -1698,6 +1698,8 @@
       
         
       
+        
+      
     
     
       
@@ -1740,7 +1742,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../../resources/" class="md-nav__link">
+      <a href="../../tuning/jvm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    JVM Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tuning/resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1761,7 +1784,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../podscheduling/" class="md-nav__link">
+      <a href="../../tuning/podscheduling/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2367,6 +2390,14 @@
 
   
   
+    
+      
+    
+    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/guide/smilecdr/operations/smileutil.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5Z"/></svg>
+    </a>
+  
 
 
 <h1 id="using-the-smile-cli-tool-smileutil">Using The Smile CLI Tool (<code>smileutil</code>)<a class="headerlink" href="#using-the-smile-cli-tool-smileutil" title="Permanent link">&para;</a></h1>
@@ -2376,13 +2407,13 @@
 <h2 id="using-smile-cli-in-kubernetes">Using Smile CLI in Kubernetes<a class="headerlink" href="#using-smile-cli-in-kubernetes" title="Permanent link">&para;</a></h2>
 <p>There are 2 ways that such operational tasks could be performed on a Pod in Kubernetes.</p>
 <p><strong>Exec into Pod</strong></p>
-<p>The simple way to perfom ad-hoc operational tasks is to directly <code>exec</code> into the pod using the <code>kubectl</code> tool.</p>
+<p>The simple way to perform ad-hoc operational tasks is to directly <code>exec</code> into the pod using the <code>kubectl</code> tool.</p>
 <p>When following best security practices, it is not advisable to allow administrators to directly connect to running Pods to perform operational tasks, as doing so may expose a number of security requirements and concerns:</p>
 <ul>
 <li>User must have <code>kubectl</code> tooling on their workstation, along with any required credentials for the cloud account and Kubernetes cluster.</li>
 <li>User must have <code>exec</code> RBAC permissions in the cluster</li>
 <li>User may be able to view secret material mounted in the running environment</li>
-<li>User may be able to interrupt the running applicaton</li>
+<li>User may be able to interrupt the running application</li>
 <li>No way to control which <code>smileutil</code> commands can be run</li>
 <li>High chance of error when typing commands by hand.</li>
 <li>Low repeatability and re-use of commands and parameters</li>
@@ -2400,7 +2431,7 @@
 <p><strong>Memory</strong></p>
 <p>When running <code>smileutil</code>, it will run its own JVM, with its own memory heap. It may be required to increase the amount of unallocated memory in the Pod if there is not enough. This can be done in multiple ways:</p>
 <ul>
-<li>Increase the Pod <a href="../../resources/">resouce limits</a> and reduce the <code>memoryFactor</code> in the <a href="../../resources/#jvm-heap-auto-sizing">JVM Heap Auto-Sizing</a>.</li>
+<li>Increase the Pod <a href="../../tuning/resources/">resource limits</a> and reduce the <code>memoryFactor</code> in the <a href="../../tuning/jvm/#jvm-heap-auto-sizing">JVM Heap Auto-Sizing</a>.</li>
 <li>Specify a Pod memory limit that is larger than the Pod memory request. The difference between these two values signifies the amount of unallocated memory available to other commands like <code>smileutil</code></li>
 </ul>
 <p><strong>Ephemeral Volumes</strong></p>
@@ -2498,7 +2529,7 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top"], "search": "../../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top", "content.action.view"], "search": "../../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
