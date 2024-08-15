@@ -228,84 +228,84 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: CLUSTERMGR_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: release-name-pg-pguser-smilecdr
-            - name: CLUSTERMGR_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: release-name-pg-pguser-smilecdr
             - name: CLUSTERMGR_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: release-name-pg-pguser-smilecdr
-            - name: CLUSTERMGR_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
                   name: release-name-pg-pguser-smilecdr
             - name: CLUSTERMGR_DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
                   name: release-name-pg-pguser-smilecdr
-            - name: PERSISTENCE_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: release-name-pg-pguser-persistence
-            - name: PERSISTENCE_DB_PORT
+            - name: CLUSTERMGR_DB_PORT
               valueFrom:
                 secretKeyRef:
                   key: port
-                  name: release-name-pg-pguser-persistence
-            - name: PERSISTENCE_DB_DATABASE
+                  name: release-name-pg-pguser-smilecdr
+            - name: CLUSTERMGR_DB_URL
               valueFrom:
                 secretKeyRef:
-                  key: dbname
-                  name: release-name-pg-pguser-persistence
-            - name: PERSISTENCE_DB_USER
+                  key: host
+                  name: release-name-pg-pguser-smilecdr
+            - name: CLUSTERMGR_DB_USER
               valueFrom:
                 secretKeyRef:
                   key: user
-                  name: release-name-pg-pguser-persistence
-            - name: PERSISTENCE_DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: release-name-pg-pguser-persistence
-            - name: PERSISTENCE2_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: release-name-pg-pguser-persistence2
-            - name: PERSISTENCE2_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: release-name-pg-pguser-persistence2
+                  name: release-name-pg-pguser-smilecdr
+            - name: JVMARGS
+              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
+                -Djava.security.egd=file:/dev/./urandom
             - name: PERSISTENCE2_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: release-name-pg-pguser-persistence2
-            - name: PERSISTENCE2_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
                   name: release-name-pg-pguser-persistence2
             - name: PERSISTENCE2_DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
                   name: release-name-pg-pguser-persistence2
-            - name: JVMARGS
-              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
-                -Djava.security.egd=file:/dev/./urandom
+            - name: PERSISTENCE2_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: release-name-pg-pguser-persistence2
+            - name: PERSISTENCE2_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: release-name-pg-pguser-persistence2
+            - name: PERSISTENCE2_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: release-name-pg-pguser-persistence2
+            - name: PERSISTENCE_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: release-name-pg-pguser-persistence
+            - name: PERSISTENCE_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: release-name-pg-pguser-persistence
+            - name: PERSISTENCE_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: release-name-pg-pguser-persistence
+            - name: PERSISTENCE_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: release-name-pg-pguser-persistence
+            - name: PERSISTENCE_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: release-name-pg-pguser-persistence
           ports:
             - containerPort: 9100
               name: admin-web

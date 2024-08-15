@@ -228,23 +228,8 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: CLUSTERMGR_DB_DATABASE
-              value: cdr
-            - name: CLUSTERMGR_DB_URL
-              value: thedatabaseurl
-            - name: CLUSTERMGR_DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: smilecdrsecret
-            - name: CLUSTERMGR_DB_PORT
-              value: "5432"
-            - name: CLUSTERMGR_DB_USER
-              value: username
             - name: CLUSTERMGR2_DB_DATABASE
               value: cdr
-            - name: CLUSTERMGR2_DB_URL
-              value: thedatabasehost
             - name: CLUSTERMGR2_DB_PASS
               valueFrom:
                 secretKeyRef:
@@ -252,42 +237,30 @@ spec:
                   name: smilecdrsecret2
             - name: CLUSTERMGR2_DB_PORT
               value: "5432"
+            - name: CLUSTERMGR2_DB_URL
+              value: thedatabasehost
             - name: CLUSTERMGR2_DB_USER
               value: username
-            - name: PERSISTENCE_DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: dbname
-                  name: smilecdrsecret3
-            - name: PERSISTENCE_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: smilecdrsecret3
-            - name: PERSISTENCE_DB_PASS
+            - name: CLUSTERMGR_DB_DATABASE
+              value: cdr
+            - name: CLUSTERMGR_DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: smilecdrsecret3
-            - name: PERSISTENCE_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: smilecdrsecret3
-            - name: PERSISTENCE_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: username
-                  name: smilecdrsecret3
+                  name: smilecdrsecret
+            - name: CLUSTERMGR_DB_PORT
+              value: "5432"
+            - name: CLUSTERMGR_DB_URL
+              value: thedatabaseurl
+            - name: CLUSTERMGR_DB_USER
+              value: username
+            - name: JVMARGS
+              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
+                -Djava.security.egd=file:/dev/./urandom
             - name: PERSISTENCE2_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: smilecdrsecret4
-            - name: PERSISTENCE2_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
                   name: smilecdrsecret4
             - name: PERSISTENCE2_DB_PASS
               valueFrom:
@@ -299,6 +272,11 @@ spec:
                 secretKeyRef:
                   key: port
                   name: smilecdrsecret4
+            - name: PERSISTENCE2_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: smilecdrsecret4
             - name: PERSISTENCE2_DB_USER
               valueFrom:
                 secretKeyRef:
@@ -308,11 +286,6 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: smilecdrsecret5
-            - name: PERSISTENCE3_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
                   name: smilecdrsecret5
             - name: PERSISTENCE3_DB_PASS
               valueFrom:
@@ -324,14 +297,41 @@ spec:
                 secretKeyRef:
                   key: port
                   name: smilecdrsecret5
+            - name: PERSISTENCE3_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: smilecdrsecret5
             - name: PERSISTENCE3_DB_USER
               valueFrom:
                 secretKeyRef:
                   key: username
                   name: smilecdrsecret5
-            - name: JVMARGS
-              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
-                -Djava.security.egd=file:/dev/./urandom
+            - name: PERSISTENCE_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: smilecdrsecret3
+            - name: PERSISTENCE_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: smilecdrsecret3
+            - name: PERSISTENCE_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: smilecdrsecret3
+            - name: PERSISTENCE_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: smilecdrsecret3
+            - name: PERSISTENCE_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: smilecdrsecret3
           ports:
             - containerPort: 9100
               name: admin-web

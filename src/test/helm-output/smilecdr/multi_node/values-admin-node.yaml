@@ -3,6 +3,9 @@ cdrNodes:
   masterdev:
     enabled: false
   admin:
+    extraEnvVars:
+    - name: MYADMINENVVAR
+      value: my-admin-node-env-var-value
     name: AdminNode
     enabled: true
     logsDirSize: 5Gi
@@ -74,6 +77,11 @@ cdrNodes:
           db.password: "#{env['DB_PASS']}"
           db.schema_update_mode: UPDATE
   fhir:
+    extraEnvVars:
+    - name: MYFHIRENVVAR
+      value: my-fhir-node-env-var-value
+    - name: GLOBALENVVARNAME
+      value: my-fhir-node-overridden-value
     name: FhirNode
     enabled: true
     modules:
@@ -144,7 +152,10 @@ cdrNodes:
           db.password: "#{env['DB_PASS']}"
           db.schema_update_mode: NONE
 
-
 ingresses:
   default:
     enabled: true
+
+extraEnvVars:
+- name: GLOBALENVVARNAME
+  value: my-global-env-var-value
