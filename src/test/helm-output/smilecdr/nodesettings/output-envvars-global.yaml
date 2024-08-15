@@ -473,15 +473,15 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: EXTSVC_API_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
-                  name: extsvc-access
             - name: EXTSVC_API_PASS
               valueFrom:
                 secretKeyRef:
                   key: pwd
+                  name: extsvc-access
+            - name: EXTSVC_API_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
                   name: extsvc-access
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60

@@ -13,7 +13,7 @@ Currently, this Helm Chart only supports using the second mechanism - ***System 
 
 ## Passing Extra Environment Variables
 
-In order to configure extra environment variables into the pod, use the `ExtraEnvVars` entry in your values file as follows:
+In order to configure extra environment variables into the pod, use the `extraEnvVars` section in your values file as follows:
 
 ```yaml
 extraEnvVars:
@@ -25,7 +25,9 @@ extraEnvVars:
 
 This is a list of objects that follow the same `env` schema as the Kubernetes `podSpec.containers` [See here](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)
 
->**Note:** Although it is possible to use this to add secrets using `env.valueFrom.secretKeyRef`, it's recommended to use one of the existing mechanisms if you wish to pass in secret data to your pod. See the [Secrets](../index.md) section for more info on this.
+>**Note:** Although it is possible to use this to add secrets using `env.valueFrom.secretKeyRef`, it's recommended to instead use one of the alternative mechanisms to pass in secret data to your pod. See the [Secrets](../secrets/index.md) section for more info on this.
+
+>**Warning:** Do not use this mechanism to set the `JVMARGS` environment variable. If you attempt this, the chart will fail with a warning. If you need to pass extra arguments to the JVM, refer to the [JVM Configuration](./tuning/jvm.md#jvm-arguments) section.
 
 ## Multi-node configuration
 If deploying Smile CDR in a multi-node configuration, you may wish to have different environment variables for the different CDR Nodes.

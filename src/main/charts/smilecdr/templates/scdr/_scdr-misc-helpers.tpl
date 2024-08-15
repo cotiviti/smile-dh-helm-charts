@@ -120,31 +120,61 @@ This template simply collates the environment variables defined elsewhere to
 provide a single entry point.
 */}}
 {{- define "smilecdr.envVars" -}}
-  {{- $envVars := list -}}
+  {{- /* Work on the env vars using a dict rather than a list as it's easier to
+      avoid duplicate entries.
+      We can simplify by removing the range loops that surround the imports if
+      the imports are adjusted to return a dict rather than a list. */ -}}
+  {{- $envVars := dict -}}
   {{- /* Include DB env vars */ -}}
-  {{- $envVars = concat $envVars (include "smilecdr.dbEnvVars" . | fromYamlArray ) -}}
+  {{- range $envVar := (include "smilecdr.dbEnvVars" . | fromYamlArray ) -}}
+    {{- $_ := set $envVars $envVar.name $envVar -}}
+  {{- end -}}
   {{- /* Include kafka env vars - This is for connection configuration key store passwords */ -}}
-  {{- $envVars = concat $envVars (include "kafka.envVars" . | fromYamlArray ) -}}
+  {{- range $envVar := (include "kafka.envVars" . | fromYamlArray ) -}}
+    {{- $_ := set $envVars $envVar.name $envVar -}}
+  {{- end -}}
   {{- /* Include Remote ActiveMQ env vars - This is for the address, user & password */ -}}
-  {{- $envVars = concat $envVars (include "messagebroker.amq.envVars" . | fromYamlArray ) -}}
+  {{- range $envVar := (include "messagebroker.amq.envVars" . | fromYamlArray ) -}}
+    {{- $_ := set $envVars $envVar.name $envVar -}}
+  {{- end -}}
   {{- /* Include observability env vars - This is for Java agent injection etc */ -}}
-  {{- $envVars = concat $envVars (include "observability.envVars" . | fromYamlArray ) -}}
+  {{- range $envVar := (include "observability.envVars" . | fromYamlArray ) -}}
+    {{- $_ := set $envVars $envVar.name $envVar -}}
+  {{- end -}}
   {{- /* Include cert-manafger env vars - This is for tls configuration keystore and passwords */ -}}
-  {{- $envVars = concat $envVars (include "certmanager.envVars" . | fromYamlArray ) -}}
+  {{- range $envVar := (include "certmanager.envVars" . | fromYamlArray ) -}}
+    {{- $_ := set $envVars $envVar.name $envVar -}}
+  {{- end -}}
   {{- /* Include extraSecrets env vars */ -}}
   {{- $extraSecrets := (include "smilecdr.extraSecrets" . | fromYaml) -}}
-  {{- range $extraSecret :=  $extraSecrets.secrets -}}
-    {{- range $env := $extraSecret.envMap -}}
-      {{- $envVars = append $envVars $env -}}
+  {{- range $extraSecret := $extraSecrets.secrets -}}
+    {{- range $envVar := $extraSecret.envMap -}}
+      {{- $_ := set $envVars $envVar.name $envVar -}}
     {{- end -}}
   {{- end -}}
-  {{- /* Include global extra env vars */ -}}
-  {{- $envVars = concat $envVars .Values.extraEnvVars -}}
+  {{- /* Include global extra env vars by overwriting entries in map */ -}}
+  {{- /* As the `extraEnvVars` is a list, the global version gets overwritten in the event that a cdrNode
+      also has it defined.
+      To avoid this, we first add the global `extraEnvVars` to the dict before adding any
+      node-specific ones. */ -}}
+  {{- range $envVar := .GlobalValues.extraEnvVars -}}
+    {{- $_ := set $envVars $envVar.name $envVar -}}
+  {{- end -}}
+  {{- /* Now we can overwrite with the node specific ones. */ -}}
+  {{- range $envVar := .Values.extraEnvVars -}}
+    {{- $_ := set $envVars $envVar.name $envVar -}}
+  {{- end -}}
   {{- /* Include JVM settings */ -}}
   {{- with (include "smilecdr.jvmargs" . ) -}}
-    {{- $envVars = append $envVars (dict "name" "JVMARGS" "value" .) -}}
+    {{- $_ := set $envVars "JVMARGS" (dict "name" "JVMARGS" "value" .) -}}
   {{- end -}}
-  {{- $envVars | toYaml -}}
+  {{- /* Convert the dict to a list for use in K8s manifests */ -}}
+  {{- $envVarsList := list -}}
+
+  {{- range $envVarName, $envVar := $envVars -}}
+    {{- $envVarsList = append $envVarsList $envVar -}}
+  {{- end -}}
+  {{- $envVarsList | toYaml -}}
 {{- end -}}
 
 {{/*
@@ -225,6 +255,7 @@ Use this for generating deprecation notices and other warnings about the configu
 */}}
 {{- define "chartWarnings" -}}
   {{- $warningMessage := "" -}}
+  {{- $errorMessage := "" -}}
 
   {{- /* Strimzi config warnings */ -}}
   {{- if hasKey .Values.messageBroker.strimzi "config" -}}
@@ -269,7 +300,7 @@ Use this for generating deprecation notices and other warnings about the configu
 
   {{- end -}}
   {{- if eq (len $ingresses) 0 -}}
-    {{- $warningMessage = (printf "%s\n\nnWARNING: You have not enabled any ingresses." $warningMessage) -}}
+    {{- $warningMessage = (printf "%s\n\nWARNING: You have not enabled any ingresses." $warningMessage) -}}
     {{- $warningMessage = (printf "%s\n          Smile CDR will not be accessible via ingress unless you configure one." $warningMessage) -}}
   {{- end -}}
   {{- if not $defaultIngress -}}
@@ -298,9 +329,10 @@ Use this for generating deprecation notices and other warnings about the configu
       {{- $warningMessage = printf "%s\n * %s" $warningMessage $file -}}
     {{- end -}}
   {{- end -}}
-  {{- /* Check for using unsupported database propertysource mode */ -}}
+  {{- /* Check for per-node issues */ -}}
   {{- range $theCdrNodeName, $theCdrNodeCtx := include "smilecdr.cdrNodes" . | fromYaml -}}
     {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
+    {{- /* Check for using unsupported database propertysource mode */ -}}
     {{- if ($theCdrNodeSpec.config).database -}}
       {{- $warningMessage = printf "%s\n\nWARNING: `config.database` is enabled for Smile CDR node: %s" $warningMessage $theCdrNodeName -}}
       {{- $warningMessage = printf "%s\n         This mode is unsupported and not recommended for use when deploying using Helm" $warningMessage -}}
@@ -322,6 +354,14 @@ Use this for generating deprecation notices and other warnings about the configu
       {{- $warningMessage = printf "%s\n            This is a required step in order to use the `multi-node` configurations." $warningMessage -}}
       {{- $warningMessage = printf "%s\n            You will not be able to configure Smile CDR with such a `multi-node` configuration unless this setting is" $warningMessage -}}
       {{- $warningMessage = printf "%s\n            first disabled." $warningMessage -}}
+    {{- end -}}
+    {{- /* Check for unsupported env vars being set */ -}}
+    {{- range $envVar := $theCdrNodeSpec.extraEnvVars -}}
+      {{- if eq $envVar.name "JVMARGS" -}}
+        {{- $errorMessage = printf "%s\n\nERROR: You should not configure the `JVMARGS` environment variable using `extraEnvVars`." $errorMessage  -}}
+        {{- $errorMessage = printf "%s\n       If you need to add JVM arguments, add them in the `CDRNodeSpec.jvm.args`. See the documentation here:" $errorMessage -}}
+        {{- $errorMessage = printf "%s\n       https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/guide/smilecdr/tuning/jvm/#jvm-arguments" $errorMessage -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
   {{- /* Check for using old image pull credentials */ -}}
@@ -357,5 +397,10 @@ Use this for generating deprecation notices and other warnings about the configu
     {{- $warningMessage = printf "\n**** NO CHART WARNINGS ****%s" $warningMessage -}}
     {{- $warningMessage = printf "\n***************************%s" $warningMessage -}}
     {{- $warningMessage -}}
+  {{- end -}}
+
+  {{- /* If there were any errors, we will go ahead and fail. */ -}}
+  {{- if ne $errorMessage "" -}}
+    {{- fail $errorMessage -}}
   {{- end -}}
 {{- end -}}

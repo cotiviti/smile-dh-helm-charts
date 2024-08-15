@@ -43,7 +43,7 @@ Depending on the particular Smile CLI command you plan to run, you may need to a
 
 When running `smileutil`, it will run its own JVM, with its own memory heap. It may be required to increase the amount of unallocated memory in the Pod if there is not enough. This can be done in multiple ways:
 
-* Increase the Pod [resource limits](../resources.md) and reduce the `memoryFactor` in the [JVM Heap Auto-Sizing](../resources.md#jvm-heap-auto-sizing).
+* Increase the Pod [resource limits](../tuning/resources.md) and reduce the `memoryFactor` in the [JVM Heap Auto-Sizing](../tuning/jvm.md#jvm-heap-auto-sizing).
 * Specify a Pod memory limit that is larger than the Pod memory request. The difference between these two values signifies the amount of unallocated memory available to other commands like `smileutil`
 
 **Ephemeral Volumes**

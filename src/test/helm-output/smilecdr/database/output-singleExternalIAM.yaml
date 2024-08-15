@@ -232,35 +232,35 @@ spec:
           env:
             - name: CLUSTERMGR_DB_DATABASE
               value: clustermgr-db-name
-            - name: CLUSTERMGR_DB_URL
-              value: clustermgr-db-url
             - name: CLUSTERMGR_DB_PORT
               value: clustermgr-db-port
+            - name: CLUSTERMGR_DB_URL
+              value: clustermgr-db-url
             - name: CLUSTERMGR_DB_USER
               value: clustermgr-db-user
+            - name: JVMARGS
+              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
+                -Djava.security.egd=file:/dev/./urandom
             - name: PERSISTENCE_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: smilecdrsecretp
-            - name: PERSISTENCE_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
                   name: smilecdrsecretp
             - name: PERSISTENCE_DB_PORT
               valueFrom:
                 secretKeyRef:
                   key: port
                   name: smilecdrsecretp
+            - name: PERSISTENCE_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: smilecdrsecretp
             - name: PERSISTENCE_DB_USER
               valueFrom:
                 secretKeyRef:
                   key: username
                   name: smilecdrsecretp
-            - name: JVMARGS
-              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
-                -Djava.security.egd=file:/dev/./urandom
           ports:
             - containerPort: 9100
               name: admin-web

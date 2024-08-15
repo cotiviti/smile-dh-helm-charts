@@ -473,109 +473,109 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: CLUSTERMGR_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: db-release-pguser-smilecdr
-            - name: CLUSTERMGR_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: db-release-pguser-smilecdr
-            - name: CLUSTERMGR_DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: dbname
-                  name: db-release-pguser-smilecdr
-            - name: CLUSTERMGR_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
-                  name: db-release-pguser-smilecdr
-            - name: CLUSTERMGR_DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: db-release-pguser-smilecdr
-            - name: AUDIT_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: db-release-pguser-audit
-            - name: AUDIT_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: db-release-pguser-audit
             - name: AUDIT_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: db-release-pguser-audit
-            - name: AUDIT_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
                   name: db-release-pguser-audit
             - name: AUDIT_DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
                   name: db-release-pguser-audit
-            - name: TRANSACTION_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: db-release-pguser-transaction
-            - name: TRANSACTION_DB_PORT
+            - name: AUDIT_DB_PORT
               valueFrom:
                 secretKeyRef:
                   key: port
-                  name: db-release-pguser-transaction
-            - name: TRANSACTION_DB_DATABASE
+                  name: db-release-pguser-audit
+            - name: AUDIT_DB_URL
               valueFrom:
                 secretKeyRef:
-                  key: dbname
-                  name: db-release-pguser-transaction
-            - name: TRANSACTION_DB_USER
+                  key: host
+                  name: db-release-pguser-audit
+            - name: AUDIT_DB_USER
               valueFrom:
                 secretKeyRef:
                   key: user
-                  name: db-release-pguser-transaction
-            - name: TRANSACTION_DB_PASS
+                  name: db-release-pguser-audit
+            - name: CLUSTERMGR_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: db-release-pguser-smilecdr
+            - name: CLUSTERMGR_DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: db-release-pguser-transaction
-            - name: PERSISTENCE_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: db-release-pguser-persistence
-            - name: PERSISTENCE_DB_PORT
+                  name: db-release-pguser-smilecdr
+            - name: CLUSTERMGR_DB_PORT
               valueFrom:
                 secretKeyRef:
                   key: port
-                  name: db-release-pguser-persistence
+                  name: db-release-pguser-smilecdr
+            - name: CLUSTERMGR_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: db-release-pguser-smilecdr
+            - name: CLUSTERMGR_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: db-release-pguser-smilecdr
+            - name: JVMARGS
+              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
+                -Djava.security.egd=file:/dev/./urandom
             - name: PERSISTENCE_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: db-release-pguser-persistence
-            - name: PERSISTENCE_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
                   name: db-release-pguser-persistence
             - name: PERSISTENCE_DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
                   name: db-release-pguser-persistence
-            - name: JVMARGS
-              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
-                -Djava.security.egd=file:/dev/./urandom
+            - name: PERSISTENCE_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: db-release-pguser-persistence
+            - name: PERSISTENCE_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: db-release-pguser-persistence
+            - name: PERSISTENCE_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: db-release-pguser-persistence
+            - name: TRANSACTION_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: db-release-pguser-transaction
+            - name: TRANSACTION_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: db-release-pguser-transaction
+            - name: TRANSACTION_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: db-release-pguser-transaction
+            - name: TRANSACTION_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: db-release-pguser-transaction
+            - name: TRANSACTION_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: db-release-pguser-transaction
           ports:
             - containerPort: 9000
               name: admin-json

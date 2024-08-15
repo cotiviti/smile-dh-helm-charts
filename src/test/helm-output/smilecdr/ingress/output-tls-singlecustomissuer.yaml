@@ -550,14 +550,14 @@ spec:
                 secretKeyRef:
                   key: password
                   name: release-name-smilecdr-default-tls-keystorepass
+            - name: JVMARGS
+              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
+                -Djava.security.egd=file:/dev/./urandom
             - name: MYCERT_TLS_KEYSTORE_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
                   name: release-name-smilecdr-mycert-tls-keystorepass
-            - name: JVMARGS
-              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
-                -Djava.security.egd=file:/dev/./urandom
           ports:
             - containerPort: 9000
               name: admin-json
