@@ -201,7 +201,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2024.05.R03"
+          image: "docker.smilecdr.com/smilecdr:2024.05.R04"
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
@@ -233,11 +233,6 @@ spec:
                 secretKeyRef:
                   key: dbname
                   name: myshareddbsecret
-            - name: CLUSTERMGR_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: myshareddbsecret
             - name: CLUSTERMGR_DB_PASS
               valueFrom:
                 secretKeyRef:
@@ -248,20 +243,23 @@ spec:
                 secretKeyRef:
                   key: port
                   name: myshareddbsecret
+            - name: CLUSTERMGR_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: myshareddbsecret
             - name: CLUSTERMGR_DB_USER
               valueFrom:
                 secretKeyRef:
                   key: username
                   name: myshareddbsecret
+            - name: JVMARGS
+              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
+                -Djava.security.egd=file:/dev/./urandom
             - name: PERSISTENCE_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: myshareddbsecret
-            - name: PERSISTENCE_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
                   name: myshareddbsecret
             - name: PERSISTENCE_DB_PASS
               valueFrom:
@@ -273,14 +271,16 @@ spec:
                 secretKeyRef:
                   key: port
                   name: myshareddbsecret
+            - name: PERSISTENCE_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: myshareddbsecret
             - name: PERSISTENCE_DB_USER
               valueFrom:
                 secretKeyRef:
                   key: username
                   name: myshareddbsecret
-            - name: JVMARGS
-              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
-                -Djava.security.egd=file:/dev/./urandom
           ports:
             - containerPort: 9100
               name: admin-web

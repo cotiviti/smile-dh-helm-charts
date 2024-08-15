@@ -6,7 +6,7 @@ It is based on the [minimal](minimal.md) example.
 
 This will configure Smile CDR as follows:
 
-* Default Smile CDR module configuraton
+* Default Smile CDR module configuration
 * Ingress configured for `smilecdr.mycompany.com` using NginX Ingress
 * Docker registry credentials passed in via Secret Store CSI Driver using AWS Secrets Manager
 * Postgres DB automatically created

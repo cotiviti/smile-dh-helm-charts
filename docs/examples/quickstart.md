@@ -4,7 +4,7 @@ This is the configuration used in the [Quickstart](../quickstart/index.md)
 
 This will configure Smile CDR as follows:
 
-* Default Smile CDR module configuraton
+* Default Smile CDR module configuration
 * Ingress configured for `smilecdr.mycompany.com` using NginX Ingress
 * Docker registry credentials passed in via values file (Don't do this!)
 * Postgres DB automatically created

@@ -201,7 +201,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2024.05.R03"
+          image: "docker.smilecdr.com/smilecdr:2024.05.R04"
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
@@ -230,8 +230,6 @@ spec:
           env:
             - name: DB_DATABASE
               value: cdr
-            - name: DB_URL
-              value: thedatabaseurl
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:
@@ -239,6 +237,8 @@ spec:
                   name: smilecdrsecret
             - name: DB_PORT
               value: "5432"
+            - name: DB_URL
+              value: thedatabaseurl
             - name: DB_USER
               value: username
             - name: JVMARGS

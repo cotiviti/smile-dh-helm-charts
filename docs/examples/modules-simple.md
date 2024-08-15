@@ -6,7 +6,7 @@ It is based on the [minimal](minimal.md) example.
 
 This will configure Smile CDR as follows:
 
-* Modified Smile CDR module configuraton
+* Modified Smile CDR module configuration
   * We will only modify `dao_config.inline_resource_storage_below_size` for the persistence database
 * Ingress configured for `smilecdr.mycompany.com` using NginX Ingress
 * Docker registry credentials passed in via Secret Store CSI Driver using AWS Secrets Manager

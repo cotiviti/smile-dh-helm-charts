@@ -114,7 +114,7 @@ iamsnippet:
 
 There are no extra steps after this, you do not need to specify any image pull secrets.
 
-If you do define image pull secrets for other containe registries, this will not be affected. You do not need to remove them.
+If you do define image pull secrets for other contain registries, this will not be affected. You do not need to remove them.
 ### Configuring Repo Credentials using Secrets Store CSI Driver
 Before using this configuration in your values file, ensure that you have followed the appropriate section in the [Secrets Handling](./secrets/index.md#secrets-store-csi-driver) guide to set up Secrets Store CSI, the AWS Provider, your AWS Secret, your IAM Role and configured the `ServiceAccount`.
 

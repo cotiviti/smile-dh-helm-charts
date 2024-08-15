@@ -446,7 +446,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2024.05.R03"
+          image: "docker.smilecdr.com/smilecdr:2024.05.R04"
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
@@ -473,109 +473,109 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: CLUSTERMGR_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: release-name-pg-pguser-smilecdr
-            - name: CLUSTERMGR_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: release-name-pg-pguser-smilecdr
-            - name: CLUSTERMGR_DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: dbname
-                  name: release-name-pg-pguser-smilecdr
-            - name: CLUSTERMGR_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
-                  name: release-name-pg-pguser-smilecdr
-            - name: CLUSTERMGR_DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: release-name-pg-pguser-smilecdr
-            - name: AUDIT_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: release-name-pg-pguser-audit
-            - name: AUDIT_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: release-name-pg-pguser-audit
             - name: AUDIT_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: release-name-pg-pguser-audit
-            - name: AUDIT_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
                   name: release-name-pg-pguser-audit
             - name: AUDIT_DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
                   name: release-name-pg-pguser-audit
-            - name: TRANSACTION_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: release-name-pg-pguser-transaction
-            - name: TRANSACTION_DB_PORT
+            - name: AUDIT_DB_PORT
               valueFrom:
                 secretKeyRef:
                   key: port
-                  name: release-name-pg-pguser-transaction
-            - name: TRANSACTION_DB_DATABASE
+                  name: release-name-pg-pguser-audit
+            - name: AUDIT_DB_URL
               valueFrom:
                 secretKeyRef:
-                  key: dbname
-                  name: release-name-pg-pguser-transaction
-            - name: TRANSACTION_DB_USER
+                  key: host
+                  name: release-name-pg-pguser-audit
+            - name: AUDIT_DB_USER
               valueFrom:
                 secretKeyRef:
                   key: user
-                  name: release-name-pg-pguser-transaction
-            - name: TRANSACTION_DB_PASS
+                  name: release-name-pg-pguser-audit
+            - name: CLUSTERMGR_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: release-name-pg-pguser-smilecdr
+            - name: CLUSTERMGR_DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: release-name-pg-pguser-transaction
-            - name: PERSISTENCE_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: release-name-pg-pguser-persistence
-            - name: PERSISTENCE_DB_PORT
+                  name: release-name-pg-pguser-smilecdr
+            - name: CLUSTERMGR_DB_PORT
               valueFrom:
                 secretKeyRef:
                   key: port
-                  name: release-name-pg-pguser-persistence
+                  name: release-name-pg-pguser-smilecdr
+            - name: CLUSTERMGR_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: release-name-pg-pguser-smilecdr
+            - name: CLUSTERMGR_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: release-name-pg-pguser-smilecdr
+            - name: JVMARGS
+              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
+                -Djava.security.egd=file:/dev/./urandom
             - name: PERSISTENCE_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: release-name-pg-pguser-persistence
-            - name: PERSISTENCE_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
                   name: release-name-pg-pguser-persistence
             - name: PERSISTENCE_DB_PASS
               valueFrom:
                 secretKeyRef:
                   key: password
                   name: release-name-pg-pguser-persistence
-            - name: JVMARGS
-              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
-                -Djava.security.egd=file:/dev/./urandom
+            - name: PERSISTENCE_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: release-name-pg-pguser-persistence
+            - name: PERSISTENCE_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: release-name-pg-pguser-persistence
+            - name: PERSISTENCE_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: release-name-pg-pguser-persistence
+            - name: TRANSACTION_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: release-name-pg-pguser-transaction
+            - name: TRANSACTION_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: release-name-pg-pguser-transaction
+            - name: TRANSACTION_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: release-name-pg-pguser-transaction
+            - name: TRANSACTION_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: release-name-pg-pguser-transaction
+            - name: TRANSACTION_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: release-name-pg-pguser-transaction
           ports:
             - containerPort: 9000
               name: admin-json

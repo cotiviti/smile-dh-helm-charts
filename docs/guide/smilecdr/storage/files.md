@@ -34,7 +34,7 @@ Using the **External Pull** method is ideal when:
     * This mechanism will copy files recursively without clogging up your configuration
 * You are able to stage your files and file updates on Amazon S3
     * Currently only S3 is supported, but other external file sources will be added as required
-* You wish to pull files that are publically hosted (e.g. public `.jar` files)
+* You wish to pull files that are publicly hosted (e.g. public `.jar` files)
 
 ### Using Both Methods:
 Using both methods is possible too:
@@ -126,7 +126,7 @@ To pass in files from an Amazon S3 bucket, you need the following prerequisites 
     * A folder containing your `customerlib` files
     * Ideally, these should be in a higher level folder to control versioning
         * e.g. `v1`, `v2` or a `UID`
-    * Bucket should not be publically accessible
+    * Bucket should not be publicly accessible
         * It will work with public buckets too, but this is a bad security practice
     * Bucket should use encryption
         * Again, it will work without, but it's good security practice to encrypt everything by default
@@ -158,7 +158,7 @@ To pass in files from an Amazon S3 bucket, you need the following prerequisites 
     ```
 
 ### A Note On File Versioning
-Though not required, it is reccommended to include some versioning structure in your S3 bucket.
+Though not required, it is recommended to include some versioning structure in your S3 bucket.
 
 While already running pods cannot be affected by this (As they have already copied their files), any new pods that start up (e.g in scaling or reconciliation events) may be adversely affected if files have been unexpectedly changed or deleted.
 

@@ -61,6 +61,17 @@ Define CDR Nodes
             of files.
           */ -}}
 
+      {{- /* Note that when doing the merge operation below, any embedded list objects will be overwritten.
+          Such is the nature of merging in YAML.
+          This breaks the ability to define, for example, extraEnvVars globally and on a per-node basis.
+          If this it attempted, the global version will be overwritten which may not be the desired outcome.
+
+          To avoid this, we will need to make a copy of any root list objects that we wish to persist, so that
+          we can manually merge back the list after the main merge */ -}}
+      {{- /* $globalLists := dict -}}
+      {{- $_ := set $globalLists "extraEnvVars" (deepCopy $globalValues.extraEnvVars) */ -}}
+
+
       {{- /* Merge everything from 'root' of config */ -}}
       {{- /* This merge gives precedence to the nodeSpec values.*/ -}}
       {{- $parsedNodeValues := mustMergeOverwrite (deepCopy (omit $globalValues "cdrNodes")) (deepCopy (omit $theCdrNodeSpec "ingress")) -}}
@@ -106,10 +117,14 @@ Define CDR Nodes
           The local values is proving troublesome. Refactor all helpers to use a full root context.
           */ -}}
 
+
       {{- /* Note: Only doing the deepCopy on the root ctx.
           $parsedNodeValues is merged as a reference, so anything updated
-          will be available in the context for further includes*/ -}}
-      {{- $cdrNodeHelperCTX := mustMergeOverwrite (deepCopy (omit $rootCTX "Values")) (dict "Values" $parsedNodeValues) -}}
+          will be available in the context for further includes
+          We pass in the GlobalValues in case some helper functions need to perform extra steps to
+          merge lists, e.g for extraEnvVars
+          */ -}}
+      {{- $cdrNodeHelperCTX := mustMergeOverwrite (deepCopy (omit $rootCTX "Values")) (dict "Values" $parsedNodeValues "GlobalValues" $globalValues) -}}
 
       {{- /* Prepare a canonical list of mappedFiles */ -}}
       {{- /*

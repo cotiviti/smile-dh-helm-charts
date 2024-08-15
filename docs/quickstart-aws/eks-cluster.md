@@ -11,7 +11,7 @@ A Terraform project is provided in the [examples](https://gitlab.com/smilecdr-pu
 ### Included Components
 The main components that are included in this Terraform Quickstart Project are as follows:
 
-* **EKS Cluster** using best-practice defaults (e.g. etc encrypted by default)
+* **EKS Cluster** using best-practice defaults (e.g. etcd encrypted by default)
 * **Karpenter** for provisioning compute resources on-demand, rather than pre-provisioning worker nodes. Can take advantage of ***Spot*** instances and is more granular and efficient than Autoscaling Groups. [More Info](https://karpenter.sh/docs/)
 * **AWS Load Balancer Controller** for managing AWS Load Balancer. [More Info](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/)
 * **Nginx Ingress Controller** for managing Ingress resources. [More Info](https://kubernetes.github.io/ingress-nginx/)

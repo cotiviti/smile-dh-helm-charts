@@ -3,6 +3,7 @@ site_url: https://smilecdr-public.gitlab.io/smile-dh-helm-charts/
 docs_dir: 'docs'
 site_dir: public
 repo_url: https://gitlab.com/smilecdr-public/smile-dh-helm-charts
+edit_uri: -/tree/main/docs/
 repo_name: smile-dh-helm-charts
 # strict: true
 extra:
@@ -19,6 +20,8 @@ theme:
   - navigation.instant
   - navigation.instant.prefetch
   - navigation.top
+  # - content.action.edit
+  - content.action.view
 
   font:
     test: Lato
@@ -26,6 +29,13 @@ theme:
     repo: fontawesome/brands/gitlab
     admonition:
       note: octicons/tag-16
+    view: material/eye
+    edit: material/pencil
+plugins:
+- search
+- spellcheck:
+    backends:
+    - codespell
 markdown_extensions:
 - toc:
     permalink: true
@@ -93,8 +103,9 @@ nav:
       - 'Observability':
         - 'Logging': guide/smilecdr/logging.md
       - 'Smile CDR Tuning':
-        - 'Resource Tuning': guide/smilecdr/resources.md
-        - 'Pod Scheduling': guide/smilecdr/podscheduling.md
+        - 'JVM Configuration': guide/smilecdr/tuning/jvm.md
+        - 'Resource Tuning': guide/smilecdr/tuning/resources.md
+        - 'Pod Scheduling': guide/smilecdr/tuning/podscheduling.md
       - 'Applying Changes': guide/smilecdr/updating.md
       - 'Operational Tasks':
         - 'Using the Smile CLI': guide/smilecdr/operations/smileutil.md

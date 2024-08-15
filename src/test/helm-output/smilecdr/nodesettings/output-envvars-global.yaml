@@ -446,7 +446,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2024.05.R03"
+          image: "docker.smilecdr.com/smilecdr:2024.05.R04"
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
@@ -473,15 +473,15 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: EXTSVC_API_USER
-              valueFrom:
-                secretKeyRef:
-                  key: user
-                  name: extsvc-access
             - name: EXTSVC_API_PASS
               valueFrom:
                 secretKeyRef:
                   key: pwd
+                  name: extsvc-access
+            - name: EXTSVC_API_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
                   name: extsvc-access
             - name: JVMARGS
               value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60

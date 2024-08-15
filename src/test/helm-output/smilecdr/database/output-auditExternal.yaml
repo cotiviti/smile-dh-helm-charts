@@ -446,7 +446,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2024.05.R03"
+          image: "docker.smilecdr.com/smilecdr:2024.05.R04"
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
@@ -473,40 +473,10 @@ spec:
             requests:
               cpu: "1"
           env:
-            - name: CLUSTERMGR_DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: dbname
-                  name: clustermgrsecret
-            - name: CLUSTERMGR_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
-                  name: clustermgrsecret
-            - name: CLUSTERMGR_DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: clustermgrsecret
-            - name: CLUSTERMGR_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: clustermgrsecret
-            - name: CLUSTERMGR_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: username
-                  name: clustermgrsecret
             - name: AUDIT_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: auditsecret
-            - name: AUDIT_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
                   name: auditsecret
             - name: AUDIT_DB_PASS
               valueFrom:
@@ -518,20 +488,48 @@ spec:
                 secretKeyRef:
                   key: port
                   name: auditsecret
+            - name: AUDIT_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: auditsecret
             - name: AUDIT_DB_USER
               valueFrom:
                 secretKeyRef:
                   key: username
                   name: auditsecret
+            - name: CLUSTERMGR_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: clustermgrsecret
+            - name: CLUSTERMGR_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: clustermgrsecret
+            - name: CLUSTERMGR_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: clustermgrsecret
+            - name: CLUSTERMGR_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: clustermgrsecret
+            - name: CLUSTERMGR_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: clustermgrsecret
+            - name: JVMARGS
+              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
+                -Djava.security.egd=file:/dev/./urandom
             - name: PERSISTENCE_DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: dbname
-                  name: persistencesecret
-            - name: PERSISTENCE_DB_URL
-              valueFrom:
-                secretKeyRef:
-                  key: host
                   name: persistencesecret
             - name: PERSISTENCE_DB_PASS
               valueFrom:
@@ -543,14 +541,16 @@ spec:
                 secretKeyRef:
                   key: port
                   name: persistencesecret
+            - name: PERSISTENCE_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: persistencesecret
             - name: PERSISTENCE_DB_USER
               valueFrom:
                 secretKeyRef:
                   key: username
                   name: persistencesecret
-            - name: JVMARGS
-              value: -server -Xms2048m -Xmx2048m -Djava.io.tmpdir=/home/smile/smilecdr/tmp -Dsun.net.inetaddr.ttl=60
-                -Djava.security.egd=file:/dev/./urandom
           ports:
             - containerPort: 9000
               name: admin-json
