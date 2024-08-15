@@ -187,7 +187,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-masterdev-node-3fefc73f655d548e5647fb533c57a85177a43b23fbf13e04d2d0872ac4dc0781
+  name: release-name-scdr-masterdev-node-556ed1de93a1da3ff2fe07a4c048cdd69db65785559d85d3563b4f9e7e9cf7a4
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
@@ -229,7 +229,7 @@ data:
     module.admin_json.type 	= ADMIN_JSON
     module.admin_json.requires.SECURITY_IN_UP 	= local_security
     module.admin_json.config.anonymous.access.enabled 	= true
-    module.admin_json.config.context_path 	= /json-admin
+    module.admin_json.config.context_path 	= /admin_json
     module.admin_json.config.https_forwarding_assumed 	= true
     module.admin_json.config.port 	= 9000
     module.admin_json.config.respect_forward_headers 	= true
@@ -646,7 +646,7 @@ spec:
             name: release-name-scdr-logback-xml-90b286ba2cb6ea7f008581aaeaebe5371f42a43822cde105b7e502d2b5ad1e2e
           name: logback-xml
         - configMap:
-            name: release-name-scdr-masterdev-node-3fefc73f655d548e5647fb533c57a85177a43b23fbf13e04d2d0872ac4dc0781
+            name: release-name-scdr-masterdev-node-556ed1de93a1da3ff2fe07a4c048cdd69db65785559d85d3563b4f9e7e9cf7a4
           name: scdr-config-release-name
         - configMap:
             defaultMode: 504
