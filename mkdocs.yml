@@ -36,6 +36,8 @@ plugins:
 - spellcheck:
     backends:
     - codespell
+- macros:
+    module_name: mkdocs/macros/main
 markdown_extensions:
 - toc:
     permalink: true

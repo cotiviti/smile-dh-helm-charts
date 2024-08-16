@@ -3,3 +3,5 @@ mkdocs
 mkdocs-material
 mike<2.0.0
 mkdocs-spellcheck[codespell]
+mkdocs-macros-plugin
+semver

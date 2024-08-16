@@ -14,7 +14,7 @@ $ helm upgrade -i my-smile-env -n my-namespace -f my-values.yaml smiledh-stable/
 
 To install a specific version of the Helm Chart, include the `--version` option as follows:
 ```shell
-$ helm upgrade -i my-smile-env -n my-namespace -f my-values.yaml smiledh-stable/smilecdr --version 1.1.0
+$ helm upgrade -i my-smile-env -n my-namespace -f my-values.yaml smiledh-stable/smilecdr --version {{ current_helm_version }}
 ```
 
 
