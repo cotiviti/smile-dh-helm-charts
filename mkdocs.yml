@@ -23,6 +23,8 @@ theme:
   # - content.action.edit
   - content.action.view
 
+  logo: assets/SDH logo for social 188 White wTM.webp
+  favicon: assets/SDH 64x64.webp
   font:
     test: Lato
   icon:
@@ -138,3 +140,4 @@ nav:
 extra_css:
   - https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css
   - stylesheets/colours.css
+  - stylesheets/logo.css
