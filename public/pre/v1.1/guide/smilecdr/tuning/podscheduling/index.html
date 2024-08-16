@@ -8,25 +8,25 @@
       
       
       
-        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1/guide/smilecdr/">
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1/guide/smilecdr/tuning/podscheduling/">
       
       
-        <link rel="prev" href="../values-files-management/">
+        <link rel="prev" href="../resources/">
       
       
-        <link rel="next" href="requirements/">
+        <link rel="next" href="../../updating/">
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.31">
     
     
       
-        <title>Smile CDR Helm Chart User Guide - Smile Digital Health Helm Charts</title>
+        <title>Pod Scheduling - Smile Digital Health Helm Charts</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.3cba04c6.min.css">
       
       
   
@@ -55,9 +55,9 @@
     
       <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
     
-      <link rel="stylesheet" href="../../stylesheets/colours.css">
+      <link rel="stylesheet" href="../../../../stylesheets/colours.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#smile-cdr-helm-chart-user-guide" class="md-skip">
+        <a href="#pod-scheduling" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+    <a href="../../../.." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Smile CDR Helm Chart User Guide
+              Pod Scheduling
             
           </span>
         </div>
@@ -193,7 +193,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../.." class="md-tabs__link">
+        <a href="../../../.." class="md-tabs__link">
           
   
     
@@ -213,7 +213,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../quickstart-aws/" class="md-tabs__link">
+        <a href="../../../../quickstart-aws/" class="md-tabs__link">
           
   
     
@@ -235,7 +235,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+        <a href="../../../" class="md-tabs__link">
           
   
     
@@ -255,7 +255,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../examples/" class="md-tabs__link">
+        <a href="../../../../examples/" class="md-tabs__link">
           
   
     
@@ -296,7 +296,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+    <a href="../../../.." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -353,7 +353,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../.." class="md-nav__link ">
+            <a href="../../../.." class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -415,7 +415,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../charts/smilecdr/" class="md-nav__link ">
+            <a href="../../../../charts/smilecdr/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -448,7 +448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/smilecdr/" class="md-nav__link">
+      <a href="../../../../charts/smilecdr/smilecdr/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -469,7 +469,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/CHANGELOG/" class="md-nav__link">
+      <a href="../../../../charts/smilecdr/CHANGELOG/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -536,7 +536,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../quickstart-aws/" class="md-nav__link ">
+            <a href="../../../../quickstart-aws/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -569,7 +569,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../quickstart-aws/eks-cluster/" class="md-nav__link">
+      <a href="../../../../quickstart-aws/eks-cluster/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -590,7 +590,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../quickstart-aws/aws-resources/" class="md-nav__link">
+      <a href="../../../../quickstart-aws/aws-resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -611,7 +611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../quickstart-aws/deploy-terraform/" class="md-nav__link">
+      <a href="../../../../quickstart-aws/deploy-terraform/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -671,7 +671,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -759,7 +759,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../helm-repo/" class="md-nav__link">
+      <a href="../../../helm-repo/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -809,7 +809,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../secrets/" class="md-nav__link ">
+            <a href="../../../secrets/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -842,7 +842,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../secrets/configuring-secrets/" class="md-nav__link">
+      <a href="../../../secrets/configuring-secrets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -863,7 +863,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../secrets/extra-secrets/" class="md-nav__link">
+      <a href="../../../secrets/extra-secrets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -892,7 +892,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../serviceaccount/" class="md-nav__link">
+      <a href="../../../serviceaccount/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -913,7 +913,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../values-files-management/" class="md-nav__link">
+      <a href="../../../values-files-management/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -996,7 +996,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1007,7 +1007,7 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -1029,7 +1029,7 @@
   
   
     <li class="md-nav__item">
-      <a href="requirements/" class="md-nav__link">
+      <a href="../../requirements/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1050,7 +1050,7 @@
   
   
     <li class="md-nav__item">
-      <a href="cdrversions/" class="md-nav__link">
+      <a href="../../cdrversions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1071,7 +1071,7 @@
   
   
     <li class="md-nav__item">
-      <a href="install/" class="md-nav__link">
+      <a href="../../install/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1092,7 +1092,7 @@
   
   
     <li class="md-nav__item">
-      <a href="database/" class="md-nav__link">
+      <a href="../../database/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1146,7 +1146,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="modules/" class="md-nav__link ">
+            <a href="../../modules/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1179,7 +1179,7 @@
   
   
     <li class="md-nav__item">
-      <a href="modules/modules/" class="md-nav__link">
+      <a href="../../modules/modules/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1200,7 +1200,7 @@
   
   
     <li class="md-nav__item">
-      <a href="modules/cdrnode/" class="md-nav__link">
+      <a href="../../modules/cdrnode/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1221,7 +1221,7 @@
   
   
     <li class="md-nav__item">
-      <a href="modules/license/" class="md-nav__link">
+      <a href="../../modules/license/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1242,7 +1242,7 @@
   
   
     <li class="md-nav__item">
-      <a href="modules/hl7v2/" class="md-nav__link">
+      <a href="../../modules/hl7v2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1317,7 +1317,7 @@
   
   
     <li class="md-nav__item">
-      <a href="messagebroker/" class="md-nav__link">
+      <a href="../../messagebroker/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1394,7 +1394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="ingress/" class="md-nav__link">
+      <a href="../../ingress/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1415,7 +1415,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tls-encryption/" class="md-nav__link">
+      <a href="../../tls-encryption/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1490,7 +1490,7 @@
   
   
     <li class="md-nav__item">
-      <a href="envvars/" class="md-nav__link">
+      <a href="../../envvars/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1567,7 +1567,7 @@
   
   
     <li class="md-nav__item">
-      <a href="storage/files/" class="md-nav__link">
+      <a href="../../storage/files/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1588,7 +1588,7 @@
   
   
     <li class="md-nav__item">
-      <a href="storage/volumeConfig/" class="md-nav__link">
+      <a href="../../storage/volumeConfig/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1663,7 +1663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="logging/" class="md-nav__link">
+      <a href="../../logging/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1689,8 +1689,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1708,13 +1710,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3_12" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_12" checked>
         
           
           <label class="md-nav__link" for="__nav_3_3_12" id="__nav_3_3_12_label" tabindex="0">
@@ -1728,7 +1728,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_12_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_12_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_3_12">
             <span class="md-nav__icon md-icon"></span>
             Smile CDR Tuning
@@ -1742,7 +1742,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tuning/jvm/" class="md-nav__link">
+      <a href="../jvm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1763,7 +1763,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tuning/resources/" class="md-nav__link">
+      <a href="../resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1781,10 +1781,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="tuning/podscheduling/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Pod Scheduling
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1793,6 +1813,110 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#supported-pod-assignment-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported Pod Assignment Configurations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-topology-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Default Topology Constraints
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Default Topology Constraints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#topology-zone-constraint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topology Zone Constraint
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubernetes-node-constraint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kubernetes Node Constraint
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-default-topology-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disabling Default Topology Constraints
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Custom Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#custom-example-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Example 1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-example-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Example 2
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1813,7 +1937,7 @@
   
   
     <li class="md-nav__item">
-      <a href="updating/" class="md-nav__link">
+      <a href="../../updating/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1880,7 +2004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/smileutil/" class="md-nav__link">
+      <a href="../../operations/smileutil/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1969,7 +2093,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../examples/" class="md-nav__link ">
+            <a href="../../../../examples/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2002,7 +2126,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/minimal/" class="md-nav__link">
+      <a href="../../../../examples/minimal/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2023,7 +2147,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/external-db/" class="md-nav__link">
+      <a href="../../../../examples/external-db/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2044,7 +2168,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/external-db-multi/" class="md-nav__link">
+      <a href="../../../../examples/external-db-multi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2065,7 +2189,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/modules-simple/" class="md-nav__link">
+      <a href="../../../../examples/modules-simple/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2086,7 +2210,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/modules-advanced/" class="md-nav__link">
+      <a href="../../../../examples/modules-advanced/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2107,7 +2231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/extra-files-helm/" class="md-nav__link">
+      <a href="../../../../examples/extra-files-helm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2128,7 +2252,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/extra-files-external/" class="md-nav__link">
+      <a href="../../../../examples/extra-files-external/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2149,7 +2273,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/previousrootversion/" class="md-nav__link">
+      <a href="../../../../examples/previousrootversion/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2170,7 +2294,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/aws-dependencies/" class="md-nav__link">
+      <a href="../../../../examples/aws-dependencies/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2191,7 +2315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/quickstart/" class="md-nav__link">
+      <a href="../../../../examples/quickstart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2239,11 +2363,86 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#smile-cdr-configuration-options" class="md-nav__link">
+  <a href="#supported-pod-assignment-configurations" class="md-nav__link">
     <span class="md-ellipsis">
-      Smile CDR Configuration Options
+      Supported Pod Assignment Configurations
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-topology-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Default Topology Constraints
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Default Topology Constraints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#topology-zone-constraint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topology Zone Constraint
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubernetes-node-constraint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kubernetes Node Constraint
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-default-topology-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disabling Default Topology Constraints
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Custom Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#custom-example-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Example 1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-example-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Example 2
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2266,18 +2465,176 @@
     
       
     
-    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/guide/smilecdr/index.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/guide/smilecdr/tuning/podscheduling.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5Z"/></svg>
     </a>
   
 
 
-<h1 id="smile-cdr-helm-chart-user-guide">Smile CDR Helm Chart User Guide<a class="headerlink" href="#smile-cdr-helm-chart-user-guide" title="Permanent link">&para;</a></h1>
-<p>This guide covers configuration details for the Smile CDR Helm Chart</p>
-<h2 id="smile-cdr-configuration-options">Smile CDR Configuration Options<a class="headerlink" href="#smile-cdr-configuration-options" title="Permanent link">&para;</a></h2>
-<p>Please note that for details on the Smile CDR configuration options, you should
-consult the official product documentation on the <a href="https://smilecdr.com/docs">Smile CDR website</a></p>
+<h1 id="pod-scheduling">Pod Scheduling<a class="headerlink" href="#pod-scheduling" title="Permanent link">&para;</a></h1>
+<p>Kubernetes supports a number of mechanisms to control how pods are scheduled on to different worker nodes.</p>
+<p>When deploying Smile CDR using this Helm Chart, sensible defaults are used to ensure that the Smile CDR pods are appropriately spread across failure domains.</p>
+<p>For more information on assigning pods to nodes, study the official documentation <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/">here</a>.</p>
+<h2 id="supported-pod-assignment-configurations">Supported Pod Assignment Configurations<a class="headerlink" href="#supported-pod-assignment-configurations" title="Permanent link">&para;</a></h2>
+<p>The following configurations can be directly provided in your Helm Values file.</p>
+<ul>
+<li><code>nodeSelector</code></li>
+<li><code>affinity</code></li>
+<li><code>nodeName</code></li>
+<li><code>topologySpreadConstraints</code></li>
+</ul>
+<h2 id="default-topology-constraints">Default Topology Constraints<a class="headerlink" href="#default-topology-constraints" title="Permanent link">&para;</a></h2>
+<p>By default, this Helm Chart will include a <code>topologySpreadConstraints</code> based on the examples given in the Kubernetes docs on <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/">Topology Spread Constraints</a></p>
+<p>These defaults will only take meaningful effect when your deployment is scaled to 3 replicas or higher.</p>
+<h3 id="topology-zone-constraint">Topology Zone Constraint<a class="headerlink" href="#topology-zone-constraint" title="Permanent link">&para;</a></h3>
+<p>The following default constraint will be configured:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>topologySpreadConstraints:
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>- labelSelector:
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    matchLabels:
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>      app.kubernetes.io/instance: release-name
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>      app.kubernetes.io/name: smilecdr
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  matchLabelKeys:
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  - pod-template-hash
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  maxSkew: 1
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>  topologyKey: topology.kubernetes.io/zone
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>  whenUnsatisfiable: ScheduleAnyway
+</code></pre></div></p>
+<p>Pods from the same <code>replicaSet</code> will be forced to be scheduled in different topology zones. (e.g. Availability Zones in AWS parlance) This ensures high availability in the event of a zonal failure in the cloud provider's infrastructure.</p>
+<p>With <code>maxSkew: 1</code> it is possible that with only 2 replicas, they may both be scheduled in the same zone.</p>
+<h3 id="kubernetes-node-constraint">Kubernetes Node Constraint<a class="headerlink" href="#kubernetes-node-constraint" title="Permanent link">&para;</a></h3>
+<p>The following default constraint will be configured:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>topologySpreadConstraints:
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>- labelSelector:
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    matchLabels:
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>      app.kubernetes.io/instance: release-name
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>      app.kubernetes.io/name: smilecdr
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  matchLabelKeys:
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  - pod-template-hash
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>  maxSkew: 1
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>  topologyKey: kubernetes.io/hostname
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>  whenUnsatisfiable: ScheduleAnyway
+</code></pre></div></p>
+<p>Pods from the same <code>replicaSet</code> will be forced to be scheduled on different Kubernetes Nodes. (i.e. Different hosts) This ensures high availability in the event of a host failure.</p>
+<p>With <code>maxSkew: 1</code> it is possible that with only 2 replicas, they may both be scheduled on the same host. If there are insufficient hosts available to satisfy this constraint, then they will still be scheculed on a node based on other pod assignment strategies.</p>
+<h3 id="disabling-default-topology-constraints">Disabling Default Topology Constraints<a class="headerlink" href="#disabling-default-topology-constraints" title="Permanent link">&para;</a></h3>
+<p>The above examples are just sensible defaults to cover some common scenarios and to increase the availability of an out-of-the box deployment.</p>
+<p>The subject of pod scheduling and allocation can get very complicated and there may be nuances or requirements in your architectural design that these defaults do not satisfy.</p>
+<p>If you wish to provide your own, fine tuned, pod allocation strategies, then the above topology constraints can be disabled by adding the following in your values file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>disableDefaultTopologyConstraints: true
+</code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> This can be added in the root context as a global setting, or in a <code>cdrNode</code> context if you are using <a href="../../modules/cdrnode/">multiple CDR Nodes</a> and wish to set this on a per-cdrNode basis.</p>
+</blockquote>
+<p>You may then provide your own configuration as described below.</p>
+<h2 id="custom-configuration">Custom Configuration<a class="headerlink" href="#custom-configuration" title="Permanent link">&para;</a></h2>
+<p>You can provide any of the following pod allocation configurations:</p>
+<ul>
+<li><code>nodeSelector</code></li>
+<li><code>affinity</code></li>
+<li><code>nodeName</code></li>
+<li><code>topologySpreadConstraints</code></li>
+</ul>
+<p>As the configuration of pod allocation strategies can get very complicated depending on the architecture, this Helm Chart does not currently perform any validation or auto-configuration (Aside from the default <code>topologySpreadConstraints</code> mentioned above).</p>
+<p>If you provide a configuration for <code>topologySpreadConstraints</code>, then the defaults will not be used.</p>
+<p>Any provided configurations are passed through to the <code>podSpec</code> that is generated, without any alterations.</p>
+<p>Configurations may be provided in the root context as a global setting, or in a <code>cdrNode</code> context if you are using <a href="../../modules/cdrnode/">multiple CDR Nodes</a> and wish to set this on a per-cdrNode basis.</p>
+<blockquote>
+<p><strong>Warning:</strong> Do not use these examples as-is. They are merely to demonstrate how to configure pod allocation strategies.</p>
+</blockquote>
+<h3 id="custom-example-1">Custom Example 1<a class="headerlink" href="#custom-example-1" title="Permanent link">&para;</a></h3>
+<p>A single CDR Node configuration using a new <code>affinity</code> rule and custom <code>topologySpreadConstraints</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>affinity:
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  nodeAffinity:
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    requiredDuringSchedulingIgnoredDuringExecution:
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>      nodeSelectorTerms:
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>      - matchExpressions:
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>        - key: topology.kubernetes.io/zone
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>          operator: In
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>          values:
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>          - us-east-1a
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>          - us-east-1b
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>topologySpreadConstraints:
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>- labelSelector:
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    matchLabels:
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>      app.kubernetes.io/instance: release-name
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>      app.kubernetes.io/name: smilecdr
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>  matchLabelKeys:
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>  - pod-template-hash
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>  maxSkew: 3
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>  topologyKey: kubernetes.io/hostname
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>  whenUnsatisfiable: DoNotSchedule
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>- labelSelector:
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>    matchLabels:
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>      app.kubernetes.io/instance: release-name
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>      app.kubernetes.io/name: smilecdr
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>  matchLabelKeys:
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>  - pod-template-hash
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>  maxSkew: 2
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>  topologyKey: topology.kubernetes.io/zone
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>  whenUnsatisfiable: DoNotSchedule
+</code></pre></div>
+<p>This will result in a deployment which will ensure that pods:
+* Only run in the <code>us-east-1a</code> and <code>us-east-1b</code> availability zones
+* Use the provided <code>topologySpreadConstraints</code></p>
+<h3 id="custom-example-2">Custom Example 2<a class="headerlink" href="#custom-example-2" title="Permanent link">&para;</a></h3>
+<p>A multi CDR Node configuration with the following design:</p>
+<ul>
+<li>Global settings using a <code>nodeSelector</code> rule to use <strong><em>Spot</em></strong> instances and <em>does not</em> use the default <code>topologySpreadConstraints</code> config.</li>
+<li>Admin CDR Node using the global defaults.</li>
+<li>FHIR CDR Node using a different <code>nodeSelector</code> rule to use <strong><em>On Demand</em></strong> instances and <em>does</em> use the default <code>topologySpreadConstraints</code> config.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>cdrNodes:
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  masterdev:
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    enabled: false
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>  admin:
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    name: AdminNode
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    enabled: true
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>  fhir:
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    name: FhirNode
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    enabled: true
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    disableDefaultTopologyConstraints: false
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    nodeSelector:
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>      karpenter.sh/capacity-type: on-demand
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a># GLobal defaults
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>disableDefaultTopologyConstraints: true
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>nodeSelector:
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>  karpenter.sh/capacity-type: spot
+</code></pre></div>
+<p>The resulting deployments would have <code>podSpecs</code> that include the following:</p>
+<p><strong>Admin Node</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>nodeSelector:
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  karpenter.sh/capacity-type: spot
+</code></pre></div></p>
+<p><strong>FHIR Node</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>nodeSelector:
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  karpenter.sh/capacity-type: on-demand
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>topologySpreadConstraints:
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>- labelSelector:
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    matchLabels:
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>      app.kubernetes.io/instance: release-name
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>      app.kubernetes.io/name: smilecdr
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>      smilecdr/nodeName: fhir
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>  matchLabelKeys:
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>  - pod-template-hash
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>  maxSkew: 1
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>  topologyKey: topology.kubernetes.io/zone
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>  whenUnsatisfiable: ScheduleAnyway
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>- labelSelector:
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>    matchLabels:
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>      app.kubernetes.io/instance: release-name
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>      app.kubernetes.io/name: smilecdr
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>      smilecdr/nodeName: fhir
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>  matchLabelKeys:
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>  - pod-template-hash
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>  maxSkew: 1
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>  topologyKey: kubernetes.io/hostname
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>  whenUnsatisfiable: ScheduleAnyway
+</code></pre></div></p>
 
 
 
@@ -2330,10 +2687,10 @@ consult the official product documentation on the <a href="https://smilecdr.com/
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top", "content.action.view"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top", "content.action.view"], "search": "../../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
     
   </body>

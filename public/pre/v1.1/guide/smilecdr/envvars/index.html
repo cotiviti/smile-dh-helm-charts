@@ -128,6 +128,43 @@
     
     
     
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
     
       <div class="md-header__source">
         <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts" title="Go to repository" class="md-source" data-md-component="source">
@@ -1719,6 +1756,8 @@
       
         
       
+        
+      
     
     
       
@@ -1761,7 +1800,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../resources/" class="md-nav__link">
+      <a href="../tuning/jvm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    JVM Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tuning/resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1782,7 +1842,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../podscheduling/" class="md-nav__link">
+      <a href="../tuning/podscheduling/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2290,7 +2350,7 @@
 <p>You can read more about these methods in the official Smile CDR documentation <a href="https://smilecdr.com/docs/installation/installing_smile_cdr.html#variable-substitution">here</a></p>
 <p>Currently, this Helm Chart only supports using the second mechanism - <strong><em>System Environment Variable Substitution</em></strong></p>
 <h2 id="passing-extra-environment-variables">Passing Extra Environment Variables<a class="headerlink" href="#passing-extra-environment-variables" title="Permanent link">&para;</a></h2>
-<p>In order to configure extra environment variables into the pod, use the <code>ExtraEnvVars</code> entry in your values file as follows:</p>
+<p>In order to configure extra environment variables into the pod, use the <code>extraEnvVars</code> section in your values file as follows:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">extraEnvVars</span><span class="p">:</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYENVVARNAME</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-env-var-value</span>
@@ -2299,7 +2359,8 @@
 </code></pre></div>
 <p>This is a list of objects that follow the same <code>env</code> schema as the Kubernetes <code>podSpec.containers</code> <a href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables">See here</a></p>
 <blockquote>
-<p><strong>Note:</strong> Although it is possible to use this to add secrets using <code>env.valueFrom.secretKeyRef</code>, it's recommended to use one of the existing mechanisms if you wish to pass in secret data to your pod. See the <a href="../../">Secrets</a> section for more info on this.</p>
+<p><strong>Note:</strong> Although it is possible to use this to add secrets using <code>env.valueFrom.secretKeyRef</code>, it's recommended to instead use one of the alternative mechanisms to pass in secret data to your pod. See the <a href="../../secrets/">Secrets</a> section for more info on this.</p>
+<p><strong>Warning:</strong> Do not use this mechanism to set the <code>JVMARGS</code> environment variable. If you attempt this, the chart will fail with a warning. If you need to pass extra arguments to the JVM, refer to the <a href="../tuning/jvm/#jvm-arguments">JVM Configuration</a> section.</p>
 </blockquote>
 <h2 id="multi-node-configuration">Multi-node configuration<a class="headerlink" href="#multi-node-configuration" title="Permanent link">&para;</a></h2>
 <p>If deploying Smile CDR in a multi-node configuration, you may wish to have different environment variables for the different CDR Nodes.</p>

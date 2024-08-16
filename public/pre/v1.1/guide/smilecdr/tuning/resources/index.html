@@ -8,25 +8,25 @@
       
       
       
-        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1/guide/smilecdr/">
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1/guide/smilecdr/tuning/resources/">
       
       
-        <link rel="prev" href="../values-files-management/">
+        <link rel="prev" href="../jvm/">
       
       
-        <link rel="next" href="requirements/">
+        <link rel="next" href="../podscheduling/">
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.31">
     
     
       
-        <title>Smile CDR Helm Chart User Guide - Smile Digital Health Helm Charts</title>
+        <title>Resource Tuning - Smile Digital Health Helm Charts</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.3cba04c6.min.css">
       
       
   
@@ -55,9 +55,9 @@
     
       <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
     
-      <link rel="stylesheet" href="../../stylesheets/colours.css">
+      <link rel="stylesheet" href="../../../../stylesheets/colours.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#smile-cdr-helm-chart-user-guide" class="md-skip">
+        <a href="#configuring-compute-resources" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+    <a href="../../../.." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Smile CDR Helm Chart User Guide
+              Resource Tuning
             
           </span>
         </div>
@@ -193,7 +193,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../.." class="md-tabs__link">
+        <a href="../../../.." class="md-tabs__link">
           
   
     
@@ -213,7 +213,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../quickstart-aws/" class="md-tabs__link">
+        <a href="../../../../quickstart-aws/" class="md-tabs__link">
           
   
     
@@ -235,7 +235,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+        <a href="../../../" class="md-tabs__link">
           
   
     
@@ -255,7 +255,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../examples/" class="md-tabs__link">
+        <a href="../../../../examples/" class="md-tabs__link">
           
   
     
@@ -296,7 +296,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+    <a href="../../../.." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -353,7 +353,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../.." class="md-nav__link ">
+            <a href="../../../.." class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -415,7 +415,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../charts/smilecdr/" class="md-nav__link ">
+            <a href="../../../../charts/smilecdr/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -448,7 +448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/smilecdr/" class="md-nav__link">
+      <a href="../../../../charts/smilecdr/smilecdr/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -469,7 +469,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/CHANGELOG/" class="md-nav__link">
+      <a href="../../../../charts/smilecdr/CHANGELOG/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -536,7 +536,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../quickstart-aws/" class="md-nav__link ">
+            <a href="../../../../quickstart-aws/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -569,7 +569,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../quickstart-aws/eks-cluster/" class="md-nav__link">
+      <a href="../../../../quickstart-aws/eks-cluster/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -590,7 +590,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../quickstart-aws/aws-resources/" class="md-nav__link">
+      <a href="../../../../quickstart-aws/aws-resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -611,7 +611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../quickstart-aws/deploy-terraform/" class="md-nav__link">
+      <a href="../../../../quickstart-aws/deploy-terraform/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -671,7 +671,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -759,7 +759,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../helm-repo/" class="md-nav__link">
+      <a href="../../../helm-repo/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -809,7 +809,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../secrets/" class="md-nav__link ">
+            <a href="../../../secrets/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -842,7 +842,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../secrets/configuring-secrets/" class="md-nav__link">
+      <a href="../../../secrets/configuring-secrets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -863,7 +863,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../secrets/extra-secrets/" class="md-nav__link">
+      <a href="../../../secrets/extra-secrets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -892,7 +892,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../serviceaccount/" class="md-nav__link">
+      <a href="../../../serviceaccount/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -913,7 +913,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../values-files-management/" class="md-nav__link">
+      <a href="../../../values-files-management/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -996,7 +996,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1007,7 +1007,7 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -1029,7 +1029,7 @@
   
   
     <li class="md-nav__item">
-      <a href="requirements/" class="md-nav__link">
+      <a href="../../requirements/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1050,7 +1050,7 @@
   
   
     <li class="md-nav__item">
-      <a href="cdrversions/" class="md-nav__link">
+      <a href="../../cdrversions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1071,7 +1071,7 @@
   
   
     <li class="md-nav__item">
-      <a href="install/" class="md-nav__link">
+      <a href="../../install/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1092,7 +1092,7 @@
   
   
     <li class="md-nav__item">
-      <a href="database/" class="md-nav__link">
+      <a href="../../database/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1146,7 +1146,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="modules/" class="md-nav__link ">
+            <a href="../../modules/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1179,7 +1179,7 @@
   
   
     <li class="md-nav__item">
-      <a href="modules/modules/" class="md-nav__link">
+      <a href="../../modules/modules/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1200,7 +1200,7 @@
   
   
     <li class="md-nav__item">
-      <a href="modules/cdrnode/" class="md-nav__link">
+      <a href="../../modules/cdrnode/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1221,7 +1221,7 @@
   
   
     <li class="md-nav__item">
-      <a href="modules/license/" class="md-nav__link">
+      <a href="../../modules/license/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1242,7 +1242,7 @@
   
   
     <li class="md-nav__item">
-      <a href="modules/hl7v2/" class="md-nav__link">
+      <a href="../../modules/hl7v2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1317,7 +1317,7 @@
   
   
     <li class="md-nav__item">
-      <a href="messagebroker/" class="md-nav__link">
+      <a href="../../messagebroker/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1394,7 +1394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="ingress/" class="md-nav__link">
+      <a href="../../ingress/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1415,7 +1415,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tls-encryption/" class="md-nav__link">
+      <a href="../../tls-encryption/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1490,7 +1490,7 @@
   
   
     <li class="md-nav__item">
-      <a href="envvars/" class="md-nav__link">
+      <a href="../../envvars/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1567,7 +1567,7 @@
   
   
     <li class="md-nav__item">
-      <a href="storage/files/" class="md-nav__link">
+      <a href="../../storage/files/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1588,7 +1588,7 @@
   
   
     <li class="md-nav__item">
-      <a href="storage/volumeConfig/" class="md-nav__link">
+      <a href="../../storage/volumeConfig/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1663,7 +1663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="logging/" class="md-nav__link">
+      <a href="../../logging/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1689,8 +1689,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1708,13 +1710,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3_12" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_12" checked>
         
           
           <label class="md-nav__link" for="__nav_3_3_12" id="__nav_3_3_12_label" tabindex="0">
@@ -1728,7 +1728,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_12_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_12_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_3_12">
             <span class="md-nav__icon md-icon"></span>
             Smile CDR Tuning
@@ -1742,7 +1742,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tuning/jvm/" class="md-nav__link">
+      <a href="../jvm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1760,10 +1760,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="tuning/resources/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Resource Tuning
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1772,6 +1792,62 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#kubernetes-memory-requests-vs-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kubernetes Memory Requests vs Limits
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pod-sizing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pod Sizing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jvm-auto-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      JVM Auto Configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage Configuration
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1784,7 +1860,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tuning/podscheduling/" class="md-nav__link">
+      <a href="../podscheduling/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1813,7 +1889,7 @@
   
   
     <li class="md-nav__item">
-      <a href="updating/" class="md-nav__link">
+      <a href="../../updating/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1880,7 +1956,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/smileutil/" class="md-nav__link">
+      <a href="../../operations/smileutil/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1969,7 +2045,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../examples/" class="md-nav__link ">
+            <a href="../../../../examples/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2002,7 +2078,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/minimal/" class="md-nav__link">
+      <a href="../../../../examples/minimal/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2023,7 +2099,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/external-db/" class="md-nav__link">
+      <a href="../../../../examples/external-db/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2044,7 +2120,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/external-db-multi/" class="md-nav__link">
+      <a href="../../../../examples/external-db-multi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2065,7 +2141,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/modules-simple/" class="md-nav__link">
+      <a href="../../../../examples/modules-simple/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2086,7 +2162,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/modules-advanced/" class="md-nav__link">
+      <a href="../../../../examples/modules-advanced/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2107,7 +2183,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/extra-files-helm/" class="md-nav__link">
+      <a href="../../../../examples/extra-files-helm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2128,7 +2204,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/extra-files-external/" class="md-nav__link">
+      <a href="../../../../examples/extra-files-external/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2149,7 +2225,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/previousrootversion/" class="md-nav__link">
+      <a href="../../../../examples/previousrootversion/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2170,7 +2246,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/aws-dependencies/" class="md-nav__link">
+      <a href="../../../../examples/aws-dependencies/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2191,7 +2267,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/quickstart/" class="md-nav__link">
+      <a href="../../../../examples/quickstart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2239,9 +2315,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#smile-cdr-configuration-options" class="md-nav__link">
+  <a href="#kubernetes-memory-requests-vs-limits" class="md-nav__link">
     <span class="md-ellipsis">
-      Smile CDR Configuration Options
+      Kubernetes Memory Requests vs Limits
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pod-sizing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pod Sizing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jvm-auto-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      JVM Auto Configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage Configuration
     </span>
   </a>
   
@@ -2266,18 +2369,29 @@
     
       
     
-    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/guide/smilecdr/index.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/guide/smilecdr/tuning/resources.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5Z"/></svg>
     </a>
   
 
 
-<h1 id="smile-cdr-helm-chart-user-guide">Smile CDR Helm Chart User Guide<a class="headerlink" href="#smile-cdr-helm-chart-user-guide" title="Permanent link">&para;</a></h1>
-<p>This guide covers configuration details for the Smile CDR Helm Chart</p>
-<h2 id="smile-cdr-configuration-options">Smile CDR Configuration Options<a class="headerlink" href="#smile-cdr-configuration-options" title="Permanent link">&para;</a></h2>
-<p>Please note that for details on the Smile CDR configuration options, you should
-consult the official product documentation on the <a href="https://smilecdr.com/docs">Smile CDR website</a></p>
+<h1 id="configuring-compute-resources">Configuring Compute Resources<a class="headerlink" href="#configuring-compute-resources" title="Permanent link">&para;</a></h1>
+<h2 id="kubernetes-memory-requests-vs-limits">Kubernetes Memory Requests vs Limits<a class="headerlink" href="#kubernetes-memory-requests-vs-limits" title="Permanent link">&para;</a></h2>
+<p><code>resources.requests.memory</code> will be set to the same value as <code>resources.limits.memory</code> unless you override it.</p>
+<p>The values you should use for CPU resources will depend on the number of cores you are licenced for with Smile CDR.</p>
+<p>Your total cores can be calculated by:</p>
+<p><code>replicas * resources.limits.cpu</code></p>
+<p>If you are using Horizontal Pod Autoscaling then it can be calculated by:</p>
+<p><code>autoscaling.maxReplicas * resources.limits.cpu</code></p>
+<h2 id="pod-sizing">Pod Sizing<a class="headerlink" href="#pod-sizing" title="Permanent link">&para;</a></h2>
+<p>As Smile CDR is a high performance Java based application, special consideration needs to be given to the resource settings.</p>
+<p>Typical cloud best practices suggest starting small and increasing resources as workload increases. We have tested Smile CDR in its default module configuration and determined that the max heap size should be no smaller than 2GB. When smaller than this, there are excessive GC events or heapspace errors in the JVM, which is not ideal.</p>
+<p>When configuring more modules in Smile CDR, it may require more memory/cpu. If you split up the cluster into multiple nodes, then each node may be able to run with less memory/cpu, though total cluster may end up higher depending on your architecture. You will need to analyze resource usage in your configured environment to determine the ideal settings.</p>
+<h2 id="jvm-auto-configuration">JVM Auto Configuration<a class="headerlink" href="#jvm-auto-configuration" title="Permanent link">&para;</a></h2>
+<p>This Helm Chart will automatically configure the Smile CDR JVM settings based on the configured resource allocation. See the <a href="../jvm/">JVM Configuration</a> for more information on this and how to configure it.</p>
+<h2 id="storage-configuration">Storage Configuration<a class="headerlink" href="#storage-configuration" title="Permanent link">&para;</a></h2>
+<p>Depending on the type of workload, you may need to adjust storage configuration. Please refer to the <a href="../../storage/volumeConfig/">Storage Configuration</a> for more information.</p>
 
 
 
@@ -2330,10 +2444,10 @@ consult the official product documentation on the <a href="https://smilecdr.com/
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top", "content.action.view"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top", "content.action.view"], "search": "../../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
     
   </body>
