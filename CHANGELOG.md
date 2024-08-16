@@ -1,3 +1,11 @@
+## [1.1.1](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.1.0...v1.1.1) (2024-08-15)
+
+
+### Bug Fixes
+
+* **smilecdr:** fix environment variable aggregation logic ([089163d](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/089163d5cf13f1b1ea42d73f8fc16f232964ae29))
+* **smilecdr:** update Smile CDR patch level to `2024.05.R04` ([554eea2](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/554eea254fcd81a092611ad24adea11e61d42301))
+
 # [1.1.0](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.0.0...v1.1.0) (2024-08-08)
 
 
