@@ -58,7 +58,7 @@
 | <a name="input_helm_chart_version"></a> [helm\_chart\_version](#input\_helm\_chart\_version) | The version of the Smile CDR Helm Chart to use | `string` | `"1.0.0-pre.110"` | no |
 | <a name="input_helm_deploy"></a> [helm\_deploy](#input\_helm\_deploy) | Deploy using the Smile CDR Helm Chart | `bool` | `true` | no |
 | <a name="input_helm_release_name"></a> [helm\_release\_name](#input\_helm\_release\_name) | The release name used in the Smile CDR Helm Chart | `string` | `"smilecdr"` | no |
-| <a name="input_helm_repository"></a> [helm\_repository](#input\_helm\_repository) | The Helm Repo where the Smile CDR Helm Chart is hosted | `string` | `"https://gitlab.com/api/v4/projects/40759898/packages/helm/devel"` | no |
+| <a name="input_helm_repository"></a> [helm\_repository](#input\_helm\_repository) | The Helm Repo where the Smile CDR Helm Chart is hosted | `string` | `"{{ helm_repo_stable }}"` | no |
 | <a name="input_helm_service_account_suffix"></a> [helm\_service\_account\_suffix](#input\_helm\_service\_account\_suffix) | The suffix used for ServiceAccount in the Smile CDR Helm Chart | `string` | `"-smilecdr"` | no |
 | <a name="input_ingress_config"></a> [ingress\_config](#input\_ingress\_config) | Configuration for DNS | <pre>map(object(<br>    {<br>      hostname                = optional(string,"")<br>      parent_domain           = optional(string,"")<br>      route53_create_record   = optional(bool,true)<br>      route53_zone_name       = optional(string)<br>    }<br>  ))</pre> | `{}` | no |
 | <a name="input_kms_deletion_window"></a> [kms\_deletion\_window](#input\_kms\_deletion\_window) | Deletion Window for KMS. Set from 7 to 30 | `number` | `7` | no |

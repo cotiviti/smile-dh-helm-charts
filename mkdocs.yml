@@ -23,6 +23,8 @@ theme:
   # - content.action.edit
   - content.action.view
 
+  logo: assets/SDH logo for social 188 White wTM.webp
+  favicon: assets/SDH 64x64.webp
   font:
     test: Lato
   icon:
@@ -31,11 +33,14 @@ theme:
       note: octicons/tag-16
     view: material/eye
     edit: material/pencil
+  custom_dir: mkdocs/theme-overrides
 plugins:
 - search
 - spellcheck:
     backends:
     - codespell
+- macros:
+    module_name: mkdocs/macros/main
 markdown_extensions:
 - toc:
     permalink: true
@@ -135,3 +140,4 @@ nav:
 extra_css:
   - https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css
   - stylesheets/colours.css
+  - stylesheets/logo.css
