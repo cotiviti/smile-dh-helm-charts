@@ -67,6 +67,10 @@ nav:
     - 'Smile CDR':
       - charts/smilecdr/index.md
       - 'Overview': charts/smilecdr/smilecdr.md
+      - 'Upgrading':
+        - upgrading/index.md
+        - 'Release Channels': upgrading/release-channels.md
+        - 'Supported Versions': upgrading/version-matrix.md
       - 'Changelog': charts/smilecdr/CHANGELOG.md
   - Quickstart:
     - quickstart-aws/index.md
