@@ -8,25 +8,25 @@
       
       
       
-        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1/guide/values-files-management/">
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1/upgrading/">
       
       
-        <link rel="prev" href="../serviceaccount/">
+        <link rel="prev" href="../charts/smilecdr/smilecdr/">
       
       
-        <link rel="next" href="../smilecdr/">
+        <link rel="next" href="release-channels/">
       
       
-      <link rel="icon" href="../../assets/SDH 64x64.webp">
+      <link rel="icon" href="../assets/SDH 64x64.webp">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.32">
     
     
       
-        <title>Values Files - Smile Digital Health Helm Charts</title>
+        <title>Upgrading the Helm Chart and Smile CDR - Smile Digital Health Helm Charts</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.3cba04c6.min.css">
       
       
   
@@ -55,11 +55,11 @@
     
       <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
     
-      <link rel="stylesheet" href="../../stylesheets/colours.css">
+      <link rel="stylesheet" href="../stylesheets/colours.css">
     
-      <link rel="stylesheet" href="../../stylesheets/logo.css">
+      <link rel="stylesheet" href="../stylesheets/logo.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#managing-values-files" class="md-skip">
+        <a href="#upgrading-the-helm-chart-and-smile-cdr" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
             <div class="md-banner__inner md-grid md-typeset">
               
   You're not viewing the latest version.
-  <a href="../../..">
+  <a href="../..">
     <strong>Click here to go to latest.</strong>
   </a>
 
@@ -110,9 +110,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+    <a href=".." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
       
-  <img src="../../assets/SDH logo for social 188 White wTM.webp" alt="logo">
+  <img src="../assets/SDH logo for social 188 White wTM.webp" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -129,7 +129,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Values Files
+              Upgrading the Helm Chart and Smile CDR
             
           </span>
         </div>
@@ -202,11 +202,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../.." class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href=".." class="md-tabs__link">
           
   
     
@@ -226,7 +228,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../quickstart-aws/" class="md-tabs__link">
+        <a href="../quickstart-aws/" class="md-tabs__link">
           
   
     
@@ -242,13 +244,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../guide/" class="md-tabs__link">
           
   
     
@@ -268,7 +268,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../examples/" class="md-tabs__link">
+        <a href="../examples/" class="md-tabs__link">
           
   
     
@@ -309,9 +309,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+    <a href=".." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
       
-  <img src="../../assets/SDH logo for social 188 White wTM.webp" alt="logo">
+  <img src="../assets/SDH logo for social 188 White wTM.webp" alt="logo">
 
     </a>
     Smile Digital Health Helm Charts
@@ -335,6 +335,8 @@
       
   
   
+    
+  
   
   
     
@@ -349,23 +351,24 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../.." class="md-nav__link ">
+            <a href=".." class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -376,13 +379,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             Home
@@ -395,6 +398,8 @@
                 
   
   
+    
+  
   
   
     
@@ -415,21 +420,22 @@
       
       
         
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
+          
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_2" >
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../charts/smilecdr/" class="md-nav__link ">
+            <a href="../charts/smilecdr/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -440,13 +446,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_1_2" id="__nav_1_2_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1_2">
             <span class="md-nav__icon md-icon"></span>
             Smile CDR
@@ -462,7 +468,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/smilecdr/" class="md-nav__link">
+      <a href="../charts/smilecdr/smilecdr/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -480,6 +486,8 @@
                 
   
   
+    
+  
   
   
     
@@ -501,18 +509,16 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_2_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2_3" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../upgrading/" class="md-nav__link ">
+            <a href="./" class="md-nav__link md-nav__link--active">
               
   
   <span class="md-ellipsis">
@@ -523,13 +529,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_1_2_3" id="__nav_1_2_3_label" tabindex="0">
+              <label class="md-nav__link md-nav__link--active" for="__nav_1_2_3" id="__nav_1_2_3_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_2_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_2_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1_2_3">
             <span class="md-nav__icon md-icon"></span>
             Upgrading
@@ -545,7 +551,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../upgrading/release-channels/" class="md-nav__link">
+      <a href="release-channels/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -566,7 +572,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../upgrading/version-matrix/" class="md-nav__link">
+      <a href="version-matrix/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -595,7 +601,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/CHANGELOG/" class="md-nav__link">
+      <a href="../charts/smilecdr/CHANGELOG/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -662,7 +668,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../quickstart-aws/" class="md-nav__link ">
+            <a href="../quickstart-aws/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -695,7 +701,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../quickstart-aws/eks-cluster/" class="md-nav__link">
+      <a href="../quickstart-aws/eks-cluster/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -716,7 +722,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../quickstart-aws/aws-resources/" class="md-nav__link">
+      <a href="../quickstart-aws/aws-resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -737,7 +743,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../quickstart-aws/deploy-terraform/" class="md-nav__link">
+      <a href="../quickstart-aws/deploy-terraform/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -762,8 +768,6 @@
       
   
   
-    
-  
   
   
     
@@ -780,24 +784,23 @@
     
     
       
-        
-        
-      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../guide/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -808,13 +811,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             User Guide
@@ -827,10 +830,8 @@
                 
   
   
-    
   
   
-  
     
     
       
@@ -846,21 +847,20 @@
     
       
       
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
         
           
-          
         
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
         
           
-          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -871,7 +871,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
             General
@@ -885,7 +885,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../helm-repo/" class="md-nav__link">
+      <a href="../guide/helm-repo/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -935,7 +935,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../secrets/" class="md-nav__link ">
+            <a href="../guide/secrets/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -968,7 +968,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../secrets/configuring-secrets/" class="md-nav__link">
+      <a href="../guide/secrets/configuring-secrets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -989,7 +989,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../secrets/extra-secrets/" class="md-nav__link">
+      <a href="../guide/secrets/extra-secrets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1018,7 +1018,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../serviceaccount/" class="md-nav__link">
+      <a href="../guide/serviceaccount/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1036,30 +1036,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Values Files
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../guide/values-files-management/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1068,77 +1048,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#create-new-values-files" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create New Values Files
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#organizing-values-files" class="md-nav__link">
-    <span class="md-ellipsis">
-      Organizing Values Files
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Organizing Values Files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#multiple-environments" class="md-nav__link">
-    <span class="md-ellipsis">
-      Multiple Environments
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#modular-configurations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Modular Configurations
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#flexible-solution" class="md-nav__link">
-    <span class="md-ellipsis">
-      Flexible Solution
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1196,13 +1105,10 @@
       
       
         
-          
-          
-        
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
@@ -1213,7 +1119,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../smilecdr/" class="md-nav__link ">
+            <a href="../guide/smilecdr/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1224,7 +1130,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -1246,7 +1152,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/requirements/" class="md-nav__link">
+      <a href="../guide/smilecdr/requirements/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1267,7 +1173,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/cdrversions/" class="md-nav__link">
+      <a href="../guide/smilecdr/cdrversions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1288,7 +1194,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/install/" class="md-nav__link">
+      <a href="../guide/smilecdr/install/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1309,7 +1215,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/database/" class="md-nav__link">
+      <a href="../guide/smilecdr/database/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1363,7 +1269,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../smilecdr/modules/" class="md-nav__link ">
+            <a href="../guide/smilecdr/modules/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1396,7 +1302,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/modules/modules/" class="md-nav__link">
+      <a href="../guide/smilecdr/modules/modules/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1417,7 +1323,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/modules/cdrnode/" class="md-nav__link">
+      <a href="../guide/smilecdr/modules/cdrnode/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1438,7 +1344,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/modules/license/" class="md-nav__link">
+      <a href="../guide/smilecdr/modules/license/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1459,7 +1365,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/modules/hl7v2/" class="md-nav__link">
+      <a href="../guide/smilecdr/modules/hl7v2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1534,7 +1440,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/messagebroker/" class="md-nav__link">
+      <a href="../guide/smilecdr/messagebroker/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1611,7 +1517,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/ingress/" class="md-nav__link">
+      <a href="../guide/smilecdr/ingress/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1632,7 +1538,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/tls-encryption/" class="md-nav__link">
+      <a href="../guide/smilecdr/tls-encryption/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1707,7 +1613,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/envvars/" class="md-nav__link">
+      <a href="../guide/smilecdr/envvars/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1784,7 +1690,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/storage/files/" class="md-nav__link">
+      <a href="../guide/smilecdr/storage/files/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1805,7 +1711,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/storage/volumeConfig/" class="md-nav__link">
+      <a href="../guide/smilecdr/storage/volumeConfig/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1880,7 +1786,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/logging/" class="md-nav__link">
+      <a href="../guide/smilecdr/logging/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1959,7 +1865,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/tuning/jvm/" class="md-nav__link">
+      <a href="../guide/smilecdr/tuning/jvm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1980,7 +1886,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/tuning/resources/" class="md-nav__link">
+      <a href="../guide/smilecdr/tuning/resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2001,7 +1907,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/tuning/podscheduling/" class="md-nav__link">
+      <a href="../guide/smilecdr/tuning/podscheduling/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2030,7 +1936,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/updating/" class="md-nav__link">
+      <a href="../guide/smilecdr/updating/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2097,7 +2003,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../smilecdr/operations/smileutil/" class="md-nav__link">
+      <a href="../guide/smilecdr/operations/smileutil/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2186,7 +2092,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../examples/" class="md-nav__link ">
+            <a href="../examples/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2219,7 +2125,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/minimal/" class="md-nav__link">
+      <a href="../examples/minimal/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2240,7 +2146,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/external-db/" class="md-nav__link">
+      <a href="../examples/external-db/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2261,7 +2167,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/external-db-multi/" class="md-nav__link">
+      <a href="../examples/external-db-multi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2282,7 +2188,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/modules-simple/" class="md-nav__link">
+      <a href="../examples/modules-simple/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2303,7 +2209,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/modules-advanced/" class="md-nav__link">
+      <a href="../examples/modules-advanced/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2324,7 +2230,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/extra-files-helm/" class="md-nav__link">
+      <a href="../examples/extra-files-helm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2345,7 +2251,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/extra-files-external/" class="md-nav__link">
+      <a href="../examples/extra-files-external/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2366,7 +2272,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/previousrootversion/" class="md-nav__link">
+      <a href="../examples/previousrootversion/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2387,7 +2293,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/aws-dependencies/" class="md-nav__link">
+      <a href="../examples/aws-dependencies/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2408,7 +2314,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/quickstart/" class="md-nav__link">
+      <a href="../examples/quickstart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2456,37 +2362,46 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-new-values-files" class="md-nav__link">
+  <a href="#upgrading-from-pre-release-versions" class="md-nav__link">
     <span class="md-ellipsis">
-      Create New Values Files
+      Upgrading From Pre-Release Versions
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#organizing-values-files" class="md-nav__link">
+  <a href="#upgrading-helm-chart-versions" class="md-nav__link">
     <span class="md-ellipsis">
-      Organizing Values Files
+      Upgrading Helm Chart Versions
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Organizing Values Files">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrading-smile-cdr-versions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Upgrading Smile CDR Versions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Upgrading Smile CDR Versions">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#multiple-environments" class="md-nav__link">
+  <a href="#smile-cdr-version-compatibility" class="md-nav__link">
     <span class="md-ellipsis">
-      Multiple Environments
+      Smile CDR Version Compatibility
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#modular-configurations" class="md-nav__link">
+  <a href="#using-pre-release-versions-of-smile-cdr" class="md-nav__link">
     <span class="md-ellipsis">
-      Modular Configurations
+      Using Pre-Release versions of Smile CDR
     </span>
   </a>
   
@@ -2494,15 +2409,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#flexible-solution" class="md-nav__link">
-    <span class="md-ellipsis">
-      Flexible Solution
-    </span>
-  </a>
   
 </li>
       
@@ -2525,76 +2431,72 @@
     
       
     
-    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/guide/values-files-management.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/upgrading/index.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5Z"/></svg>
     </a>
   
 
 
-<h1 id="managing-values-files">Managing Values Files<a class="headerlink" href="#managing-values-files" title="Permanent link">&para;</a></h1>
-<p>You should configure your instance of Smile CDR using separate Helm <code>values</code> files for different configurations.</p>
-<h2 id="create-new-values-files">Create New Values Files<a class="headerlink" href="#create-new-values-files" title="Permanent link">&para;</a></h2>
-<p>It is generally recommended to create a new, empty values file rather than copying the default values.yaml file from the Helm chart. The default values file can be lengthy and may contain values that are not relevant or suitable for your specific deployment.</p>
-<p>By starting with a fresh values file, you can customize your configuration to only include the values that you need to override. This can help to make your values file more concise and easier to manage. Additionally, starting from a blank file allows you to ensure that your deployment is not impacted by future updates to the default values file, which could potentially cause issues if you are using an older version.</p>
-<p>Creating your own values file from scratch gives you greater control and flexibility over your Helm chart deployment. It can help to ensure that your deployment is secure and stable, as you have the ability to carefully consider and set the values that are most relevant to your specific needs.</p>
-<h2 id="organizing-values-files">Organizing Values Files<a class="headerlink" href="#organizing-values-files" title="Permanent link">&para;</a></h2>
-<p>It is a common practice to put all Helm Chart configurations into a single values file and provide that to the <code>helm upgrade</code> command.</p>
-<p>Using multiple values files can be a more efficient way to manage configurations, particularly in complex environments. This approach can help to avoid having a single, large values file that may be difficult to read and maintain. By dividing the configuration into smaller, more focused files, it can be easier to manage and update the settings as needed.</p>
-<p>To use multiple values files, you would simply provide multiple <code>-f valuesfle.yaml</code> options on the <code>helm upgrade</code> command.</p>
-<h3 id="multiple-environments">Multiple Environments<a class="headerlink" href="#multiple-environments" title="Permanent link">&para;</a></h3>
-<p>When deploying any application, it is often necessary to consider multiple environments, such as dev, uat, and prod. While it is possible to create a completely separate configuration for each environment, this approach can lead to a number of issues such as:</p>
+<h1 id="upgrading-the-helm-chart-and-smile-cdr">Upgrading the Helm Chart and Smile CDR<a class="headerlink" href="#upgrading-the-helm-chart-and-smile-cdr" title="Permanent link">&para;</a></h1>
+<h2 id="upgrading-from-pre-release-versions">Upgrading From Pre-Release Versions<a class="headerlink" href="#upgrading-from-pre-release-versions" title="Permanent link">&para;</a></h2>
+<p>If you have installed Smile CDR using pre-release versions of the Helm Charts, then you will need to adjust your deployment process to use the <code>STABLE</code> release channel before you can use the officially supported versions.</p>
+<p>Please refer to the <a href="release-channels/">Release Channels</a> section for more information on switching release channels.</p>
+<h2 id="upgrading-helm-chart-versions">Upgrading Helm Chart Versions<a class="headerlink" href="#upgrading-helm-chart-versions" title="Permanent link">&para;</a></h2>
+<p>As per the <a href="https://helm.sh/docs/chart_best_practices/">Helm Best Practices</a> guidelines, the Smile CDR Helm Chart adheres to the <a href="https://semver.org/">Semantic Versioning 2.0</a> specification.</p>
+<p>This means that:</p>
 <ul>
-<li>Repetition and duplication of settings.</li>
-<li>Challenges synchronizing common settings in multiple environments.</li>
-<li>Configuration drift between common settings in each environment.</li>
+<li>The version number is in the format <code>MAJOR.MINOR.PATCH</code></li>
+<li><strong>PATCH</strong> level changes will only include bug fixes.<ul>
+<li>This may also include big fixes for upstream components such as Smile CDR itself.</li>
 </ul>
-<p>A more effective approach may be to use a base configuration for the common settings, using overlays for per-environment settings.</p>
-<p>This allows you to define a set of common configuration settings that apply to all environments, while also allowing you to specify any environment-specific settings as needed. This can help to minimize repetition and ensure that the configuration is consistent across all environments.</p>
-<p>This can be easily achieved for multiple environments using a directory structure similar to this:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>├── common
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│   ├── common-values.yaml
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   └── files
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│       └── common-extra-script1.js
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>├── prod
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   ├── files
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   │   └── prod-extra-script1.js
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   └── prod-values.yaml
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>└── uat
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    ├── files
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    │   └── uat-extra-script1.js
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    └── uat-values.yaml
+</li>
+<li><strong>MINOR</strong> level changes will only include non-breaking feature updates.<ul>
+<li>This only relates to features in the Helm Chart, not in the core Smile CDR product.</li>
+</ul>
+</li>
+<li><strong>MAJOR</strong> level changes will include potentially breaking feature updates.<ul>
+<li>This relates to breaking features in the Helm Chart.</li>
+<li>This will also include any new Smile CDR major releases.</li>
+</ul>
+</li>
+</ul>
+<h2 id="upgrading-smile-cdr-versions">Upgrading Smile CDR Versions<a class="headerlink" href="#upgrading-smile-cdr-versions" title="Permanent link">&para;</a></h2>
+<p>Although each version of the Helm Chart will default to a specific version of Smile CDR, it is often desirable to explicitly define the Smile CDR version so that you can be in more direct control of any upgrades that take place.</p>
+<p>You can override the version of Smile CDR by adjusting the <code>image.tag</code> in your Helm values file. i.e:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>image:
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  tag: &quot;2024.05.R03&quot;
 </code></pre></div>
+<h3 id="smile-cdr-version-compatibility">Smile CDR Version Compatibility<a class="headerlink" href="#smile-cdr-version-compatibility" title="Permanent link">&para;</a></h3>
+<p>In general, when installing a current version of Smile CDR, we recommend you use the latest version of the Helm Chart. Each new version of the Helm Chart will support the previous 4 major versions of Smile CDR. e.g:</p>
+<table>
+<thead>
+<tr>
+<th>Helm Chart Version</th>
+<th>Default Smile CDR Version</th>
+<th>Oldest Supported Smile CDR Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v2.0.0</td>
+<td><code>2024.08.R01</code></td>
+<td><code>2023.08.R10</code></td>
+</tr>
+<tr>
+<td>v1.0.0</td>
+<td><code>2024.05.R03</code></td>
+<td><code>2023.05.R03</code></td>
+</tr>
+</tbody>
+</table>
 <blockquote>
-<p><strong>Note:</strong> This is just an example directory structure to demonstrate the concept. You should design an environment configuration that suits your organisation's configuration management workflow.</p>
+<p><strong>Note:</strong> When explicitly specifying a Smile CDR version, please refer to the full <a href="?">version matrix</a> to ensure compatibility for the version combination you require.</p>
 </blockquote>
-<h3 id="modular-configurations">Modular Configurations<a class="headerlink" href="#modular-configurations" title="Permanent link">&para;</a></h3>
-<p>Using multiple values files can also be a useful way to create modular units of configuration that can be easily included or excluded in your environment. This can help to make your configuration more flexible and adaptable to changing needs.</p>
-<p>For example, you might create a set of values files that represent different configurations or modules that have been fully tested and approved for use in your organization. These might include a base configuration file that defines the minimum requirements for running Smile CDR, as well as additional files for specific features or components, such as an R4 persistence module, enabling settings for bulk data import, enabling Kafka, or an AWS Healthlake module.</p>
-<p>Expanding on the above example for multiple environments, you could do something similar to this:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>├── common
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│   ├── bulk-delete.yaml
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>│   ├── bulk-import.yaml
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>│   ├── common-values.yaml
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>│   ├── dqm.yaml
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>│   ├── dtr.yaml
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>│   ├── files
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>│   │   └── common-extra-script1.js
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>│   ├── kafka-strimzi.yaml
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>│   ├── large-uploads.yaml
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>│   ├── observability-dashboard.yaml
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>│   ├── postgres-crunchy-ha.yaml
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>│   ├── smart-auth.yaml
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>│   └── troubleshooting.yaml
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>├── prod
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>...
-</code></pre></div>
-<p>This approach allows you to build your configuration in a modular way, which can be more manageable and easier to maintain. It also gives you the flexibility to selectively include or exclude certain modules as needed, depending on the specific requirements of your environment.</p>
-<p>For more examples of this directory layout, you can study the examples that are located <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/examples/helm/values-directories">here</a></p>
-<h2 id="flexible-solution">Flexible Solution<a class="headerlink" href="#flexible-solution" title="Permanent link">&para;</a></h2>
-<p>When it comes to managing values files, there isn't a single "right" way to do it - the approach that works best will depend on specific needs and organizational standards.</p>
-<p>Although the above techniques can be helpful for keeping things organized and efficient, they may not be right for you or your organization. You should use a technique that works for your team and organization. If this means using a single large values file per environment or some other technique, then that is fine.</p>
-<p>The aim here is to find a solution that helps you maintain a stable, well-organized and easy to manage configuration repository.</p>
+<h3 id="using-pre-release-versions-of-smile-cdr">Using Pre-Release versions of Smile CDR<a class="headerlink" href="#using-pre-release-versions-of-smile-cdr" title="Permanent link">&para;</a></h3>
+<p>On occasion, you may be working directly with Smile Digital Health support to deploy or test <strong><em>pre-release</em></strong> versions of Smile CDR.</p>
+<p>Due to the nature of such releases, breaking changes may cause incompatibility with current versions of the Helm Chart. When such situations occur, you may need to switch back to the pre-release/<code>DEVEL</code> Helm repo channel to use a pre-release version of the Helm Chart that will work with the pre-release version of Smile CDR.</p>
+<p>Please refer to the pre-releases section of the <a href="?">version matrix</a> to see if there is a suitable version available, and the <a href="release-channels/">Release Channels</a> section for more information on switching release channels.</p>
 
 
 
@@ -2647,10 +2549,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top", "content.action.view"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top", "content.action.view"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.471ce7a9.min.js"></script>
+      <script src="../assets/javascripts/bundle.471ce7a9.min.js"></script>
       
     
   </body>
