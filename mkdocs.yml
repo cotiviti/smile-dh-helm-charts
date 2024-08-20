@@ -22,6 +22,7 @@ theme:
   - navigation.top
   # - content.action.edit
   - content.action.view
+  # - content.tabs.link
 
   logo: assets/SDH logo for social 188 White wTM.webp
   favicon: assets/SDH 64x64.webp
@@ -55,6 +56,12 @@ markdown_extensions:
     - name: mermaid
       class: mermaid
       format: !!python/name:pymdownx.superfences.fence_code_format
+- pymdownx.tabbed:
+    alternate_style: true
+    combine_header_slug: true
+    slugify: !!python/object/apply:pymdownx.slugs.slugify
+      kwds:
+        case: lower
 - pymdownx.tilde
 - attr_list
 - pymdownx.emoji:
@@ -72,6 +79,8 @@ nav:
         - 'Release Channels': upgrading/release-channels.md
         - 'Supported Versions': upgrading/version-matrix.md
       - 'Changelog': charts/smilecdr/CHANGELOG.md
+      - 'Contributing':
+        - 'Branching Strategy': contributing/branching-model.md
   - Quickstart:
     - quickstart-aws/index.md
     - 'Prepare EKS Cluster': quickstart-aws/eks-cluster.md
