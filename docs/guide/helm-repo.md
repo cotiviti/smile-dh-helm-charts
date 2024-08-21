@@ -11,34 +11,37 @@ The simplest way to get up and running is by using the native `helm` commands.
 Add the repository like so.
 
 ```shell
-$ helm repo add smiledh-stable https://gitlab.com/api/v4/projects/40759898/packages/helm/stable
+$ helm repo add smiledh-stable {{ helm_repo_stable }}
 $ helm repo update
 ```
 
-> **Note** It is also possible to run the `helm install` command by pointing directly to the repository.
-In this case, there is no need to run the `helm repo` commands above.
+<!-- > **Note** It is also possible to run the `helm install` command by pointing directly to the repository.
+In this case, there is no need to run the `helm repo` commands above. -->
 
 ### Terraform
 If installing the chart using Terraform, you may have a resource definition like so:
 
-```
+```hcl
 resource "helm_release" "example" {
   name       = "my-smilecdr-release"
-  repository = "https://gitlab.com/api/v4/projects/40759898/packages/helm/stable"
+  repository = "{{ helm_repo_stable }}"
   chart      = "smilecdr"
   # You can omit `version` and the current latest chart will be used.
 
-  # Ideally, specify a specific version or range of versions using semantic versioning
-  # Strict constraint to specify an exact version (v1.1.0)
-  # version    = "=1.1.0"
+  # Ideally, specify a specific version or range of versions using the
+  # semantic versioning strict constraint to specify an exact version
+  # (i.e. v{{ current_helm_version }})
+  version    = "{{ current_helm_version }}"
   #
   # To allow patch/fix releases, use the tilde
-  # constraint to specify versions >= v1.1.0 < v1.20
-  # version    = "~1.1.0"
+  # constraint (~) to specify versions
+  # (i.e. >= v{{ current_helm_version }} < v{{ next_helm_minor_version }})
+  # version    = "~{{ current_helm_version }}"
 
-  # To allow minor/feature releases, use the caret
-  # constraint to specify versions >= v1.1.0 < v2.0.0
-  # version    = "^1.1.0"
+  # To allow non-breaking minor/feature releases, use the caret
+  # constraint (^) to specify versions
+  # (i.e. >= v{{ current_helm_version }} < v{{ next_helm_major_version }})
+  # version    = "^{{ current_helm_version }}"
 
   values = [
     "${file("my-values.yaml")}"
@@ -73,8 +76,8 @@ version: 1.0.0
 # moved to a root key that matches the `name` of the dependency.
 dependencies:
 - name: smilecdr
-  version: "^1.1.0"
-  repository: "https://gitlab.com/api/v4/projects/40759898/packages/helm/stable"
+  version: "^{{ current_helm_version }}"
+  repository: "{{ helm_repo_stable }}"
 ```
 
 ## Provide Repo Credentials

@@ -15,11 +15,11 @@ We appreciate any feedback that can be given to improve upon these charts.
 To install these charts, you will need to add the Helm repository to your local machine or deployment platform.
 ### Add and update the Smile Digital Health Helm pre-release repo
 ```shell
-$ helm repo add smiledh https://gitlab.com/api/v4/projects/40759898/packages/helm/devel
+$ helm repo add smiledh-stable https://gitlab.com/api/v4/projects/40759898/packages/helm/stable
 $ helm repo update
 ```
 ### Quickstart
-A Quickstart guide is available in the [chart documentation](https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/quickstart/).
+A Quickstart guide is available in the [chart documentation](https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/quickstart/).
 ## Changelogs
 Changelogs for the charts are available here:
 * [Release Changelog](CHANGELOG.md)

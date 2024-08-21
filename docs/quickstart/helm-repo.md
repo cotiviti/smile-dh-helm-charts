@@ -11,7 +11,7 @@ for more info on this.
 Add the repository like so.
 
 ```shell
-$ helm repo add smiledh https://gitlab.com/api/v4/projects/40759898/packages/helm/devel
+$ helm repo add smiledh-stable {{ helm_repo_stable }}
 $ helm repo update
 ```
 

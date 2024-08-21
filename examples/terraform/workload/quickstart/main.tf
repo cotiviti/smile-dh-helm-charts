@@ -19,7 +19,7 @@ module "smile_cdr_dependencies" {
 
   # You can leave this as null and it will use the latest version of the Helm Chart.
   # Ideally, you should specify the Helm Chart version that you require
-  # helm_chart_version = "1.1.0"
+  # helm_chart_version = "1.1.1"
 
   helm_chart_values = [
     file("helm/smilecdr/values.yaml"),
