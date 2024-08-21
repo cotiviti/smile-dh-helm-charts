@@ -1,3 +1,16 @@
+# [2.0.0-beta.1](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.1.1...v2.0.0-beta.1) (2024-08-21)
+
+
+### Features
+
+* **smilecdr:** update default context path for admin json module ([2c332cb](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/2c332cb8e0503a6b0147a8baa5f6c2c2c5a8108e))
+
+
+### BREAKING CHANGES
+
+* **smilecdr:** If the default modules are being used, and if the context path for the admin json module has not been explicitly defined, then the context path for this module will change from `/json-admin` to `/admin_json` to align with the default naming of the other modules.
+If you need it to remain as `/json-admin`, then set it using `modules.admin_json.config.context_path: json-admin`
+
 ## [1.1.1-pre.2](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.1.1-pre.1...v1.1.1-pre.2) (2024-08-15)
 
 
