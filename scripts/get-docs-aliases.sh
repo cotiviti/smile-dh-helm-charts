@@ -20,19 +20,19 @@
 # defined in the GitLab CI pipeline
 
 # CI_COMMIT_REF_NAME - The branch name for the currently running branch.
-# PRE_RELEASE_BRANCHES_PATTERN - The regex for the pre release branches
-# RELEASE_BRANCHES_PATTERN - The regex for the release branches
+# DEVEL_BRANCHES_PATTERN - The regex for the pre release branches
+# STABLE_BRANCHES_PATTERN - The regex for the release branches
 
 # If these env vars are not set, or the regexes do not match, no alias namers will be returned.
 
 # The regexes defined in the GitLab CI definition include leading and trailing slashes.
 # This removes them so they can be used in this bash script
-PRE_RELEASE_BRANCHES_PATTERN=$(echo "${PRE_RELEASE_BRANCHES_PATTERN}"| sed 's:^/::; s:/$::')
-RELEASE_BRANCHES_PATTERN=$(echo "${RELEASE_BRANCHES_PATTERN}"| sed 's:^/::; s:/$::')
+DEVEL_BRANCHES_PATTERN=$(echo "${DEVEL_BRANCHES_PATTERN}"| sed 's:^/::; s:/$::')
+STABLE_BRANCHES_PATTERN=$(echo "${STABLE_BRANCHES_PATTERN}"| sed 's:^/::; s:/$::')
 
 
-if [[ "${CI_COMMIT_REF_NAME}" =~ ${PRE_RELEASE_BRANCHES_PATTERN} ]]; then
+if [[ "${CI_COMMIT_REF_NAME}" =~ ${DEVEL_BRANCHES_PATTERN} ]]; then
     echo "latest-pre"
-elif [[ "${CI_COMMIT_REF_NAME}" =~ ${RELEASE_BRANCHES_PATTERN} ]]; then
+elif [[ "${CI_COMMIT_REF_NAME}" =~ ${STABLE_BRANCHES_PATTERN} ]]; then
     echo "latest latest-prod"
 fi
