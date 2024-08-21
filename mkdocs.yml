@@ -19,10 +19,12 @@ theme:
   - navigation.expand
   - navigation.instant
   - navigation.instant.prefetch
+  - navigation.instant.progress
+  - navigation.instant.preview
   - navigation.top
   # - content.action.edit
   - content.action.view
-  # - content.tabs.link
+  - content.tabs.link
 
   logo: assets/SDH logo for social 188 White wTM.webp
   favicon: assets/SDH 64x64.webp
@@ -34,7 +36,7 @@ theme:
       note: octicons/tag-16
     view: material/eye
     edit: material/pencil
-  custom_dir: mkdocs/theme-overrides
+  # custom_dir: mkdocs/theme-overrides
   palette:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
@@ -100,6 +102,7 @@ nav:
       - 'Overview': charts/smilecdr/smilecdr.md
       - 'Upgrading':
         - upgrading/index.md
+        - 'Version Strategy': upgrading/versioning-strategy.md
         - 'Release Channels': upgrading/release-channels.md
         - 'Supported Versions': upgrading/version-matrix.md
       - 'Changelog': charts/smilecdr/CHANGELOG.md

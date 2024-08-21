@@ -17,8 +17,23 @@ def define_env(env):
     #       with the dot notation:
     ver = semver.Version.parse(env.variables.git['short_tag'][1:])
 
+    # chartVer = ChartVersion(ver).bump_major()
     chartVer = ChartVersion(ver)
+    nextChartVer = chartVer.bump_major()
+    nextChartVer.set_pre()
+    nextPlus1ChartVer = nextChartVer.bump_major()
+    nextPlus1ChartVer.set_pre()
     env.variables.current_smile_cdr_version = chartVer.CDRVersion()
+    env.variables.next_smile_cdr_version = nextChartVer.CDRVersion()
+    env.variables.next_plus_1_smile_cdr_version = nextPlus1ChartVer.CDRVersion()
+
+    env.variables.current_helm_version = str(chartVer)
+
+    env.variables.next_helm_patch_version = str(chartVer.bump_patch())
+    env.variables.next_helm_minor_version = str(chartVer.bump_minor())
+    env.variables.next_helm_major_version = str(chartVer.bump_major())
+    env.variables.next_plus_1_helm_major_version = str(chartVer.bump_major().bump_major())
+
 
     env.variables.current_helm_version = str(ver)
 
@@ -66,11 +81,33 @@ class ChartVersion:
         for bump in range(self.version.major - 1):
             self.cdrVersion.bump_major()
 
-    def chartVersion(self):
+    def __str__(self):
         return str(self.version)
+
+    def major(self):
+        return str(self.version.major)
+    def minor(self):
+        return str(self.version.minor)
+    def patch(self):
+        return str(self.version.patch)
 
     def CDRVersion(self):
         return str(self.cdrVersion)
+
+    def bump_major(self, pre: bool = False):
+        # Returns a new ChartVersion object
+        return ChartVersion(self.version.bump_major())
+
+    def bump_minor(self, pre: bool = False):
+        # Returns a new ChartVersion object
+        return ChartVersion(self.version.bump_minor())
+
+    def bump_patch(self, pre: bool = False):
+        # Returns a new ChartVersion object
+        return ChartVersion(self.version.bump_patch())
+
+    def set_pre(self):
+        self.cdrVersion.set_pre()
 
 
 
@@ -117,6 +154,12 @@ class CDRVersion:
         # Reset patch, pre, and gm versions
         self.patch = 1
         self.pre = None
+        self.gm = None
+        self._update_version_str()
+
+    def set_pre(self):
+        self.patch = None
+        self.pre = 1
         self.gm = None
         self._update_version_str()
 
