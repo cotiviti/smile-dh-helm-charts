@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.1/upgrading/release-channels/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../versioning-strategy/">
       
       
         <link rel="next" href="../version-matrix/">
@@ -27,6 +27,9 @@
     
     
       <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
   
@@ -69,7 +72,14 @@
   </head>
   
   
-    <body dir="ltr">
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -88,18 +98,6 @@
     </div>
     
       <div data-md-color-scheme="default" data-md-component="outdated" hidden>
-        
-          <aside class="md-banner md-banner--warning">
-            <div class="md-banner__inner md-grid md-typeset">
-              
-  You're not viewing the latest version.
-  <a href="../../..">
-    <strong>Click here to go to latest.</strong>
-  </a>
-
-            </div>
-            <script>var el=document.querySelector("[data-md-component=outdated]"),outdated=__md_get("__outdated",sessionStorage);!0===outdated&&el&&(el.hidden=!1)</script>
-          </aside>
         
       </div>
     
@@ -135,6 +133,42 @@
         </div>
       </div>
     </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
     
     
       <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
@@ -503,6 +537,8 @@
       
         
       
+        
+      
     
     
       
@@ -544,6 +580,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../versioning-strategy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Version Strategy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -605,30 +662,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Configuring Release Channels">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-the-helm-command" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using the helm Command
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#using-helm-terraform-provider" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using helm Terraform Provider
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -637,30 +670,6 @@
       Switching Release Channels
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Switching Release Channels">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-the-helm-command_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using the helm Command
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#using-helm-terraform-provider_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using helm Terraform Provider
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2560,30 +2569,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Configuring Release Channels">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-the-helm-command" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using the helm Command
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#using-helm-terraform-provider" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using helm Terraform Provider
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -2592,30 +2577,6 @@
       Switching Release Channels
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Switching Release Channels">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-the-helm-command_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using the helm Command
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#using-helm-terraform-provider_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using helm Terraform Provider
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2671,35 +2632,42 @@
 <td>https://gitlab.com/api/v4/projects/40759898/packages/helm/stable</td>
 </tr>
 <tr>
-<td>Pre-release</td>
+<td>Pre release</td>
+<td><code>DEVEL</code></td>
+<td>https://gitlab.com/api/v4/projects/40759898/packages/helm/devel</td>
+</tr>
+<tr>
+<td>Beta release</td>
 <td><code>DEVEL</code></td>
 <td>https://gitlab.com/api/v4/projects/40759898/packages/helm/devel</td>
 </tr>
 </tbody>
 </table>
-<p>We recommend using the <code>STABLE</code> channel so that you can install officially supported releases of the Smile CDR Helm Chart.</p>
-<p>If you wish to preview upcoming features that are not yet available in a currently supported Helm Chart version in the <code>STABLE</code> channel, then you may use the <code>DEVEL</code> channel.</p>
+<p>We recommend using the <code>STABLE</code> channel so that you can deploy officially supported releases of the Smile CDR Helm Chart.</p>
+<p>If you wish to preview upcoming features that are not yet available in a currently supported Helm Chart version in the <code>STABLE</code> channel, then you may use pre releases or beta releases from the <code>DEVEL</code> channel.</p>
 <blockquote>
-<p><strong>Note:</strong> When using the <code>DEVEL</code> channel, there may be unexpected breaking changes or regressions between pre-release versions.</p>
+<p><strong>Note:</strong> When using the <code>DEVEL</code> channel, there may be unexpected breaking changes or regressions between pre release or beta versions.</p>
 </blockquote>
 <h2 id="configuring-release-channels">Configuring Release Channels<a class="headerlink" href="#configuring-release-channels" title="Permanent link">&para;</a></h2>
 <p>The mechanism for configuring the release channel depends on which tooling you are using to deploy the Helm Chart.</p>
-<h3 id="using-the-helm-command">Using the <code>helm</code> Command<a class="headerlink" href="#using-the-helm-command" title="Permanent link">&para;</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="configuring-release-channels-using-the-helm-command" name="__tabbed_1" type="radio" /><input id="configuring-release-channels-using-the-helm-terraform-provider" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="configuring-release-channels-using-the-helm-command">Using the <code>helm</code> Command</label><label for="configuring-release-channels-using-the-helm-terraform-provider">Using the <code>helm</code> Terraform Provider</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <p>If you are deploying using the <code>helm</code> command, you will be adding the Helm repo to your local Helm installation like so:</p>
-<p><strong>Adding the <code>STABLE</code> repo</strong>
+<p>Add the <code>STABLE</code> repo
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>smiledh-stable<span class="w"> </span>https://gitlab.com/api/v4/projects/40759898/packages/helm/stable
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>update
 </code></pre></div></p>
-<p><strong>Adding the <code>DEVEL</code> repo</strong>
+<p>Add the <code>DEVEL</code> repo
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>smiledh-devel<span class="w"> </span>https://gitlab.com/api/v4/projects/40759898/packages/helm/devel
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>update
 </code></pre></div></p>
-<h3 id="using-helm-terraform-provider">Using <code>helm</code> Terraform Provider<a class="headerlink" href="#using-helm-terraform-provider" title="Permanent link">&para;</a></h3>
-<p>When using the Terraform <a href="https://registry.terraform.io/providers/hashicorp/helm/">Helm provider</a>, the process is slightly different as there is no concept of adding the repository to your local installation as there is with the <code>helm</code> command method used <a href="#using-the-helm-command">above</a>.</p>
+</div>
+<div class="tabbed-block">
+<p>If you are using the Terraform <a href="https://registry.terraform.io/providers/hashicorp/helm/">Helm provider</a>, the process is slightly different as there is no concept of adding the repository to your local installation as there is with the <code>helm</code> command method.</p>
 <!-- This means that is it not possible to have both channels available simultaneously as you would above. -->
-
-<p>Instead, you will simply specify the appropriate channel in your <a href="https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release"><code>helm_release</code></a> resource:</p>
-<p><strong>Using the <code>STABLE</code> repo</strong>
+<p>Instead, you specify the appropriate channel in your <a href="https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release"><code>helm_release</code></a> resource:</p>
+<p>Use the <code>STABLE</code> repo
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;helm_release&quot;</span><span class="w"> </span><span class="nv">&quot;example&quot;</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="na">name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my-smilecdr-release&quot;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="na">repository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://gitlab.com/api/v4/projects/40759898/packages/helm/stable&quot;</span>
@@ -2707,7 +2675,7 @@
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="na">version</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;1.1.1&quot;</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">}</span>
 </code></pre></div></p>
-<p><strong>Using the <code>DEVEL</code> repo</strong>
+<p>Use the <code>DEVEL</code> repo
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;helm_release&quot;</span><span class="w"> </span><span class="nv">&quot;example&quot;</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="na">name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my-smilecdr-release&quot;</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="na">repository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://gitlab.com/api/v4/projects/40759898/packages/helm/devel&quot;</span>
@@ -2715,22 +2683,31 @@
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="na">devel</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span>
 </code></pre></div></p>
-<blockquote>
-<p><strong>Note:</strong> By using <code>devel = true</code>, this will install the latest pre-release version unless you explicitly set <code>version</code></p>
-</blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>By using <code>devel = true</code>, this will install the latest version from the <code>DEVEL</code> channel unless you explicitly set <code>version</code>
+This could result in unpredictable behaviour by installing a beta version rather than a pre release version.</p>
+<p>It is recommended to always specify a version of the Helm Chart that you wish to install.</p>
+</div>
+</div>
+</div>
+</div>
 <h2 id="switching-release-channels">Switching Release Channels<a class="headerlink" href="#switching-release-channels" title="Permanent link">&para;</a></h2>
-<h3 id="using-the-helm-command_1">Using the <code>helm</code> Command<a class="headerlink" href="#using-the-helm-command_1" title="Permanent link">&para;</a></h3>
-<p>If you have added the pre-release/<code>DEVEL</code> repository to your local Helm installation, you can use the <code>STABLE</code> channel in two ways.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="switching-release-channels-using-the-helm-command" name="__tabbed_2" type="radio" /><input id="switching-release-channels-using-the-helm-terraform-provider" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="switching-release-channels-using-the-helm-command">Using the <code>helm</code> Command</label><label for="switching-release-channels-using-the-helm-terraform-provider">Using the <code>helm</code> Terraform Provider</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>If you have added the repository for the <code>DEVEL</code> channel to your local Helm installation, you can switch to use the <code>STABLE</code> channel in two ways.</p>
 <ol>
-<li>Add the <code>STABLE</code> repository in addition to the pre-release/<code>DEVEL</code> repository. To do this, you would run the <code>helm repo add</code> command for each repository, using different aliases as shown in the examples further up this page.</li>
-<li>Remove the existing pre-release/<code>DEVEL</code> repository and add the <code>STABLE</code> repository. If you have used a local alias that does not indicate which channel is in use, this option may work better for you.</li>
+<li>Add the <code>STABLE</code> channel as an additional local repository. To do this, you would run the <code>helm repo add</code> command for each repository, using different aliases as shown in the examples further up this page.</li>
+<li>Remove the existing repository for the <code>DEVEL</code> channel and add the repository for the <code>STABLE</code> channel. If you have used a local repository alias that does not indicate which release channel it represents, this option may work better for you.</li>
 </ol>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>remove<span class="w"> </span>smiledh<span class="w"> </span><span class="c1"># &lt;-- Or whatever you named the repo locally</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>smiledh<span class="w"> </span>https://gitlab.com/api/v4/projects/40759898/packages/helm/stable
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>update
 </code></pre></div>
-<h3 id="using-helm-terraform-provider_1">Using <code>helm</code> Terraform Provider<a class="headerlink" href="#using-helm-terraform-provider_1" title="Permanent link">&para;</a></h3>
-<p>If you are using the Terraform <code>helm_provider</code> as explained above, switching from the pre-release/<code>DEVEL</code> channel to the <code>STABLE</code> channel is simply a case of replacing:</p>
+</div>
+<div class="tabbed-block">
+<p>If you are using the Terraform <code>helm_provider</code> as explained above, switching from the <code>DEVEL</code> channel to the <code>STABLE</code> channel is done by replacing:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>    repository = &quot;https://gitlab.com/api/v4/projects/40759898/packages/helm/devel&quot;
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    devel      = true
 </code></pre></div>
@@ -2738,9 +2715,13 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>    repository = &quot;https://gitlab.com/api/v4/projects/40759898/packages/helm/stable&quot;
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    version    = &quot;1.1.1&quot;
 </code></pre></div>
-<blockquote>
-<p><strong>Note:</strong> The <code>devel</code> option has no effect on the <code>STABLE</code> branch and need not be used, as there are no pre-release versions available there.</p>
-</blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code>devel</code> option has no effect on the <code>STABLE</code> branch and need not be used, as there are no pre release or beta versions published there.</p>
+</div>
+</div>
+</div>
+</div>
 <h2 id="choosing-the-helm-chart-version">Choosing The Helm Chart Version<a class="headerlink" href="#choosing-the-helm-chart-version" title="Permanent link">&para;</a></h2>
 <p>It is advisable to explicitly set the <code>version</code> rather than allowing Helm to automatically use the latest version. This will help reduce the chances of accidental upgrades to new versions.</p>
 
@@ -2760,6 +2741,8 @@
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -2794,8 +2777,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top", "content.action.view"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.top", "content.action.view", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.471ce7a9.min.js"></script>

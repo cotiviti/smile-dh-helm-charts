@@ -14,7 +14,7 @@
         <link rel="prev" href="../charts/smilecdr/smilecdr/">
       
       
-        <link rel="next" href="release-channels/">
+        <link rel="next" href="versioning-strategy/">
       
       
       <link rel="icon" href="../assets/SDH 64x64.webp">
@@ -27,6 +27,9 @@
     
     
       <link rel="stylesheet" href="../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
       
       
   
@@ -69,7 +72,14 @@
   </head>
   
   
-    <body dir="ltr">
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -88,18 +98,6 @@
     </div>
     
       <div data-md-color-scheme="default" data-md-component="outdated" hidden>
-        
-          <aside class="md-banner md-banner--warning">
-            <div class="md-banner__inner md-grid md-typeset">
-              
-  You're not viewing the latest version.
-  <a href="../..">
-    <strong>Click here to go to latest.</strong>
-  </a>
-
-            </div>
-            <script>var el=document.querySelector("[data-md-component=outdated]"),outdated=__md_get("__outdated",sessionStorage);!0===outdated&&el&&(el.hidden=!1)</script>
-          </aside>
         
       </div>
     
@@ -135,6 +133,42 @@
         </div>
       </div>
     </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
     
     
       <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
@@ -503,6 +537,8 @@
       
         
       
+        
+      
     
     
       
@@ -544,6 +580,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="versioning-strategy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Version Strategy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -2448,22 +2505,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#upgrading-helm-chart-versions" class="md-nav__link">
+  <a href="#choosing-helm-chart-versions" class="md-nav__link">
     <span class="md-ellipsis">
-      Upgrading Helm Chart Versions
+      Choosing Helm Chart Versions
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#upgrading-smile-cdr-versions" class="md-nav__link">
+  <a href="#choosing-smile-cdr-versions" class="md-nav__link">
     <span class="md-ellipsis">
-      Upgrading Smile CDR Versions
+      Choosing Smile CDR Versions
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Upgrading Smile CDR Versions">
+    <nav class="md-nav" aria-label="Choosing Smile CDR Versions">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2478,7 +2535,7 @@
           <li class="md-nav__item">
   <a href="#using-pre-release-versions-of-smile-cdr" class="md-nav__link">
     <span class="md-ellipsis">
-      Using Pre-Release versions of Smile CDR
+      Using Pre Release Versions of Smile CDR
     </span>
   </a>
   
@@ -2519,30 +2576,19 @@
 <h2 id="upgrading-from-pre-release-versions">Upgrading From Pre-Release Versions<a class="headerlink" href="#upgrading-from-pre-release-versions" title="Permanent link">&para;</a></h2>
 <p>If you have installed Smile CDR using pre-release versions of the Helm Charts, then you will need to adjust your deployment process to use the <code>STABLE</code> release channel before you can use the officially supported versions.</p>
 <p>Please refer to the <a href="release-channels/">Release Channels</a> section for more information on switching release channels.</p>
-<h2 id="upgrading-helm-chart-versions">Upgrading Helm Chart Versions<a class="headerlink" href="#upgrading-helm-chart-versions" title="Permanent link">&para;</a></h2>
-<p>As per the <a href="https://helm.sh/docs/chart_best_practices/">Helm Best Practices</a> guidelines, the Smile CDR Helm Chart adheres to the <a href="https://semver.org/">Semantic Versioning 2.0</a> specification.</p>
-<p>This means that:</p>
-<ul>
-<li>The version number is in the format <code>MAJOR.MINOR.PATCH</code></li>
-<li><strong>PATCH</strong> level changes will only include bug fixes.<ul>
-<li>This may also include big fixes for upstream components such as Smile CDR itself.</li>
-</ul>
-</li>
-<li><strong>MINOR</strong> level changes will only include non-breaking feature updates.<ul>
-<li>This only relates to features in the Helm Chart, not in the core Smile CDR product.</li>
-</ul>
-</li>
-<li><strong>MAJOR</strong> level changes will include potentially breaking feature updates.<ul>
-<li>This relates to breaking features in the Helm Chart.</li>
-<li>This will also include any new Smile CDR major releases.</li>
-</ul>
-</li>
-</ul>
-<h2 id="upgrading-smile-cdr-versions">Upgrading Smile CDR Versions<a class="headerlink" href="#upgrading-smile-cdr-versions" title="Permanent link">&para;</a></h2>
+<h2 id="choosing-helm-chart-versions">Choosing Helm Chart Versions<a class="headerlink" href="#choosing-helm-chart-versions" title="Permanent link">&para;</a></h2>
+<p>As these Helm Charts follow SemVer 2.0, the version format is <code>MAJOR.MINOR.PATCH</code> with an optional suffix for pre-release (<code>-pre.n</code>) or beta (<code>-beta.n</code>) versions</p>
+<p>Refer to the <a href="versioning-strategy/">Versioning Strategy</a> page for more information.</p>
+<h2 id="choosing-smile-cdr-versions">Choosing Smile CDR Versions<a class="headerlink" href="#choosing-smile-cdr-versions" title="Permanent link">&para;</a></h2>
 <p>Although each version of the Helm Chart will default to a specific version of Smile CDR, it is often desirable to explicitly define the Smile CDR version so that you can be in more direct control of any upgrades that take place.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Any version of Smile CDR can be specified as long as it falls within the range of supported versions for the Helm Chart version you are using.<br>
+See the <a href="#smile-cdr-version-compatibility">version compatibility</a> section and the <a href="version-matrix/">version matrix</a>.</p>
+</div>
 <p>You can override the version of Smile CDR by adjusting the <code>image.tag</code> in your Helm values file. i.e:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>image:
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  tag: &quot;2024.05.R03&quot;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">image</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2024.05.R03&quot;</span>
 </code></pre></div>
 <h3 id="smile-cdr-version-compatibility">Smile CDR Version Compatibility<a class="headerlink" href="#smile-cdr-version-compatibility" title="Permanent link">&para;</a></h3>
 <p>In general, when installing a current version of Smile CDR, we recommend you use the latest version of the Helm Chart. Each new version of the Helm Chart will support the previous 4 major versions of Smile CDR. e.g:</p>
@@ -2567,13 +2613,38 @@
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p><strong>Note:</strong> When explicitly specifying a Smile CDR version, please refer to the full <a href="?">version matrix</a> to ensure compatibility for the version combination you require.</p>
-</blockquote>
-<h3 id="using-pre-release-versions-of-smile-cdr">Using Pre-Release versions of Smile CDR<a class="headerlink" href="#using-pre-release-versions-of-smile-cdr" title="Permanent link">&para;</a></h3>
-<p>On occasion, you may be working directly with Smile Digital Health support to deploy or test <strong><em>pre-release</em></strong> versions of Smile CDR.</p>
-<p>Due to the nature of such releases, breaking changes may cause incompatibility with current versions of the Helm Chart. When such situations occur, you may need to switch back to the pre-release/<code>DEVEL</code> Helm repo channel to use a pre-release version of the Helm Chart that will work with the pre-release version of Smile CDR.</p>
-<p>Please refer to the pre-releases section of the <a href="?">version matrix</a> to see if there is a suitable version available, and the <a href="release-channels/">Release Channels</a> section for more information on switching release channels.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When explicitly specifying a Smile CDR version, please refer to the full <a href="version-matrix/">version matrix</a> to ensure compatibility for the version combination you require.</p>
+</div>
+<h3 id="using-pre-release-versions-of-smile-cdr">Using Pre Release Versions of Smile CDR<a class="headerlink" href="#using-pre-release-versions-of-smile-cdr" title="Permanent link">&para;</a></h3>
+<p>On occasion, you may be working directly with the Smile Digital Health support teams to deploy or test pre release versions of Smile CDR.</p>
+<p>Due to unforeseen changes in future versions of Smile CDR, there may be compatibility issues with the current version of the Helm Chart.</p>
+<p>When such situations occur, you may need to switch to the <code>DEVEL</code> release channel to use a pre release or beta version of the Helm Chart that will work with the Pre-Release version of Smile CDR that you are attempting to use.</p>
+<p>Typically, if the current Helm Chart version is <code>1.1.1</code> (Which uses Smile CDR <code>2024.05.R03</code>), then the following versions would be available in the <code>DEVEL</code> release channel.</p>
+<table>
+<thead>
+<tr>
+<th>Smile CDR Pre-Release Version</th>
+<th>Helm Chart Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>2024.08.PRE-1</code></td>
+<td><code>2.0.0-beta.1</code></td>
+</tr>
+<tr>
+<td><code>2024.11.PRE-1</code></td>
+<td><code>3.0.0-beta.1</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Refer to the pre releases and beta sections of the <a href="version-matrix/#upcoming-release-previews">version matrix</a> to see if there is a suitable Helm Chart version available in the <code>DEVEL</code> release channel.</p>
+<p>Refer to <a href="release-channels/">Release Channels</a> for more information on switching release channels.</p>
+</div>
 
 
 
@@ -2591,6 +2662,8 @@
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -2625,8 +2698,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top", "content.action.view"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.top", "content.action.view", "content.tabs.link"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../assets/javascripts/bundle.471ce7a9.min.js"></script>

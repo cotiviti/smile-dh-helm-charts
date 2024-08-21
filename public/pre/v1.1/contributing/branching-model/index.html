@@ -28,6 +28,9 @@
     
       <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
       
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
       
   
   
@@ -69,7 +72,14 @@
   </head>
   
   
-    <body dir="ltr">
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -88,18 +98,6 @@
     </div>
     
       <div data-md-color-scheme="default" data-md-component="outdated" hidden>
-        
-          <aside class="md-banner md-banner--warning">
-            <div class="md-banner__inner md-grid md-typeset">
-              
-  You're not viewing the latest version.
-  <a href="../../..">
-    <strong>Click here to go to latest.</strong>
-  </a>
-
-            </div>
-            <script>var el=document.querySelector("[data-md-component=outdated]"),outdated=__md_get("__outdated",sessionStorage);!0===outdated&&el&&(el.hidden=!1)</script>
-          </aside>
         
       </div>
     
@@ -135,6 +133,42 @@
         </div>
       </div>
     </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
     
     
       <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
@@ -501,6 +535,8 @@
       
         
       
+        
+      
     
     
       
@@ -544,6 +580,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../upgrading/versioning-strategy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Version Strategy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -716,23 +773,23 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#versioning" class="md-nav__link">
     <span class="md-ellipsis">
-      Overview
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Overview">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#branching-strategy" class="md-nav__link">
-    <span class="md-ellipsis">
-      Branching Strategy
+      Versioning
     </span>
   </a>
   
 </li>
+      
+        <li class="md-nav__item">
+  <a href="#branch-and-flow-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Branch and Flow Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Branch and Flow Overview">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#branch-flow-for-release-and-maintenance-branches" class="md-nav__link">
@@ -747,15 +804,6 @@
   <a href="#branch-flow-for-next-and-future-versions" class="md-nav__link">
     <span class="md-ellipsis">
       Branch Flow for Next and Future Versions
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#versioning" class="md-nav__link">
-    <span class="md-ellipsis">
-      Versioning
     </span>
   </a>
   
@@ -789,15 +837,6 @@
   <a href="#features-with-smile-cdr-version-dependency" class="md-nav__link">
     <span class="md-ellipsis">
       Features With Smile CDR Version Dependency
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#features-without-breaking-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Features Without Breaking Changes
     </span>
   </a>
   
@@ -872,7 +911,7 @@
           <li class="md-nav__item">
   <a href="#merge-to-pre-release-branches" class="md-nav__link">
     <span class="md-ellipsis">
-      Merge to Pre-Release Branches
+      Merge to Pre Release Branches
     </span>
   </a>
   
@@ -890,7 +929,16 @@
           <li class="md-nav__item">
   <a href="#promoting-pre-releases" class="md-nav__link">
     <span class="md-ellipsis">
-      Promoting pre-releases
+      Promoting Pre Releases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#promoting-beta-versions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Promoting Beta Versions
     </span>
   </a>
   
@@ -2698,23 +2746,23 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#versioning" class="md-nav__link">
     <span class="md-ellipsis">
-      Overview
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Overview">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#branching-strategy" class="md-nav__link">
-    <span class="md-ellipsis">
-      Branching Strategy
+      Versioning
     </span>
   </a>
   
 </li>
+      
+        <li class="md-nav__item">
+  <a href="#branch-and-flow-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Branch and Flow Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Branch and Flow Overview">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#branch-flow-for-release-and-maintenance-branches" class="md-nav__link">
@@ -2729,15 +2777,6 @@
   <a href="#branch-flow-for-next-and-future-versions" class="md-nav__link">
     <span class="md-ellipsis">
       Branch Flow for Next and Future Versions
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#versioning" class="md-nav__link">
-    <span class="md-ellipsis">
-      Versioning
     </span>
   </a>
   
@@ -2771,15 +2810,6 @@
   <a href="#features-with-smile-cdr-version-dependency" class="md-nav__link">
     <span class="md-ellipsis">
       Features With Smile CDR Version Dependency
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#features-without-breaking-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Features Without Breaking Changes
     </span>
   </a>
   
@@ -2854,7 +2884,7 @@
           <li class="md-nav__item">
   <a href="#merge-to-pre-release-branches" class="md-nav__link">
     <span class="md-ellipsis">
-      Merge to Pre-Release Branches
+      Merge to Pre Release Branches
     </span>
   </a>
   
@@ -2872,7 +2902,16 @@
           <li class="md-nav__item">
   <a href="#promoting-pre-releases" class="md-nav__link">
     <span class="md-ellipsis">
-      Promoting pre-releases
+      Promoting Pre Releases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#promoting-beta-versions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Promoting Beta Versions
     </span>
   </a>
   
@@ -2943,69 +2982,82 @@
 
 
 <h1 id="branching-strategy-and-versioning-workflow-for-smile-cdr-helm-charts">Branching Strategy and Versioning Workflow for Smile CDR Helm Charts<a class="headerlink" href="#branching-strategy-and-versioning-workflow-for-smile-cdr-helm-charts" title="Permanent link">&para;</a></h1>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>This document outlines the branching strategy and versioning workflow for the Smile CDR Helm Charts.</p>
+<p>This document outlines the versioning strategy and branching workflow for the Smile CDR Helm Charts.</p>
 <p>The workflow is based on the semantic-release <a href="https://semantic-release.gitbook.io/semantic-release/recipes/release-workflow">workflow</a> but has been modified to work in conjunction with the Smile CDR release process.</p>
-<p>This branching strategy aligns with Semantic Release guidelines and integrates with the CI pipeline for automated versioning and release management.</p>
-<h3 id="branching-strategy">Branching Strategy<a class="headerlink" href="#branching-strategy" title="Permanent link">&para;</a></h3>
-<p>We use the following branches:</p>
+<p>This branching workflow aligns with Semantic Release guidelines and integrates with the CI pipeline for automated versioning and release management.</p>
+<h2 id="versioning">Versioning<a class="headerlink" href="#versioning" title="Permanent link">&para;</a></h2>
+<p>As these Helm Charts follow SemVer 2.0, the version format is <code>MAJOR.MINOR.PATCH</code> with an optional suffix for pre release (<code>-pre.n</code>) or beta (<code>-beta.n</code>) versions</p>
+<p>Refer to the <a href="../../upgrading/versioning-strategy/">Versioning Strategy</a> page for more information.</p>
+<h2 id="branch-and-flow-overview">Branch and Flow Overview<a class="headerlink" href="#branch-and-flow-overview" title="Permanent link">&para;</a></h2>
+<p>The following branches are used to auto-publish releases to the <code>STABLE</code> release channel:</p>
 <table>
 <thead>
 <tr>
 <th>Branch</th>
-<th>Release Channel</th>
+<th>Release Format</th>
 <th>Usage</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong><code>main</code></strong></td>
-<td><code>STABLE</code></td>
-<td>Contains the latest stable, production-ready release</td>
+<td><code>main</code></td>
+<td><code>MAJOR.MINOR.PATCH</code></td>
+<td>The current stable production-ready release</td>
 </tr>
 <tr>
-<td><strong><code>pre-release</code></strong></td>
-<td><code>DEVEL</code></td>
-<td>Used for developing non-breaking changes on the current major Helm Chart version</td>
-</tr>
-<tr>
-<td><strong><code>next</code></strong></td>
-<td><code>DEVEL</code></td>
-<td>Used for ongoing development of the next major version</td>
-</tr>
-<tr>
-<td><strong><code>next-n.x</code></strong></td>
-<td><code>DEVEL</code></td>
-<td>Used for developing and previewing releases beyond the next version</td>
-</tr>
-<tr>
-<td><strong><code>release-n.x</code></strong></td>
-<td><code>STABLE</code></td>
-<td>Used for maintaining stable updates for the <code>n.x</code> versions. Created after the release of the next version</td>
-</tr>
-<tr>
-<td><strong><code>pre-release-n.x</code></strong></td>
-<td><code>DEVEL</code></td>
-<td>Used for previewing maintenance updates for the <code>release-n.x</code> branches.</td>
-</tr>
-<tr>
-<td><strong><code>my-feature-1</code></strong></td>
-<td>NA</td>
-<td>Create feature branches to develop your features. No releases or pre-releases get created</td>
+<td><code>release-n.x</code></td>
+<td><code>MAJOR.MINOR.PATCH</code></td>
+<td>Used for maintaining stable updates for previous <code>n.x</code> production releases. Only created after the release of the 'n+1' version</td>
 </tr>
 </tbody>
 </table>
-<!-- Alternative was messy...
-* **`main`**: Contains the latest stable, production-ready release.
-* **`pre-release`**: Used for developing non-breaking changes on the current major Helm Chart version
-* **`next`**: The canonical branch for ongoing development of the next major version.
-    * e.g. If the current stable release is version `2.0.0`, then `next` will be used for development previews for version `3.0.0`.
-* **`next-n.x`** or **`pre-release-n.x`** (TBD): Used for developing and previewing releases beyond the next version.
-    * e.g. `next-4.x` or `pre-release-4.x` will be used for development previews for version `4.0.0` while the current stable release is version `2.x.x`.
-* **`release-n.x`**: Used for maintaining stable updates for the `n.x` versions. Created after the release of the next version.
-    * e.g. `release-2.x` will be used for patch/minor updates for version `2.x` and is created upon the release of version `3.0.0`. -->
-
+<p>The following branches are used to auto-publish pre releases and beta versions to the <code>DEVEL</code> release channel:</p>
+<table>
+<thead>
+<tr>
+<th>Branch</th>
+<th>Release Format</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pre-release</code></td>
+<td><code>MAJOR.MINOR.PATCH-pre.n</code></td>
+<td>Used for developing non-breaking changes on the current release</td>
+</tr>
+<tr>
+<td><code>pre-release-n.x</code></td>
+<td><code>MAJOR.MINOR.PATCH-pre.n</code></td>
+<td>Used for previewing maintenance updates for the <code>release-n.x</code> branches.</td>
+</tr>
+<tr>
+<td><code>next</code></td>
+<td><code>MAJOR.MINOR.PATCH-beta.n</code></td>
+<td>Used for ongoing development of the next upcoming major release</td>
+</tr>
+<tr>
+<td><code>next-n.x</code></td>
+<td><code>MAJOR.MINOR.PATCH-beta.n</code></td>
+<td>Used for developing and previewing releases beyond the next release</td>
+</tr>
+</tbody>
+</table>
+<p>Features get developed in their own feature branches and should be merged into one of the branches above</p>
 <h3 id="branch-flow-for-release-and-maintenance-branches">Branch Flow for Release and Maintenance Branches<a class="headerlink" href="#branch-flow-for-release-and-maintenance-branches" title="Permanent link">&para;</a></h3>
+<p>The bulk of Helm Chart features and fixes are developed for the current stable release of the Helm Chart.</p>
+<ul>
+<li>Development is performed on a feature branch which is then merged into the <code>pre-release</code> branch<ul>
+<li>This merge will automatically create the next minor/patch pre release in the <code>DEVEL</code> channel.</li>
+</ul>
+</li>
+<li>To publish an official release, the repo maintainer creates a merge request from <code>pre-release</code> into <code>main</code><ul>
+<li>This merge will automatically create the next official minor/patch release in the <code>STABLE</code> channel.</li>
+</ul>
+</li>
+<li>Fixes (and optionally, features) can be back ported to previous releases using the <code>release-n.x</code> maintenance branches</li>
+</ul>
+<p>The below Git workflow demonstrates this process, assuming that we start out with version <code>1.0.0</code> being the current stable release.</p>
 <pre class="mermaid"><code>---
 config:
   gitGraph:
@@ -3051,6 +3103,27 @@ gitGraph TB:
     #commit id: "Bump v1.1.2"
 </code></pre>
 <h3 id="branch-flow-for-next-and-future-versions">Branch Flow for Next and Future Versions<a class="headerlink" href="#branch-flow-for-next-and-future-versions" title="Permanent link">&para;</a></h3>
+<p>Some Helm Chart features and fixes contain breaking changes need to be developed for a future major release of the Helm Chart. This can occur when:</p>
+<ul>
+<li>The chart is updated to use the next major Smile CDR release</li>
+<li>The feature or fix contains a breaking change that cannot be implemented in a backwards compatible fashion</li>
+</ul>
+<p>The development process is the same as the regular <a href="#branch-flow-for-release-and-maintenance-branches">branch flow above</a>, except different branches are used:</p>
+<ul>
+<li>Development is performed on a feature branch which is then merged into the <code>next</code> or <code>next-n.x</code> branch.<ul>
+<li>This merge will automatically create the next major beta release in the <code>DEVEL</code> channel.</li>
+</ul>
+</li>
+<li>To initiate an official major release, the repo maintainer creates a merge request from <code>next</code> into <code>pre-release</code><ul>
+<li>This merge will automatically create the next major pre release in the <code>DEVEL</code> channel.</li>
+</ul>
+</li>
+<li>To complete an official major release, the repo maintainer creates a merge request from <code>pre-release</code> into <code>main</code><ul>
+<li>This merge will automatically create the next official major release in the <code>STABLE</code> channel.</li>
+</ul>
+</li>
+</ul>
+<p>The below Git workflow demonstrates this process, assuming that we start out with version <code>2.0.0</code> being the current stable release.</p>
 <pre class="mermaid"><code>---
 config:
   gitGraph:
@@ -3100,121 +3173,6 @@ gitGraph TB:
     checkout next
     merge next-4.x id: "v4.0.0-beta.2"
 </code></pre>
-<!-- checkout next
-    branch v2-feat-1
-    commit id: "feat: add v2 feature 1"
-    checkout next
-    merge v2-feat-1
-    commit id: "Bump v2.0.0-pre.1"
-    branch v2-feat-2
-    commit id: "feat: add v2 feature 2"
-    checkout next
-    merge v2-feat-2
-    commit id: "Bump v2.0.0-pre.2"
-
-    checkout pre-release
-    merge next
-    commit id: "Bump v2.0.0-pre.3"
-    checkout main
-    branch release-1.x
-    checkout main
-    merge pre-release id: "v2.0.0"
-
-    checkout pre-release
-    branch v2-feat-3
-    commit id: "feat: add v2 feature 3"
-    checkout pre-release
-    merge v2-feat-3
-    commit id: "Bump v2.1.0-pre.1"
-    checkout main
-    merge pre-release
-    commit id: "Bump v2.1.0"
-
-    checkout next
-    branch v3-feat-1
-    commit id: "feat: add v3 feature 1"
-    checkout next
-    merge v3-feat-1
-    commit id: "Bump v3.0.0-pre.1"
-
-    #checkout release-1.x
-    #branch v1-fix-1
-    #commit id: "fix: fix v1"
-    #checkout release-1.x
-    #merge v1-fix-1 id: "v1.1.1" -->
-
-<!-- ```mermaid
----
-config:
-  gitGraph:
-    parallelCommits: true
----
-gitGraph TB:
-    checkout main
-    commit id: "v1.0.0"
-    branch pre-release
-    branch v1-feat-1
-    branch release-1.x
-    branch hotfix-1
-    branch next
-    checkout hotfix-1
-    commit id: "fix: fix v1"
-    checkout release-1.x
-    merge hotfix-1
-    checkout next
-    branch v2-feat-1
-    commit id: "feat: add v2 feature"
-    checkout next
-    merge v2-feat-1
-    checkout v1-feat-1
-    commit id: "feat: add v1 feature"
-    checkout pre-release
-    merge v1-feat-1
-    checkout main
-    merge pre-release id: "v1.1.0"
-``` -->
-
-<!-- ```mermaid
-gitGraph TB:
-    commit id: "v1.0.0"
-    branch pre-release
-    checkout pre-release
-    branch patch
-    checkout patch
-    commit id: "fix"
-    checkout pre-release
-    merge patch
-    checkout main
-    merge pre-release
-    commit id: "v1.0.1"
-    checkout pre-release
-    merge main
-    branch feat
-    checkout feat
-    commit id: "feature"
-    checkout pre-release
-    merge feat
-    checkout main
-    merge pre-release
-    commit id: "v1.1.0"
-
-``` -->
-
-<h3 id="versioning">Versioning<a class="headerlink" href="#versioning" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Major Releases</strong>: Occur every 3 months, aligned with the upstream releases of Smile CDR. For example, version <code>1.x</code> corresponds to Smile CDR <code>2024.05.x</code>, and version <code>2.x</code> to <code>2024.08.x</code>.</li>
-<li><strong>Minor Releases</strong>: Occur whenever new non-breaking changes are released. Typically these are only released on the current production version. Back-porting of features to previous versions of the Helm Chart will be considered on an individual basis. It is always recommended to upgrade to the current stable Helm Chart version rather than back-porting to a previous version.</li>
-<li><strong>Patch Releases</strong>: Occur in the following scenarios:<ul>
-<li>To align with patch level updates of Smile CDR. For example, by default, version <code>1.1.0</code> of the Helm Chart uses Smile CDR <code>2024.05.R03</code>, and version <code>1.1.1</code> uses <code>2024.05.R04</code>. These patch updates will only apply to the current stable version of the Helm Chart</li>
-<li>Critical bug or security fixes to the Helm Chart. These bug fixes will be back-ported to the previous 4 major versions of the Helm Chart if it is technically feasible to do so.</li>
-</ul>
-</li>
-<li><strong>Pre-releases</strong>: Named in the format <code>X.Y.Z-pre.n</code>, where <code>X.Y.Z</code> represents the version being previewed, and <code>n</code> is the pre-release number.<ul>
-<li>Incremental pre-releases before a major version update (e.g. upgrading from version <code>3.0.0-pre.5</code> to version <code>3.0.0-pre.6</code>) may include breaking changes.</li>
-<li>After <code>3.0.0</code> is released, the following <code>3.x</code> pre-releases will not contain breaking changes.</li>
-</ul>
-</li>
-</ul>
 <h2 id="developing-new-helm-chart-features">Developing New Helm Chart Features<a class="headerlink" href="#developing-new-helm-chart-features" title="Permanent link">&para;</a></h2>
 <p>When developing new features or functionality for the Helm Chart, the chosen branching strategy depends on the following:</p>
 <ul>
@@ -3226,24 +3184,22 @@ gitGraph TB:
 <h3 id="features-without-smile-cdr-version-dependency">Features Without Smile CDR Version Dependency<a class="headerlink" href="#features-without-smile-cdr-version-dependency" title="Permanent link">&para;</a></h3>
 <p>When developing a feature that does not depend on a specific future version of Smile CDR, the branching strategy will depend on whether the feature introduces a breaking change or not.</p>
 <h4 id="without-breaking-changes">Without Breaking Changes<a class="headerlink" href="#without-breaking-changes" title="Permanent link">&para;</a></h4>
-<p>If the feature does <strong>NOT</strong> depend on a specific version of Smile CDR, and does <strong>NOT</strong> contain breaking changes, then it can be safely developed on the <strong><code>pre-release</code></strong> branch with the intent of inclusion as a Minor version bump of the current stable release.</p>
+<p>If the feature does <strong>NOT</strong> depend on a specific version of Smile CDR, and does <strong>NOT</strong> contain breaking changes, then it can be safely developed on the <code>pre-release</code> branch with the intent of inclusion as a minor version bump of the current stable major release.</p>
 <h4 id="with-breaking-changes">With Breaking Changes<a class="headerlink" href="#with-breaking-changes" title="Permanent link">&para;</a></h4>
-<p>If the feature includes breaking changes, then it should be developed on the <strong><code>next</code></strong> branch with the intent of inclusion in the next Major release, along with the next release of Smile CDR.</p>
+<p>If the feature includes breaking changes, then it should be developed on the <code>next</code> branch with the intent of inclusion in the next major release, along with the next release of Smile CDR.</p>
 <div class="admonition note">
 <p class="admonition-title">Note on Urgent Features</p>
 <p>In cases where there is urgency to have the new feature released <strong><em>before</em></strong> the next Smile CDR release cycle, we <strong>SHOULD NOT</strong> release a new major version of the Helm Chart, as it will throw off the predictable version mapping between Smile CDR versions and Helm Chart major versions.</p>
 <p>In such situations where the new functionality is critical for an environment, it may be preferable to use the next upcoming version of the Helm Chart before it is released. There are caveats with this approach, so it needs to be addressed on a case-by-case basis.</p>
 </div>
 <h3 id="features-with-smile-cdr-version-dependency">Features With Smile CDR Version Dependency<a class="headerlink" href="#features-with-smile-cdr-version-dependency" title="Permanent link">&para;</a></h3>
-<p>If the feature or functionality depends on a specific future version of Smile CDR, then it should be developed on an appropriate <code>pre-release-n.x</code> branch.</p>
+<p>If the feature or functionality depends on a specific future version of Smile CDR, then it should be developed on an appropriate <code>next</code> or <code>next-n.x</code> branch.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>When creating a new <code>pre-release-n.x</code> branch, ensure that its source branch has already incremented to version <code>n-1</code>. This is to ensure that the semantic release processes choose the correct version for the pre-releases.</p>
-<p>For example: If you create a <code>pre-release-3.x</code> branch, the source branch should already be on version <code>2.x.x</code> in order to ensure the pre-releases will be version <code>3.x.x-pre.1</code>.3</p>
-<p>See the <a href="">Pre Release</a> section below.code</p>
+<p>When creating a new <code>next-n.x</code> branch, ensure that its source branch has already incremented to version <code>n-1</code>. This is to ensure that the semantic release processes choose the correct version for the pre releases.</p>
+<p>For example: If you create a <code>next-3.x</code> branch, the source branch should already be on version <code>2.x.x</code> in order to ensure the pre releases will be version <code>3.x.x-pre.1</code>.</p>
+<p>See the <a href="#post-release-tasks">Post Release Tasks</a> section for more info on updating <code>next</code> and <code>next-n.x</code> branches.</p>
 </div>
-<h3 id="features-without-breaking-changes">Features Without Breaking Changes<a class="headerlink" href="#features-without-breaking-changes" title="Permanent link">&para;</a></h3>
-<p>If the feature does <strong>NOT</strong> depend on a specific version of Smile CDR, then it should be developed on the <code>pre-release</code> branch with the intent of inclusion as a minor version in the current release.</p>
 <h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
 <p>The following examples assume that the current Helm Chart stable version is <code>1.1.1</code>, using Smile CDR <code>2024.05.R04</code></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="examples-without-smile-cdr-version-dependency" name="__tabbed_1" type="radio" /><input id="examples-with-smile-cdr-version-dependency" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="examples-without-smile-cdr-version-dependency">Without Smile CDR Version Dependency</label><label for="examples-with-smile-cdr-version-dependency">With Smile CDR Version Dependency</label></div>
@@ -3255,7 +3211,7 @@ gitGraph TB:
 <p>If you are developing a new feature <strong>WITHOUT</strong> breaking changes.</p>
 <ul>
 <li>You should use the <code>pre-release</code> branch to develop your feature.</li>
-<li>This will result in pre-release builds (e.g. <code>1.2.0-pre.1</code>) being released in the <code>DEVEL</code> channel to facilitate testing.</li>
+<li>This will result in pre release builds (e.g. <code>1.2.0-pre.1</code>) being released in the <code>DEVEL</code> channel to facilitate testing.</li>
 <li>When you merge this change to <code>main</code>, version <code>1.2.0</code> will be released in the <code>STABLE</code> channel for general consumption.</li>
 </ul>
 </div>
@@ -3263,7 +3219,7 @@ gitGraph TB:
 <p>If you are developing a new feature <strong>WITH</strong> breaking changes.</p>
 <ul>
 <li>You should use the <code>next</code> branch to develop your feature.</li>
-<li>This will result in pre-release builds (e.g. <code>2.0.0-pre.1</code>) being released in the <code>DEVEL</code> channel to facilitate testing.</li>
+<li>This will result in pre release builds (e.g. <code>2.0.0-beta.1</code>) being released in the <code>DEVEL</code> channel to facilitate testing.</li>
 <li>This feature will become part of version <code>2.0.0</code> when it is released to the <code>STABLE</code> channel for general consumption.</li>
 </ul>
 </div>
@@ -3271,52 +3227,24 @@ gitGraph TB:
 </div>
 </div>
 <div class="tabbed-block">
-<p>If the new feature depends on a specific future Smile CDR version, then this is implicitly a breaking change. Therefore there is no option to use the <code>pre-release</code> branch, as it is only to be used for non-breaking changes.</p>
+<p>If the new feature depends on a specific future Smile CDR version, then this is implicitly a breaking change. Therefore there is no option to use the <code>pre-release</code> branch, which is only to be used for non-breaking changes.</p>
 <p>If you are developing a feature that depends on Smile CDR <code>2024.11.x</code></p>
 <ul>
-<li>You should use the <code>pre-release-3.x</code> branch to develop your feature.</li>
-<li>This will result in pre-release builds (e.g. <code>3.0.0-pre.1</code>) being published in the <code>DEVEL</code> channel to facilitate testing.</li>
+<li>You should use the <code>next-3.x</code> branch to develop your feature.</li>
+<li>This will result in a beta version (e.g. <code>3.0.0-beta.1</code>) being published in the <code>DEVEL</code> channel to facilitate testing.</li>
 </ul>
 </div>
 </div>
 </div>
-<!-- ### Examples 2
-
-=== "Without Breaking Changes"
-
-    === "Without Smile CDR Version Dependency"
-
-        If you are developing a new feature with no breaking changes or Smile CDR Version Dependencies.
-
-        * You should use the `pre-release` branch to develop your feature.
-        * This will result in pre-release builds (e.g. `1.2.0-pre.1`) being released in the `DEVEL` channel to facilitate testing.
-        * When you merge this change to `main`, version `1.2.0` will be released in the `STABLE` channel for general consumption.
-
-    === "With Smile CDR Version Dependency"
-
-        If you are developing a feature that depends on Smile CDR `2024.11.x`
-
-        * You should use the `pre-release-3.x` branch to develop your feature.
-        * This will result in pre-release builds (e.g. `3.0.0-pre.1`) being published in the `DEVEL` channel to facilitate testing.
-        * This approach should not be affected by breaking changes as the upgrade to the next version of Smile CDR already implicitly includes a breaking change.
-
-=== "With Breaking Changes"
-
-    If you are developing a new feature **WITH** breaking changes.
-
-    * You should use the `pre-release` branch to develop your feature.
-    * This will result in pre-release builds (e.g. `1.2.0-pre.1`) being released in the `DEVEL` channel to facilitate testing.
-    * When you merge this change to `main`, version `1.2.0` will be released in the `STABLE` channel for general consumption. -->
-
 <h2 id="developing-helm-chart-fixes">Developing Helm Chart Fixes<a class="headerlink" href="#developing-helm-chart-fixes" title="Permanent link">&para;</a></h2>
 <p>When developing hot-fixes or patch updates for the Helm Chart, the chosen branching strategy depends on the following:</p>
 <ul>
 <li>Is this an upstream patch change? (i.e. Changing the default Smile CDR version from <code>2024.05.R03</code> to <code>2024.05.R04</code>)</li>
 <li>Is this a Helm Chart fix/patch (i.e. a bug in the functioning of the Helm Chart)</li>
-<li>Does this fix affect all currently supported Major versions of the Helm Chart?</li>
+<li>Does this fix affect all currently supported major versions of the Helm Chart?</li>
 </ul>
 <h3 id="helm-chart-fixpatch">Helm Chart Fix/Patch<a class="headerlink" href="#helm-chart-fixpatch" title="Permanent link">&para;</a></h3>
-<p>If your update is a fix for some broken Helm Chart functionality, and if it is NOT a breaking change, merge your changes to the <code>pre-release</code> branch if you want to preview the fix/patch on the <code>DEVEL</code> channel.
+<p>If your update is a fix for some broken Helm Chart functionality, and if it is <strong>NOT</strong> a breaking change, merge your changes to the <code>pre-release</code> branch if you want to preview the fix/patch on the <code>DEVEL</code> channel.
 When ready to release the change, merge your changes to the <code>main</code> branch to release to the <code>STABLE</code> channel.</p>
 <div class="admonition note">
 <p class="admonition-title">Fixing Multiple Helm Chart Versions</p>
@@ -3326,53 +3254,46 @@ When ready to release the change, merge your changes to the <code>main</code> br
 <p>If you are simply updating the current Smile CDR release to the latest patch version, merge your changes to the <code>pre-release</code> branch if you want to preview the fix/patch on the <code>DEVEL</code> channel.
 When ready to release the change, merge your changes to the <code>main</code> branch to release to the <code>STABLE</code> channel.</p>
 <p>This process should only be performed on Helm Chart versions who's Smile CDR version has received a patch level update.</p>
-<p>For example, if Smile CDR <code>2024.05.R04</code> gets updated to <code>2024.05.R05</code>, but <code>2024.08.R01</code> does not get updated, then changes would only be made to the version <code>1.x</code> release branch and not the <code>2.x</code> branch. When <code>2024.08.R01</code> gets updated to <code>2024.08.R02</code>, that change would only apply to the <code>2.x</code> branch. </p>
+<p>For example, if Smile CDR <code>2024.05.R04</code> gets updated to <code>2024.05.R05</code>, but <code>2024.08.R01</code> does not get updated, then changes would only be made to the version <code>1.x</code> release branch and not the <code>2.x</code> branch. When <code>2024.08.R01</code> gets updated to <code>2024.08.R02</code>, that change would only apply to the <code>2.x</code> branch.</p>
 <h3 id="merging-feature-branches">Merging Feature Branches<a class="headerlink" href="#merging-feature-branches" title="Permanent link">&para;</a></h3>
 <p>All updates should be developed on a feature branch. The feature branch should be created from the branch that you intent to contribute to.</p>
-<p>All merges back to the appropriate release or pre-release branch should be done using a Merge Request in GitLab. Release branches are protected and <strong>SHOULD NOT</strong> have commits pushed directly to them.</p>
+<p>All merges back to the appropriate release or pre release branch should be done using a Merge Request in GitLab. Release branches are protected and <strong>SHOULD NOT</strong> have commits pushed directly to them.</p>
 <p>When creating feature branch merge requests, they should only be for a single feature. <strong>DO NOT</strong> include arbitrary changes in your feature branch, such as unrelated typos or formatting areas in different areas of code. These should be done in a separate branch/merge request.</p>
 <p>You <strong>MUST</strong> squash your commits in your Merge Request and ensure that the commit follows the appropriate <em>conventional commits</em> message.</p>
 <h2 id="release-workflow">Release workflow<a class="headerlink" href="#release-workflow" title="Permanent link">&para;</a></h2>
-<p>For many of the above mentioned scenarios, there is the option to merge changes directly to a release branch (i.e. <code>main</code>, <code>release-1.x</code>, <code>release-2.x</code> etc ) or merge to a pre-release branch first.</p>
+<p>For many of the above mentioned scenarios, there is the option to merge changes directly to a release branch (i.e. <code>main</code>, <code>release-1.x</code>, <code>release-2.x</code> etc ) or merge to a pre release branch first.</p>
 <p>The approach to choose depends on the requirements for the feature.</p>
-<h3 id="merge-to-pre-release-branches">Merge to Pre-Release Branches<a class="headerlink" href="#merge-to-pre-release-branches" title="Permanent link">&para;</a></h3>
-<p>Merge to pre-release branches (<code>DEVEL</code> Channel) when:</p>
+<h3 id="merge-to-pre-release-branches">Merge to Pre Release Branches<a class="headerlink" href="#merge-to-pre-release-branches" title="Permanent link">&para;</a></h3>
+<p>Merge to branches that publish to the <code>DEVEL</code> channel when:</p>
 <ul>
 <li>The change is a breaking change for a future version of the Helm Chart.</li>
 <li>The change needs to be tested in test environments before being released to the <code>STABLE</code> channel.</li>
 <li>The change needs to be shared with others for testing purposes before being released to the <code>STABLE</code> channel.</li>
 <li>The change is only a partial implementation for a new feature that needs to be shared for collaborative purposes before it's completed.</li>
 <li>Successive iterations to a new feature may introduce breaking changes for that feature.</li>
-<li>By adding consecutive breaking changes for a new feature in a pre-release, you are still able to merge it to the <code>STABLE</code> branch when it's ready.</li>
-<li>If you pushed the new feature early, and then made new changes that break that new feature, you would need to wait until the next Major release to push them, which is not ideal.</li>
+<li>By adding consecutive breaking changes for a new feature in a pre release, you are still able to merge it to the <code>STABLE</code> branch when it's ready.</li>
+<li>If you pushed the new feature early, and then made new changes that break that new feature, you would need to wait until the next major release to push them, which is not ideal.</li>
 </ul>
 <h3 id="merge-to-release-branches">Merge to Release Branches<a class="headerlink" href="#merge-to-release-branches" title="Permanent link">&para;</a></h3>
-<p>Merge to release branches (<code>STABLE</code> Channel) when:</p>
+<p>Merge to release branches when:</p>
 <ul>
-<li>The change is a trivial, non-breaking and unlikely to need further work.</li>
-<li>In the event that a new feature is released as a Minor version update, any breaking changes to the feature can wait until the next Major version release.</li>
+<li>The change is trivial, non-breaking and unlikely to need further work.</li>
+<li>In the event that a new feature is released as a minor version update, any breaking changes to the feature can wait until the next major version release.</li>
 </ul>
-<h3 id="promoting-pre-releases">Promoting pre-releases<a class="headerlink" href="#promoting-pre-releases" title="Permanent link">&para;</a></h3>
-<p>Once you have published a change with a pre-release version (on the <code>DEVEL</code> channel) you can promote it to the <code>STABLE</code> channel by creating a merge request from the pre-release branch to the release branch.</p>
+<h3 id="promoting-pre-releases">Promoting Pre Releases<a class="headerlink" href="#promoting-pre-releases" title="Permanent link">&para;</a></h3>
+<p>Once you have published a change with a pre release version (on the <code>DEVEL</code> channel) you can promote it to the <code>STABLE</code> channel by creating a merge request from the pre release branch to the release branch.</p>
 <p>For example, the branches would map as follows, assuming the current stable release is <code>2.0.0</code></p>
 <table>
 <thead>
 <tr>
-<th>Pre-release Version</th>
-<th>Pre-release Branch</th>
+<th>Pre Release Version</th>
+<th>Pre Release Branch</th>
 <th>Release Version</th>
 <th>Release Branch</th>
 <th>Notes</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>1.2.0-pre.1</code></td>
-<td><code>pre-release-1.x</code></td>
-<td><code>1.2.0</code></td>
-<td><code>release-1.x</code></td>
-<td>This is a release on the 1.x maintenance branch</td>
-</tr>
 <tr>
 <td><code>2.1.0-pre.1</code></td>
 <td><code>pre-release</code></td>
@@ -3381,43 +3302,65 @@ When ready to release the change, merge your changes to the <code>main</code> br
 <td><code>2.0.0</code> is the current stable release</td>
 </tr>
 <tr>
-<td><code>3.0.0-pre.1</code></td>
+<td><code>1.2.0-pre.1</code></td>
+<td><code>pre-release-1.x</code></td>
+<td><code>1.2.0</code></td>
+<td><code>release-1.x</code></td>
+<td>This is a release on the 1.x maintenance branch</td>
+</tr>
+</tbody>
+</table>
+<h3 id="promoting-beta-versions">Promoting Beta Versions<a class="headerlink" href="#promoting-beta-versions" title="Permanent link">&para;</a></h3>
+<p>When a beta version is ready to be released, you should promote it by creating a merge request from the <code>next</code> branch to the <code>pre-release</code> branch. From there, the above process is then used to promote it from the <code>DEVEL</code> release channel to <code>STABLE</code></p>
+<p>For example, the branches would map as follows, assuming the current stable major release is version <code>2.x</code> and you are about to release version <code>3.0.0</code></p>
+<table>
+<thead>
+<tr>
+<th>Beta Version</th>
+<th>Beta Branch</th>
+<th>Pre Release Version</th>
+<th>Pre Release Branch</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>3.0.0-beta.17</code></td>
 <td><code>next</code></td>
-<td>N/A</td>
-<td>N/A</td>
-<td>No maintenance release branch created until version <code>3.0.0</code> is released</td>
+<td><code>3.0.0-pre.1</code></td>
+<td><code>pre-release</code></td>
+<td>When going from <code>next</code> to <code>pre-release</code> versioning starts with the <code>-pre.1</code> suffix</td>
 </tr>
 <tr>
-<td><code>4.0.0-pre.1</code></td>
+<td><code>4.0.0-beta.3</code></td>
 <td><code>next-4.x</code></td>
-<td>N/A</td>
-<td>N/A</td>
-<td>No maintenance release branch created until version <code>4.0.0</code> is released</td>
+<td><code>4.0.0-beta.3</code></td>
+<td><code>next</code></td>
+<td>Version number does not change</td>
 </tr>
 </tbody>
 </table>
 <h2 id="new-major-releases">New Major Releases<a class="headerlink" href="#new-major-releases" title="Permanent link">&para;</a></h2>
-<p>Major version releases of the Smile CDR Helm Chart should coincide with new Major releases of Smile CDR, i.e. when <code>2024.08.R01</code> is released, version <code>2.0.0</code> of the Helm Chart should be released.</p>
+<p>Major version releases of the Smile CDR Helm Chart should coincide with new major releases of Smile CDR, i.e. when <code>2024.08.R01</code> is released, version <code>2.0.0</code> of the Helm Chart should be released.</p>
 <p>Before releasing a new major version of the Helm Chart, there should already be development on the <code>next</code> branch. At the very least, there should be a breaking feature change on this branch to update to the new Smile CDR version.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is critical that there is at least 1 breaking change feature in this branch as Semantic Release requires this in order to automatically bump the major version</p>
+</div>
 <h3 id="performing-the-release">Performing The Release<a class="headerlink" href="#performing-the-release" title="Permanent link">&para;</a></h3>
-<p>Performing a merge request from <code>next</code> to <code>main</code> <!-- (via <code>pre-release</code> if alternative method below is used) -->is sufficient to release the next version, but there are other steps required to ensure that the above workflows function as expected. All of the following steps should be performed by the repository maintainer.</p>
-<!-- Not needed if alternative method below is used -->
+<p>Promoting the <code>next</code> branch to <code>main</code> will release the next version, but there are other steps required to ensure that the above workflows function as expected afterwards.</p>
+<p>All of the following steps should be performed by the repository maintainer.</p>
 <ul>
 <li>Ensure there are no outstanding changes to be merged from <code>pre-release</code> into <code>main</code></li>
 <li>Ensure that <code>main</code> is fully merged back into <code>next</code> and tested, to capture any bug fixes that were created on the old main version.</li>
-<li>Creates merge request to merge <code>next</code> into <code>main</code> to initiate the release process.</li>
-</ul>
-<!-- Alternative:
-* Creates merge request to merge `next` into `pre-release`.
-* Creates merge request to merge `pre-release` into `main` to initiate the release process. -->
-<ul>
-<li>After the CI pipelines have succeeded, complete the merge request.<ul>
+<li>Create merge request to merge <code>next</code> into <code>pre-release</code>.</li>
+<li>Create merge request to merge <code>pre-release</code> into <code>main</code> to initiate the release process.<ul>
 <li>Commits <strong>MUST NOT</strong> be squashed as the pipeline relies on accurate <em>conventional commits</em> to determine the appropriate semantic version to apply.</li>
 <li>The CI pipeline uses Semantic Release to test the build, increment the version, create the release, publish the Helm Chart and update the version in the branch (by committing back to the repo)</li>
 </ul>
 </li>
 </ul>
-<p>If we just released version <code>3.0.0</code>, the branches would now be in the following state:</p>
+<p>If we had just released version <code>3.0.0</code> using the above steps, the branches would now be in the following state:</p>
 <table>
 <thead>
 <tr>
@@ -3430,63 +3373,55 @@ When ready to release the change, merge your changes to the <code>main</code> br
 <tr>
 <td><code>release-1.x</code></td>
 <td><code>1.1.1</code></td>
-<td>Created when version <code>2.0.0</code> was released</td>
+<td>Already created when version <code>2.0.0</code> was released.</td>
 </tr>
 <tr>
 <td><code>pre-release-1.x</code></td>
 <td><code>1.1.1-pre.1</code></td>
-<td></td>
+<td>Already created when version <code>2.0.0</code> was released.</td>
 </tr>
 <tr>
 <td><code>main</code></td>
 <td><code>3.0.0</code></td>
-<td>Initial release for version <code>3.x</code></td>
+<td>Initial major release for version <code>3.x</code>.</td>
 </tr>
 <tr>
 <td><code>pre-release</code></td>
 <td><code>3.0.0-pre.1</code></td>
-<td>New pre-release branch for version <code>3.x</code> updates</td>
+<td>This branch is now used for version <code>3.x</code> updates instead of <code>2.x</code>.</td>
 </tr>
 <tr>
 <td><code>next</code></td>
-<td><code>3.0.0-pre.1</code></td>
-<td>This needs to be updated for the new <code>next</code> release</td>
+<td><code>3.0.0-beta.1</code></td>
+<td>This now needs to be updated for the <code>4.x</code> beta releases.</td>
 </tr>
 <tr>
 <td><code>next-v4</code></td>
-<td><code>4.0.0-pre.1</code></td>
-<td>Pre-release branch for future version <code>4.x</code> release</td>
+<td><code>4.0.0-beta.1</code></td>
+<td>Branch for future version <code>4.x</code> beta releases. No longer required.</td>
 </tr>
 <tr>
 <td><code>next-v5</code></td>
-<td><code>5.0.0-pre.1</code></td>
-<td>Pre-release branch for future version <code>5.x</code> release</td>
+<td><code>5.0.0-beta.1</code></td>
+<td>Branch for future version <code>5.x</code> beta releases.</td>
 </tr>
 </tbody>
 </table>
-<!-- Alternative - the Minor/Major versions may have been a little much for this table...
-| Branch | Current Version | Next Minor Version | Next Major Version | Notes |
-| - | - | - | - | - |
-| `release-1.x` | `1.1.1` | `1.1.2` | `1.2.0` | Created when version `2.0.0` was released |
-| `pre-release-1.x` | `1.1.1-pre.1` | `1.1.2-pre.1` | `1.2.0-pre.1` | |
-| `main` | `3.0.0` | `3.0.1` | `3.1.0` | Initial release for version `3.x` |
-| `pre-release` | `3.0.0-pre.1` | `3.0.1-pre.1` | `3.1.0-pre.1` | New pre-release branch for version `3.x` updates |
-| `next` | `3.0.0-pre.1` | `3.0.0-pre.2` | `3.0.0-pre.2` | This needs to be updated for the new `next` release |
-| `next-v4` | `4.0.0-pre.1` | `4.0.0-pre.1` | `4.0.0-pre.1` | Old pre-release branch for the upcoming version `4.x` release |
-| `next-v5` | `5.0.0-pre.1` | `5.0.0-pre.1` | `5.0.0-pre.1` | Old pre-release branch for the upcoming version `5.x` release | -->
-
 <h3 id="post-release-tasks">Post-release Tasks<a class="headerlink" href="#post-release-tasks" title="Permanent link">&para;</a></h3>
 <p>Note that after performing the release steps above, there are missing requirements:</p>
 <ul>
-<li>There are no maintenance or pre-release branches for version <code>2.x</code></li>
+<li>There are no maintenance or pre release branches for version <code>2.x</code></li>
 <li>The <code>next</code> branch no longer represents the upcoming version <code>4.x</code></li>
 </ul>
 <p>These are addressed with the following post-release tasks that should be performed by the repository maintainer:</p>
 <ul>
-<li>Create a new maintenance branch for the previous version. i.e. If version <code>3.0.0</code> was just release to the <code>main</code> branch, then a new branch, <code>release-2.x</code> should be created to maintain the <code>2.x</code> releases.</li>
-<li>Create a new pre-release branch for the previous release. i.e Continuing from above, create a <code>pre-release-2.x</code> branch from the <code>release-2.x</code> branch</li>
-<li>Merge the <code>next-v4</code> branch into <code>next</code> so that it can be used for the next upcoming Major release, version <code>4.0.0</code>. At this point, the <code>next-v4</code> branch is no longer required and may be deleted (to be confirmed).</li>
-<li>Create the <code>next-v6</code> branch from the <code>next-v5</code> branch if the appropriate pre-release of Smile CDR is available.</li>
+<li>Create a new maintenance branch for the previous version. <strong>i.e.</strong> If version <code>3.0.0</code> was just release to the <code>main</code> branch, then a new branch, <code>release-2.x</code> should be created to maintain the <code>2.x</code> releases.</li>
+<li>Create a new pre release branch for the previous release. <strong>i.e.</strong> Continuing from above, create a <code>pre-release-2.x</code> branch from the <code>release-2.x</code> branch</li>
+</ul>
+<!-- The deletion statement below to be confirmed -->
+<ul>
+<li>Merge the <code>next-v4</code> branch into <code>next</code> so that it can be used for the next upcoming major release, version <code>4.0.0</code>. At this point, the <code>next-v4</code> branch is no longer required and may be deleted.</li>
+<li>Create the <code>next-v6</code> branch from the <code>next-v5</code> branch if the appropriate Pre-Release of Smile CDR is available.</li>
 </ul>
 
 
@@ -3505,6 +3440,8 @@ When ready to release the change, merge your changes to the <code>main</code> br
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -3539,8 +3476,10 @@ When ready to release the change, merge your changes to the <code>main</code> br
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.top", "content.action.view"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.top", "content.action.view", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.471ce7a9.min.js"></script>
