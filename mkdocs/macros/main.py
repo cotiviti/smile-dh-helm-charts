@@ -43,7 +43,10 @@ def define_env(env):
 
     env.variables.helm_repo_stable = "https://gitlab.com/api/v4/projects/40759898/packages/helm/stable"
     env.variables.helm_repo_devel = "https://gitlab.com/api/v4/projects/40759898/packages/helm/devel"
-
+    env.variables.helm_repo_pre = "https://gitlab.com/api/v4/projects/40759898/packages/helm/pre"
+    env.variables.helm_repo_next = "https://gitlab.com/api/v4/projects/40759898/packages/helm/next"
+    env.variables.helm_repo_beta = "https://gitlab.com/api/v4/projects/40759898/packages/helm/beta"
+    env.variables.helm_repo_alpha = "https://gitlab.com/api/v4/projects/40759898/packages/helm/alpha"
 
     version_info = [
         {
