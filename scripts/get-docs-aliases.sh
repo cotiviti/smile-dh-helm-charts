@@ -30,7 +30,7 @@
 DEVEL_BRANCHES_PATTERN=$(echo "${DEVEL_BRANCHES_PATTERN}"| sed 's:^/::; s:/$::')
 STABLE_BRANCHES_PATTERN=$(echo "${STABLE_BRANCHES_PATTERN}"| sed 's:^/::; s:/$::')
 
-
+# TODO: Refactor docs to maybe have a section for pre, next, beta, and alpha?
 if [[ "${CI_COMMIT_REF_NAME}" =~ ${DEVEL_BRANCHES_PATTERN} ]]; then
     echo "latest-pre"
 elif [[ "${CI_COMMIT_REF_NAME}" =~ ${STABLE_BRANCHES_PATTERN} ]]; then

@@ -2,13 +2,16 @@
 
 variables:
   STABLE_BRANCHES_PATTERN: '/^(release-([0-9])+\.)x$|^(main)$/'
-  DEVEL_BRANCHES_PATTERN: '/^(pre-release(-([0-9])+\.x)?)$|^(next(-([0-9])+\.x)?)$/'
+  # DEVEL_BRANCHES_PATTERN: '/^(pre-release(-([0-9])+\.x)?)$|^(next(-([0-9])+\.x)?)$/'
+  DEVEL_BRANCHES_PATTERN: '/^(pre-release|next-major|beta|alpha)$/'
 
   TEMPORARY_BRANCHES_PATTERN: '/^(dev|temp|wip)-.*$/i'
-  # Used to match against the auto-release commit. Used throughout, but there may be another way.
+
   SKIP_CI_COMMIT_MESSAGE: '/.*(\[skipci\]|\[skip-ci\]|\[skip_ci\]).*/i'
   SKIP_HELM_CHECK_COMMIT_MESSAGE: '/.*(\[skiphelmcheck\]|\[skip-helmcheck\]|\[skip_helmcheck\]).*/i'
-  RELEASE_COMMIT_MESSAGE: '/^chore\(auto-(pre)?release\)/'
+
+  # Used to match against the auto-release commit. Used throughout, but there may be another way.
+  RELEASE_COMMIT_MESSAGE: '/^chore\(release\)/'
 
 workflow:
   rules:
@@ -27,6 +30,10 @@ workflow:
     # Don't run pipelines for temporary branches
     # - if: $CI_COMMIT_REF_NAME =~ $TEMPORARY_BRANCHES_PATTERN
     #   when: never
+
+    # Don't run on the auto-release commit.
+    - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+      when: never
 
     # Run pipeline if this commit is a part of a merge request.
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -175,125 +182,77 @@ pages-test:
   - git status
   - git log -n2
 
-helm-package:
-  stage: package
-  tags:
-    - helm-ci
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-      when: never
-    - if: $CI_COMMIT_REF_NAME =~ $STABLE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
-    - if: $CI_COMMIT_REF_NAME =~ $DEVEL_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
-  image:
-    name: alpine/helm:3.10.1
-    entrypoint: ["sh", "-c"]
-  # before_script:
-  #   - git config user.name smile-helm-repo-bot
-  #   - git config user.email smile-helm-repo-bot@smilecdr.com
-  #   - git fetch origin $PAGES_BRANCH && git checkout -b $PAGES_BRANCH origin/$PAGES_BRANCH || git checkout $PAGES_BRANCH || echo "Pages branch not deployed yet."
-  #   - git checkout $CI_COMMIT_SHA
-  script:
-    - echo "Packaging Helm Charts..."
-    - scripts/prepare-chart-dependencies.sh -s ${CI_PROJECT_DIR}/src
-    - helm package src/main/charts/*
-    # - git checkout $PAGES_BRANCH -- public/
-    # - echo "Adding charts to GitLab Pages"
-    # - mkdir -p public/charts
-    # - cp *.tgz public/charts
-    # - helm repo index public/charts --url https://smilecdr-public.gitlab.io/smile-dh-helm-charts/charts
-    # - git add public/charts
-    # - git commit -m "Adding Chart"
-    # - git push
-  artifacts:
-    paths:
-      - "*.tgz"
-    expire_in: 1 week
+# helm-package:
+#   stage: package
+#   tags:
+#     - helm-ci
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+#       when: never
+#     - if: $CI_COMMIT_REF_NAME =~ $STABLE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+#     - if: $CI_COMMIT_REF_NAME =~ $DEVEL_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+#   image:
+#     name: alpine/helm:3.10.1
+#     entrypoint: ["sh", "-c"]
+#   # before_script:
+#   #   - git config user.name smile-helm-repo-bot
+#   #   - git config user.email smile-helm-repo-bot@smilecdr.com
+#   #   - git fetch origin $PAGES_BRANCH && git checkout -b $PAGES_BRANCH origin/$PAGES_BRANCH || git checkout $PAGES_BRANCH || echo "Pages branch not deployed yet."
+#   #   - git checkout $CI_COMMIT_SHA
+#   script:
+#     - echo "Packaging Helm Charts..."
+#     - scripts/prepare-chart-dependencies.sh -s ${CI_PROJECT_DIR}/src
+#     - helm package src/main/charts/*
+#     # - git checkout $PAGES_BRANCH -- public/
+#     # - echo "Adding charts to GitLab Pages"
+#     # - mkdir -p public/charts
+#     # - cp *.tgz public/charts
+#     # - helm repo index public/charts --url https://smilecdr-public.gitlab.io/smile-dh-helm-charts/charts
+#     # - git add public/charts
+#     # - git commit -m "Adding Chart"
+#     # - git push
+#   artifacts:
+#     paths:
+#       - "*.tgz"
+#     expire_in: 1 week
 
-helm-publish-devel:
-  stage: publish  # It only runs when *both* jobs in the test stage complete successfully.
-  tags:
-    - helm-ci
-  image:
-    name: alpine
-    # entrypoint: ["sh", "-c"]
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-      when: never
-    - if: $CI_COMMIT_REF_NAME =~ $DEVEL_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
-  before_script:
-    - apk add bash curl
-    # - 'helm repo add --username gitlab-ci-token --password ${CI_JOB_TOKEN} ${CI_PROJECT_NAME} ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/devel'
-    # - 'helm plugin install https://github.com/chartmuseum/helm-push.git'
-  script:
-    - echo "Publishing Helm Charts to DEVEL channel ..."
-    - scripts/publish-charts.sh gitlab-ci-token:$CI_JOB_TOKEN ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api devel *.tgz
-    # - 'curl --request POST --user gitlab-ci-token:$CI_JOB_TOKEN --form "chart=@" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/devel/charts"'
-    - echo "Helm Charts successfully published to DEVEL channel."
+# helm-publish-devel:
+#   stage: publish  # It only runs when *both* jobs in the test stage complete successfully.
+#   tags:
+#     - helm-ci
+#   image:
+#     name: alpine
+#     # entrypoint: ["sh", "-c"]
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+#       when: never
+#     - if: $CI_COMMIT_REF_NAME =~ $STABLE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+#   before_script:
+#     - apk add bash curl
+#   script:
+#     - echo "Publishing Helm Charts to STABLE channel ..."
+#     - scripts/publish-charts.sh gitlab-ci-token:$CI_JOB_TOKEN ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api stable *.tgz
+#     # - 'curl --request POST --user gitlab-ci-token:$CI_JOB_TOKEN --form "chart=@" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/devel/charts"'
+#     - echo "Helm Charts successfully published to STABLE channel."
 
-helm-publish-stable:
-  stage: publish  # It only runs when *both* jobs in the test stage complete successfully.
-  tags:
-    - helm-ci
-  image:
-    name: alpine
-    # entrypoint: ["sh", "-c"]
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-      when: never
-    - if: $CI_COMMIT_REF_NAME =~ $STABLE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
-  before_script:
-    - apk add bash curl
-  script:
-    - echo "Publishing Helm Charts to STABLE channel ..."
-    - scripts/publish-charts.sh gitlab-ci-token:$CI_JOB_TOKEN ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api stable *.tgz
-    # - 'curl --request POST --user gitlab-ci-token:$CI_JOB_TOKEN --form "chart=@" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/devel/charts"'
-    - echo "Helm Charts successfully published to STABLE channel."
-
-pre-release:
-  stage: release
-  tags:
-  - helm-ci
-  image:
-    name: node:20-alpine
-    entrypoint: ["sh", "-c"]
-  variables:
-    GIT_AUTHOR_NAME: smile-release-bot
-    GIT_AUTHOR_EMAIL: smile-release-bot@smilecdr.com
-    GIT_COMMITTER_NAME: smile-release-bot
-    GIT_COMMITTER_EMAIL: smile-release-bot@smilecdr.com
-  before_script:
-    - apk add bash curl jq yq git sed
-    # Install helm & dyff as they are needed in check outputs script.
-    - curl --silent --location https://get.helm.sh/helm-v3.10.1-linux-$(scripts/get-alpine-arch.sh helm).tar.gz | tar -xvzf - -C /usr/local/bin linux-$(scripts/get-alpine-arch.sh helm)/helm --strip-components 1
-    - curl --silent --location https://raw.githubusercontent.com/homeport/dyff/main/scripts/download-latest.sh | bash
-    # Install helm-docs as we need to update the Helm Chart docs when semantic-release bumps the version
-    - curl --silent --location https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_$(scripts/get-alpine-arch.sh).tar.gz | tar -xzf - -C /usr/local/bin helm-docs
-    - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/exec @semantic-release/git
-    # Use the pre-release configuration for semantic release
-    - cp -p .semver-release/.releaserc-devel.yml .releaserc.yml
-  rules:
-    # Don't run on the auto-release commit. There may be another way...
-    - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
-      when: never
-    # Don't run releases as part of a merge request event.
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-      when: never
-    # Run the semver release for pre-release branches
-    - if: $CI_COMMIT_REF_NAME =~ $DEVEL_BRANCHES_PATTERN
-      when: always
-    # This matches pre-releases
-    - if: $CI_COMMIT_REF_NAME =~ /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/
-      when: always
-  script:
-    - npx semantic-release
-    # Test to see if semantic-release bumped the version. If not, then get the most recent version tag in this branch and use that.
-    # This is passed on to the following docs publish job so that the correct version of the docs is published.
-    - test -e .VERSION || (echo $(git describe --abbrev=0 --tags | tr -d v) > .VERSION && touch .NORELEASE)
-  artifacts:
-    paths:
-      - ".VERSION"
-      - ".NORELEASE"
-    expire_in: 1 week
+# helm-publish-stable:
+#   stage: publish  # It only runs when *both* jobs in the test stage complete successfully.
+#   tags:
+#     - helm-ci
+#   image:
+#     name: alpine
+#     # entrypoint: ["sh", "-c"]
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+#       when: never
+#     - if: $CI_COMMIT_REF_NAME =~ $STABLE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+#   before_script:
+#     - apk add bash curl
+#   script:
+#     - echo "Publishing Helm Charts to STABLE channel ..."
+#     - scripts/publish-charts.sh gitlab-ci-token:$CI_JOB_TOKEN ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api stable *.tgz
+#     # - 'curl --request POST --user gitlab-ci-token:$CI_JOB_TOKEN --form "chart=@" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/devel/charts"'
+#     - echo "Helm Charts successfully published to STABLE channel."
 
 release:
   stage: release
@@ -315,8 +274,8 @@ release:
     # Install helm-docs as we need to update the Helm Chart docs when semantic-release bumps the version
     - curl --silent --location https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_$(scripts/get-alpine-arch.sh).tar.gz | tar -xzf - -C /usr/local/bin helm-docs
     - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/exec @semantic-release/git
-    # Use the release configuration for semantic release
-    - cp -p .semver-release/.releaserc-stable.yml .releaserc.yml
+    # Overwrite the local development configuration for semantic release
+    - cp -p .semver-release/.releaserc.yml .releaserc.yml
   rules:
     # Don't run on the auto-release commit. There may be another way...
     - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
@@ -324,6 +283,9 @@ release:
     # Don't run releases as part of a merge request event.
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
+    # Run the semver release for prerelease branches
+    - if: $CI_COMMIT_REF_NAME =~ $DEVEL_BRANCHES_PATTERN
+      when: always
     # Run the semver release for release branches
     - if: $CI_COMMIT_REF_NAME =~ $STABLE_BRANCHES_PATTERN
       when: always
@@ -332,6 +294,7 @@ release:
     # Test to see if semantic-release bumped the version. If not, then get the most recent version tag in this branch and use that.
     # This is passed on to the following docs publish job so that the correct version of the docs is published.
     - test -e .VERSION || (echo $(git describe --abbrev=0 --tags | tr -d v) > .VERSION && touch .NORELEASE)
+    # - test -e .CHANNEL || (echo $(git describe --abbrev=0 --tags | tr -d v) > .VERSION && touch .NORELEASE)
   artifacts:
     paths:
       - ".VERSION"
@@ -360,16 +323,20 @@ pages:
   - VERSION=$(cat  .VERSION)
   - export CHART_VERSION=$(scripts/get-chart-version.sh)
   - export DOCS_VER=v$(scripts/get-docs-version.sh "${VERSION}")
-  - export DOCS_ALIASES=$(scripts/get-docs-aliases.sh "${VERSION}")
+  # - export DOCS_ALIASES=$(scripts/get-docs-aliases.sh "${VERSION}")
+  - export DOCS_ALIASES="latest"
+  # Get the release channel from the branch name
+  - export RELEASE_CHANNEL=$(scripts/get-release-channel.sh "${CI_COMMIT_REF_NAME}")
+  - echo "Release Channel ${RELEASE_CHANNEL}"
   - echo "Version ${VERSION}"
   - echo "Docs Version ${DOCS_VER}"
   - echo "Docs Aliases ${DOCS_ALIASES}"
-  # Deploy 'release' docs to root path and 'preview' docs to /pre path
-  - if [[ "${DOCS_ALIASES}" =~ latest-prod ]] ; then export DOCS_PREFIX=public; else export DOCS_PREFIX=public/pre; fi
+  # Deploy `stable` release channel docs to root path and other release channels to the root/<channel>/ path
+  - if [[ "${RELEASE_CHANNEL}" =~ stable ]] ; then export DOCS_PREFIX=public; else export DOCS_PREFIX=public/${RELEASE_CHANNEL}; fi
   # Mike will build the docs from the current commit and publish them to ${DOCS_VER}.
   - mike deploy --rebase --prefix ${DOCS_PREFIX} -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p -u ${DOCS_VER} ${DOCS_ALIASES}
   - mike set-default --rebase --prefix ${DOCS_PREFIX} -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p ${DOCS_VER}
-  # This rm step is required as mike populates is as a part of the release process.
+  # This rm step is required as mike populates it as a part of the release process.
   - rm -rf public/
   - git checkout $PAGES_BRANCH
   artifacts:
