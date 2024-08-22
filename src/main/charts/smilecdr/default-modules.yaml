@@ -53,7 +53,7 @@ modules:
     requires:
       SECURITY_IN_UP: local_security
     config:
-      context_path: json-admin
+      context_path: admin_json
       port: 9000
       tls.enabled: false
       anonymous.access.enabled: true
