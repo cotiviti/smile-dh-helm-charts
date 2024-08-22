@@ -1,18 +1,27 @@
 # Release Channels
 
-The Smile CDR Helm Charts are available in 2 release channels.
+The Smile CDR Helm Charts are available in a number of release channels.
 
 | Release Type | Channel Name | Helm Chart Repo |
 | ------------ | ------------ | --------------- |
-| Official | `STABLE` | {{ helm_repo_stable }} |
-| Pre release | `DEVEL` | {{ helm_repo_devel }} |
-| Beta release | `DEVEL` | {{ helm_repo_devel }} |
+| Official | `stable` | {{ helm_repo_stable }} |
+| v1.x prereleases | `devel` | {{ helm_repo_devel }} |
+| v2.x and up prereleases | `pre` | {{ helm_repo_pre }} |
+| Next version prereleases | `next` | {{ helm_repo_next }} |
+| Beta releases | `beta` | {{ helm_repo_beta }} |
+| Alpha releases | `alpha` | {{ helm_repo_alpha }} |
 
-We recommend using the `STABLE` channel so that you can deploy officially supported releases of the Smile CDR Helm Chart.
+!!! note
+    The `devel` release channel has been deprecated and will no longer be used going forwards.
+    
+    This was only used prior to the initial release of version `1.0.0` of the Helm Chart
 
-If you wish to preview upcoming features that are not yet available in a currently supported Helm Chart version in the `STABLE` channel, then you may use pre releases or beta releases from the `DEVEL` channel.
+We recommend using the `stable` channel so that you can deploy officially supported releases of the Smile CDR Helm Chart.
 
->**Note:** When using the `DEVEL` channel, there may be unexpected breaking changes or regressions between pre release or beta versions.
+If you wish to preview upcoming features that are not yet available in a currently supported Helm Chart version in the `stable` channel, then you may use prerelease versions from another release channel.
+
+!!! warning
+    When using release channels other than `stable`, there may be unexpected breaking changes or regressions between pre release or beta versions.
 
 ## Configuring Release Channels
 
@@ -20,17 +29,17 @@ The mechanism for configuring the release channel depends on which tooling you a
 
 === "Using the `helm` Command"
 
-    If you are deploying using the `helm` command, you will be adding the Helm repo to your local Helm installation like so:
+    If you are deploying using the `helm` command, you can add multiple Helm repos to your local Helm installation like so:
 
-    Add the `STABLE` repo
+    Add the `stable` repo
     ```shell
     $ helm repo add smiledh-stable {{ helm_repo_stable }}
     $ helm repo update
     ```
 
-    Add the `DEVEL` repo
+    Add the `pre` repo
     ```shell
-    $ helm repo add smiledh-devel {{ helm_repo_devel }}
+    $ helm repo add smiledh-pre {{ helm_repo_pre }}
     $ helm repo update
     ```
 
@@ -38,11 +47,11 @@ The mechanism for configuring the release channel depends on which tooling you a
 
     If you are using the Terraform [Helm provider](https://registry.terraform.io/providers/hashicorp/helm/), the process is slightly different as there is no concept of adding the repository to your local installation as there is with the `helm` command method.
 
-    <!-- This means that is it not possible to have both channels available simultaneously as you would above. -->
+    <!-- This means that is it not possible to have multiple channels available simultaneously as you would above. -->
 
     Instead, you specify the appropriate channel in your [`helm_release`](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) resource:
 
-    Use the `STABLE` repo
+    Use the `stable` repo
     ```hcl
     resource "helm_release" "example" {
       name       = "my-smilecdr-release"
@@ -52,37 +61,38 @@ The mechanism for configuring the release channel depends on which tooling you a
     }
     ```
 
-    Use the `DEVEL` repo
+    Use the `pre` repo
     ```hcl
     resource "helm_release" "example" {
       name       = "my-smilecdr-release"
-      repository = "{{ helm_repo_devel }}"
+      repository = "{{ helm_repo_pre }}"
       chart      = "smilecdr"
       devel      = true
     }
     ```
     !!! warning
-        By using `devel = true`, this will install the latest version from the `DEVEL` channel unless you explicitly set `version`
-        This could result in unpredictable behaviour by installing a beta version rather than a pre release version.
+        By using `devel = true`, this will install the latest version from the `pre` channel unless you explicitly set `version`
+        This could result in unexpected breaking changes being introduced.
 
         It is recommended to always specify a version of the Helm Chart that you wish to install.
 
 ## Switching Release Channels
 
 === "Using the `helm` Command"
-    If you have added the repository for the `DEVEL` channel to your local Helm installation, you can switch to use the `STABLE` channel in two ways.
+    If you have previously added the repository for the `devel` channel to your local Helm installation, you should remove it and switch to use the `stable` channel instead.
 
-    1. Add the `STABLE` channel as an additional local repository. To do this, you would run the `helm repo add` command for each repository, using different aliases as shown in the examples further up this page.
-    2. Remove the existing repository for the `DEVEL` channel and add the repository for the `STABLE` channel. If you have used a local repository alias that does not indicate which release channel it represents, this option may work better for you.
+    Remove the existing repository for the `devel` channel and add the repository for the `stable` channel. 
 
     ```shell
-    $ helm repo remove smiledh # <-- Or whatever you named the repo locally
+    $ helm repo remove smiledh # <-- Or whatever you previously named the repo locally
     $ helm repo add smiledh {{ helm_repo_stable }}
     $ helm repo update
     ```
+    
+    You can also add additional release channels as additional local repositories. To do this, you would run the `helm repo add` command for each repository, using different aliases as shown in the examples further up this page.
 
 === "Using the `helm` Terraform Provider"
-    If you are using the Terraform `helm_provider` as explained above, switching from the `DEVEL` channel to the `STABLE` channel is done by replacing:
+    If you are using the Terraform `helm_provider` as explained above, switching from the `devel` channel to the `stable` channel is done by replacing:
 
     ```
         repository = "{{ helm_repo_devel }}"
@@ -97,7 +107,7 @@ The mechanism for configuring the release channel depends on which tooling you a
     ```
 
     !!! note
-        The `devel` option has no effect on the `STABLE` branch and need not be used, as there are no pre release or beta versions published there.
+        The `devel` option has no effect on the `stable` branch and need not be used, as there are no pre release or beta versions published there.
 
 ## Choosing The Helm Chart Version
 
