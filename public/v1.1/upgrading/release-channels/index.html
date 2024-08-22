@@ -2616,7 +2616,7 @@
 
 
 <h1 id="release-channels">Release Channels<a class="headerlink" href="#release-channels" title="Permanent link">&para;</a></h1>
-<p>The Smile CDR Helm Charts are available in 2 release channels.</p>
+<p>The Smile CDR Helm Charts are available in a number of release channels.</p>
 <table>
 <thead>
 <tr>
@@ -2628,46 +2628,67 @@
 <tbody>
 <tr>
 <td>Official</td>
-<td><code>STABLE</code></td>
+<td><code>stable</code></td>
 <td>https://gitlab.com/api/v4/projects/40759898/packages/helm/stable</td>
 </tr>
 <tr>
-<td>Pre release</td>
-<td><code>DEVEL</code></td>
+<td>v1.x prereleases</td>
+<td><code>devel</code></td>
 <td>https://gitlab.com/api/v4/projects/40759898/packages/helm/devel</td>
 </tr>
 <tr>
-<td>Beta release</td>
-<td><code>DEVEL</code></td>
-<td>https://gitlab.com/api/v4/projects/40759898/packages/helm/devel</td>
+<td>v2.x and up prereleases</td>
+<td><code>pre</code></td>
+<td>https://gitlab.com/api/v4/projects/40759898/packages/helm/pre</td>
+</tr>
+<tr>
+<td>Next version prereleases</td>
+<td><code>next</code></td>
+<td>https://gitlab.com/api/v4/projects/40759898/packages/helm/next</td>
+</tr>
+<tr>
+<td>Beta releases</td>
+<td><code>beta</code></td>
+<td>https://gitlab.com/api/v4/projects/40759898/packages/helm/beta</td>
+</tr>
+<tr>
+<td>Alpha releases</td>
+<td><code>alpha</code></td>
+<td>https://gitlab.com/api/v4/projects/40759898/packages/helm/alpha</td>
 </tr>
 </tbody>
 </table>
-<p>We recommend using the <code>STABLE</code> channel so that you can deploy officially supported releases of the Smile CDR Helm Chart.</p>
-<p>If you wish to preview upcoming features that are not yet available in a currently supported Helm Chart version in the <code>STABLE</code> channel, then you may use pre releases or beta releases from the <code>DEVEL</code> channel.</p>
-<blockquote>
-<p><strong>Note:</strong> When using the <code>DEVEL</code> channel, there may be unexpected breaking changes or regressions between pre release or beta versions.</p>
-</blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code>devel</code> release channel has been deprecated and will no longer be used going forwards.</p>
+<p>This was only used prior to the initial release of version <code>1.0.0</code> of the Helm Chart</p>
+</div>
+<p>We recommend using the <code>stable</code> channel so that you can deploy officially supported releases of the Smile CDR Helm Chart.</p>
+<p>If you wish to preview upcoming features that are not yet available in a currently supported Helm Chart version in the <code>stable</code> channel, then you may use prerelease versions from another release channel.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When using release channels other than <code>stable</code>, there may be unexpected breaking changes or regressions between pre release or beta versions.</p>
+</div>
 <h2 id="configuring-release-channels">Configuring Release Channels<a class="headerlink" href="#configuring-release-channels" title="Permanent link">&para;</a></h2>
 <p>The mechanism for configuring the release channel depends on which tooling you are using to deploy the Helm Chart.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="configuring-release-channels-using-the-helm-command" name="__tabbed_1" type="radio" /><input id="configuring-release-channels-using-the-helm-terraform-provider" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="configuring-release-channels-using-the-helm-command">Using the <code>helm</code> Command</label><label for="configuring-release-channels-using-the-helm-terraform-provider">Using the <code>helm</code> Terraform Provider</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>If you are deploying using the <code>helm</code> command, you will be adding the Helm repo to your local Helm installation like so:</p>
-<p>Add the <code>STABLE</code> repo
+<p>If you are deploying using the <code>helm</code> command, you can add multiple Helm repos to your local Helm installation like so:</p>
+<p>Add the <code>stable</code> repo
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>smiledh-stable<span class="w"> </span>https://gitlab.com/api/v4/projects/40759898/packages/helm/stable
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>update
 </code></pre></div></p>
-<p>Add the <code>DEVEL</code> repo
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>smiledh-devel<span class="w"> </span>https://gitlab.com/api/v4/projects/40759898/packages/helm/devel
+<p>Add the <code>pre</code> repo
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>smiledh-pre<span class="w"> </span>https://gitlab.com/api/v4/projects/40759898/packages/helm/pre
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>update
 </code></pre></div></p>
 </div>
 <div class="tabbed-block">
 <p>If you are using the Terraform <a href="https://registry.terraform.io/providers/hashicorp/helm/">Helm provider</a>, the process is slightly different as there is no concept of adding the repository to your local installation as there is with the <code>helm</code> command method.</p>
-<!-- This means that is it not possible to have both channels available simultaneously as you would above. -->
+<!-- This means that is it not possible to have multiple channels available simultaneously as you would above. -->
 <p>Instead, you specify the appropriate channel in your <a href="https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release"><code>helm_release</code></a> resource:</p>
-<p>Use the <code>STABLE</code> repo
+<p>Use the <code>stable</code> repo
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;helm_release&quot;</span><span class="w"> </span><span class="nv">&quot;example&quot;</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="na">name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my-smilecdr-release&quot;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="na">repository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://gitlab.com/api/v4/projects/40759898/packages/helm/stable&quot;</span>
@@ -2675,18 +2696,18 @@
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="na">version</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;1.1.1&quot;</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">}</span>
 </code></pre></div></p>
-<p>Use the <code>DEVEL</code> repo
+<p>Use the <code>pre</code> repo
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;helm_release&quot;</span><span class="w"> </span><span class="nv">&quot;example&quot;</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="na">name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my-smilecdr-release&quot;</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="na">repository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://gitlab.com/api/v4/projects/40759898/packages/helm/devel&quot;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="na">repository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://gitlab.com/api/v4/projects/40759898/packages/helm/pre&quot;</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="na">chart</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;smilecdr&quot;</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="na">devel</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span>
 </code></pre></div></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>By using <code>devel = true</code>, this will install the latest version from the <code>DEVEL</code> channel unless you explicitly set <code>version</code>
-This could result in unpredictable behaviour by installing a beta version rather than a pre release version.</p>
+<p>By using <code>devel = true</code>, this will install the latest version from the <code>pre</code> channel unless you explicitly set <code>version</code>
+This could result in unexpected breaking changes being introduced.</p>
 <p>It is recommended to always specify a version of the Helm Chart that you wish to install.</p>
 </div>
 </div>
@@ -2696,18 +2717,16 @@ This could result in unpredictable behaviour by installing a beta version rather
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="switching-release-channels-using-the-helm-command" name="__tabbed_2" type="radio" /><input id="switching-release-channels-using-the-helm-terraform-provider" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="switching-release-channels-using-the-helm-command">Using the <code>helm</code> Command</label><label for="switching-release-channels-using-the-helm-terraform-provider">Using the <code>helm</code> Terraform Provider</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>If you have added the repository for the <code>DEVEL</code> channel to your local Helm installation, you can switch to use the <code>STABLE</code> channel in two ways.</p>
-<ol>
-<li>Add the <code>STABLE</code> channel as an additional local repository. To do this, you would run the <code>helm repo add</code> command for each repository, using different aliases as shown in the examples further up this page.</li>
-<li>Remove the existing repository for the <code>DEVEL</code> channel and add the repository for the <code>STABLE</code> channel. If you have used a local repository alias that does not indicate which release channel it represents, this option may work better for you.</li>
-</ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>remove<span class="w"> </span>smiledh<span class="w"> </span><span class="c1"># &lt;-- Or whatever you named the repo locally</span>
+<p>If you have previously added the repository for the <code>devel</code> channel to your local Helm installation, you should remove it and switch to use the <code>stable</code> channel instead.</p>
+<p>Remove the existing repository for the <code>devel</code> channel and add the repository for the <code>stable</code> channel. </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>remove<span class="w"> </span>smiledh<span class="w"> </span><span class="c1"># &lt;-- Or whatever you previously named the repo locally</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>smiledh<span class="w"> </span>https://gitlab.com/api/v4/projects/40759898/packages/helm/stable
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>update
 </code></pre></div>
+<p>You can also add additional release channels as additional local repositories. To do this, you would run the <code>helm repo add</code> command for each repository, using different aliases as shown in the examples further up this page.</p>
 </div>
 <div class="tabbed-block">
-<p>If you are using the Terraform <code>helm_provider</code> as explained above, switching from the <code>DEVEL</code> channel to the <code>STABLE</code> channel is done by replacing:</p>
+<p>If you are using the Terraform <code>helm_provider</code> as explained above, switching from the <code>devel</code> channel to the <code>stable</code> channel is done by replacing:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>    repository = &quot;https://gitlab.com/api/v4/projects/40759898/packages/helm/devel&quot;
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    devel      = true
 </code></pre></div>
@@ -2717,7 +2736,7 @@ This could result in unpredictable behaviour by installing a beta version rather
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The <code>devel</code> option has no effect on the <code>STABLE</code> branch and need not be used, as there are no pre release or beta versions published there.</p>
+<p>The <code>devel</code> option has no effect on the <code>stable</code> branch and need not be used, as there are no pre release or beta versions published there.</p>
 </div>
 </div>
 </div>

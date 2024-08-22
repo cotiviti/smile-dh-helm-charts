@@ -644,6 +644,84 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#release-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Release Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Release Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#major-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Major Releases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minor-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Minor Releases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patch-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Patch Releases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre Releases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-major-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Major Releases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beta-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Beta Releases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alpha-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alpha Releases
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#breaking-change-features" class="md-nav__link">
     <span class="md-ellipsis">
       Breaking Change Features
@@ -2587,6 +2665,84 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#release-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Release Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Release Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#major-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Major Releases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minor-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Minor Releases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patch-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Patch Releases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre Releases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-major-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Major Releases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beta-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Beta Releases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alpha-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alpha Releases
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#breaking-change-features" class="md-nav__link">
     <span class="md-ellipsis">
       Breaking Change Features
@@ -2650,46 +2806,68 @@
 <h2 id="version-format">Version Format<a class="headerlink" href="#version-format" title="Permanent link">&para;</a></h2>
 <ul>
 <li>The version number is in the format <code>MAJOR.MINOR.PATCH</code><ul>
-<li>Optionally includes the pre-release (<code>-pre.n</code>) or beta (<code>-beta.n</code>) suffixes.</li>
+<li>Optionally includes a prerelease suffix (e.g. <code>-pre.n</code> or <code>-next.n</code>).</li>
 </ul>
 </li>
-<li><strong>Major Releases</strong>: Occur every 3 months, aligned with the upstream releases of Smile CDR.<ul>
+</ul>
+<h2 id="release-types">Release Types<a class="headerlink" href="#release-types" title="Permanent link">&para;</a></h2>
+<h3 id="major-releases">Major Releases<a class="headerlink" href="#major-releases" title="Permanent link">&para;</a></h3>
+<p>Occur every 3 months, aligned with the upstream releases of Smile CDR.</p>
+<ul>
 <li>The <code>MAJOR</code> version number is incremented</li>
 <li>The <code>MINOR</code> and <code>PATCH</code> version numbers are set to zero</li>
 <li>Includes new major releases of Smile CDR.</li>
 <li>Includes any new breaking features or fixes that could not be included in the previous major release</li>
-<li>For example, version <code>1.1.1</code> uses Smile CDR <code>2024.05.R04</code>, and version <code>2.0.0</code> uses <code>2024.08.R01</code>.</li>
+<li>For example, version <code>1.1.1</code> uses Smile CDR <code>2024.05.R04</code>, and version <code>2.0.0</code>, when released, will use <code>2024.08.R01</code>.</li>
 </ul>
-</li>
-<li><strong>Minor Releases</strong>: Occur whenever new non-breaking features are released.<ul>
+<h3 id="minor-releases">Minor Releases<a class="headerlink" href="#minor-releases" title="Permanent link">&para;</a></h3>
+<p>Occur whenever new non-breaking features are released.</p>
+<ul>
 <li>The <code>MAJOR</code> version number remains unchanged</li>
 <li>The <code>MINOR</code> version number is incremented</li>
 <li>The <code>PATCH</code> version number is set to zero</li>
 <li>Includes any new non-breaking features</li>
 <li>May also included bundled new non-breaking fixes</li>
 </ul>
-</li>
-<li><strong>Patch Releases</strong>: Occur whenever new non-breaking fixes are released.<ul>
+<h3 id="patch-releases">Patch Releases<a class="headerlink" href="#patch-releases" title="Permanent link">&para;</a></h3>
+<p>Occur whenever new non-breaking fixes are released.</p>
+<ul>
 <li>The <code>MAJOR</code> and <code>MINOR</code> version numbers remain unchanged</li>
 <li>The <code>PATCH</code> version number is incremented</li>
 <li>Includes any new non-breaking fixes</li>
 <li>Includes changes in the patch level of Smile CDR.</li>
 <li>For example, version <code>1.1.0</code> uses Smile CDR <code>2024.05.R03</code>, and version <code>1.1.1</code> uses <code>2024.05.R04</code>.</li>
 </ul>
-</li>
-<li><strong>Pre Releases</strong>: Occur prior to minor or patch level releases for the current stable major release<ul>
+<h3 id="pre-releases">Pre Releases<a class="headerlink" href="#pre-releases" title="Permanent link">&para;</a></h3>
+<p>Occur prior to minor or patch level releases for the current stable major release</p>
+<ul>
 <li>Named in the format <code>MAJOR.MINOR.PATCH-pre.n</code>, where <code>MAJOR.MINOR.PATCH</code> represents the version being previewed, and <code>n</code> is the pre release number.</li>
-<li>Incremental pre-releases before a minor or patch version update (e.g. upgrading from version <code>2.1.0-pre.5</code> to version <code>2.1.0-pre.6</code>) may include breaking changes.</li>
-<li>Used for testing and collaboration on new features for the current major release
-<!-- * After <code>2.1.0</code> is released, any future <code>3.x</code> pre-releases will not contain breaking changes. --></li>
+<li>Incremental pre-releases before a minor or patch version update (e.g. upgrading from version <code>1.2.0-pre.5</code> to version <code>1.2.0-pre.6</code>) may include breaking changes.</li>
+<li>Used for testing and collaboration on new features for the current major release</li>
 </ul>
-</li>
-<li><strong>Beta Releases</strong>: Occur for all features or fixes on future major releases<ul>
-<li>Named in the format <code>MAJOR.MINOR.PATCH-beta.n</code>, where <code>MAJOR.MINOR.PATCH</code> represents the version in beta, and <code>n</code> is the beta release number.</li>
+<h3 id="next-major-releases">Next Major Releases<a class="headerlink" href="#next-major-releases" title="Permanent link">&para;</a></h3>
+<p>Occur prior to future major releases</p>
+<ul>
+<li>Named in the format <code>MAJOR.MINOR.PATCH-next.n</code>, where <code>MAJOR.MINOR.PATCH</code> represents the next major version being previewed, and <code>n</code> is the pre release number for the upcoming major release.</li>
+<li>Incremental pre-releases before a minor or patch version update (e.g. upgrading from version <code>2.0.0-pre.1</code> to version <code>2.0.0-pre.2</code>) may include breaking changes.</li>
+<li>Used for testing and collaboration on new features for the next major release, <code>n+1</code></li>
+</ul>
+<!-- * After `2.1.0` is released, any future `3.x` pre-releases will not contain breaking changes. -->
+<h3 id="beta-releases">Beta Releases<a class="headerlink" href="#beta-releases" title="Permanent link">&para;</a></h3>
+<p>Occur prior to future major releases</p>
+<ul>
+<li>Named in the format <code>MAJOR.MINOR.PATCH-beta.n</code>, where <code>MAJOR.MINOR.PATCH</code> represents the major version in beta, and <code>n</code> is the beta release number.</li>
 <li>Incremental beta releases before a major version update (e.g. upgrading from version <code>3.0.0-beta.2</code> to version <code>3.0.0-beta.3</code>) may include breaking changes.</li>
-<li>After <code>3.0.0</code> is released, future <code>3.x</code> minor or patch level releases will be developed as pre releases, starting at <code>3.1.0-pre.1</code></li>
+<li>Used for testing and collaboration on new features for a future major release, <code>n+2</code></li>
+<li>After <code>2.0.0</code> is released, future <code>3.x</code> minor or patch level releases will be developed on the <code>next</code> releases, starting at <code>3.0.0-next.1</code></li>
 </ul>
-</li>
+<h3 id="alpha-releases">Alpha Releases<a class="headerlink" href="#alpha-releases" title="Permanent link">&para;</a></h3>
+<p>Occur prior to future major releases</p>
+<ul>
+<li>Named in the format <code>MAJOR.MINOR.PATCH-alpha.n</code>, where <code>MAJOR.MINOR.PATCH</code> represents the major version in alpha, and <code>n</code> is the alpha release number.</li>
+<li>Incremental alpha releases before a major version update (e.g. upgrading from version <code>4.0.0-beta.1</code> to version <code>4.0.0-beta.2</code>) may include breaking changes.</li>
+<li>Used for testing and collaboration on new features for a future  major release, <code>n+3</code></li>
+<li>After <code>2.0.0</code> is released, future <code>4.x</code> minor or patch level releases will be developed on the <code>beta</code> releases, starting at <code>4.0.0-beta.1</code></li>
 </ul>
 <h2 id="breaking-change-features">Breaking Change Features<a class="headerlink" href="#breaking-change-features" title="Permanent link">&para;</a></h2>
 <p>If a new Helm Chart feature or fix includes a breaking change, then it will cause a bump in the major version number.</p>
