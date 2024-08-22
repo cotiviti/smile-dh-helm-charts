@@ -33,11 +33,10 @@ do
     fi
 done <   <(find "${CHARTS_DIR}" -mindepth 1 -maxdepth 1 -type d -print0)
 
-echo "${NEW_VER}" > .VERSION
-
+# NOTE: Not needed any more as the new version is no longer included in the test output
 # Update helm unit test outputs for new version
-echo "Updating Helm Chart Unit Tests..."
-./scripts/check-outputs.sh -u -s ./src
+# echo "Updating Helm Chart Unit Tests..."
+# ./scripts/check-outputs.sh -u -s ./src
 
 echo "Updating Helm Docs to include correct version..."
 helm-docs --chart-search-root=src/main/charts --template-files=helm-docs/_templates.gotmpl --template-files=README.md.gotmpl
