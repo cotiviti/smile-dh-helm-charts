@@ -1,7 +1,8 @@
 plugins:
   - "@semantic-release/commit-analyzer"
   - "@semantic-release/release-notes-generator"
-  - "@semantic-release/changelog"
+  - - "@semantic-release/changelog"
+    - changelogFile: "CHANGELOG-v${nextRelease.major}.md"
   - - "@semantic-release/exec"
     # Prepare and publish Helm Release
     - prepareCmd: "./scripts/semantic-release-prepare.sh ./src/ ${nextRelease.version} ${nextRelease.channel}"
@@ -18,7 +19,7 @@ plugins:
       # The repo version should retain the `0.0.0-local` version 
       # - "src/"
       # We do need to determine a more appropriate way to update the changelog in the repo/docs
-      - "CHANGELOG.md"
+      - "CHANGELOG*.md"
       # chore(release): major|minor|patch ""|pre|nex|beta|alpha release x.y.z
       # e.g.
       # chore(release): major release 2.0.0
