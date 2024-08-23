@@ -13,7 +13,11 @@ plugins:
       successComment: true
   - - "@semantic-release/git"
     - assets:
-      - "src/"
+      # Removing as we are not updating the charts in the repo during a release.
+      # The published charts already have the updated version.
+      # The repo version should retain the `0.0.0-local` version 
+      # - "src/"
+      # We do need to determine a more appropriate way to update the changelog in the repo/docs
       - "CHANGELOG.md"
       # chore(release): major|minor|patch ""|pre|nex|beta|alpha release x.y.z
       # e.g.
