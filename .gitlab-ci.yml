@@ -88,6 +88,12 @@ helm-lint:
   script:
     - echo "Linting Charts..."
     - ./scripts/lint-charts.sh -s ./src
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - src/**/*
+        - .helmignore
+        - ./scripts/lint-charts.sh
 
 # Disabling as this does not actually do anything right now
 # other than waste GitLab runner resources
@@ -117,7 +123,12 @@ helm-output-check:
   rules:
     - if: $CI_COMMIT_MESSAGE =~ $SKIP_HELM_CHECK_COMMIT_MESSAGE
       when: never
-    - if: $CI_COMMIT_MESSAGE
+    # - if: $CI_COMMIT_MESSAGE
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - src/**/*
+        - .helmignore
+        - scripts/check-outputs.sh
 
 helm-docs-check:
   stage: test
@@ -131,6 +142,13 @@ helm-docs-check:
       --chart-search-root=${CI_PROJECT_DIR}/src/main/charts
       --template-files=helm-docs/_templates.gotmpl
       --template-files=README.md.gotmpl
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - src/**/*
+        - helm-docs/**/*
+        - .helmdocsignore
+        - .helmignore
 
 helm-package-check:
   stage: test
@@ -143,6 +161,11 @@ helm-package-check:
     - echo "Testing packaging of Helm Charts..."
     # - scripts/prepare-chart-dependencies.sh -s ${CI_PROJECT_DIR}/src
     - helm package src/main/charts/*
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - src/**/*
+        - .helmignore
 
 # mkdocs-test:
 #   stage: test
@@ -181,6 +204,14 @@ pages-test:
   - git checkout $PAGES_BRANCH
   - git status
   - git log -n2
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+      - docs/**/*
+      - mkdocs/**/*
+      - mkdocs.yml
+      - mkdocs-requirements.txt
+      - scripts/**/*
 
 # helm-package:
 #   stage: package
@@ -297,8 +328,9 @@ release:
     # - test -e .CHANNEL || (echo $(git describe --abbrev=0 --tags | tr -d v) > .VERSION && touch .NORELEASE)
   artifacts:
     paths:
-      - ".VERSION"
-      - ".NORELEASE"
+      - .VERSION
+      - .NORELEASE
+      - CHANGELOG*
 
 # Deploy GitLab pages. Job name MUST be `pages`, so do not change it.
 # Differing logic for different branches has to be decided within the job as you cannot have multiple `pages` jobs for different branches.
