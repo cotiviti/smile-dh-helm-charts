@@ -304,7 +304,7 @@ release:
     - curl --silent --location https://raw.githubusercontent.com/homeport/dyff/main/scripts/download-latest.sh | bash
     # Install helm-docs as we need to update the Helm Chart docs when semantic-release bumps the version
     - curl --silent --location https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_$(scripts/get-alpine-arch.sh).tar.gz | tar -xzf - -C /usr/local/bin helm-docs
-    - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/exec @semantic-release/git
+    - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/exec @semantic-release/git conventional-changelog-conventionalcommits
     # Overwrite the local development configuration for semantic release
     - cp -p .semver-release/.releaserc.yml .releaserc.yml
   rules:
@@ -363,6 +363,8 @@ pages:
   - echo "Version ${VERSION}"
   - echo "Docs Version ${DOCS_VER}"
   - echo "Docs Aliases ${DOCS_ALIASES}"
+  # Copy latest changelog files. These are potentially updated from release stage
+  - cp CHANGELOG* docs/charts/smilecdr/
   # Deploy `stable` release channel docs to root path and other release channels to the root/<channel>/ path
   - if [[ "${RELEASE_CHANNEL}" =~ stable ]] ; then export DOCS_PREFIX=public; else export DOCS_PREFIX=public/${RELEASE_CHANNEL}; fi
   # Mike will build the docs from the current commit and publish them to ${DOCS_VER}.
@@ -370,6 +372,8 @@ pages:
   - mike set-default --rebase --prefix ${DOCS_PREFIX} -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p ${DOCS_VER}
   # This rm step is required as mike populates it as a part of the release process.
   - rm -rf public/
+  # Needed because it cannot checkout $PAGES_BRANCH due to changelogs being overwritten
+  - git reset --hard
   - git checkout $PAGES_BRANCH
   artifacts:
     paths:

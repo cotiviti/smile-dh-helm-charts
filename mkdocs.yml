@@ -105,7 +105,9 @@ nav:
         - 'Version Strategy': upgrading/versioning-strategy.md
         - 'Release Channels': upgrading/release-channels.md
         - 'Supported Versions': upgrading/version-matrix.md
-      - 'Changelog': charts/smilecdr/CHANGELOG.md
+      - 'Changelog':
+        - "Version 2.x": charts/smilecdr/CHANGELOG-V2.md
+        - "Version 1.x": charts/smilecdr/CHANGELOG-V1.md
       - 'Contributing':
         - 'Branching Strategy': contributing/branching-model.md
   - Quickstart:

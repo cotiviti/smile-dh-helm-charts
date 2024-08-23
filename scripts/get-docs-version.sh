@@ -21,18 +21,22 @@ FULL_VERSION=${TAG}
 
 # TODO: Fix the regex to prevent false matches, even though VERY unlikely.
 if [[ "${FULL_VERSION}" =~ pre ]]; then
-  # Just strip the pre version number from the pre-release
+  # Just strip the pre version number from the current major prerelease
   echo "${FULL_VERSION}" | sed -E 's/pre\.([0-9]+)$/pre/'
 elif [[ "${FULL_VERSION}" =~ next ]]; then
-  # Just strip the next version number from the pre-release
+  # Just strip the next version number from the next-major prerelease
   echo "${FULL_VERSION}" | sed -E 's/next\.([0-9]+)$/next/'
 elif [[ "${FULL_VERSION}" =~ beta ]]; then
-  # Just strip the beta version number from the pre-release
+  # Just strip the beta version number from the beta prerelease
   echo "${FULL_VERSION}" | sed -E 's/beta\.([0-9]+)$/beta/'
 elif [[ "${FULL_VERSION}" =~ alpha ]]; then
-  # Just strip the alpha version number from the pre-release
+  # Just strip the alpha version number from the alpha prerelease
   echo "${FULL_VERSION}" | sed -E 's/alpha\.([0-9]+)$/alpha/'
 else
   # Just return the minor version
   echo "${FULL_VERSION}" | sed -E 's/(^[v]?[0-9]+\.[0-9]+).*/\1/'
 fi
+
+# # Just return the major.minor version
+# echo "${FULL_VERSION}" | sed -E 's/(^[v]?[0-9]+\.[0-9]+).*/\1/'
+
