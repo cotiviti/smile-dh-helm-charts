@@ -371,6 +371,7 @@ pages:
   - mike deploy --rebase --prefix ${DOCS_PREFIX} -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p -u ${DOCS_VER} ${DOCS_ALIASES}
   - mike set-default --rebase --prefix ${DOCS_PREFIX} -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p ${DOCS_VER}
   # This rm step is required as mike populates it as a part of the release process.
+  - ls -al public/
   - rm -rf public/
   # Needed because it cannot checkout $PAGES_BRANCH due to changelogs being overwritten
   - git reset --hard
