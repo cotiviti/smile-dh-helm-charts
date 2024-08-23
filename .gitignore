@@ -1,0 +1,13 @@
+Makefile-local
+.helm-workdir
+
+src/main/charts/*/charts
+*.tgz
+
+node_modules
+package-lock.json
+package.json
+
+# MKDocs stuff
+venv
+#public
