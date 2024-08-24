@@ -5,12 +5,12 @@ plugins:
     - preset: "conventionalcommits"
   - - "@semantic-release/exec"
     # Pre and post renaming of changelog file (as @semantic-release/changelog does not allow setting filename with variables)
-    - prepareCmd: "./scripts/semantic-release-prepare-changelog.sh ${nextRelease.version} pre-prepare"
+    - prepareCmd: "./scripts/semantic-release-prepare-changelog.sh pre-prepare ${nextRelease.version} ${nextRelease.channel}"
   - - "@semantic-release/changelog"
     - changelogFile: "CHANGELOG-TMP.md"
   - - "@semantic-release/exec"
     # Pre and post renaming of changelog file (as @semantic-release/changelog does not allow setting filename with variables)
-    - prepareCmd: "./scripts/semantic-release-prepare-changelog.sh ${nextRelease.version} post-prepare"
+    - prepareCmd: "./scripts/semantic-release-prepare-changelog.sh post-prepare ${nextRelease.version} ${nextRelease.channel}"
   - - "@semantic-release/exec"
     # Prepare and publish Helm Release
     - prepareCmd: "./scripts/semantic-release-prepare-chart.sh ./src/ ${nextRelease.version} ${nextRelease.channel}"

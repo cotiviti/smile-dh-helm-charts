@@ -20,22 +20,29 @@
 
 # The pre-prepare step must be configured in your .releaserc.yml like so, BEFORE the @semantic-release/changelog plugin...
 # - - "@semantic-release/exec"
-#   - prepareCmd: "./scripts/semantic-release-prepare-changelog.sh ${nextRelease.version} pre-prepare"
+#   - prepareCmd: "./scripts/semantic-release-prepare-changelog.sh pre-prepare ${nextRelease.version} ${nextRelease.channel}"
 
 # The post-prepare step must be configured in your .releaserc.yml like so, AFTER the @semantic-release/changelog plugin and BEFORE the @semantic-release/git ...
 # - - "@semantic-release/exec"
-#     publishCmd: "./scripts/semantic-release-prepare-changelog.sh ${nextRelease.version} post-prepare"
+#     publishCmd: "./scripts/semantic-release-prepare-changelog.sh post-prepare ${nextRelease.version} ${nextRelease.channel}"
 
-NEW_VER="${1}"
-MODE="${2}"
+MODE="${1}"
+NEW_VER="${2}"
+CHANNEL="${3:-stable}"
+
 
 NEW_MAJOR="$(cut -d '.' -f 1 <<< "${NEW_VER}")"
+
+# TEMP_CHANGELOG_FILE="dist/CHANGELOG-TMP.md"
+TEMP_CHANGELOG_FILE="CHANGELOG-TMP.md"
+
 
 if [ "pre-prepare" == "${MODE}" ]; then
     echo "Preparing V${NEW_MAJOR} changelog file for the 'prepare' step of the update plugin "
     CHANGELOG_FILE="CHANGELOG-V${NEW_MAJOR}.md"
     if [ -f "${CHANGELOG_FILE}" ]; then
-        mv "${CHANGELOG_FILE}" "CHANGELOG-TMP.md"
+        mkdir -p "dist"
+        mv "${CHANGELOG_FILE}" "${TEMP_CHANGELOG_FILE}"
     else
         echo "${CHANGELOG_FILE} does not exist. A new changelog file will be created for V${NEW_MAJOR}"
     fi
@@ -47,10 +54,11 @@ elif [ "post-prepare" == "${MODE}" ]; then
         echo "Error: ${CHANGELOG_FILE} already exists but should not. Maybe the 'prepare' command was not called beforehand"
         exit 1
     fi
-    if [ -f "CHANGELOG-TMP.md" ]; then
-        mv "CHANGELOG-TMP.md" ${CHANGELOG_FILE}
+    if [ -f "${TEMP_CHANGELOG_FILE}" ]; then
+        mv "${TEMP_CHANGELOG_FILE}" ${CHANGELOG_FILE}
+        ls
     else
-        echo "Error: No changelog file (CHANGELOG-TMP.md) was created by @semantic-release/changelog."
+        echo "Error: No changelog file (${TEMP_CHANGELOG_FILE}) was created by @semantic-release/changelog."
         exit 1
     fi
 else
