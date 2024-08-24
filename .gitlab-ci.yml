@@ -372,7 +372,7 @@ pages:
   - if [[ "${RELEASE_CHANNEL}" =~ stable ]] ; then export DOCS_PREFIX=public; else export DOCS_PREFIX=public/${RELEASE_CHANNEL}; fi
   # Mike will build the docs from the current commit and publish them to ${DOCS_VER}.
   - mike deploy --ignore-remote-status --deploy-prefix ${DOCS_PREFIX} -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p -u ${DOCS_VER} ${DOCS_ALIASES}
-  # - mike set-default --ignore-remote-status --deploy-prefix ${DOCS_PREFIX} -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p ${DOCS_VER}
+  - mike set-default --ignore-remote-status --deploy-prefix ${DOCS_PREFIX} -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p ${DOCS_VER}
   # This rm step is required as mike populates it as a part of the release process.
   - ls -al public/
   - rm -rf public/
