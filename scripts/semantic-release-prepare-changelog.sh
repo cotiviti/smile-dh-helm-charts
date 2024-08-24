@@ -50,6 +50,10 @@ if [ "pre-prepare" == "${MODE}" ]; then
     if [ -f "${CHANNEL_CHANGELOG_FILE}" ]; then
         mkdir -p "dist"
         mv "${CHANNEL_CHANGELOG_FILE}" "${TEMP_CHANGELOG_FILE}"
+        # Delete changelog for other channels for current version
+        # This should only happen after promoting to a higher channel.
+        # Put this in some if logic to show a message that it's happening
+        rm "CHANGELOG-V${NEW_MAJOR}-*"
     else
         echo "${CHANNEL_CHANGELOG_FILE} does not exist. A new changelog file will be created for V${NEW_MAJOR}in the ${CHANNEL} channel"
     fi
