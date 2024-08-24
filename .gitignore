@@ -8,6 +8,9 @@ node_modules
 package-lock.json
 package.json
 
+
+dist
+
 # MKDocs stuff
 venv
 #public

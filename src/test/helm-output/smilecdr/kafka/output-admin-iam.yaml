@@ -28,7 +28,7 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr-kafka-admin
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2024.05.R04"
+    app.kubernetes.io/version: "2024.08.R01"
     app.kubernetes.io/managed-by: Helm
 data:
   client.properties.template: |-
@@ -229,7 +229,7 @@ data:
     module.admin_json.type 	= ADMIN_JSON
     module.admin_json.requires.SECURITY_IN_UP 	= local_security
     module.admin_json.config.anonymous.access.enabled 	= true
-    module.admin_json.config.context_path 	= /json-admin
+    module.admin_json.config.context_path 	= /admin_json
     module.admin_json.config.https_forwarding_assumed 	= true
     module.admin_json.config.port 	= 9000
     module.admin_json.config.respect_forward_headers 	= true
@@ -535,7 +535,7 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr-kafka-admin
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2024.05.R04"
+    app.kubernetes.io/version: "2024.08.R01"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -549,7 +549,7 @@ spec:
         helm.sh/chart: No Chart Version - Unit Testing
         app.kubernetes.io/name: smilecdr-kafka-admin
         app.kubernetes.io/instance: release-name
-        app.kubernetes.io/version: "2024.05.R04"
+        app.kubernetes.io/version: "2024.08.R01"
         app.kubernetes.io/managed-by: Helm
     spec:
       imagePullSecrets:
@@ -678,7 +678,7 @@ spec:
           - /bin/sh
           - -c
           - /bin/cp -Rvp /home/smile/smilecdr/customerlib/* /tmp/smilecdr-volumes/customerlib/
-          image: docker.smilecdr.com/smilecdr:2024.05.R04
+          image: docker.smilecdr.com/smilecdr:2024.08.R01
           imagePullPolicy: IfNotPresent
           name: init-sync-customerlib
           resources:
@@ -740,7 +740,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2024.05.R04"
+          image: "docker.smilecdr.com/smilecdr:2024.08.R01"
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:

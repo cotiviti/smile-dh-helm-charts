@@ -1,7 +1,7 @@
 # Requirements for mkdocs
 mkdocs
 mkdocs-material
-mike<2.0.0
+mike
 mkdocs-spellcheck[codespell]
 mkdocs-macros-plugin
 semver

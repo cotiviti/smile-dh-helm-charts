@@ -1,7 +1,0 @@
-apiVersion: v2
-name: sdh-common
-description: A library chart that contains common templates used by Smile Digital Health Helm Charts.
-
-type: library
-
-version: 1.1.1

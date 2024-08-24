@@ -100,7 +100,7 @@ data:
     module.admin_json.type 	= ADMIN_JSON
     module.admin_json.requires.SECURITY_IN_UP 	= local_security
     module.admin_json.config.anonymous.access.enabled 	= true
-    module.admin_json.config.context_path 	= /json-admin
+    module.admin_json.config.context_path 	= /admin_json
     module.admin_json.config.https_forwarding_assumed 	= true
     module.admin_json.config.port 	= 9000
     module.admin_json.config.respect_forward_headers 	= true
@@ -438,7 +438,7 @@ spec:
           - /bin/sh
           - -c
           - /bin/cp -Rvp /home/smile/smilecdr/classes/* /tmp/smilecdr-volumes/classes/
-          image: docker.smilecdr.com/smilecdr:2024.05.R04
+          image: docker.smilecdr.com/smilecdr:2024.08.R01
           imagePullPolicy: IfNotPresent
           name: init-sync-classes
           resources:
@@ -465,7 +465,7 @@ spec:
           command:
           - /bin/sh
           - -c
-          image: docker.smilecdr.com/smilecdr:2024.05.R04
+          image: docker.smilecdr.com/smilecdr:2024.08.R01
           imagePullPolicy: IfNotPresent
           name: copy-cdr-license
           resources:
@@ -516,7 +516,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2024.05.R04"
+          image: "docker.smilecdr.com/smilecdr:2024.08.R01"
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
