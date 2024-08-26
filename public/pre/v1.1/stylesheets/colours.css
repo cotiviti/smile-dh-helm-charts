@@ -1,7 +1,7 @@
 :root {
-    --md-primary-fg-color:        #00AED6;
-    --md-primary-fg-color--light: #00AED6;
-    --md-primary-fg-color--dark:  #0180A0;
+    --md-primary-fg-color:        #4EADD3;
+    --md-primary-fg-color--light: #ecb7b7;
+    --md-primary-fg-color--dark:  #90030C;
   }
 
  .md-typeset table:not([class]) th {
