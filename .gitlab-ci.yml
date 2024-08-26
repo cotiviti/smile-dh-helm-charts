@@ -1,10 +1,8 @@
 # This GitLab CI file will do the following to ensure adherence to the SDLC for Helm Chart development at Smile Digital Health
 
 variables:
-  RELEASE_BRANCHES_PATTERN: '/^(main)$/'
-  PRE_RELEASE_BRANCHES_PATTERN: '/^(next|pre-release|beta|alpha)$/'
-  ALL_RELEASE_BRANCHES_PATTERN: '/^(main|next|pre-release|beta|alpha)$/'
-  ALL_MAINTENANCE_BRANCHES_PATTERN: '/^(maintenance\/([0-9])+\.)([0-9]+\.)?x/'
+  STABLE_BRANCHES_PATTERN: '/^(release-([0-9])+\.)x$|^(main)$/'
+  DEVEL_BRANCHES_PATTERN: '/^(pre-release(-([0-9])+\.x)?)$|^(next(-([0-9])+\.x)?)$/'
 
   TEMPORARY_BRANCHES_PATTERN: '/^(dev|temp|wip)-.*$/i'
   # Used to match against the auto-release commit. Used throughout, but there may be another way.
@@ -41,11 +39,11 @@ workflow:
     - if: $CI_COMMIT_BEFORE_SHA == "0000000000000000000000000000000000000000"
       when: never
 
-    # Run release pipeline.
-    - if: $CI_COMMIT_REF_NAME =~ $ALL_RELEASE_BRANCHES_PATTERN
+    # Run release pipelines.
+    - if: $CI_COMMIT_REF_NAME =~ $STABLE_BRANCHES_PATTERN
 
-    # Run maintenance branch pipeline.
-    - if: $CI_COMMIT_REF_NAME =~ $ALL_MAINTENANCE_BRANCHES_PATTERN
+    # Run devel pipeline (Pre-release).
+    - if: $CI_COMMIT_REF_NAME =~ $DEVEL_BRANCHES_PATTERN
 
     # If this were enabled, any commit that is not matched above will run the pipeline. We do not want this.
     # - if: $CI_COMMIT_BRANCH
@@ -184,7 +182,8 @@ helm-package:
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
-    - if: $CI_COMMIT_REF_NAME =~ $ALL_RELEASE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+    - if: $CI_COMMIT_REF_NAME =~ $STABLE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+    - if: $CI_COMMIT_REF_NAME =~ $DEVEL_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
   image:
     name: alpine/helm:3.10.1
     entrypoint: ["sh", "-c"]
@@ -220,7 +219,7 @@ helm-publish-devel:
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
-    - if: $CI_COMMIT_REF_NAME =~ $PRE_RELEASE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+    - if: $CI_COMMIT_REF_NAME =~ $DEVEL_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
   before_script:
     - apk add bash curl
     # - 'helm repo add --username gitlab-ci-token --password ${CI_JOB_TOKEN} ${CI_PROJECT_NAME} ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/devel'
@@ -241,7 +240,7 @@ helm-publish-stable:
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
-    - if: $CI_COMMIT_REF_NAME =~ $RELEASE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
+    - if: $CI_COMMIT_REF_NAME =~ $STABLE_BRANCHES_PATTERN && $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
   before_script:
     - apk add bash curl
   script:
@@ -271,7 +270,7 @@ pre-release:
     - curl --silent --location https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_$(scripts/get-alpine-arch.sh).tar.gz | tar -xzf - -C /usr/local/bin helm-docs
     - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/exec @semantic-release/git
     # Use the pre-release configuration for semantic release
-    - cp -p .semver-release/.releaserc-pre.yml .releaserc.yml
+    - cp -p .semver-release/.releaserc-devel.yml .releaserc.yml
   rules:
     # Don't run on the auto-release commit. There may be another way...
     - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
@@ -280,7 +279,7 @@ pre-release:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
     # Run the semver release for pre-release branches
-    - if: $CI_COMMIT_REF_NAME =~ $PRE_RELEASE_BRANCHES_PATTERN
+    - if: $CI_COMMIT_REF_NAME =~ $DEVEL_BRANCHES_PATTERN
       when: always
     # This matches pre-releases
     - if: $CI_COMMIT_REF_NAME =~ /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/
@@ -317,7 +316,7 @@ release:
     - curl --silent --location https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_$(scripts/get-alpine-arch.sh).tar.gz | tar -xzf - -C /usr/local/bin helm-docs
     - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/exec @semantic-release/git
     # Use the release configuration for semantic release
-    - cp -p .semver-release/.releaserc-main.yml .releaserc.yml
+    - cp -p .semver-release/.releaserc-stable.yml .releaserc.yml
   rules:
     # Don't run on the auto-release commit. There may be another way...
     - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
@@ -326,51 +325,7 @@ release:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
     # Run the semver release for release branches
-    - if: $CI_COMMIT_REF_NAME =~ $RELEASE_BRANCHES_PATTERN
-      when: always
-  script:
-    - npx semantic-release
-    # Test to see if semantic-release bumped the version. If not, then get the most recent version tag in this branch and use that.
-    # This is passed on to the following docs publish job so that the correct version of the docs is published.
-    - test -e .VERSION || (echo $(git describe --abbrev=0 --tags | tr -d v) > .VERSION && touch .NORELEASE)
-  artifacts:
-    paths:
-      - ".VERSION"
-      - ".NORELEASE"
-
-maintenance-release:
-  stage: release
-  tags:
-  - helm-ci
-  image:
-    name: node:20-alpine
-    entrypoint: ["sh", "-c"]
-  variables:
-    GIT_AUTHOR_NAME: smile-release-bot
-    GIT_AUTHOR_EMAIL: smile-release-bot@smilecdr.com
-    GIT_COMMITTER_NAME: smile-release-bot
-    GIT_COMMITTER_EMAIL: smile-release-bot@smilecdr.com
-  before_script:
-    - apk add bash curl jq yq git sed
-    # Install helm & dyff as they are needed in check outputs script.
-    - curl --silent --location https://get.helm.sh/helm-v3.10.1-linux-$(scripts/get-alpine-arch.sh helm).tar.gz | tar -xvzf - -C /usr/local/bin linux-$(scripts/get-alpine-arch.sh helm)/helm --strip-components 1
-    - curl --silent --location https://raw.githubusercontent.com/homeport/dyff/main/scripts/download-latest.sh | bash
-    # Install helm-docs as we need to update the Helm Chart docs when semantic-release bumps the version
-    - curl --silent --location https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_$(scripts/get-alpine-arch.sh).tar.gz | tar -xzf - -C /usr/local/bin helm-docs
-    - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/exec @semantic-release/git
-    - cp -p .semver-release/.releaserc-main.yml .releaserc.yml
-  rules:
-    # Don't run on the auto-release commit. There may be another way...
-    - if: $CI_COMMIT_MESSAGE =~ $RELEASE_COMMIT_MESSAGE
-      when: never
-    # Don't run releases as part of a merge request event.
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-      when: never
-    # Run the semver release for maintenance branchess
-    - if: $CI_COMMIT_REF_NAME =~ $ALL_MAINTENANCE_BRANCHES_PATTERN
-      when: always
-    # This matches maintenance branches
-    - if: $CI_COMMIT_REF_NAME =~ /^(([0-9]+)\.)?([0-9]+)\.x/
+    - if: $CI_COMMIT_REF_NAME =~ $STABLE_BRANCHES_PATTERN
       when: always
   script:
     - npx semantic-release
@@ -429,7 +384,7 @@ pages:
     when: never
 
   # Publish pre-release docs
-  - if: $CI_COMMIT_REF_NAME =~ $PRE_RELEASE_BRANCHES_PATTERN
+  - if: $CI_COMMIT_REF_NAME =~ $DEVEL_BRANCHES_PATTERN
     when: always
   # This matches pre-releases
   - if: $CI_COMMIT_REF_NAME =~ /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/
@@ -437,7 +392,7 @@ pages:
 
   # Publish release docs
   # This matches releases
-  - if: $CI_COMMIT_REF_NAME =~ $RELEASE_BRANCHES_PATTERN
+  - if: $CI_COMMIT_REF_NAME =~ $STABLE_BRANCHES_PATTERN
     when: always
   # This matches maintenance branches
   - if: $CI_COMMIT_REF_NAME =~ $ALL_MAINTENANCE_BRANCHES_PATTERN
