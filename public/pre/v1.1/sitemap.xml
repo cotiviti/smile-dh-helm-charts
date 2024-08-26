@@ -31,6 +31,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/contributing/branching-model/</loc>
+         <lastmod>2024-08-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/examples/</loc>
          <lastmod>2024-08-26</lastmod>
          <changefreq>daily</changefreq>
@@ -297,6 +302,26 @@
     </url>
     <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/terraform/smilecdrdeps/</loc>
+         <lastmod>2024-08-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/upgrading/</loc>
+         <lastmod>2024-08-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/upgrading/release-channels/</loc>
+         <lastmod>2024-08-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/upgrading/version-matrix/</loc>
+         <lastmod>2024-08-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/upgrading/versioning-strategy/</loc>
          <lastmod>2024-08-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
