@@ -2,6 +2,11 @@
   {
     "version": "v2.0.0-next",
     "title": "v2.0.0-next",
+    "aliases": []
+  },
+  {
+    "version": "v1.1",
+    "title": "v1.1",
     "aliases": [
       "latest"
     ]
