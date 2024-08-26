@@ -199,6 +199,7 @@ pages-test:
   # therefore the actual aliases used are unimportant
   - mike deploy --ignore-remote-status --deploy-prefix public -b $PAGES_BRANCH -u v1.0 latest latest-prod latest-pre
   - mike set-default --ignore-remote-status --deploy-prefix public -b $PAGES_BRANCH latest
+  - ls -al public/
   - rm -rf public/
   - git checkout $PAGES_BRANCH
   - git status
@@ -248,6 +249,8 @@ release:
       when: always
   script:
     - npx semantic-release
+    - mkdir -p dist
+    - cp CHANGELOG* dist/
     # Test to see if semantic-release bumped the version. If not, then get the most recent version tag in this branch and use that.
     # This is passed on to the following docs publish job so that the correct version of the docs is published.
     - test -e .VERSION || (echo $(git describe --abbrev=0 --tags | tr -d v) > .VERSION && touch .NORELEASE)
@@ -256,7 +259,7 @@ release:
     paths:
       - .VERSION
       - .NORELEASE
-      - CHANGELOG*
+      - dist/CHANGELOG*
 
 # Deploy GitLab pages. Job name MUST be `pages`, so do not change it.
 # Differing logic for different branches has to be decided within the job as you cannot have multiple `pages` jobs for different branches.
@@ -289,14 +292,20 @@ pages:
   - echo "Version ${VERSION}"
   - echo "Docs Version ${DOCS_VER}"
   - echo "Docs Aliases ${DOCS_ALIASES}"
+  # Copy latest changelog files. These are potentially updated from release stage
+  - cp dist/CHANGELOG* docs/charts/smilecdr/
   # Deploy `stable` release channel docs to root path and other release channels to the root/<channel>/ path
   - if [[ "${RELEASE_CHANNEL}" =~ stable ]] ; then export DOCS_PREFIX=public; else export DOCS_PREFIX=public/${RELEASE_CHANNEL}; fi
   # Mike will build the docs from the current commit and publish them to ${DOCS_VER}.
   - mike deploy --ignore-remote-status --deploy-prefix ${DOCS_PREFIX} -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p -u ${DOCS_VER} ${DOCS_ALIASES}
   - mike set-default --ignore-remote-status --deploy-prefix ${DOCS_PREFIX} -b $PAGES_BRANCH -r ${HTTPS_REMOTE} -p ${DOCS_VER}
   # This rm step is required as mike populates it as a part of the release process.
+  - ls -al public/
   - rm -rf public/
+  # Needed because it cannot checkout $PAGES_BRANCH due to changelogs being overwritten
+  - git reset --hard
   - git checkout $PAGES_BRANCH
+  - ls -al public/
   artifacts:
     paths:
     - public
