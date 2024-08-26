@@ -2588,7 +2588,7 @@ See the <a href="#smile-cdr-version-compatibility">version compatibility</a> sec
 </div>
 <p>You can override the version of Smile CDR by adjusting the <code>image.tag</code> in your Helm values file. i.e:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">image</span><span class="p">:</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">current_smile_cdr_version</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2024.05.R03&quot;</span>
 </code></pre></div>
 <h3 id="smile-cdr-version-compatibility">Smile CDR Version Compatibility<a class="headerlink" href="#smile-cdr-version-compatibility" title="Permanent link">&para;</a></h3>
 <p>In general, when installing a current version of Smile CDR, we recommend you use the latest version of the Helm Chart. Each new version of the Helm Chart will support the previous 4 major versions of Smile CDR. e.g:</p>
@@ -2621,7 +2621,7 @@ See the <a href="#smile-cdr-version-compatibility">version compatibility</a> sec
 <p>On occasion, you may be working directly with the Smile Digital Health support teams to deploy or test pre release versions of Smile CDR.</p>
 <p>Due to unforeseen changes in future versions of Smile CDR, there may be compatibility issues with the current version of the Helm Chart.</p>
 <p>When such situations occur, you may need to switch to the <code>DEVEL</code> release channel to use a pre release or beta version of the Helm Chart that will work with the Pre-Release version of Smile CDR that you are attempting to use.</p>
-<p>Typically, if the current Helm Chart version is <code>{{ current_helm_version }}</code> (Which uses Smile CDR <code>{{ current_smile_cdr_version }}</code>), then the following versions would be available in the <code>DEVEL</code> release channel.</p>
+<p>Typically, if the current Helm Chart version is <code>1.1.1</code> (Which uses Smile CDR <code>2024.05.R03</code>), then the following versions would be available in the <code>DEVEL</code> release channel.</p>
 <table>
 <thead>
 <tr>
@@ -2631,12 +2631,12 @@ See the <a href="#smile-cdr-version-compatibility">version compatibility</a> sec
 </thead>
 <tbody>
 <tr>
-<td><code>{{ next_smile_cdr_version }}</code></td>
-<td><code>{{ next_helm_major_version }}-beta.1</code></td>
+<td><code>2024.08.PRE-1</code></td>
+<td><code>2.0.0-beta.1</code></td>
 </tr>
 <tr>
-<td><code>{{ next_plus_1_smile_cdr_version }}</code></td>
-<td><code>{{ next_plus_1_helm_major_version }}-beta.1</code></td>
+<td><code>2024.11.PRE-1</code></td>
+<td><code>3.0.0-beta.1</code></td>
 </tr>
 </tbody>
 </table>
