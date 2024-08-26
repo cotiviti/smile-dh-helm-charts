@@ -2574,10 +2574,10 @@
 
 <h1 id="upgrading-the-helm-chart-and-smile-cdr">Upgrading the Helm Chart and Smile CDR<a class="headerlink" href="#upgrading-the-helm-chart-and-smile-cdr" title="Permanent link">&para;</a></h1>
 <h2 id="upgrading-from-pre-release-versions">Upgrading From Pre-Release Versions<a class="headerlink" href="#upgrading-from-pre-release-versions" title="Permanent link">&para;</a></h2>
-<p>If you have installed Smile CDR using pre-release versions of the Helm Charts, then you will need to adjust your deployment process to use the <code>STABLE</code> release channel before you can use the officially supported versions.</p>
+<p>If you have installed Smile CDR using the <code>1.0.0-pre.x</code> pre-release versions of the Helm Chart, then you will need to adjust your deployment process to use the <code>stable</code> release channel before you can use the officially supported versions.</p>
 <p>Please refer to the <a href="release-channels/">Release Channels</a> section for more information on switching release channels.</p>
 <h2 id="choosing-helm-chart-versions">Choosing Helm Chart Versions<a class="headerlink" href="#choosing-helm-chart-versions" title="Permanent link">&para;</a></h2>
-<p>As these Helm Charts follow SemVer 2.0, the version format is <code>MAJOR.MINOR.PATCH</code> with an optional suffix for pre-release (<code>-pre.n</code>) or beta (<code>-beta.n</code>) versions</p>
+<p>As these Helm Charts follow SemVer 2.0, the version format is <code>MAJOR.MINOR.PATCH</code> with an optional suffix depending on the release channel being used (e.g. pre release (<code>-pre.n</code>) or next major release (<code>-next.n</code>))</p>
 <p>Refer to the <a href="versioning-strategy/">Versioning Strategy</a> page for more information.</p>
 <h2 id="choosing-smile-cdr-versions">Choosing Smile CDR Versions<a class="headerlink" href="#choosing-smile-cdr-versions" title="Permanent link">&para;</a></h2>
 <p>Although each version of the Helm Chart will default to a specific version of Smile CDR, it is often desirable to explicitly define the Smile CDR version so that you can be in more direct control of any upgrades that take place.</p>
@@ -2598,6 +2598,7 @@ See the <a href="#smile-cdr-version-compatibility">version compatibility</a> sec
 <th>Helm Chart Version</th>
 <th>Default Smile CDR Version</th>
 <th>Oldest Supported Smile CDR Version</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
@@ -2605,11 +2606,13 @@ See the <a href="#smile-cdr-version-compatibility">version compatibility</a> sec
 <td>v2.0.0</td>
 <td><code>2024.08.R01</code></td>
 <td><code>2023.08.R10</code></td>
+<td>Not Yet Released</td>
 </tr>
 <tr>
 <td>v1.0.0</td>
 <td><code>2024.05.R03</code></td>
 <td><code>2023.05.R03</code></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -2618,32 +2621,32 @@ See the <a href="#smile-cdr-version-compatibility">version compatibility</a> sec
 <p>When explicitly specifying a Smile CDR version, please refer to the full <a href="version-matrix/">version matrix</a> to ensure compatibility for the version combination you require.</p>
 </div>
 <h3 id="using-pre-release-versions-of-smile-cdr">Using Pre Release Versions of Smile CDR<a class="headerlink" href="#using-pre-release-versions-of-smile-cdr" title="Permanent link">&para;</a></h3>
-<p>On occasion, you may be working directly with the Smile Digital Health support teams to deploy or test pre release versions of Smile CDR.</p>
+<p>On occasion, you may be working directly with the Smile Digital Health support teams to deploy or test Pre-Release versions of Smile CDR.</p>
 <p>Due to unforeseen changes in future versions of Smile CDR, there may be compatibility issues with the current version of the Helm Chart.</p>
-<p>When such situations occur, you may need to switch to the <code>DEVEL</code> release channel to use a pre release or beta version of the Helm Chart that will work with the Pre-Release version of Smile CDR that you are attempting to use.</p>
-<p>Typically, if the current Helm Chart version is <code>1.1.1</code> (Which uses Smile CDR <code>2024.05.R03</code>), then the following versions would be available in the <code>DEVEL</code> release channel.</p>
+<p>When such situations occur, you may need to switch to another release channel to use a pre release or beta version of the Helm Chart that will work with the Pre-Release version of Smile CDR that you are attempting to use.</p>
+<p>Typically, if the current Helm Chart version is <code>1.1.1</code> (Which uses Smile CDR <code>2024.05.R03</code>), then the following versions would be available in other release channels.</p>
 <table>
 <thead>
 <tr>
-<th>Smile CDR Pre-Release Version</th>
 <th>Helm Chart Version</th>
+<th>Smile CDR Pre-Release Version</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>2024.08.PRE-1</code></td>
 <td><code>2.0.0-beta.1</code></td>
+<td><code>2024.08.PRE-1</code></td>
 </tr>
 <tr>
-<td><code>2024.11.PRE-1</code></td>
 <td><code>3.0.0-beta.1</code></td>
+<td><code>2024.11.PRE-1</code></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Refer to the pre releases and beta sections of the <a href="version-matrix/#upcoming-release-previews">version matrix</a> to see if there is a suitable Helm Chart version available in the <code>DEVEL</code> release channel.</p>
-<p>Refer to <a href="release-channels/">Release Channels</a> for more information on switching release channels.</p>
+<p>Refer to the prerelease sections of the <a href="version-matrix/#upcoming-release-previews">version matrix</a> to see if there is a suitable Helm Chart version available.</p>
+<p>Refer to <a href="release-channels/">Release Channels</a> for more information on selecting and switching release channels.</p>
 </div>
 
 
