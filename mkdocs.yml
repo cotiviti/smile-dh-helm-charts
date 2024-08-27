@@ -68,6 +68,9 @@ plugins:
     - codespell
 - macros:
     module_name: mkdocs/macros/main
+- mike:
+    # alias_type: copy
+    canonical_version: latest
 markdown_extensions:
 - toc:
     permalink: true
