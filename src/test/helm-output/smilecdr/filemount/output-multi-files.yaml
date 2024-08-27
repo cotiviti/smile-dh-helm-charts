@@ -437,7 +437,7 @@ spec:
           - /bin/sh
           - -c
           - /bin/cp -Rvp /home/smile/smilecdr/classes/* /tmp/smilecdr-volumes/classes/
-          image: docker.smilecdr.com/smilecdr:2024.05.R04
+          image: docker.smilecdr.com/smilecdr:2024.05.R05
           imagePullPolicy: IfNotPresent
           name: init-sync-classes
           resources:
@@ -579,7 +579,7 @@ spec:
           - /bin/sh
           - -c
           - /bin/cp -Rvp /home/smile/smilecdr/customerlib/* /tmp/smilecdr-volumes/customerlib/
-          image: docker.smilecdr.com/smilecdr:2024.05.R04
+          image: docker.smilecdr.com/smilecdr:2024.05.R05
           imagePullPolicy: IfNotPresent
           name: init-sync-customerlib
           resources:
@@ -729,7 +729,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2024.05.R04"
+          image: "docker.smilecdr.com/smilecdr:2024.05.R05"
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:

@@ -201,7 +201,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2024.05.R04"
+          image: "docker.smilecdr.com/smilecdr:2024.05.R05"
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:

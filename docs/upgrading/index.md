@@ -27,10 +27,10 @@ image:
 ### Smile CDR Version Compatibility
 In general, when installing a current version of Smile CDR, we recommend you use the latest version of the Helm Chart. Each new version of the Helm Chart will support the previous 4 major versions of Smile CDR. e.g:
 
-| Helm Chart Version | Default Smile CDR Version | Oldest Supported Smile CDR Version | Notes |
-| ------------------ | ------------------------- | ---------------------------------- | ----- |
-| v2.0.0             | `2024.08.R01`             | `2023.08.R10`                      | Not Yet Released |
-| v1.0.0             | `2024.05.R03`             | `2023.05.R03`                      | |
+| Helm Chart Version | Default Smile CDR Version | Oldest Supported Smile CDR Version |
+| ------------------ | ------------------------- | ---------------------------------- |
+| v2.0.0             | `2024.08.R01`             | `2023.08.R10`                      |
+| v1.0.0             | `2024.05.R03`             | `2023.05.R03`                      |
 
 !!! note
     When explicitly specifying a Smile CDR version, please refer to the full [version matrix](./version-matrix.md) to ensure compatibility for the version combination you require.
