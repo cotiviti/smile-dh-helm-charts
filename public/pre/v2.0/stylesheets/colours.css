@@ -1,0 +1,9 @@
+:root {
+    --md-primary-fg-color:        #00AED6;
+    --md-primary-fg-color--light: #00AED6;
+    --md-primary-fg-color--dark:  #0180A0;
+  }
+
+ .md-typeset table:not([class]) th {
+     min-width: 1rem;
+ }
