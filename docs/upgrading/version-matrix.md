@@ -28,6 +28,6 @@ These future versions will be published in one of the prerelease channels
 | Helm Chart Version  | Release Channel | Default Smile CDR Version | Oldest Supported Smile CDR Version |
 | ------------------  | --------------- | ------------------------- | ---------------------------------- |
 | v2.1.0-pre.*        | `pre`           | `2024.08.R01`             | `2023.08.R10`                      |
-| v3.0.0-next.*       | `next`          | `2024.11.PRE-*`           | `2023.11.R06`                      |
+| v3.0.0-next-major.* | `next-major`    | `2024.11.PRE-*`           | `2023.11.R06`                      |
 | v4.0.0-beta.*       | `beta`          | `2025.02.PRE-*`           | `2024.02.R06`                      |
 | v5.0.0-alpha.*      | `alpha`         | `2025.05.PRE-*`           | `2024.05.R04`                      |
