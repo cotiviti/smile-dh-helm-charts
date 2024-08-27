@@ -21,4 +21,4 @@ version: 0.0.0-local
 # This is the default version of Smile CDR that will be deployed by the chart.
 # It should be incremented to new `R*` versions as they become available. This will result in a patch level change in the Helm Chart.
 # When there is a major version release of Smile CDR, `appVersion` will be updated to match, resulting in a new major version of the Helm Chart.
-appVersion: "2024.08.R01"
+appVersion: "2024.11.PRE-13"
