@@ -108,7 +108,7 @@ variable "helm_chart" {
 variable "helm_chart_version" {
   description = "The version of the Smile CDR Helm Chart to use. If set to `null`, the latest chart version will be selected based on the use of the `helm_chart_devel` option"
   type        = string
-  default     = "1.1.1"
+  default     = "2.0.0"
   nullable    = true
 }
 
