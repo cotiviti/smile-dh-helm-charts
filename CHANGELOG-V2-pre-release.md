@@ -1,4 +1,4 @@
-## [2.0.0](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.1.1...v2.0.0) (2024-08-27)
+## [2.0.0-pre.1](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.1.1...v2.0.0-pre.1) (2024-08-27)
 
 ### ⚠ BREAKING CHANGES
 

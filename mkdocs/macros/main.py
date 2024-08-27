@@ -15,7 +15,17 @@ def define_env(env):
 
     # NOTE: you may also treat env.variables as a namespace,
     #       with the dot notation:
-    ver = semver.Version.parse(env.variables.git['short_tag'][1:])
+
+    # Autodetect current version
+    # If the .VERSION file exists, then it was created by a Semantic Release job that ran prior to the docs job.
+    # In that case, we want to use the new .VERSION. We cannot use the tag for this as it was not created for this commit.
+    # If there is no .VERSION file, then Semantic Release did not bump the version. In that case it's safe to use the last git version tag.
+    try:
+        with open('.VERSION', 'r') as file:
+            ver = semver.Version.parse(file.read())
+    except:
+        ver = semver.Version.parse(env.variables.git['short_tag'][1:])
+
 
     # chartVer = ChartVersion(ver).bump_major()
     chartVer = ChartVersion(ver)
@@ -43,8 +53,8 @@ def define_env(env):
 
     env.variables.helm_repo_stable = "https://gitlab.com/api/v4/projects/40759898/packages/helm/stable"
     env.variables.helm_repo_devel = "https://gitlab.com/api/v4/projects/40759898/packages/helm/devel"
-    env.variables.helm_repo_pre = "https://gitlab.com/api/v4/projects/40759898/packages/helm/pre"
-    env.variables.helm_repo_next = "https://gitlab.com/api/v4/projects/40759898/packages/helm/next"
+    env.variables.helm_repo_pre = "https://gitlab.com/api/v4/projects/40759898/packages/helm/pre-release"
+    env.variables.helm_repo_next = "https://gitlab.com/api/v4/projects/40759898/packages/helm/next-major"
     env.variables.helm_repo_beta = "https://gitlab.com/api/v4/projects/40759898/packages/helm/beta"
     env.variables.helm_repo_alpha = "https://gitlab.com/api/v4/projects/40759898/packages/helm/alpha"
 
