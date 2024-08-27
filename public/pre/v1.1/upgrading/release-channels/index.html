@@ -2718,7 +2718,7 @@ This could result in unexpected breaking changes being introduced.</p>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>If you have previously added the repository for the <code>devel</code> channel to your local Helm installation, you should remove it and switch to use the <code>stable</code> channel instead.</p>
-<p>Remove the existing repository for the <code>devel</code> channel and add the repository for the <code>stable</code> channel. </p>
+<p>Remove the existing repository for the <code>devel</code> channel and add the repository for the <code>stable</code> channel.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>remove<span class="w"> </span>smiledh<span class="w"> </span><span class="c1"># &lt;-- Or whatever you previously named the repo locally</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>smiledh<span class="w"> </span>https://gitlab.com/api/v4/projects/40759898/packages/helm/stable
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>update
