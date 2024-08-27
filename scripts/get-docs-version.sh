@@ -20,22 +20,28 @@ FULL_VERSION=${TAG}
 # If the version contains `pre`, `next`, `beta` or `alpha` return that, otherwise only return the minor version
 
 # TODO: Fix the regex to prevent false matches, even though VERY unlikely.
-if [[ "${FULL_VERSION}" =~ pre ]]; then
-  # Just strip the pre version number from the current major prerelease
-  echo "${FULL_VERSION}" | sed -E 's/pre\.([0-9]+)$/pre/'
-elif [[ "${FULL_VERSION}" =~ next-major ]]; then
-  # Just strip the next version number from the next-major prerelease
-  echo "${FULL_VERSION}" | sed -E 's/next-major\.([0-9]+)$/next-major/'
-elif [[ "${FULL_VERSION}" =~ beta ]]; then
-  # Just strip the beta version number from the beta prerelease
-  echo "${FULL_VERSION}" | sed -E 's/beta\.([0-9]+)$/beta/'
-elif [[ "${FULL_VERSION}" =~ alpha ]]; then
-  # Just strip the alpha version number from the alpha prerelease
-  echo "${FULL_VERSION}" | sed -E 's/alpha\.([0-9]+)$/alpha/'
-else
-  # Just return the minor version
-  echo "${FULL_VERSION}" | sed -E 's/(^[v]?[0-9]+\.[0-9]+).*/\1/'
-fi
+# if [[ "${FULL_VERSION}" =~ pre ]]; then
+#   # Just strip the pre version number from the current major prerelease
+#   echo "${FULL_VERSION}" | sed -E 's/pre\.([0-9]+)$/pre/'
+# elif [[ "${FULL_VERSION}" =~ next-major ]]; then
+#   # Just strip the next version number from the next-major prerelease
+#   echo "${FULL_VERSION}" | sed -E 's/next-major\.([0-9]+)$/next-major/'
+# elif [[ "${FULL_VERSION}" =~ beta ]]; then
+#   # Just strip the beta version number from the beta prerelease
+#   echo "${FULL_VERSION}" | sed -E 's/beta\.([0-9]+)$/beta/'
+# elif [[ "${FULL_VERSION}" =~ alpha ]]; then
+#   # Just strip the alpha version number from the alpha prerelease
+#   echo "${FULL_VERSION}" | sed -E 's/alpha\.([0-9]+)$/alpha/'
+# else
+#   # Just return the minor version
+#   echo "${FULL_VERSION}" | sed -E 's/(^[v]?[0-9]+\.[0-9]+).*/\1/'
+# fi
 
-# # Just return the major.minor version
-# echo "${FULL_VERSION}" | sed -E 's/(^[v]?[0-9]+\.[0-9]+).*/\1/'
+# As each channel is now in it's own folder, we can remove the channel name
+# from the version so that it looks nicer in the browser.
+# This will result in URLs like this:
+# https://smilecdr-public.gitlab.io/smile-dh-helm-charts/next-major/v2.0
+# Instead of this:
+# https://smilecdr-public.gitlab.io/smile-dh-helm-charts/next-major/v2.0.0-next-major/
+# Just return the major.minor version
+echo "${FULL_VERSION}" | sed -E 's/(^[v]?[0-9]+\.[0-9]+).*/\1/'
