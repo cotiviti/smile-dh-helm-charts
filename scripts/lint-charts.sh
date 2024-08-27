@@ -18,7 +18,7 @@ SRC_DIR="$(echo "${SRC_DIR}" | sed 's:/*$::')"
 
 CHARTS_DIR="${SRC_DIR}"/main/charts
 
-scripts/prepare-chart-dependencies.sh -s ./src
+# scripts/prepare-chart-dependencies.sh -s ./src
 
 ERROR=0
 
