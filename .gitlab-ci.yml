@@ -158,7 +158,7 @@ helm-package-check:
     entrypoint: ["sh", "-c"]
   script:
     - echo "Testing packaging of Helm Charts..."
-    - scripts/prepare-chart-dependencies.sh -s ${CI_PROJECT_DIR}/src
+    # - scripts/prepare-chart-dependencies.sh -s ${CI_PROJECT_DIR}/src
     - helm package src/main/charts/*
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"

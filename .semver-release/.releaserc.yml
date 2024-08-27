@@ -49,7 +49,7 @@ branches:
 
   # Next major release, n+1
   - name: "next-major"
-    prerelease: "next"
+    prerelease: "next-major"
 
   # Future major release, n+2
   - name: "beta"
