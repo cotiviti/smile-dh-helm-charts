@@ -31,11 +31,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/charts/smilecdr/CHANGELOG/</loc>
-         <lastmod>2024-08-27</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/charts/smilecdr/smilecdr/</loc>
          <lastmod>2024-08-27</lastmod>
          <changefreq>daily</changefreq>
