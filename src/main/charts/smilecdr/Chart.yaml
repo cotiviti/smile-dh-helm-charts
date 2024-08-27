@@ -12,13 +12,13 @@ description: Smile CDR
 # pipeline. Library charts do not define any templates and therefore cannot be deployed.
 type: application
 
-# This is the chart version. This version number should be incremented each time you make changes
-# to the chart and its templates, including the app version.
-# Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 1.1.1
+# This is the chart version, which follows Semantic Versioning (https://semver.org/)
+# It is automatically incremented by Semantic Release in the CI pipeline.
+# The below version, `0.0.0-local` is only used for local development.
+# This will be overwritten with the correct version during the release process.
+version: 0.0.0-local
 
-# This is the version number of the application being deployed. This version number should be
-# incremented each time you make changes to the application. Versions are not expected to
-# follow Semantic Versioning. They should reflect the version the application is using.
-# It is recommended to use it with quotes.
+# This is the default version of Smile CDR that will be deployed by the chart.
+# It should be incremented to new `R*` versions as they become available. This will result in a patch level change in the Helm Chart.
+# When there is a major version release of Smile CDR, `appVersion` will be updated to match, resulting in a new major version of the Helm Chart.
 appVersion: "2024.05.R04"

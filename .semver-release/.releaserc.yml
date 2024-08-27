@@ -1,0 +1,60 @@
+plugins:
+  - "@semantic-release/commit-analyzer"
+  - - "@semantic-release/release-notes-generator"
+    # https://github.com/semantic-release/changelog/issues/279#issuecomment-1646786660
+    - preset: "conventionalcommits"
+  - - "@semantic-release/exec"
+    # Pre and post renaming of changelog file (as @semantic-release/changelog does not allow setting filename with variables)
+    - prepareCmd: "./scripts/semantic-release-prepare-changelog.sh pre-prepare ${nextRelease.version} ${nextRelease.channel}"
+  - - "@semantic-release/changelog"
+    - changelogFile: "CHANGELOG-TMP.md"
+  - - "@semantic-release/exec"
+    # Pre and post renaming of changelog file (as @semantic-release/changelog does not allow setting filename with variables)
+    - prepareCmd: "./scripts/semantic-release-prepare-changelog.sh post-prepare ${nextRelease.version} ${nextRelease.channel}"
+  - - "@semantic-release/exec"
+    # Prepare and publish Helm Release
+    - prepareCmd: "./scripts/semantic-release-prepare-chart.sh ./src/ ${nextRelease.version} ${nextRelease.channel}"
+      publishCmd: "./scripts/semantic-release-publish-chart.sh ${nextRelease.version} ${nextRelease.channel}"
+    # - successCmd: "echo "
+  - - "@semantic-release/gitlab"
+    - assets:
+      - "*.tgz"
+      successComment: true
+  - - "@semantic-release/git"
+    - assets:
+      # Removing as we are not updating the charts in the repo during a release.
+      # The published charts already have the updated version.
+      # The repo version should retain the `0.0.0-local` version
+      # - "src/"
+      # We do need to determine a more appropriate way to update the changelog in the repo/docs
+      - "CHANGELOG*.md"
+      # chore(release): major|minor|patch ""|pre|nex|beta|alpha release x.y.z
+      # e.g.
+      # chore(release): major release 2.0.0
+      # or
+      # chore(release): major pre release 3.0.0-pre.1
+      message: "chore(release): ${nextRelease.type} release ${nextRelease.channel} ${nextRelease.version}\n\n${nextRelease.notes}"
+
+# Note that this needs to match the configuration in the .scripts/get-release-channel.sh script.
+branches:
+  - name: "main"
+
+  # Maintenance releases
+  - name: "release-+([0-9]).x"
+
+  # Next minor/patch release on current stable major release, n
+  #   ( Equivalent to the default Semantic Release configuration, `next`)
+  - name: "pre-release"
+    prerelease: "pre"
+
+  # Next major release, n+1
+  - name: "next-major"
+    prerelease: "next"
+
+  # Future major release, n+2
+  - name: "beta"
+    prerelease: "beta"
+
+  # Future major release, n+3
+  - name: "alpha"
+    prerelease: "alpha"

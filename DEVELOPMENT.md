@@ -95,7 +95,7 @@ For the `scope`, use something like the following:
 * `smilecdr` - Core Smile CDR Helm Chart functionality
 * `pgo` - Functionality pertaining just to the Postgres Operator
 * `strimzi` - Functionality pertaining just to the Strimzi Kafka Operator
-* `observability` - CHanges related to the observability suite
+* `observability` - Changes related to the observability suite
 
 The idea here is to identify which component here is being affected. If there are multiple affected components, you may need to consider breaking your changes into smaller, more manageable, commits.
 
