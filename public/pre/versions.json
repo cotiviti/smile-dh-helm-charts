@@ -1,5 +1,12 @@
 [
   {
+    "version": "v2.0.0-pre",
+    "title": "v2.0.0-pre",
+    "aliases": [
+      "latest"
+    ]
+  },
+  {
     "version": "v1.1.1-pre",
     "title": "v1.1.1-pre",
     "aliases": []
@@ -8,7 +15,6 @@
     "version": "v1.1",
     "title": "v1.1",
     "aliases": [
-      "latest",
       "latest-pre"
     ]
   },
