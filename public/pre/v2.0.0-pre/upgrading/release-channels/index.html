@@ -2715,13 +2715,13 @@
 </tr>
 <tr>
 <td>v2.x and up prereleases</td>
-<td><code>pre</code></td>
-<td>https://gitlab.com/api/v4/projects/40759898/packages/helm/pre</td>
+<td><code>pre-release</code></td>
+<td>https://gitlab.com/api/v4/projects/40759898/packages/helm/pre-release</td>
 </tr>
 <tr>
-<td>Next version prereleases</td>
-<td><code>next</code></td>
-<td>https://gitlab.com/api/v4/projects/40759898/packages/helm/next</td>
+<td>Next major version prereleases</td>
+<td><code>next-major</code></td>
+<td>https://gitlab.com/api/v4/projects/40759898/packages/helm/next-major</td>
 </tr>
 <tr>
 <td>Beta releases</td>
@@ -2756,8 +2756,8 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>smiledh-stable<span class="w"> </span>https://gitlab.com/api/v4/projects/40759898/packages/helm/stable
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>update
 </code></pre></div></p>
-<p>Add the <code>pre</code> repo
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>smiledh-pre<span class="w"> </span>https://gitlab.com/api/v4/projects/40759898/packages/helm/pre
+<p>Add the <code>pre-release</code> repo
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>smiledh-pre<span class="w"> </span>https://gitlab.com/api/v4/projects/40759898/packages/helm/pre-release
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>$<span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>update
 </code></pre></div></p>
 </div>
@@ -2773,10 +2773,10 @@
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="na">version</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;2.0.0-pre.1&quot;</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">}</span>
 </code></pre></div></p>
-<p>Use the <code>pre</code> repo
+<p>Use the <code>pre-release</code> repo
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;helm_release&quot;</span><span class="w"> </span><span class="nv">&quot;example&quot;</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="na">name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my-smilecdr-release&quot;</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="na">repository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://gitlab.com/api/v4/projects/40759898/packages/helm/pre&quot;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="na">repository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://gitlab.com/api/v4/projects/40759898/packages/helm/pre-release&quot;</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="na">chart</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;smilecdr&quot;</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="na">devel</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span>
