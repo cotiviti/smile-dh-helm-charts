@@ -29,7 +29,7 @@ SRC_DIR="$(echo "${SRC_DIR}" | sed 's:/*$::')"
 CHARTS_DIR="${SRC_DIR}"/main/charts
 CHART_TESTS_DIR="${SRC_DIR}"/test/helm-output
 
-scripts/prepare-chart-dependencies.sh -s ./src
+# scripts/prepare-chart-dependencies.sh -s ./src
 
 DEBUG_OPT=""
 if [ "${DEBUG_MODE}" == "1" ]; then

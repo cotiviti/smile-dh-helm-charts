@@ -21,7 +21,7 @@
 BRANCH="${1}"
 CHANNEL=""
 
-# If the version contains `pre`, `next`, `beta` or `alpha` return that, otherwise only return the minor version
+# If the version contains `pre`, `next-major`, `beta` or `alpha` return that, otherwise only return the minor version
 
 if [[ "${BRANCH}" =~ ^(main|release-[1-9][0-9]*\.x)$ ]]; then
   CHANNEL='stable'

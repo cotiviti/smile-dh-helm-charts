@@ -23,9 +23,9 @@ FULL_VERSION=${TAG}
 if [[ "${FULL_VERSION}" =~ pre ]]; then
   # Just strip the pre version number from the current major prerelease
   echo "${FULL_VERSION}" | sed -E 's/pre\.([0-9]+)$/pre/'
-elif [[ "${FULL_VERSION}" =~ next ]]; then
+elif [[ "${FULL_VERSION}" =~ next-major ]]; then
   # Just strip the next version number from the next-major prerelease
-  echo "${FULL_VERSION}" | sed -E 's/next\.([0-9]+)$/next/'
+  echo "${FULL_VERSION}" | sed -E 's/next-major\.([0-9]+)$/next-major/'
 elif [[ "${FULL_VERSION}" =~ beta ]]; then
   # Just strip the beta version number from the beta prerelease
   echo "${FULL_VERSION}" | sed -E 's/beta\.([0-9]+)$/beta/'
