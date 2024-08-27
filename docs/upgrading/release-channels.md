@@ -6,8 +6,8 @@ The Smile CDR Helm Charts are available in a number of release channels.
 | ------------ | ------------ | --------------- |
 | Official | `stable` | {{ helm_repo_stable }} |
 | v1.x prereleases | `devel` | {{ helm_repo_devel }} |
-| v2.x and up prereleases | `pre` | {{ helm_repo_pre }} |
-| Next version prereleases | `next` | {{ helm_repo_next }} |
+| v2.x and up prereleases | `pre-release` | {{ helm_repo_pre }} |
+| Next major version prereleases | `next-major` | {{ helm_repo_next }} |
 | Beta releases | `beta` | {{ helm_repo_beta }} |
 | Alpha releases | `alpha` | {{ helm_repo_alpha }} |
 
@@ -37,7 +37,7 @@ The mechanism for configuring the release channel depends on which tooling you a
     $ helm repo update
     ```
 
-    Add the `pre` repo
+    Add the `pre-release` repo
     ```shell
     $ helm repo add smiledh-pre {{ helm_repo_pre }}
     $ helm repo update
@@ -61,7 +61,7 @@ The mechanism for configuring the release channel depends on which tooling you a
     }
     ```
 
-    Use the `pre` repo
+    Use the `pre-release` repo
     ```hcl
     resource "helm_release" "example" {
       name       = "my-smilecdr-release"
