@@ -40,7 +40,22 @@ branches:
   - name: "main"
 
   # Maintenance releases
-  - name: "release-+([0-9]).x"
+  # Temporarily explicitly set each maintenance branch as the autogeneration of maintenance
+  # branches does not work with the prefix
+  # - name: "release-+([0-9]).x"
+  - name: "release-1.x"
+    range: "1.x"
+    channel: "stable"
+  # Uncomment these as they are released
+  # - name: "release-2.x"
+  #   range: "2.x"
+  #   channel: "stable"
+  # - name: "release-3.x"
+  #   range: "3.x"
+  #   channel: "stable"
+  # - name: "release-4.x"
+  #   range: "4.x"
+  #   channel: "stable"
 
   # Next minor/patch release on current stable major release, n
   #   ( Equivalent to the default Semantic Release configuration, `next`)
