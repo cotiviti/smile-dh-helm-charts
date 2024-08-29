@@ -36,20 +36,51 @@ locals {
   helm_namespace    = coalesce(var.namespace, lower(local.name))
   helm_release_name = coalesce(var.helm_release_name, lower(local.name))
   helm_service_account_suffix = var.helm_service_account_suffix
-  helm_repository = var.helm_repository
-  helm_chart = var.helm_chart
-  helm_chart_version = var.helm_chart_version
-
-  # When Helm chart version set to `null`, the latest chart version is automatically selected as follows.
-  # * If the devel option IS NOT set, then it effectively uses the semVer 2 constraint `>0.0.0`.
-  #   This effectively selects the latest version that is NOT a pre-release
-  # * If the devel option IS set, then it effectively uses the semVer 2 constraint `>0.0.0-0`.
-  #   This effectively selects the latest version, INCLUDING pre-releases.
-  # As such:
-  # * If version is set, devel has no effect.
-  # * If devel is set, it only takes effect if version is set to null so there is no need to unset it here
+  helm_repository_default = "https://gitlab.com/api/v4/projects/40759898/packages/helm"
+  helm_repository_stable_channel = "stable"
   
-  helm_chart_devel = var.helm_chart_devel
+  helm_chart = var.helm_chart
+
+  helm_use_default_repo = local.helm_repository_default == var.helm_repository
+  helm_use_stable_channel = local.helm_use_default_repo && local.helm_repository_stable_channel == var.helm_repository_release_channel
+  
+  # If using the default repo, then the final URL is `repo/channel`, otherwise just use the repo that was provided
+  helm_repository = local.helm_use_default_repo ? "${var.helm_repository}/${var.helm_repository_release_channel}/" : var.helm_repository
+
+  ## Determine Helm Chart version ##
+  
+  # This needs to be updated during a release!
+  helm_chart_default_version = "2.0.0"
+  
+  ### NOTE: Due to what seems like a bug in the helm_release module, setting `devel` to true can cause terraform to always update even if there are no changes
+  ### To circumvent this for now, we will manually set the version to ">0.0.0-0" rather than setting `devel`
+  ### The below logic can be replaced once the upstream bug is fixed
+  
+  # #######################################################################
+  # Delete this section once bug is fixed.
+  # helm_autoconf_devel_version is used if not using stable channel.
+  # It will be ">0.0.0-0" unless version has been explicitly set.
+  # This is functionally equivalent to setting devel, while avoiding the bug
+  helm_autoconf_devel_version = var.helm_chart_version != null ? var.helm_chart_version : ">0.0.0-0"
+  helm_autoconf_version = local.helm_use_stable_channel ? local.helm_chart_default_version : local.helm_autoconf_devel_version
+  # Use var.helm_chart_version mode if provided, otherwise use the autoconf version
+  helm_chart_version = var.helm_chart_version != null ? var.helm_chart_version : local.helm_autoconf_version
+  # Use var.helm_chart_version mode if provided, otherwise use null and rely on the autoconf version being set for devel mode
+  helm_chart_devel = var.helm_chart_devel != null ? var.helm_chart_devel : null
+  # #######################################################################
+
+  # #######################################################################
+  # Uncomment this section once bug is fixed.
+  # # The autoconfigured helm version (used when var.helm_chart_version is null) depends on the channel being used.
+  # # Note that you need to set an empty string rather than using null, in case version was previously set. `null` will not unset it.
+  # helm_autoconf_version = local.helm_use_stable_channel ? local.helm_chart_default_version : ""
+  # # If autoconf version ends up empty, then we autoconf devel mode so that it picks up the latest prerelease
+  # helm_chart_autoconf_devel = local.helm_chart_version == "" ? true : false
+  # # Use var.helm_chart_version mode if provided, otherwise use the autoconf version
+  # helm_chart_version = var.helm_chart_version != null ? var.helm_chart_version : local.helm_autoconf_version
+  # # Use var.helm_chart_version mode if provided, otherwise use the autoconf devel mode
+  # helm_chart_devel = var.helm_chart_devel != null ? var.helm_chart_devel : local.helm_chart_autoconf_devel
+  # #######################################################################
 
   cdr_service_account_name = var.cdr_service_account_name == null ? "${local.helm_release_name}${local.helm_service_account_suffix}" : var.cdr_service_account_name
   cdr_namespace_service_accounts = ["${local.helm_namespace}:${local.cdr_service_account_name}"]
