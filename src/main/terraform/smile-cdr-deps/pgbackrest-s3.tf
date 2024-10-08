@@ -1,6 +1,7 @@
 module "s3_bucket_pgo_backrest" {
   count = (local.crunchy_pgo_backrest_s3_enabled && local.crunchy_pgo_backrest_s3_create_bucket) ? 1 : 0
   source = "terraform-aws-modules/s3-bucket/aws"
+  version = "~>4.1.2"
 
   bucket = local.crunchy_pgo_backrest_s3_bucket_name
   # bucket_prefix = local.crunchy_pgo_backrest_s3_bucket_name
