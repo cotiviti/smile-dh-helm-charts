@@ -333,7 +333,7 @@ locals {
 
         connectionConfigSource = {
           source = "sscsi"
-          secretName = lower(db_user.name)
+          secretName = replace(lower(db_user.name), "_", "-")
           secretArn = db_user.helm_secret_config.secretArn
         }
         connectionConfig = {
@@ -354,7 +354,7 @@ locals {
     databases = [
       for db_user in module.postgres_db_user:
       {
-        secretName = lower(db_user.name)
+        secretName = replace(lower(db_user.name), "_", "-")
         module = db_user.helm_secret_config.cdr_modules[0]
         secretArn = db_user.helm_secret_config.secretArn
       }
