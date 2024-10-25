@@ -39,6 +39,12 @@ tests:
     - ../default-test-values.yaml
     - ../default-test-disabled-features.yaml
     - values-appGallery.yaml
+  productPortal:
+    outputFile: output-productPortal.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-productPortal.yaml
   issuerUrl:
     outputFile: output-issuerUrl.yaml
     valueFiles:
