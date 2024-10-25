@@ -1,0 +1,17 @@
+modules:
+  useDefaultModules: true
+  productPortal:
+    name: Product Portal
+    enabled: true
+    type: PRODUCT_PORTAL
+    service:
+      enabled: true
+      svcName: productportal
+      hostName: default
+    config:
+      context_path: productportal
+      port: 9900
+
+ingresses:
+  default:
+    enabled: true

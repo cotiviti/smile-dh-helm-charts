@@ -426,6 +426,8 @@ that will use the appropriate module prototypes
   {{- $modulesWithEndpoints = append $modulesWithEndpoints "SECURITY_OUT_" -}}
   {{- /* Appsphere module. Currently only APP_GALLERY  */ -}}
   {{- $modulesWithEndpoints = append $modulesWithEndpoints "APP_GALLERY" -}}
+  {{- /* Product Portal module. Currently only PRODUCT_PORTAL  */ -}}
+  {{- $modulesWithEndpoints = append $modulesWithEndpoints "PRODUCT_PORTAL" -}}
   {{- $modulesWithEndpoints | toYaml -}}
 {{- end -}}
 
