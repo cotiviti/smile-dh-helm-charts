@@ -1,31 +1,32 @@
 # Prepare EKS Cluster
 
-To simplify creation of a suitable EKS cluster, this guide uses a simple Terraform project that leverages the [Amazon EKS Blueprints for Terraform](https://aws-ia.github.io/terraform-aws-eks-blueprints/) patterns.
-
-These patterns provide a well-curated baseline EKS configuration that can be customized based on the requirements for your environment.
+This guide will help you set up an EKS cluster with configurations and components that are required to easily install Smile CDR.
 
 ## Terraform 'Quickstart' Project
 
-A Terraform project is provided in the [examples](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/pre-release/examples/terraform/cluster/complete) section of the [Smile CDR Helm Chart](https://gitlab.com/smilecdr-public/smile-dh-helm-charts) repository. It can be used to create a ***complete*** EKS cluster that contains all of the required components to use the Smile CDR Helm Chart.
+To simplify the process, an example Terraform project has been provided to simplify creation of the EKS cluster and required components.
+
+This example project leverages concepts and components from the [Amazon EKS Blueprints for Terraform](https://aws-ia.github.io/terraform-aws-eks-blueprints/) patterns and the [Amazon EKS Blueprints Addons](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/) addons. These patterns and addons provide a well-curated baseline EKS configuration that can be used as a guideline when designing and implementing your own environment.
+
+We will use the example Terraform project from the [examples](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/pre-release/examples/terraform/cluster/complete/karpenter) section of the [Smile CDR Helm Chart](https://gitlab.com/smilecdr-public/smile-dh-helm-charts) repository. It can be used to create a complete EKS cluster that contains all of the required components to deploy Smile CDR using the Helm Chart.
+
+>Note: We do not recommend using this Terraform project outside of learning/demo type scenarios. This is not supported code and is only provided to support this QuickStart guide.
 
 ### Included Components
-The main components that are included in this Terraform Quickstart Project are as follows:
+The main components that are included in this Terraform Quickstart Project:
 
-* **EKS Cluster** using best-practice defaults (e.g. etcd encrypted by default)
-* **Karpenter** for provisioning compute resources on-demand, rather than pre-provisioning worker nodes. Can take advantage of ***Spot*** instances and is more granular and efficient than Autoscaling Groups. [More Info](https://karpenter.sh/docs/)
-* **AWS Load Balancer Controller** for managing AWS Load Balancer. [More Info](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/)
-* **Nginx Ingress Controller** for managing Ingress resources. [More Info](https://kubernetes.github.io/ingress-nginx/)
-* **Secrets Store CSI** for securely managing Secrets (i.e. DB credentials). [More Info](https://secrets-store-csi-driver.sigs.k8s.io/)
-* **CrunchyData Postgres Operator** for managing in-cluster Postgres databases. [More Info](https://access.crunchydata.com/documentation/postgres-operator/latest)
-* **Strimzi Kafka Controller** for managing in-cluster Kafka clusters. [More Info](https://strimzi.io/)
-* Other supporting components that are not relevant to this guide.
+* **Amazon VPC** - A VPC will be created that is auto-configured to work with the rest of the guide.
+  >**Warning!** If you wish to use a pre-existing VPC, there are extra configurations that need to be verified beforehand. Refer to the [Prepare Existing VPC](./existing-vpc.md) section of this guide.
 
-### Quickstart variants
-This Terraform project is available in three variants to help satisfy common use-cases.
+* **Amazon EKS Cluster** - An Amazon Elastic Kubernets Service (EKS) cluster will be deployed, following best-practices. It will use the following features:
+    * **Karpenter Node Management** - Just-in-time node provisioning using cost effective spot EC2 instances. [More Info](https://karpenter.sh/docs/)
+    * **AWS Load Balancer Controller** - Automatically creates Amazon Elastic Load Balancers to enable ingress [More Info](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
+    * **Nginx Ingress Controller** for managing Ingress resources. [More Info](https://kubernetes.github.io/ingress-nginx/)
+    * **Secrets Store CSI** - Securely integrate secrets stored in Amazon Secrets Manager (i.e. DB credentials). [More Info](https://secrets-store-csi-driver.sigs.k8s.io/)
+    * **CrunchyData Postgres Operator** - Provision Postgres Databases in the EKS cluster. [More Info](https://access.crunchydata.com/documentation/postgres-operator/latest)
+    * **Strimzi Kafka Operator** - Provision Kafka Clusters in the EKS cluster. [More Info](https://strimzi.io/)
 
-* `karpenter` - Configures all of the above components, plus a new VPC.
-* `karpenter-fargate` - Same as above, but uses Fargate for the core cluster components to save cost under certain scenarios
-* `karpenter-novpc` - Same as the `karpenter` option above, but can be deployed to an existing VPC. Useful if you do not wish to create a VPC.
+* **S3 Endpoint** - Certain features of the Smile CDR Helm Chart make use of S3 buckets. This S3 Endpoint improves efficiency of such solitions.
 
 ### Terraform State Management
 By default, this Terraform Quickstart Project uses a local Terraform state file.
@@ -33,7 +34,7 @@ By default, this Terraform Quickstart Project uses a local Terraform state file.
 It's highly recommended to use a centrally managed remote state if you have one already available in your environment. If you do not have one and wish to configure one in the same AWS account that you plan to deploy to, then you can use the provided CDK project to provision an S3 bucket and DynamoDB table suitable for Terraform remote state management. This can be found in the [state-s3](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/pre-release/examples/terraform/state-s3) section of the [Smile CDR Helm Chart](https://gitlab.com/smilecdr-public/smile-dh-helm-charts) repository.
 
 ## Deployment Steps
-Let's follow the `karpenter` variant of the Terraform Quickstart Project...
+Let's walk through the process of deploying an EKS cluster using this Terraform QuickStart project...
 
 ### Download Terraform Quickstart Project
 In a terminal, change to a suitable folder to manage your project.
@@ -54,23 +55,49 @@ cd cluster
 ```
 
 ### Configure the project for your environment
-Although this project will run without modification, you should update some of the Terraform `locals` to suit your environment.
+By default, this project will not run until you update some required configurations. To do this, you need to edit the `locals` section in the `main.tf` file.
+
+>**Note:** This project deliberately requires you configure via locals rather than passing in variables, because it is not intended to be used as a configurable module. It is only provided as a technical demonstration of how to deploy an EKS cluster suitable for deploying Smile CDR using the official Helm Chart.
 
 At a minimum, you should configure the following:
 
 * `name` - A unique name that will be used for your EKS cluster and any supporting resources (Default is `MyClusterName`)
 * `region` - The AWS region where you wish to deploy the EKS cluster. (Default is `us-east-1`)
-* `acm_cert_arn` - The ARN for a default ACM certificate that will be used by the AWS Network Load Balancer that will be used by the Nginx Ingress Controller.
+* `nginx_ingress.acm_cert_arn` - The ARN for a default ACM certificate that will be used by the AWS Network Load Balancer that will be used by the Nginx Ingress Controller.
 
->**Note:** It's advisable at this point to configure your Terraform remote state. For this guide, we will continue to use local state.
+#### VPC configuration
+If you wish to let the project create the VPC for you, no further configuration is required.
 
-Edit the `main.tf` file. At the top of the file, you will see the following `locals` block that you should update.
+If you wish to use an already-existing VPC you will need to do the following
 
-```
+* Set `existing_vpc_id` to the VPC Id of the existing VPC
+* Follow the [Existing VPC](./existing-vpc.md) chapter which will guide you on configuration requirements on the existing VPC.
+
+#### Ingress Configuration
+
+As mentioned in the [AWS Dependencies](./aws-dependencies.md#amazon-certificate-manager-certificate) section, you need to provide a suitable TLS certificsate via ACM. Do this by setting `nginx_ingress.acm_cert_arn`.
+
+>**Note:** It's advisable at this point to configure your Terraform remote state as described [above](#terraform-state-management). For this guide, we will continue to use local state.
+
+At the top of the `main.tf` file, you will see the following `locals` block that you should update.
+
+```terraform hl_lines="7 12-16"
 locals {
   name   = "MyClusterName"
   region = "us-east-1"
-  acm_cert_arn = "arn:aws:acm:us-east-1:012345678910:certificate/xxxx-yyyy-zzzz"
+  enable_nginx_ingress = true
+  nginx_ingress = {
+    enable_tls = true
+    acm_cert_arn = "arn:aws:acm:us-east-1:012345678910:certificate/xxxx-yyyy-zzzz"
+  }
+
+  ...
+
+  existing_vpc_id = null
+  private_subnet_discovery_tags = {
+    Tier = "Private"
+  }
+  existing_private_subnet_ids = null
 }
 ```
 
@@ -145,31 +172,30 @@ Using this context, you should now be able to inspect the cluster and view all o
 
 Your cluster is now ready and applications can be deployed.
 
-Before installing Smile CDR using the Helm Chart, you may still need to perform further configurations in your AWS account. Proceed to the [Prepare AWS Resources](./aws-resources.md) section.
+Before installing Smile CDR using the Helm Chart, you may still need to perform further configurations in your AWS account. Review the [Prepare AWS Resources](./aws-resources.md) section to ensure that all required dependencies are present.
 
-### Destroy EKS Cluster
+## Destroy EKS Cluster
 When deleting this cluster, it's important to destroy the resources in a specific order.
 Failure to do this will likely leave the Terraform project in a 'stuck' state where it is unable to delete resources without tedious manual steps.
 
-1. Delete any application workloads or operators deployed on the cluster
-   ```
-   terraform destroy -target module.eks_blueprints_addon_crunchypgo
-   terraform destroy -target module.eks_blueprints_addon_strimzi
-   terraform destroy -target module.eks_blueprints_addon_karpenter_provisioner_config
-   ```
-2. Destroy any ingress addons
+>**Note:** Delete any application workloads deployed on the cluster before proceeding with these steps
+
+1. Destroy any ingress addons
    ```
    terraform destroy -target module.eks_blueprints_addons_ingress
    ```
-3. Destroy the core EKS Blueprint Addons
+   This is an important step. If we were to delete the core addons (Which includes the load balancer controller), then we may end up with dangling ELB resources.
+   By deleting the ingress addons first, we can be sure that the load balancers are deleted.
+
+2. Destroy the core EKS Blueprint Addons
    ```
    terraform destroy -target module.eks_blueprints_addons_core
    ```
-4. Destroy the core EKS module
+3. Destroy the core EKS module
    ```
    terraform destroy -target module.eks
    ```
-5. Destroy the remaining resources
+4. Destroy the remaining resources
    ```
    terraform destroy
    ```
