@@ -81,7 +81,7 @@ By default Karpenter uses the following resource tags to perform Auto Discovery 
 
 |Subnet Type|Tag Name|Tag Value|Configurable|
 |-|-|-|-|
-| Private | karpenter.sh/discovery | <`cluster-name`> | :material-check: |
+| Private | karpenter.sh/discovery | <`cluster-name`> | :material-close: |
 
 >**Note**: `<cluster-name>` refers to the name of the EKS cluster that you will be deploying.
 
@@ -96,7 +96,7 @@ The AWS Load Balancer Controller uses the following resource tags to perform Aut
 | Private | kubernetes.io/role/internal-elb | `1` or `` | :material-close: |
 | Public | kubernetes.io/role/elb | `1` or `` | :material-close: |
 
-The chosen subnet will depend on whether an internet-facing or internal load balancer is being provisioned.
+The chosen subnet will depend on whether an `internet-facing` or `internal` load balancer is being provisioned.
 
 >**Note:** It is not currently possible to alter the auto discovery behaviour for this. [See here for more info](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/subnet_discovery/)
 
