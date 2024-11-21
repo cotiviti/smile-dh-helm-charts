@@ -172,7 +172,7 @@ Using this context, you should now be able to inspect the cluster and view all o
 
 Your cluster is now ready and applications can be deployed.
 
-Before installing Smile CDR using the Helm Chart, you may still need to perform further configurations in your AWS account. Review the [Prepare AWS Resources](./aws-resources.md) section to ensure that all required dependencies are present.
+Before installing Smile CDR using the Helm Chart, you may still need to perform further configurations in your AWS account. Review the [Prepare AWS Resources](./aws-dependencies.md) section to ensure that all required dependencies are present.
 
 ## Destroy EKS Cluster
 When deleting this cluster, it's important to destroy the resources in a specific order.
