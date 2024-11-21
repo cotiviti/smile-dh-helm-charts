@@ -976,7 +976,7 @@
   
   
     <li class="md-nav__item">
-      <a href="aws-resources.md" class="md-nav__link">
+      <a href="aws-dependencies/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2683,18 +2683,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#prepare-eks-cluster" class="md-nav__link">
+  <a href="#prepare-aws-resources" class="md-nav__link">
     <span class="md-ellipsis">
-      Prepare EKS Cluster
+      Prepare AWS Resources
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#prepare-aws-resources" class="md-nav__link">
+  <a href="#prepare-eks-cluster" class="md-nav__link">
     <span class="md-ellipsis">
-      Prepare AWS Resources
+      Prepare EKS Cluster
     </span>
   </a>
   
@@ -2774,14 +2774,14 @@
 <p>Each deployment of Smile CDR will have its own set of dependencies related to Security, Agility and Accessibility. As these can be tricky to set up manually, this guide will use a <strong><em>Smile CDR Dependencies</em></strong> Terraform module that has been created by Smile Digital Health for this purpose.</p>
 <h2 id="quickstart-steps">Quickstart Steps<a class="headerlink" href="#quickstart-steps" title="Permanent link">&para;</a></h2>
 <p>These quickstart instructions are split into 3 main sections:</p>
+<h3 id="prepare-aws-resources">Prepare AWS Resources<a class="headerlink" href="#prepare-aws-resources" title="Permanent link">&para;</a></h3>
+<p>The <a href="aws-dependencies/">Prepare AWS Resources</a> section details the AWS resources that need to be provisioned in your AWS account in order to deploy Smile CDR using the Helm Chart.</p>
+<p>Once you have these dependencies in place, you can proceed to deploying Smile CDR using the Terraform module and Helm Chart</p>
 <h3 id="prepare-eks-cluster">Prepare EKS Cluster<a class="headerlink" href="#prepare-eks-cluster" title="Permanent link">&para;</a></h3>
 <p>The <a href="eks-cluster/">Prepare EKS Cluster</a> section shows how to install a new EKS cluster or prepare an existing EKS cluster to be ready to install Smile CDR using the Helm Chart.</p>
 <p>For the purposes of this QuickStart guide, an example Terraform project will be used to deploy these components and provide a high-level view of the approach you may take in your own organization.</p>
 <p>An Amazon EKS cluster with associated infrastructure is required. As the infrastructure requirements for various use-cases and organizational standards can differ wildly, it is out of scope to have a solution that will cover all scenarios.</p>
 <p>If you already have an EKS cluster ready to go, you may skip this section and move on to the Smile Dependencies section.</p>
-<h3 id="prepare-aws-resources">Prepare AWS Resources<a class="headerlink" href="#prepare-aws-resources" title="Permanent link">&para;</a></h3>
-<p>The <a href="./aws-resources.md">Prepare AWS Resources</a> section details the AWS resources that need to be provisioned in your AWS account in order to deploy Smile CDR using the Helm Chart.</p>
-<p>Once you have these dependencies in place, you can proceed to deploying Smile CDR using the Terraform module and Helm Chart</p>
 <h3 id="deploy-smile-cdr-with-terraform">Deploy Smile CDR with Terraform<a class="headerlink" href="#deploy-smile-cdr-with-terraform" title="Permanent link">&para;</a></h3>
 <p>The <a href="deploy-terraform/">Deploy Smile CDR with Terraform</a> section shows how to deploy Smile CDR via the provided Terraform module.</p>
 <p>If choosing to deploy directly with the Helm Chart instead, you will first need to deploy the Smile CDR dependency resources into your AWS account through other means. More details on these can be found in the <a href="../guide/smilecdr/requirements/">Requirements</a> section of the <a href="../guide/smilecdr/">Smile CDR Helm Chart User Guide</a>.</p>

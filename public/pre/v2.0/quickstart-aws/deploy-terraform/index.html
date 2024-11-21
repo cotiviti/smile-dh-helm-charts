@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/quickstart-aws/deploy-terraform/">
       
       
-        <link rel="prev" href="../existing-vpc/">
+        <link rel="prev" href="../aws-dependencies/">
       
       
         <link rel="next" href="../../guide/">
@@ -976,7 +976,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../aws-resources.md" class="md-nav__link">
+      <a href="../aws-dependencies/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3091,9 +3091,9 @@
 </ul>
 <p>If using the Helm Chart directly, all of the above will need to be configured beforehand. This is not in scope of this quickstart.</p>
 <h2 id="pre-requisites">Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permanent link">&para;</a></h2>
-<p>It's important to ensure that any pre-requisites are in place before following these steps. If you have not done so already, please review the <a href="../eks-cluster/">Prepare EKS Cluster</a> and <a href="./aws-resources.md">Prepare AWS Resources</a> sections.</p>
+<p>It's important to ensure that any pre-requisites are in place before following these steps. If you have not done so already, please review the <a href="../eks-cluster/">Prepare EKS Cluster</a> and <a href="../aws-dependencies/">Prepare AWS Resources</a> sections.</p>
 <h3 id="container-repository">Container Repository<a class="headerlink" href="#container-repository" title="Permanent link">&para;</a></h3>
-<p>Review the section on <a href="./aws-resources.md#private-container-registry-credentials">Private Container Registry Credentials</a> and ensure that you either:</p>
+<p>Review the section on <a href="../aws-dependencies/#private-container-registry-credentials">Private Container Registry Credentials</a> and ensure that you either:</p>
 <ul>
 <li>Have already created a suitable AWS Secrets Manager secret</li>
 </ul>
@@ -3105,7 +3105,7 @@
 <p><strong>Note:</strong> The Smile CDR pods will not start up unless a container repository is accessible by the cluster.</p>
 </blockquote>
 <h3 id="dns-configuration">DNS configuration<a class="headerlink" href="#dns-configuration" title="Permanent link">&para;</a></h3>
-<p>Review the section on <a href="./aws-resources.md#dns-configuration">DNS Configuration</a> and ensure that you either:</p>
+<p>Review the section on <a href="../aws-dependencies/#dns-configuration">DNS Configuration</a> and ensure that you either:</p>
 <ul>
 <li>Have access to add DNS entries in the Route53 Hosted Zone for your chosen parent domain</li>
 </ul>
