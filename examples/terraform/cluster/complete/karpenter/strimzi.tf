@@ -1,5 +1,9 @@
+################################################################################
+# Strimzi Kafka Operator
+################################################################################
+
 module "eks_blueprints_addon_strimzi" {
-  source = "aws-ia/eks-blueprints-addon/aws"
+  source  = "aws-ia/eks-blueprints-addon/aws"
   version = "~> 1.1.1"
 
   chart            = "strimzi-kafka-operator"
@@ -11,18 +15,13 @@ module "eks_blueprints_addon_strimzi" {
 
   tags = local.tags
 
-  set = [
+  values = [yamlencode(
+    merge(
+      local.core_node_group_assignment,
       {
-        name = "watchAnyNamespace"
-        value = "true"
-      },
-      {
-        name = "featureGates"
-        value = "+UnidirectionalTopicOperator"
+        watchAnyNamespace = true,
+        featureGates = "+UnidirectionalTopicOperator"
       }
-    ]
-
-  depends_on = [
-    module.eks_blueprints_addon_karpenter_provisioner_config
-  ]
+    )
+  )]
 }

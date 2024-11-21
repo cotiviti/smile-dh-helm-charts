@@ -1,12 +1,15 @@
-apiVersion: karpenter.sh/v1beta1
+apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
-  name: synthea
+  name: spot
+  # name: {{ .Chart.Name }}
 spec:
-  weight: 10
+  weight: 60
   template:
     spec:
       nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
         name: default
       requirements:
       - key: "karpenter.k8s.aws/instance-category"
@@ -21,13 +24,14 @@ spec:
       - key: "topology.kubernetes.io/zone"
         operator: In
         values: {{ printf "[%s]" (join "," .Values.azs) }}
+      - key: "kubernetes.io/arch"
+        operator: In
+        values: ["amd64"]
       - key: "karpenter.sh/capacity-type" # If not included, the webhook for the AWS cloud provider will default to on-demand
         operator: In
         values: ["spot"]
-      taints:
-      - effect: NoSchedule
-        key: synthetic/generate
   limits:
     cpu: 1000
   disruption:
-    consolidationPolicy: WhenUnderutilized
+    consolidationPolicy: WhenEmpty
+    consolidateAfter: 30s

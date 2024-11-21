@@ -2,13 +2,13 @@
 
 This example Terraform project demonstrates how to provision an EKS cluster that is configured and ready to install Smile CDR using Terraform/Helm.
 
-It creates all resources, including the VPC. If you wish to install into an existing VPC, then see the `karpenter-novpc` example.
+It can be configured to deploy a complete infrastructure, including a new VPC, or to an existing VPC.
 
-## Example Highlights
+## Highlights
 
 The following configurations and components are included in this example.
 
-* Creates all required resources, including a new VPC
+* Optionally creates a new VPC with 3 subnet tiers, tagged per the documentation located [here](http://localhost:8000/smile-dh-helm-charts/quickstart-aws/existing-vpc/)
 * Creates EKS cluster using curated [Amazon EKS Blueprints for Terraform](https://aws-ia.github.io/terraform-aws-eks-blueprints/) patterns.
 * Uses [Karpenter](https://karpenter.sh/) to efficiently manage compute resources.
     * Default node group is only used to run the cluster addons and operators.
@@ -37,6 +37,21 @@ The following configurations and components are included in this example.
     * [Crunchy Data Postgres Operator](https://access.crunchydata.com/documentation/postgres-operator/latest)
     * [Strimzi Kafka Operator](https://strimzi.io/)
 
+## Configure the project for your environment
+
+By default, this project will not work until you update some required configurations. To do this, you need to edit the `locals` section in the `main.tf` file.
+>**Note:** This project deliberately requires you configure via locals rather than passing in variables, because it is not intended to be used as a configurable module. It is only provided as a technical demonstration of how to deploy an EKS cluster suitable for deploying Smile CDR using the official Helm Chart.
+
+### General Configuration
+
+First, you need to provide the cluster name and the AWS region that you wish to deploy the EKS cluster to.
+
+### Ingress Configuration
+
+Provide a suitable ACM Certificate ARN
+
+See the [documentation](https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/quickstart-aws/eks-cluster/) for more info on configuring this project.
+
 ## Deploy
 
 ### Prerequisites
@@ -53,7 +68,14 @@ terraform apply
 
 ## Validate
 
->*TODO:* Add validation steps
+Now you can add the cluster to your local `kubectl` configuration by running the `configure_kubectl` that is returned.
+
+```
+aws eks --region us-east-1 update-kubeconfig --name MyClusterName
+Added new context arn:aws:eks:us-east-1:012345678910:cluster/MyClusterName to ~/.kube/config
+```
+
+Using this context, you should now be able to inspect the cluster and view all of the core component pods.
 
 
 ## Destroy
@@ -61,7 +83,8 @@ terraform apply
 >**Warning!** Before destroying this cluster, you need to de-provision any workloads first so that Karpenter can destroy created resources. If Karpenter is undeployed before it can destroy it's managed resources, then the dangling resources may cause the `terraform destroy` command to hang. Recovering from this situaton can be very troublesome.
 
 ```
-terraform destroy -target="module.eks_blueprints_addons"
-terraform destroy -target="module.eks"
+terraform destroy -target module.eks_blueprints_addons_ingress
+terraform destroy -target module.eks_blueprints_addons_core
+terraform destroy -target module.eks
 terraform destroy
 ```
