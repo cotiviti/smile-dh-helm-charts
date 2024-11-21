@@ -1,6 +1,0 @@
-karpenterIamRole: myIamRole
-clusterName: myClusterName
-azs:
-- "us-east-1"
-- "us-east-2"
-- "us-east-3"
