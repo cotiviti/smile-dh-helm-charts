@@ -8,25 +8,25 @@
       
       
       
-        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/quickstart-aws/aws-resources/">
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/quickstart-aws/existing-vpc/">
       
       
         <link rel="prev" href="../eks-cluster/">
       
       
-        <link rel="next" href="../deploy-terraform/">
+        <link rel="next" href="../aws-dependencies/">
       
       
       <link rel="icon" href="../../assets/SDH 64x64.webp">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.33">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.45">
     
     
       
-        <title>Prepare AWS Resources - Smile Digital Health Helm Charts</title>
+        <title>Prepare Existing VPC - Smile Digital Health Helm Charts</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -38,7 +38,7 @@
     
   
   
-  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.752 1.752 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/></svg>');}</style>
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775m1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/></svg>');}</style>
 
 
 
@@ -62,7 +62,7 @@
     
       <link rel="stylesheet" href="../../stylesheets/logo.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#prepare-aws-resources" class="md-skip">
+        <a href="#quickstart-using-existing-vpc" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
     </a>
     <label class="md-header__button md-icon" for="__drawer">
       
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -127,7 +127,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Prepare AWS Resources
+              Prepare Existing VPC
             
           </span>
         </div>
@@ -143,7 +143,7 @@
     <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
       </label>
     
   
@@ -153,7 +153,7 @@
     <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
       </label>
     
   
@@ -163,7 +163,7 @@
     <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
     
       <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
       </label>
     
   
@@ -171,13 +171,13 @@
       
     
     
-      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
     
     
     
       <label class="md-header__button md-icon" for="__search">
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
       </label>
       <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
@@ -186,15 +186,15 @@
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
       
@@ -217,7 +217,7 @@
         <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81-2.9-.295-5.7.083-8.4 1.11-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.09 18.09 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3 4.7 0 9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81s-5.7.083-8.4 1.11c-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.1 18.1 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3s9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82"/></svg>
   </div>
   <div class="md-source__repository">
     smile-dh-helm-charts
@@ -355,7 +355,7 @@
       <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81-2.9-.295-5.7.083-8.4 1.11-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.09 18.09 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3 4.7 0 9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81s-5.7.083-8.4 1.11c-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.1 18.1 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3s9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82"/></svg>
   </div>
   <div class="md-source__repository">
     smile-dh-helm-charts
@@ -879,6 +879,8 @@
       
         
       
+        
+      
     
     
       
@@ -966,7 +968,7 @@
           
   
   <span class="md-ellipsis">
-    Prepare AWS Resources
+    Prepare Existing VPC
   </span>
   
 
@@ -977,7 +979,7 @@
         
   
   <span class="md-ellipsis">
-    Prepare AWS Resources
+    Prepare Existing VPC
   </span>
   
 
@@ -999,37 +1001,55 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#private-container-registry-credentials" class="md-nav__link">
+  <a href="#private-public-subnets" class="md-nav__link">
     <span class="md-ellipsis">
-      Private Container Registry Credentials
+      Private &amp; Public Subnets
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Private Container Registry Credentials">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subnet-auto-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Subnet Auto Discovery.
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subnet Auto Discovery.">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#account-wide-shared-repository-secret" class="md-nav__link">
+  <a href="#eks-subnets" class="md-nav__link">
     <span class="md-ellipsis">
-      Account-wide shared repository secret
+      EKS Subnets
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#per-environment-repository-secret" class="md-nav__link">
+  <a href="#karpenter-provisioner" class="md-nav__link">
     <span class="md-ellipsis">
-      Per environment repository secret
+      Karpenter Provisioner
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#repository-secret-format" class="md-nav__link">
+  <a href="#aws-load-balancer-controller" class="md-nav__link">
     <span class="md-ellipsis">
-      Repository Secret Format
+      AWS Load Balancer Controller
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rds-clusters" class="md-nav__link">
+    <span class="md-ellipsis">
+      RDS Clusters
     </span>
   </a>
   
@@ -1041,18 +1061,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#amazon-ecr" class="md-nav__link">
+  <a href="#nat-gateway" class="md-nav__link">
     <span class="md-ellipsis">
-      Amazon ECR
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dns-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      DNS Configuration
+      NAT Gateway
     </span>
   </a>
   
@@ -1062,6 +1073,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aws-dependencies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Prepare AWS Resources
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -2693,37 +2725,55 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#private-container-registry-credentials" class="md-nav__link">
+  <a href="#private-public-subnets" class="md-nav__link">
     <span class="md-ellipsis">
-      Private Container Registry Credentials
+      Private &amp; Public Subnets
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Private Container Registry Credentials">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subnet-auto-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Subnet Auto Discovery.
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subnet Auto Discovery.">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#account-wide-shared-repository-secret" class="md-nav__link">
+  <a href="#eks-subnets" class="md-nav__link">
     <span class="md-ellipsis">
-      Account-wide shared repository secret
+      EKS Subnets
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#per-environment-repository-secret" class="md-nav__link">
+  <a href="#karpenter-provisioner" class="md-nav__link">
     <span class="md-ellipsis">
-      Per environment repository secret
+      Karpenter Provisioner
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#repository-secret-format" class="md-nav__link">
+  <a href="#aws-load-balancer-controller" class="md-nav__link">
     <span class="md-ellipsis">
-      Repository Secret Format
+      AWS Load Balancer Controller
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rds-clusters" class="md-nav__link">
+    <span class="md-ellipsis">
+      RDS Clusters
     </span>
   </a>
   
@@ -2735,18 +2785,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#amazon-ecr" class="md-nav__link">
+  <a href="#nat-gateway" class="md-nav__link">
     <span class="md-ellipsis">
-      Amazon ECR
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dns-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      DNS Configuration
+      NAT Gateway
     </span>
   </a>
   
@@ -2771,38 +2812,226 @@
     
       
     
-    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/quickstart-aws/aws-resources.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/quickstart-aws/existing-vpc.md" title="View source of this page" class="md-content__button md-icon">
       
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5Z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
     </a>
   
 
 
-<h1 id="prepare-aws-resources">Prepare AWS Resources<a class="headerlink" href="#prepare-aws-resources" title="Permanent link">&para;</a></h1>
-<p>Before deploying Smile CDR using this Terraform Module and Helm Chart, you will still need to create some resources.</p>
-<p>Due to the nature of these resources, it's not feasible to include them in any automations at this time.</p>
-<h2 id="private-container-registry-credentials">Private Container Registry Credentials<a class="headerlink" href="#private-container-registry-credentials" title="Permanent link">&para;</a></h2>
-<p>As the Smile CDR container images are hosted on a private container registry, credentials are required by Kubernetes so that it can pull images before starting pods. There are multiple options for exposing the Smile CDR images to your EKS cluster.</p>
-<p>If you use the Smile Digital Health container repository, or if you copy the Smile CDR images to your own password-protected container registry, then you will need to create a <code>dockerconfigjson</code> style secret in AWS Secrets Manager.</p>
-<p>There are two ways that this can be achieved.</p>
-<h3 id="account-wide-shared-repository-secret">Account-wide shared repository secret<a class="headerlink" href="#account-wide-shared-repository-secret" title="Permanent link">&para;</a></h3>
-<p>If you pre-provision an AWS Secrets Manager secret in the same AWS account, then you can provide the ARN of this secret when you configure your environment in the following section.</p>
-<p>The Terraform module will automatically add this Secret to the IAM Policies used by the Smile CDR pods.</p>
-<h3 id="per-environment-repository-secret">Per environment repository secret<a class="headerlink" href="#per-environment-repository-secret" title="Permanent link">&para;</a></h3>
-<p>If you do not specify an AWS Secrets Manager Secret ARN, an empty secret will be automatically created in the same region.</p>
-<p>In this case, you will need to manually update the secret in the AWS Console before the Smile CDR pods will be able to pull the image and start.</p>
-<h3 id="repository-secret-format">Repository Secret Format<a class="headerlink" href="#repository-secret-format" title="Permanent link">&para;</a></h3>
-<p>In either of the above scenarios, the secret should use the standard <code>dockerconfigjson</code> format that is used by Kubernetes. More information on this is available <a href="https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/">here</a></p>
-<p>To create suitable output to paste into the secret, you can run the following command locally:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>kubectl create secret docker-registry regcred --dry-run=client --docker-server=my.registry.com --docker-username=username --docker-password=password --docker-email=email@example.com -oyaml --output=&quot;jsonpath={.data.\.dockerconfigjson}&quot; | base64 --decode
+<h1 id="quickstart-using-existing-vpc">Quickstart Using Existing VPC<a class="headerlink" href="#quickstart-using-existing-vpc" title="Permanent link">&para;</a></h1>
+<p>If the default configuration is used, a VPC will be created for you and you may skip this section and proceed to <a href="../deploy-terraform/">Deploy Smile CDR with Terraform</a> section.</p>
+<p>If you need to deploy to a pre-existing VPC, the following VPC configurations need to be reviewed</p>
+<ul>
+<li>Requires Private and Public Subnets</li>
+<li>Requires Subnets to be tagged for auto discovery</li>
+<li>Requires NAT Gateway</li>
+</ul>
+<h2 id="private-public-subnets">Private &amp; Public Subnets<a class="headerlink" href="#private-public-subnets" title="Permanent link">&para;</a></h2>
+<p>This solution requires a VPC with both private and public subnets.</p>
+<p><strong>Private subnets</strong> will be used for all workload pods (or RDS deployments).</p>
+<p><strong>Public subnets</strong> are only used for the AWS Load Balancer that provides the public ingress path.</p>
+<h2 id="subnet-auto-discovery">Subnet Auto Discovery.<a class="headerlink" href="#subnet-auto-discovery" title="Permanent link">&para;</a></h2>
+<p>Subnet auto-discovery is used by multiple components of this solution and needs to be configured correctly to avoid hard-to-diagnose problems.</p>
+<p>The following table shows all of the recommended subnet tags.</p>
+<table>
+<thead>
+<tr>
+<th>Subnet Type</th>
+<th>Tag Name</th>
+<th>Tag Value</th>
+<th>Purpose</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Public</td>
+<td>Tier</td>
+<td>Public</td>
+<td>Selects subnets for EKS cluster to use if deployed in public subnet (Unsupported)</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+</tr>
+<tr>
+<td>Public</td>
+<td>kubernetes.io/role/elb</td>
+<td><code>1</code> or ``</td>
+<td>Selects subnets for AWS LBC to deploy public load balancers</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span></td>
+</tr>
+<tr>
+<td>Private</td>
+<td>Tier</td>
+<td>Private</td>
+<td>Selects subnets for EKS cluster to use if deployed in private subnet</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span></td>
+</tr>
+<tr>
+<td>Private</td>
+<td>karpenter.sh/discovery</td>
+<td>&lt;<code>cluster-name</code>&gt;</td>
+<td>Selects subnets for Karpenter to create EC2 worker nodes</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span></td>
+</tr>
+<tr>
+<td>Private</td>
+<td>kubernetes.io/role/internal-elb</td>
+<td><code>1</code> or ``</td>
+<td>Selects subnets for AWS LBC to deploy internal load balancers</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+</tr>
+<tr>
+<td>Database (Private)</td>
+<td>Tier</td>
+<td>Database</td>
+<td>Dedicated private subnets for DB if required.</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>The optional tags are not required for this guide, but may be used in upcoming alternative options.</p>
+</blockquote>
+<p>The following sections go into more detail on each use-case.</p>
+<h3 id="eks-subnets">EKS Subnets<a class="headerlink" href="#eks-subnets" title="Permanent link">&para;</a></h3>
+<p>By default the EKS module uses the following subnet tags to perform auto-discovery.</p>
+<table>
+<thead>
+<tr>
+<th>Subnet Type</th>
+<th>Tag Name</th>
+<th>Tag Value</th>
+<th>Configurable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Private</td>
+<td>Tier</td>
+<td>Private</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span></td>
+</tr>
+<tr>
+<td>Public</td>
+<td>Tier</td>
+<td>Public</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note</strong>: You can configure the Subnet Auto Discovery tags using <code>locals.private_subnet_discovery_tags</code> in your <code>main.tf</code> file.</p>
+</blockquote>
+<p>If you are unable to use Subnet Auto Discovery, then you need to specify <code>existing_private_subnet_ids</code> in your <code>main.tf</code> file.</p>
+<p>This is demonstrated in the highlighted sections in the below code.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">locals</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="na">name</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;MyClusterName&quot;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="na">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;us-east-1&quot;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="p">...</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="na">vpc_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vpc-0abc123&quot;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1">  ### Private Subnet Selection ###</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1">  #</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="c1">  # When using an existing VPC, you can either set the private subnets using</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1">  # auto-discovery or you can manually configure them by providing subnet ids.</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1">  # Refer to the QuickStart docs above for more information on subnet auto discovery.</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="hll"><span class="w">  </span><span class="nb">private_subnet_discovery_tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+</span><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="hll"><span class="w">    </span><span class="na">Tier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Private&quot;</span>
+</span><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="hll"><span class="w">  </span><span class="p">}</span>
+</span><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="hll"><span class="w">  </span><span class="na">existing_private_subnet_ids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;subnet-0abc123&quot;,&quot;subnet-0def456&quot;</span><span class="p">]</span>
+</span><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="p">}</span>
 </code></pre></div>
-<p>This will output the following, which can be pasted directly into an AWS Secrets Manager secret under the <code>dockerconfigjson</code> key.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>{&quot;auths&quot;:{&quot;my.registry.com&quot;:{&quot;username&quot;:&quot;username&quot;,&quot;password&quot;:&quot;password&quot;,&quot;email&quot;:&quot;email@example.com&quot;,&quot;auth&quot;:&quot;dXNlcm5hbWU6cGFzc3dvcmQ=&quot;}}}
-</code></pre></div>
-<h2 id="amazon-ecr">Amazon ECR<a class="headerlink" href="#amazon-ecr" title="Permanent link">&para;</a></h2>
-<p>If you choose to copy the Smile CDR images to Amazon ECR, you do not need to create any Secrets Manager secrets as authentication is performed using IAM Policies attached to IAM Roles used by the Pods.</p>
-<h2 id="dns-configuration">DNS Configuration<a class="headerlink" href="#dns-configuration" title="Permanent link">&para;</a></h2>
-<p>If you wish to have the Terraform module automatically create DNS entries for your new environments, then you will need to have a Route53 Hosted Zone in the same AWS account that you are deploying Smile CDR inside.</p>
+<blockquote>
+<p><strong>Note:</strong> Currently this guide only supports deploying to a private subnet.</p>
+</blockquote>
+<h3 id="karpenter-provisioner">Karpenter Provisioner<a class="headerlink" href="#karpenter-provisioner" title="Permanent link">&para;</a></h3>
+<p>By default Karpenter uses the following resource tags to perform Auto Discovery of which subnets to place any created K8s worker nodes into. When configuring this, it's important that only the appropriate PRIVATE subnets are tagged.</p>
+<table>
+<thead>
+<tr>
+<th>Subnet Type</th>
+<th>Tag Name</th>
+<th>Tag Value</th>
+<th>Configurable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Private</td>
+<td>karpenter.sh/discovery</td>
+<td>&lt;<code>cluster-name</code>&gt;</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note</strong>: <code>&lt;cluster-name&gt;</code> refers to the name of the EKS cluster that you will be deploying.</p>
+</blockquote>
+<p>If you are unable to use Subnet Auto Discovery, you can customize the Karpenter subnet selector terms by creating a new <code>EC2NodeClass</code> resource. This is not within the scope of this QuickStart guide. <a href="https://karpenter.sh/v0.32/concepts/nodeclasses/">More info</a></p>
+<h3 id="aws-load-balancer-controller">AWS Load Balancer Controller<a class="headerlink" href="#aws-load-balancer-controller" title="Permanent link">&para;</a></h3>
+<p>The AWS Load Balancer Controller uses the following resource tags to perform Auto Discovery of which subnets to place any Application/Network Load Balancers.</p>
+<table>
+<thead>
+<tr>
+<th>Subnet Type</th>
+<th>Tag Name</th>
+<th>Tag Value</th>
+<th>Configurable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Private</td>
+<td>kubernetes.io/role/internal-elb</td>
+<td><code>1</code> or ``</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+</tr>
+<tr>
+<td>Public</td>
+<td>kubernetes.io/role/elb</td>
+<td><code>1</code> or ``</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+</tr>
+</tbody>
+</table>
+<p>The chosen subnet will depend on whether an <code>internet-facing</code> or <code>internal</code> load balancer is being provisioned.</p>
+<blockquote>
+<p><strong>Note:</strong> It is not currently possible to alter the auto discovery behaviour for this. <a href="https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/subnet_discovery/">See here for more info</a></p>
+</blockquote>
+<h3 id="rds-clusters">RDS Clusters<a class="headerlink" href="#rds-clusters" title="Permanent link">&para;</a></h3>
+<p>It's common in a multi-tiered architecture to isolate Data stores in their own subnet, away from application instances. If doing this, and if using the Smile CDR dependencies Terraform Module to manage your RDS instance, you can tag the appropriate Database subnets as follows to simplify subnet configuration:</p>
+<table>
+<thead>
+<tr>
+<th>Subnet Type</th>
+<th>Tag Name</th>
+<th>Tag Value</th>
+<th>Configurable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Database (Private)</td>
+<td>Tier</td>
+<td>Database</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+</tr>
+</tbody>
+</table>
+<h2 id="nat-gateway">NAT Gateway<a class="headerlink" href="#nat-gateway" title="Permanent link">&para;</a></h2>
+<p>In order for components in the Private or Database subnets to access various resources, it's important that the VPC has a NAT Gateway provisioned in the public subnet, with appropriate routing tables configured.</p>
+<p>If the NAT Gateway is not present, the following areas of the solution may fail</p>
+<ul>
+<li>K8s Worker Nodes unable to join cluster</li>
+<li>K8s Worker Nodes unable to pull docker images</li>
+<li>K8s Worker Nodes unable to talk to required AWS services</li>
+<li>RDS Management Lambda function unable to talk to required AWS services</li>
+</ul>
+<p>Although it may be possible to design a solution that works entirely on a private subnet without a NAT Gateway, it is not within the scope of this QuickStart guide.</p>
 
 
 
@@ -2820,14 +3049,14 @@
             </div>
           
           
-  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
 
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
           <button type="button" class="md-top md-icon" data-md-component="top" hidden>
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
   Back to top
 </button>
         
@@ -2859,10 +3088,10 @@
       <div class="md-progress" data-md-component="progress" role="progressbar"></div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.top", "content.action.view", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.top", "content.action.view", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.af256bd8.min.js"></script>
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
       
     
   </body>
