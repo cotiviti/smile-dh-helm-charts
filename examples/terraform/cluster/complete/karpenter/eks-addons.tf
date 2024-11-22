@@ -71,30 +71,32 @@ module "eks_blueprints_addons_core" {
   enable_secrets_store_csi_driver = true
   secrets_store_csi_driver = {
     values = [yamlencode(
-      merge(
-        local.core_node_group_assignment,
-        {
-          replicaCount = 1
-          syncSecret = {
-            enabled = true
-          }
-          linux = {
-            # This should probably be set as a default, as it's a Daemonset that is required on all nodes.
-            # https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/
-            priorityClassName = "system-node-critical"
-          }
-      })
+      {
+        syncSecret = {
+          enabled = true
+        }
+        
+        enableSecretRotation = true
+        
+        linux = {
+          # This should probably be set as a default, as it's a Daemonset that is required on all nodes.
+          # https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/
+          priorityClassName = "system-node-critical"
+        }
+      }
     )]
   }
 
   enable_secrets_store_csi_driver_provider_aws = true
   secrets_store_csi_driver_provider_aws = {
     values = [yamlencode(
-      merge(
-        local.core_node_group_assignment,
-        {
-          replicaCount = 1
-      })
+      {
+         tolerations = [
+          {
+            operator = "Exists"
+          }
+         ]
+      }
     )]
   }
 
