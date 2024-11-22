@@ -64,6 +64,12 @@ module "eks_blueprints_addons_core" {
           vpcId        = local.vpc_id
           # Disabling this webhook as it can cause race conditions when creating the Cert Manager
           enableServiceMutatorWebhook = false
+          controllerConfig = {
+            featureGates = {
+              # Disable this feature in case there are existing clusters that have set `kubernetes.io/cluster/<clustername>` subnet tags
+              SubnetsClusterTagCheck = false
+            }
+          }
       })
     )]
   }
@@ -75,9 +81,9 @@ module "eks_blueprints_addons_core" {
         syncSecret = {
           enabled = true
         }
-        
+
         enableSecretRotation = true
-        
+
         linux = {
           # This should probably be set as a default, as it's a Daemonset that is required on all nodes.
           # https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/
