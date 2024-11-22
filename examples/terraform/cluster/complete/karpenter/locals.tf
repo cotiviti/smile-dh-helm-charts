@@ -20,7 +20,7 @@ locals {
 
   create_vpc = (local.existing_vpc_id == null || local.existing_vpc_id == "") ? true : false
 
-  vpc_id = try(module.vpc[0], local.existing_vpc_id)
+  vpc_id = try(module.vpc[0].vpc_id, local.existing_vpc_id)
 
   # If creating a VPC, then all available AZ's will be used
   # If using existing VPC, only AZ's for auto-discovered or manually configured
