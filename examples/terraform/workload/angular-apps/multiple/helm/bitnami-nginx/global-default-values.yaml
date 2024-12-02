@@ -1,0 +1,8 @@
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  path: /
+
+service:
+  # The default is `LoadBalancer` which creates an ALB which is undesirableas we are using ingress
+  type: ClusterIP

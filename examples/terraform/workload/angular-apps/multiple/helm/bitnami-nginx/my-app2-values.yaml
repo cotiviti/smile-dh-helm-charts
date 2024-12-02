@@ -1,0 +1,24 @@
+extraDeploy:
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: my-app2-siteconfig
+  data:
+    config.json: |
+      {        
+        "frontendUrl": "https://my-app2.my-domain.example.com",
+        "backendUrl": "https://my-smilecdr.my-domain.example.com/fhir_request",
+        "issuerUrl": "https://my-smilecdr.my-domain.example.com/smartauth",
+        "clientId": "my-client-id"
+      }
+
+extraVolumes:
+- name: appconfig
+  configMap:
+    name: my-app2-siteconfig
+
+extraVolumeMounts:
+- mountPath: /app/config/config.json
+  name: appconfig
+  subPath: config.json
+
