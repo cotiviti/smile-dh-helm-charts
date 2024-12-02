@@ -15,10 +15,19 @@ locals {
 
   resourcenames_suffix = var.resourcenames_suffix != null ? var.resourcenames_suffix : random_id.resourcenames_suffix.hex
 
-  #TODO: Needs attention.
+  # Determining the name of the AWS Load Balancer is not directly possible from Terraform as the Load Balancer was deployed indirectly
+  # via the AWS Load Balancer Controller.
+  # To get the load balancer name, we must do the following:
+  # - Get the hostname from the LoadBalancer Service in Kubernetes
+  # - Determine the Load Balancer name from that.
+
+  # Get the hostname from the K8s LB Service
   ingress_nginx_lb_fqdn = try(data.kubernetes_service.ingress-nginx[0].status.0.load_balancer.0.ingress.0.hostname,"")
+  # Extract `load-balancer-name-suffix` from `load-balancer-name-suffix.elb.<region>.amazonaws.com`
   ingress_nginx_lb_hostname = split(".", local.ingress_nginx_lb_fqdn)[0]
-  ingress_nginx_lb_name = length(local.ingress_nginx_lb_hostname) > 32 ? substr(local.ingress_nginx_lb_hostname, 0, 32) : local.ingress_nginx_lb_hostname
+  # Extract `load-balancer-name` from `load-balancer-name-suffix`
+  ingress_nginx_lb_hostname_parts = split("-", local.ingress_nginx_lb_hostname)
+  ingress_nginx_lb_name = join("-", slice(local.ingress_nginx_lb_hostname_parts, 0, (length(local.ingress_nginx_lb_hostname_parts) - 1)))
 
   # Hostname is either passed in or derived from the main `name`
   full_hostname = lower(coalesce(var.ingress_config.public.hostname, var.name))
