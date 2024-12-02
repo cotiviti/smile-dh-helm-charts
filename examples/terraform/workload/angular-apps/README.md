@@ -66,7 +66,7 @@ This is due to 2 things:
   changes that resulted in a breaking change in this scenario
 
 There are 2 temporary solutions to this issue:
-1. Pin to Vitnami Nginx Helm Chart to version "15.12.2" which still works.
+1. Pin to Bitnami Nginx Helm Chart to version "15.12.2" which still works.
 2. Update the images to use a newer version of the base Bitnmi Nginx image that supports the latest
    version of the Bitnami Nginx Helm Chart
 

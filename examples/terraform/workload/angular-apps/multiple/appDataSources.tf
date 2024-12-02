@@ -21,15 +21,3 @@ data "aws_lb" "ingress-nginx" {
 data "aws_route53_zone" "this" {
   name  = local.parent_domain
 }
-
-resource "aws_route53_record" "my_app_dns_recordg" {
-  zone_id = data.aws_route53_zone.this.zone_id
-
-  name          = "my-app1.${local.parent_domain}"
-  type          = "A"
-  alias {
-      name                   = data.aws_lb.ingress-nginx.dns_name
-      zone_id                = data.aws_lb.ingress-nginx.zone_id
-      evaluate_target_health = false
-  }
-}

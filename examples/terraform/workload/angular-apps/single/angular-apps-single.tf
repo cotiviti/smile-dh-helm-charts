@@ -137,7 +137,8 @@ data "kubernetes_service" "ingress-nginx" {
 locals {
   ingress_nginx_lb_fqdn = try(data.kubernetes_service.ingress-nginx.status.0.load_balancer.0.ingress.0.hostname,"")
   ingress_nginx_lb_hostname = split(".", local.ingress_nginx_lb_fqdn)[0]
-  ingress_nginx_lb_name = length(local.ingress_nginx_lb_hostname) > 32 ? substr(local.ingress_nginx_lb_hostname, 0, 32) : local.ingress_nginx_lb_hostname
+  ingress_nginx_lb_hostname_parts = split("-", local.ingress_nginx_lb_hostname)
+  ingress_nginx_lb_name = join("-", slice(local.ingress_nginx_lb_hostname_parts, 0, (length(local.ingress_nginx_lb_hostname_parts) - 1)))
 }
 
 data "aws_lb" "ingress-nginx" {

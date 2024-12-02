@@ -44,3 +44,16 @@ module "my_app_1_nginx_helm" {
     }
   ]
 }
+
+# Update the hostname here to match `ingress.hostname` above
+resource "aws_route53_record" "my_app1_dns_record" {
+  zone_id = data.aws_route53_zone.this.zone_id
+
+  name          = "my-app1.${local.parent_domain}"
+  type          = "A"
+  alias {
+      name                   = data.aws_lb.ingress-nginx.dns_name
+      zone_id                = data.aws_lb.ingress-nginx.zone_id
+      evaluate_target_health = false
+  }
+}
