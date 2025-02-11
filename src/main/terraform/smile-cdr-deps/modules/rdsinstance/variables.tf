@@ -154,6 +154,12 @@ variable "dbname" {
   default     = "postgres"
 }
 
+variable "snapshot_identifier" {
+  description = "RDS Snapshot name or ARN to create cluster from. Refer to https://registry.terraform.io/modules/terraform-aws-modules/rds-aurora/aws/latest#input_snapshot_identifier for the description of allowed values"
+  type        = string
+  default     = null
+}
+
 variable "dbport" {
   description = "Name for database"
   type        = string

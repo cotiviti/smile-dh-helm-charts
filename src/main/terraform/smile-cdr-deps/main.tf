@@ -201,6 +201,7 @@ module "managed_database" {
   kms_deletion_window = try(each.value.kms_deletion_window, var.kms_deletion_window)
   secrets_kms_key_arn = try(each.value.secrets_kms_key_arn, local.secrets_kms_key_arn)
 
+  snapshot_identifier = each.value.snapshot_identifier
 
   master_username = coalesce(each.value.master_username, "cdrmaster")
   manage_master_user_password = coalesce(each.value.manage_master_user_password, true)

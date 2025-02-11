@@ -328,6 +328,7 @@ variable "db_instances" {
     dbport                        = optional(number)
     default_auth_type             = optional(string)
     serverless_configuration      = optional(map(string))
+    snapshot_identifier           = optional(map(string))
 
   }))
   nullable    = false

@@ -50,6 +50,17 @@ locals {
     max_capacity = var.serverless_configuration.max_capacity
   } : null
 
+  ### RDS Snapshot Support ###
+  # copy_tags_to_snapshot = true
+
+  # Preserve final db snapshot when cluster is deleted
+  # This should be opt-in
+  # final_snapshot_identifier = true
+
+  # skip_final_snapshot = true
+
+  snapshot_identifier = var.snapshot_identifier
+
 
   ########################################
   # RDS Networking

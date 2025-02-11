@@ -27,6 +27,17 @@ module "aurora_database" {
   engine         = local.rds_aurora_engine
   engine_version = local.rds_aurora_engine_version
 
+  ### RDS Snapshot Support ###
+  # copy_tags_to_snapshot = true
+
+  # Preserve final db snapshot when cluster is deleted
+  # This should be opt-in
+  # final_snapshot_identifier = true
+
+  # skip_final_snapshot = true
+
+  snapshot_identifier = local.snapshot_identifier
+
 
   engine_mode    = local.engine_mode
   instance_class = local.instance_class
