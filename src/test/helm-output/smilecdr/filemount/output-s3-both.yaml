@@ -18,41 +18,6 @@ spec:
       app.kubernetes.io/instance: release-name
       app.kubernetes.io/name: smilecdr
 ---
-# Source: smilecdr/templates/scdr/scdr-file-configmap.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: release-name-scdr-smileutil
-  namespace: default
-  labels:
-    helm.sh/chart: No Chart Version - Unit Testing
-    app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
-    app.kubernetes.io/managed-by: Helm
-data:
-  smileutil: |-
-    #!/bin/bash
-
-    # ----------------------------------------------------------------------------
-    # CDR CLI Tool for use in Helm Chart deployment
-    #
-
-    # CDR home directory is hard coded as this is not configurable with the Helm Chart deployment method.
-    CDRDIR=/home/smile/smilecdr/
-
-    # Change the working directory to the CDR home directory
-    cd $CDRDIR
-
-    # Build the classpath
-    CLASSPATH="$CDRDIR/classes:$CDRDIR/lib/*:$CDRDIR/customerlib/*"
-
-    # Unset JAVA_TOOL_OPTIONS as it will cause failure if it includes any listeners (i.e. for JMX agent)
-    unset JAVA_TOOL_OPTIONS
-
-    JAVA_CMD="java $JAVA_OPTS -cp $CLASSPATH -Dsmile.basedir=$CDRDIR -Djava.io.tmpdir=$CDRDIR/tmp ca.cdr.cli.App $*"
-    $JAVA_CMD
----
 # Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -244,6 +209,29 @@ data:
     module.transaction.config.db.schema_update_mode 	= UPDATE
     module.transaction.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
     module.transaction.config.db.username 	= #{env['DB_USER']}
+
+
+  smileutil: |-
+    #!/bin/bash
+
+    # ----------------------------------------------------------------------------
+    # CDR CLI Tool for use in Helm Chart deployment
+    #
+
+    # CDR home directory is hard coded as this is not configurable with the Helm Chart deployment method.
+    CDRDIR=/home/smile/smilecdr/
+
+    # Change the working directory to the CDR home directory
+    cd $CDRDIR
+
+    # Build the classpath
+    CLASSPATH="$CDRDIR/classes:$CDRDIR/lib/*:$CDRDIR/customerlib/*"
+
+    # Unset JAVA_TOOL_OPTIONS as it will cause failure if it includes any listeners (i.e. for JMX agent)
+    unset JAVA_TOOL_OPTIONS
+
+    JAVA_CMD="java $JAVA_OPTS -cp $CLASSPATH -Dsmile.basedir=$CDRDIR -Djava.io.tmpdir=$CDRDIR/tmp ca.cdr.cli.App $*"
+    $JAVA_CMD
 ---
 # Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
@@ -635,7 +623,7 @@ spec:
           name: scdr-config-release-name
         - configMap:
             defaultMode: 504
-            name: release-name-scdr-smileutil
+            name: release-name-scdr-masterdev-node
           name: scdr-smileutil
         - emptyDir:
             sizeLimit: 1Mi

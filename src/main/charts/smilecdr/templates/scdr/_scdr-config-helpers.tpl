@@ -62,6 +62,16 @@ familiar to Smile CDR adminitrators when inspecting it.
 {{- end -}}
 
 {{/*
+Defines all the data that will be included in the configmap.
+This is split out into a separate template so that it can be
+used to generate the hash of the data.
+*/}}
+{{- define "smilecdr.cdrConfigData" -}}
+cdr-config-Master.properties: |-
+{{ include "smilecdr.cdrConfigText" . | indent 2 }}
+{{- end -}}
+
+{{/*
 This template defines the text of the updated smileutil script.
 */}}
 {{- define "smilecdr.cdrSmileutilText" -}}
@@ -87,14 +97,9 @@ JAVA_CMD="java $JAVA_OPTS -cp $CLASSPATH -Dsmile.basedir=$CDRDIR -Djava.io.tmpdi
 $JAVA_CMD
 {{- end -}}
 
-{{/*
-Defines all the data that will be included in the configmap.
-This is split out into a separate template so that it can be
-used to generate the hash of the data.
-*/}}
-{{- define "smilecdr.cdrConfigData" -}}
-cdr-config-Master.properties: |-
-{{ include "smilecdr.cdrConfigText" . | indent 2 }}
+{{- define "smilecdr.cdrSmileutilData" -}}
+smileutil: |-
+{{ include "smilecdr.cdrSmileutilText" . | indent 2 }}
 {{- end -}}
 
 {{/*
