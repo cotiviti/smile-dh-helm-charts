@@ -59,7 +59,7 @@ locals {
   ## Determine Helm Chart version ##
   
   # This needs to be updated during a release!
-  helm_chart_default_version = "2.0.0"
+  helm_chart_default_version = "2.0.1"
   
   ### NOTE: Due to what seems like a bug in the helm_release module, setting `devel` to true can cause terraform to always update even if there are no changes
   ### To circumvent this for now, we will manually set the version to ">0.0.0-0" rather than setting `devel`
