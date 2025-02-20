@@ -1,3 +1,9 @@
+## [2.0.1](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v2.0.0...v2.0.1) (2025-02-20)
+
+### Bug Fixes
+
+* **smilecdr:** remove separate smileutil ConfigMap ([2e72223](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/2e722230414096a5266cd16a9bf5f06510cf37f4))
+
 ## [2.0.0](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v1.1.1...v2.0.0) (2024-08-27)
 
 ### ⚠ BREAKING CHANGES
