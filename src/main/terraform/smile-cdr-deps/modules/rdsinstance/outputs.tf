@@ -61,3 +61,8 @@ output "debug_output" {
     }
   }
 }
+
+output "default_auth_type" {
+  description = "The default authentication for users using this DB instance"
+  value = var.default_auth_type
+}

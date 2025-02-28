@@ -160,6 +160,17 @@ variable "dbport" {
   default     = "5432"
 }
 
+variable "default_auth_type" {
+  description = "Default authentication type to use for this instance"
+  type = string
+  nullable    = false
+  default     = "password"
+  validation {
+    condition     = can(regex("^(password|iam|secretsmanager)$",var.default_auth_type))
+    error_message = "The RDS authentication method must be `password`, `iam` or `secretsmanager`"
+  }
+}
+
 variable "iam_database_authentication_enabled" {
   description = "Enable IAM Authentication"
   type        = bool

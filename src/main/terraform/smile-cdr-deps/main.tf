@@ -206,7 +206,8 @@ module "managed_database" {
   manage_master_user_password = coalesce(each.value.manage_master_user_password, true)
   dbname = try(each.value.dbname, "postgres")
   dbport = try(each.value.dbport, 5432)
-  iam_database_authentication_enabled = try(each.value.default_auth_type,"password") == "iam" || length(local.iam_db_users) > 0
+  default_auth_type = each.value.default_auth_type
+  iam_database_authentication_enabled = try(each.value.default_auth_type,"password") == "iam" || length(local.iam_db_users) > 0 || each.value.default_auth_type == "iam"
   tags = local.tags
 }
 
@@ -241,7 +242,7 @@ module "postgres_db_user" {
 
   db_host = module.managed_database[each.value.db_instance_name].db_endpoint
   master_secret_arn = module.managed_database[each.value.db_instance_name].master_secret_arn
-  auth_type = try(each.value.auth_type, "password")
+  auth_type = coalesce(each.value.auth_type, module.managed_database[each.value.db_instance_name].default_auth_type)
 }
 
 # This policy includes the 'rds-db:connect' action that is needed for any

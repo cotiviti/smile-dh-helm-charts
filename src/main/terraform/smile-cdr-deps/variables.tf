@@ -341,7 +341,7 @@ variable "db_users" {
     cdr_modules                   = optional(list(string))
     dbusername                    = optional(string)
     dbname                        = optional(string)
-    auth_type                     = optional(string,"password")
+    auth_type                     = optional(string)
 
   }))
   nullable    = false

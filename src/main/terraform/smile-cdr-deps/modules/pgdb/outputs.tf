@@ -24,7 +24,7 @@ output "helm_secret_config" {
 }
 
 output "auth_type" {
-  value = var.auth_type
+  value = local.auth_type
 }
 
 # output "cdr_modules" {

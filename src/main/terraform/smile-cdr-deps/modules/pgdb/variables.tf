@@ -84,6 +84,16 @@ variable "auth_type" {
     error_message = "The RDS authentication method must be `password`, `iam` or `secretsmanager`"
   }
 }
+# variable "auth_type" {
+#   description = "Select the authentication method for the RDS instance user. Options are `password` or `iam`"
+#   type        = string
+#   nullable    = true
+#   default     = null
+#   validation {
+#     condition     = can(regex("^(password|iam|secretsmanager)$",var.auth_type))
+#     error_message = "The RDS authentication method must be `password`, `iam` or `secretsmanager`"
+#   }
+# }
 
 variable "tags" {
   description = "Tags to pass include on resources for this module"

@@ -11,7 +11,7 @@ resource "aws_secretsmanager_secret" "pg_user_db" {
   tags = merge(
     var.tags,
     {
-      auth_type = var.auth_type
+      auth_type = local.auth_type
     }
   )
 }
