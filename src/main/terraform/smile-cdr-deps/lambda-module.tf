@@ -72,7 +72,7 @@ module "lambda_security_group" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "5.1.0"
 
-  name        = "${local.name}-lambda_manage_db_users-${local.resourcenames_suffix}"
+  name        = "${local.name}-db-mgmt-${local.resourcenames_suffix}"
   description = "Used by Lambda to create users in database"
   vpc_id      = local.db_vpc_id
 
@@ -126,7 +126,7 @@ resource "aws_lambda_invocation" "create_app_user" {
 
 resource "aws_iam_policy" "lambda_assume_self" {
   count = length(local.iam_db_user_arns) > 0 ? 1 : 0
-  name        = "${local.name}-lambda-assume-self-${local.resourcenames_suffix}"
+  name        = "${local.name}-assume-self-${local.resourcenames_suffix}"
   description = "Smile CDR Policy to allow Lambda role to assume itself to get new IAM role session"
   policy = data.aws_iam_policy_document.lambda_assume_self[0].json
   tags = local.tags
