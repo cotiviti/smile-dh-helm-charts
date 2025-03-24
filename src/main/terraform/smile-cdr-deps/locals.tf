@@ -345,7 +345,7 @@ locals {
         local.context.aws_region_name,
         local.context.aws_caller_identity_account_id,
         module.managed_database[lookup(db_user, "db_instance_name")].cluster_resource_id,
-        db_user.dbusername)
+        coalesce(db_user.dbusername, db_user.name))
   ]
 
   create_rds_user_mgmt_lambda = length(var.db_users) > 0 ? true : false
@@ -417,7 +417,7 @@ locals {
   )
 
   # We need to manually specify the Lambda role name to avoid circular dependencies. This is done
-  lambda_function_name = "${local.name}-posgres_manage_db_users-${local.resourcenames_suffix}"
+  lambda_function_name = "${local.name}-db-mgmt-${local.resourcenames_suffix}"
   lambda_role_name = local.lambda_function_name
   lambda_role_arn = "arn:aws:iam::${local.context.aws_caller_identity_account_id}:role/${local.lambda_role_name}"
 
