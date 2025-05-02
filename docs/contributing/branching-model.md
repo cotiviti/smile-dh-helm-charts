@@ -73,21 +73,23 @@ gitGraph TB:
     merge v1-fix-1
     commit id: "Bump v1.1.1"
 
-    #checkout pre-release
-    #branch general-fix order: 3
-    #commit id: "fix: fix for all versions"
-    #checkout pre-release
-    #merge general-fix
-    #commit id: "Bump v2.1.1-pre.1"
-    #checkout main
-    #merge pre-release
-    #commit id: "Bump v2.1.1"
+    checkout pre-release
+    branch general-fix order: 3
+    commit id: "fix: fix for all versions"
+    checkout pre-release
+    merge general-fix
+    commit id: "Bump v2.1.1-pre.1"
+    checkout main
+    merge pre-release
+    commit id: "Bump v2.1.1"
 
-    #checkout release-1.x
-    #merge general-fix id: "Backport Fix"
-    #commit id: "Bump v1.1.2"
+    checkout release-1.x
+    merge general-fix id: "Backport Fix"
+    commit id: "Bump v1.1.2"
 
 ```
+
+
 
 ### Branch Flow for Future Versions
 Some Helm Chart features and fixes contain breaking changes need to be developed for a future major release of the Helm Chart. This can occur when:
@@ -119,14 +121,12 @@ gitGraph TB:
     branch v3-feat-1
     branch beta
 
-    # v3 feature 1
     checkout v3-feat-1
     commit id: "feat: add v3 feature 1"
     checkout next-major
     merge v3-feat-1
     commit id: "Bump v3.0.0-next-major.1"
 
-    # v4 feature 1
     checkout beta
     branch v4-feat-1
     commit id: "feat: add v4 feature 1"
@@ -134,15 +134,13 @@ gitGraph TB:
     merge v4-feat-1
     commit id: "Bump v4.0.0-beta.1"
 
-    # v3 feature 2 (Too busy when including this)
-    #checkout next-major
-    #branch v3-feat-2
-    #commit id: "feat: add v3 feature 2"
-    #checkout next-major
-    #merge v3-feat-2
-    #commit id: "Bump v3.0.0-beta.2"
+    checkout next-major
+    branch v3-feat-2
+    commit id: "feat: add v3 feature 2"
+    checkout next-major
+    merge v3-feat-2
+    commit id: "Bump v3.0.0-beta.2"
 
-    # Start Release Process
     checkout pre-release
     merge  next-major id: "Release V3"
     commit id: "Bump v3.0.0-pre.1"
@@ -150,7 +148,6 @@ gitGraph TB:
     merge pre-release
     commit id: "Bump v3.0.0"
 
-    # Set up beta for v4
     checkout beta
     merge  next-major id: "mergeback"
     checkout next-major
