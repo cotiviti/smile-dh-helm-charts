@@ -73,37 +73,85 @@ To propose and implement changes:
    - Use the provided [issue template](./ISSUE-TEMPLATE.md) as a starting point
 2. **Fork the Repository**:
    - [https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/forks/new](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/forks/new)
-   - If you have already forked the repository, make sure your fork is up to date.
-3. **Create a Feature Branch**:
-   - Create a feature branch in your forked repository
-   - Refer to the branching strategy to choose your source branch
-      - Typically you will branch from the `pre-release` branch
+   > **WARNING!** You ***SHOULD NOT*** use the GitLab UI as a reference for the current status of the release branches in your forked repo as it can be misleading. This is because the GitLab UI currently compares branches on forked repositories with the default branch of the upstream repository and ***not*** the respective release branch. This results in a message that makes it seem that the release branch (e.g. `pre-release`) in your forked repo is not in sync with the upstream repo, even if it is. You ***MUST NOT*** use the GitLab sync button in such scenarios as it will incorrectly pull changes from `upstream/main` into your feature or release branch, which can cause confusion.
+3. **Set up Local Development Environment**
+   
+   The first time you work on this repository on your local workstation, you need to configure the upstream repository so that you can create your feature branches from the appropriate release branch.
+   - Clone your forked repository to your local workstation
+      ```
+         git clone https://gitlab.com/simpatico.ai/my-namespace/smile-dh-helm-charts.git
+      ```
+      > This will configure your forked repository as the `origin` remote
+   - Add a git remote for the upstream repository
+      ```
+      cd smile-dh-helm-charts
+      git remote add upstream https://gitlab.com/smilecdr-public/smile-dh-helm-charts.git
+      ```
+   <!-- **Optional:** Choose and Sync Source Branch
+   > **WARNING!** You ***SHOULD*** only do this step using the git commands above. You ***SHOULD NOT*** use the GitLab UI as a reference for the current status of non-default branches in your forked repo as it can be misleading. This is because the GitLab UI currently compares forked branches with the default branch of the upstream repository and ***not*** the respective feature branch. This results in a message that makes it seem that the release branch (e.g. `pre-release`) in your forked repo is not in sync with the upstream repo, even if it is.  
+   - Ensure that the `pre-release` branch in your forked repository is up to date as follows:
+      ```
+      git checkout pre-release
+      git pull upstream pre-release
+      git push origin pre-release
+      ``` -->
+        
+5. **Create your Feature Branch**:
+
+   Refer to the branching model to decide which release branch to create your feature branch from.
+
+   > If you are unsure which branch to use, just use the `pre-release` branch, unless you know you are working on a breaking change or a feature that is already planned for some future release.
+
+   The following instructions assume you are working from the `pre-release` branch.
+
    - Include the GitLab Issue in your feature branch - e.g. `208-improve-developer-documentation`
-4. **Develop Locally**:
+   - Create your feature branch in your forked repository. e.g.:
+      ```
+      git checkout -b 208-improve-developer-documentation upstream/pre-release
+      ```
+6. **Develop Locally**:
    - Clone your forked repository and checkout your newly created feature branch.
    - Make small focused changes (keep each MR small and isolated)
    - Write/update documentation in `docs/`
-5. **Run Tests**:
+7. **Run Tests**:
    - Write/update tests in `src/test/helm-output/`
    - Run tests using:
-     ```sh
-     make helm-check-outputs
-     ```
-6. **Prepare, Push and Submit**
+      ```sh
+      make helm-check-outputs
+      ```
+8. **Prepare and Commit**
    - Commit your changes following the commit message rules (see below)
      - Squash multiple commits for a related change into one meaningful commit
    - Check commit structure using:
-     ```sh
-     make pre-commit
-     ```
-   - Push your commit
-7. **Create Merge Request**
-   - Create merge request to merge your new branch to the source branch
-   - Merge request to the main repository, NOT your forked repository
-8. **Review, Update, Merge**
-   - Merge pipelines will run to check that there are no errors or regressions with the new code
+      ```sh
+      make pre-commit
+      ```
+   - Commit your changes
+      ```
+      git add .
+      git commit -m "docs(contrib): add development workflow documentation"
+      ```
+   - Resolve any conflicts with upstream changes
+      
+      If you have been working on your feature branch for some time, there may have been changes introduced upstream. You need to pull the latest changes and resolve any conflicts.
+      ```
+      git pull upstream pre-release --rebase
+      ```
+9. **Push Feature Branch To Your Forked Repository**
+
+9. **Create Merge Request**
+   
+   When you’re ready to propose your changes:
+   
+   Open an MR in GitLab:
+   - Source: `my-namespace/smile-dh-helm-charts:208-improve-developer-documentation`
+   - Target: `smilecdr-public/smile-dh-helm-charts:pre-release`
+   
+10. **Review, Update, Merge**
+   
+   After your Merge Request has been created, a pipeline will run to verify that there are no regressions or regressions with the new code.
    - The merge request will be reviewed by an approved reviewer
-   - Once accepted, the merge request will be accepted
+   - Once pipelines pass and the changes have been accepted, the maintainer will complete the merge request
    - The automatic release process will run, releasing a new version of the Helm Chart if required
    - The automatic documentation update process will run, updating the live documentation site
 
