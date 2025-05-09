@@ -14,11 +14,11 @@
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../aws-resources/">
+        <link rel="next" href="../existing-vpc/">
       
       
       <link rel="icon" href="../../assets/SDH 64x64.webp">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2afb09e1.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -38,7 +38,7 @@
     
   
   
-  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775m1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/></svg>');}</style>
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1%207.775V2.75C1%201.784%201.784%201%202.75%201h5.025c.464%200%20.91.184%201.238.513l6.25%206.25a1.75%201.75%200%200%201%200%202.474l-5.026%205.026a1.75%201.75%200%200%201-2.474%200l-6.25-6.25A1.75%201.75%200%200%201%201%207.775m1.5%200c0%20.066.026.13.073.177l6.25%206.25a.25.25%200%200%200%20.354%200l5.025-5.025a.25.25%200%200%200%200-.354l-6.25-6.25a.25.25%200%200%200-.177-.073H2.75a.25.25%200%200%200-.25.25ZM6%205a1%201%200%201%201%200%202%201%201%200%200%201%200-2%22/%3E%3C/svg%3E');}</style>
 
 
 
@@ -175,11 +175,13 @@
     
     
     
-      <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
@@ -211,13 +213,14 @@
     </div>
   </div>
 </div>
+      
     
     
       <div class="md-header__source">
         <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81s-5.7.083-8.4 1.11c-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.1 18.1 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3s9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81s-5.7.083-8.4 1.11c-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.1 18.1 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3s9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82"/></svg>
   </div>
   <div class="md-source__repository">
     smile-dh-helm-charts
@@ -237,11 +240,13 @@
   
   
   
+  
     
     
       <li class="md-tabs__item">
         <a href="../.." class="md-tabs__link">
           
+  
   
     
   
@@ -256,6 +261,7 @@
         
   
   
+  
     
   
   
@@ -264,6 +270,7 @@
       <li class="md-tabs__item md-tabs__item--active">
         <a href="../" class="md-tabs__link">
           
+  
   
     
   
@@ -279,11 +286,13 @@
   
   
   
+  
     
     
       <li class="md-tabs__item">
         <a href="../../guide/" class="md-tabs__link">
           
+  
   
     
   
@@ -299,11 +308,13 @@
   
   
   
+  
     
     
       <li class="md-tabs__item">
         <a href="../../examples/" class="md-tabs__link">
           
+  
   
     
   
@@ -355,7 +366,7 @@
       <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81s-5.7.083-8.4 1.11c-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.1 18.1 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3s9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81s-5.7.083-8.4 1.11c-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.1 18.1 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3s9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82"/></svg>
   </div>
   <div class="md-source__repository">
     smile-dh-helm-charts
@@ -382,6 +393,7 @@
       
     
     
+    
       
       
         
@@ -397,13 +409,14 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../.." class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     Home
+    
   </span>
   
 
@@ -448,6 +461,7 @@
       
     
     
+    
       
       
         
@@ -463,13 +477,14 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_2" >
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../../charts/smilecdr/" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     Smile CDR
+    
   </span>
   
 
@@ -501,8 +516,10 @@
       <a href="../../charts/smilecdr/smilecdr/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Overview
+    
   </span>
   
 
@@ -533,6 +550,7 @@
       
     
     
+    
       
       
         
@@ -548,13 +566,14 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_2_3" >
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../../upgrading/" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     Upgrading
+    
   </span>
   
 
@@ -586,8 +605,10 @@
       <a href="../../upgrading/versioning-strategy/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Version Strategy
+    
   </span>
   
 
@@ -607,8 +628,10 @@
       <a href="../../upgrading/release-channels/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Release Channels
+    
   </span>
   
 
@@ -628,8 +651,10 @@
       <a href="../../upgrading/version-matrix/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Supported Versions
+    
   </span>
   
 
@@ -664,6 +689,7 @@
       
     
     
+    
       
       
         
@@ -682,8 +708,10 @@
           <label class="md-nav__link" for="__nav_1_2_4" id="__nav_1_2_4_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
     Changelog
+    
   </span>
   
 
@@ -707,8 +735,10 @@
       <a href="../../charts/smilecdr/CHANGELOG-V3/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Version 3.x
+    
   </span>
   
 
@@ -728,8 +758,10 @@
       <a href="../../charts/smilecdr/CHANGELOG-V2/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Version 2.x
+    
   </span>
   
 
@@ -749,8 +781,10 @@
       <a href="../../charts/smilecdr/CHANGELOG-V1/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Version 1.x
+    
   </span>
   
 
@@ -779,6 +813,9 @@
       
         
       
+        
+      
+    
     
     
       
@@ -799,8 +836,10 @@
           <label class="md-nav__link" for="__nav_1_2_5" id="__nav_1_2_5_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
     Contributing
+    
   </span>
   
 
@@ -824,8 +863,33 @@
       <a href="../../contributing/branching-model/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Branching Strategy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/release-process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Release Process
+    
   </span>
   
 
@@ -879,6 +943,9 @@
       
         
       
+        
+      
+    
     
     
       
@@ -897,13 +964,14 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     Quickstart
+    
   </span>
   
 
@@ -944,8 +1012,10 @@
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
   
+  
   <span class="md-ellipsis">
     Prepare EKS Cluster
+    
   </span>
   
 
@@ -955,8 +1025,10 @@
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
+  
   <span class="md-ellipsis">
     Prepare EKS Cluster
+    
   </span>
   
 
@@ -984,22 +1056,13 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Terraform 'Quickstart' Project">
+    <nav class="md-nav" aria-label="Terraform &#39;Quickstart&#39; Project">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#included-components" class="md-nav__link">
     <span class="md-ellipsis">
       Included Components
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#quickstart-variants" class="md-nav__link">
-    <span class="md-ellipsis">
-      Quickstart variants
     </span>
   </a>
   
@@ -1083,17 +1146,17 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#destroy-eks-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       Destroy EKS Cluster
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1113,11 +1176,36 @@
   
   
     <li class="md-nav__item">
-      <a href="../aws-resources/" class="md-nav__link">
+      <a href="../existing-vpc/" class="md-nav__link">
         
+  
+  
+  <span class="md-ellipsis">
+    Prepare Existing VPC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aws-dependencies/" class="md-nav__link">
+        
+  
   
   <span class="md-ellipsis">
     Prepare AWS Resources
+    
   </span>
   
 
@@ -1137,8 +1225,10 @@
       <a href="../deploy-terraform/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Deploy Smile CDR with Terraform
+    
   </span>
   
 
@@ -1174,6 +1264,7 @@
       
     
     
+    
       
       
         
@@ -1189,13 +1280,14 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../../guide/" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     User Guide
+    
   </span>
   
 
@@ -1236,6 +1328,7 @@
       
     
     
+    
       
       
         
@@ -1254,8 +1347,10 @@
           <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
     General
+    
   </span>
   
 
@@ -1279,8 +1374,10 @@
       <a href="../../guide/helm-repo/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Helm Repository Setup
+    
   </span>
   
 
@@ -1309,6 +1406,7 @@
       
     
     
+    
       
       
         
@@ -1324,13 +1422,14 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2_2" >
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../../guide/secrets/" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     Secrets Handling
+    
   </span>
   
 
@@ -1362,8 +1461,10 @@
       <a href="../../guide/secrets/configuring-secrets/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Configuring Secrets
+    
   </span>
   
 
@@ -1383,8 +1484,10 @@
       <a href="../../guide/secrets/extra-secrets/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Extra Secrets
+    
   </span>
   
 
@@ -1412,8 +1515,10 @@
       <a href="../../guide/serviceaccount/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Service Accounts
+    
   </span>
   
 
@@ -1433,8 +1538,10 @@
       <a href="../../guide/values-files-management/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Values Files
+    
   </span>
   
 
@@ -1493,6 +1600,7 @@
       
     
     
+    
       
       
         
@@ -1508,13 +1616,14 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../../guide/smilecdr/" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     Smile CDR
+    
   </span>
   
 
@@ -1546,8 +1655,10 @@
       <a href="../../guide/smilecdr/requirements/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Requirements
+    
   </span>
   
 
@@ -1567,8 +1678,10 @@
       <a href="../../guide/smilecdr/cdrversions/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Versions
+    
   </span>
   
 
@@ -1588,8 +1701,10 @@
       <a href="../../guide/smilecdr/install/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Installation
+    
   </span>
   
 
@@ -1609,8 +1724,10 @@
       <a href="../../guide/smilecdr/database/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Database
+    
   </span>
   
 
@@ -1643,6 +1760,7 @@
       
     
     
+    
       
       
         
@@ -1658,13 +1776,14 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3_6" >
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../../guide/smilecdr/modules/" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     CDR Modules
+    
   </span>
   
 
@@ -1696,8 +1815,10 @@
       <a href="../../guide/smilecdr/modules/modules/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Modules
+    
   </span>
   
 
@@ -1717,8 +1838,10 @@
       <a href="../../guide/smilecdr/modules/cdrnode/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Cluster Configuration
+    
   </span>
   
 
@@ -1738,8 +1861,10 @@
       <a href="../../guide/smilecdr/modules/license/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     License Module
+    
   </span>
   
 
@@ -1759,8 +1884,10 @@
       <a href="../../guide/smilecdr/modules/hl7v2/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     HL7V2 Endpoint Module
+    
   </span>
   
 
@@ -1791,6 +1918,7 @@
       
     
     
+    
       
       
         
@@ -1809,8 +1937,10 @@
           <label class="md-nav__link" for="__nav_3_3_7" id="__nav_3_3_7_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
     Message Broker
+    
   </span>
   
 
@@ -1834,8 +1964,10 @@
       <a href="../../guide/smilecdr/messagebroker/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Message Broker
+    
   </span>
   
 
@@ -1868,6 +2000,7 @@
       
     
     
+    
       
       
         
@@ -1886,8 +2019,10 @@
           <label class="md-nav__link" for="__nav_3_3_8" id="__nav_3_3_8_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
     Ingress
+    
   </span>
   
 
@@ -1911,8 +2046,10 @@
       <a href="../../guide/smilecdr/ingress/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Ingress
+    
   </span>
   
 
@@ -1932,8 +2069,10 @@
       <a href="../../guide/smilecdr/tls-encryption/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     TLS Encryption
+    
   </span>
   
 
@@ -1964,6 +2103,7 @@
       
     
     
+    
       
       
         
@@ -1982,8 +2122,10 @@
           <label class="md-nav__link" for="__nav_3_3_9" id="__nav_3_3_9_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
     Environment
+    
   </span>
   
 
@@ -2007,8 +2149,10 @@
       <a href="../../guide/smilecdr/envvars/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Environment Variables
+    
   </span>
   
 
@@ -2041,6 +2185,7 @@
       
     
     
+    
       
       
         
@@ -2059,8 +2204,10 @@
           <label class="md-nav__link" for="__nav_3_3_10" id="__nav_3_3_10_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
     Storage
+    
   </span>
   
 
@@ -2084,8 +2231,10 @@
       <a href="../../guide/smilecdr/storage/files/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Including Extra Files
+    
   </span>
   
 
@@ -2105,8 +2254,10 @@
       <a href="../../guide/smilecdr/storage/volumeConfig/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Ephemeral Volume Configuration
+    
   </span>
   
 
@@ -2137,6 +2288,7 @@
       
     
     
+    
       
       
         
@@ -2155,8 +2307,10 @@
           <label class="md-nav__link" for="__nav_3_3_11" id="__nav_3_3_11_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
     Observability
+    
   </span>
   
 
@@ -2180,8 +2334,10 @@
       <a href="../../guide/smilecdr/logging/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Logging
+    
   </span>
   
 
@@ -2216,6 +2372,7 @@
       
     
     
+    
       
       
         
@@ -2234,8 +2391,10 @@
           <label class="md-nav__link" for="__nav_3_3_12" id="__nav_3_3_12_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
     Smile CDR Tuning
+    
   </span>
   
 
@@ -2259,8 +2418,10 @@
       <a href="../../guide/smilecdr/tuning/jvm/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     JVM Configuration
+    
   </span>
   
 
@@ -2280,8 +2441,10 @@
       <a href="../../guide/smilecdr/tuning/resources/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Resource Tuning
+    
   </span>
   
 
@@ -2301,8 +2464,10 @@
       <a href="../../guide/smilecdr/tuning/podscheduling/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Pod Scheduling
+    
   </span>
   
 
@@ -2330,8 +2495,10 @@
       <a href="../../guide/smilecdr/updating/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Applying Changes
+    
   </span>
   
 
@@ -2354,6 +2521,7 @@
       
     
     
+    
       
       
         
@@ -2372,8 +2540,10 @@
           <label class="md-nav__link" for="__nav_3_3_14" id="__nav_3_3_14_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
     Operational Tasks
+    
   </span>
   
 
@@ -2397,8 +2567,10 @@
       <a href="../../guide/smilecdr/operations/smileutil/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Using the Smile CLI
+    
   </span>
   
 
@@ -2466,6 +2638,7 @@
       
     
     
+    
       
       
         
@@ -2481,13 +2654,14 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../../examples/" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     Examples
+    
   </span>
   
 
@@ -2519,8 +2693,10 @@
       <a href="../../examples/minimal/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Minimal Config
+    
   </span>
   
 
@@ -2540,8 +2716,10 @@
       <a href="../../examples/external-db/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Single External Database
+    
   </span>
   
 
@@ -2561,8 +2739,10 @@
       <a href="../../examples/external-db-multi/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Multiple External Databases
+    
   </span>
   
 
@@ -2582,8 +2762,10 @@
       <a href="../../examples/modules-simple/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Simple Module Configuration
+    
   </span>
   
 
@@ -2603,8 +2785,10 @@
       <a href="../../examples/modules-advanced/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Advanced Module Configuration
+    
   </span>
   
 
@@ -2624,8 +2808,10 @@
       <a href="../../examples/extra-files-helm/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Adding Files using Helm
+    
   </span>
   
 
@@ -2645,8 +2831,10 @@
       <a href="../../examples/extra-files-external/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Adding Files using External
+    
   </span>
   
 
@@ -2666,8 +2854,10 @@
       <a href="../../examples/previousrootversion/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Use Previous Versions of Smile CDR
+    
   </span>
   
 
@@ -2687,8 +2877,10 @@
       <a href="../../examples/aws-dependencies/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Configure AWS Dependencies
+    
   </span>
   
 
@@ -2708,8 +2900,10 @@
       <a href="../../examples/quickstart/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Quickstart
+    
   </span>
   
 
@@ -2759,22 +2953,13 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Terraform 'Quickstart' Project">
+    <nav class="md-nav" aria-label="Terraform &#39;Quickstart&#39; Project">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#included-components" class="md-nav__link">
     <span class="md-ellipsis">
       Included Components
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#quickstart-variants" class="md-nav__link">
-    <span class="md-ellipsis">
-      Quickstart variants
     </span>
   </a>
   
@@ -2858,17 +3043,17 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#destroy-eks-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       Destroy EKS Cluster
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2886,6 +3071,7 @@
                 
                   
 
+
   
   
     
@@ -2899,34 +3085,43 @@
 
 
 <h1 id="prepare-eks-cluster">Prepare EKS Cluster<a class="headerlink" href="#prepare-eks-cluster" title="Permanent link">&para;</a></h1>
-<p>To simplify creation of a suitable EKS cluster, this guide uses a simple Terraform project that leverages the <a href="https://aws-ia.github.io/terraform-aws-eks-blueprints/">Amazon EKS Blueprints for Terraform</a> patterns.</p>
-<p>These patterns provide a well-curated baseline EKS configuration that can be customized based on the requirements for your environment.</p>
+<p>This guide will help you set up an EKS cluster with configurations and components that are required to easily install Smile CDR.</p>
 <h2 id="terraform-quickstart-project">Terraform 'Quickstart' Project<a class="headerlink" href="#terraform-quickstart-project" title="Permanent link">&para;</a></h2>
-<p>A Terraform project is provided in the <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/pre-release/examples/terraform/cluster/complete">examples</a> section of the <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts">Smile CDR Helm Chart</a> repository. It can be used to create a <strong><em>complete</em></strong> EKS cluster that contains all of the required components to use the Smile CDR Helm Chart.</p>
+<p>To simplify the process, an example Terraform project has been provided to simplify creation of the EKS cluster and required components.</p>
+<p>This example project leverages concepts and components from the <a href="https://aws-ia.github.io/terraform-aws-eks-blueprints/">Amazon EKS Blueprints for Terraform</a> patterns and the <a href="https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/">Amazon EKS Blueprints Addons</a> addons. These patterns and addons provide a well-curated baseline EKS configuration that can be used as a guideline when designing and implementing your own environment.</p>
+<p>We will use the example Terraform project from the <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/pre-release/examples/terraform/cluster/complete/karpenter">examples</a> section of the <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts">Smile CDR Helm Chart</a> repository. It can be used to create a complete EKS cluster that contains all of the required components to deploy Smile CDR using the Helm Chart.</p>
+<blockquote>
+<p>Note: We do not recommend using this Terraform project outside of learning/demo type scenarios. This is not supported code and is only provided to support this QuickStart guide.</p>
+</blockquote>
 <h3 id="included-components">Included Components<a class="headerlink" href="#included-components" title="Permanent link">&para;</a></h3>
-<p>The main components that are included in this Terraform Quickstart Project are as follows:</p>
+<p>The main components that are included in this Terraform Quickstart Project:</p>
 <ul>
-<li><strong>EKS Cluster</strong> using best-practice defaults (e.g. etcd encrypted by default)</li>
-<li><strong>Karpenter</strong> for provisioning compute resources on-demand, rather than pre-provisioning worker nodes. Can take advantage of <strong><em>Spot</em></strong> instances and is more granular and efficient than Autoscaling Groups. <a href="https://karpenter.sh/docs/">More Info</a></li>
-<li><strong>AWS Load Balancer Controller</strong> for managing AWS Load Balancer. <a href="https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/">More Info</a></li>
+<li>
+<p><strong>Amazon VPC</strong> - A VPC will be created that is auto-configured to work with the rest of the guide.</p>
+<blockquote>
+<p><strong>Warning!</strong> If you wish to use a pre-existing VPC, there are extra configurations that need to be verified beforehand. Refer to the <a href="../existing-vpc/">Prepare Existing VPC</a> section of this guide.</p>
+</blockquote>
+</li>
+<li>
+<p><strong>Amazon EKS Cluster</strong> - An Amazon Elastic Kubernets Service (EKS) cluster will be deployed, following best-practices. It will use the following features:</p>
+<ul>
+<li><strong>Karpenter Node Management</strong> - Just-in-time node provisioning using cost effective spot EC2 instances. <a href="https://karpenter.sh/docs/">More Info</a></li>
+<li><strong>AWS Load Balancer Controller</strong> - Automatically creates Amazon Elastic Load Balancers to enable ingress <a href="https://kubernetes-sigs.github.io/aws-load-balancer-controller/">More Info</a></li>
 <li><strong>Nginx Ingress Controller</strong> for managing Ingress resources. <a href="https://kubernetes.github.io/ingress-nginx/">More Info</a></li>
-<li><strong>Secrets Store CSI</strong> for securely managing Secrets (i.e. DB credentials). <a href="https://secrets-store-csi-driver.sigs.k8s.io/">More Info</a></li>
-<li><strong>CrunchyData Postgres Operator</strong> for managing in-cluster Postgres databases. <a href="https://access.crunchydata.com/documentation/postgres-operator/latest">More Info</a></li>
-<li><strong>Strimzi Kafka Controller</strong> for managing in-cluster Kafka clusters. <a href="https://strimzi.io/">More Info</a></li>
-<li>Other supporting components that are not relevant to this guide.</li>
+<li><strong>Secrets Store CSI</strong> - Securely integrate secrets stored in Amazon Secrets Manager (i.e. DB credentials). <a href="https://secrets-store-csi-driver.sigs.k8s.io/">More Info</a></li>
+<li><strong>CrunchyData Postgres Operator</strong> - Provision Postgres Databases in the EKS cluster. <a href="https://access.crunchydata.com/documentation/postgres-operator/latest">More Info</a></li>
+<li><strong>Strimzi Kafka Operator</strong> - Provision Kafka Clusters in the EKS cluster. <a href="https://strimzi.io/">More Info</a></li>
 </ul>
-<h3 id="quickstart-variants">Quickstart variants<a class="headerlink" href="#quickstart-variants" title="Permanent link">&para;</a></h3>
-<p>This Terraform project is available in three variants to help satisfy common use-cases.</p>
-<ul>
-<li><code>karpenter</code> - Configures all of the above components, plus a new VPC.</li>
-<li><code>karpenter-fargate</code> - Same as above, but uses Fargate for the core cluster components to save cost under certain scenarios</li>
-<li><code>karpenter-novpc</code> - Same as the <code>karpenter</code> option above, but can be deployed to an existing VPC. Useful if you do not wish to create a VPC.</li>
+</li>
+<li>
+<p><strong>S3 Endpoint</strong> - Certain features of the Smile CDR Helm Chart make use of S3 buckets. This S3 Endpoint improves efficiency of such solitions.</p>
+</li>
 </ul>
 <h3 id="terraform-state-management">Terraform State Management<a class="headerlink" href="#terraform-state-management" title="Permanent link">&para;</a></h3>
 <p>By default, this Terraform Quickstart Project uses a local Terraform state file.</p>
 <p>It's highly recommended to use a centrally managed remote state if you have one already available in your environment. If you do not have one and wish to configure one in the same AWS account that you plan to deploy to, then you can use the provided CDK project to provision an S3 bucket and DynamoDB table suitable for Terraform remote state management. This can be found in the <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/pre-release/examples/terraform/state-s3">state-s3</a> section of the <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts">Smile CDR Helm Chart</a> repository.</p>
 <h2 id="deployment-steps">Deployment Steps<a class="headerlink" href="#deployment-steps" title="Permanent link">&para;</a></h2>
-<p>Let's follow the <code>karpenter</code> variant of the Terraform Quickstart Project...</p>
+<p>Let's walk through the process of deploying an EKS cluster using this Terraform QuickStart project...</p>
 <h3 id="download-terraform-quickstart-project">Download Terraform Quickstart Project<a class="headerlink" href="#download-terraform-quickstart-project" title="Permanent link">&para;</a></h3>
 <p>In a terminal, change to a suitable folder to manage your project.
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mkdir -p ~/my-sdh-eks/
@@ -2940,22 +3135,46 @@
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>cd cluster
 </code></pre></div></p>
 <h3 id="configure-the-project-for-your-environment">Configure the project for your environment<a class="headerlink" href="#configure-the-project-for-your-environment" title="Permanent link">&para;</a></h3>
-<p>Although this project will run without modification, you should update some of the Terraform <code>locals</code> to suit your environment.</p>
+<p>By default, this project will not run until you update some required configurations. To do this, you need to edit the <code>locals</code> section in the <code>main.tf</code> file.</p>
+<blockquote>
+<p><strong>Note:</strong> This project deliberately requires you configure via locals rather than passing in variables, because it is not intended to be used as a configurable module. It is only provided as a technical demonstration of how to deploy an EKS cluster suitable for deploying Smile CDR using the official Helm Chart.</p>
+</blockquote>
 <p>At a minimum, you should configure the following:</p>
 <ul>
 <li><code>name</code> - A unique name that will be used for your EKS cluster and any supporting resources (Default is <code>MyClusterName</code>)</li>
 <li><code>region</code> - The AWS region where you wish to deploy the EKS cluster. (Default is <code>us-east-1</code>)</li>
-<li><code>acm_cert_arn</code> - The ARN for a default ACM certificate that will be used by the AWS Network Load Balancer that will be used by the Nginx Ingress Controller.</li>
+<li><code>nginx_ingress.acm_cert_arn</code> - The ARN for a default ACM certificate that will be used by the AWS Network Load Balancer that will be used by the Nginx Ingress Controller.</li>
 </ul>
+<h4 id="vpc-configuration">VPC configuration<a class="headerlink" href="#vpc-configuration" title="Permanent link">&para;</a></h4>
+<p>If you wish to let the project create the VPC for you, no further configuration is required.</p>
+<p>If you wish to use an already-existing VPC you will need to do the following</p>
+<ul>
+<li>Set <code>existing_vpc_id</code> to the VPC Id of the existing VPC</li>
+<li>Follow the <a href="../existing-vpc/">Existing VPC</a> chapter which will guide you on configuration requirements on the existing VPC.</li>
+</ul>
+<h4 id="ingress-configuration">Ingress Configuration<a class="headerlink" href="#ingress-configuration" title="Permanent link">&para;</a></h4>
+<p>As mentioned in the <a href="../aws-dependencies/#amazon-certificate-manager-certificate">AWS Dependencies</a> section, you need to provide a suitable TLS certificsate via ACM. Do this by setting <code>nginx_ingress.acm_cert_arn</code>.</p>
 <blockquote>
-<p><strong>Note:</strong> It's advisable at this point to configure your Terraform remote state. For this guide, we will continue to use local state.</p>
+<p><strong>Note:</strong> It's advisable at this point to configure your Terraform remote state as described <a href="#terraform-state-management">above</a>. For this guide, we will continue to use local state.</p>
 </blockquote>
-<p>Edit the <code>main.tf</code> file. At the top of the file, you will see the following <code>locals</code> block that you should update.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>locals {
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  name   = &quot;MyClusterName&quot;
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  region = &quot;us-east-1&quot;
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  acm_cert_arn = &quot;arn:aws:acm:us-east-1:012345678910:certificate/xxxx-yyyy-zzzz&quot;
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>}
+<p>At the top of the <code>main.tf</code> file, you will see the following <code>locals</code> block that you should update.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">locals</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="na">name</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;MyClusterName&quot;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="na">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;us-east-1&quot;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="na">enable_nginx_ingress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nb">nginx_ingress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="na">enable_tls</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="hll"><span class="w">    </span><span class="na">acm_cert_arn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;arn:aws:acm:us-east-1:012345678910:certificate/xxxx-yyyy-zzzz&quot;</span>
+</span><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="p">...</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="hll"><span class="w">  </span><span class="na">existing_vpc_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">null</span>
+</span><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="hll"><span class="w">  </span><span class="nb">private_subnet_discovery_tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+</span><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="hll"><span class="w">    </span><span class="na">Tier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Private&quot;</span>
+</span><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="hll"><span class="w">  </span><span class="p">}</span>
+</span><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="hll"><span class="w">  </span><span class="na">existing_private_subnet_ids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">null</span>
+</span><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="prepare-terraform-project">Prepare Terraform Project<a class="headerlink" href="#prepare-terraform-project" title="Permanent link">&para;</a></h3>
 <p>Make sure that you have valid AWS credentials loaded and that you are able to authenticate against the AWS API.</p>
@@ -3007,27 +3226,31 @@ Double check that you are using the correct AWS account and have a suitable IAM 
 <p>Using this context, you should now be able to inspect the cluster and view all of the core component pods.</p>
 <h3 id="deploy-workloads">Deploy Workloads<a class="headerlink" href="#deploy-workloads" title="Permanent link">&para;</a></h3>
 <p>Your cluster is now ready and applications can be deployed.</p>
-<p>Before installing Smile CDR using the Helm Chart, you may still need to perform further configurations in your AWS account. Proceed to the <a href="../aws-resources/">Prepare AWS Resources</a> section.</p>
-<h3 id="destroy-eks-cluster">Destroy EKS Cluster<a class="headerlink" href="#destroy-eks-cluster" title="Permanent link">&para;</a></h3>
+<p>Before installing Smile CDR using the Helm Chart, you may still need to perform further configurations in your AWS account. Review the <a href="../aws-dependencies/">Prepare AWS Resources</a> section to ensure that all required dependencies are present.</p>
+<h2 id="destroy-eks-cluster">Destroy EKS Cluster<a class="headerlink" href="#destroy-eks-cluster" title="Permanent link">&para;</a></h2>
 <p>When deleting this cluster, it's important to destroy the resources in a specific order.
 Failure to do this will likely leave the Terraform project in a 'stuck' state where it is unable to delete resources without tedious manual steps.</p>
+<blockquote>
+<p><strong>Note:</strong> Delete any application workloads deployed on the cluster before proceeding with these steps</p>
+</blockquote>
 <ol>
-<li>Delete any application workloads or operators deployed on the cluster
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>terraform destroy -target module.eks_blueprints_addon_crunchypgo
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>terraform destroy -target module.eks_blueprints_addon_strimzi
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>terraform destroy -target module.eks_blueprints_addon_karpenter_provisioner_config
-</code></pre></div></li>
-<li>Destroy any ingress addons
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>terraform destroy -target module.eks_blueprints_addons_ingress
-</code></pre></div></li>
-<li>Destroy the core EKS Blueprint Addons
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>terraform destroy -target module.eks_blueprints_addons_core
-</code></pre></div></li>
+<li>
+<p>Destroy any ingress addons
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>terraform destroy -target module.eks_blueprints_addons_ingress
+</code></pre></div>
+   This is an important step. If we were to delete the core addons (Which includes the load balancer controller), then we may end up with dangling ELB resources.
+   By deleting the ingress addons first, we can be sure that the load balancers are deleted.</p>
+</li>
+<li>
+<p>Destroy the core EKS Blueprint Addons
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>terraform destroy -target module.eks_blueprints_addons_core
+</code></pre></div></p>
+</li>
 <li>Destroy the core EKS module
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>terraform destroy -target module.eks
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>terraform destroy -target module.eks
 </code></pre></div></li>
 <li>Destroy the remaining resources
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>terraform destroy
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>terraform destroy
 </code></pre></div></li>
 </ol>
 
@@ -3086,10 +3309,12 @@ Failure to do this will likely leave the Terraform project in a 'stuck' state wh
       <div class="md-progress" data-md-component="progress" role="progressbar"></div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.top", "content.action.view", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.top", "content.action.view", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      <script src="../../assets/javascripts/bundle.c8b220af.min.js"></script>
       
     
   </body>
