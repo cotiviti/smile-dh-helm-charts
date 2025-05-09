@@ -50,12 +50,10 @@ Define volumes and volume mounts based on combining:
   {{- $volumes = append $volumes $configMapVolume -}}
 
   {{- /* Helm Specific smileutil command */ -}}
+  {{- /* (Even though this points to the same ConfigMap as above, it needs to be separate so we can set defaultMode) */ -}}
   {{- $configMapVolume := dict "name" "scdr-smileutil" -}}
-  {{- $cmName := printf "%s-scdr-smileutil" .Release.Name -}}
-  {{- if $.Values.autoDeploy -}}
-    {{- $cmName = printf "%s-scdr-smileutil-%s" .Release.Name (sha256sum (include "smilecdr.cdrSmileutilText" .)) -}}
-  {{- end -}}
-  {{- $_ := set $configMapVolume "configMap" (dict "name" $cmName "defaultMode" 0770 ) -}}
+  {{- $_ := set $configMapVolume "configMap" (dict "name" (printf "%s-%s" .Release.Name .Values.configMapResourceSuffix) "defaultMode" 0770) -}}
+  {{- /* $_ := set $configMapVolume "configMap" (dict "name" $cmName "defaultMode" 0770 ) */ -}}
   {{- $volumes = append $volumes $configMapVolume -}}
 
   {{- if eq true .Values.securityContext.readOnlyRootFilesystem -}}

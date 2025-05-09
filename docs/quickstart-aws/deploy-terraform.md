@@ -20,10 +20,10 @@ To ease configuration of complex environments, the Smile CDR Dependencies Terraf
 If using the Helm Chart directly, all of the above will need to be configured beforehand. This is not in scope of this quickstart.
 
 ## Pre-requisites
-It's important to ensure that any pre-requisites are in place before following these steps. If you have not done so already, please review the [Prepare EKS Cluster](./eks-cluster.md) and [Prepare AWS Resources](./aws-resources.md) sections.
+It's important to ensure that any pre-requisites are in place before following these steps. If you have not done so already, please review the [Prepare EKS Cluster](./eks-cluster.md) and [Prepare AWS Resources](./aws-dependencies.md) sections.
 
 ### Container Repository
-Review the section on [Private Container Registry Credentials](./aws-resources.md#private-container-registry-credentials) and ensure that you either:
+Review the section on [Private Container Registry Credentials](./aws-dependencies.md#private-container-registry-credentials) and ensure that you either:
 
 * Have already created a suitable AWS Secrets Manager secret
 
@@ -34,7 +34,7 @@ or
 >**Note:** The Smile CDR pods will not start up unless a container repository is accessible by the cluster.
 
 ### DNS configuration
-Review the section on [DNS Configuration](./aws-resources.md#dns-configuration) and ensure that you either:
+Review the section on [DNS Configuration](./aws-dependencies.md#dns-configuration) and ensure that you either:
 
 * Have access to add DNS entries in the Route53 Hosted Zone for your chosen parent domain
 
