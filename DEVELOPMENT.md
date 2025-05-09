@@ -1,164 +1,273 @@
 # Developing Smile Digital Health Helm Charts
 
-If you plan to contribute to these Helm Charts, these guidelines
-will get you started.
-## Repository Layout
-This repository only contains the one chart right now (Smile CDR) but
-may house more charts as we release them.
+Welcome to the Smile Digital Health Helm Charts repository! This guide is designed to help contributors — regardless of prior software development experience — get started with contributing to the charts efficiently and confidently.
 
-All charts are located in ```src/main/charts/<chartname>```
-Tests are located in ```src/test/helm-output/<chartname>```
+---
 
-## Required Developer Tools
-This repository has a rigid SDLC that enforces the following:
-* Commit messages must follow the [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) patterns in order to provide a meaningful commit history and to automate the versioning & release process.
-* Unit testing framework that helps avoid regression errors in generated
-Kubernetes manifests
-* Automatic generation of the official [documentation](https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre) using [mkdocs](https://www.mkdocs.org/).
+## Repository Structure
 
-In order to perform development tasks on this repository, you must install the following utilities.
+This repository currently contains a single chart (`Smile CDR`), but it is structured to accommodate more charts in the future.
 
-* [Helm](https://helm.sh/)
-* [Helm Docs](https://github.com/norwoodj/helm-docs)
-* [Dyff](https://github.com/homeport/dyff) - Used for comparing semantic meaning of YAML manifests in the Helm Output tests
-* [jq](https://jqlang.github.io/jq) - Used for parsing Helm Output yaml test configurations
-* [yq](https://mikefarah.gitbook.io/yq) - Required to reliably convert yaml configurations into json for jq
-* [mkdocs](https://www.mkdocs.org/) - For generating Smile CDR Helm Chart [docs](https://smilecdr-public.gitlab.io/smile-dh-helm-charts/v1.0.0-pre/)
-* [Shellcheck](https://www.shellcheck.net/) - Used for linting shell scripts used in build & CI process
-* [Pre-commit](https://pre-commit.com/) - Used to maintain integrity of repository. e.g. For enforcing Conventional Commits and performing local linting and unit tests.
+- **Charts Directory:** `src/main/charts/<chart-name>`
+- **Test Output Directory:** `src/test/helm-output/<chart-name>`
 
-### Developer tools quickstart
+---
 
-If using a Mac or linux machine with [Homebrew](https://brew.sh/), you can simply run the following commands to prepare your environment.
+## Required Tools
 
-```
+To contribute effectively, you'll need a set of command-line tools. These are required for tasks such as rendering Helm templates, validating outputs, linting, and generating documentation.
+
+### Tool List
+
+| Tool        | Purpose                                                                 |
+|-------------|-------------------------------------------------------------------------|
+| [Helm](https://helm.sh/)        | Template and package manager for Kubernetes charts                      |
+| [Helm Docs](https://github.com/norwoodj/helm-docs)   | Auto-generates README documentation for Helm charts                    |
+| [Dyff](https://github.com/homeport/dyff)        | Compares semantic differences between YAML documents                   |
+| [jq](https://jqlang.github.io/jq)          | Parses JSON-formatted output                                            |
+| [yq](https://mikefarah.gitbook.io/yq)          | Converts YAML to JSON for use with `jq`                                |
+| [mkdocs](https://www.mkdocs.org/)      | Builds and serves documentation websites                               |
+| [Shellcheck](https://www.shellcheck.net/)  | Lints shell scripts                                                    |
+| [Pre-commit](https://pre-commit.com/)  | Automates local checks for commit message format, code linting, etc.   |
+
+### Quick Setup (macOS / Linux)
+
+If you are using [Homebrew](https://brew.sh/), run:
+
+```sh
 brew install helm homeport/tap/dyff norwoodj/tap/helm-docs jq yq pre-commit shellcheck
 ```
 
-<!-- The following installs a Python ***virtual environment*** so that you can install the required commitizen and MkDocs python packages.
-```
-virtualenv venv
+To install Python dependencies for commit messages and docs:
+
+```sh
+python3 -m venv venv
 . ./venv/bin/activate
 pip install -r commitizen-requirements.txt -r mkdocs-requirements.txt
-``` -->
-
->***Note:*** If you are not able to use Homebrew to install these dependencies, you will need to go through the list of required tooling up above and install them separately.
-
-To check that all required tools are correctly installed, you can run the following:
-
 ```
+
+To verify everything is working:
+
+```sh
 make pre-commit
 ```
 
-If you are on the `pre-release` branch, this should complete without error.
+> ✅ If you're on one of the official release branches, this should complete without errors.
+
+> **Note:** If you can't use Homebrew, manually install each tool from its official site.
+
+---
 
 ## Release Strategy
-Although we can release directly to the `main` branch using the
-`Semantic release` tool, we have chosen to use a `pre-release`
-branch for now in order to control the release cadence.
 
-In the future, when chart development slows, we may switch to
-releasing on the `main` branch.
-## Development Process
-To contribute changes to this repo, do the following:
-* Create a GitLab issue [here](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/new)
-* Create a merge request and feature branch from the new issue
-* On your local development workstation, pull and checkout the newly created branch
-* Make and test your changes.
-  * Be sure to work on a single small-scope feature at once. If it can't be described well in a single commit, the scope of work is too great.
-  * Squash your commits into one meaningful commit that follows the `conventional commits` standards
-  * Add tests for your code changes if possible
-  * Run the tests with `make helm-check-outputs` and ensure that the expected outputs did not unexpectedly change
-  * Run `make pre-commit` as before
+This repository uses a well defined branching strategy along with `Semantic release` to maintain control and stability.
 
-## Writing Commit Messages
-When contributing to this repository, there is a strict guideline for checking in code. This helps keep the repository well organized and makes the versioning and release process reliable and low maintenance.
+---
 
-### Conventional Commits
-You should follow the following `Conventional Commit` structure:
+## Contributing Workflow
 
-`type(scope): description`
+To propose and implement changes:
 
-For this repository, the following can be used for the `type`:
-* `fix` - Bug fixes
-* `feat` - Adding new features or functionality
-* `refactor` - When refactoring code with no semantic changes to output
-* `style` - When adjusting code styles (Whitespace, indentation etc). No semantic changes to output
-* `chore` - Misc changes that do not affect functionality
-* `revert` - Reverting previous changes
-* `test` - Updating expected outputs. Changes may just be included in a `fix` or `feat` commit.
-* `docs` - Updating documentation.
-* `build`- Updates to build process
-* `ci` - Updates to pipeline
+1. **Create a GitLab Issue**:
+   - Start [here](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/new)
+   - Use the provided [issue template](./ISSUE-TEMPLATE.md) as a starting point
+2. **Fork the Repository**:
+   - [https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/forks/new](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/forks/new)
+   > **WARNING!** You ***SHOULD NOT*** use the GitLab UI as a reference for the current status of the release branches in your forked repo as it can be misleading. This is because the GitLab UI currently compares branches on forked repositories with the default branch of the upstream repository and ***not*** the respective release branch. This results in a message that makes it seem that the release branch (e.g. `pre-release`) in your forked repo is not in sync with the upstream repo, even if it is. You ***MUST NOT*** use the GitLab sync button in such scenarios as it will incorrectly pull changes from `upstream/main` into your feature or release branch, which can cause confusion.
+3. **Set up Local Development Environment**
+   
+   The first time you work on this repository on your local workstation, you need to configure the upstream repository so that you can create your feature branches from the appropriate release branch.
+   - Clone your forked repository to your local workstation
+      ```
+         git clone https://gitlab.com/simpatico.ai/my-namespace/smile-dh-helm-charts.git
+      ```
+      > This will configure your forked repository as the `origin` remote
+   - Add a git remote for the upstream repository
+      ```
+      cd smile-dh-helm-charts
+      git remote add upstream https://gitlab.com/smilecdr-public/smile-dh-helm-charts.git
+      ```
+   <!-- **Optional:** Choose and Sync Source Branch
+   > **WARNING!** You ***SHOULD*** only do this step using the git commands above. You ***SHOULD NOT*** use the GitLab UI as a reference for the current status of non-default branches in your forked repo as it can be misleading. This is because the GitLab UI currently compares forked branches with the default branch of the upstream repository and ***not*** the respective feature branch. This results in a message that makes it seem that the release branch (e.g. `pre-release`) in your forked repo is not in sync with the upstream repo, even if it is.  
+   - Ensure that the `pre-release` branch in your forked repository is up to date as follows:
+      ```
+      git checkout pre-release
+      git pull upstream pre-release
+      git push origin pre-release
+      ``` -->
+        
+5. **Create your Feature Branch**:
 
-For the `scope`, use something like the following:
-* `smilecdr` - Core Smile CDR Helm Chart functionality
-* `pgo` - Functionality pertaining just to the Postgres Operator
-* `strimzi` - Functionality pertaining just to the Strimzi Kafka Operator
-* `observability` - Changes related to the observability suite
+   Refer to the branching model to decide which release branch to create your feature branch from.
 
-The idea here is to identify which component here is being affected. If there are multiple affected components, you may need to consider breaking your changes into smaller, more manageable, commits.
+   > If you are unsure which branch to use, just use the `pre-release` branch, unless you know you are working on a breaking change or a feature that is already planned for some future release.
+
+   The following instructions assume you are working from the `pre-release` branch.
+
+   - Include the GitLab Issue in your feature branch - e.g. `208-improve-developer-documentation`
+   - Create your feature branch in your forked repository. e.g.:
+      ```
+      git checkout -b 208-improve-developer-documentation upstream/pre-release
+      ```
+6. **Develop Locally**:
+   - Clone your forked repository and checkout your newly created feature branch.
+   - Make small focused changes (keep each MR small and isolated)
+   - Write/update documentation in `docs/`
+7. **Run Tests**:
+   - Write/update tests in `src/test/helm-output/`
+   - Run tests using:
+      ```sh
+      make helm-check-outputs
+      ```
+8. **Prepare and Commit**
+   - Commit your changes following the commit message rules (see below)
+     - Squash multiple commits for a related change into one meaningful commit
+   - Check commit structure using:
+      ```sh
+      make pre-commit
+      ```
+   - Commit your changes
+      ```
+      git add .
+      git commit -m "docs(contrib): add development workflow documentation"
+      ```
+   - Resolve any conflicts with upstream changes
+      
+      If you have been working on your feature branch for some time, there may have been changes introduced upstream. You need to pull the latest changes and resolve any conflicts.
+      ```
+      git pull upstream pre-release --rebase
+      ```
+9. **Push Feature Branch To Your Forked Repository**
+
+9. **Create Merge Request**
+   
+   When you’re ready to propose your changes:
+   
+   Open an MR in GitLab:
+   - Source: `my-namespace/smile-dh-helm-charts:208-improve-developer-documentation`
+   - Target: `smilecdr-public/smile-dh-helm-charts:pre-release`
+   
+10. **Review, Update, Merge**
+   
+   After your Merge Request has been created, a pipeline will run to verify that there are no regressions or regressions with the new code.
+   - The merge request will be reviewed by an approved reviewer
+   - Once pipelines pass and the changes have been accepted, the maintainer will complete the merge request
+   - The automatic release process will run, releasing a new version of the Helm Chart if required
+   - The automatic documentation update process will run, updating the live documentation site
+
+---
+
+## Commit Message Format
+
+These Helm Charts use the **[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)** format for clarity and automation.
+
+### Format
+```
+type(scope): short description
+```
+
+#### Example
+```sh
+feat(smilecdr): add support for configurable FHIR endpoints
+```
+
+### Valid Types
+- `fix` – Bug fix
+- `feat` – New feature
+- `refactor` – Code reorganization with no output changes
+- `style` – Formatting only (whitespace, indentation, comments)
+- `chore` – Miscellaneous tasks
+- `revert` – Reverts a previous commit
+- `test` – Output test changes
+- `docs` – Documentation updates
+- `build` – Build process changes
+- `ci` – Continuous integration pipeline changes
+
+### Valid Scopes
+- `smilecdr` - Core Smile CDR Helm Chart functionality
+- `pgo` - (PostgreSQL Operator)
+- `strimzi` - (Kafka Operator)
+- `observability` - Included observability suite
+
+> 🔍 Tip: Use precise scopes to help reviewers understand the affected component. Break large changes into multiple commits if needed.
 
 ### Breaking Changes
-Try to find a way to not introduce breaking changes.
+Avoid breaking changes unless absolutely necessary, as they will result in a major version bump in the Helm Chart.
 
-Breaking changes may include:
-* Changes to the semantic meaning of rendered outputs if no inputs (Values files) were altered
-* Changes that require the inputs (values files) to be modified to prevent unwanted output changes
+As such, the introduction of breaking changes should align with planned major version updates.
 
-Breaking changes bump the major version.
-To avoid regular major version bumps, breaking changes can be avoided by:
+If a breaking change needs to be released before a planned major release, it should be done in a non-invasive way, such as:
 * Enabling breaking features with feature flags
 * Maintaining old behaviour as the default, but add non-intrusive deprecation warnings
-* Multiple breaking changes can be bundled together in version releases in a controlled cadence.
 
-If you do need to add a breaking change, then do so by adding a footer in your commit message like so:
-```
-Breaking Change - Did a thing that breaks the thing.
-```
-
-### Checking your commits
-You should always check your commits before pushing them to the GitLab repository, to ensure they are appropriately structured.
-```
-make cz-check
+Do declare a change as breaking, include a footer in your commit:
+```sh
+BREAKING CHANGE: Changing behavior of xyz component
 ```
 
-## Documentation
-The Smile CDR documentation is generated using [mkdocs](https://www.mkdocs.org/) and currently uses the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme.
+---
 
-The documentation lives in the `./docs/` directory and can be 'live-edited' while viewing the docs on your local workstation.
+## Testing Changes
 
-### Running local MkDocs development server
+Before submitting your changes:
+
+1. Run `make helm-check-outputs` to compare output manifests
+2. Review diffs carefully — avoid unintended output changes
+3. Run `make pre-commit` to enforce all local checks and linting
+
+---
+
+## Documentation Development
+
+Documentation is auto-generated using [MkDocs](https://www.mkdocs.org/) + [Material theme](https://squidfunk.github.io/mkdocs-material/).
+
+- Document source code lives in: `./docs/`
+- Documents are published here: https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/
+
+### Editing Docs Locally
+
+To ease the process of editing the docs, you can run a live local version that updates in realtime as you make changes to the documentation source code.
+
+This local environment can be created automatically using the `makefile` or you can create the environment manually.
 
 #### Using Makefile
-The included `makefile` has been configured to allow simple starting of the MkDocs development server by simply running:
-```
+```sh
 make mkdocs-serve
-...
-INFO    -  [11:25:45] Watching paths for changes: 'docs', 'mkdocs.yml'
-INFO    -  [11:25:45] Serving on http://127.0.0.1:8000/smile-dh-helm-charts/
 ```
-This will automatically create the Python Virtual environment if not already done so.
+- Local version of docs available at: http://127.0.0.1:8000/smile-dh-helm-charts/
 
-You can now view the documentation on the provided URL and make live updates.
+> 💡 Changes you make in the `docs/` folder will reload automatically.
 
-If you cannot use `make`, or would like to perform the steps manually, use the steps that follow.
-
-#### Prepare Environment
->**Note:** You only need to run this once to install the dependencies, if you did not already do it further up
-```
-virtualenv venv
+#### Manual Setup
+```sh
+python3 -m venv venv
 . ./venv/bin/activate
 pip install -r mkdocs-requirements.txt
-```
-
-#### Start the local development server
-```
-. ./venv/bin/activate
 mkdocs serve
-...
-INFO    -  [11:25:45] Watching paths for changes: 'docs', 'mkdocs.yml'
-INFO    -  [11:25:45] Serving on http://127.0.0.1:8000/smile-dh-helm-charts/
 ```
 
-You can now view the documentation on the provided URL and make live updates.
+---
+
+## Summary Checklist for New Contributors ✅
+
+- [ ] All required tools are installed
+- [ ] Created an issue and merge request
+- [ ] Changes are small and focused
+- [ ] Tests added/updated if needed
+- [ ] Documentation updated if needed
+- [ ] Commit messages use the correct format
+- [ ] `make pre-commit` passes
+
+---
+
+## Next Steps
+
+Before working on or adding features to the Helm Chart, you should familiarize yourself with the design and some of the code standards being used.
+
+Refer to the [Design Doc](./DESIGN.md) for info on this.
+
+## Need Help?
+
+If you're stuck or unsure, reach out to a maintainer, ask questions in the issue thread, or browse past merge requests for examples.
+
+Welcome to the team! 🛠️

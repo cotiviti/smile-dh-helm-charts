@@ -207,7 +207,8 @@ Define CDR Nodes
       {{- $_ := set $parsedNodeValues "livenessProbe" (include "smilecdr.livenessProbe" $cdrNodeHelperCTX | fromYaml) -}}
 
       {{- $_ := set $parsedNodeValues "propertiesData" (include "smilecdr.cdrConfigData" $cdrNodeHelperCTX) -}}
-      {{- $cmHashSuffix := ternary (printf "-%s" (include "smilecdr.getHashSuffix" $parsedNodeValues.propertiesData)) "" $parsedNodeValues.autoDeploy -}}
+      {{- $combinedConfigData := printf "%s\n%s" $parsedNodeValues.propertiesData (include "smilecdr.cdrSmileutilData" .) -}}
+      {{- $cmHashSuffix := ternary (printf "-%s" (include "smilecdr.getHashSuffix" $combinedConfigData)) "" $parsedNodeValues.autoDeploy  -}}
       {{- $_ := set $parsedNodeValues "configMapName" (printf "%s%s" ($parsedNodeValues.cdrNodeId | lower) $cmHashSuffix) -}}
       {{- $_ := set $parsedNodeValues "configMapResourceSuffix" (printf "scdrnode-%s" $parsedNodeValues.configMapName) -}}
       {{- /* TODO: Remove when `oldResourceNaming` is removed */ -}}
