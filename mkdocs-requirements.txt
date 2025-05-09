@@ -2,6 +2,6 @@
 mkdocs
 mkdocs-material
 mike
-mkdocs-spellcheck[codespell]
+mkdocs-spellcheck[codespell,symspellpy]
 mkdocs-macros-plugin
 semver

@@ -11,7 +11,7 @@ locals {
 }
 
 module "smile_cdr_dependencies" {
-  source = "git::https://gitlab.com/smilecdr-public/smile-dh-helm-charts//src/main/terraform/smile-cdr-deps?ref=terraform-module-v1"
+  source = "git::https://gitlab.com/smilecdr-public/smile-dh-helm-charts//src/main/terraform/smile-cdr-deps?ref=terraform-module"
   name = local.name
   eks_cluster_name = local.eks_cluster_name
   cdr_regcred_secret_arn = local.cdr_regcred_secret_arn

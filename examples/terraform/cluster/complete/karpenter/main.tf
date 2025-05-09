@@ -1,368 +1,68 @@
-# These are the local variables you NEED to set.
+################################################################################
+# Example EKS Cluster Terraform Project
+################################################################################
+#
+# Modify values in this locals block to modify the behaviour of this Terraform project
+#
+
 locals {
+
+  ################################################################################
+  # General Settings
+  ################################################################################
+  #
+  # Provide EKS Cluster Name and AWS region
+  #
   name   = "MyClusterName"
   region = "us-east-1"
-  acm_cert_arn = "arn:aws:acm:us-east-1:012345678910:certificate/xxxx-yyyy-zzzz"
-}
 
-################################################################################
-# Cluster
-################################################################################
-
-module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
-  version = "~> 19.18"
-
-  cluster_name                   = local.name
-  cluster_version                = "1.28"
-  cluster_endpoint_public_access = true
-
-  vpc_id     = module.vpc.vpc_id
-  subnet_ids = module.vpc.private_subnets
-
-  manage_aws_auth_configmap = true
-  aws_auth_roles = [
-    # We need to add in the Karpenter node IAM role for nodes launched by Karpenter
-    {
-      rolearn  = module.eks_blueprints_addons_core.karpenter.node_iam_role_arn
-      username = "system:node:{{EC2PrivateDNSName}}"
-      groups = [
-        "system:bootstrappers",
-        "system:nodes",
-      ]
-    },
-  ]
-
-  eks_managed_node_groups = {
-    core_node_group = {
-      instance_types = ["m5.large"]
-
-      ami_type = "BOTTLEROCKET_x86_64"
-      platform = "bottlerocket"
-
-      min_size     = 1
-      max_size     = 2
-      desired_size = 1
-    }
+  ################################################################################
+  # Ingress Settings
+  ################################################################################
+  #
+  # Provide Ingress and TLS settings if using ingress-nginx (The default)
+  #
+  enable_nginx_ingress = true
+  nginx_ingress = {
+    enable_tls = true
+    # If Nginx Ingress and TLS are both enabled, you MUST provide a TLS certificate via ACM.
+    #
+    # Note that this project has NOT been tested without enabling TLS, so it's advised to
+    # provide the certificate arn as follows:
+    #
+    # acm_cert_arn = "arn:aws:acm:us-east-1:012345678910:certificate/xxxx-yyyy-zzzz"
+    acm_cert_arn = null
   }
 
-  tags = merge(local.tags, {
-    # NOTE - if creating multiple security groups with this module, only tag the
-    # security group that Karpenter should utilize with the following tag
-    # (i.e. - at most, only one security group should have this tag in your account)
-    "karpenter.sh/discovery" = local.name
-  })
-}
+  ################################################################################
+  # VPC Configuration
+  ################################################################################
+  #
+  # By default, this project will create a VPC with 3 subnet tiers, tagged per the
+  # documentation located here:
+  #
+  # https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/quickstart-aws/eks-cluster/
+  #
+  ### Bring Your Own VPC ###
+  #
+  # If you are deploying to an existing VPC created through other means, set
+  # `existing_vpc_id` to that VPC, i.e.
+  #
+  #   existing_vpc_id = "vpc-0abc123"
+  #
+  # IMPORTANT! Ensure that you set appropriate tags for Subnet auto-discovery as
+  # per the above docs as this solution will not work without appropriately tagged
+  # subnets.
+  existing_vpc_id = null
 
-# Due to dependency issues, these EKS Blueprint Addons need to be created and destroyed sequentially
-# In order to do this, they must be defined in separate EKS Blueprints Addons modules
-#
-# Some problems that arise if they are all bundled together
-#
-# 1. Deleting Karpenter before deleting addons that use compute that was provisioned by Karpenter
-#    In this case, destroying the Karpenter addon may fail as it cannot delete nodes, nodeclaims,
-#    nodepools and EKSNodeClasses as those resources are still in use. If this happens, the cluster
-#    may be left in a broken and inconsistent state that can be very hard to recover from.
-#
-# 2. Deleting the AWS Load Balancer Controller addon before deleting any ingress objects
-#    For example, deleting it before deleting the nginx-ingress controller will result in dangling
-#    AWS Load Balancer resources that need to be cleaned up manually. This increases management
-#    overhead and potentially increases costs as AWS resources are left unused.
-#
-#    The same applies if any applications have been installed that use the AWS Load Balancer Controller
-#    to provision load balancers.
-#
-# As a result of the above, the cluster must be destroyed in a very controlled manner:
-#
-# 1. Destroy any applications or operators installed on the cluster
-# 2. Destroy any ingress addons (terraform destroy -target module.eks_blueprints_addons_ingress)
-# 4. Destroy the core EKS Blueprint Addons (terraform destroy -target module.eks_blueprints_addons_core)
-
-module "eks_blueprints_addons_core" {
-  source  = "aws-ia/eks-blueprints-addons/aws"
-  version = "~> 1.11"
-
-  cluster_name      = module.eks.cluster_name
-  cluster_endpoint  = module.eks.cluster_endpoint
-  cluster_version   = module.eks.cluster_version
-  oidc_provider_arn = module.eks.oidc_provider_arn
-
-  eks_addons = {
-    coredns = {
-      most_recent              = true
-    }
-    vpc-cni    = {
-      most_recent              = true
-    }
-    kube-proxy = {
-      most_recent              = true
-    }
-    aws-ebs-csi-driver = {
-      most_recent              = true
-      service_account_role_arn = module.ebs_csi_driver_irsa.iam_role_arn
-    }
-
+  ### Private Subnet Selection ###
+  #
+  # When using an existing VPC, you can either set the private subnets using
+  # auto-discovery or you can manually configure them by providing subnet ids.
+  # Refer to the QuickStart docs above for more information on subnet auto discovery.
+  private_subnet_discovery_tags = {
+    Tier = "Private"
   }
-
-  enable_karpenter = true
-  karpenter_node = {
-    # Use static name so that it matches what is defined in `karpenter.yaml` example manifest
-    iam_role_use_name_prefix = false
-  }
-
-  karpenter = {
-    values      = [file("${path.module}/helm/karpenter/values.yaml")]
-  }
-
-  enable_aws_load_balancer_controller = true
-  aws_load_balancer_controller = {
-    set = [
-      {
-        name  = "vpcId"
-        value = module.vpc.vpc_id
-      },
-      {
-        name  = "region"
-        value = local.region
-      },
-    ]
-  }
-
-  enable_secrets_store_csi_driver = true
-  secrets_store_csi_driver = {
-    values  = [yamlencode(
-      {
-        syncSecret = {
-          enabled = true
-        }
-        enableSecretRotation = true
-        linux = {
-          # This should probably be set as a default, as it's a Daemonset that is required on all nodes.
-          # https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/
-          priorityClassName = "system-node-critical"
-        }
-      }
-    )]
-  }
-  enable_secrets_store_csi_driver_provider_aws = true
-
-  enable_cert_manager = true
-  cert_manager = {
-    chart_version    = "v1.14.5"
-    values  = [yamlencode(
-      {
-        enableCertificateOwnerRef = true
-      }
-    )]
-  }
-
-  enable_metrics_server = true
-
-  tags = local.tags
-}
-
-module "eks_blueprints_addon_karpenter_provisioner_config" {
-  source = "aws-ia/eks-blueprints-addon/aws"
-  version = "~> 1.1.1"
-
-  name             = "karpenter-config"
-  chart            = "./helm/karpenter-config"
-  description      = "Provides provisioner configurations for Karpenter"
-  namespace        = module.eks_blueprints_addons_core.karpenter.namespace
-  create_namespace = false
-
-  values = [yamlencode(
-      {
-        karpenterIamRole = module.eks_blueprints_addons_core.karpenter.node_iam_role_name
-        clusterName = local.name
-        azs = local.azs
-      }
-    )
-  ]
-
-  depends_on = [ module.eks_blueprints_addons_core ]
-
-  tags = local.tags
-}
-
-
-# Required for the EBS CSI driver to be able to provision volumes
-module "ebs_csi_driver_irsa" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  version = "~> 5.33"
-
-  role_name_prefix = format("%s-ebs-csi-driver-", substr(local.name,0,38 - 16))
-
-  attach_ebs_csi_policy = true
-
-  oidc_providers = {
-    main = {
-      provider_arn               = module.eks.oidc_provider_arn
-      namespace_service_accounts = ["kube-system:ebs-csi-controller-sa"]
-    }
-  }
-
-  tags = local.tags
-}
-
-
-# Ingress needs to be provisioned after the AWS Load Balancer Controller to
-# Avoid dangling ALB resources during destroy.
-module "eks_blueprints_addons_ingress" {
-  source  = "aws-ia/eks-blueprints-addons/aws"
-  version = "~> 1.11"
-
-  cluster_name      = module.eks.cluster_name
-  cluster_endpoint  = module.eks.cluster_endpoint
-  cluster_version   = module.eks.cluster_version
-  oidc_provider_arn = module.eks.oidc_provider_arn
-
-  # We want to wait for the ALB to be deployed first
-  create_delay_dependencies = [module.eks_blueprints_addons_core.aws_load_balancer_controller.chart]
-
-  eks_addons = {}
-
-  enable_ingress_nginx = true
-  ingress_nginx = {
-    values      = [file("${path.module}/helm/ingress-nginx/values.yaml")]
-    set = [
-      # Set a pre-existing wildcard ACM certificate
-      {
-        name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert"
-        value = local.acm_cert_arn
-      }
-    ]
-  }
-
-  # depends_on = [
-  #   module.eks_blueprints_addons_core
-  # ]
-
-  tags = local.tags
-}
-
-################################################################################
-# EBS Storage Classes
-################################################################################
-
-# Set the existing in-tree gp2 storage class to not be the default
-resource "kubernetes_annotations" "gp2_default" {
-  annotations = {
-    "storageclass.kubernetes.io/is-default-class" : "false"
-    "replaced-with" : module.eks_blueprints_addons_core.eks_addons.aws-ebs-csi-driver.addon_name
-  }
-  api_version = "storage.k8s.io/v1"
-  kind        = "StorageClass"
-  metadata {
-    name = "gp2"
-  }
-
-  force = true
-
-  # depends_on = [module.eks_blueprints_addons_core]
-}
-
-# Default storage class (encrypted)
-resource "kubernetes_storage_class_v1" "ebs_csi_encrypted_gp3_storage_class" {
-  metadata {
-    name = "gp3-encrypted"
-    annotations = {
-      "storageclass.kubernetes.io/is-default-class" : "true"
-    }
-  }
-
-  storage_provisioner    = "ebs.csi.aws.com"
-  reclaim_policy         = "Delete"
-  allow_volume_expansion = true
-  volume_binding_mode    = "WaitForFirstConsumer"
-  parameters = {
-    type      = "gp3"
-    encrypted = true
-    # kmsKeyId  = aws_kms_key.ebs_key.key_id
-  }
-  # depends_on = [kubernetes_annotations.gp2_default]
-}
-
-################################################################################
-# Supporting Resources
-################################################################################
-
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 5.0"
-
-  name = local.name
-  cidr = local.vpc_cidr
-
-  azs             = local.azs
-  database_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 4, k)]
-  private_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 48)]
-  public_subnets  = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 96)]
-
-  enable_nat_gateway = true
-  single_nat_gateway = true
-
-  public_subnet_tags = {
-    # Subnets tag for load balancer auto-discovery
-    "kubernetes.io/role/elb" = 1
-  }
-
-  private_subnet_tags = {
-    # Subnets tag for load balancer auto-discovery
-    "kubernetes.io/role/internal-elb" = 1
-    # Tags subnets for Karpenter auto-discovery
-    "karpenter.sh/discovery" = local.name
-    # Subnets tag for determining private subnets
-    "Tier" = "Private"
-  }
-
-  database_subnet_tags = {
-    # Subnets tag for determining database subnets
-    "Tier" = "Database"
-  }
-
-  tags = local.tags
-}
-
-provider "aws" {
-  region = local.region
-}
-
-provider "kubernetes" {
-  host                   = module.eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    command     = "aws"
-    # This requires the awscli to be installed locally where Terraform is executed
-    args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
-  }
-}
-
-provider "helm" {
-  kubernetes {
-    host                   = module.eks.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-
-    exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      command     = "aws"
-      # This requires the awscli to be installed locally where Terraform is executed
-      args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
-    }
-  }
-}
-
-data "aws_availability_zones" "available" {}
-
-locals {
-  vpc_cidr = "10.0.0.0/16"
-  azs      = slice(data.aws_availability_zones.available.names, 0, 3)
-
-  tags = {
-    EnvironmentName = local.name
-    CreatedBy = "CloudFactory-tf"
-    GitlabRepo = "gitlab.com/smilecdr-public/smile-dh-helm-charts"
-  }
+  # existing_private_subnet_ids = ["subnet-0abc123", "subnet-0def456"]
+  existing_private_subnet_ids = null
 }

@@ -1,3 +1,67 @@
+################################################################################
+# AWS EBS CSI Dependencies
+################################################################################
+#
+#
+
+# Required for the EBS CSI driver to be able to provision volumes
+module "ebs_csi_driver_irsa" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  version = "~> 5.33"
+
+  role_name_prefix = format("%s-ebs-csi-driver-", substr(local.name, 0, 38 - 16))
+
+  attach_ebs_csi_policy = true
+
+  oidc_providers = {
+    main = {
+      provider_arn               = module.eks.oidc_provider_arn
+      namespace_service_accounts = ["kube-system:ebs-csi-controller-sa"]
+    }
+  }
+
+  tags = local.tags
+}
+
+################################################################################
+# EBS Storage Classes
+################################################################################
+
+# Set the existing in-tree gp2 storage class to not be the default
+resource "kubernetes_annotations" "gp2_default" {
+  annotations = {
+    "storageclass.kubernetes.io/is-default-class" : "false"
+    "replaced-with" : module.eks_blueprints_addons_core.eks_addons.aws-ebs-csi-driver.addon_name
+  }
+  api_version = "storage.k8s.io/v1"
+  kind        = "StorageClass"
+  metadata {
+    name = "gp2"
+  }
+
+  force = true
+}
+
+# Default storage class (encrypted)
+resource "kubernetes_storage_class_v1" "ebs_csi_encrypted_gp3_storage_class" {
+  metadata {
+    name = "gp3-encrypted"
+    annotations = {
+      "storageclass.kubernetes.io/is-default-class" : "true"
+    }
+  }
+
+  storage_provisioner    = "ebs.csi.aws.com"
+  reclaim_policy         = "Delete"
+  allow_volume_expansion = true
+  volume_binding_mode    = "WaitForFirstConsumer"
+  parameters = {
+    type      = "gp3"
+    encrypted = true
+    # kmsKeyId  = aws_kms_key.ebs_key.key_id
+  }
+}
+
 data "aws_iam_policy_document" "aws_ebs_csi_driver" {
   statement {
     sid       = ""
