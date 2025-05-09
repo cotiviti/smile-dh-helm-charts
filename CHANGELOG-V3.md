@@ -1,3 +1,9 @@
+## [3.0.0-next-major.3](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v3.0.0-next-major.2...v3.0.0-next-major.3) (2025-05-09)
+
+### Bug Fixes
+
+* **smilecdr:** remove separate smileutil ConfigMap ([2e72223](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/2e722230414096a5266cd16a9bf5f06510cf37f4))
+
 ## [3.0.0-next-major.2](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v3.0.0-next-major.1...v3.0.0-next-major.2) (2024-10-25)
 
 ### Bug Fixes
