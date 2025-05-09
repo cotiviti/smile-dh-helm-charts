@@ -1,158 +1,36 @@
-data "aws_iam_policy_document" "aws_ebs_csi_driver" {
-  statement {
-    sid       = ""
-    effect    = "Allow"
-    resources = ["*"]
+################################################################################
+# General Data Sources
+################################################################################
 
-    actions = [
-      "ec2:CreateSnapshot",
-      "ec2:AttachVolume",
-      "ec2:DetachVolume",
-      "ec2:ModifyVolume",
-      "ec2:DescribeAvailabilityZones",
-      "ec2:DescribeInstances",
-      "ec2:DescribeSnapshots",
-      "ec2:DescribeTags",
-      "ec2:DescribeVolumes",
-      "ec2:DescribeVolumesModifications",
-    ]
+data "aws_availability_zones" "available" {}
+
+data "aws_vpc" "vpc" {
+  id = local.vpc_id
+}
+
+# Get list of private subnets that have tags matching `local.private_subnet_discovery_tags`
+# Defaults to the `Tier="Private"` tag if not provided.
+
+data "aws_subnets" "private_tagged" {
+  count = local.create_vpc ? 0 : 1
+  filter {
+    name   = "vpc-id"
+    values = [local.existing_vpc_id == null ? "" : local.existing_vpc_id]
   }
+  tags = coalesce(local.private_subnet_discovery_tags, { Tier = "Private" })
+}
 
-  statement {
-    sid    = ""
-    effect = "Allow"
+# Get subnet details for all configured subnets
+# Used to build the list of AZs
 
-    resources = [
-      "arn:aws:ec2:*:*:volume/*",
-      "arn:aws:ec2:*:*:snapshot/*",
-    ]
-
-    actions = ["ec2:CreateTags"]
-
-    condition {
-      test     = "StringEquals"
-      variable = "ec2:CreateAction"
-
-      values = [
-        "CreateVolume",
-        "CreateSnapshot",
-      ]
-    }
+data "aws_subnet" "all_existing" {
+  for_each = toset(local.resolved_all_subnet_ids)
+  filter {
+    name   = "subnet-id"
+    values = [each.value]
   }
+}
 
-  statement {
-    sid    = ""
-    effect = "Allow"
-
-    resources = [
-      "arn:aws:ec2:*:*:volume/*",
-      "arn:aws:ec2:*:*:snapshot/*",
-    ]
-
-    actions = ["ec2:DeleteTags"]
-  }
-
-  statement {
-    sid       = ""
-    effect    = "Allow"
-    resources = ["*"]
-    actions   = ["ec2:CreateVolume"]
-
-    condition {
-      test     = "StringLike"
-      variable = "aws:RequestTag/ebs.csi.aws.com/cluster"
-      values   = ["true"]
-    }
-  }
-
-  statement {
-    sid       = ""
-    effect    = "Allow"
-    resources = ["*"]
-    actions   = ["ec2:CreateVolume"]
-
-    condition {
-      test     = "StringLike"
-      variable = "aws:RequestTag/CSIVolumeName"
-      values   = ["*"]
-    }
-  }
-
-  statement {
-    sid       = ""
-    effect    = "Allow"
-    resources = ["*"]
-    actions   = ["ec2:CreateVolume"]
-
-    condition {
-      test     = "StringLike"
-      variable = "aws:RequestTag/kubernetes.io/cluster/*"
-      values   = ["owned"]
-    }
-  }
-
-  statement {
-    sid       = ""
-    effect    = "Allow"
-    resources = ["*"]
-    actions   = ["ec2:DeleteVolume"]
-
-    condition {
-      test     = "StringLike"
-      variable = "ec2:ResourceTag/ebs.csi.aws.com/cluster"
-      values   = ["true"]
-    }
-  }
-
-  statement {
-    sid       = ""
-    effect    = "Allow"
-    resources = ["*"]
-    actions   = ["ec2:DeleteVolume"]
-
-    condition {
-      test     = "StringLike"
-      variable = "ec2:ResourceTag/CSIVolumeName"
-      values   = ["*"]
-    }
-  }
-
-  statement {
-    sid       = ""
-    effect    = "Allow"
-    resources = ["*"]
-    actions   = ["ec2:DeleteVolume"]
-
-    condition {
-      test     = "StringLike"
-      variable = "ec2:ResourceTag/kubernetes.io/cluster/*"
-      values   = ["owned"]
-    }
-  }
-
-  statement {
-    sid       = ""
-    effect    = "Allow"
-    resources = ["*"]
-    actions   = ["ec2:DeleteSnapshot"]
-
-    condition {
-      test     = "StringLike"
-      variable = "ec2:ResourceTag/CSIVolumeSnapshotName"
-      values   = ["*"]
-    }
-  }
-
-  statement {
-    sid       = ""
-    effect    = "Allow"
-    resources = ["*"]
-    actions   = ["ec2:DeleteSnapshot"]
-
-    condition {
-      test     = "StringLike"
-      variable = "ec2:ResourceTag/ebs.csi.aws.com/cluster"
-      values   = ["true"]
-    }
-  }
+data "aws_ecrpublic_authorization_token" "token" {
+  provider = aws.ecr
 }

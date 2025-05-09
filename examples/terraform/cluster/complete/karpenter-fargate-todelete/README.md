@@ -1,3 +1,6 @@
+>**!!!! WARNING Do not use this example project !!!!**</br>
+This project uses out-of-date modules and has not been tested recently. It has been left here as a reference for Fargate based deployments.
+
 # Karpenter
 
 This pattern demonstrates how to provision Karpenter on a serverless cluster (serverless data plane) using Fargate Profiles.

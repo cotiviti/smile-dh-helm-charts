@@ -4,6 +4,14 @@ Before deploying Smile CDR using this Terraform Module and Helm Chart, you will 
 
 Due to the nature of these resources, it's not feasible to include them in any automations at this time.
 
+## Amazon Certificate Manager Certificate
+
+As this example terminates TLS at the AWS Network Load Balancer, a suitable TLS certificate needs to be made available in Amazon Certificate Manager (ACM).
+
+If this dependency is not available, then you will not be able to access the environment after it's deployed.
+
+>Note: Other ingress and TLS options may be provided for this guide at a future date.
+
 ## Private Container Registry Credentials
 
 As the Smile CDR container images are hosted on a private container registry, credentials are required by Kubernetes so that it can pull images before starting pods. There are multiple options for exposing the Smile CDR images to your EKS cluster.

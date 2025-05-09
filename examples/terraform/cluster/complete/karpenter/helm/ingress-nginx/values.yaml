@@ -8,14 +8,13 @@ controller:
     enabled: true
     externalTrafficPolicy: Local
     annotations:
-      # This will be injected by the Terraform module
+      # These will be injected by the Terraform module, so do not set it here
       # service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-1:012345678910:certificate/xxxx-yyyy-zzzz
+      # service.beta.kubernetes.io/aws-load-balancer-ssl-negotiation-policy: ELBSecurityPolicy-TLS-1-1-2017-01
+      # service.beta.kubernetes.io/aws-load-balancer-ssl-ports: https
       service.beta.kubernetes.io/aws-load-balancer-backend-protocol: ssl
       service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
-      service.beta.kubernetes.io/aws-load-balancer-internal: "false"
       service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
-      service.beta.kubernetes.io/aws-load-balancer-ssl-negotiation-policy: ELBSecurityPolicy-TLS-1-1-2017-01
-      service.beta.kubernetes.io/aws-load-balancer-ssl-ports: https
       # Force AWS Load Balancer Controller to provision the LB instead of the in-tree controller
       service.beta.kubernetes.io/aws-load-balancer-type: external
   topologySpreadConstraints:
