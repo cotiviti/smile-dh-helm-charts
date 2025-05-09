@@ -21,7 +21,7 @@ each Pod would appear as its own distinct Smile CDR install.
 >As such, you should not configure Smile CDR in this fashion and you must instead provision some external database.
 
 ## Referencing Externally Provisioned Databases
-To reference a database that is external to the cluster, you will need:
+To reference a database that is external to the cluster, you will need the following:
 
 * Network connectivity from the K8s cluster to your database.
 * A secret containing the connection credentials in a structured Json format.
@@ -71,14 +71,16 @@ database:
         user: clustermgr-db-user
 ```
 
+#### Using AWS Secret JSON structure
+If you are using the above mentioned JSON [structure](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres) (i.e. `engine`, `host`, `username`, `password`, `dbname` and `port`) in your secret, then you should simply configure your secret as per the above yaml example. The default keys will be used to extract the credentials.
+
 ### Legacy Database Connection Configuration Schema
 
 In Helm Chart version v1.0.0-pre.121 and older, the Database schema was more restrictive:
 
-* It did not allow for different credential mechanisms for each database
+* It did not allow for different credential mechanisms for each database.
 * It did not follow the same `secretSpec` schema used elsewhere in the Helm Chart.
-#### Using AWS Secret JSON structure
-If you are using the above mentioned JSON [structure](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres) (i.e. `engine`, `host`, `username`, `password`, `dbname` and `port`) in your secret, then you should simply configure your secret as per the following yaml fragment. Those default keys will be used to extract the credentials.
+* It did not allow for a single set of credentials to be used in multiple Smile CDR modules.
 
 ```yaml
 database:
@@ -97,7 +99,7 @@ database:
 
 #### Migrating from legacy to new Database Connection Configuration Schema
 
-To aid in upgrading to the new version of the DB Connection Configuration Schema, Helm Chart version v1.0.0-pre.122 and newer will fail with a descriptive error message.
+To aid in upgrading to the new version of the DB Connection Configuration Schema, Helm Chart version v1.0.0-pre.122 and newer will give a warning with a descriptive error message if the old schema is being used.
 <!-- In addition to this, it will attempt to convert your provided legacy configuration that can be used to replace the old one in your values file. -->
 
 To convert, you should do the following:
@@ -106,7 +108,7 @@ To convert, you should do the following:
 * Move `secretName` and `secretArn` from `database.external.databases.[databaseIndex]` to `database.external.databases.[databaseIndex].connectionConfigSource`
 * Change `database.external.databases.[databaseIndex].module` from a single value to an array of values at `database.external.databases.[databaseIndex].modules`
 
-The above provided example would become:
+The above legacy example would become:
 
 ```yaml
 database:
@@ -125,11 +127,9 @@ database:
 ```
 
 
+## Settings Reference
 
-
-#### Settings Reference
-
-**`databases` Section**
+**`database.external.databases` Section**
 
 This section contains a list of all external database connection configurations.
 
@@ -198,25 +198,25 @@ database:
         authentication:
           type: pwd
     databases:
-    - name: clustermgrSecret
+    - name: clustermgr
       modules:
       - clustermgr
       connectionConfigSource:
         secretName: clustermgrSecret
         secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret
-    - name: persistenceSecret
+    - name: persistence
       modules:
       - persistence
       connectionConfigSource:
         secretName: persistenceSecret
         secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:persistenceSecret
-    - name: auditSecret
+    - name: audit
       modules:
       - audit
       connectionConfigSource:
         secretName: auditSecret
         secretArn: arn:aws:secretsmanager:us-east-1:012345678901:secret:auditSecret
-    - name: transactionSecret
+    - name: transaction
       modules:
       - transaction
       connectionConfigSource:

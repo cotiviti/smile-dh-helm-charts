@@ -1,4 +1,4 @@
-apiVersion: karpenter.sh/v1beta1
+apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
   name: default
@@ -8,11 +8,13 @@ spec:
   template:
     spec:
       nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
         name: default
       requirements:
       - key: "karpenter.k8s.aws/instance-category"
         operator: In
-        values: ["t", "c", "m"]
+        values: ["c", "m"]
       - key: "karpenter.k8s.aws/instance-cpu"
         operator: In
         values: ["2","4", "8", "16", "32"]
@@ -31,4 +33,5 @@ spec:
   limits:
     cpu: 1000
   disruption:
-    consolidationPolicy: WhenUnderutilized
+    consolidationPolicy: WhenEmpty
+    consolidateAfter: 30s

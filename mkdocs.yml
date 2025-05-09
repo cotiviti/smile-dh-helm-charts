@@ -114,10 +114,12 @@ nav:
         - "Version 1.x": charts/smilecdr/CHANGELOG-V1.md
       - 'Contributing':
         - 'Branching Strategy': contributing/branching-model.md
+        - 'Release Process': contributing/release-process.md
   - Quickstart:
     - quickstart-aws/index.md
     - 'Prepare EKS Cluster': quickstart-aws/eks-cluster.md
-    - 'Prepare AWS Resources': quickstart-aws/aws-resources.md
+    - 'Prepare Existing VPC': quickstart-aws/existing-vpc.md
+    - 'Prepare AWS Resources': quickstart-aws/aws-dependencies.md
     - 'Deploy Smile CDR with Terraform': quickstart-aws/deploy-terraform.md
   - 'User Guide':
     - guide/index.md
