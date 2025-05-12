@@ -1832,6 +1832,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#node-level-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Node Level Configurations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#experimentalunsupported-features" class="md-nav__link">
     <span class="md-ellipsis">
       Experimental/Unsupported Features
@@ -3109,6 +3118,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#node-level-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Node Level Configurations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#experimentalunsupported-features" class="md-nav__link">
     <span class="md-ellipsis">
       Experimental/Unsupported Features
@@ -3361,7 +3379,25 @@ Alternatively, you may disable the included default modules as described above, 
 <p>When splitting your configuration into multiple <code>values</code> files, pass them in to your <code>helm upgrade</code> commandline like so:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$<span class="w"> </span>helm<span class="w"> </span>upgrade<span class="w"> </span>-i<span class="w"> </span>my-smile-env<span class="w"> </span>--devel<span class="w"> </span>-f<span class="w"> </span>my-values.yaml<span class="w"> </span>-f<span class="w"> </span>my-module-values.yaml<span class="w"> </span>smiledh/smilecdr
 </code></pre></div></p>
+<h2 id="node-level-configurations">Node Level Configurations<a class="headerlink" href="#node-level-configurations" title="Permanent link">&para;</a></h2>
+<p>Some of the <a href="https://smilecdr.com/docs/guide_installation/configuring_smile_cdr.html#node-configuration-properties">Smile CDR Node Configuration Properties</a> can be directly updated via the Helm Chart.</p>
+<ul>
+<li><code>node.security.strict</code> - Set using <code>cdrNodes.&lt;nodename&gt;.security.strict: true</code></li>
+<li><code>node.environment.type</code> - Set using <code>cdrNodes.&lt;nodename&gt;.environment.type: DEV</code></li>
+</ul>
+<p>The remaining properties are managed automatically by the Helm Chart to prevent misconfiguration that can lead to broken deployments of Smile CDR.</p>
+<ul>
+<li><code>node.id</code> - This is controlled by the key name under <code>cdrNodes</code></li>
+<li><code>node.config.locked</code>, <code>node.propertysource</code> - By default the config is locked and cannot be edited in the console and the property source is set to <code>PROPERTIES</code>. These settings should not be altered when deploying using Helm.</li>
+</ul>
+<blockquote>
+<p>These can be changed using the unsupported troubleshooting features mentioned below.</p>
+</blockquote>
 <h2 id="experimentalunsupported-features">Experimental/Unsupported Features<a class="headerlink" href="#experimentalunsupported-features" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>The following are unsupported features, only to be used during troubleshooting scenarios. Use at your own risk.</p>
+<p><strong><em>!!!DO NOT USE THESE EXPERIMENTAL UNSUPPORTED FEATURES IN NON-DEVELOPMENT ENVIRONMENTS!!!</em></strong></p>
+</blockquote>
 <p>There are scenarios where you may wish to update Smile CDR module configurations directly in the Web console.</p>
 <ul>
 <li>You need to do some realtime troubleshooting that requires live updates of module configuration</li>
