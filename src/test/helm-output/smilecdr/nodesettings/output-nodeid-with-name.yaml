@@ -36,6 +36,7 @@ data:
     node.id 	= customNodeName
     node.propertysource 	= PROPERTIES
     node.config.locked 	= true
+    node.environment.type 	= DEV
     node.security.strict 	= false
 
     module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
