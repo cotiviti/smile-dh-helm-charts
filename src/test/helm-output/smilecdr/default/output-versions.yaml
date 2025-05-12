@@ -9,7 +9,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: 2024.11.PRE-13
     helm.sh/chart: smilecdr-0.0.0-local
 spec:
   maxUnavailable: 1
@@ -28,7 +27,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: 2024.11.PRE-13
     helm.sh/chart: smilecdr-0.0.0-local
 data:
   cdr-config-Master.properties: |-
@@ -243,7 +241,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: 2024.11.PRE-13
     helm.sh/chart: smilecdr-0.0.0-local
   annotations:
     {}
@@ -268,7 +265,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: 2024.11.PRE-13
     helm.sh/chart: smilecdr-0.0.0-local
   annotations:
     {}
@@ -293,7 +289,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: 2024.11.PRE-13
     helm.sh/chart: smilecdr-0.0.0-local
   annotations:
     {}
@@ -318,7 +313,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: 2024.11.PRE-13
     helm.sh/chart: smilecdr-0.0.0-local
   annotations:
     {}
@@ -343,7 +337,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: 2024.11.PRE-13
     helm.sh/chart: smilecdr-0.0.0-local
   annotations:
     {}
@@ -368,7 +361,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: 2024.11.PRE-13
     helm.sh/chart: smilecdr-0.0.0-local
   annotations:
     {}
@@ -393,7 +385,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: 2024.11.PRE-13
     helm.sh/chart: smilecdr-0.0.0-local
 spec:
   replicas: 1
@@ -412,7 +403,6 @@ spec:
         app.kubernetes.io/instance: release-name
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: smilecdr
-        app.kubernetes.io/version: 2024.11.PRE-13
         helm.sh/chart: smilecdr-0.0.0-local
     spec:
       imagePullSecrets:
@@ -644,7 +634,6 @@ metadata:
     helm.sh/chart: smilecdr-0.0.0-local
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: 2024.11.PRE-13
     app.kubernetes.io/managed-by: Helm
   annotations:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -706,7 +695,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: 2024.11.PRE-13
     helm.sh/chart: smilecdr-0.0.0-local
   annotations:
     "helm.sh/hook": test

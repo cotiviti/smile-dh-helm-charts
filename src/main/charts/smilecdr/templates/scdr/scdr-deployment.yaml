@@ -45,8 +45,7 @@ spec:
         - name: smilecdr
           securityContext:
             {{- toYaml $theCdrNodeSpec.securityContext | nindent 12 }}
-          {{- $image := printf "%s:%s" $theCdrNodeSpec.image.repository (default $.Chart.AppVersion $theCdrNodeSpec.image.tag) }}
-          image: {{ quote $image }}
+          image: {{ quote $theCdrNodeSpec.cdrImage }}
           imagePullPolicy: {{ $theCdrNodeSpec.image.pullPolicy }}
           lifecycle:
             preStop:

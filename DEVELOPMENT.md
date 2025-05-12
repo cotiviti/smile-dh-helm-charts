@@ -75,7 +75,7 @@ To propose and implement changes:
    - [https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/forks/new](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/forks/new)
    > **WARNING!** You ***SHOULD NOT*** use the GitLab UI as a reference for the current status of the release branches in your forked repo as it can be misleading. This is because the GitLab UI currently compares branches on forked repositories with the default branch of the upstream repository and ***not*** the respective release branch. This results in a message that makes it seem that the release branch (e.g. `pre-release`) in your forked repo is not in sync with the upstream repo, even if it is. You ***MUST NOT*** use the GitLab sync button in such scenarios as it will incorrectly pull changes from `upstream/main` into your feature or release branch, which can cause confusion.
 3. **Set up Local Development Environment**
-   
+
    The first time you work on this repository on your local workstation, you need to configure the upstream repository so that you can create your feature branches from the appropriate release branch.
    - Clone your forked repository to your local workstation
       ```
@@ -88,14 +88,14 @@ To propose and implement changes:
       git remote add upstream https://gitlab.com/smilecdr-public/smile-dh-helm-charts.git
       ```
    <!-- **Optional:** Choose and Sync Source Branch
-   > **WARNING!** You ***SHOULD*** only do this step using the git commands above. You ***SHOULD NOT*** use the GitLab UI as a reference for the current status of non-default branches in your forked repo as it can be misleading. This is because the GitLab UI currently compares forked branches with the default branch of the upstream repository and ***not*** the respective feature branch. This results in a message that makes it seem that the release branch (e.g. `pre-release`) in your forked repo is not in sync with the upstream repo, even if it is.  
+   > **WARNING!** You ***SHOULD*** only do this step using the git commands above. You ***SHOULD NOT*** use the GitLab UI as a reference for the current status of non-default branches in your forked repo as it can be misleading. This is because the GitLab UI currently compares forked branches with the default branch of the upstream repository and ***not*** the respective feature branch. This results in a message that makes it seem that the release branch (e.g. `pre-release`) in your forked repo is not in sync with the upstream repo, even if it is.
    - Ensure that the `pre-release` branch in your forked repository is up to date as follows:
       ```
       git checkout pre-release
       git pull upstream pre-release
       git push origin pre-release
       ``` -->
-        
+
 5. **Create your Feature Branch**:
 
    Refer to the branching model to decide which release branch to create your feature branch from.
@@ -132,7 +132,7 @@ To propose and implement changes:
       git commit -m "docs(contrib): add development workflow documentation"
       ```
    - Resolve any conflicts with upstream changes
-      
+
       If you have been working on your feature branch for some time, there may have been changes introduced upstream. You need to pull the latest changes and resolve any conflicts.
       ```
       git pull upstream pre-release --rebase
@@ -140,15 +140,15 @@ To propose and implement changes:
 9. **Push Feature Branch To Your Forked Repository**
 
 9. **Create Merge Request**
-   
+
    When you’re ready to propose your changes:
-   
+
    Open an MR in GitLab:
    - Source: `my-namespace/smile-dh-helm-charts:208-improve-developer-documentation`
    - Target: `smilecdr-public/smile-dh-helm-charts:pre-release`
-   
+
 10. **Review, Update, Merge**
-   
+
    After your Merge Request has been created, a pipeline will run to verify that there are no regressions or regressions with the new code.
    - The merge request will be reviewed by an approved reviewer
    - Once pipelines pass and the changes have been accepted, the maintainer will complete the merge request
