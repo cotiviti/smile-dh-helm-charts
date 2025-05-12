@@ -150,7 +150,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-masterdev-node-556ed1de93a1da3ff2fe07a4c048cdd69db65785559d85d3563b4f9e7e9cf7a4
+  name: release-name-scdr-masterdev-node-3fc2073f2158d5092fae1e176ebaaeed29e5ac41995792176589e67b0e344205
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
@@ -165,6 +165,7 @@ data:
     node.id 	= Masterdev
     node.propertysource 	= PROPERTIES
     node.config.locked 	= true
+    node.environment.type 	= DEV
     node.security.strict 	= false
 
     module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
@@ -623,11 +624,11 @@ spec:
             name: release-name-scdr-logback-xml-90b286ba2cb6ea7f008581aaeaebe5371f42a43822cde105b7e502d2b5ad1e2e
           name: logback-xml
         - configMap:
-            name: release-name-scdr-masterdev-node-556ed1de93a1da3ff2fe07a4c048cdd69db65785559d85d3563b4f9e7e9cf7a4
+            name: release-name-scdr-masterdev-node-3fc2073f2158d5092fae1e176ebaaeed29e5ac41995792176589e67b0e344205
           name: scdr-config-release-name
         - configMap:
             defaultMode: 504
-            name: release-name-scdr-masterdev-node-556ed1de93a1da3ff2fe07a4c048cdd69db65785559d85d3563b4f9e7e9cf7a4
+            name: release-name-scdr-masterdev-node-3fc2073f2158d5092fae1e176ebaaeed29e5ac41995792176589e67b0e344205
           name: scdr-smileutil
         - emptyDir:
             sizeLimit: 1Mi

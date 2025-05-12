@@ -1,0 +1,10 @@
+# Check that the generated node.id in the ConfigMap can be updated
+cdrNodes:
+  masterdev:
+    enabled: false
+    # environment:
+    #   type: QA
+  overriddenNodeId:
+    enabled: true
+    environment:
+      type: QA
