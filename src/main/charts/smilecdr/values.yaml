@@ -675,6 +675,3 @@ tolerations: []
 ## @skip affinity
 # @ignored
 affinity: {}
-
-## Temporarily force old resource naming until multi-node feature is ready for use.
-oldResourceNaming: true
