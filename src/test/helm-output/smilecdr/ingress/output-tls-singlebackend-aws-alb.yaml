@@ -9,7 +9,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
 spec:
   maxUnavailable: 1
@@ -28,7 +27,6 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
 type: Opaque
 data:
@@ -44,7 +42,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
 data:
   cdr-config-Master.properties: |-
@@ -301,7 +298,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
     alb.ingress.kubernetes.io/healthcheck-path: /admin_json/endpoint-health
@@ -327,7 +323,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
     alb.ingress.kubernetes.io/healthcheck-path: /endpoint-health
@@ -353,7 +348,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
     alb.ingress.kubernetes.io/healthcheck-path: /fhir_request/endpoint-health
@@ -379,7 +373,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
     alb.ingress.kubernetes.io/healthcheck-path: /fhirweb/endpoint-health
@@ -405,7 +398,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
     alb.ingress.kubernetes.io/healthcheck-path: /package_registry/endpoint-health
@@ -431,7 +423,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
     alb.ingress.kubernetes.io/healthcheck-path: /smartauth/endpoint-health
@@ -457,7 +448,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
 spec:
   replicas: 1
@@ -476,7 +466,6 @@ spec:
         app.kubernetes.io/instance: release-name
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: smilecdr
-        app.kubernetes.io/version: No App Version - Unit Testing
         helm.sh/chart: No Chart Version - Unit Testing
     spec:
       imagePullSecrets:
@@ -498,7 +487,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2024.11.PRE-13"
+          image: "docker.smilecdr.com/smilecdr:No App Version - Unit Testing"
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
@@ -627,7 +616,6 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
   annotations:
     alb.ingress.kubernetes.io/backend-protocol: HTTPS
@@ -700,7 +688,6 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
 spec:
   dnsNames:
@@ -751,7 +738,6 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
 spec:
   commonName: release-name-default-ca-cluster-local-signing-authority
@@ -775,7 +761,6 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
 spec:
   ca:
@@ -791,7 +776,6 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: No App Version - Unit Testing
     app.kubernetes.io/managed-by: Helm
 spec:
   selfSigned: {}
@@ -805,7 +789,6 @@ metadata:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
   annotations:
     "helm.sh/hook": test

@@ -19,6 +19,7 @@ Define CDR Nodes
     {{- fail "\nYou have not enabled any Smile CDR Nodes.\n\nYou must enable at least one in `cdrNodes`" -}}
   {{- end -}}
   {{- range $theCdrNodeName, $theCdrNodeSpec := $globalValues.cdrNodes -}}
+    {{- $chartWarnings := list -}}
     {{- if $theCdrNodeSpec.enabled -}}
       {{- /* We have a lot to do in here...
           * Determine any settings, based on root, overridden by locals
@@ -77,6 +78,20 @@ Define CDR Nodes
       {{- $parsedNodeValues := mustMergeOverwrite (deepCopy (omit $globalValues "cdrNodes")) (deepCopy (omit $theCdrNodeSpec "ingress")) -}}
 
       {{- $_ := set $parsedNodeValues "cdrNodeName" $theCdrNodeName -}}
+
+      {{- $chartWarnings = concat $chartWarnings (include "smilecdr.verifyNodeConfig" (merge $parsedNodeValues $rootCTX) | fromYamlArray) -}}
+
+      {{- $_ := set $parsedNodeValues "cdrVersionInternal" (include "smilecdr.cdrVersion.internal" (merge $parsedNodeValues $rootCTX)) -}}
+      {{- $_ := set $parsedNodeValues "cdrVersion" (include "smilecdr.cdrVersion" (merge $parsedNodeValues $rootCTX)) -}}
+
+      {{- /* Set up Smile CDR image and version
+           * The cdrVersion determined here is then used for feature gates
+           */ -}}
+
+      {{- /* image.tag is used for cdrImage, otherwise cdrVersion is used. */ -}}
+      {{- $finalImageTag := coalesce $parsedNodeValues.image.tag $parsedNodeValues.cdrVersion -}}
+      {{- $_ := set $parsedNodeValues "cdrImage" (printf "%s:%s" $parsedNodeValues.image.repository $finalImageTag) -}}
+
       {{- $_ := set $parsedNodeValues "resourceSuffix" (printf "scdrnode-%s" $theCdrNodeName) -}}
       {{- if $parsedNodeValues.oldResourceNaming -}}
           {{- if gt $numEnabledNodes 1 -}}
@@ -89,15 +104,15 @@ Define CDR Nodes
       {{- $_ := set $parsedNodeValues "cdrNodeId" (default $theCdrNodeName $theCdrNodeSpec.name) -}}
       {{- /* Or just don't allow overriding it with `name`? */ -}}
 
-
       {{- /* Set CDR Node specific labels */ -}}
       {{- $cdrNodeLabels := include "smilecdr.labels" $rootCTX | fromYaml -}}
       {{- $cdrNodeSelectorLabels := include "smilecdr.selectorLabels" $rootCTX | fromYaml -}}
 
       {{- /* TODO: Refactor this code when the `oldResourceNaming` option is removed */ -}}
       {{- if not $parsedNodeValues.oldResourceNaming -}}
-          {{- $_ := set $cdrNodeLabels "smilecdr/nodeName" $theCdrNodeName -}}
-          {{- $_ := set $cdrNodeSelectorLabels "smilecdr/nodeName" $theCdrNodeName -}}
+          {{- $_ := set $cdrNodeLabels "smilecdr/nodeId" $theCdrNodeName -}}
+          {{- $_ := set $cdrNodeLabels "smilecdr/version" $parsedNodeValues.cdrVersion -}}
+          {{- $_ := set $cdrNodeSelectorLabels "smilecdr/nodeId" $theCdrNodeName -}}
       {{- end -}}
 
       {{- $_ := set $parsedNodeValues "cdrNodeLabels" $cdrNodeLabels -}}
@@ -247,8 +262,33 @@ Define CDR Nodes
       {{- $_ := set $parsedNodeValues "ingress" $ingressConfig */ -}}
 
       {{- /* $_ := set $cdrNodes $theCdrNodeName $parsedNodeValues */ -}}
+      {{- $_ := set $parsedNodeValues "chartWarnings" $chartWarnings -}}
       {{- $_ := set $cdrNodes $theCdrNodeName $cdrNodeHelperCTX -}}
     {{- end -}}
   {{- end -}}
   {{- $cdrNodes | toYaml -}}
+{{- end -}}
+
+{{/*
+Verify Smile CDR Node Configuration Validity
+*/}}
+{{- define "smilecdr.verifyNodeConfig" -}}
+  {{- $cdrVersion := .cdrVersion -}}
+  {{- $cdrImageTag := .image.tag -}}
+  {{- $chartWarnings := list -}}
+
+  {{- /* Check 1:
+       * If cdrVersion is not explicitly configured, there can be an
+       * error or a warning depending on the image tag provided */ -}}
+  {{- if not $cdrVersion -}}
+    {{- if $cdrImageTag -}}
+      {{- fail "\nYou have manually specified a Smile CDR image tag without specifying `cdrVersion`\n\nPlease set `cdrVersion` to match the version of Smile CDR being used." -}}
+    {{- else -}}
+      {{- $chartWarning := dict "title" (printf "You are using the default Smile CDR version (%s) for this deployment!" .Chart.AppVersion) -}}
+      {{- $_ := set $chartWarning "message" "It is advisable to pin the Smile CDR version using `cdrVersion` in your values file.\nIf you do not do this, you may get unexpected changes when upgrading major chart versions in the future." -}}
+      {{- $chartWarnings = append $chartWarnings $chartWarning -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- $chartWarnings | toYaml -}}
 {{- end -}}
