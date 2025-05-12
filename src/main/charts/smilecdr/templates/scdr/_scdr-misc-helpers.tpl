@@ -363,6 +363,10 @@ Use this for generating deprecation notices and other warnings about the configu
         {{- $errorMessage = printf "%s\n       https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/guide/smilecdr/tuning/jvm/#jvm-arguments" $errorMessage -}}
       {{- end -}}
     {{- end -}}
+    {{- /* Check for propagated chart warnings from cdr node */ -}}
+    {{- range $cdrNodeChartWarning := $theCdrNodeSpec.chartWarnings -}}
+      {{- $warningMessage = printf "%s\n\nWARNING:    %s\n%s" $warningMessage $cdrNodeChartWarning.title ($cdrNodeChartWarning.message | indent 12) -}}
+    {{- end -}}
   {{- end -}}
   {{- /* Check for using old image pull credentials */ -}}
   {{- if hasKey .Values.image "credentials" -}}

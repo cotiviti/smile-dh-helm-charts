@@ -1,0 +1,19 @@
+tests:
+  202405:
+    outputFile: output-202405.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    # - ../default-test-disabled-features.yaml
+    - values-202405.yaml
+  202408:
+    outputFile: output-202408.yaml
+    # set:
+    # - key: keyName
+    #   value: theValue
+    valueFiles:
+    - ../default-test-values.yaml
+    # - ../default-test-disabled-features.yaml
+    - values-202408.yaml
