@@ -147,6 +147,7 @@ data:
     node.id 	= AdminNode
     node.propertysource 	= PROPERTIES
     node.config.locked 	= true
+    node.environment.type 	= DEV
     node.security.strict 	= false
 
     module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
@@ -256,6 +257,7 @@ data:
     node.id 	= FhirNode
     node.propertysource 	= PROPERTIES
     node.config.locked 	= true
+    node.environment.type 	= DEV
     node.security.strict 	= false
 
     module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
