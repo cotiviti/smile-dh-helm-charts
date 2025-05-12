@@ -1,3 +1,9 @@
+## [3.0.0-next-major.5](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v3.0.0-next-major.4...v3.0.0-next-major.5) (2025-05-12)
+
+### Features
+
+* **smilecdr:** add support for node environment type ([df5c689](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/df5c689b87c2f386fa17d21254124f6213ae88e1))
+
 ## [3.0.0-next-major.4](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v3.0.0-next-major.3...v3.0.0-next-major.4) (2025-05-12)
 
 ### Features
