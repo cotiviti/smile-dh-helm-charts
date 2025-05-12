@@ -1,3 +1,9 @@
+## [3.0.0-next-major.4](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v3.0.0-next-major.3...v3.0.0-next-major.4) (2025-05-12)
+
+### Features
+
+* **helm-internals:** add feature and version gate support ([476218e](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/476218e7d5f69d4ebfdbcbffd64442b911354d20))
+
 ## [3.0.0-next-major.3](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v3.0.0-next-major.2...v3.0.0-next-major.3) (2025-05-09)
 
 ### Bug Fixes
