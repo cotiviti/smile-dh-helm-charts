@@ -681,6 +681,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#current-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Current Channels
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuring-release-channels" class="md-nav__link">
     <span class="md-ellipsis">
       Configuring Release Channels
@@ -702,6 +711,15 @@
   <a href="#choosing-the-helm-chart-version" class="md-nav__link">
     <span class="md-ellipsis">
       Choosing The Helm Chart Version
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unused-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unused Channels
     </span>
   </a>
   
@@ -2866,6 +2884,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#current-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Current Channels
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuring-release-channels" class="md-nav__link">
     <span class="md-ellipsis">
       Configuring Release Channels
@@ -2887,6 +2914,15 @@
   <a href="#choosing-the-helm-chart-version" class="md-nav__link">
     <span class="md-ellipsis">
       Choosing The Helm Chart Version
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unused-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unused Channels
     </span>
   </a>
   
@@ -2921,6 +2957,8 @@
 
 <h1 id="release-channels">Release Channels<a class="headerlink" href="#release-channels" title="Permanent link">&para;</a></h1>
 <p>The Smile CDR Helm Charts are available in a number of release channels.</p>
+<h2 id="current-channels">Current Channels<a class="headerlink" href="#current-channels" title="Permanent link">&para;</a></h2>
+<p>We recommend using the <code>stable</code> channel so that you can deploy officially supported releases of the Smile CDR Helm Chart.</p>
 <table>
 <thead>
 <tr>
@@ -2934,11 +2972,6 @@
 <td>Official</td>
 <td><code>stable</code></td>
 <td>https://gitlab.com/api/v4/projects/40759898/packages/helm/stable</td>
-</tr>
-<tr>
-<td>v1.x prereleases</td>
-<td><code>devel</code></td>
-<td>https://gitlab.com/api/v4/projects/40759898/packages/helm/devel</td>
 </tr>
 <tr>
 <td>v2.x and up prereleases</td>
@@ -2962,16 +2995,10 @@
 </tr>
 </tbody>
 </table>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The <code>devel</code> release channel has been deprecated and will no longer be used going forwards.</p>
-<p>This was only used prior to the initial release of version <code>1.0.0</code> of the Helm Chart</p>
-</div>
-<p>We recommend using the <code>stable</code> channel so that you can deploy officially supported releases of the Smile CDR Helm Chart.</p>
-<p>If you wish to preview upcoming features that are not yet available in a currently supported Helm Chart version in the <code>stable</code> channel, then you may use prerelease versions from another release channel.</p>
+<p>If you wish to preview upcoming features that are not yet available in a currently supported Helm Chart version in the <code>stable</code> channel, then you may use alternative release channels.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>When using release channels other than <code>stable</code>, there may be unexpected breaking changes or regressions between pre release or beta versions.</p>
+<p>When using release channels other than <code>stable</code>, there may be unexpected or breaking changes or regressions between versions.</p>
 </div>
 <h2 id="configuring-release-channels">Configuring Release Channels<a class="headerlink" href="#configuring-release-channels" title="Permanent link">&para;</a></h2>
 <p>The mechanism for configuring the release channel depends on which tooling you are using to deploy the Helm Chart.</p>
@@ -3047,6 +3074,25 @@ This could result in unexpected breaking changes being introduced.</p>
 </div>
 <h2 id="choosing-the-helm-chart-version">Choosing The Helm Chart Version<a class="headerlink" href="#choosing-the-helm-chart-version" title="Permanent link">&para;</a></h2>
 <p>It is advisable to explicitly set the <code>version</code> rather than allowing Helm to automatically use the latest version. This will help reduce the chances of accidental upgrades to new versions.</p>
+<h2 id="unused-channels">Unused Channels<a class="headerlink" href="#unused-channels" title="Permanent link">&para;</a></h2>
+<p>The <code>devel</code> release channel has been deprecated and will no longer be used going forwards.</p>
+<p>This was only used prior to the initial release of version <code>1.0.0</code> of the Helm Chart. It is kept here for reference.</p>
+<table>
+<thead>
+<tr>
+<th>Release Type</th>
+<th>Channel Name</th>
+<th>Helm Chart Repo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v1.x prereleases</td>
+<td><code>devel</code></td>
+<td>https://gitlab.com/api/v4/projects/40759898/packages/helm/devel</td>
+</tr>
+</tbody>
+</table>
 
 
 

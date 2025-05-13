@@ -760,21 +760,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Back Porting Features">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#critical-bug-fixes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Critical Bug Fixes
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
     </ul>
@@ -3061,21 +3046,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Back Porting Features">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#critical-bug-fixes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Critical Bug Fixes
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
     </ul>
@@ -3106,26 +3076,30 @@
 
 
 <h1 id="versioning-strategy">Versioning Strategy<a class="headerlink" href="#versioning-strategy" title="Permanent link">&para;</a></h1>
-<p>As per the <a href="https://helm.sh/docs/chart_best_practices/">Helm Best Practices</a> guidelines, the Smile CDR Helm Chart adheres to the <a href="https://semver.org/">Semantic Versioning 2.0</a> specification.</p>
+<p>The Smile CDR Helm Chart follows the <a href="https://semver.org/">Semantic Versioning 2.0</a> specification as per the <a href="https://helm.sh/docs/chart_best_practices/">Helm Best Practices</a> guidelines.</p>
 <h2 id="version-format">Version Format<a class="headerlink" href="#version-format" title="Permanent link">&para;</a></h2>
-<ul>
-<li>The version number is in the format <code>MAJOR.MINOR.PATCH</code><ul>
-<li>Optionally includes a prerelease suffix (e.g. <code>-pre.n</code> or <code>-next.n</code>).</li>
-</ul>
-</li>
-</ul>
+<p>The Smile CDR Helm Chart version number uses the following format</p>
+<p><code>MAJOR.MINOR.PATCH</code></p>
+<blockquote>
+<p>Note: The version can optionally include a prerelease suffix (e.g. <code>-pre.n</code> or <code>-next.n</code>).</p>
+</blockquote>
 <h2 id="release-types">Release Types<a class="headerlink" href="#release-types" title="Permanent link">&para;</a></h2>
+<p>The Helm Charts follow a different versioning specification to the core Smile CDR product, which uses <a href="">Calendar Versioning</a>.</p>
+<blockquote>
+<p>Refer to the <a href="https://smilecdr.com/docs/v/2025.08.PRE/versions_and_upgrading/versioning.html#a-primer-on-smile-cdr-versioning">Smile CDR docs</a> for more information on the Smile CDR versioning specification.</p>
+</blockquote>
+<p>Due to the differences in versioning schema, the Smile CDR Helm Chart versions are mapped to the core product versions as follows.</p>
 <h3 id="major-releases">Major Releases<a class="headerlink" href="#major-releases" title="Permanent link">&para;</a></h3>
-<p>Occur every 3 months, aligned with the upstream releases of Smile CDR.</p>
+<p>Major releases of the Smile CDR Helm Chart occur every 3 months, aligned with the upstream Smile CDR GA releases <a href="https://smilecdr.com/docs/v/2025.08.PRE/versions_and_upgrading/versioning.html#release-cadence">schedule</a>.</p>
 <ul>
+<li>Aligned with new <a href="https://smilecdr.com/docs/v/2025.08.PRE/versions_and_upgrading/versioning.html#generally-available">Generally Available</a> releases of Smile CDR</li>
 <li>The <code>MAJOR</code> version number is incremented</li>
 <li>The <code>MINOR</code> and <code>PATCH</code> version numbers are set to zero</li>
-<li>Includes new major releases of Smile CDR.</li>
 <li>Includes any new breaking features or fixes that could not be included in the previous major release</li>
-<li>For example, version <code>1.1.1</code> uses Smile CDR <code>2024.05.R04</code>, and version <code>2.0.0</code>, when released, will use <code>2024.08.R01</code>.</li>
+<li>For example, version <code>2.0.1</code> defaults to Smile CDR <code>2024.08.R04</code>, and version <code>3.0.0</code> defaults to Smile CDR <code>2024.11.R05</code>.</li>
 </ul>
 <h3 id="minor-releases">Minor Releases<a class="headerlink" href="#minor-releases" title="Permanent link">&para;</a></h3>
-<p>Occur whenever new non-breaking features are released.</p>
+<p>Minor releases of the Smile CDR Helm Chart may occur whenever new non-breaking features are released.</p>
 <ul>
 <li>The <code>MAJOR</code> version number remains unchanged</li>
 <li>The <code>MINOR</code> version number is incremented</li>
@@ -3134,7 +3108,7 @@
 <li>May also included bundled new non-breaking fixes</li>
 </ul>
 <h3 id="patch-releases">Patch Releases<a class="headerlink" href="#patch-releases" title="Permanent link">&para;</a></h3>
-<p>Occur whenever new non-breaking fixes are released.</p>
+<p>Patch releases of the Smile CDR Helm Chart may occur whenever new non-breaking fixes are released.</p>
 <ul>
 <li>The <code>MAJOR</code> and <code>MINOR</code> version numbers remain unchanged</li>
 <li>The <code>PATCH</code> version number is incremented</li>
@@ -3143,44 +3117,51 @@
 <li>For example, version <code>1.1.0</code> uses Smile CDR <code>2024.05.R03</code>, and version <code>1.1.1</code> uses <code>2024.05.R04</code>.</li>
 </ul>
 <h3 id="pre-releases">Pre Releases<a class="headerlink" href="#pre-releases" title="Permanent link">&para;</a></h3>
-<p>Occur prior to minor or patch level releases for the current stable major release</p>
+<p>Pre-releases of the Smile CDR Helm Chart may occur prior to minor or patch level releases for the current stable major release</p>
 <ul>
 <li>Named in the format <code>MAJOR.MINOR.PATCH-pre.n</code>, where <code>MAJOR.MINOR.PATCH</code> represents the version being previewed, and <code>n</code> is the pre release number.</li>
 <li>Incremental pre-releases before a minor or patch version update (e.g. upgrading from version <code>1.2.0-pre.5</code> to version <code>1.2.0-pre.6</code>) may include breaking changes.</li>
-<li>Used for testing and collaboration on new features for the current major release</li>
+<li>Used for testing and collaboration on new features for the current major release.</li>
+<li>Are <strong><em>not</em></strong> published to the stable release channel. You must configure the <code>pre-release</code> channel to use pre release vesions of the Helm Chart. See <a href="../release-channels/">here</a></li>
 </ul>
 <h3 id="next-major-releases">Next Major Releases<a class="headerlink" href="#next-major-releases" title="Permanent link">&para;</a></h3>
-<p>Occur prior to future major releases</p>
+<p>Next-major releases of the Smile CDR Helm Chart may occur prior to future major releases</p>
 <ul>
 <li>Named in the format <code>MAJOR.MINOR.PATCH-next.n</code>, where <code>MAJOR.MINOR.PATCH</code> represents the next major version being previewed, and <code>n</code> is the pre release number for the upcoming major release.</li>
 <li>Incremental pre-releases before a minor or patch version update (e.g. upgrading from version <code>2.0.0-pre.1</code> to version <code>2.0.0-pre.2</code>) may include breaking changes.</li>
 <li>Used for testing and collaboration on new features for the next major release, <code>n+1</code></li>
+<li>Are <strong><em>not</em></strong> published to the stable release channel. You must configure the <code>next-major</code> channel to use pre release vesions of the Helm Chart. See <a href="../release-channels/">here</a></li>
 </ul>
 <!-- * After `2.1.0` is released, any future `3.x` pre-releases will not contain breaking changes. -->
+
 <h3 id="beta-releases">Beta Releases<a class="headerlink" href="#beta-releases" title="Permanent link">&para;</a></h3>
-<p>Occur prior to future major releases</p>
+<p>Beta releases of the Smile CDR Helm Chart may occur prior to future major releases</p>
 <ul>
 <li>Named in the format <code>MAJOR.MINOR.PATCH-beta.n</code>, where <code>MAJOR.MINOR.PATCH</code> represents the major version in beta, and <code>n</code> is the beta release number.</li>
 <li>Incremental beta releases before a major version update (e.g. upgrading from version <code>3.0.0-beta.2</code> to version <code>3.0.0-beta.3</code>) may include breaking changes.</li>
 <li>Used for testing and collaboration on new features for a future major release, <code>n+2</code></li>
-<li>After <code>2.0.0</code> is released, future <code>3.x</code> minor or patch level releases will be developed on the <code>next</code> releases, starting at <code>3.0.0-next.1</code></li>
+<li>Are <strong><em>not</em></strong> published to the stable release channel. You must configure the <code>beta</code> channel to use pre release vesions of the Helm Chart. See <a href="../release-channels/">here</a></li>
 </ul>
+<!-- * After `2.0.0` is released, future `3.x` minor or patch level releases will be developed on the `next` releases, starting at `3.0.0-next.1` -->
+
 <h3 id="alpha-releases">Alpha Releases<a class="headerlink" href="#alpha-releases" title="Permanent link">&para;</a></h3>
-<p>Occur prior to future major releases</p>
+<p>Alpha releases of the Smile CDR Helm Chart may occur prior to future major releases</p>
 <ul>
 <li>Named in the format <code>MAJOR.MINOR.PATCH-alpha.n</code>, where <code>MAJOR.MINOR.PATCH</code> represents the major version in alpha, and <code>n</code> is the alpha release number.</li>
 <li>Incremental alpha releases before a major version update (e.g. upgrading from version <code>4.0.0-beta.1</code> to version <code>4.0.0-beta.2</code>) may include breaking changes.</li>
 <li>Used for testing and collaboration on new features for a future  major release, <code>n+3</code></li>
-<li>After <code>2.0.0</code> is released, future <code>4.x</code> minor or patch level releases will be developed on the <code>beta</code> releases, starting at <code>4.0.0-beta.1</code></li>
+<li>Are <strong><em>not</em></strong> published to the stable release channel. You must configure the <code>alpha</code> channel to use pre release vesions of the Helm Chart. See <a href="../release-channels/">here</a></li>
 </ul>
+<!-- * After `2.0.0` is released, future `4.x` minor or patch level releases will be developed on the `beta` releases, starting at `4.0.0-beta.1` -->
+
 <h2 id="breaking-change-features">Breaking Change Features<a class="headerlink" href="#breaking-change-features" title="Permanent link">&para;</a></h2>
 <p>If a new Helm Chart feature or fix includes a breaking change, then it will cause a bump in the major version number.</p>
-<p>In order to maintain the 3-month rule for Major versions being aligned with Smile CDR releases, any new features with breaking changes will be released along with the next Major version of Smile CDR</p>
+<p>In order to maintain alignment with the Smile CDR GA releases, any new features with breaking changes will be released along with the next Major version of Smile CDR</p>
 <h2 id="back-porting-features">Back Porting Features<a class="headerlink" href="#back-porting-features" title="Permanent link">&para;</a></h2>
-<p>As new features are developed on the current and future versions of the Helm Chart, they will not normally be available on previous versions.</p>
+<p>As new features are developed on the current and future versions of the Helm Chart, they may not be available on previous versions.</p>
 <p>If you need to use a new feature, it is strongly recommended to update to the latest major version of the Helm Chart. Back-porting of features to previous versions of the Helm Chart will be considered on an individual basis.</p>
-<h3 id="critical-bug-fixes">Critical Bug Fixes<a class="headerlink" href="#critical-bug-fixes" title="Permanent link">&para;</a></h3>
-<p>Any critical bug or security fixes will be back-ported to the previous 4 major versions of the Helm Chart if it is technically feasible to do so.</p>
+<!-- ### Critical Bug Fixes
+Any critical bug or security fixes will be back-ported to the previous 4 major versions of the Helm Chart if it is technically feasible to do so. -->
 
 
 
