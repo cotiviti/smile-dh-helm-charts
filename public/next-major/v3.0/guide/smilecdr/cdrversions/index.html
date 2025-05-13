@@ -1578,11 +1578,26 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#important-set-your-image-tag" class="md-nav__link">
+  <a href="#important-set-your-desired-smile-cdr-version" class="md-nav__link">
     <span class="md-ellipsis">
-      Important! Set Your Image Tag
+      Important! Set Your desired Smile CDR Version
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Important! Set Your desired Smile CDR Version">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cdrvalues-vs-imagetag" class="md-nav__link">
+    <span class="md-ellipsis">
+      cdrValues vs image.tag
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1597,18 +1612,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#smile-cdr-202405r04" class="md-nav__link">
+  <a href="#smile-cdr-202411r05" class="md-nav__link">
     <span class="md-ellipsis">
-      Smile CDR 2024.05.R04
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#smile-cdr-202308" class="md-nav__link">
-    <span class="md-ellipsis">
-      Smile CDR 2023.08
+      Smile CDR 2024.11.R05
     </span>
   </a>
   
@@ -2902,11 +2908,26 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#important-set-your-image-tag" class="md-nav__link">
+  <a href="#important-set-your-desired-smile-cdr-version" class="md-nav__link">
     <span class="md-ellipsis">
-      Important! Set Your Image Tag
+      Important! Set Your desired Smile CDR Version
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Important! Set Your desired Smile CDR Version">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cdrvalues-vs-imagetag" class="md-nav__link">
+    <span class="md-ellipsis">
+      cdrValues vs image.tag
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2921,18 +2942,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#smile-cdr-202405r04" class="md-nav__link">
+  <a href="#smile-cdr-202411r05" class="md-nav__link">
     <span class="md-ellipsis">
-      Smile CDR 2024.05.R04
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#smile-cdr-202308" class="md-nav__link">
-    <span class="md-ellipsis">
-      Smile CDR 2023.08
+      Smile CDR 2024.11.R05
     </span>
   </a>
   
@@ -2990,98 +3002,101 @@
 
 <h1 id="supported-smile-cdr-versions">Supported Smile CDR Versions<a class="headerlink" href="#supported-smile-cdr-versions" title="Permanent link">&para;</a></h1>
 <p>By default, this Helm Chart supports the latest published version of the Smile CDR docker image.</p>
-<h2 id="important-set-your-image-tag">Important! Set Your Image Tag<a class="headerlink" href="#important-set-your-image-tag" title="Permanent link">&para;</a></h2>
-<p>If you need to pin to a specific version of Smile CDR, be sure to specify the appropriate value for <code>image.tag</code> in your values file. If you fail to do this, your deployment may get unexpectedly upgraded when using a newer version of the Helm Chart.</p>
-<p>Set <code>image.tag</code> to your required version</p>
+<h2 id="important-set-your-desired-smile-cdr-version">Important! Set Your desired Smile CDR Version<a class="headerlink" href="#important-set-your-desired-smile-cdr-version" title="Permanent link">&para;</a></h2>
+<p>If you need to pin to a specific version of Smile CDR, be sure to specify the appropriate value for <code>cdrVersion</code> in your values file. If you fail to do this, your deployment may get unexpectedly upgraded when using a newer version of the Helm Chart.</p>
+<p>You can configure the Smile CDR version globally as follows:</p>
 <h4 id="my-valuesyaml"><code>my-values.yaml</code><a class="headerlink" href="#my-valuesyaml" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">image</span><span class="p">:</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2024.05.R03&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">cdrVersion</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2024.11.R05&quot;</span>
 </code></pre></div>
-<blockquote>
-<p><strong>Warning</strong> Pre-release versions of this Helm Chart (In the <code>devel</code> channel) may default to pre-release versions of Smile CDR. Always update the image tag when using this Helm Chart to update an existing installation that is running a previous version of Smile CDR.</br>If you do not perform this step, Smile CDR may automatically upgrade your database to the latest version, which may be an irreversible step!</p>
-</blockquote>
+<h3 id="cdrvalues-vs-imagetag"><code>cdrValues</code> vs <code>image.tag</code><a class="headerlink" href="#cdrvalues-vs-imagetag" title="Permanent link">&para;</a></h3>
+<p>In previous versions of the Helm Chart (&lt; v3.0), the version of Smile CDR was selected directly using <code>image.tag</code>.</p>
+<p>With V3 and onwards, the Helm Chart now needs to know the version of Smile CDR being deployed, so that it can perform version based feature enablement. Due to this, the <code>image.tag</code> is no longer sufficient to accurately determine the correct version, as it's possible to use custom built images that do not follow the same naming scheme.</p>
+<p>The latest versions of the Helm Chart now generate <code>image.tag</code> based upon the provided (or the default) <code>cdrVersion</code>. You should remove <code>image.tag</code> from your configuration unless you are using a custom Smile CDR image tag.</p>
+<p>If you do need to set <code>image.tag</code> directly, the Helm Chart has no way of knowing which version of Smile CDR is being deployed. In this case, the chart will display an error until you also set <code>cdrVersion</code>.</p>
 <h2 id="current-smile-cdr-version">Current Smile CDR Version<a class="headerlink" href="#current-smile-cdr-version" title="Permanent link">&para;</a></h2>
-<h3 id="smile-cdr-202405r04">Smile CDR <code>2024.05.R04</code><a class="headerlink" href="#smile-cdr-202405r04" title="Permanent link">&para;</a></h3>
-<p>Versions <code>v1.0.0</code> and newer of the chart support the latest production release of Smile CDR - <code>2024.05.R03</code> and above.</p>
-<h3 id="smile-cdr-202308">Smile CDR <code>2023.08</code><a class="headerlink" href="#smile-cdr-202308" title="Permanent link">&para;</a></h3>
-<p>Versions <code>v1.0.0-pre.92</code> and newer of the chart support the latest production release of Smile CDR - <code>2023.08.R01</code> and above.</p>
+<h3 id="smile-cdr-202411r05">Smile CDR <code>2024.11.R05</code><a class="headerlink" href="#smile-cdr-202411r05" title="Permanent link">&para;</a></h3>
+<p>Versions <code>v3.0.0</code> and newer of the chart support the latest production release of Smile CDR - <code>2024.11.R05</code> and above.</p>
 <p>Please refer to the Smile CDR <a href="https://smilecdr.com/docs/introduction/changelog.html">changelog</a> for more information on feature changes.</p>
 <h2 id="version-support-table">Version Support Table<a class="headerlink" href="#version-support-table" title="Permanent link">&para;</a></h2>
 <p>For each Smile CDR version, this table shows the <strong>Min</strong> and <strong>Max</strong> Helm Chart version that officially support it.</p>
-<p>Older Smile CDR versions will not work beyond the chart version in the <strong>Extra</strong> column - see the notes.</p>
+<p>Each Smile CDR release has a minimum Helm Chart version that is required for official support.</p>
 <table>
 <thead>
 <tr>
 <th>Smile CDR</th>
 <th>Min</th>
 <th>Max</th>
-<th>Extra</th>
 <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td><code>2025.05</code></td>
+<td><code>v5.0.0</code></td>
+<td>-</td>
+<td>Future Release</td>
+</tr>
+<tr>
+<td><code>2025.02</code></td>
+<td><code>v4.0.0</code></td>
+<td>-</td>
+<td>Future Release</td>
+</tr>
+<tr>
 <td><code>2024.11</code></td>
 <td><code>v3.0.0</code></td>
-<td>tbd</td>
-<td>tbd</td>
-<td>Future Release</td>
+<td><code>v3.x</code></td>
+<td>Current Release</td>
 </tr>
 <tr>
 <td><code>2024.08</code></td>
 <td><code>v2.0.0</code></td>
-<td>tbd</td>
-<td>tbd</td>
-<td>Future Release</td>
+<td><code>v3.x</code></td>
+<td><a href="#notes">Note 1</a></td>
 </tr>
 <tr>
 <td><code>2024.05</code></td>
 <td><code>v1.0.0</code></td>
-<td>tbd</td>
-<td>tbd</td>
+<td><code>v3.x</code></td>
 <td><a href="#notes">Note 1</a></td>
 </tr>
 <tr>
 <td><code>2024.02</code></td>
-<td><code>v1.0.0</code></td>
-<td>tbd</td>
-<td>tbd</td>
+<td><code>v1.0.0-pre.93</code></td>
+<td><code>v3.x</code></td>
 <td><a href="#notes">Note 1</a></td>
 </tr>
 <tr>
 <td><code>2023.11</code></td>
-<td><code>v1.0.0</code></td>
-<td>tbd</td>
-<td>tbd</td>
-<td><a href="#notes">Note 1</a></td>
+<td><code>v1.0.0-pre.93</code></td>
+<td><code>v2.x</code></td>
+<td><a href="#notes">Note 2</a></td>
 </tr>
 <tr>
 <td><code>2023.08</code></td>
-<td><code>v1.0.0</code></td>
-<td>tbd</td>
-<td>tbd</td>
-<td><a href="#notes">Note 1</a></td>
+<td><code>v1.0.0-pre.93</code></td>
+<td><code>v1.x</code></td>
+<td><a href="#notes">Note 2</a></td>
 </tr>
 <tr>
 <td><code>2023.05</code></td>
-<td><code>v1.0.0</code></td>
-<td>tbd</td>
-<td>tbd</td>
-<td><a href="#notes">Note 1</a></td>
+<td><code>v1.0.0-pre.93</code></td>
+<td><code>v1.x</code></td>
+<td><a href="#notes">Note 2</a></td>
 </tr>
 <tr>
 <td><code>2023.02</code></td>
 <td><code>v1.0.0-pre.52</code></td>
 <td><code>v1.0.0-pre.78</code></td>
-<td>tbd</td>
-<td><a href="#notes">Note 2</a></td>
+<td><a href="#notes">Note 3</a></td>
 </tr>
 </tbody>
 </table>
 <h4 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h4>
 <blockquote>
-<p><strong>Note 1</strong> If using older version of Smile CDR with newer version of the Helm Chart, ensure that you have the correct <code>image</code> value provided.</p>
-<p><strong>Note 2</strong> Unsupported beyond the 'Max' version. If using older version of Smile CDR with newer version of the Helm Chart, please see the section below for any compatibility considerations.</p>
+<p><strong>Note 1</strong> If using older version of Smile CDR with Helm Chart V3 or higher, ensure that you have the correct <code>cdrVersion</code> value provided.</p>
+<p><strong>Note 2</strong> If using older version of Smile CDR with Helm Chart V1 or V2, ensure that you have the correct <code>image.tag</code> value provided.</p>
+<p><strong>Note 3</strong> Unsupported beyond the 'Max' version. If using older version of Smile CDR with newer version of the Helm Chart, please see the section below for any compatibility considerations.</p>
 </blockquote>
 <h2 id="upgrading">Upgrading<a class="headerlink" href="#upgrading" title="Permanent link">&para;</a></h2>
 <p>When upgrading from older versions of Smile CDR, there may be some additional required steps.</p>
