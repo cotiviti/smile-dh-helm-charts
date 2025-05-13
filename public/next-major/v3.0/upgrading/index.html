@@ -2797,15 +2797,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#upgrading-from-pre-release-versions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Upgrading From Pre-Release Versions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#choosing-helm-chart-versions" class="md-nav__link">
     <span class="md-ellipsis">
       Choosing Helm Chart Versions
@@ -2889,6 +2880,48 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#upgrading-from-v1x-to-v2x" class="md-nav__link">
+    <span class="md-ellipsis">
+      Upgrading from v1.x to v2.x
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Upgrading from v1.x to v2.x">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview-of-changes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview of Changes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#actionable-items_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Actionable Items
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrading-from-pre-release-versions-to-v1x-or-above" class="md-nav__link">
+    <span class="md-ellipsis">
+      Upgrading From Pre-Release Versions to v1.x or above
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2917,9 +2950,6 @@
 
 
 <h1 id="upgrading-the-helm-chart-and-smile-cdr">Upgrading the Helm Chart and Smile CDR<a class="headerlink" href="#upgrading-the-helm-chart-and-smile-cdr" title="Permanent link">&para;</a></h1>
-<h2 id="upgrading-from-pre-release-versions">Upgrading From Pre-Release Versions<a class="headerlink" href="#upgrading-from-pre-release-versions" title="Permanent link">&para;</a></h2>
-<p>If you have previously installed Smile CDR using the <code>1.0.0-pre.x</code> pre-release versions of the Helm Chart, then you will need to adjust your deployment process to use the <code>stable</code> release channel before you can use the officially supported versions.</p>
-<p>Please refer to the <a href="release-channels/">Release Channels</a> section for more information on switching release channels.</p>
 <h2 id="choosing-helm-chart-versions">Choosing Helm Chart Versions<a class="headerlink" href="#choosing-helm-chart-versions" title="Permanent link">&para;</a></h2>
 <p>As these Helm Charts follow SemVer 2.0, the version format is <code>MAJOR.MINOR.PATCH</code> with an optional suffix depending on the release channel being used (e.g. pre release (<code>-pre.n</code>) or next major release (<code>-next.n</code>))</p>
 <p>Refer to the <a href="versioning-strategy/">Versioning Strategy</a> page for more information.</p>
@@ -3039,6 +3069,29 @@ See the <a href="#smile-cdr-version-compatibility">version compatibility</a> sec
 <li>If not, upgrading will change the names of Kubernetes resources such as services and ingress. Review any dependent resources (e.g., ALB configuration, IAM roles) to ensure compatibility.</li>
 <li><code>oldResourceNaming</code> can still be manually set to <code>true</code> if more time is needed to review the changes. Note that it <strong><em>WILL</em></strong> be removed in a future version of the Helm Chart.</li>
 </ul>
+<h2 id="upgrading-from-v1x-to-v2x">Upgrading from <code>v1.x</code> to <code>v2.x</code><a class="headerlink" href="#upgrading-from-v1x-to-v2x" title="Permanent link">&para;</a></h2>
+<p>This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart version <code>v1.x</code> to <code>v2.x</code>.</p>
+<hr />
+<h3 id="overview-of-changes_1">Overview of Changes<a class="headerlink" href="#overview-of-changes_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Default Smile CDR version updated from <code>2024.05.R01</code> to <code>2024.08.R01</code>.</li>
+<li>Default context root for the Admin JSON module has changed from <code>json-admin</code> to <code>admin_json</code></li>
+</ul>
+<hr />
+<h3 id="actionable-items_1">Actionable Items<a class="headerlink" href="#actionable-items_1" title="Permanent link">&para;</a></h3>
+<p>Review the following action items to address any potentially breaking changes.</p>
+<h4 id="specifying-smile-cdr-version_1">Specifying Smile CDR Version<a class="headerlink" href="#specifying-smile-cdr-version_1" title="Permanent link">&para;</a></h4>
+<p>In order to prevent unexpected upgrades to Smile CDR when updating the Helm Chart, you should set the Smile CDR version using <code>image.tag</code></p>
+<h4 id="admin-json-context-root">Admin JSON Context Root<a class="headerlink" href="#admin-json-context-root" title="Permanent link">&para;</a></h4>
+<p>The default context path for the Admin JSON module has been updated to align with the Smile CDR default.</p>
+<p>This change does not affect the operation of your Smile CDR deployment. However, if any upstream systems rely on the previous context path, you may need to update them accordingly.</p>
+<p>If you have explicitly configured a custom context path for the Admin JSON module, this change will not impact your deployment.</p>
+<hr />
+<h2 id="upgrading-from-pre-release-versions-to-v1x-or-above">Upgrading From Pre-Release Versions to <code>v1.x</code> or above<a class="headerlink" href="#upgrading-from-pre-release-versions-to-v1x-or-above" title="Permanent link">&para;</a></h2>
+<p>This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart pre-release versions <code>v1.0.0-pre.n</code> to <code>v1.x</code> or higher.</p>
+<hr />
+<p>If you have previously installed Smile CDR using the <code>1.0.0-pre.x</code> pre-release versions of the Helm Chart, then you will need to adjust your deployment process to use the <code>stable</code> release channel before you can use the officially supported versions.</p>
+<p>Please refer to the <a href="release-channels/">Release Channels</a> section for more information on switching release channels.</p>
 
 
 
