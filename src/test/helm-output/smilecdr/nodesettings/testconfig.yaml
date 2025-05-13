@@ -17,6 +17,12 @@ tests:
     - ../default-test-values.yaml
     - ../default-test-disabled-features.yaml
     - values-security.yaml
+  environmentType:
+    outputFile: output-environment-type.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - ../default-test-disabled-features.yaml
+    - values-environment-type.yaml
   unlocked:
     outputFile: output-unlocked.yaml
     valueFiles:

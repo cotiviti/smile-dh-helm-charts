@@ -2,26 +2,22 @@
 
 The Smile CDR Helm Charts are available in a number of release channels.
 
+## Current Channels
+
+We recommend using the `stable` channel so that you can deploy officially supported releases of the Smile CDR Helm Chart.
+
 | Release Type | Channel Name | Helm Chart Repo |
 | ------------ | ------------ | --------------- |
 | Official | `stable` | {{ helm_repo_stable }} |
-| v1.x prereleases | `devel` | {{ helm_repo_devel }} |
 | v2.x and up prereleases | `pre-release` | {{ helm_repo_pre }} |
 | Next major version prereleases | `next-major` | {{ helm_repo_next }} |
 | Beta releases | `beta` | {{ helm_repo_beta }} |
 | Alpha releases | `alpha` | {{ helm_repo_alpha }} |
 
-!!! note
-    The `devel` release channel has been deprecated and will no longer be used going forwards.
-
-    This was only used prior to the initial release of version `1.0.0` of the Helm Chart
-
-We recommend using the `stable` channel so that you can deploy officially supported releases of the Smile CDR Helm Chart.
-
-If you wish to preview upcoming features that are not yet available in a currently supported Helm Chart version in the `stable` channel, then you may use prerelease versions from another release channel.
+If you wish to preview upcoming features that are not yet available in a currently supported Helm Chart version in the `stable` channel, then you may use alternative release channels.
 
 !!! warning
-    When using release channels other than `stable`, there may be unexpected breaking changes or regressions between pre release or beta versions.
+    When using release channels other than `stable`, there may be unexpected or breaking changes or regressions between versions.
 
 ## Configuring Release Channels
 
@@ -112,3 +108,13 @@ The mechanism for configuring the release channel depends on which tooling you a
 ## Choosing The Helm Chart Version
 
 It is advisable to explicitly set the `version` rather than allowing Helm to automatically use the latest version. This will help reduce the chances of accidental upgrades to new versions.
+
+## Unused Channels
+
+The `devel` release channel has been deprecated and will no longer be used going forwards.
+
+This was only used prior to the initial release of version `1.0.0` of the Helm Chart. It is kept here for reference.
+
+| Release Type | Channel Name | Helm Chart Repo |
+| ------------ | ------------ | --------------- |
+| v1.x prereleases | `devel` | {{ helm_repo_devel }} |

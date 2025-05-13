@@ -1,6 +1,6 @@
 # Smile CDR
 
-![Version: 0.0.0-local](https://img.shields.io/badge/Version-0.0.0--local-informational?style=flat-square) ![Smile CDR Version: 2024.08.R01](https://img.shields.io/badge/Smile%20CDR%20Version-2024.08.R01-informational?style=flat-square)
+![Version: 0.0.0-local](https://img.shields.io/badge/Version-0.0.0--local-informational?style=flat-square) ![Smile CDR Version: 2024.11.R05](https://img.shields.io/badge/Smile%20CDR%20Version-2024.11.R05-informational?style=flat-square)
 
 This chart provides a flexible and consistent process to deploy Smile CDR in a self-managed Kubernetes cluster.
 
@@ -158,7 +158,6 @@ The below section gives an overview of the default values available. Consult the
 | observability.instrumentation.prometheus.promAgent.config.port | int | `17171` |  |
 | observability.instrumentation.prometheus.promAgent.config.rules[0].pattern | string | `".*"` |  |
 | observability.instrumentation.prometheus.promAgent.enabled | bool | `true` |  |
-| oldResourceNaming | bool | `true` |  |
 | replicaCount | int | `1` | Number of replicas to deploy. Note that this setting is ignored if autoscaling is enabled. Should always start a new installation with 1 |
 | resources.limits.memory | string | `"4Gi"` | Memory allocation |
 | resources.requests.cpu | string | `"1"` | CPU Requests |

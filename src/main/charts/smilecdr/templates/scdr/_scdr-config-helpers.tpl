@@ -26,6 +26,11 @@ them all into a readable config file, complete with section headers.
     {{- $moduleText = printf "%snode.propertysource \t= %s\n" $moduleText "PROPERTIES" -}}
     {{- $moduleText = printf "%snode.config.locked \t= %v\n" $moduleText (ternary (.Values.config).locked true (and (hasKey .Values "config") (hasKey .Values.config "locked"))) -}}
   {{- end -}}
+  {{- /* NodeEnvironmentType is gated feature 'f001'. Check to see if we can use it
+       */ -}}
+  {{- if (include "smilecdr.features.getFeatureDetails" (list "f001" .Values.cdrVersionInternal) | fromYaml).canUse -}}
+    {{- $moduleText = printf "%snode.environment.type \t= %v\n" $moduleText (coalesce (.Values.environment).type "DEV") -}}
+  {{- end -}}
   {{- $moduleText = printf "%snode.security.strict \t= %v\n\n" $moduleText (default false (.Values.security).strict) -}}
   {{- if hasKey .Values "license" -}}
     {{- $moduleText = printf "%smodule.license.config.jwt_file \t= classpath:license.jwt\n" $moduleText -}}

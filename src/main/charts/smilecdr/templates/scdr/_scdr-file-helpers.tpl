@@ -162,7 +162,7 @@ Volumes are defined in `smilecdr.fileVolumes`
   {{- $_ := set $defaultResources "limits" (dict "cpu" "500m" "memory" "500Mi") -}}
 
   {{- $syncConfig := dict -}}
-  {{- $_ := set $syncContainerSpec "image" (printf "%s:%s" .Values.image.repository (default .Chart.AppVersion .Values.image.tag)) -}}
+  {{- $_ := set $syncContainerSpec "image" .Values.cdrImage -}}
   {{- $_ := set $syncContainerSpec "imagePullPolicy" (default "IfNotPresent" .Values.image.pullPolicy) -}}
   {{- $_ := set $syncContainerSpec "securityContext" (deepCopy .Values.securityContext) -}}
   {{- $_ := set $syncContainerSpec "resources" $defaultResources -}}
