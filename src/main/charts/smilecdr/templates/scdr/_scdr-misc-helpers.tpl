@@ -347,13 +347,11 @@ Use this for generating deprecation notices and other warnings about the configu
     {{- end -}}
 
     {{- if $theCdrNodeSpec.oldResourceNaming -}}
-      {{- $warningMessage = printf "%s\n\nDEPRECATED: The `oldResourceNaming` setting has been configured for backwards compatibility." $warningMessage  -}}
-      {{- $warningMessage = printf "%s\n            This mode is a temporary feature to allow a controlled migration to chart version `1.0.0-pre.93` and newer." $warningMessage -}}
-      {{- $warningMessage = printf "%s\n            This will be removed in a future version so it's recommended to disable this feature and allow the" $warningMessage -}}
-      {{- $warningMessage = printf "%s\n            chart to generate your resources using updated names." $warningMessage -}}
-      {{- $warningMessage = printf "%s\n            This is a required step in order to use the `multi-node` configurations." $warningMessage -}}
-      {{- $warningMessage = printf "%s\n            You will not be able to configure Smile CDR with such a `multi-node` configuration unless this setting is" $warningMessage -}}
-      {{- $warningMessage = printf "%s\n            first disabled." $warningMessage -}}
+      {{- $warningMessage = printf "%s\n\nDEPRECATED: The `oldResourceNaming` setting should no longer be used." $warningMessage  -}}
+      {{- $warningMessage = printf "%s\n            It has been disabled by default since version `3.0.0` of the Helm Chart." $warningMessage -}}
+      {{- $warningMessage = printf "%s\n            When this option is removed in an upcoming version your resource names will change without " $warningMessage -}}
+      {{- $warningMessage = printf "%s\n            any option to use the old resource names. It's advisable to perform this change in a controlled" $warningMessage -}}
+      {{- $warningMessage = printf "%s\n            manner before then." $warningMessage -}}
     {{- end -}}
     {{- /* Check for unsupported env vars being set */ -}}
     {{- range $envVar := $theCdrNodeSpec.extraEnvVars -}}
