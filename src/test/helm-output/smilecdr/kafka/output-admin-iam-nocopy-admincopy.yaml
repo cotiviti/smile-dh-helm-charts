@@ -30,8 +30,8 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr-kafka-admin
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2024.11.R05"
     app.kubernetes.io/managed-by: Helm
+    smilecdr/version: No App Version - Unit Testing
 data:
   client.properties.template: |-
     # Kafka consumer properties auto generated from Helm Chart. Do not edit manually!
@@ -549,8 +549,8 @@ metadata:
     helm.sh/chart: No Chart Version - Unit Testing
     app.kubernetes.io/name: smilecdr-kafka-admin
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "2024.11.R05"
     app.kubernetes.io/managed-by: Helm
+    smilecdr/version: No App Version - Unit Testing
 spec:
   replicas: 1
   selector:
@@ -563,8 +563,8 @@ spec:
         helm.sh/chart: No Chart Version - Unit Testing
         app.kubernetes.io/name: smilecdr-kafka-admin
         app.kubernetes.io/instance: release-name
-        app.kubernetes.io/version: "2024.11.R05"
         app.kubernetes.io/managed-by: Helm
+        smilecdr/version: No App Version - Unit Testing
     spec:
       imagePullSecrets:
         []
