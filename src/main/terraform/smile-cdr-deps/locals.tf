@@ -59,7 +59,7 @@ locals {
   ## Determine Helm Chart version ##
   
   # This needs to be updated during a release!
-  helm_chart_default_version = "2.0.1"
+  helm_chart_default_version = "3.0.0"
   
   ### NOTE: Due to what seems like a bug in the helm_release module, setting `devel` to true can cause terraform to always update even if there are no changes
   ### To circumvent this for now, we will manually set the version to ">0.0.0-0" rather than setting `devel`
@@ -176,7 +176,6 @@ locals {
       # "database.crunchypgo.enabled" = "true"
       # "database.crunchypgo.internal" = "true"
       "specs.hostname" = local.public_fqdn
-      "oldResourceNaming" = "false"
       "replicaCount" = try(local.helm_chart_values_provided.replicaCount,(var.prod_mode ? 3 : 1))
     },
     var.helm_chart_values_set_overrides
@@ -185,8 +184,8 @@ locals {
   tags = merge(
     {
       terraform_module = "SmileCDR_Helm_Dependencies"
-      terraform_module_version = "v1.0.0-pre1"
-      terraform_module_sha = "000000"
+      terraform_module_version = "v3.0.0"
+      # terraform_module_sha = "000000"
     },
     var.tags
   )
