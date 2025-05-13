@@ -1,3 +1,13 @@
+## [3.0.0-next-major.6](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v3.0.0-next-major.5...v3.0.0-next-major.6) (2025-05-13)
+
+### ⚠ BREAKING CHANGES
+
+* **smilecdr:** This will change many resource names. There has been a deprecation warning for a long time now to warn users of this impending change. If someone needs to revert to the oldResourceNaming, they can still manually set it. The deprecation notice has been updated to indicate that it will be completely removed in an upcoming release.
+
+### Features
+
+* **smilecdr:** disable oldResourceNaming by default ([3251b7b](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/3251b7b4edc24e579fc81721e4e4d6525cfc2192))
+
 ## [3.0.0-next-major.5](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v3.0.0-next-major.4...v3.0.0-next-major.5) (2025-05-12)
 
 ### Features
