@@ -4,6 +4,8 @@ image:
   repository: custom.image/repo/image
   tag: "custom-tag"
 
+cdrVersion: 2024.11.R05
+
 copyFiles:
   # Copies files to the classes directory using curl.
   # Only used in this test to ensure that the `sync` container
