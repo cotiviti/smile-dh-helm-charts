@@ -22,7 +22,7 @@ modules:
       audit_log.request_headers_to_store: Content-Type,Host
       seed_keystores.file: "classpath:/config_seeding/keystores.json"
       transactionlog.enabled: false
-      retain_transaction_log_days: 7
+      reload_scripts_on_save: false
 
   persistence:
     name: Database Configuration
@@ -201,6 +201,9 @@ modules:
       db.password: "#{env['DB_PASS']}"
       db.username: "#{env['DB_USER']}"
       db.schema_update_mode:  UPDATE
+      stats.heartbeat_persist_frequency_ms: 15000
+      stats.stats_persist_frequency_ms: 60000
+      stats.stats_cleanup_frequency_ms: 300000
 
   license:
     type: LICENSE
@@ -216,3 +219,20 @@ modules:
       db.username: "#{env['DB_USER']}"
       db.password: "#{env['DB_PASS']}"
       db.schema_update_mode: UPDATE
+
+      stats.heartbeat_persist_frequency_ms: 15000
+      stats.stats_persist_frequency_ms: 60000
+      stats.stats_cleanup_frequency_ms: 300000
+      retain_transaction_log_days: 7
+
+      transactionlog.show_request_body.enabled: true
+      persist_endpoint_receive_bodies: true
+      persist_endpoint_reply_bodies: true
+      persist_bodies_in_clustermgr_db: true
+
+  # transaction_broker:
+  #   name: External Transaction Log DB
+  #   enabled: true
+  #   type: TRANSACTION_LOG_BROKER
+  #   config:
+  #     broker.channel_name: smilecdr-transaction-log

@@ -6,6 +6,8 @@ image:
   repository: custom.image/repo/image
   tag: "custom-tag"
 
+cdrVersion: 2024.11.R05
+
 copyFiles:
   config:
     curl:

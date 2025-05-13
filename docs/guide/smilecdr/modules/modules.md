@@ -216,7 +216,26 @@ When splitting your configuration into multiple `values` files, pass them in to 
 $ helm upgrade -i my-smile-env --devel -f my-values.yaml -f my-module-values.yaml smiledh/smilecdr
 ```
 
+## Node Level Configurations
+Some of the [Smile CDR Node Configuration Properties](https://smilecdr.com/docs/guide_installation/configuring_smile_cdr.html#node-configuration-properties) can be directly updated via the Helm Chart.
+
+* `node.security.strict` - Set using `cdrNodes.<nodename>.security.strict: true`
+* `node.environment.type` - Set using `cdrNodes.<nodename>.environment.type: DEV`
+
+The remaining properties are managed automatically by the Helm Chart to prevent misconfiguration that can lead to broken deployments of Smile CDR.
+
+* `node.id` - This is controlled by the key name under `cdrNodes`
+* `node.config.locked`, `node.propertysource` - By default the config is locked and cannot be edited in the console and the property source is set to `PROPERTIES`. These settings should not be altered when deploying using Helm.
+
+>These can be changed using the unsupported troubleshooting features mentioned below.
+
+
 ## Experimental/Unsupported Features
+
+>The following are unsupported features, only to be used during troubleshooting scenarios. Use at your own risk.
+
+>***!!!DO NOT USE THESE EXPERIMENTAL UNSUPPORTED FEATURES IN NON-DEVELOPMENT ENVIRONMENTS!!!***
+
 There are scenarios where you may wish to update Smile CDR module configurations directly in the Web console.
 
 * You need to do some realtime troubleshooting that requires live updates of module configuration

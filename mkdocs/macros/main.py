@@ -60,6 +60,14 @@ def define_env(env):
 
     version_info = [
         {
+            'chart_version': '3.0.0',
+            'cdr_versions': {
+                'default': '2024.11.R05',
+                'newest': '2024.11.R05',
+                'oldest': '2023.11.R06'
+            }
+        },
+        {
             'chart_version': '2.0.0',
             'cdr_versions': {
                 'default': '2024.08.R01',

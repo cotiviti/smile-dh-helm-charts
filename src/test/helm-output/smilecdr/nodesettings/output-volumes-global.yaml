@@ -3,33 +3,36 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: release-name-scdr
+  name: release-name-scdrnode-masterdev
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: masterdev
+    smilecdr/version: No App Version - Unit Testing
 spec:
   maxUnavailable: 1
   selector:
     matchLabels:
       app.kubernetes.io/instance: release-name
       app.kubernetes.io/name: smilecdr
+      smilecdr/nodeId: masterdev
 ---
 # Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-masterdev-node
+  name: release-name-scdrnode-masterdev
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: masterdev
+    smilecdr/version: No App Version - Unit Testing
 data:
   cdr-config-Master.properties: |-
     ################################################################################
@@ -38,6 +41,7 @@ data:
     node.id 	= Masterdev
     node.propertysource 	= PROPERTIES
     node.config.locked 	= true
+    node.environment.type 	= DEV
     node.security.strict 	= false
 
     module.clustermgr.config.messagebroker.type                         =EMBEDDED_ACTIVEMQ
@@ -89,6 +93,9 @@ data:
     module.audit.config.db.schema_update_mode 	= UPDATE
     module.audit.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
     module.audit.config.db.username 	= #{env['DB_USER']}
+    module.audit.config.stats.heartbeat_persist_frequency_ms 	= 15000
+    module.audit.config.stats.stats_cleanup_frequency_ms 	= 300000
+    module.audit.config.stats.stats_persist_frequency_ms 	= 60000
     ################################################################################
     # Cluster Manager Configuration
     ################################################################################
@@ -99,7 +106,7 @@ data:
     module.clustermgr.config.db.schema_update_mode 	= UPDATE
     module.clustermgr.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
     module.clustermgr.config.db.username 	= #{env['DB_USER']}
-    module.clustermgr.config.retain_transaction_log_days 	= 7
+    module.clustermgr.config.reload_scripts_on_save 	= false
     module.clustermgr.config.seed_keystores.file 	= classpath:/config_seeding/keystores.json
     module.clustermgr.config.stats.heartbeat_persist_frequency_ms 	= 15000
     module.clustermgr.config.stats.stats_cleanup_frequency_ms 	= 300000
@@ -209,6 +216,14 @@ data:
     module.transaction.config.db.schema_update_mode 	= UPDATE
     module.transaction.config.db.url 	= jdbc:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require
     module.transaction.config.db.username 	= #{env['DB_USER']}
+    module.transaction.config.persist_bodies_in_clustermgr_db 	= true
+    module.transaction.config.persist_endpoint_receive_bodies 	= true
+    module.transaction.config.persist_endpoint_reply_bodies 	= true
+    module.transaction.config.retain_transaction_log_days 	= 7
+    module.transaction.config.stats.heartbeat_persist_frequency_ms 	= 15000
+    module.transaction.config.stats.stats_cleanup_frequency_ms 	= 300000
+    module.transaction.config.stats.stats_persist_frequency_ms 	= 60000
+    module.transaction.config.transactionlog.show_request_body.enabled 	= true
 
 
   smileutil: |-
@@ -237,14 +252,15 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: release-name-scdr-svc-admin-json
+  name: release-name-scdrnode-masterdev-admin-json
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: masterdev
+    smilecdr/version: No App Version - Unit Testing
   annotations:
     {}
 spec:
@@ -257,19 +273,21 @@ spec:
   selector:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/name: smilecdr
+    smilecdr/nodeId: masterdev
 ---
 # Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: release-name-scdr-svc-admin-web
+  name: release-name-scdrnode-masterdev-admin-web
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: masterdev
+    smilecdr/version: No App Version - Unit Testing
   annotations:
     {}
 spec:
@@ -282,19 +300,21 @@ spec:
   selector:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/name: smilecdr
+    smilecdr/nodeId: masterdev
 ---
 # Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: release-name-scdr-svc-fhir
+  name: release-name-scdrnode-masterdev-fhir
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: masterdev
+    smilecdr/version: No App Version - Unit Testing
   annotations:
     {}
 spec:
@@ -307,19 +327,21 @@ spec:
   selector:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/name: smilecdr
+    smilecdr/nodeId: masterdev
 ---
 # Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: release-name-scdr-svc-fhirweb
+  name: release-name-scdrnode-masterdev-fhirweb
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: masterdev
+    smilecdr/version: No App Version - Unit Testing
   annotations:
     {}
 spec:
@@ -332,19 +354,21 @@ spec:
   selector:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/name: smilecdr
+    smilecdr/nodeId: masterdev
 ---
 # Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: release-name-scdr-svc-pkg-registry
+  name: release-name-scdrnode-masterdev-pkg-registry
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: masterdev
+    smilecdr/version: No App Version - Unit Testing
   annotations:
     {}
 spec:
@@ -357,19 +381,21 @@ spec:
   selector:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/name: smilecdr
+    smilecdr/nodeId: masterdev
 ---
 # Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: release-name-scdr-svc-smart-auth
+  name: release-name-scdrnode-masterdev-smart-auth
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: masterdev
+    smilecdr/version: No App Version - Unit Testing
   annotations:
     {}
 spec:
@@ -382,25 +408,28 @@ spec:
   selector:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/name: smilecdr
+    smilecdr/nodeId: masterdev
 ---
 # Source: smilecdr/templates/scdr/scdr-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: release-name-scdr
+  name: release-name-scdrnode-masterdev
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: masterdev
+    smilecdr/version: No App Version - Unit Testing
 spec:
   replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/instance: release-name
       app.kubernetes.io/name: smilecdr
+      smilecdr/nodeId: masterdev
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -412,8 +441,9 @@ spec:
         app.kubernetes.io/instance: release-name
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: smilecdr
-        app.kubernetes.io/version: No App Version - Unit Testing
         helm.sh/chart: No Chart Version - Unit Testing
+        smilecdr/nodeId: masterdev
+        smilecdr/version: No App Version - Unit Testing
     spec:
       imagePullSecrets:
         []
@@ -434,7 +464,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2024.08.R01"
+          image: "docker.smilecdr.com/smilecdr:No App Version - Unit Testing"
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
@@ -503,11 +533,11 @@ spec:
               readOnly: true
       volumes:
         - configMap:
-            name: release-name-scdr-masterdev-node
+            name: release-name-scdrnode-masterdev
           name: scdr-config-release-name
         - configMap:
             defaultMode: 504
-            name: release-name-scdr-masterdev-node
+            name: release-name-scdrnode-masterdev
           name: scdr-smileutil
         - emptyDir:
             sizeLimit: 1Mi
@@ -531,6 +561,7 @@ spec:
           matchLabels:
             app.kubernetes.io/instance: release-name
             app.kubernetes.io/name: smilecdr
+            smilecdr/nodeId: masterdev
         matchLabelKeys:
         - pod-template-hash
         maxSkew: 1
@@ -540,6 +571,7 @@ spec:
           matchLabels:
             app.kubernetes.io/instance: release-name
             app.kubernetes.io/name: smilecdr
+            smilecdr/nodeId: masterdev
         matchLabelKeys:
         - pod-template-hash
         maxSkew: 1
@@ -550,13 +582,14 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "release-name-smilecdr-test-connection"
+  name: "release-name-masterdev-test-connection"
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
-    app.kubernetes.io/version: No App Version - Unit Testing
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: masterdev
+    smilecdr/version: No App Version - Unit Testing
   annotations:
     "helm.sh/hook": test
 spec:
@@ -564,7 +597,7 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['smilecdr-admin_web:9100']
+      args: ['release-name-scdrnode-masterdev-fhir:8000']
       resources:
         limits:
           cpu: 10m

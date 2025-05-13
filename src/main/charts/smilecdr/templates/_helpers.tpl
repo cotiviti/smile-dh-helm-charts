@@ -71,9 +71,15 @@ Create chart name and version as used by the chart label.
 
 {{/*
 Determine Smile CDR application version.
+This template is used where the actual value will be used in the output.
+The actual value will be masked during unit testing
 */}}
-{{- define "smilecdr.appVersion" -}}
-  {{- $cdrVersion := coalesce .Values.image.tag .Chart.AppVersion -}}
+{{- define "smilecdr.cdrVersion" -}}
+  {{- $cdrVersion := toString (coalesce .cdrVersion .Chart.AppVersion) -}}
+
+  {{- /* Ensure a valid version is being selected */ -}}
+  {{- $_ := include "smilecdr.checkVersion" $cdrVersion -}}
+
   {{- if .Values.unitTesting -}}
     {{- $cdrVersion = "No App Version - Unit Testing" -}}
   {{- end -}}
@@ -81,12 +87,26 @@ Determine Smile CDR application version.
 {{- end -}}
 
 {{/*
+Determine Smile CDR application version.
+This template is used for internal Helm Chart logic. It does not get
+masked during unit testing
+*/}}
+{{- define "smilecdr.cdrVersion.internal" -}}
+  {{- $cdrVersion := toString (coalesce .cdrVersion .Chart.AppVersion) -}}
+
+  {{- /* Ensure a valid version is being selected */ -}}
+  {{- $_ := include "smilecdr.checkVersion" $cdrVersion -}}
+
+  {{- $cdrVersion -}}
+{{- end -}}
+
+
+{{/*
 Common labels
 */}}
 {{- define "smilecdr.labels" -}}
 helm.sh/chart: {{ include "smilecdr.chart" . }}
 {{ include "smilecdr.selectorLabels" . }}
-app.kubernetes.io/version: {{ include "smilecdr.appVersion" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- if .Values.labels -}}
 {{ with .Values.labels }}
