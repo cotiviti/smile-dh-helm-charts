@@ -1,10 +1,5 @@
 # Upgrading the Helm Chart and Smile CDR
 
-## Upgrading From Pre-Release Versions
-If you have previously installed Smile CDR using the `1.0.0-pre.x` pre-release versions of the Helm Chart, then you will need to adjust your deployment process to use the `stable` release channel before you can use the officially supported versions.
-
-Please refer to the [Release Channels](./release-channels.md) section for more information on switching release channels.
-
 ## Choosing Helm Chart Versions
 As these Helm Charts follow SemVer 2.0, the version format is `MAJOR.MINOR.PATCH` with an optional suffix depending on the release channel being used (e.g. pre release (`-pre.n`) or next major release (`-next.n`))
 
@@ -112,3 +107,41 @@ The `oldResourceNaming` flag now defaults to `false`, in preparation for its rem
 - If you have already set `oldResourceNaming: false`, no action is needed.
 - If not, upgrading will change the names of Kubernetes resources such as services and ingress. Review any dependent resources (e.g., ALB configuration, IAM roles) to ensure compatibility.
 - `oldResourceNaming` can still be manually set to `true` if more time is needed to review the changes. Note that it ***WILL*** be removed in a future version of the Helm Chart.
+
+## Upgrading from `v1.x` to `v2.x`
+
+This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart version `v1.x` to `v2.x`.
+
+---
+
+### Overview of Changes
+- Default Smile CDR version updated from `2024.05.R01` to `2024.08.R01`.
+- Default context root for the Admin JSON module has changed from `json-admin` to `admin_json`
+
+---
+
+### Actionable Items
+Review the following action items to address any potentially breaking changes.
+
+#### Specifying Smile CDR Version
+In order to prevent unexpected upgrades to Smile CDR when updating the Helm Chart, you should set the Smile CDR version using `image.tag`
+
+#### Admin JSON Context Root
+The default context path for the Admin JSON module has been updated to align with the Smile CDR default.
+
+This change does not affect the operation of your Smile CDR deployment. However, if any upstream systems rely on the previous context path, you may need to update them accordingly.
+
+If you have explicitly configured a custom context path for the Admin JSON module, this change will not impact your deployment.
+
+---
+
+## Upgrading From Pre-Release Versions to `v1.x` or above
+
+This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart pre-release versions `v1.0.0-pre.n` to `v1.x` or higher.
+
+---
+
+If you have previously installed Smile CDR using the `1.0.0-pre.x` pre-release versions of the Helm Chart, then you will need to adjust your deployment process to use the `stable` release channel before you can use the officially supported versions.
+
+
+Please refer to the [Release Channels](./release-channels.md) section for more information on switching release channels.
