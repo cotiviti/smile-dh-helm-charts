@@ -3,31 +3,36 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: release-name-scdr
+  name: release-name-scdrnode-overriddenNodeId
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: overriddenNodeId
+    smilecdr/version: No App Version - Unit Testing
 spec:
   maxUnavailable: 1
   selector:
     matchLabels:
       app.kubernetes.io/instance: release-name
       app.kubernetes.io/name: smilecdr
+      smilecdr/nodeId: overriddenNodeId
 ---
 # Source: smilecdr/templates/scdr/scdr-node-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-scdr-overriddennodeid-node
+  name: release-name-scdrnode-overriddennodeid
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: overriddenNodeId
+    smilecdr/version: No App Version - Unit Testing
 data:
   cdr-config-Master.properties: |-
     ################################################################################
@@ -236,13 +241,15 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: release-name-scdr-svc-admin-json
+  name: release-name-scdrnode-overriddennodeid-admin-json
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: overriddenNodeId
+    smilecdr/version: No App Version - Unit Testing
   annotations:
     {}
 spec:
@@ -255,18 +262,21 @@ spec:
   selector:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/name: smilecdr
+    smilecdr/nodeId: overriddenNodeId
 ---
 # Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: release-name-scdr-svc-admin-web
+  name: release-name-scdrnode-overriddennodeid-admin-web
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: overriddenNodeId
+    smilecdr/version: No App Version - Unit Testing
   annotations:
     {}
 spec:
@@ -279,18 +289,21 @@ spec:
   selector:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/name: smilecdr
+    smilecdr/nodeId: overriddenNodeId
 ---
 # Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: release-name-scdr-svc-fhir
+  name: release-name-scdrnode-overriddennodeid-fhir
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: overriddenNodeId
+    smilecdr/version: No App Version - Unit Testing
   annotations:
     {}
 spec:
@@ -303,18 +316,21 @@ spec:
   selector:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/name: smilecdr
+    smilecdr/nodeId: overriddenNodeId
 ---
 # Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: release-name-scdr-svc-fhirweb
+  name: release-name-scdrnode-overriddennodeid-fhirweb
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: overriddenNodeId
+    smilecdr/version: No App Version - Unit Testing
   annotations:
     {}
 spec:
@@ -327,18 +343,21 @@ spec:
   selector:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/name: smilecdr
+    smilecdr/nodeId: overriddenNodeId
 ---
 # Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: release-name-scdr-svc-pkg-registry
+  name: release-name-scdrnode-overriddennodeid-pkg-registry
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: overriddenNodeId
+    smilecdr/version: No App Version - Unit Testing
   annotations:
     {}
 spec:
@@ -351,18 +370,21 @@ spec:
   selector:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/name: smilecdr
+    smilecdr/nodeId: overriddenNodeId
 ---
 # Source: smilecdr/templates/scdr/scdr-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: release-name-scdr-svc-smart-auth
+  name: release-name-scdrnode-overriddennodeid-smart-auth
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: overriddenNodeId
+    smilecdr/version: No App Version - Unit Testing
   annotations:
     {}
 spec:
@@ -375,24 +397,28 @@ spec:
   selector:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/name: smilecdr
+    smilecdr/nodeId: overriddenNodeId
 ---
 # Source: smilecdr/templates/scdr/scdr-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: release-name-scdr
+  name: release-name-scdrnode-overriddenNodeId
   namespace: default
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: overriddenNodeId
+    smilecdr/version: No App Version - Unit Testing
 spec:
   replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/instance: release-name
       app.kubernetes.io/name: smilecdr
+      smilecdr/nodeId: overriddenNodeId
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -405,6 +431,8 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: smilecdr
         helm.sh/chart: No Chart Version - Unit Testing
+        smilecdr/nodeId: overriddenNodeId
+        smilecdr/version: No App Version - Unit Testing
     spec:
       imagePullSecrets:
         []
@@ -489,11 +517,11 @@ spec:
               name: scdr-volume-amq
       volumes:
         - configMap:
-            name: release-name-scdr-overriddennodeid-node
+            name: release-name-scdrnode-overriddennodeid
           name: scdr-config-release-name
         - configMap:
             defaultMode: 504
-            name: release-name-scdr-overriddennodeid-node
+            name: release-name-scdrnode-overriddennodeid
           name: scdr-smileutil
         - emptyDir:
             sizeLimit: 1Mi
@@ -510,6 +538,7 @@ spec:
           matchLabels:
             app.kubernetes.io/instance: release-name
             app.kubernetes.io/name: smilecdr
+            smilecdr/nodeId: overriddenNodeId
         matchLabelKeys:
         - pod-template-hash
         maxSkew: 1
@@ -519,6 +548,7 @@ spec:
           matchLabels:
             app.kubernetes.io/instance: release-name
             app.kubernetes.io/name: smilecdr
+            smilecdr/nodeId: overriddenNodeId
         matchLabelKeys:
         - pod-template-hash
         maxSkew: 1
@@ -529,12 +559,14 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "release-name-smilecdr-test-connection"
+  name: "release-name-overriddennodeid-test-connection"
   labels:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: No Chart Version - Unit Testing
+    smilecdr/nodeId: overriddenNodeId
+    smilecdr/version: No App Version - Unit Testing
   annotations:
     "helm.sh/hook": test
 spec:
@@ -542,7 +574,7 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['smilecdr-admin_web:9100']
+      args: ['release-name-scdrnode-overriddennodeid-fhir:8000']
       resources:
         limits:
           cpu: 10m
