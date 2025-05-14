@@ -4,4 +4,5 @@ A Helm Chart to install Smile CDR on Kubernetes
 
 ## Releases
 
-Latest release: {{ current_helm_version }}
+* Smile CDR Helm Chart: `v{{ current_helm_version }}`
+* Smile CDR: `{{ current_smile_cdr_version }}`
