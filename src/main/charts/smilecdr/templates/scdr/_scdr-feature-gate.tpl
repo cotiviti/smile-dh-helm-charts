@@ -60,6 +60,7 @@
      */ -}}
 {{- define "smilecdr.releases" -}}
   {{- $releases := dict
+    "2025.02" (dict "name" "" "latest" "R03")
     "2024.11" (dict "name" "" "latest" "R05")
     "2024.08" (dict "name" "" "latest" "R05")
     "2024.05" (dict "name" "" "latest" "R05")
