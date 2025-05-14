@@ -39,9 +39,7 @@ In general, when installing a current version of Smile CDR, we recommend you use
 
 | Helm Chart Version | Default Smile CDR Version | Oldest Supported Smile CDR Version |
 | ------------------ | ------------------------- | ---------------------------------- |
-| v3.0.0             | `2024.11.R05`             | `2023.11.R06`                      |
-| v2.0.0             | `2024.08.R01`             | `2023.08.R10`                      |
-| v1.0.0             | `2024.05.R03`             | `2023.05.R03`                      |
+{{ previous_versions_table }}
 
 !!! note
     When explicitly specifying a Smile CDR version, please refer to the full [version matrix](./version-matrix.md) to ensure compatibility for the version combination you require.
@@ -55,10 +53,12 @@ When such situations occur, you may need to switch to another release channel to
 
 Typically, if the current Helm Chart version is `{{ current_helm_version }}` (Smile CDR `{{ current_smile_cdr_version }}`), then the following versions would be available in other release channels.
 
-| Helm Chart Version | Smile CDR Pre-Release Version |
+| Helm Chart Version | Smile CDR Release |
 | - | - |
-| `{{ next_helm_major_version }}-beta.1` | `{{ next_smile_cdr_version }}` |
-| `{{ next_plus_1_helm_major_version }}-alpha.1` | `{{ next_plus_1_smile_cdr_version }}` |
+| `{{ pre_release_helm_version }}` | `{{ pre_release_smile_cdr_version }}` |
+| `{{ next_major_helm_version }}` | `{{ next_major_smile_cdr_version }}` |
+| `{{ beta_helm_version }}` | `{{ beta_smile_cdr_version }}` |
+| `{{ alpha_helm_version }}` | `{{ alpha_smile_cdr_version }}` |
 
 !!! note
     Refer to the prerelease sections of the [version matrix](./version-matrix.md#upcoming-release-previews) to see if there is a suitable Helm Chart version available.
@@ -97,7 +97,7 @@ Previously, the Smile CDR version was defined using `image.tag`. This is no long
 ##### Using Custom Image Tags
 If you're using custom builds or alternative container registries, you may continue to set `image.tag`, but you **must also** specify the correct `cdrVersion`.
 
-See [Choosing Smile CDR Version](#choosing-smile-cdr-version) for details.
+See [Choosing Smile CDR Version](#choosing-smile-cdr-versions) for details.
 
 ---
 

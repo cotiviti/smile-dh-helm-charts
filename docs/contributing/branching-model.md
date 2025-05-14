@@ -185,7 +185,7 @@ If the feature or functionality depends on a specific future version of Smile CD
 
     For example: If starting work on v3.0 on the  `next-major` branch, the source branch should already have a version `2.x.x` in order to ensure the resulting pre release will be version `3.x.x-next-major.1`.
 
-    See the [Post Release Tasks](#post-release-tasks) section for more info on updating `next-major`, `beta` and `alpha` branches.
+    <!-- See the [Post Release Tasks]() section for more info on updating `next-major`, `beta` and `alpha` branches. -->
 
 ### Examples
 
