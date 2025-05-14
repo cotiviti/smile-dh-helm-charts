@@ -3096,7 +3096,7 @@
 <li>The <code>MAJOR</code> version number is incremented</li>
 <li>The <code>MINOR</code> and <code>PATCH</code> version numbers are set to zero</li>
 <li>Includes any new breaking features or fixes that could not be included in the previous major release</li>
-<li>For example, version <code>3.0.0</code> defaults to Smile CDR <code>2024.11.R05</code>, and version <code>4.0.0-next-major.*</code> will default to Smile CDR <code>2025.02.PRE-*</code>.</li>
+<li>For example, version <code>2.0.1</code> defaults to Smile CDR <code>2024.08.R04</code>, and version <code>3.0.0</code> defaults to Smile CDR <code>2024.11.R05</code>.</li>
 </ul>
 <h3 id="minor-releases">Minor Releases<a class="headerlink" href="#minor-releases" title="Permanent link">&para;</a></h3>
 <p>Minor releases of the Smile CDR Helm Chart may occur whenever new non-breaking features are released.</p>
@@ -3122,7 +3122,7 @@
 <li>Named in the format <code>MAJOR.MINOR.PATCH-pre.n</code>, where <code>MAJOR.MINOR.PATCH</code> represents the version being previewed, and <code>n</code> is the pre release number.</li>
 <li>Incremental pre-releases before a minor or patch version update (e.g. upgrading from version <code>1.2.0-pre.5</code> to version <code>1.2.0-pre.6</code>) may include breaking changes.</li>
 <li>Used for testing and collaboration on new features for the current major release.</li>
-<li>Are <strong><em>not</em></strong> published to the stable release channel. You must configure the <code>pre-release</code> channel to use pre release versions of the Helm Chart. See <a href="../release-channels/">here</a></li>
+<li>Are <strong><em>not</em></strong> published to the stable release channel. You must configure the <code>pre-release</code> channel to use pre release vesions of the Helm Chart. See <a href="../release-channels/">here</a></li>
 </ul>
 <h3 id="next-major-releases">Next Major Releases<a class="headerlink" href="#next-major-releases" title="Permanent link">&para;</a></h3>
 <p>Next-major releases of the Smile CDR Helm Chart may occur prior to future major releases</p>
@@ -3130,7 +3130,7 @@
 <li>Named in the format <code>MAJOR.MINOR.PATCH-next.n</code>, where <code>MAJOR.MINOR.PATCH</code> represents the next major version being previewed, and <code>n</code> is the pre release number for the upcoming major release.</li>
 <li>Incremental pre-releases before a minor or patch version update (e.g. upgrading from version <code>2.0.0-pre.1</code> to version <code>2.0.0-pre.2</code>) may include breaking changes.</li>
 <li>Used for testing and collaboration on new features for the next major release, <code>n+1</code></li>
-<li>Are <strong><em>not</em></strong> published to the stable release channel. You must configure the <code>next-major</code> channel to use pre release versions of the Helm Chart. See <a href="../release-channels/">here</a></li>
+<li>Are <strong><em>not</em></strong> published to the stable release channel. You must configure the <code>next-major</code> channel to use pre release vesions of the Helm Chart. See <a href="../release-channels/">here</a></li>
 </ul>
 <!-- * After `2.1.0` is released, any future `3.x` pre-releases will not contain breaking changes. -->
 
@@ -3140,7 +3140,7 @@
 <li>Named in the format <code>MAJOR.MINOR.PATCH-beta.n</code>, where <code>MAJOR.MINOR.PATCH</code> represents the major version in beta, and <code>n</code> is the beta release number.</li>
 <li>Incremental beta releases before a major version update (e.g. upgrading from version <code>3.0.0-beta.2</code> to version <code>3.0.0-beta.3</code>) may include breaking changes.</li>
 <li>Used for testing and collaboration on new features for a future major release, <code>n+2</code></li>
-<li>Are <strong><em>not</em></strong> published to the stable release channel. You must configure the <code>beta</code> channel to use pre release versions of the Helm Chart. See <a href="../release-channels/">here</a></li>
+<li>Are <strong><em>not</em></strong> published to the stable release channel. You must configure the <code>beta</code> channel to use pre release vesions of the Helm Chart. See <a href="../release-channels/">here</a></li>
 </ul>
 <!-- * After `2.0.0` is released, future `3.x` minor or patch level releases will be developed on the `next` releases, starting at `3.0.0-next.1` -->
 
@@ -3150,7 +3150,7 @@
 <li>Named in the format <code>MAJOR.MINOR.PATCH-alpha.n</code>, where <code>MAJOR.MINOR.PATCH</code> represents the major version in alpha, and <code>n</code> is the alpha release number.</li>
 <li>Incremental alpha releases before a major version update (e.g. upgrading from version <code>4.0.0-beta.1</code> to version <code>4.0.0-beta.2</code>) may include breaking changes.</li>
 <li>Used for testing and collaboration on new features for a future  major release, <code>n+3</code></li>
-<li>Are <strong><em>not</em></strong> published to the stable release channel. You must configure the <code>alpha</code> channel to use pre release versions of the Helm Chart. See <a href="../release-channels/">here</a></li>
+<li>Are <strong><em>not</em></strong> published to the stable release channel. You must configure the <code>alpha</code> channel to use pre release vesions of the Helm Chart. See <a href="../release-channels/">here</a></li>
 </ul>
 <!-- * After `2.0.0` is released, future `4.x` minor or patch level releases will be developed on the `beta` releases, starting at `4.0.0-beta.1` -->
 
