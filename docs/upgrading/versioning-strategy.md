@@ -23,7 +23,7 @@ Major releases of the Smile CDR Helm Chart occur every 3 months, aligned with th
 * The `MAJOR` version number is incremented
 * The `MINOR` and `PATCH` version numbers are set to zero
 * Includes any new breaking features or fixes that could not be included in the previous major release
-* For example, version `2.0.1` defaults to Smile CDR `2024.08.R04`, and version `3.0.0` defaults to Smile CDR `2024.11.R05`.
+* For example, version `{{ current_helm_version }}` defaults to Smile CDR `{{ current_smile_cdr_version }}`, and version `{{ next_major_helm_version }}` will default to Smile CDR `{{ next_major_smile_cdr_version }}`.
 
 ### Minor Releases
 Minor releases of the Smile CDR Helm Chart may occur whenever new non-breaking features are released.
@@ -49,7 +49,7 @@ Pre-releases of the Smile CDR Helm Chart may occur prior to minor or patch level
 * Named in the format `MAJOR.MINOR.PATCH-pre.n`, where `MAJOR.MINOR.PATCH` represents the version being previewed, and `n` is the pre release number.
 * Incremental pre-releases before a minor or patch version update (e.g. upgrading from version `1.2.0-pre.5` to version `1.2.0-pre.6`) may include breaking changes.
 * Used for testing and collaboration on new features for the current major release.
-* Are ***not*** published to the stable release channel. You must configure the `pre-release` channel to use pre release vesions of the Helm Chart. See [here](release-channels.md)
+* Are ***not*** published to the stable release channel. You must configure the `pre-release` channel to use pre release versions of the Helm Chart. See [here](release-channels.md)
 
 ### Next Major Releases
 Next-major releases of the Smile CDR Helm Chart may occur prior to future major releases
@@ -57,7 +57,7 @@ Next-major releases of the Smile CDR Helm Chart may occur prior to future major 
 * Named in the format `MAJOR.MINOR.PATCH-next.n`, where `MAJOR.MINOR.PATCH` represents the next major version being previewed, and `n` is the pre release number for the upcoming major release.
 * Incremental pre-releases before a minor or patch version update (e.g. upgrading from version `2.0.0-pre.1` to version `2.0.0-pre.2`) may include breaking changes.
 * Used for testing and collaboration on new features for the next major release, `n+1`
-* Are ***not*** published to the stable release channel. You must configure the `next-major` channel to use pre release vesions of the Helm Chart. See [here](release-channels.md)
+* Are ***not*** published to the stable release channel. You must configure the `next-major` channel to use pre release versions of the Helm Chart. See [here](release-channels.md)
 <!-- * After `2.1.0` is released, any future `3.x` pre-releases will not contain breaking changes. -->
 
 ### Beta Releases
@@ -66,7 +66,7 @@ Beta releases of the Smile CDR Helm Chart may occur prior to future major releas
 * Named in the format `MAJOR.MINOR.PATCH-beta.n`, where `MAJOR.MINOR.PATCH` represents the major version in beta, and `n` is the beta release number.
 * Incremental beta releases before a major version update (e.g. upgrading from version `3.0.0-beta.2` to version `3.0.0-beta.3`) may include breaking changes.
 * Used for testing and collaboration on new features for a future major release, `n+2`
-* Are ***not*** published to the stable release channel. You must configure the `beta` channel to use pre release vesions of the Helm Chart. See [here](release-channels.md)
+* Are ***not*** published to the stable release channel. You must configure the `beta` channel to use pre release versions of the Helm Chart. See [here](release-channels.md)
 <!-- * After `2.0.0` is released, future `3.x` minor or patch level releases will be developed on the `next` releases, starting at `3.0.0-next.1` -->
 
 ### Alpha Releases
@@ -75,7 +75,7 @@ Alpha releases of the Smile CDR Helm Chart may occur prior to future major relea
 * Named in the format `MAJOR.MINOR.PATCH-alpha.n`, where `MAJOR.MINOR.PATCH` represents the major version in alpha, and `n` is the alpha release number.
 * Incremental alpha releases before a major version update (e.g. upgrading from version `4.0.0-beta.1` to version `4.0.0-beta.2`) may include breaking changes.
 * Used for testing and collaboration on new features for a future  major release, `n+3`
-* Are ***not*** published to the stable release channel. You must configure the `alpha` channel to use pre release vesions of the Helm Chart. See [here](release-channels.md)
+* Are ***not*** published to the stable release channel. You must configure the `alpha` channel to use pre release versions of the Helm Chart. See [here](release-channels.md)
 <!-- * After `2.0.0` is released, future `4.x` minor or patch level releases will be developed on the `beta` releases, starting at `4.0.0-beta.1` -->
 
 ## Breaking Change Features
