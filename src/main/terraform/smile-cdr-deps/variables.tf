@@ -101,7 +101,7 @@ variable "helm_repository" {
 variable "helm_repository_release_channel" {
   description = "The repository channel to use"
   type        = string
-  default     = "stable"
+  default     = "next-major"
   nullable    = false
 }
 

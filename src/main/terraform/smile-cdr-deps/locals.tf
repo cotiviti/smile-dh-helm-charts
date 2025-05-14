@@ -46,7 +46,7 @@ locals {
   helm_release_name = coalesce(var.helm_release_name, lower(local.name))
   helm_service_account_suffix = var.helm_service_account_suffix
   helm_repository_default = "https://gitlab.com/api/v4/projects/40759898/packages/helm"
-  helm_repository_stable_channel = "stable"
+  helm_repository_stable_channel = "next-major"
   
   helm_chart = var.helm_chart
 
@@ -59,7 +59,7 @@ locals {
   ## Determine Helm Chart version ##
   
   # This needs to be updated during a release!
-  helm_chart_default_version = "3.0.0"
+  helm_chart_default_version = "v4.0.0-next-major.1"
   
   ### NOTE: Due to what seems like a bug in the helm_release module, setting `devel` to true can cause terraform to always update even if there are no changes
   ### To circumvent this for now, we will manually set the version to ">0.0.0-0" rather than setting `devel`
