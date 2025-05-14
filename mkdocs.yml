@@ -109,6 +109,7 @@ nav:
         - 'Release Channels': upgrading/release-channels.md
         - 'Supported Versions': upgrading/version-matrix.md
       - 'Changelog':
+        - "Version 4.x": charts/smilecdr/CHANGELOG-V4.md
         - "Version 3.x": charts/smilecdr/CHANGELOG-V3.md
         - "Version 2.x": charts/smilecdr/CHANGELOG-V2.md
         - "Version 1.x": charts/smilecdr/CHANGELOG-V1.md
