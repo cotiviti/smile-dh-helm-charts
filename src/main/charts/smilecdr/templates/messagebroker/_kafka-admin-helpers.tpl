@@ -5,7 +5,7 @@ Common labels for Kafka Admin pod
 helm.sh/chart: {{ include "smilecdr.chart" . }}
 {{ include "kafka.admin.selectorLabels" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-smilecdr/version: {{ include "smilecdr.cdrVersion" . }}
+smilecdr/version: {{ (include "smilecdr.cdrVersion" . | fromYaml).version }}
 {{- if .Values.labels -}}
 {{ with .Values.labels }}
 {{ toYaml . }}
