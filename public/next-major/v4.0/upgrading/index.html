@@ -2837,6 +2837,48 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Choosing Smile CDR Versions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pin-your-smile-cdr-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pin Your Smile CDR Version
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#future-and-unsupported-smile-cdr-versions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Future and Unsupported Smile CDR Versions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#working-with-pre-release-versions-of-smile-cdr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Working with Pre-Release Versions of Smile CDR
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overriding-version-restrictioon" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overriding Version Restrictioon
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2845,30 +2887,6 @@
       Using Custom Image Tags
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Using Custom Image Tags">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#smile-cdr-version-compatibility" class="md-nav__link">
-    <span class="md-ellipsis">
-      Smile CDR Version Compatibility
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#using-pre-release-versions-of-smile-cdr" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using Pre Release Versions of Smile CDR
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2977,36 +2995,26 @@
 <h1 id="upgrading-the-helm-chart-and-smile-cdr">Upgrading the Helm Chart and Smile CDR<a class="headerlink" href="#upgrading-the-helm-chart-and-smile-cdr" title="Permanent link">&para;</a></h1>
 <h2 id="choosing-helm-chart-versions">Choosing Helm Chart Versions<a class="headerlink" href="#choosing-helm-chart-versions" title="Permanent link">&para;</a></h2>
 <p>As these Helm Charts follow SemVer 2.0, the version format is <code>MAJOR.MINOR.PATCH</code> with an optional suffix depending on the release channel being used (e.g. pre release (<code>-pre.n</code>) or next major release (<code>-next.n</code>))</p>
-<p>Refer to the <a href="versioning-strategy/">Versioning Strategy</a> page for more information.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is recommended to always use the latest published version of the Helm Chart.<br>
+Refer to the <a href="versioning-strategy/">Versioning Strategy</a> page for more information on the Helm Chart versions.</p>
+</div>
 <h2 id="choosing-smile-cdr-versions">Choosing Smile CDR Versions<a class="headerlink" href="#choosing-smile-cdr-versions" title="Permanent link">&para;</a></h2>
-<p>Each major version of the Smile CDR Helm Chart defaults to the latest Smile CDR GA release at the time of publishing.</p>
-<p>To avoid unexpected changes in Smile CDR version when upgrading the Helm Chart, you should explicitly configure the required version.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Any version of Smile CDR can be specified as long as it falls within the range of supported versions for the Helm Chart version you are using.<br>
-See the <a href="#smile-cdr-version-compatibility">version compatibility</a> section and the <a href="version-matrix/">version matrix</a>.</p>
-</div>
-<p>You should override the default version of Smile CDR used by the Helm Chart by adding <code>cdrVersion</code> in your Helm values file. i.e:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">cdrVersion</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025.02.R01&quot;</span>
-</code></pre></div>
-<h2 id="using-custom-image-tags">Using Custom Image Tags<a class="headerlink" href="#using-custom-image-tags" title="Permanent link">&para;</a></h2>
-<p>By default, the Helm Chart will select the correct Smile CDR image from the official container repository based on the provided Smile CDR version. If you are using a different image repository, your tags may not match the upstream versions.</p>
-<p>In this case, you must still specify the Smile CDR version in addition to providing your image tag in your Helm values file. i.e.:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">cdrVersion</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025.02.R01&quot;</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">image</span><span class="p">:</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-custom-build-tag</span>
-</code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If you specify an image tag without providing <code>cdrVersion</code>, the Helm Chart will display an error.</p>
-</div>
-<h3 id="smile-cdr-version-compatibility">Smile CDR Version Compatibility<a class="headerlink" href="#smile-cdr-version-compatibility" title="Permanent link">&para;</a></h3>
-<p>In general, when installing a current version of Smile CDR, we recommend you use the latest version of the Helm Chart. Each new version of the Helm Chart will support the previous 4 Smile CDR GA releases e.g:</p>
+<p>Each major version of the Helm Chart supports the following Smile CDR releases at the time of publishing.</p>
+<ul>
+<li>Defaults to the current Smile CDR GA release</li>
+<li>Supports future patch level releases for the current Smile CDR GA release</li>
+<li>Does <strong><em>NOT</em></strong> support future Smile CDR GA releases</li>
+<li>Supports the previous 4 GA releases</li>
+</ul>
+<p>This table shows the current and previous stable releases:</p>
 <table>
 <thead>
 <tr>
 <th>Helm Chart Version</th>
 <th>Default Smile CDR Version</th>
+<th>Max Smile CDR Version</th>
 <th>Oldest Supported Smile CDR Version</th>
 </tr>
 </thead>
@@ -3014,29 +3022,38 @@ See the <a href="#smile-cdr-version-compatibility">version compatibility</a> sec
 <tr>
 <td>v3.0.0</td>
 <td><code>2024.11.R05</code></td>
+<td><code>2024.11.*</code></td>
 <td><code>2023.11.R01</code></td>
 </tr>
 <tr>
 <td>v2.0.0</td>
 <td><code>2024.08.R01</code></td>
+<td><code>2024.08.*</code></td>
 <td><code>2023.08.R01</code></td>
 </tr>
 <tr>
 <td>v1.1.0</td>
 <td><code>2024.05.R03</code></td>
+<td><code>2024.05.*</code></td>
 <td><code>2023.05.R01</code></td>
 </tr>
 </tbody>
 </table>
+<p><em>See the <a href="version-matrix/">version matrix</a> for the full list of supported combinations.</em></p>
+<h3 id="pin-your-smile-cdr-version">Pin Your Smile CDR Version<a class="headerlink" href="#pin-your-smile-cdr-version" title="Permanent link">&para;</a></h3>
+<p>To ensure predictable deployments, you should explicitly set the desired Smile CDR version using the <code>cdrVersion</code> value in your Helm values file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">cdrVersion</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025.02.R01&quot;</span>
+</code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>When explicitly specifying a Smile CDR version, please refer to the full <a href="version-matrix/">version matrix</a> to ensure compatibility for the version combination you require.</p>
+<p>Refer to the <a href="version-matrix/">version matrix</a> for details on available versions.</p>
 </div>
-<h3 id="using-pre-release-versions-of-smile-cdr">Using Pre Release Versions of Smile CDR<a class="headerlink" href="#using-pre-release-versions-of-smile-cdr" title="Permanent link">&para;</a></h3>
-<p>On occasion, you may be working directly with the Smile Digital Health support teams to deploy or test Pre-Release versions of Smile CDR.</p>
-<p>Due to unforeseen changes in future versions of Smile CDR, there may be compatibility issues with the current version of the Helm Chart.</p>
-<p>When such situations occur, you may need to switch to another release channel to use a pre release or beta version of the Helm Chart that will work with the Pre-Release version of Smile CDR that you are attempting to use.</p>
-<p>Typically, if the current Helm Chart version is <code>4.0.0-next-major.1</code> (Smile CDR <code>2025.02.R01</code>), then the following versions would be available in other release channels.</p>
+<h3 id="future-and-unsupported-smile-cdr-versions">Future and Unsupported Smile CDR Versions<a class="headerlink" href="#future-and-unsupported-smile-cdr-versions" title="Permanent link">&para;</a></h3>
+<p>By default, this Helm Chart restricts version selection to supported Smile CDR GA Releases as shown in the table above.</p>
+<p>If you want to use a newer Smile CDR GA Release, you should upgrade to the latest Helm Chart.</p>
+<h3 id="working-with-pre-release-versions-of-smile-cdr">Working with Pre-Release Versions of Smile CDR<a class="headerlink" href="#working-with-pre-release-versions-of-smile-cdr" title="Permanent link">&para;</a></h3>
+<p>When working with Smile Digital Health support to test Pre-Release Smile CDR builds, you may need to use a Helm Chart from a future or preview release channel.</p>
+<p>For example, assuming the current Helm Chart version is <code>4.0.0-next-major.2</code>, supporting Smile CDR <code>2025.02.R01</code>, you may find the following versions in alternate channels:</p>
 <table>
 <thead>
 <tr>
@@ -3045,10 +3062,6 @@ See the <a href="#smile-cdr-version-compatibility">version compatibility</a> sec
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>4.1.0-pre.*</code></td>
-<td><code>2025.02.R01</code></td>
-</tr>
 <tr>
 <td><code>5.0.0-next-major.*</code></td>
 <td><code>2025.05.PRE-*</code></td>
@@ -3065,8 +3078,28 @@ See the <a href="#smile-cdr-version-compatibility">version compatibility</a> sec
 </table>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Refer to the prerelease sections of the <a href="version-matrix/#upcoming-release-previews">version matrix</a> to see if there is a suitable Helm Chart version available.</p>
-<p>Refer to <a href="release-channels/">Release Channels</a> for more information on selecting and switching release channels.</p>
+<p>See the <a href="version-matrix/#upcoming-release-previews">version matrix</a> and the <a href="release-channels/">release channels</a> documentation for more guidance on using alternative release channels.</p>
+</div>
+<p>To use a Smile CDR Pre-Release, you should use a Helm Chart version from one of the preview release channel.</p>
+<p>Refer to the <a href="version-matrix/#upcoming-release-previews">Upcoming Release Previews section of the Version Matrix</a> to find a suitable Helm Chart version and release channel.</p>
+<h3 id="overriding-version-restrictioon">Overriding Version Restrictioon<a class="headerlink" href="#overriding-version-restrictioon" title="Permanent link">&para;</a></h3>
+<p>If you are unable to update your Helm Chart version, or if there is no preview release available for the version of Smile CDR that you wish to use, you can bypass version restrictions by setting <code>allowUnsupportedCdrVersions: true</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">cdrVersion</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2095.02.R01&quot;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">allowUnsupportedCdrVersions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Using this override may cause issues with some Helm Chart features. Only use it for testing when a compatible Helm Chart is unavailable.</p>
+</div>
+<h2 id="using-custom-image-tags">Using Custom Image Tags<a class="headerlink" href="#using-custom-image-tags" title="Permanent link">&para;</a></h2>
+<p>If you're using a custom container repository or non-standard image tags, specify both the Smile CDR version and the custom image tag in your Helm values file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">cdrVersion</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025.02.R01&quot;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">image</span><span class="p">:</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-custom-build-tag</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Setting an image tag without <code>cdrVersion</code> will cause an error. The chart still requires a known version to enable compatibility checks.</p>
 </div>
 <h2 id="upgrading-from-v2x-to-v3x">Upgrading from <code>v2.x</code> to <code>v3.x</code><a class="headerlink" href="#upgrading-from-v2x-to-v3x" title="Permanent link">&para;</a></h2>
 <p>This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart version <code>v2.x</code> to <code>v3.x</code>.</p>
