@@ -1,6 +1,6 @@
 # Smile CDR
 
-![Version: 0.0.0-local](https://img.shields.io/badge/Version-0.0.0--local-informational?style=flat-square) ![Smile CDR Version: 2024.11.R05](https://img.shields.io/badge/Smile%20CDR%20Version-2024.11.R05-informational?style=flat-square)
+![Version: 0.0.0-local](https://img.shields.io/badge/Version-0.0.0--local-informational?style=flat-square) ![Smile CDR Version: 2025.02.R03](https://img.shields.io/badge/Smile%20CDR%20Version-2025.02.R03-informational?style=flat-square)
 
 This chart provides a flexible and consistent process to deploy Smile CDR in a self-managed Kubernetes cluster.
 

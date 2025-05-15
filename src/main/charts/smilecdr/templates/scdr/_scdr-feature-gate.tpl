@@ -16,7 +16,7 @@
 
   {{- if $feature -}}
     {{- $min := default "2024.05" $feature.min -}}
-    {{- $max := default "2025.02" $feature.max -}}
+    {{- $max := default "9999.99" $feature.max -}}
 
     {{- $version := regexFind "[0-9]{4}\\.[0-9]{2}" $cdrVersion -}}
 
@@ -45,14 +45,21 @@
      */ -}}
 {{- define "smilecdr.checkVersion" -}}
   {{- $cdrVersion := toString . -}}
-  {{- $result := dict "supported" false -}}
+  {{- $result := dict "supported" false "error" "" -}}
   {{- $releases := include "smilecdr.releases" . | fromYaml -}}
 
   {{- $cdrRelease := regexFind "[0-9]{4}\\.[0-9]{2}" $cdrVersion -}}
-  {{- if not (index $releases $cdrRelease) -}}
+  {{- /* if not (index $releases $cdrRelease) -}}
     {{- fail (printf "\nUnsupported Smile CDR version: %s\n\nPlease select an available version from the following Smile CDR releases:\n* %s" $cdrVersion (join "\n* " (keys $releases))) -}}
+  {{- end */ -}}
+  {{- if (index $releases $cdrRelease) -}}
+    {{- $_ := set $result "supported" true -}}
+  {{- else -}}
+    {{- $_ := set $result "supported" false -}}
+    {{- $_ := set $result "error" (printf "\nUnsupported Smile CDR version: %s\n\nPlease select an available version from the following Smile CDR releases:\n* %s" $cdrVersion (join "\n* " (keys $releases))) -}}
   {{- end -}}
-
+  {{- /* fail (printf "%s" $result) */ -}}
+  {{- $result | toYaml -}}
 {{- end -}}
 
 {{- /* Smile CDR Version Matrix

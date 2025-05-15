@@ -81,8 +81,13 @@ Define CDR Nodes
 
       {{- $chartWarnings = concat $chartWarnings (include "smilecdr.verifyNodeConfig" (merge $parsedNodeValues $rootCTX) | fromYamlArray) -}}
 
-      {{- $_ := set $parsedNodeValues "cdrVersionInternal" (include "smilecdr.cdrVersion.internal" (merge $parsedNodeValues $rootCTX)) -}}
-      {{- $_ := set $parsedNodeValues "cdrVersion" (include "smilecdr.cdrVersion" (merge $parsedNodeValues $rootCTX)) -}}
+      {{- $cdrVersionInfo := (include "smilecdr.cdrVersion" (merge $parsedNodeValues $rootCTX) | fromYaml ) -}}
+      {{- $_ := set $parsedNodeValues "cdrVersionInternal" $cdrVersionInfo.internalVersion -}}
+      {{- $_ := set $parsedNodeValues "cdrVersion" $cdrVersionInfo.version -}}
+
+      {{- if $cdrVersionInfo.warnings -}}
+        {{- $chartWarnings = concat $chartWarnings $cdrVersionInfo.warnings -}}
+      {{- end -}}
 
       {{- /* Set up Smile CDR image and version
            * The cdrVersion determined here is then used for feature gates

@@ -9,7 +9,7 @@ version_info = [
             'chart_version': '3.0.0',
             'cdr_versions': {
                 'default': '2024.11.R05',
-                'max': '2024.11.R05',
+                'max': '2024.11.*',
                 'min': '2023.11.R01'
             }
         },
@@ -17,7 +17,7 @@ version_info = [
             'chart_version': '2.0.0',
             'cdr_versions': {
                 'default': '2024.08.R01',
-                'max': '2024.08.R01',
+                'max': '2024.08.*',
                 'min': '2023.08.R01'
             }
         },
@@ -25,7 +25,7 @@ version_info = [
             'chart_version': '1.1.0',
             'cdr_versions': {
                 'default': '2024.05.R03',
-                'max': '2024.05.R04',
+                'max': '2024.05.*',
                 'min': '2023.05.R01'
             }
         }
@@ -108,7 +108,7 @@ def define_env(env):
     env.variables.previous_versions_table = ""
 
     for version in version_info:
-        line = f'| v{version["chart_version"]} | `{version["cdr_versions"]["default"]}` | `{version["cdr_versions"]["min"]}` |\n'
+        line = f'| v{version["chart_version"]} | `{version["cdr_versions"]["default"]}` | `{version["cdr_versions"]["max"]}` | `{version["cdr_versions"]["min"]}` |\n'
         env.variables.previous_versions_table += line
 class ChartVersion:
 
