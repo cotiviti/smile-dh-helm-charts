@@ -13,13 +13,12 @@ Before choosing a version of the Smile CDR Helm Chart or the core Smile CDR prod
 These are the current stable releases, published in the `stable` release channel
 <!-- {{ version_matrix_stable }} -->
 
-| Helm Chart Version | Default Smile CDR Version | Oldest Supported Smile CDR Version |
-| ------------------ | ------------------------- | ---------------------------------- |
+| Helm Chart Version  | Default Smile CDR Version | Max Smile CDR Version | Oldest Supported Smile CDR Version |
+| ------------------- | ------------------------- | --------------------- | ---------------------------------- |
 {{ previous_versions_table }}
 
 ## Upcoming Release Previews
-These future versions will be published in one of the prerelease channels
-<!-- {{ version_matrix_devel }} -->
+These future versions may be published in one of the preview release channels if early access to specific Smile CDR Pre-Release versions is required.
 
 | Helm Chart Version  | Release Channel | Default Smile CDR Version | Oldest Supported Smile CDR Version |
 | ------------------  | --------------- | ------------------------- | ---------------------------------- |
