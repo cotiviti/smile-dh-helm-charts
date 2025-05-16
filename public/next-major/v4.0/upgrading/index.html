@@ -2891,28 +2891,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#upgrading-from-v2x-to-v3x" class="md-nav__link">
+  <a href="#migration-guides" class="md-nav__link">
     <span class="md-ellipsis">
-      Upgrading from v2.x to v3.x
+      Migration Guides
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Upgrading from v2.x to v3.x">
+    <nav class="md-nav" aria-label="Migration Guides">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#overview-of-changes" class="md-nav__link">
+  <a href="#v2x-to-v3x" class="md-nav__link">
     <span class="md-ellipsis">
-      Overview of Changes
+      v2.x to v3.x
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#actionable-items" class="md-nav__link">
+  <a href="#v1x-to-v2x" class="md-nav__link">
     <span class="md-ellipsis">
-      Actionable Items
+      v1.x to v2.x
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-release-versions-to-v1x-or-above" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-Release Versions to v1.x or above
     </span>
   </a>
   
@@ -2920,48 +2929,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#upgrading-from-v1x-to-v2x" class="md-nav__link">
-    <span class="md-ellipsis">
-      Upgrading from v1.x to v2.x
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Upgrading from v1.x to v2.x">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#overview-of-changes_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Overview of Changes
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#actionable-items_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Actionable Items
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#upgrading-from-pre-release-versions-to-v1x-or-above" class="md-nav__link">
-    <span class="md-ellipsis">
-      Upgrading From Pre-Release Versions to v1.x or above
-    </span>
-  </a>
   
 </li>
       
@@ -3101,10 +3068,11 @@ Refer to the <a href="versioning-strategy/">Versioning Strategy</a> page for mor
 <p class="admonition-title">Note</p>
 <p>Setting an image tag without <code>cdrVersion</code> will cause an error. The chart still requires a known version to enable compatibility checks.</p>
 </div>
-<h2 id="upgrading-from-v2x-to-v3x">Upgrading from <code>v2.x</code> to <code>v3.x</code><a class="headerlink" href="#upgrading-from-v2x-to-v3x" title="Permanent link">&para;</a></h2>
+<h2 id="migration-guides">Migration Guides<a class="headerlink" href="#migration-guides" title="Permanent link">&para;</a></h2>
+<h3 id="v2x-to-v3x"><code>v2.x</code> to <code>v3.x</code><a class="headerlink" href="#v2x-to-v3x" title="Permanent link">&para;</a></h3>
 <p>This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart version <code>v2.x</code> to <code>v3.x</code>.</p>
 <hr />
-<h3 id="overview-of-changes">Overview of Changes<a class="headerlink" href="#overview-of-changes" title="Permanent link">&para;</a></h3>
+<h4 id="overview-of-changes">Overview of Changes<a class="headerlink" href="#overview-of-changes" title="Permanent link">&para;</a></h4>
 <ul>
 <li>Default Smile CDR version updated from <code>2024.08.R01</code> to <code>2024.11.R05</code>.</li>
 <li>You must now explicitly specify the Smile CDR version in your values file.</li>
@@ -3112,48 +3080,48 @@ Refer to the <a href="versioning-strategy/">Versioning Strategy</a> page for mor
 <li><code>oldResourceNaming</code> is now disabled by default.</li>
 <li><code>node.environment.type</code> is now set in the Smile CDR properties file (default: <code>DEV</code>) for Smile CDR versions <code>2024.08.R01</code> and above.</li>
 </ul>
-<h4 id="feature-gates-informational">Feature Gates (Informational)<a class="headerlink" href="#feature-gates-informational" title="Permanent link">&para;</a></h4>
+<h5 id="feature-gates-informational">Feature Gates (Informational)<a class="headerlink" href="#feature-gates-informational" title="Permanent link">&para;</a></h5>
 <p>This chart introduces feature gates that enable or disable behavior based on the Smile CDR version. To ensure these features work correctly, the version must be explicitly specified if it differs from the chart default.</p>
 <hr />
-<h3 id="actionable-items">Actionable Items<a class="headerlink" href="#actionable-items" title="Permanent link">&para;</a></h3>
+<h4 id="actionable-items">Actionable Items<a class="headerlink" href="#actionable-items" title="Permanent link">&para;</a></h4>
 <p>Review the following action items to address any potentially breaking changes.</p>
-<h4 id="specifying-smile-cdr-version">Specifying Smile CDR Version<a class="headerlink" href="#specifying-smile-cdr-version" title="Permanent link">&para;</a></h4>
+<h5 id="specifying-smile-cdr-version">Specifying Smile CDR Version<a class="headerlink" href="#specifying-smile-cdr-version" title="Permanent link">&para;</a></h5>
 <p>Previously, the Smile CDR version was defined using <code>image.tag</code>. This is no longer sufficient, especially when using custom tags that do not follow Smile’s versioning scheme.</p>
 <ul>
 <li><strong>New Requirement:</strong> Use the <code>cdrVersion</code> setting instead of <code>image.tag</code>.</li>
 <li>If <code>cdrVersion</code> is omitted, the chart default will be used, and a warning will be displayed during <code>helm install</code> or <code>helm upgrade</code>.</li>
 <li>Remove <code>image.tag</code> unless using a custom image (see below).</li>
 </ul>
-<h5 id="using-custom-image-tags_1">Using Custom Image Tags<a class="headerlink" href="#using-custom-image-tags_1" title="Permanent link">&para;</a></h5>
+<h6 id="using-custom-image-tags_1">Using Custom Image Tags<a class="headerlink" href="#using-custom-image-tags_1" title="Permanent link">&para;</a></h6>
 <p>If you're using custom builds or alternative container registries, you may continue to set <code>image.tag</code>, but you <strong>must also</strong> specify the correct <code>cdrVersion</code>.</p>
 <p>See <a href="#choosing-smile-cdr-versions">Choosing Smile CDR Version</a> for details.</p>
 <hr />
-<h4 id="deprecation-of-oldresourcenaming">Deprecation of <code>oldResourceNaming</code><a class="headerlink" href="#deprecation-of-oldresourcenaming" title="Permanent link">&para;</a></h4>
+<h5 id="deprecation-of-oldresourcenaming">Deprecation of <code>oldResourceNaming</code><a class="headerlink" href="#deprecation-of-oldresourcenaming" title="Permanent link">&para;</a></h5>
 <p>The <code>oldResourceNaming</code> flag now defaults to <code>false</code>, in preparation for its removal in a future release.</p>
 <ul>
 <li>If you have already set <code>oldResourceNaming: false</code>, no action is needed.</li>
 <li>If not, upgrading will change the names of Kubernetes resources such as services and ingress. Review any dependent resources (e.g., ALB configuration, IAM roles) to ensure compatibility.</li>
 <li><code>oldResourceNaming</code> can still be manually set to <code>true</code> if more time is needed to review the changes. Note that it <strong><em>WILL</em></strong> be removed in a future version of the Helm Chart.</li>
 </ul>
-<h2 id="upgrading-from-v1x-to-v2x">Upgrading from <code>v1.x</code> to <code>v2.x</code><a class="headerlink" href="#upgrading-from-v1x-to-v2x" title="Permanent link">&para;</a></h2>
+<h3 id="v1x-to-v2x"><code>v1.x</code> to <code>v2.x</code><a class="headerlink" href="#v1x-to-v2x" title="Permanent link">&para;</a></h3>
 <p>This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart version <code>v1.x</code> to <code>v2.x</code>.</p>
 <hr />
-<h3 id="overview-of-changes_1">Overview of Changes<a class="headerlink" href="#overview-of-changes_1" title="Permanent link">&para;</a></h3>
+<h4 id="overview-of-changes_1">Overview of Changes<a class="headerlink" href="#overview-of-changes_1" title="Permanent link">&para;</a></h4>
 <ul>
 <li>Default Smile CDR version updated from <code>2024.05.R01</code> to <code>2024.08.R01</code>.</li>
 <li>Default context root for the Admin JSON module has changed from <code>json-admin</code> to <code>admin_json</code></li>
 </ul>
 <hr />
-<h3 id="actionable-items_1">Actionable Items<a class="headerlink" href="#actionable-items_1" title="Permanent link">&para;</a></h3>
+<h4 id="actionable-items_1">Actionable Items<a class="headerlink" href="#actionable-items_1" title="Permanent link">&para;</a></h4>
 <p>Review the following action items to address any potentially breaking changes.</p>
-<h4 id="specifying-smile-cdr-version_1">Specifying Smile CDR Version<a class="headerlink" href="#specifying-smile-cdr-version_1" title="Permanent link">&para;</a></h4>
+<h5 id="specifying-smile-cdr-version_1">Specifying Smile CDR Version<a class="headerlink" href="#specifying-smile-cdr-version_1" title="Permanent link">&para;</a></h5>
 <p>In order to prevent unexpected upgrades to Smile CDR when updating the Helm Chart, you should set the Smile CDR version using <code>image.tag</code></p>
-<h4 id="admin-json-context-root">Admin JSON Context Root<a class="headerlink" href="#admin-json-context-root" title="Permanent link">&para;</a></h4>
+<h5 id="admin-json-context-root">Admin JSON Context Root<a class="headerlink" href="#admin-json-context-root" title="Permanent link">&para;</a></h5>
 <p>The default context path for the Admin JSON module has been updated to align with the Smile CDR default.</p>
 <p>This change does not affect the operation of your Smile CDR deployment. However, if any upstream systems rely on the previous context path, you may need to update them accordingly.</p>
 <p>If you have explicitly configured a custom context path for the Admin JSON module, this change will not impact your deployment.</p>
 <hr />
-<h2 id="upgrading-from-pre-release-versions-to-v1x-or-above">Upgrading From Pre-Release Versions to <code>v1.x</code> or above<a class="headerlink" href="#upgrading-from-pre-release-versions-to-v1x-or-above" title="Permanent link">&para;</a></h2>
+<h3 id="pre-release-versions-to-v1x-or-above">Pre-Release Versions to <code>v1.x</code> or above<a class="headerlink" href="#pre-release-versions-to-v1x-or-above" title="Permanent link">&para;</a></h3>
 <p>This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart pre-release versions <code>v1.0.0-pre.n</code> to <code>v1.x</code> or higher.</p>
 <hr />
 <p>If you have previously installed Smile CDR using the <code>1.0.0-pre.x</code> pre-release versions of the Helm Chart, then you will need to adjust your deployment process to use the <code>stable</code> release channel before you can use the officially supported versions.</p>
