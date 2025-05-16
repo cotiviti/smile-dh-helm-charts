@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: smilecdr-0.0.0-local
     smilecdr/nodeId: masterdev
-    smilecdr/version: 2024.11.R05
+    smilecdr/version: 2025.02.R03
 spec:
   maxUnavailable: 1
   selector:
@@ -32,7 +32,7 @@ metadata:
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: smilecdr-0.0.0-local
     smilecdr/nodeId: masterdev
-    smilecdr/version: 2024.11.R05
+    smilecdr/version: 2025.02.R03
 data:
   cdr-config-Master.properties: |-
     ################################################################################
@@ -260,7 +260,7 @@ metadata:
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: smilecdr-0.0.0-local
     smilecdr/nodeId: masterdev
-    smilecdr/version: 2024.11.R05
+    smilecdr/version: 2025.02.R03
   annotations:
     {}
 spec:
@@ -287,7 +287,7 @@ metadata:
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: smilecdr-0.0.0-local
     smilecdr/nodeId: masterdev
-    smilecdr/version: 2024.11.R05
+    smilecdr/version: 2025.02.R03
   annotations:
     {}
 spec:
@@ -314,7 +314,7 @@ metadata:
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: smilecdr-0.0.0-local
     smilecdr/nodeId: masterdev
-    smilecdr/version: 2024.11.R05
+    smilecdr/version: 2025.02.R03
   annotations:
     {}
 spec:
@@ -341,7 +341,7 @@ metadata:
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: smilecdr-0.0.0-local
     smilecdr/nodeId: masterdev
-    smilecdr/version: 2024.11.R05
+    smilecdr/version: 2025.02.R03
   annotations:
     {}
 spec:
@@ -368,7 +368,7 @@ metadata:
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: smilecdr-0.0.0-local
     smilecdr/nodeId: masterdev
-    smilecdr/version: 2024.11.R05
+    smilecdr/version: 2025.02.R03
   annotations:
     {}
 spec:
@@ -395,7 +395,7 @@ metadata:
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: smilecdr-0.0.0-local
     smilecdr/nodeId: masterdev
-    smilecdr/version: 2024.11.R05
+    smilecdr/version: 2025.02.R03
   annotations:
     {}
 spec:
@@ -422,7 +422,7 @@ metadata:
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: smilecdr-0.0.0-local
     smilecdr/nodeId: masterdev
-    smilecdr/version: 2024.11.R05
+    smilecdr/version: 2025.02.R03
 spec:
   replicas: 1
   selector:
@@ -443,7 +443,7 @@ spec:
         app.kubernetes.io/name: smilecdr
         helm.sh/chart: smilecdr-0.0.0-local
         smilecdr/nodeId: masterdev
-        smilecdr/version: 2024.11.R05
+        smilecdr/version: 2025.02.R03
     spec:
       imagePullSecrets:
         []
@@ -464,7 +464,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.smilecdr.com/smilecdr:2024.11.R05"
+          image: "docker.smilecdr.com/smilecdr:2025.02.R03"
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
@@ -739,7 +739,7 @@ metadata:
     app.kubernetes.io/name: smilecdr
     helm.sh/chart: smilecdr-0.0.0-local
     smilecdr/nodeId: masterdev
-    smilecdr/version: 2024.11.R05
+    smilecdr/version: 2025.02.R03
   annotations:
     "helm.sh/hook": test
 spec:

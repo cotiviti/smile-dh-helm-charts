@@ -3,7 +3,7 @@ Before choosing a version of the Smile CDR Helm Chart or the core Smile CDR prod
 
 ## Current Stable Version
 * Smile CDR Helm Chart: `{{ current_helm_version }}`
-* Smile CDR: `2024.11.R05`
+* Smile CDR: `{{ current_smile_cdr_version }}`
 
 <!-- ## Next Upcoming Major Version
 * Smile CDR Helm Chart: `{{ next_smile_cdr_version }}`
@@ -13,21 +13,16 @@ Before choosing a version of the Smile CDR Helm Chart or the core Smile CDR prod
 These are the current stable releases, published in the `stable` release channel
 <!-- {{ version_matrix_stable }} -->
 
-| Helm Chart Version | Default Smile CDR Version | Oldest Supported Smile CDR Version |
-| ------------------ | ------------------------- | ---------------------------------- |
-| v3.0.0             | `2024.11.R05`             | `2023.11.R06`                      |
-| v2.0.0             | `2024.08.R01`             | `2023.08.R10`                      |
-| v1.1.1             | `2024.05.R04`             | `2023.05.R03`                      |
-| v1.1.0             | `2024.05.R04`             | `2023.05.R03`                      |
-| v1.0.0             | `2024.05.R03`             | `2023.05.R03`                      |
+| Helm Chart Version  | Default Smile CDR Version | Max Smile CDR Version | Oldest Supported Smile CDR Version |
+| ------------------- | ------------------------- | --------------------- | ---------------------------------- |
+{{ previous_versions_table }}
 
 ## Upcoming Release Previews
-These future versions will be published in one of the prerelease channels
-<!-- {{ version_matrix_devel }} -->
+These future versions may be published in one of the preview release channels if early access to specific Smile CDR Pre-Release versions is required.
 
 | Helm Chart Version  | Release Channel | Default Smile CDR Version | Oldest Supported Smile CDR Version |
 | ------------------  | --------------- | ------------------------- | ---------------------------------- |
-| v3.1.0-pre.*        | `pre-release`   | `2024.11.PRE-*`           | `2023.11.R06`                      |
-| v4.0.0-next-major.* | `next-major`    | `2025.02.PRE-*`           | `2024.02.R07`                      |
-| v5.0.0-beta.*       | `beta`          | `2025.05.PRE-*`           | `2024.05.R05`                      |
-| v6.0.0-alpha.*      | `alpha`         | `2025.08.PRE-*`           | `2024.08.R05`                      |
+| v{{ pre_release_helm_version }} | `pre-release` | `{{ pre_release_smile_cdr_version }}` | `{{ pre_release_smile_cdr_version_min }}` |
+| v{{ next_major_helm_version }}  | `next-major`  | `{{ next_major_smile_cdr_version }}`  | `{{ next_major_smile_cdr_version_min }}`  |
+| v{{ beta_helm_version }}        | `beta`        | `{{ beta_smile_cdr_version }}`        | `{{ beta_smile_cdr_version_min }}`        |
+| v{{ alpha_helm_version }}       | `alpha`       | `{{ alpha_smile_cdr_version }}`       | `{{ alpha_smile_cdr_version_min }}`       |

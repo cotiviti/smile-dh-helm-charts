@@ -18,7 +18,7 @@ The main components that are included in this Terraform Quickstart Project:
 * **Amazon VPC** - A VPC will be created that is auto-configured to work with the rest of the guide.
   >**Warning!** If you wish to use a pre-existing VPC, there are extra configurations that need to be verified beforehand. Refer to the [Prepare Existing VPC](./existing-vpc.md) section of this guide.
 
-* **Amazon EKS Cluster** - An Amazon Elastic Kubernets Service (EKS) cluster will be deployed, following best-practices. It will use the following features:
+* **Amazon EKS Cluster** - An Amazon Elastic Kubernetes Service (EKS) cluster will be deployed, following best-practices. It will use the following features:
     * **Karpenter Node Management** - Just-in-time node provisioning using cost effective spot EC2 instances. [More Info](https://karpenter.sh/docs/)
     * **AWS Load Balancer Controller** - Automatically creates Amazon Elastic Load Balancers to enable ingress [More Info](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
     * **Nginx Ingress Controller** for managing Ingress resources. [More Info](https://kubernetes.github.io/ingress-nginx/)

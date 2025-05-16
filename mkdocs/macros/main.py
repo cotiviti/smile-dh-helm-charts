@@ -2,6 +2,42 @@
 Mkdocs-macros module for Smile CDR docs site
 """
 import semver
+import re
+
+version_info = [
+        {
+            'chart_version': '4.0.0',
+            'cdr_versions': {
+                'default': '2025.02.R03',
+                'max': '2025.02.R03',
+                'min': '2024.02.R01'
+            }
+        },
+        {
+            'chart_version': '3.0.0',
+            'cdr_versions': {
+                'default': '2024.11.R05',
+                'max': '2024.11.R05',
+                'min': '2023.11.R01'
+            }
+        },
+        {
+            'chart_version': '2.0.0',
+            'cdr_versions': {
+                'default': '2024.08.R01',
+                'max': '2024.08.R01',
+                'min': '2023.08.R01'
+            }
+        },
+        {
+            'chart_version': '1.1.0',
+            'cdr_versions': {
+                'default': '2024.05.R03',
+                'max': '2024.05.R03',
+                'min': '2023.05.R01'
+            }
+        }
+    ]
 
 def define_env(env):
     """
@@ -29,27 +65,44 @@ def define_env(env):
 
     # chartVer = ChartVersion(ver).bump_major()
     chartVer = ChartVersion(ver)
-    nextChartVer = chartVer.bump_major()
-    nextChartVer.set_pre()
-    nextPlus1ChartVer = nextChartVer.bump_major()
-    nextPlus1ChartVer.set_pre()
-    env.variables.current_smile_cdr_version = chartVer.CDRVersion()
-    env.variables.next_smile_cdr_version = nextChartVer.CDRVersion()
-    env.variables.next_plus_1_smile_cdr_version = nextPlus1ChartVer.CDRVersion()
-
+    env.variables.current_smile_cdr_version = chartVer.CdrVersion()
+    env.variables.current_smile_cdr_version_min = chartVer.CdrVersionMin()
     env.variables.current_helm_version = str(chartVer)
+    # env.variables.current_helm_version = str(ver)
 
-    env.variables.next_helm_patch_version = str(chartVer.bump_patch())
-    env.variables.next_helm_minor_version = str(chartVer.bump_minor())
-    env.variables.next_helm_major_version = str(chartVer.bump_major())
-    env.variables.next_plus_1_helm_major_version = str(chartVer.bump_major().bump_major())
+    preReleaseChartVer = chartVer.bump_minor()
+    preReleaseChartVer.set_pre()
+    env.variables.pre_release_smile_cdr_version = chartVer.CdrVersion()
+    env.variables.pre_release_smile_cdr_version_min = chartVer.CdrVersionMin()
+    env.variables.pre_release_helm_version = str(chartVer.bump_minor().set_pre())
 
+    nextMajorChartVer = chartVer.bump_major()
+    nextMajorChartVer.set_next_major()
+    env.variables.next_major_smile_cdr_version = nextMajorChartVer.CdrVersion()
+    env.variables.next_major_smile_cdr_version_min = nextMajorChartVer.CdrVersionMin()
+    env.variables.next_major_helm_patch_version = str(chartVer.bump_patch())
+    env.variables.next_major_helm_minor_version = str(chartVer.bump_minor())
+    env.variables.next_major_helm_major_version = str(chartVer.bump_major())
+    env.variables.next_major_helm_version = str(nextMajorChartVer.set_next_major())
 
-    env.variables.current_helm_version = str(ver)
+    # env.variables.next_major_helm_patch_version = str(ver.bump_patch())
+    # env.variables.next_major_helm_minor_version = str(ver.bump_minor())
+    # env.variables.next_major_helm_major_version = str(ver.bump_major())
 
-    env.variables.next_helm_patch_version = str(ver.bump_patch())
-    env.variables.next_helm_minor_version = str(ver.bump_minor())
-    env.variables.next_helm_major_version = str(ver.bump_major())
+    betaChartVer = nextMajorChartVer.bump_major()
+    betaChartVer.set_beta()
+    env.variables.beta_smile_cdr_version = betaChartVer.CdrVersion()
+    env.variables.beta_smile_cdr_version_min = betaChartVer.CdrVersionMin()
+    env.variables.beta_helm_major_version = str(nextMajorChartVer.bump_major())
+    env.variables.beta_helm_version = str(betaChartVer.set_beta())
+
+    alphaChartVer = betaChartVer.bump_major()
+    alphaChartVer.set_alpha()
+    env.variables.alpha_smile_cdr_version = alphaChartVer.CdrVersion()
+    env.variables.alpha_smile_cdr_version_min = alphaChartVer.CdrVersionMin()
+    env.variables.alpha_helm_major_version = str(betaChartVer.bump_major())
+    env.variables.alpha_helm_version = str(alphaChartVer.set_alpha())
+
 
     env.variables.helm_repo_stable = "https://gitlab.com/api/v4/projects/40759898/packages/helm/stable"
     env.variables.helm_repo_devel = "https://gitlab.com/api/v4/projects/40759898/packages/helm/devel"
@@ -58,49 +111,57 @@ def define_env(env):
     env.variables.helm_repo_beta = "https://gitlab.com/api/v4/projects/40759898/packages/helm/beta"
     env.variables.helm_repo_alpha = "https://gitlab.com/api/v4/projects/40759898/packages/helm/alpha"
 
-    version_info = [
-        {
-            'chart_version': '3.0.0',
-            'cdr_versions': {
-                'default': '2024.11.R05',
-                'newest': '2024.11.R05',
-                'oldest': '2023.11.R06'
-            }
-        },
-        {
-            'chart_version': '2.0.0',
-            'cdr_versions': {
-                'default': '2024.08.R01',
-                'newest': '2024.08.R01',
-                'oldest': '2023.08.R10'
-            }
-        },
-        {
-            'chart_version': '1.1.0',
-            'cdr_versions': {
-                'default': '2024.05.R03',
-                'newest': '2024.05.R04',
-                'oldest': '2023.05.R03'
-            }
-        },
-        {
-            'chart_version': '1.0.0',
-            'cdr_versions': {
-                'default': '2024.05.R03',
-                'newest': '2024.05.R04',
-                'oldest': '2023.05.R03'
-            }
-        }
-    ]
 
+
+    env.variables.previous_versions_table = ""
+
+    for version in version_info:
+        line = f'| v{version["chart_version"]} | `{version["cdr_versions"]["default"]}` | `{version["cdr_versions"]["max"]}` | `{version["cdr_versions"]["min"]}` |\n'
+        env.variables.previous_versions_table += line
 class ChartVersion:
+
+
     def __init__(self, ver: semver.Version):
-        initialCDRVersion = "2024.05.R03"
-        self.cdrVersion = CDRVersion(initialCDRVersion)
+        initialCdrVersion = "2024.05.R03"
+        self.cdrVersions = {}
         self.version = ver
-        # Here we bump the CDR version for every major Helm Chart version.
-        for bump in range(self.version.major - 1):
-            self.cdrVersion.bump_major()
+        """
+        Automatically determine the CDR version for a given Helm Chart Version
+
+        Starting from `initialCdrVersion`, bump the CDR major version by 1 for every major version
+        of the Helm Chart since v1.x
+
+        This will automatically enforce the correlation between major Helm Chart versions and
+        Smile CDR GA releases.
+
+        However, it will NOT correlate patch level releases of the Helm Chart to patch level
+        versions of the Smile CDR. For this, we can refer to the provided object that contains
+        known release mappings.
+        """
+
+        # Check the predefined mappings to see if the current Helm Chart version is defined. If so,
+        # use that cdrVersion.
+
+        for version in version_info:
+            if version["chart_version"] == self.version:
+                defaultCdrVersion = version["cdr_versions"]["default"]
+                CdrVersionMax = version["cdr_versions"]["max"]
+                CdrVersionMin = version["cdr_versions"]["min"]
+                # self.cdrVersion.setVersion(defaultCdrVersion)
+                self.cdrVersions["default"] = CdrVersion(defaultCdrVersion)
+                self.cdrVersions["max"] = CdrVersion(CdrVersionMax)
+                self.cdrVersions["min"] = CdrVersion(CdrVersionMin)
+
+        # If no predefined version was found, determine the version automatically based on the
+        # initialCdrVersion and the number of Helm Chart major releases.
+        if not self.cdrVersions:
+            self.cdrVersions["default"] = CdrVersion(initialCdrVersion)
+            self.cdrVersions["min"] = CdrVersion(initialCdrVersion)
+            # Cycle through Helm Chart major versions and bump the CDR GA release once for each.
+            for bump in range(self.version.major - 1):
+                self.cdrVersions["default"].bump_major()
+                self.cdrVersions["min"].bump_major()
+            self.cdrVersions["min"].set_min()
 
     def __str__(self):
         return str(self.version)
@@ -112,8 +173,14 @@ class ChartVersion:
     def patch(self):
         return str(self.version.patch)
 
-    def CDRVersion(self):
-        return str(self.cdrVersion)
+    def CdrVersion(self):
+        return str(self.cdrVersions["default"])
+
+    def CdrVersionMax(self):
+        return str(self.cdrVersions["max"])
+
+    def CdrVersionMin(self):
+        return str(self.cdrVersions["min"])
 
     def bump_major(self, pre: bool = False):
         # Returns a new ChartVersion object
@@ -128,13 +195,23 @@ class ChartVersion:
         return ChartVersion(self.version.bump_patch())
 
     def set_pre(self):
-        self.cdrVersion.set_pre()
+        self.cdrVersions["default"].set_pre()
+        return ChartVersion(self.version.replace(prerelease="pre.*"))
+
+    def set_next_major(self):
+        self.cdrVersions["default"].set_pre()
+        return ChartVersion(self.version.replace(prerelease="next-major.*"))
+
+    def set_beta(self):
+        self.cdrVersions["default"].set_pre()
+        return ChartVersion(self.version.replace(prerelease="beta.*"))
+
+    def set_alpha(self):
+        self.cdrVersions["default"].set_pre()
+        return ChartVersion(self.version.replace(prerelease="alpha.*"))
 
 
-
-import re
-
-class CDRVersion:
+class CdrVersion:
     def __init__(self, version: str):
         self.version_str = version
         self.year = 0
@@ -178,9 +255,30 @@ class CDRVersion:
         self.gm = None
         self._update_version_str()
 
-    def set_pre(self):
+    # Set this version to the R01 patch for the GA release from 1 year earlier
+    def set_min(self):
+        self.year -= 1
+        self.patch = 1
+        self.pre = None
+        self.gm = None
+        self._update_version_str()
+
+    # def set_version(self, version: str):
+    #     self.version_str = version
+    #     self.patch = None
+    #     self.pre = 1
+    #     self.gm = None
+    #     self._update_version_str()
+
+    def set_pre_old(self):
         self.patch = None
         self.pre = 1
+        self.gm = None
+        self._update_version_str()
+
+    def set_pre(self):
+        self.patch = None
+        self.pre = "*"
         self.gm = None
         self._update_version_str()
 
@@ -203,4 +301,4 @@ class CDRVersion:
         return self.version_str
 
     def __repr__(self):
-        return f"<CDRVersion {self.version_str}>"
+        return f"<CdrVersion {self.version_str}>"

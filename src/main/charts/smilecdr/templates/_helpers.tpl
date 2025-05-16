@@ -71,33 +71,36 @@ Create chart name and version as used by the chart label.
 
 {{/*
 Determine Smile CDR application version.
-This template is used where the actual value will be used in the output.
-The actual value will be masked during unit testing
+This template returns an object that includes the following:
+* version - Used for outputting the version in the manifest.
+            This value is masked when unit testing is enabled, in order to reduce verbose
+            diff output when updating the default Smile CDR versions in new versions of the Helm Chart.
+* internalVersion - Used internally in the Helm Chart to make decisions based on Smile CDR version.
+                    This value does NOT get masked, as this would break any feature gating logic.
+* warnings - Used for propagating up any chart warnings related to the selected version
 */}}
 {{- define "smilecdr.cdrVersion" -}}
-  {{- $cdrVersion := toString (coalesce .cdrVersion .Chart.AppVersion) -}}
+  {{- $version := toString (coalesce .cdrVersion .Chart.AppVersion) -}}
+  {{- $warnings := list -}}
+  {{- $cdrVersion := dict "version" $version "internalVersion" $version "warnings" $warnings -}}
 
-  {{- /* Ensure a valid version is being selected */ -}}
-  {{- $_ := include "smilecdr.checkVersion" $cdrVersion -}}
+  {{- /* Ensure a valid version is being selected unless allowUnsupportedCdrVersions is enabled */ -}}
+
+  {{- $checkVersion := (include "smilecdr.checkVersion" $version) | fromYaml -}}
+  {{- if not $checkVersion.supported -}}
+    {{- if .allowUnsupportedCdrVersions -}}
+      {{- $warnings = append $warnings (dict "title" (printf "You are using an unsupported Smile CDR version: %s" $cdrVersion.internalVersion) "message" (printf "There may be unexpected errors unless you use a supported Smile CDR version with this Helm Chart")) -}}
+      {{- $_ := set $cdrVersion "warnings" $warnings -}}
+    {{- else -}}
+      {{- fail $checkVersion.error -}}
+    {{- end -}}
+  {{- end -}}
 
   {{- if .Values.unitTesting -}}
-    {{- $cdrVersion = "No App Version - Unit Testing" -}}
+    {{- /* $cdrVersion = "No App Version - Unit Testing" */ -}}
+    {{- $_ := set $cdrVersion "version" "No App Version - Unit Testing" -}}
   {{- end -}}
-  {{- $cdrVersion -}}
-{{- end -}}
-
-{{/*
-Determine Smile CDR application version.
-This template is used for internal Helm Chart logic. It does not get
-masked during unit testing
-*/}}
-{{- define "smilecdr.cdrVersion.internal" -}}
-  {{- $cdrVersion := toString (coalesce .cdrVersion .Chart.AppVersion) -}}
-
-  {{- /* Ensure a valid version is being selected */ -}}
-  {{- $_ := include "smilecdr.checkVersion" $cdrVersion -}}
-
-  {{- $cdrVersion -}}
+  {{- $cdrVersion | toYaml -}}
 {{- end -}}
 
 
