@@ -84,68 +84,69 @@ image:
 !!! note
     Setting an image tag without `cdrVersion` will cause an error. The chart still requires a known version to enable compatibility checks.
 
+## Migration Guides
 
-## Upgrading from `v2.x` to `v3.x`
+###  `v2.x` to `v3.x`
 
 This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart version `v2.x` to `v3.x`.
 
 ---
 
-### Overview of Changes
+#### Overview of Changes
 - Default Smile CDR version updated from `2024.08.R01` to `2024.11.R05`.
 - You must now explicitly specify the Smile CDR version in your values file.
 - Some chart features are now gated based on the specified Smile CDR version.
 - `oldResourceNaming` is now disabled by default.
 - `node.environment.type` is now set in the Smile CDR properties file (default: `DEV`) for Smile CDR versions `2024.08.R01` and above.
 
-#### Feature Gates (Informational)
+##### Feature Gates (Informational)
 This chart introduces feature gates that enable or disable behavior based on the Smile CDR version. To ensure these features work correctly, the version must be explicitly specified if it differs from the chart default.
 
 ---
 
-### Actionable Items
+#### Actionable Items
 Review the following action items to address any potentially breaking changes.
 
-#### Specifying Smile CDR Version
+##### Specifying Smile CDR Version
 Previously, the Smile CDR version was defined using `image.tag`. This is no longer sufficient, especially when using custom tags that do not follow Smile’s versioning scheme.
 
 - **New Requirement:** Use the `cdrVersion` setting instead of `image.tag`.
 - If `cdrVersion` is omitted, the chart default will be used, and a warning will be displayed during `helm install` or `helm upgrade`.
 - Remove `image.tag` unless using a custom image (see below).
 
-##### Using Custom Image Tags
+###### Using Custom Image Tags
 If you're using custom builds or alternative container registries, you may continue to set `image.tag`, but you **must also** specify the correct `cdrVersion`.
 
 See [Choosing Smile CDR Version](#choosing-smile-cdr-versions) for details.
 
 ---
 
-#### Deprecation of `oldResourceNaming`
+##### Deprecation of `oldResourceNaming`
 The `oldResourceNaming` flag now defaults to `false`, in preparation for its removal in a future release.
 
 - If you have already set `oldResourceNaming: false`, no action is needed.
 - If not, upgrading will change the names of Kubernetes resources such as services and ingress. Review any dependent resources (e.g., ALB configuration, IAM roles) to ensure compatibility.
 - `oldResourceNaming` can still be manually set to `true` if more time is needed to review the changes. Note that it ***WILL*** be removed in a future version of the Helm Chart.
 
-## Upgrading from `v1.x` to `v2.x`
+###  `v1.x` to `v2.x`
 
 This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart version `v1.x` to `v2.x`.
 
 ---
 
-### Overview of Changes
+#### Overview of Changes
 - Default Smile CDR version updated from `2024.05.R01` to `2024.08.R01`.
 - Default context root for the Admin JSON module has changed from `json-admin` to `admin_json`
 
 ---
 
-### Actionable Items
+#### Actionable Items
 Review the following action items to address any potentially breaking changes.
 
-#### Specifying Smile CDR Version
+##### Specifying Smile CDR Version
 In order to prevent unexpected upgrades to Smile CDR when updating the Helm Chart, you should set the Smile CDR version using `image.tag`
 
-#### Admin JSON Context Root
+##### Admin JSON Context Root
 The default context path for the Admin JSON module has been updated to align with the Smile CDR default.
 
 This change does not affect the operation of your Smile CDR deployment. However, if any upstream systems rely on the previous context path, you may need to update them accordingly.
@@ -154,7 +155,7 @@ If you have explicitly configured a custom context path for the Admin JSON modul
 
 ---
 
-## Upgrading From Pre-Release Versions to `v1.x` or above
+###  Pre-Release Versions to `v1.x` or above
 
 This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart pre-release versions `v1.0.0-pre.n` to `v1.x` or higher.
 
