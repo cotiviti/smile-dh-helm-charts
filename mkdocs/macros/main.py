@@ -6,10 +6,18 @@ import re
 
 version_info = [
         {
+            'chart_version': '4.0.0',
+            'cdr_versions': {
+                'default': '2025.02.R03',
+                'max': '2025.02.R03',
+                'min': '2024.02.R01'
+            }
+        },
+        {
             'chart_version': '3.0.0',
             'cdr_versions': {
                 'default': '2024.11.R05',
-                'max': '2024.11.*',
+                'max': '2024.11.R05',
                 'min': '2023.11.R01'
             }
         },
@@ -17,7 +25,7 @@ version_info = [
             'chart_version': '2.0.0',
             'cdr_versions': {
                 'default': '2024.08.R01',
-                'max': '2024.08.*',
+                'max': '2024.08.R01',
                 'min': '2023.08.R01'
             }
         },
@@ -25,7 +33,7 @@ version_info = [
             'chart_version': '1.1.0',
             'cdr_versions': {
                 'default': '2024.05.R03',
-                'max': '2024.05.*',
+                'max': '2024.05.R03',
                 'min': '2023.05.R01'
             }
         }
