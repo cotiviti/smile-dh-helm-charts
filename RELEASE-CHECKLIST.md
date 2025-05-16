@@ -68,14 +68,14 @@ Add a new item in the Changelog section for the upcoming release. e.g.
 #### `mkdocs/macros/main.py`
 The current and past `stable` channel releases cannot be determined dynamically, so must be manually added in the `version_info` object MkDocs macro file.
 
->**Note:** This can either be updated when initially creating the new release, or in the final 'release preparation' branch (See below)
+<!-- >**Note:** This can either be updated when initially creating the new release, or in the final 'release preparation' branch (See below) -->
 
 ``` python
 version_info = [
    {
       'chart_version': '5.0.0',
       'cdr_versions': {
-            'default': '2025.05.R01', # Note: It's safe to use R01 here even if it's not yet released as it's only used for displaying stable channel releases.
+            'default': '2025.05.R01',
             'max': '2025.05.*',
             'min': '2024.05.R01'
       }
@@ -84,6 +84,7 @@ version_info = [
    ...
 ]
 ```
+>**Note:** It's safe to use R01 for the default version here even if it's not yet released as it's only used for displaying stable channel releases in the documentation.
 
 ### Prepare Initial Commit For Release
 
@@ -136,21 +137,23 @@ After your Merge Request has been created, someone with the maintainer role will
 
 Follow the regular development process, creating feature branches from `upstream/next-major` to add features and update documentation for this upcoming version.
 
-## ✅ 3. Finalize and Publish Release
+## ✅ 3. Perform Final Checks and Publish Release
 
-### Finalize Release Branch
+Before publishing the new version, some final checks need to be made to ensure the release is ready.
+
+<!-- ### Prepare Release Branch For Publishing
 New Helm Chart versions are published into the `stable` channel by merging the `next-major` branch into the `main` branch.
 
-Before doing this, some final checks need to be made to ensure the release is ready for publishing.
+Before doing this, some final checks need to be made to ensure the release is ready for publishing. -->
 
 ### Merge All Feature Branches
 Before proceeding, ensure that all feature branches intended for this release have been merged into the `next-major` branch.
 
 ### Create Release Preparation Branch For Publishing Release
-This should be the last '**feature branch**' created for this release where the final checks and updates can be made.
+This will be the final '**feature branch**' created for this release where the final checks and updates can be made.
 
 ```
-git checkout -b nnn-prepare-v5-release
+git checkout -b nnn-prepare-v5-release upstream/next-major
 ```
 
 ### Update Version References
@@ -219,26 +222,26 @@ version_info = [
 #### Update Migration Guide
 **Source**: `docs/upgrading/index.md`
 
-A new section should be created that covers any steps required for migrating to this version of the Helm Chart.
+A new item should be created under the 'Migration Guides' section that covers any steps required for migrating to this version of the Helm Chart.
 
 Copy an existing section as a guideline. It should include the following:
 
 ```
-## Upgrading from `v4.x` to `v5.x`
+### `v4.x` to `v5.x`
 
 This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart version `v4.x` to `v5.x`.
 
 ---
 
-### Overview of Changes
+#### Overview of Changes
 - Default Smile CDR version updated from `2025.02.xx` to `2025.05.R01`.
 - Feature 1
 - Fearure 2
 
-#### Feature 1 (Informational)
+##### Feature 1 (Informational)
 < Brief info about feature 1 >
 
-#### Feature 2 (Informational)
+##### Feature 2 (Informational)
 < Brief info about feature 2 >
 
 ---
@@ -247,10 +250,10 @@ This section outlines key changes and required actions when upgrading from Smile
 Review the following action items to address any potentially breaking changes.
 
 !!! warning
-   REMINDER! - Pin Your Smile CDR Version<br>
-   As a reminder, always pin your Smile CDR version when upgrading the Helm Chart, in order to prevent unexpected changes to your Smile CDR release.
+    **REMINDER! - [Pin Your Smile CDR Version](#pin-your-smile-cdr-version)<br>**
+    As a reminder, always [Pin Your Smile CDR Version](#pin-your-smile-cdr-version) when upgrading the Helm Chart, in order to prevent unexpected changes to your Smile CDR release.
 
-#### Breaking Change 1
+##### Breaking Change 1
 < Add information about potentially breaking change >
 < Include any instructuons that should be followed because of this change >
 
@@ -290,7 +293,7 @@ Create the final commit for the release. Note that unlike the initial commit for
 * Commit
    >**Note:** This should be a multi-line commit as follows!
    ```
-   git commit -am "feat(smilecdr): prepare release for v5.0
+   git commit -am "chore(smilecdr): prepare release for v5.0
 
    This commit finalizes changes for releasing the Smile CDR Helm Chart v5.0.0"
    ```
