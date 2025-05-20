@@ -3024,7 +3024,7 @@ Refer to the <a href="versioning-strategy/">Versioning Strategy</a> page for mor
 <p><em>See the <a href="version-matrix/">version matrix</a> for the full list of supported combinations.</em></p>
 <h3 id="pin-your-smile-cdr-version">Pin Your Smile CDR Version<a class="headerlink" href="#pin-your-smile-cdr-version" title="Permanent link">&para;</a></h3>
 <p>To ensure predictable deployments, you should explicitly set the desired Smile CDR version using the <code>cdrVersion</code> value in your Helm values file:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">cdrVersion</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025.02.R01&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">cdrVersion</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025.02.R03&quot;</span>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -3035,7 +3035,7 @@ Refer to the <a href="versioning-strategy/">Versioning Strategy</a> page for mor
 <p>If you want to use a newer Smile CDR GA Release, you should upgrade to the latest Helm Chart.</p>
 <h3 id="working-with-pre-release-versions-of-smile-cdr">Working with Pre-Release Versions of Smile CDR<a class="headerlink" href="#working-with-pre-release-versions-of-smile-cdr" title="Permanent link">&para;</a></h3>
 <p>When working with Smile Digital Health support to test Pre-Release Smile CDR builds, you may need to use a Helm Chart from a future or preview release channel.</p>
-<p>For example, assuming the current Helm Chart version is <code>4.0.0-next-major.2</code>, supporting Smile CDR <code>2025.02.R01</code>, you may find the following versions in alternate channels:</p>
+<p>For example, assuming the current Helm Chart version is <code>4.0.0</code>, supporting Smile CDR <code>2025.02.R03</code>, you may find the following versions in alternate channels:</p>
 <table>
 <thead>
 <tr>
@@ -3075,7 +3075,7 @@ Refer to the <a href="versioning-strategy/">Versioning Strategy</a> page for mor
 </div>
 <h2 id="using-custom-image-tags">Using Custom Image Tags<a class="headerlink" href="#using-custom-image-tags" title="Permanent link">&para;</a></h2>
 <p>If you're using a custom container repository or non-standard image tags, specify both the Smile CDR version and the custom image tag in your Helm values file:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">cdrVersion</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025.02.R01&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">cdrVersion</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025.02.R03&quot;</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">image</span><span class="p">:</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-custom-build-tag</span>
 </code></pre></div>
