@@ -381,7 +381,7 @@ Use this for generating deprecation notices and other warnings about the configu
        */ -}}
   {{- $cdrVersionInfo := (include "smilecdr.cdrVersion" . | fromYaml ) -}}
   {{- $_ := set .Values "cdrVersionInternal" $cdrVersionInfo.internalVersion -}}
-  
+
   {{- $modules := include "smilecdr.modules" . | fromYaml -}}
   {{- range $k, $v := $modules -}}
     {{- $moduleConfig := $v.config -}}
