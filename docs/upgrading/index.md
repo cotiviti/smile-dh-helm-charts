@@ -86,6 +86,26 @@ image:
 
 ## Migration Guides
 
+### `v4.x` to `v5.x`
+
+This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart version `v4.x` to `v5.x`.
+
+---
+
+#### Overview of Changes
+- Default Smile CDR version updated from `2025.02.R03` to `2025.05.R01`.
+
+---
+
+#### Actionable Items
+Review the following action items to address any potentially breaking changes.
+
+!!! warning
+    **REMINDER! - [Pin Your Smile CDR Version](#pin-your-smile-cdr-version)<br>**
+    As a reminder, always [Pin Your Smile CDR Version](#pin-your-smile-cdr-version) when upgrading the Helm Chart, in order to prevent unexpected changes to your Smile CDR release.
+
+No additional changes are required to upgrade from v4.x to v5.0
+
 ### `v3.x` to `v4.x`
 
 This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart version `v3.x` to `v4.x`.
