@@ -6,6 +6,14 @@ import re
 
 version_info = [
         {
+            'chart_version': '5.0.0',
+            'cdr_versions': {
+                'default': '2025.05.R01',
+                'max': '2025.05.R01',
+                'min': '2024.05.R01'
+            }
+        },
+        {
             'chart_version': '4.0.0',
             'cdr_versions': {
                 'default': '2025.02.R03',
