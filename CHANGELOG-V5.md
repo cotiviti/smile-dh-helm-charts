@@ -1,3 +1,13 @@
+## [5.0.0-next-major.2](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v5.0.0-next-major.1...v5.0.0-next-major.2) (2025-05-22)
+
+### Features
+
+* **smilecdr:** use AWS Advanced JDBC Driver configurations ([2fe54be](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/2fe54bee0345aaf878d2cde3d5917eb9297e810f))
+
+### Bug Fixes
+
+* **smilecdr:** fix chart warnings when using versioned module configurations ([98cf17b](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/commit/98cf17b7904e92e783ebcd52981250264a0f22fd))
+
 ## [5.0.0-next-major.1](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/compare/v4.0.0...v5.0.0-next-major.1) (2025-05-22)
 
 ### ⚠ BREAKING CHANGES
