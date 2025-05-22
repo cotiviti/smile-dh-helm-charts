@@ -104,11 +104,11 @@ Create the initial commit for the new release branch. It's important that this c
 * Commit
    >**Note:** This should be a multi-line commit as follows!
    ```
-   git commit -am "feat(smilecdr): add support for smilecdr yyyy-mm release
+   git commit -am "feat(smilecdr): add support for Smile CDR `YYYY.MM` GA release
 
    This commit bumps the Helm Chart major version to vx.0.0
 
-   Breaking Change: Updated Smile CDR from Version x to y"
+   Breaking Change: Default release of Smile CDR changed from `YYYY.MM.PP` to `YYYY.MM.PP`"
    ```
 
 * (Optional) Re-run pre-commit check:
@@ -176,12 +176,12 @@ Update the entry in the `smilecdr.releases` template that was created for this r
      */ -}}
 {{- define "smilecdr.releases" -}}
   {{- $releases := dict
-    "2025.05" (dict "name" "" "latest" "R01") <-- Add this line to support `2025.05.R01` and above
-    "2025.02" (dict "name" "" "latest" "R03")
-    "2024.11" (dict "name" "" "latest" "R05")
-    "2024.08" (dict "name" "" "latest" "R05")
-    "2024.05" (dict "name" "" "latest" "R05")
-    "2024.02" (dict "name" "" "latest" "R07")
+    "2025.05" (dict "name" "Fortification" "latest" "R01") <-- Add this line to support `2025.05.R01` and above
+    "2025.02" (dict "name" "Transfiguration" "latest" "R03")
+    "2024.11" (dict "name" "Despina" "latest" "R05")
+    "2024.08" (dict "name" "Copernicus" "latest" "R05")
+    "2024.05" (dict "name" "Borealis" "latest" "R05")
+    "2024.02" (dict "name" "Apollo" "latest" "R07")
   -}}
   {{- $releases | toYaml -}}
 {{- end }}
@@ -224,40 +224,66 @@ version_info = [
 
 A new item should be created under the 'Migration Guides' section that covers any steps required for migrating to this version of the Helm Chart.
 
-Copy an existing section as a guideline. It should include the following:
+Copy an existing section, or use the following markdown as a guideline:
 
-```
-### `v4.x` to `v5.x`
+   ```
+      ### `v4.x` to `v5.x`
 
-This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart version `v4.x` to `v5.x`.
+      This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart version `v4.x` to `v5.x`.
 
----
+      ---
 
-#### Overview of Changes
-- Default Smile CDR version updated from `2025.02.xx` to `2025.05.R01`.
-- Feature 1
-- Fearure 2
+      #### Overview of Changes
+      - Default Smile CDR version updated from `2025.02.xx` to `2025.05.R01`.
+      - Feature 1
+      - Fearure 2
 
-##### Feature 1 (Informational)
-< Brief info about feature 1 >
+      ##### Feature 1 (Informational)
+      < Brief info about feature 1 >
 
-##### Feature 2 (Informational)
-< Brief info about feature 2 >
+      ##### Feature 2 (Informational)
+      < Brief info about feature 2 >
 
----
+      ---
 
-### Actionable Items
-Review the following action items to address any potentially breaking changes.
+      #### Actionable Items
+      ##### Check Helm Chart Warnings
 
-!!! warning
-    **REMINDER! - [Pin Your Smile CDR Version](#pin-your-smile-cdr-version)<br>**
-    As a reminder, always [Pin Your Smile CDR Version](#pin-your-smile-cdr-version) when upgrading the Helm Chart, in order to prevent unexpected changes to your Smile CDR release.
+      Before any upgrade, check the output of your `helm install` command for any warnings.
 
-##### Breaking Change 1
-< Add information about potentially breaking change >
-< Include any instructuons that should be followed because of this change >
+      These warnings may include misconfigurations or deprecation warnings that may affect your upgrade.
 
-```
+      ??? note "Displaying Helm Chart warnings when deploying with Terraform"
+         If deploying using the Terraform `helm_release` resource, you may not see the warnings during deployment as they are not displayed by default.
+
+         In order to check the warnings, you can get the Helm release notes directly like so:
+         ```
+         helm -n my-namespace list # <- to get list of releases
+         helm -n my-namespace get notes <release-name>
+         ```
+
+      If you see the following output, it is safe to upgrade the Helm Chart
+      ```
+      ***************************
+      **** NO CHART WARNINGS ****
+      ***************************
+      ```
+
+      ##### Pin Your Smile CDR Version
+      **ALWAYS Pin Your Smile CDR Version!**
+
+      As a reminder, always [Pin Your Smile CDR Version](#pin-your-smile-cdr-version) when upgrading the Helm Chart, in order to prevent unexpected changes to your Smile CDR release.
+
+      !!! warning
+         Failure to pin your Smile CDR version ***will*** result in unexpected upgrades to the version of Smile CDR being deployed.
+
+      ##### Upgrade-related Changes
+      Review the following action items to address any potentially breaking changes.
+
+      ###### Breaking Change 1
+      < Add information about potentially breaking change >
+      < Include any instructions that should be followed because of this change >
+   ```
 
 ### Check Smile CDR Release for Filesystem Changes
 There are certain files that the Helm Chart generates dynamically rather than using the defaults that are included with Smile CDR packages.

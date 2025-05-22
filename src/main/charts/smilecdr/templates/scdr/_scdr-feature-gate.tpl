@@ -32,6 +32,7 @@
 
 {{- define "smilecdr.features.matrix" -}}
   {{- $features := dict
+    "f002" (dict "name" "AwsAdvancedJDBCDriver" "min" "2025.05")
     "f001" (dict "name" "NodeEnvironmentType" "min" "2024.08")
   -}}
   {{- $features | toYaml -}}
@@ -67,11 +68,14 @@
      */ -}}
 {{- define "smilecdr.releases" -}}
   {{- $releases := dict
-    "2025.02" (dict "name" "" "latest" "R03")
-    "2024.11" (dict "name" "" "latest" "R05")
-    "2024.08" (dict "name" "" "latest" "R05")
-    "2024.05" (dict "name" "" "latest" "R05")
-    "2024.02" (dict "name" "" "latest" "R07")
+    "2025.05" (dict "name" "Fortification" "latest" "R01")
+    "2025.02" (dict "name" "Transfiguration" "latest" "R03")
+    "2024.11" (dict "name" "Despina" "latest" "R05")
+    "2024.08" (dict "name" "Copernicus" "latest" "R05")
+    "2024.05" (dict "name" "Borealis" "latest" "R05")
+    "2024.02" (dict "name" "Apollo" "latest" "R07")
+    "2023.11" (dict "name" "Zed" "latest" "R05")
+    "2023.08" (dict "name" "Yucatán" "latest" "R09")
   -}}
   {{- $releases | toYaml -}}
 {{- end }}

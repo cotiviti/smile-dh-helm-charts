@@ -41,7 +41,7 @@ secretKeyMap:
 For information on how this `SecretSpec` is used elsewhere in the Helm Chart, refer to the following sections.
 
 * [Image Repository Credentials](../helm-repo.md#configuring-repo-credentials-using-secrets-store-csi-driver)
-* [Database Credentials](../smilecdr/database.md#example-external-database-configurations)
+* [Database Credentials](../smilecdr/database-overview.md)
 * [Smile CDR License](../smilecdr/modules/license.md)
 * [Generic Secrets](./extra-secrets.md)
 

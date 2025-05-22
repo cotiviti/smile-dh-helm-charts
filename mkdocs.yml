@@ -109,6 +109,7 @@ nav:
         - 'Release Channels': upgrading/release-channels.md
         - 'Supported Versions': upgrading/version-matrix.md
       - 'Changelog':
+        - "Version 5.x": charts/smilecdr/CHANGELOG-V5.md
         - "Version 4.x": charts/smilecdr/CHANGELOG-V4.md
         - "Version 3.x": charts/smilecdr/CHANGELOG-V3.md
         - "Version 2.x": charts/smilecdr/CHANGELOG-V2.md
@@ -137,7 +138,11 @@ nav:
       - 'Requirements': guide/smilecdr/requirements.md
       - 'Versions': guide/smilecdr/cdrversions.md
       - 'Installation': guide/smilecdr/install.md
-      - 'Database': guide/smilecdr/database.md
+      - 'Database':
+        - 'Overview': guide/smilecdr/database-overview.md
+        - 'External Database': guide/smilecdr/database-external.md
+        - 'Local Database': guide/smilecdr/database-local.md
+        - 'Examples': guide/smilecdr/database-examples.md
       - 'CDR Modules':
         - guide/smilecdr/modules/index.md
         - 'Modules': guide/smilecdr/modules/modules.md
