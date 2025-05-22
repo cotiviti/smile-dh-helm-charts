@@ -98,6 +98,37 @@ This section outlines key changes and required actions when upgrading from Smile
 ---
 
 #### Actionable Items
+##### Check Helm Chart Warnings
+
+Before any upgrade, check the output of your `helm install` command for any warnings.
+
+These warnings may include misconfigurations or deprecation warnings that may affect your upgrade.
+
+??? note "Displaying Helm Chart warnings when deploying with Terraform"
+    If deploying using the Terraform `helm_release` resource, you may not see the warnings during deployment as they are not displayed by default.
+
+    In order to check the warnings, you can get the Helm release notes directly like so:
+    ```
+    helm -n my-namespace list # <- to get list of releases
+    helm -n my-namespace get notes <release-name>
+    ```
+
+If you see the following output, it is safe to upgrade the Helm Chart
+```
+***************************
+**** NO CHART WARNINGS ****
+***************************
+```
+
+##### Pin Your Smile CDR Version
+**ALWAYS Pin Your Smile CDR Version!**
+
+As a reminder, always [Pin Your Smile CDR Version](#pin-your-smile-cdr-version) when upgrading the Helm Chart, in order to prevent unexpected changes to your Smile CDR release.
+
+!!! warning
+    Failure to pin your Smile CDR version ***will*** result in unexpected upgrades to the version of Smile CDR being deployed.
+
+##### Upgrade-related Changes
 Review the following action items to address any potentially breaking changes.
 
 !!! warning
@@ -118,11 +149,38 @@ This section outlines key changes and required actions when upgrading from Smile
 ---
 
 #### Actionable Items
-Review the following action items to address any potentially breaking changes.
+##### Check Helm Chart Warnings
+
+Before any upgrade, check the output of your `helm install` command for any warnings.
+
+These warnings may include misconfigurations or deprecation warnings that may affect your upgrade.
+
+??? note "Displaying Helm Chart warnings when deploying with Terraform"
+    If deploying using the Terraform `helm_release` resource, you may not see the warnings during deployment as they are not displayed by default.
+
+    In order to check the warnings, you can get the Helm release notes directly like so:
+    ```
+    helm -n my-namespace list # <- to get list of releases
+    helm -n my-namespace get notes <release-name>
+    ```
+
+If you see the following output, it is safe to upgrade the Helm Chart
+```
+***************************
+**** NO CHART WARNINGS ****
+***************************
+```
+
+##### Pin Your Smile CDR Version
+**ALWAYS Pin Your Smile CDR Version!**
+
+As a reminder, always [Pin Your Smile CDR Version](#pin-your-smile-cdr-version) when upgrading the Helm Chart, in order to prevent unexpected changes to your Smile CDR release.
 
 !!! warning
-    **REMINDER! - [Pin Your Smile CDR Version](#pin-your-smile-cdr-version)<br>**
-    As a reminder, always [Pin Your Smile CDR Version](#pin-your-smile-cdr-version) when upgrading the Helm Chart, in order to prevent unexpected changes to your Smile CDR release.
+    Failure to pin your Smile CDR version ***will*** result in unexpected upgrades to the version of Smile CDR being deployed.
+
+##### Upgrade-related Changes
+Review the following action items to address any potentially breaking changes.
 
 No additional changes are required to upgrade from v3.x to v4.0
 
@@ -145,23 +203,46 @@ This chart introduces feature gates that enable or disable behavior based on the
 ---
 
 #### Actionable Items
+##### Check Helm Chart Warnings
+
+Before any upgrade, check the output of your `helm install` command for any warnings.
+
+These warnings may include misconfigurations or deprecation warnings that may affect your upgrade.
+
+??? note "Displaying Helm Chart warnings when deploying with Terraform"
+    If deploying using the Terraform `helm_release` resource, you may not see the warnings during deployment as they are not displayed by default.
+
+    In order to check the warnings, you can get the Helm release notes directly like so:
+    ```
+    helm -n my-namespace list # <- to get list of releases
+    helm -n my-namespace get notes <release-name>
+    ```
+
+If you see the following output, it is safe to upgrade the Helm Chart
+```
+***************************
+**** NO CHART WARNINGS ****
+***************************
+```
+
+##### Upgrade-related Changes
 Review the following action items to address any potentially breaking changes.
 
-##### Specifying Smile CDR Version
+###### Specifying Smile CDR Version
 Previously, the Smile CDR version was defined using `image.tag`. This is no longer sufficient, especially when using custom tags that do not follow Smile’s versioning scheme.
 
 - **New Requirement:** Use the `cdrVersion` setting instead of `image.tag`.
 - If `cdrVersion` is omitted, the chart default will be used, and a warning will be displayed during `helm install` or `helm upgrade`.
 - Remove `image.tag` unless using a custom image (see below).
 
-###### Using Custom Image Tags
+####### Using Custom Image Tags
 If you're using custom builds or alternative container registries, you may continue to set `image.tag`, but you **must also** specify the correct `cdrVersion`.
 
 See [Choosing Smile CDR Version](#choosing-smile-cdr-versions) for details.
 
 ---
 
-##### Deprecation of `oldResourceNaming`
+###### Deprecation of `oldResourceNaming`
 The `oldResourceNaming` flag now defaults to `false`, in preparation for its removal in a future release.
 
 - If you have already set `oldResourceNaming: false`, no action is needed.
@@ -181,12 +262,40 @@ This section outlines key changes and required actions when upgrading from Smile
 ---
 
 #### Actionable Items
-Review the following action items to address any potentially breaking changes.
+##### Check Helm Chart Warnings
 
-##### Specifying Smile CDR Version
+Before any upgrade, check the output of your `helm install` command for any warnings.
+
+These warnings may include misconfigurations or deprecation warnings that may affect your upgrade.
+
+??? note "Displaying Helm Chart warnings when deploying with Terraform"
+    If deploying using the Terraform `helm_release` resource, you may not see the warnings during deployment as they are not displayed by default.
+
+    In order to check the warnings, you can get the Helm release notes directly like so:
+    ```
+    helm -n my-namespace list # <- to get list of releases
+    helm -n my-namespace get notes <release-name>
+    ```
+
+If you see the following output, it is safe to upgrade the Helm Chart
+```
+***************************
+**** NO CHART WARNINGS ****
+***************************
+```
+
+##### Pin Your Smile CDR Version
+**ALWAYS Pin Your Smile CDR Version!**
+
 In order to prevent unexpected upgrades to Smile CDR when updating the Helm Chart, you should set the Smile CDR version using `image.tag`
 
-##### Admin JSON Context Root
+!!! warning
+    Failure to pin your Smile CDR version ***will*** result in unexpected upgrades to the version of Smile CDR being deployed.
+
+##### Upgrade-related Changes
+Review the following action items to address any potentially breaking changes.
+
+###### Admin JSON Context Root
 The default context path for the Admin JSON module has been updated to align with the Smile CDR default.
 
 This change does not affect the operation of your Smile CDR deployment. However, if any upstream systems rely on the previous context path, you may need to update them accordingly.
