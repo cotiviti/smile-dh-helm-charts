@@ -1620,9 +1620,37 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../guide/smilecdr/database/" class="md-nav__link">
+    
+    
+      
         
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_5" id="__nav_3_3_5_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -1631,7 +1659,111 @@
   </span>
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Database
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/smilecdr/database-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/smilecdr/database-external/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    External Database
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/smilecdr/database-local/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Local Database
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/smilecdr/database-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -3075,7 +3207,7 @@ Refer to the <a href="versioning-strategy/">Versioning Strategy</a> page for mor
 <p>If you want to use a newer Smile CDR GA Release, you should upgrade to the latest Helm Chart.</p>
 <h3 id="working-with-pre-release-versions-of-smile-cdr">Working with Pre-Release Versions of Smile CDR<a class="headerlink" href="#working-with-pre-release-versions-of-smile-cdr" title="Permanent link">&para;</a></h3>
 <p>When working with Smile Digital Health support to test Pre-Release Smile CDR builds, you may need to use a Helm Chart from a future or preview release channel.</p>
-<p>For example, assuming the current Helm Chart version is <code>5.0.0-next-major.1</code>, supporting Smile CDR <code>2025.05.R01</code>, you may find the following versions in alternate channels:</p>
+<p>For example, assuming the current Helm Chart version is <code>5.0.0-next-major.2</code>, supporting Smile CDR <code>2025.05.R01</code>, you may find the following versions in alternate channels:</p>
 <table>
 <thead>
 <tr>
@@ -3130,6 +3262,7 @@ Refer to the <a href="versioning-strategy/">Versioning Strategy</a> page for mor
 <h4 id="overview-of-changes">Overview of Changes<a class="headerlink" href="#overview-of-changes" title="Permanent link">&para;</a></h4>
 <ul>
 <li>Default Smile CDR version updated from <code>2025.02.R03</code> to <code>2025.05.R01</code>.</li>
+<li>Updated configurations for IAM or Secrets Manager database authentication.</li>
 </ul>
 <hr />
 <h4 id="actionable-items">Actionable Items<a class="headerlink" href="#actionable-items" title="Permanent link">&para;</a></h4>
@@ -3158,11 +3291,14 @@ Refer to the <a href="versioning-strategy/">Versioning Strategy</a> page for mor
 </div>
 <h5 id="upgrade-related-changes">Upgrade-related Changes<a class="headerlink" href="#upgrade-related-changes" title="Permanent link">&para;</a></h5>
 <p>Review the following action items to address any potentially breaking changes.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p><strong>REMINDER! - <a href="#pin-your-smile-cdr-version">Pin Your Smile CDR Version</a><br></strong>
-As a reminder, always <a href="#pin-your-smile-cdr-version">Pin Your Smile CDR Version</a> when upgrading the Helm Chart, in order to prevent unexpected changes to your Smile CDR release.</p>
-</div>
+<h6 id="updated-configurations-for-iam-or-secrets-manager-database-authentication">Updated configurations for IAM or Secrets Manager database authentication.<a class="headerlink" href="#updated-configurations-for-iam-or-secrets-manager-database-authentication" title="Permanent link">&para;</a></h6>
+<ul>
+<li>Although the required configuration change should take effect without any intervention, logs should be reviewed to ensure that any RDS connections using IAM or Secrets Manager are still working as expected.</li>
+<li>If there are any issues, make sure you have correctly set your Smile CDR version in your values file by setting <code>cdrVersion</code> to <code>2025.05.R01</code> or higher.</li>
+<li>If you wish to still use the old mechanism, you should pin your Smile CDR version using <code>cdrVersion</code> to <code>2025.02.*</code> or earlier. See the <a href="version-matrix/">version matrix</a> for more info on supported versions.</li>
+<li>See <a href="../guide/smilecdr/database-external/#using-iam-or-direct-secrets-manager-authentication">here</a> for information on configuring IAM authentication.</li>
+<li>See <a href="https://smilecdr.com/docs/v/2025.08.PRE/database_administration/rds_auth.html#aws-advanced-jdbc-driver">here</a> for information on the associated changes to Smile CDR</li>
+</ul>
 <p>No additional changes are required to upgrade from v4.x to v5.0</p>
 <h3 id="v3x-to-v4x"><code>v3.x</code> to <code>v4.x</code><a class="headerlink" href="#v3x-to-v4x" title="Permanent link">&para;</a></h3>
 <p>This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart version <code>v3.x</code> to <code>v4.x</code>.</p>

@@ -8,28 +8,28 @@
       
       
       
-        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/quickstart-aws/aws-dependencies/">
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/guide/smilecdr/database-overview/">
       
       
-        <link rel="prev" href="../existing-vpc/">
+        <link rel="prev" href="../install/">
       
       
-        <link rel="next" href="../deploy-terraform/">
+        <link rel="next" href="../database-external/">
       
       
-      <link rel="icon" href="../../assets/SDH 64x64.webp">
+      <link rel="icon" href="../../../assets/SDH 64x64.webp">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
     
     
       
-        <title>Prepare AWS Resources - Smile Digital Health Helm Charts</title>
+        <title>Overview - Smile Digital Health Helm Charts</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
   
@@ -58,11 +58,11 @@
     
       <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
     
-      <link rel="stylesheet" href="../../stylesheets/colours.css">
+      <link rel="stylesheet" href="../../../stylesheets/colours.css">
     
-      <link rel="stylesheet" href="../../stylesheets/logo.css">
+      <link rel="stylesheet" href="../../../stylesheets/logo.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#prepare-aws-resources" class="md-skip">
+        <a href="#database-configuration" class="md-skip">
           Skip to content
         </a>
       
@@ -108,9 +108,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+    <a href="../../.." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
       
-  <img src="../../assets/SDH logo for social 188 White wTM.webp" alt="logo">
+  <img src="../../../assets/SDH logo for social 188 White wTM.webp" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -127,7 +127,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Prepare AWS Resources
+              Overview
             
           </span>
         </div>
@@ -244,7 +244,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../.." class="md-tabs__link">
+        <a href="../../.." class="md-tabs__link">
           
   
   
@@ -262,13 +262,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../quickstart-aws/" class="md-tabs__link">
           
   
   
@@ -286,11 +284,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../guide/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
           
   
   
@@ -312,7 +312,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../examples/" class="md-tabs__link">
+        <a href="../../../examples/" class="md-tabs__link">
           
   
   
@@ -354,9 +354,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+    <a href="../../.." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
       
-  <img src="../../assets/SDH logo for social 188 White wTM.webp" alt="logo">
+  <img src="../../../assets/SDH logo for social 188 White wTM.webp" alt="logo">
 
     </a>
     Smile Digital Health Helm Charts
@@ -410,7 +410,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../.." class="md-nav__link ">
+            <a href="../../.." class="md-nav__link ">
               
   
   
@@ -478,7 +478,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../charts/smilecdr/" class="md-nav__link ">
+            <a href="../../../charts/smilecdr/" class="md-nav__link ">
               
   
   
@@ -513,7 +513,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/smilecdr/" class="md-nav__link">
+      <a href="../../../charts/smilecdr/smilecdr/" class="md-nav__link">
         
   
   
@@ -567,7 +567,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../upgrading/" class="md-nav__link ">
+            <a href="../../../upgrading/" class="md-nav__link ">
               
   
   
@@ -602,7 +602,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../upgrading/versioning-strategy/" class="md-nav__link">
+      <a href="../../../upgrading/versioning-strategy/" class="md-nav__link">
         
   
   
@@ -625,7 +625,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../upgrading/release-channels/" class="md-nav__link">
+      <a href="../../../upgrading/release-channels/" class="md-nav__link">
         
   
   
@@ -648,7 +648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../upgrading/version-matrix/" class="md-nav__link">
+      <a href="../../../upgrading/version-matrix/" class="md-nav__link">
         
   
   
@@ -736,7 +736,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/CHANGELOG-V5/" class="md-nav__link">
+      <a href="../../../charts/smilecdr/CHANGELOG-V5/" class="md-nav__link">
         
   
   
@@ -759,7 +759,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/CHANGELOG-V4/" class="md-nav__link">
+      <a href="../../../charts/smilecdr/CHANGELOG-V4/" class="md-nav__link">
         
   
   
@@ -782,7 +782,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/CHANGELOG-V3/" class="md-nav__link">
+      <a href="../../../charts/smilecdr/CHANGELOG-V3/" class="md-nav__link">
         
   
   
@@ -805,7 +805,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/CHANGELOG-V2/" class="md-nav__link">
+      <a href="../../../charts/smilecdr/CHANGELOG-V2/" class="md-nav__link">
         
   
   
@@ -828,7 +828,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/CHANGELOG-V1/" class="md-nav__link">
+      <a href="../../../charts/smilecdr/CHANGELOG-V1/" class="md-nav__link">
         
   
   
@@ -910,7 +910,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/branching-model/" class="md-nav__link">
+      <a href="../../../contributing/branching-model/" class="md-nav__link">
         
   
   
@@ -933,7 +933,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/release-process/" class="md-nav__link">
+      <a href="../../../contributing/release-process/" class="md-nav__link">
         
   
   
@@ -976,8 +976,6 @@
       
   
   
-    
-  
   
   
     
@@ -999,23 +997,22 @@
     
     
       
-        
-        
-      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../../quickstart-aws/" class="md-nav__link ">
               
   
   
@@ -1028,13 +1025,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Quickstart
@@ -1050,7 +1047,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../eks-cluster/" class="md-nav__link">
+      <a href="../../../quickstart-aws/eks-cluster/" class="md-nav__link">
         
   
   
@@ -1073,7 +1070,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../existing-vpc/" class="md-nav__link">
+      <a href="../../../quickstart-aws/existing-vpc/" class="md-nav__link">
         
   
   
@@ -1093,32 +1090,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Prepare AWS Resources
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../quickstart-aws/aws-dependencies/" class="md-nav__link">
         
   
   
@@ -1129,95 +1104,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#amazon-certificate-manager-certificate" class="md-nav__link">
-    <span class="md-ellipsis">
-      Amazon Certificate Manager Certificate
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#private-container-registry-credentials" class="md-nav__link">
-    <span class="md-ellipsis">
-      Private Container Registry Credentials
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Private Container Registry Credentials">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#account-wide-shared-repository-secret" class="md-nav__link">
-    <span class="md-ellipsis">
-      Account-wide shared repository secret
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#per-environment-repository-secret" class="md-nav__link">
-    <span class="md-ellipsis">
-      Per environment repository secret
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#repository-secret-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      Repository Secret Format
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#amazon-ecr" class="md-nav__link">
-    <span class="md-ellipsis">
-      Amazon ECR
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dns-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      DNS Configuration
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1230,7 +1116,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deploy-terraform/" class="md-nav__link">
+      <a href="../../../quickstart-aws/deploy-terraform/" class="md-nav__link">
         
   
   
@@ -1257,6 +1143,8 @@
       
   
   
+    
+  
   
   
     
@@ -1274,22 +1162,23 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../guide/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   
@@ -1302,13 +1191,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             User Guide
@@ -1340,10 +1229,13 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
@@ -1352,7 +1244,7 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
         
           
-          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
             
   
   
@@ -1379,7 +1271,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/helm-repo/" class="md-nav__link">
+      <a href="../../helm-repo/" class="md-nav__link">
         
   
   
@@ -1431,7 +1323,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../guide/secrets/" class="md-nav__link ">
+            <a href="../../secrets/" class="md-nav__link ">
               
   
   
@@ -1466,7 +1358,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/secrets/configuring-secrets/" class="md-nav__link">
+      <a href="../../secrets/configuring-secrets/" class="md-nav__link">
         
   
   
@@ -1489,7 +1381,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/secrets/extra-secrets/" class="md-nav__link">
+      <a href="../../secrets/extra-secrets/" class="md-nav__link">
         
   
   
@@ -1520,7 +1412,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/serviceaccount/" class="md-nav__link">
+      <a href="../../serviceaccount/" class="md-nav__link">
         
   
   
@@ -1543,7 +1435,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/values-files-management/" class="md-nav__link">
+      <a href="../../values-files-management/" class="md-nav__link">
         
   
   
@@ -1571,6 +1463,8 @@
                 
   
   
+    
+  
   
   
     
@@ -1612,20 +1506,21 @@
       
       
         
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
+          
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../guide/smilecdr/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -1638,13 +1533,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
             Smile CDR
@@ -1660,7 +1555,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/requirements/" class="md-nav__link">
+      <a href="../requirements/" class="md-nav__link">
         
   
   
@@ -1683,7 +1578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/cdrversions/" class="md-nav__link">
+      <a href="../cdrversions/" class="md-nav__link">
         
   
   
@@ -1706,7 +1601,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/install/" class="md-nav__link">
+      <a href="../install/" class="md-nav__link">
         
   
   
@@ -1726,8 +1621,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1748,13 +1645,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_5" checked>
         
           
           <label class="md-nav__link" for="__nav_3_3_5" id="__nav_3_3_5_label" tabindex="0">
@@ -1770,7 +1665,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_3_5">
             <span class="md-nav__icon md-icon"></span>
             Database
@@ -1781,10 +1676,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../guide/smilecdr/database-overview/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1795,6 +1712,53 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#use-an-external-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use an external database
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#provision-a-local-postgresql-cluster-for-testing-or-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      Provision a local PostgreSQL cluster (for testing or development)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-configuration-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database Configuration Examples
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1807,7 +1771,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/database-external/" class="md-nav__link">
+      <a href="../database-external/" class="md-nav__link">
         
   
   
@@ -1830,7 +1794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/database-local/" class="md-nav__link">
+      <a href="../database-local/" class="md-nav__link">
         
   
   
@@ -1853,7 +1817,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/database-examples/" class="md-nav__link">
+      <a href="../database-examples/" class="md-nav__link">
         
   
   
@@ -1917,7 +1881,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../guide/smilecdr/modules/" class="md-nav__link ">
+            <a href="../modules/" class="md-nav__link ">
               
   
   
@@ -1952,7 +1916,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/modules/modules/" class="md-nav__link">
+      <a href="../modules/modules/" class="md-nav__link">
         
   
   
@@ -1975,7 +1939,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/modules/cdrnode/" class="md-nav__link">
+      <a href="../modules/cdrnode/" class="md-nav__link">
         
   
   
@@ -1998,7 +1962,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/modules/license/" class="md-nav__link">
+      <a href="../modules/license/" class="md-nav__link">
         
   
   
@@ -2021,7 +1985,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/modules/hl7v2/" class="md-nav__link">
+      <a href="../modules/hl7v2/" class="md-nav__link">
         
   
   
@@ -2101,7 +2065,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/messagebroker/" class="md-nav__link">
+      <a href="../messagebroker/" class="md-nav__link">
         
   
   
@@ -2183,7 +2147,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/ingress/" class="md-nav__link">
+      <a href="../ingress/" class="md-nav__link">
         
   
   
@@ -2206,7 +2170,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/tls-encryption/" class="md-nav__link">
+      <a href="../tls-encryption/" class="md-nav__link">
         
   
   
@@ -2286,7 +2250,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/envvars/" class="md-nav__link">
+      <a href="../envvars/" class="md-nav__link">
         
   
   
@@ -2368,7 +2332,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/storage/files/" class="md-nav__link">
+      <a href="../storage/files/" class="md-nav__link">
         
   
   
@@ -2391,7 +2355,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/storage/volumeConfig/" class="md-nav__link">
+      <a href="../storage/volumeConfig/" class="md-nav__link">
         
   
   
@@ -2471,7 +2435,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/logging/" class="md-nav__link">
+      <a href="../logging/" class="md-nav__link">
         
   
   
@@ -2555,7 +2519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/tuning/jvm/" class="md-nav__link">
+      <a href="../tuning/jvm/" class="md-nav__link">
         
   
   
@@ -2578,7 +2542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/tuning/resources/" class="md-nav__link">
+      <a href="../tuning/resources/" class="md-nav__link">
         
   
   
@@ -2601,7 +2565,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/tuning/podscheduling/" class="md-nav__link">
+      <a href="../tuning/podscheduling/" class="md-nav__link">
         
   
   
@@ -2632,7 +2596,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/updating/" class="md-nav__link">
+      <a href="../updating/" class="md-nav__link">
         
   
   
@@ -2704,7 +2668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/operations/smileutil/" class="md-nav__link">
+      <a href="../operations/smileutil/" class="md-nav__link">
         
   
   
@@ -2795,7 +2759,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../examples/" class="md-nav__link ">
+            <a href="../../../examples/" class="md-nav__link ">
               
   
   
@@ -2830,7 +2794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/minimal/" class="md-nav__link">
+      <a href="../../../examples/minimal/" class="md-nav__link">
         
   
   
@@ -2853,7 +2817,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/external-db/" class="md-nav__link">
+      <a href="../../../examples/external-db/" class="md-nav__link">
         
   
   
@@ -2876,7 +2840,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/external-db-multi/" class="md-nav__link">
+      <a href="../../../examples/external-db-multi/" class="md-nav__link">
         
   
   
@@ -2899,7 +2863,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/modules-simple/" class="md-nav__link">
+      <a href="../../../examples/modules-simple/" class="md-nav__link">
         
   
   
@@ -2922,7 +2886,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/modules-advanced/" class="md-nav__link">
+      <a href="../../../examples/modules-advanced/" class="md-nav__link">
         
   
   
@@ -2945,7 +2909,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/extra-files-helm/" class="md-nav__link">
+      <a href="../../../examples/extra-files-helm/" class="md-nav__link">
         
   
   
@@ -2968,7 +2932,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/extra-files-external/" class="md-nav__link">
+      <a href="../../../examples/extra-files-external/" class="md-nav__link">
         
   
   
@@ -2991,7 +2955,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/previousrootversion/" class="md-nav__link">
+      <a href="../../../examples/previousrootversion/" class="md-nav__link">
         
   
   
@@ -3014,7 +2978,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/aws-dependencies/" class="md-nav__link">
+      <a href="../../../examples/aws-dependencies/" class="md-nav__link">
         
   
   
@@ -3037,7 +3001,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/quickstart/" class="md-nav__link">
+      <a href="../../../examples/quickstart/" class="md-nav__link">
         
   
   
@@ -3087,69 +3051,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#amazon-certificate-manager-certificate" class="md-nav__link">
+  <a href="#use-an-external-database" class="md-nav__link">
     <span class="md-ellipsis">
-      Amazon Certificate Manager Certificate
+      Use an external database
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#private-container-registry-credentials" class="md-nav__link">
+  <a href="#provision-a-local-postgresql-cluster-for-testing-or-development" class="md-nav__link">
     <span class="md-ellipsis">
-      Private Container Registry Credentials
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Private Container Registry Credentials">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#account-wide-shared-repository-secret" class="md-nav__link">
-    <span class="md-ellipsis">
-      Account-wide shared repository secret
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#per-environment-repository-secret" class="md-nav__link">
-    <span class="md-ellipsis">
-      Per environment repository secret
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#repository-secret-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      Repository Secret Format
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#amazon-ecr" class="md-nav__link">
-    <span class="md-ellipsis">
-      Amazon ECR
+      Provision a local PostgreSQL cluster (for testing or development)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#dns-configuration" class="md-nav__link">
+  <a href="#database-configuration-examples" class="md-nav__link">
     <span class="md-ellipsis">
-      DNS Configuration
+      Database Configuration Examples
     </span>
   </a>
   
@@ -3175,44 +3097,28 @@
     
       
     
-    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/quickstart-aws/aws-dependencies.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/guide/smilecdr/database-overview.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
     </a>
   
 
 
-<h1 id="prepare-aws-resources">Prepare AWS Resources<a class="headerlink" href="#prepare-aws-resources" title="Permanent link">&para;</a></h1>
-<p>Before deploying Smile CDR using this Terraform Module and Helm Chart, you will still need to create some resources.</p>
-<p>Due to the nature of these resources, it's not feasible to include them in any automations at this time.</p>
-<h2 id="amazon-certificate-manager-certificate">Amazon Certificate Manager Certificate<a class="headerlink" href="#amazon-certificate-manager-certificate" title="Permanent link">&para;</a></h2>
-<p>As this example terminates TLS at the AWS Network Load Balancer, a suitable TLS certificate needs to be made available in Amazon Certificate Manager (ACM).</p>
-<p>If this dependency is not available, then you will not be able to access the environment after it's deployed.</p>
+<h1 id="database-configuration">Database Configuration<a class="headerlink" href="#database-configuration" title="Permanent link">&para;</a></h1>
+<p>When deploying Smile CDR using this Helm Chart, <strong>you must configure a database</strong>. If no database settings are provided, <code>helm install</code> will fail with an error prompting you to supply the required database configuration.</p>
+<p>You have two options for setting up a database:</p>
+<h2 id="use-an-external-database">Use an external database<a class="headerlink" href="#use-an-external-database" title="Permanent link">&para;</a></h2>
+<p>You can reference an existing database (or provision a new one) using your organization’s standard tools and processes. The Helm chart allows you to configure Smile CDR to connect to any compatible external database.</p>
+<p>See the section on <a href="../database-external/">Connecting to an External Database</a> for details on how to do this.</p>
+<h2 id="provision-a-local-postgresql-cluster-for-testing-or-development">Provision a local PostgreSQL cluster (for testing or development)<a class="headerlink" href="#provision-a-local-postgresql-cluster-for-testing-or-development" title="Permanent link">&para;</a></h2>
+<p>For convenience, this chart supports deploying a PostgreSQL cluster within your Kubernetes environment using the <a href="https://access.crunchydata.com/documentation/postgres-operator/latest">CrunchyData PostgreSQL Operator</a>. If enabled, the necessary databases will be created automatically, and Smile CDR will be configured to use them.</p>
+<p>See the section on <a href="../database-local/">Using A Cluster Local Database</a> for details on how to do this.</p>
 <blockquote>
-<p>Note: Other ingress and TLS options may be provided for this guide at a future date.</p>
+<p><strong>NOTE - Built-in H2 database is NOT supported</strong>:<br>
+Because Kubernetes Pods are ephemeral and stateless, using the internal H2 database to provision Smile CDR is not recommended. While it is technically possible to manually configure the persistence module to use H2, the database will be wiped each time the Pod restarts, resulting in a fresh Smile CDR installation. Furthermore, if multiple replicas are deployed, each Pod will behave as a separate and independent Smile CDR instance.</p>
 </blockquote>
-<h2 id="private-container-registry-credentials">Private Container Registry Credentials<a class="headerlink" href="#private-container-registry-credentials" title="Permanent link">&para;</a></h2>
-<p>As the Smile CDR container images are hosted on a private container registry, credentials are required by Kubernetes so that it can pull images before starting pods. There are multiple options for exposing the Smile CDR images to your EKS cluster.</p>
-<p>If you use the Smile Digital Health container repository, or if you copy the Smile CDR images to your own password-protected container registry, then you will need to create a <code>dockerconfigjson</code> style secret in AWS Secrets Manager.</p>
-<p>There are two ways that this can be achieved.</p>
-<h3 id="account-wide-shared-repository-secret">Account-wide shared repository secret<a class="headerlink" href="#account-wide-shared-repository-secret" title="Permanent link">&para;</a></h3>
-<p>If you pre-provision an AWS Secrets Manager secret in the same AWS account, then you can provide the ARN of this secret when you configure your environment in the following section.</p>
-<p>The Terraform module will automatically add this Secret to the IAM Policies used by the Smile CDR pods.</p>
-<h3 id="per-environment-repository-secret">Per environment repository secret<a class="headerlink" href="#per-environment-repository-secret" title="Permanent link">&para;</a></h3>
-<p>If you do not specify an AWS Secrets Manager Secret ARN, an empty secret will be automatically created in the same region.</p>
-<p>In this case, you will need to manually update the secret in the AWS Console before the Smile CDR pods will be able to pull the image and start.</p>
-<h3 id="repository-secret-format">Repository Secret Format<a class="headerlink" href="#repository-secret-format" title="Permanent link">&para;</a></h3>
-<p>In either of the above scenarios, the secret should use the standard <code>dockerconfigjson</code> format that is used by Kubernetes. More information on this is available <a href="https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/">here</a></p>
-<p>To create suitable output to paste into the secret, you can run the following command locally:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>kubectl create secret docker-registry regcred --dry-run=client --docker-server=my.registry.com --docker-username=username --docker-password=password --docker-email=email@example.com -oyaml --output=&quot;jsonpath={.data.\.dockerconfigjson}&quot; | base64 --decode
-</code></pre></div>
-<p>This will output the following, which can be pasted directly into an AWS Secrets Manager secret under the <code>dockerconfigjson</code> key.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>{&quot;auths&quot;:{&quot;my.registry.com&quot;:{&quot;username&quot;:&quot;username&quot;,&quot;password&quot;:&quot;password&quot;,&quot;email&quot;:&quot;email@example.com&quot;,&quot;auth&quot;:&quot;dXNlcm5hbWU6cGFzc3dvcmQ=&quot;}}}
-</code></pre></div>
-<h2 id="amazon-ecr">Amazon ECR<a class="headerlink" href="#amazon-ecr" title="Permanent link">&para;</a></h2>
-<p>If you choose to copy the Smile CDR images to Amazon ECR, you do not need to create any Secrets Manager secrets as authentication is performed using IAM Policies attached to IAM Roles used by the Pods.</p>
-<h2 id="dns-configuration">DNS Configuration<a class="headerlink" href="#dns-configuration" title="Permanent link">&para;</a></h2>
-<p>If you wish to have the Terraform module automatically create DNS entries for your new environments, then you will need to have a Route53 Hosted Zone in the same AWS account that you are deploying Smile CDR inside.</p>
+<h2 id="database-configuration-examples">Database Configuration Examples<a class="headerlink" href="#database-configuration-examples" title="Permanent link">&para;</a></h2>
+<p>Refer to the <a href="../database-external/">Example Database Configurations</a> section for some common database configuration scenarios.</p>
 
 
 
@@ -3271,10 +3177,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.top", "content.action.view", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.top", "content.action.view", "content.tabs.link"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
       
     
   </body>

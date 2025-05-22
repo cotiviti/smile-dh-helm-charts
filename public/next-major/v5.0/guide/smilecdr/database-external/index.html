@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/guide/smilecdr/ingress/">
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/guide/smilecdr/database-external/">
       
       
-        <link rel="prev" href="../messagebroker/">
+        <link rel="prev" href="../database-overview/">
       
       
-        <link rel="next" href="../tls-encryption/">
+        <link rel="next" href="../database-local/">
       
       
       <link rel="icon" href="../../../assets/SDH 64x64.webp">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Ingress - Smile Digital Health Helm Charts</title>
+        <title>External Database - Smile Digital Health Helm Charts</title>
       
     
     
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#configuring-ingress" class="md-skip">
+        <a href="#connecting-to-an-external-database" class="md-skip">
           Skip to content
         </a>
       
@@ -127,7 +127,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Ingress
+              External Database
             
           </span>
         </div>
@@ -1621,8 +1621,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1643,13 +1645,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_5" checked>
         
           
           <label class="md-nav__link" for="__nav_3_3_5" id="__nav_3_3_5_label" tabindex="0">
@@ -1665,7 +1665,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_3_5">
             <span class="md-nav__icon md-icon"></span>
             Database
@@ -1699,10 +1699,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../database-external/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    External Database
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1713,6 +1735,179 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-authentication-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database Authentication Methods
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Authentication Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iam-authentication-aws-rds-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      IAM Authentication (AWS RDS Only)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#direct-secrets-manager-authentication-aws-rds-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      Direct Secrets Manager Authentication (AWS RDS Only)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secret-vault-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Secret Vault Integration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secret-vault-json-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Secret Vault JSON structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubernetes-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kubernetes Secrets
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-iam-or-direct-secrets-manager-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using IAM or Direct Secrets Manager Authentication
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Reference
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#legacy-database-configuration-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Legacy Database Configuration Schema
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-multiple-databases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring Multiple Databases
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-autoconfiguration-of-databases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Module Autoconfiguration of Databases
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Module Autoconfiguration of Databases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Module Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2024,10 +2219,8 @@
                 
   
   
-    
   
   
-  
     
     
       
@@ -2044,11 +2237,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_8" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3_8" >
         
           
           <label class="md-nav__link" for="__nav_3_3_8" id="__nav_3_3_8_label" tabindex="0">
@@ -2064,7 +2259,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_8_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_3_8">
             <span class="md-nav__icon md-icon"></span>
             Ingress
@@ -2075,32 +2270,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Ingress
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../ingress/" class="md-nav__link">
         
   
   
@@ -2111,146 +2284,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#ingress-type" class="md-nav__link">
-    <span class="md-ellipsis">
-      Ingress Type
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Ingress Type">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#nginx-ingress" class="md-nav__link">
-    <span class="md-ellipsis">
-      Nginx Ingress
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#aws-load-balancer-controller" class="md-nav__link">
-    <span class="md-ellipsis">
-      AWS Load Balancer Controller
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#azure-application-gateway-ingress-controller" class="md-nav__link">
-    <span class="md-ellipsis">
-      Azure Application Gateway Ingress Controller
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#multiple-ingress-resources" class="md-nav__link">
-    <span class="md-ellipsis">
-      Multiple Ingress Resources
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Multiple Ingress Resources">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#default-ingress" class="md-nav__link">
-    <span class="md-ellipsis">
-      Default Ingress
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#defining-custom-ingress-configurations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Defining Custom Ingress Configurations
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configure-ingress-for-modules" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configure Ingress for Modules
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#extra-annotations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Extra Annotations
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ingress-class-name" class="md-nav__link">
-    <span class="md-ellipsis">
-      Ingress Class Name
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#disabling-ingress" class="md-nav__link">
-    <span class="md-ellipsis">
-      Disabling Ingress
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#service-type" class="md-nav__link">
-    <span class="md-ellipsis">
-      Service Type
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -3144,37 +3177,64 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#ingress-type" class="md-nav__link">
+  <a href="#requirements" class="md-nav__link">
     <span class="md-ellipsis">
-      Ingress Type
+      Requirements
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Ingress Type">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-authentication-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database Authentication Methods
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Authentication Methods">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#nginx-ingress" class="md-nav__link">
+  <a href="#iam-authentication-aws-rds-only" class="md-nav__link">
     <span class="md-ellipsis">
-      Nginx Ingress
+      IAM Authentication (AWS RDS Only)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#aws-load-balancer-controller" class="md-nav__link">
+  <a href="#direct-secrets-manager-authentication-aws-rds-only" class="md-nav__link">
     <span class="md-ellipsis">
-      AWS Load Balancer Controller
+      Direct Secrets Manager Authentication (AWS RDS Only)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#azure-application-gateway-ingress-controller" class="md-nav__link">
+  <a href="#secret-vault-integration" class="md-nav__link">
     <span class="md-ellipsis">
-      Azure Application Gateway Ingress Controller
+      Secret Vault Integration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secret-vault-json-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Secret Vault JSON structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubernetes-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kubernetes Secrets
     </span>
   </a>
   
@@ -3186,37 +3246,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#multiple-ingress-resources" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Multiple Ingress Resources
+      Configuration
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Multiple Ingress Resources">
+    <nav class="md-nav" aria-label="Configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#default-ingress" class="md-nav__link">
+  <a href="#using-iam-or-direct-secrets-manager-authentication" class="md-nav__link">
     <span class="md-ellipsis">
-      Default Ingress
+      Using IAM or Direct Secrets Manager Authentication
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#defining-custom-ingress-configurations" class="md-nav__link">
+  <a href="#configuration-reference" class="md-nav__link">
     <span class="md-ellipsis">
-      Defining Custom Ingress Configurations
+      Configuration Reference
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#configure-ingress-for-modules" class="md-nav__link">
+  <a href="#legacy-database-configuration-schema" class="md-nav__link">
     <span class="md-ellipsis">
-      Configure Ingress for Modules
+      Legacy Database Configuration Schema
     </span>
   </a>
   
@@ -3228,38 +3288,44 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#extra-annotations" class="md-nav__link">
+  <a href="#configuring-multiple-databases" class="md-nav__link">
     <span class="md-ellipsis">
-      Extra Annotations
+      Configuring Multiple Databases
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#ingress-class-name" class="md-nav__link">
+  <a href="#module-autoconfiguration-of-databases" class="md-nav__link">
     <span class="md-ellipsis">
-      Ingress Class Name
+      Module Autoconfiguration of Databases
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Module Autoconfiguration of Databases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Variables
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#disabling-ingress" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#module-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Disabling Ingress
+      Module Configuration
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#service-type" class="md-nav__link">
-    <span class="md-ellipsis">
-      Service Type
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3283,288 +3349,411 @@
     
       
     
-    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/guide/smilecdr/ingress.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/guide/smilecdr/database-external.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
     </a>
   
 
 
-<h1 id="configuring-ingress">Configuring Ingress<a class="headerlink" href="#configuring-ingress" title="Permanent link">&para;</a></h1>
-<p>This chart enables flexible Kubernetes Ingress resource configuration, supporting multiple Ingress and IngressClass resources for versatile application traffic routing.</p>
-<p>Currently supported controllers include Nginx Ingress, AWS Load Balancer, and Azure Application Gateway.</p>
-<h2 id="ingress-type">Ingress Type<a class="headerlink" href="#ingress-type" title="Permanent link">&para;</a></h2>
-<p>This chart uses a concept of ingress <code>Type</code> to determine what kind of Ingress Controller is being used. It should not be confused with the <code>IngressClass</code>.</p>
-<p>The following ingress types are currently supported:</p>
+<h1 id="connecting-to-an-external-database">Connecting to an External Database<a class="headerlink" href="#connecting-to-an-external-database" title="Permanent link">&para;</a></h1>
+<p>This Helm chart supports connecting Smile CDR to any externally provisioned PostgreSQL database, including managed services like Amazon RDS. When using an external database, you must provide connection details and credentials through one of the supported methods described below.</p>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<p>To connect to an external database, ensure the following prerequisites are met:</p>
 <ul>
-<li><code>nginx-ingress</code> (Default)</li>
-<li><code>aws-lbc-alb</code></li>
-<li><code>azure-agic</code></li>
+<li>Network connectivity from the Kubernetes cluster to the database endpoint.</li>
+<li>Connection details and credentials, ideally provided via a secrets vault.</li>
 </ul>
-<p>This setting is used to help automatically configure the <code>Service</code> and <code>Ingress</code> resources so that the configured Ingress Controller can configure infrastructure resources appropriately.</p>
-<p>The ingress type for any given ingress can be set with <code>ingresses.default.type: ingress-type</code>.</p>
-<blockquote>
-<p><strong>NOTE:</strong> If migrating from Helm Chart versions older than <code>v1.0.0-pre.104</code>, you will need to adjust from the old config schema to the new one. This can be done by moving any configurations that were previously under <code>ingress.*</code> to <code>ingresses.default.*</code>. e.g. <code>ingress.type: aws-lbc-alb</code> would become <code>ingresses.default.type: aws-lbc-alb</code></p>
-</blockquote>
-<h3 id="nginx-ingress">Nginx Ingress<a class="headerlink" href="#nginx-ingress" title="Permanent link">&para;</a></h3>
-<p>By default, this chart is configured to use the <a href="https://kubernetes.github.io/ingress-nginx/">Nginx Ingress Controller</a>. <code>ingresses.default.type</code> is already set to <code>nginx-ingress</code> so you do not need to do anything to use this Ingress Controller.</p>
-<p>The behavior of the Nginx Ingress controller differs based on the cloud provider being used. When used in conjunction with the <a href="https://kubernetes-sigs.github.io/aws-load-balancer-controller">AWS Load Balancer Controller</a>, the Nginx Ingress will be backed by an AWS NLB (Network Load Balancer).</p>
-<p>The <code>Service</code> objects will be set as <code>ClusterIP</code> rather than <code>NodePort</code>. This increases the security stance of the deployment as Kubernetes does not expose these services externally to the cluster. All traffic comes from the Nginx Ingress Controller pod, directly to the application pods.</p>
-<h4 id="tls-encryption">TLS Encryption<a class="headerlink" href="#tls-encryption" title="Permanent link">&para;</a></h4>
-<p>By default the Nginx ingress uses a <strong><em>self-signed</em></strong> certificate. If this is sufficient for your needs (as the fronting AWS NLB does not need to verify the certificates), nothing else needs to be done.</p>
-<p>If, however, you need to use a <strong><em>publicly-signed</em></strong> TLS certificate in the Nginx ingress (for example, using TLS passthrough on the fronting load balancer) then you can configure Nginx Ingress to use cert-manager and Let's Encrypt to automatically provision a suitable TLS certificate.</p>
-<p>For a detailed explanation of how this solution works, refer to the <a href="https://kubernetes.github.io/ingress-nginx/user-guide/tls/#automated-certificate-management-with-cert-manager">ingress-nginx</a> and <a href="https://cert-manager.io/docs/tutorials/acme/nginx-ingress/">cert-manager</a> documentation.</p>
-<p>This can currently be configured using the Helm Chart using two methods</p>
-<h5 id="option-1">Option 1<a class="headerlink" href="#option-1" title="Permanent link">&para;</a></h5>
-<p><strong>Create Let's Encrypt Staging <code>Issuer</code> Resource</strong></p>
-<p><strong>Step 1</strong></p>
-<p>Use the below <code>values.yaml</code> snippet to enable the Helm Chart to generate a Let's Encrypt issuer.
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>tls:
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  certificateIssuers:
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    default:
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>      enabled: true
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>      signingMethod: public-signed
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>      acmeSpec:
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        email: test@example2.com
-</code></pre></div></p>
-<p><strong>Step 2</strong></p>
-<p>Update your ingress configuration to enable TLS and use the issuer configuration defined above.
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ingresses:
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  default:
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    tlsConfig:
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>      enabled: true
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>      issuerConfiguration: default
-</code></pre></div></p>
-<h5 id="option-2">Option 2<a class="headerlink" href="#option-2" title="Permanent link">&para;</a></h5>
-<p><strong>Use pre-existing <code>Issuer</code> Resource</strong></p>
-<p><strong>Step 1</strong></p>
-<p>Create a suitable public-signing <code>Issuer</code> resource. Refer to the cert-manager documentation for instructions on doing this.</p>
-<p>In the rest of this example, we will assume that this existing <code>Issuer</code> resource is named <code>my-existing-lets-encrypt-issuer</code></p>
-<p><strong>Step 2</strong></p>
-<p>Use the below <code>values.yaml</code> snippet to define the pre-existing Issuer in a way that it can be used by multiple sections of the Helm Chart.
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>tls:
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  certificateIssuers:
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    myExistingLetsEncryptIssuer:
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>      enabled: true
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>      signingMethod: public-signed
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>      existingIssuer: my-existing-lets-encrypt-issuer
-</code></pre></div></p>
-<blockquote>
-<p><strong>Note:</strong> Although the above is not technically mandatory for Ingress TLS configuration, it's advisable to use this mechanism.
-By doing so, the same issuer can easily be used to create other certificates that can be used in the Smile CDR deployment.</p>
-</blockquote>
-<p><strong>Step 3</strong></p>
-<p>Update your ingress configuration to enable TLS and use the issuer defined above. Note that you can either reference the above-defined <code>tls.certificateIssuers</code> configuration,
-or you can directly reference the pre-existing <code>Issuer</code> resource that you created.
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ingresses:
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  default:
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    tlsConfig:
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>      enabled: true
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>      issuerConfiguration: myExistingLetsEncryptIssuer
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>      # If directly referencing the pre-existing `Issuer` resource that you created, use the following instead
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>      # existingIssuer: my-existing-lets-encrypt-issuer
-</code></pre></div></p>
-<blockquote>
-<p><strong>Note:</strong> For brevity, these examples do not enable back-end encryption to the Smile CDR pods. Please see the <a href="../tls-encryption/">TLS Encryption</a> section for more information on enabling back-end encryption, configuring Issuers, Certificates and using them in Smile CDR.</p>
-</blockquote>
-<h5 id="byo-certificate">BYO Certificate<a class="headerlink" href="#byo-certificate" title="Permanent link">&para;</a></h5>
-<p>At this time, the Helm Chart does not support providing your own externally-provisioned TLS certificate. This feature will be added at a future date.</p>
-<h4 id="dedicated-nginx-ingress">Dedicated Nginx Ingress<a class="headerlink" href="#dedicated-nginx-ingress" title="Permanent link">&para;</a></h4>
-<p>By default, this option uses the <code>nginx</code> ingress class. If multiple ingresses all use the same default IngressClass, then they will share the same underlying NLB.</p>
-<p>If you need to use a dedicated (or multiple) NLBs for this deployment, you can do so by first creating any required Nginx Ingress Controllers with a different IngressClass name. You can then specify this ingress class with <code>ingresses.default.ingressClassNameOverride</code>.</p>
-<h3 id="aws-load-balancer-controller">AWS Load Balancer Controller<a class="headerlink" href="#aws-load-balancer-controller" title="Permanent link">&para;</a></h3>
-<p>To directly use the AWS Load Balancer Controller set <code>ingresses.default.type</code> to <code>aws-lbc-alb</code>. By default, this option uses the <code>alb</code> ingress class.</p>
-<p>This automatically adds appropriate default <code>Ingress</code> annotations for the AWS Load Balancer Controller. The controller will then create an AWS ALB (Application Load Balancer).</p>
-<p>You will still need to add some extra annotations, such as <code>alb.ingress.kubernetes.io/certificate-arn</code>. See the <a href="#extra-annotations">Extra Annotations</a> section below for more info.</p>
-<blockquote>
-<p><strong>Warning</strong>: Be aware that the <code>Service</code> objects will be set as <code>NodePort</code> rather than  <code>ClusterIP</code>. This means that the application services will be made available externally to the cluster which may have security implications you need to be aware of.</p>
-</blockquote>
-<h4 id="known-problems">Known Problems<a class="headerlink" href="#known-problems" title="Permanent link">&para;</a></h4>
-<p>There is currently a problem with the AWS Load Balancer Controller configuration where the health checks do not function as expected. This is somewhat mitigated by the fact that the <code>Service</code> objects are using <code>NodePort</code>. This will be addressed in a future release of this chart.</p>
-<h3 id="azure-application-gateway-ingress-controller">Azure Application Gateway Ingress Controller<a class="headerlink" href="#azure-application-gateway-ingress-controller" title="Permanent link">&para;</a></h3>
-<p>If you wish to use the Azure Application Gateway Ingress Controller (AGIC), set <code>ingresses.default.type</code> to <code>azure-agic</code>. By default, this option uses the <code>azure/application-gateway</code> ingress class.</p>
-<p>When using this method, the chart will automatically add <code>Ingress</code> annotations for the Azure Application Gateway Controller. The controller will then create an Azure Application Gateway to be used as ingress.</p>
-<p>You will still need to add some extra annotations, such as <code>appgw.ingress.kubernetes.io/appgw-ssl-certificate</code>. See the <a href="#extra-annotations">Extra Annotations</a> section below for more info.</p>
-<blockquote>
-<p><strong>Warning</strong>: Be aware that the <code>Service</code> objects will be set as <code>NodePort</code> rather than  <code>ClusterIP</code>. This means that the application services will be made available externally to the cluster which may have security implications you need to be aware of.</p>
-</blockquote>
-<h2 id="multiple-ingress-resources">Multiple Ingress Resources<a class="headerlink" href="#multiple-ingress-resources" title="Permanent link">&para;</a></h2>
-<p>This chart allows for configurations using an arbitrary number of ingress resources and ingress classes.</p>
-<p>This enables the implementation of architectures that require multiple routes for accessing for your environment. For example, you may require some services available publicly while others, such as the Admin Web Console, may only permit access from a private network.</p>
-<h3 id="default-ingress">Default Ingress<a class="headerlink" href="#default-ingress" title="Permanent link">&para;</a></h3>
-<p>In order to simplify deployment of certain architectures, this chart supports the concept of a 'default' Ingress resource.</p>
-<p>The default Ingress resource will be used for any Smile CDR modules that have not explicitly defined <code>service.ingresses</code> in their configuration.</p>
-<h4 id="the-pre-defined-default-ingress-configuration">The pre-defined Default Ingress Configuration<a class="headerlink" href="#the-pre-defined-default-ingress-configuration" title="Permanent link">&para;</a></h4>
-<p>If no changes are made to the <code>ingresses</code> section of your Helm Values, a pre-defined Ingress Configuration is created, that effectively looks like this:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ingresses:
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  default:
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    enabled: true
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    type: nginx-ingress
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    defaultIngress: true
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    ingressClassName: nginx
-</code></pre></div>
-With the above pre-defined ingress, any module with an endpoint-enabled service will have rules injected into the <code>Ingress</code> resource created by this configuration.</p>
-<h4 id="the-defaultingress-setting">The <code>defaultIngress</code> setting<a class="headerlink" href="#the-defaultingress-setting" title="Permanent link">&para;</a></h4>
-<p>This setting tells an Ingress resource to serve as the active <em>default ingress</em>. This setting can only be enabled for a single Ingress Configuration at a time.</p>
-<p>If you are defining a custom default Ingress Configuration and do not wish to use the pre-defined one, you need to disable it like so:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>ingresses:
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  default:
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    enabled: false
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>  myCustomDefaultIngress
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    enabled: true
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    type: nginx-ingress
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    defaultIngress: true
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    ...
-</code></pre></div>
-<blockquote>
-<p><strong>NOTE:</strong> If there are no Ingress Configurations with this setting enabled, then any Smile CDR modules that <strong><em>HAVE NOT</em></strong> explicitly defined <code>service.ingresses</code> in their configuration will not be exposed externally to the K8s cluster.</p>
-</blockquote>
-<h4 id="configuring-the-pre-defined-default-ingress-configuration">Configuring the pre-defined Default Ingress Configuration<a class="headerlink" href="#configuring-the-pre-defined-default-ingress-configuration" title="Permanent link">&para;</a></h4>
-<p>The pre-defined Ingress Configuration can be reconfigured as follows:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ingresses:
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  default:
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    type: azure-agic
-</code></pre></div></p>
-<h4 id="disabling-the-pre-defined-default-ingress-configuration">Disabling the pre-defined Default Ingress Configuration<a class="headerlink" href="#disabling-the-pre-defined-default-ingress-configuration" title="Permanent link">&para;</a></h4>
-<p>If you are creating multiple custom Ingress Configurations, you may wish to disable the pre-defined default ingress. This can be done as follows:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>ingresses:
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  default:
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    enabled: false
-</code></pre></div></p>
-<blockquote>
-<p><strong>NOTE:</strong> If you disable the default ingress, then you must define at least one alternative Ingress Configuration if you wish to allow access from outside the Kubernetes cluster.</p>
-</blockquote>
-<h3 id="defining-custom-ingress-configurations">Defining Custom Ingress Configurations<a class="headerlink" href="#defining-custom-ingress-configurations" title="Permanent link">&para;</a></h3>
-<p>To allow for complex ingress architectures, you may define an arbitrary number of Ingress Configurations like so
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>ingresses:
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>  default:
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    enabled: false
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>  myPrivateNginx:
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    enabled: true
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    type: nginx-ingress
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    defaultIngress: true
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>  myPublicNginx:
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    enabled: true
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    type: nginx-ingress
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    ingressClassNameOverride: nginx-public
-<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
-<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a># These two are just to demonstrate using the
-<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>#  AWS Load Balancer Controller for Ingress
-<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>
-<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>  myPrivateALB:
-<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>    enabled: true
-<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>    type: aws-lbc-alb
-<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>    annotations:
-<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>      alb.ingress.kubernetes.io/scheme: internal
-<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>  myPublicALB:
-<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>    enabled: true
-<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>    type: aws-lbc-alb
-<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>    annotations:
-<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>      alb.ingress.kubernetes.io/scheme: internet-facing
-</code></pre></div>
-In the above example we are:</p>
+<h2 id="database-authentication-methods">Database Authentication Methods<a class="headerlink" href="#database-authentication-methods" title="Permanent link">&para;</a></h2>
+<p>There are multiple authentication mechanisms available, depending on the database vendor being used.</p>
+<h3 id="iam-authentication-aws-rds-only">IAM Authentication (AWS RDS Only)<a class="headerlink" href="#iam-authentication-aws-rds-only" title="Permanent link">&para;</a></h3>
+<p>When using AWS RDS, it is recommended to use IAM authentication to connect to the database if possible.</p>
+<p>When using this mechanism, no secrets need to be created or managed. This results in:</p>
 <ul>
-<li>Disabling the default Ingress Configuration (We do this, because we will be defining a new default Ingress Configuration)</li>
-<li>Creating a <code>myPrivateNginx</code> default Ingress Configuration.</li>
-<li>Using <code>defaultIngress</code> creates the default Ingress resource. This will be used by any Smile CDR modules that do not explicitly define <code>service.ingresses</code>.</li>
-<li>The Ingress resource will use the Nginx Ingress Controller via the <code>ingressClass</code> resource named <code>nginx</code></li>
-<li>Creating a <code>myPublicNginx</code> Ingress Configuration.</li>
-<li>This ingress will not be used unless a module specifies that it should use this ingress.</li>
-<li>The Ingress resource will use the Nginx Ingress Controller via the <code>ingressClass</code> resource named <code>nginx-public</code>. This additional Nginx Ingress Controller will need to be deployed before trying to use this configuration.</li>
+<li><strong>Improved Security</strong>: No secrets exist, so cannot be leaked from the environment.</li>
+<li><strong>Improved Operational Efficiency</strong>: No management of secrets required (e.g periodic secret rotation)</li>
 </ul>
-<p>The following two are just to demonstrate how you would use the AWS Load Balancer Controller as an alternative mechanism.</p>
+<h3 id="direct-secrets-manager-authentication-aws-rds-only">Direct Secrets Manager Authentication (AWS RDS Only)<a class="headerlink" href="#direct-secrets-manager-authentication-aws-rds-only" title="Permanent link">&para;</a></h3>
+<p>When using AWS RDS, it is possible to use AWS Secrets Manager secrets directly in the configuration.</p>
+<p>While not as secure as the IAM option above, it's a viable alternative if you are unable to configure your RDS database to use IAM authentication.</p>
 <ul>
-<li>Creating a <code>myPrivateALB</code> Ingress Configuration.</li>
-<li>This will use the AWS Load Balancer Controller with an IngressClassName of <code>alb</code>.</li>
-<li>It uses AWS Load Balancer Controller annotations to set this ingress to use an internal only AWS Application Load Balancer.</li>
-<li>Creating a <code>myPublicALB</code> Ingress Configuration.</li>
-<li>This will use the Nginx Ingress controller with an IngressClassName of <code>alb</code>.</li>
-<li>It uses AWS Load Balancer Controller annotations to set this ingress to use an internet facing AWS Application Load Balancer.</li>
+<li><strong>Reduced Security</strong>: Secrets do need to be created, but do not get exposed directly in the Smile CDR pods</li>
+<li><strong>Reduced Operational Efficiency</strong>: Secrets still need to be managed (Secured and rotated regularly)</li>
 </ul>
-<blockquote>
-<p><strong>NOTE:</strong> There are no restrictions on mixing the <code>type</code> for Ingress Configurations. For example, you may have some Ingress Configurations use <code>nginx-ingress</code> and others use <code>aws-lbc-alb</code>.</p>
-</blockquote>
-<h3 id="configure-ingress-for-modules">Configure Ingress for Modules<a class="headerlink" href="#configure-ingress-for-modules" title="Permanent link">&para;</a></h3>
-<p>Smile CDR modules will automatically be configured to use whichever ingress has the <code>defaultIngress</code> setting enabled.</p>
-<p>If you do not want a module to use the default Ingress resource, or if there is no default Ingress Configuration defined, then you need to explicitly configure the <code>service.ingresses</code> for any Smile CDR modules that need to be accessed from outside the Kubernetes cluster.</p>
-<p>To configure a Smile CDR module to use a specific ingress, specify it in the <code>moduleSpec.service.ingresses</code> map as follows:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>modules:
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>  fhirweb_endpoint:
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    service:
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>      hostName: myFhirwebHost.example.com
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>      ingresses:
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>        myPublicNginx:
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>          enabled: true
+<h3 id="secret-vault-integration">Secret Vault Integration<a class="headerlink" href="#secret-vault-integration" title="Permanent link">&para;</a></h3>
+<p>This Helm Chart supports regular secret vault integration for all external database options, by using the Secrets Store CSI to securely mount secrets from a secret vault into the Smile CDR pods.</p>
+<p>This is the recommended solution if you are unable to use IAM authentication or direct AWS Secrets Manager Authentication.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently, the only supported secret vault is AWS Secrets Manager.</p>
+<p>Support for other vaults will be added in future versions of the Helm Chart.</p>
+</div>
+<h3 id="secret-vault-json-structure">Secret Vault JSON structure<a class="headerlink" href="#secret-vault-json-structure" title="Permanent link">&para;</a></h3>
+<p>Secrets containing database credentials need to be stored using the JSON structure mentioned <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres">here</a>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;engine&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;postgres&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">&quot;host&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;instance host name/resolvable DNS name&gt;&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;username&gt;&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">&quot;password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;password&gt; - optional: Not required if using IAM auth&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nt">&quot;dbname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;database name&gt;&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="nt">&quot;port&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">&lt;TCP</span><span class="w"> </span><span class="err">por</span><span class="kc">t</span><span class="w"> </span><span class="kc">nu</span><span class="err">mber&gt;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">}</span>
 </code></pre></div>
-In the above example we are telling the module named <code>fhirweb_endpoint</code> to use the <code>myPublicNginx</code> ingress specified previously mentioned. With the sample 'Multiple Ingress' configurations provided in on this page, all Smile CDR modules will only be accessible via the <code>myPrivateNginx</code> ingress, except for the <code>fhirweb_endpoint</code> module which will be available via the public access route.</p>
-<blockquote>
-<p><strong>NOTE:</strong> Although you can configure a module to use multiple Ingress resources, be careful doing this unless you are using a split-dns configuration that preserves the host name for all ingresses.</p>
-<p>Having an endpoint be accessible via multiple hostnames can cause issues with incorrect links to resources generated by the application. It's advisable to only have a given module be accessible via a single ingress/hostname.</p>
-</blockquote>
-<h2 id="extra-annotations">Extra Annotations<a class="headerlink" href="#extra-annotations" title="Permanent link">&para;</a></h2>
-<p>Depending on the ingress type you select, the chart will automatically add a set of default annotations that are appropriate for the ingress type being used.</p>
-<p>However, it is not possible for the chart to automatically include all annotations as some need to be specified in your configuration.</p>
-<p>To add any extra annotations, or override existing ones, include them in your values file like so:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">ingresses</span><span class="p">:</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">default</span><span class="p">:</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="nt">annotations</span><span class="p">:</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">      </span><span class="nt">alb.ingress.kubernetes.io/certificate-arn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arn:aws:acm::01234567890:certificate/abcdef</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">      </span><span class="nt">alb.ingress.kubernetes.io/inbound-cidrs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;0.0.0.0/0&#39;</span><span class="p p-Indicator">]</span>
+<p>This is the default secret data format used by AWS RDS when it manages secrets. It includes all connection details including <code>engine</code>, <code>host</code>, <code>username</code>, <code>dbname</code> and <code>port</code> and acts as the single source of truth for connection information for any given database.</p>
+<p>This approach simplifies configuration of databases in Smile CDR as you do not need to explicitly configure these details. Instead, a single configuration that points to the AWS Secrets Manager Secret is all that is required.</p>
+<p>This is especially helpful in reducing the likelihood of introducing errors the event of switching between RDS instances (i.e. blue-green deployments) or restoring RDS instances (Where the DB cluster name will likely change) as the DB configuration only needs to be updated in a single place.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If IAM authentication is being used, the Secrets Manager secret is not strictly required, as no secret material (i.e. password) needs to be stored. However it is still beneficial to use one to store the remaining DB connection details for the above mentioned reasons.</p>
+</div>
+<h3 id="kubernetes-secrets">Kubernetes Secrets<a class="headerlink" href="#kubernetes-secrets" title="Permanent link">&para;</a></h3>
+<p>It is also possible to manually create Secret resources in Kubernetes and reference them, but this is <em>not recommended</em> due to the extra maintenance overhead and reduced security posture.</p>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<p>External database connections are configured in the <code>database.external</code> section of your values file as follows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">database</span><span class="p">:</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">external</span><span class="p">:</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">defaults</span><span class="p">:</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="nt">connectionConfigSource</span><span class="p">:</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="c1"># sscsi or k8sSecret</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sscsi</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="c1"># pwd or iam</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">      </span><span class="nt">connectionConfig</span><span class="p">:</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">        </span><span class="nt">authentication</span><span class="p">:</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">         </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pwd</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="nt">databases</span><span class="p">:</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgrdb-iam</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">      </span><span class="nt">modules</span><span class="p">:</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">      </span><span class="nt">connectionConfigSource</span><span class="p">:</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">        </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">none</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">      </span><span class="nt">connectionConfig</span><span class="p">:</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">        </span><span class="nt">authentication</span><span class="p">:</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">iam</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">          </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">        </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr-db-url</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr-db-port</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">        </span><span class="nt">dbName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr-db-name</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">        </span><span class="nt">user</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr-db-user</span>
 </code></pre></div>
-<p>or
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">ingresses</span><span class="p">:</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">default</span><span class="p">:</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="nt">annotations</span><span class="p">:</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">      </span><span class="nt">appgw.ingress.kubernetes.io/appgw-ssl-certificate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysslcert</span>
-</code></pre></div></p>
-<h2 id="ingress-class-name">Ingress Class Name<a class="headerlink" href="#ingress-class-name" title="Permanent link">&para;</a></h2>
-<p>This chart uses the following default class names for the different ingress types</p>
+<h3 id="using-iam-or-direct-secrets-manager-authentication">Using IAM or Direct Secrets Manager Authentication<a class="headerlink" href="#using-iam-or-direct-secrets-manager-authentication" title="Permanent link">&para;</a></h3>
+<h4 id="iam-prerequisites">IAM Prerequisites<a class="headerlink" href="#iam-prerequisites" title="Permanent link">&para;</a></h4>
+<p>Before configuring Smile CDR to use IAM authentication, you need to ensure the following:</p>
+<ul>
+<li>The IAM role for the Smile CDR pod has appropriate permissions to access the RDS database.</li>
+<li>You are using an AWS RDS database, configured to allow IAM authentication using the correct IAM role.</li>
+<li>This should be done for each user/database that you plan to use.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These are not in scope of the Helm Chart documentation, but the Smile CDR Dependencies Terraform module is able to perform these configurations automatically.</p>
+</div>
+<h4 id="direct-secrets-manager-authentication-prerequisites">Direct Secrets Manager Authentication Prerequisites<a class="headerlink" href="#direct-secrets-manager-authentication-prerequisites" title="Permanent link">&para;</a></h4>
+<p>Before configuring Smile CDR to use direct AWS Secrets Manager authentication, you need to ensure the following:</p>
+<ul>
+<li>You have created an AWS Secrets Manager Secret using the regular JSON secret format.</li>
+<li>The IAM role for the Smile CDR pod has appropriate permissions to access the above AWS Secrets Manager Secret.</li>
+</ul>
+<h4 id="iam-configuration">IAM Configuration<a class="headerlink" href="#iam-configuration" title="Permanent link">&para;</a></h4>
+<p>For each database being configured under <code>database.external.databases</code>, configure as follows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">connectionConfig</span><span class="p">:</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">authentication</span><span class="p">:</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">iam</span>
+</code></pre></div>
+<p>Although no password is required when using IAM authentication, you still need to provide other connection information. This can either be done using AWS Secrets Manager, or you can specify the remaining details manually.</p>
+<p><strong>Connection Details in Secrets Manager</strong></p>
+<p>If using Secrets Manager, and if the secret uses the regular JSON secret format, simply add the AWS Secrets Manager secret ARN under <code>connectionConfigSource.source</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="w">    </span><span class="nt">databases</span><span class="p">:</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgrdb-iam</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">      </span><span class="nt">modules</span><span class="p">:</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">      </span><span class="nt">connectionConfigSource</span><span class="p">:</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">secrets-manager-secret-ARN</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">      </span><span class="nt">connectionConfig</span><span class="p">:</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">        </span><span class="nt">authentication</span><span class="p">:</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">iam</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">          </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+</code></pre></div>
+<p><strong>Using Manual Connection Details</strong></p>
+<p>If you are not using Secrets Manager as the source of these details, you <strong>must</strong> provide them as follows.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="w">    </span><span class="nt">databases</span><span class="p">:</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgrdb-iam</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">      </span><span class="nt">modules</span><span class="p">:</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="nt">connectionConfigSource</span><span class="p">:</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">none</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">      </span><span class="nt">connectionConfig</span><span class="p">:</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="nt">authentication</span><span class="p">:</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">iam</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">          </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">        </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr-db-url</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr-db-port</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">        </span><span class="nt">dbName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr-db-name</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">        </span><span class="nt">user</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr-db-user</span>
+</code></pre></div>
+<h4 id="direct-secrets-manager-authentication-configuration">Direct Secrets Manager Authentication Configuration<a class="headerlink" href="#direct-secrets-manager-authentication-configuration" title="Permanent link">&para;</a></h4>
+<p>For each database being configured under <code>database.external.databases</code>, configure as follows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">connectionConfig</span><span class="p">:</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">authentication</span><span class="p">:</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">secretsmanager</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nt">connectionConfigSource</span><span class="p">:</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">secrets-manager-secret-ARN</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note on Smile CDR AWS Advanced JDBC Driver</p>
+<p>As of Smile CDR <code>2025.05.R01</code>, the new AWS Advanced JDBC Driver is being used to manage connection configuration when using IAM or AWS Secrets Manager authentication.</p>
+<p>To enable this, the mechanism used to configure Smile CDR has changed. See <a href="https://smilecdr.com/docs/v/2025.08.PRE/database_administration/rds_auth.html#aws-advanced-jdbc-driver">here</a> for more information on this change.</p>
+<p>This Helm Chart will automatically select the appropriate configuration method depending on the version of Smile CDR being deployed. See <a href="../../../upgrading/#choosing-smile-cdr-versions">Choosing Smile CDR Versions</a> for more info.</p>
+</div>
+<h3 id="configuration-reference">Configuration Reference<a class="headerlink" href="#configuration-reference" title="Permanent link">&para;</a></h3>
+<p><strong><code>database.external.databases</code> Section</strong></p>
+<p>This section contains a list of all external database connection configurations.</p>
 <table>
 <thead>
 <tr>
-<th>Selected <code>ingresses.default.type</code></th>
-<th>Default <code>ingressClassName</code></th>
+<th>Key</th>
+<th>Value</th>
+<th>Required</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>nginx-ingress</code></td>
-<td><code>nginx</code></td>
+<td><code>name</code></td>
+<td>A friendly reference name for this connection.</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span></td>
+<td></td>
 </tr>
 <tr>
-<td><code>aws-lbc-alb</code></td>
-<td><code>alb</code></td>
+<td><code>modules</code></td>
+<td>List of modules that this connection is used by</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+<td>If not present, connection may be used by any modules.</td>
 </tr>
 <tr>
-<td><code>azure-agic</code></td>
-<td><code>azure/application-gateway</code></td>
+<td><code>connectionConfigSource</code></td>
+<td>Source of connection credentials (e.g. secrets)</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+<td>Not required if sufficient defaults are defined</td>
+</tr>
+<tr>
+<td><code>connectionConfig</code></td>
+<td>Directly configured connection configurations</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+<td>Not required if sufficient defaults are defined</td>
 </tr>
 </tbody>
 </table>
-<p>If you have configured your Ingress Controller with a different <code>ingressClass</code> name, you can override it using <code>ingresses.default.ingressClassNameOverride</code>.</p>
-<p>For example, if you had a dedicated Nginx Ingress Controller with the <code>IngressClass</code> of <code>nginx-dedicated</code>, you would include it in your values file like so:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">ingresses</span><span class="p">:</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">default</span><span class="p">:</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="nt">ingressClassNameOverride</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-dedicated</span>
-</code></pre></div>
-<h2 id="disabling-ingress">Disabling Ingress<a class="headerlink" href="#disabling-ingress" title="Permanent link">&para;</a></h2>
-<p>In some scenarios, you may wish to disable external ingress for certain modules. For example, if you have a FHIR Rest Endpoint module that is behind a FHIR Gateway module, you may not want to expose the FHIR Rest endpoint externally to the cluster.</p>
-<p>In this case, you can disable the ingress for a given service like so:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">modules</span><span class="p">:</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">fhir_endpoint</span><span class="p">:</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="nt">service</span><span class="p">:</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">      </span><span class="nt">ingresses</span><span class="p">:</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">        </span><span class="nt">default</span><span class="p">:</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">          </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<p><strong><code>connectionConfigSource</code> Section</strong></p>
+<p>This section configures where the database connection settings are pulled from.
+Any required configurations must come from the <code>defaults</code> section or from the per-connection section. If they are not provided anywhere, the chart will fail with a descriptive error message.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+<th>Required</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>source</code></td>
+<td><code>sscsi</code>,<code>k8sSecret</code> or <code>none</code></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span></td>
+<td>Can only use <code>none</code> if using IAM Authentication</td>
+</tr>
+<tr>
+<td><code>provider</code></td>
+<td>SSCSI Provider, e.g. <code>aws</code></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+<td>Required if using Secrets Store CSI Driver (sscsi). Only <code>aws</code> provider is currently supported.</td>
+</tr>
+<tr>
+<td><code>secretName</code></td>
+<td>Secret object name</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+<td>Required if using Kubernetes Secrets (<code>k8sSecret</code>) or Secrets Store CSI Driver (<code>sscsi</code>).</td>
+</tr>
+<tr>
+<td><code>secretArn</code></td>
+<td>Secrets Manager ARN</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+<td>Required if using Secrets Store CSI Driver (<code>sscsi</code>).</td>
+</tr>
+<tr>
+<td><code>secretKeyMappings</code></td>
+<td>Dictionary of key mappings</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+<td>If you are using key names in your secrets that differ from the defaults, you can provide a custom mapping</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>secretKeyMappings</code> Section</strong></p>
+<p>This section lets you configure custom key mappings. If you are not using the above mentioned Json <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html#reference_secret_json_structure_rds-postgres">structure</a> (i.e. <code>engine</code>, <code>host</code>, <code>username</code>, <code>password</code>, <code>dbname</code> and <code>port</code>) in your secret, they can be overridden by specifying them with the <code>*Key</code> attributes to override the defaults</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>urlKey</code></td>
+<td>Secret Key Name for URL</td>
+</tr>
+<tr>
+<td><code>portKey</code></td>
+<td>Secret Key Name for Port</td>
+</tr>
+<tr>
+<td><code>dbNameKey</code></td>
+<td>Secret Key Name for db name</td>
+</tr>
+<tr>
+<td><code>userKey</code></td>
+<td>Secret Key Name for username</td>
+</tr>
+<tr>
+<td><code>passKey</code></td>
+<td>Secret Key Name for password</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>connectionConfig</code> Section</strong></p>
+<p>This section is used to directly specify DB connection configurations.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+<th>Required</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>authentication</code></td>
+<td>Define authentication mechanism</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span></td>
+<td>Defaults to use 'password' authentication. This implies you cannot use <code>none</code> as the config source, as you need a password to be provided via a secure mechanism.</td>
+</tr>
+<tr>
+<td><code>authentication.provider</code></td>
+<td>Define authentication provider</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+<td>Required when using <code>iam</code> authentication. Only <code>aws</code> provider is currently supported.</td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td>Database hostname</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+<td>This value acts as an override and will be used even if the credential is provided in a secret object.</td>
+</tr>
+<tr>
+<td><code>port</code></td>
+<td>Database port</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+<td>This value acts as an override and will be used even if the credential is provided in a secret object.</td>
+</tr>
+<tr>
+<td><code>dbName</code></td>
+<td>Database name</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+<td>This value acts as an override and will be used even if the credential is provided in a secret object.</td>
+</tr>
+<tr>
+<td><code>user</code></td>
+<td>Database username</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></td>
+<td>This value acts as an override and will be used even if the credential is provided in a secret object.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="defaults-section"><code>defaults</code> Section<a class="headerlink" href="#defaults-section" title="Permanent link">&para;</a></h4>
+<p>To avoid duplication of configuration settings, it's possible to set defaults for the <code>connectionConfigSource</code> and <code>connectionConfig</code> sections.</p>
+<h3 id="legacy-database-configuration-schema">Legacy Database Configuration Schema<a class="headerlink" href="#legacy-database-configuration-schema" title="Permanent link">&para;</a></h3>
+<p>In Helm Chart version v1.0.0-pre.121 and older, the Database schema was more restrictive.</p>
+<details class="info">
+<summary>See More...</summary>
+<p><strong>v1.0.0-pre.121 Database Configuration Schema</strong>
+The previous Database schema was more restrictive in that:</p>
+<ul>
+<li>It did not allow for different credential mechanisms for each database.</li>
+<li>It did not follow the same <code>secretSpec</code> schema used elsewhere in the Helm Chart.</li>
+<li>It did not allow for a single set of credentials to be used in multiple Smile CDR modules.</li>
+</ul>
+<p><strong>Legacy Schema</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">database</span><span class="p">:</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">external</span><span class="p">:</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nt">credentials</span><span class="p">:</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sscsi</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">      </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="nt">databases</span><span class="p">:</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgrSecret</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">      </span><span class="nt">secretArn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">      </span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr</span>
 </code></pre></div></p>
-<p>Configuring your module like this will prevent any rules from being added to the default Ingress resource that is generated.</p>
-<p>If your module is a FHIR Rest Endpoint module, the <code>base_url.fixed</code> setting will be automatically configured appropriately and there is no need for you set this in your <code>moduleSpec.config</code>.</p>
-<h2 id="service-type">Service Type<a class="headerlink" href="#service-type" title="Permanent link">&para;</a></h2>
-<p>The appropriate type for the <code>Service</code> resources depend on which Ingress type is being used.
-The default <code>Service</code> created by this chart is <code>ClusterIP</code>. This is the preferred option as it does not expose the Services externally to the cluster.</p>
-<p>When using the AWS Load Balancer Controller, or Azure Application Gateway Controller, the service objects are instead set to <code>NodePort</code>.</p>
-<p>This can be overridden using <code>service.type</code> in your values file, but it is not recommended and may cause unpredictable behaviour.</p>
-<!-- TODO: We may need to enable `target-type: ip` in the AWS Load Balancer Controller. If doing this, we will need to use pod readiness gates - https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/deploy/pod_readiness_gate/ . This will not work until healthchecks are functioning correctly. -->
+<blockquote>
+<p><strong>Note:</strong> This legacy schema has been deprecated and will be removed from a future version of the Helm Chart.</p>
+</blockquote>
+<p><strong>Migrating from legacy to new Database Connection Configuration Schema</strong></p>
+<p>To aid in upgrading to the new version of the DB Connection Configuration Schema, Helm Chart version v1.0.0-pre.122 and newer will give a warning with a descriptive error message if the old schema is being used.
+<!-- In addition to this, it will attempt to convert your provided legacy configuration that can be used to replace the old one in your values file. --></p>
+<p>To convert, you should do the following:</p>
+<ul>
+<li>Move configuration from <code>database.external.credentials</code> section to <code>database.external.defaults.connectionConfigSource</code> or to <code>database.external.databases.[databaseIndex].connectionConfigSource</code></li>
+<li>Move <code>secretName</code> and <code>secretArn</code> from <code>database.external.databases.[databaseIndex]</code> to <code>database.external.databases.[databaseIndex].connectionConfigSource</code></li>
+<li>Change <code>database.external.databases.[databaseIndex].module</code> from a single value to an array of values at <code>database.external.databases.[databaseIndex].modules</code></li>
+</ul>
+<p>The above legacy example configuration would then become:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">database</span><span class="p">:</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">external</span><span class="p">:</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nt">defaults</span><span class="p">:</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">      </span><span class="nt">connectionConfigSource</span><span class="p">:</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">        </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sscsi</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">        </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="nt">databases</span><span class="p">:</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">connectionConfigSource</span><span class="p">:</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">        </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgrSecret</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">        </span><span class="nt">secretArn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arn:aws:secretsmanager:us-east-1:012345678901:secret:clustermgrSecret</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">      </span><span class="nt">modules</span><span class="p">:</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr</span>
+</code></pre></div>
+</details>
+<h2 id="configuring-multiple-databases">Configuring Multiple Databases<a class="headerlink" href="#configuring-multiple-databases" title="Permanent link">&para;</a></h2>
+<p>This chart has support to use multiple databases. It is recommended (and in some cases, required) to configure Smile CDR this way, with a separate DB for the Cluster Manager, Audit logs, Transaction logs and for any Persistence Modules.</p>
+<blockquote>
+<p><strong>Note</strong>If there is only one database configured then it will be used for all modules.</p>
+</blockquote>
+<h2 id="module-autoconfiguration-of-databases">Module Autoconfiguration of Databases<a class="headerlink" href="#module-autoconfiguration-of-databases" title="Permanent link">&para;</a></h2>
+<p>This Helm Chart will automatically configure any Smile CDR modules that use a database.</p>
+<p>If you configure multiple databases, the <code>module</code> key specified for each one is used to determine which
+Smile CDR module is using it. This key is important as it tells the Helm Chart which module uses this database.</p>
+<h3 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h3>
+<p>In the examples below, the <code>clustermgr</code>, <code>audit</code>, <code>transaction</code> and <code>persistence</code> modules will automatically
+have their own set of environment variables configured for DB connections as follows: <code>CLUSTERMGR_DB_*</code>, <code>AUDIT_DB_*</code>, <code>TRANSACTION_DB_*</code> and
+<code>PERSISTENCE_DB_*</code></p>
+<h3 id="module-configuration">Module Configuration<a class="headerlink" href="#module-configuration" title="Permanent link">&para;</a></h3>
+<p>As the modules are configured automatically, you must <strong><em>NOT</em></strong> manually update your module configurations to point to these environment variable references.</p>
+<p>When a given module is configured, any <code>DB_*</code> placeholders in the Helm Values files are automatically replaced with the appropriate <code>&lt;modulename&gt;_DB_*</code> values.</p>
+<p>For example the default Cluster Manager values file has DB connection settings that look like this:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">db.url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jdbc:postgresql://#{env[&#39;DB_URL&#39;]}:#{env[&#39;DB_PORT&#39;]}/#{env[&#39;DB_DATABASE&#39;]}?sslmode=require</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nt">db.password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;#{env[&#39;DB_PASS&#39;]}&quot;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nt">db.username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;#{env[&#39;DB_USER&#39;]}&quot;</span>
+</code></pre></div>
+The Helm Chart will generate a Smile CDR properties file with automatically updated values to match the environment variables, like so:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="na">module.clustermgr.config.db.url</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s">jdbc:postgresql://#{env[&#39;CLUSTERMGR_DB_URL&#39;]}:#{env[&#39;CLUSTERMGR_DB_PORT&#39;]}/#{env[&#39;CLUSTERMGR_DB_DATABASE&#39;]}?sslmode=require</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="na">module.clustermgr.config.db.password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">#{env[&#39;CLUSTERMGR_DB_PASS&#39;]}</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="na">module.clustermgr.config.db.username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">#{env[&#39;CLUSTERMGR_DB_USER&#39;]}</span>
+</code></pre></div>
+<p>This will happen automatically for any module that references <code>DB_*</code> environment variables.</p>
 
 
 

@@ -8,28 +8,28 @@
       
       
       
-        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/quickstart-aws/aws-dependencies/">
+        <link rel="canonical" href="https://smilecdr-public.gitlab.io/smile-dh-helm-charts/latest/guide/smilecdr/database-local/">
       
       
-        <link rel="prev" href="../existing-vpc/">
+        <link rel="prev" href="../database-external/">
       
       
-        <link rel="next" href="../deploy-terraform/">
+        <link rel="next" href="../database-examples/">
       
       
-      <link rel="icon" href="../../assets/SDH 64x64.webp">
+      <link rel="icon" href="../../../assets/SDH 64x64.webp">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
     
     
       
-        <title>Prepare AWS Resources - Smile Digital Health Helm Charts</title>
+        <title>Local Database - Smile Digital Health Helm Charts</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
   
@@ -58,11 +58,11 @@
     
       <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
     
-      <link rel="stylesheet" href="../../stylesheets/colours.css">
+      <link rel="stylesheet" href="../../../stylesheets/colours.css">
     
-      <link rel="stylesheet" href="../../stylesheets/logo.css">
+      <link rel="stylesheet" href="../../../stylesheets/logo.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#prepare-aws-resources" class="md-skip">
+        <a href="#using-a-cluster-local-database" class="md-skip">
           Skip to content
         </a>
       
@@ -108,9 +108,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+    <a href="../../.." title="Smile Digital Health Helm Charts" class="md-header__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
       
-  <img src="../../assets/SDH logo for social 188 White wTM.webp" alt="logo">
+  <img src="../../../assets/SDH logo for social 188 White wTM.webp" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -127,7 +127,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Prepare AWS Resources
+              Local Database
             
           </span>
         </div>
@@ -244,7 +244,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../.." class="md-tabs__link">
+        <a href="../../.." class="md-tabs__link">
           
   
   
@@ -262,13 +262,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../quickstart-aws/" class="md-tabs__link">
           
   
   
@@ -286,11 +284,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../guide/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
           
   
   
@@ -312,7 +312,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../examples/" class="md-tabs__link">
+        <a href="../../../examples/" class="md-tabs__link">
           
   
   
@@ -354,9 +354,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
+    <a href="../../.." title="Smile Digital Health Helm Charts" class="md-nav__button md-logo" aria-label="Smile Digital Health Helm Charts" data-md-component="logo">
       
-  <img src="../../assets/SDH logo for social 188 White wTM.webp" alt="logo">
+  <img src="../../../assets/SDH logo for social 188 White wTM.webp" alt="logo">
 
     </a>
     Smile Digital Health Helm Charts
@@ -410,7 +410,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../.." class="md-nav__link ">
+            <a href="../../.." class="md-nav__link ">
               
   
   
@@ -478,7 +478,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../charts/smilecdr/" class="md-nav__link ">
+            <a href="../../../charts/smilecdr/" class="md-nav__link ">
               
   
   
@@ -513,7 +513,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/smilecdr/" class="md-nav__link">
+      <a href="../../../charts/smilecdr/smilecdr/" class="md-nav__link">
         
   
   
@@ -567,7 +567,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../upgrading/" class="md-nav__link ">
+            <a href="../../../upgrading/" class="md-nav__link ">
               
   
   
@@ -602,7 +602,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../upgrading/versioning-strategy/" class="md-nav__link">
+      <a href="../../../upgrading/versioning-strategy/" class="md-nav__link">
         
   
   
@@ -625,7 +625,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../upgrading/release-channels/" class="md-nav__link">
+      <a href="../../../upgrading/release-channels/" class="md-nav__link">
         
   
   
@@ -648,7 +648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../upgrading/version-matrix/" class="md-nav__link">
+      <a href="../../../upgrading/version-matrix/" class="md-nav__link">
         
   
   
@@ -736,7 +736,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/CHANGELOG-V5/" class="md-nav__link">
+      <a href="../../../charts/smilecdr/CHANGELOG-V5/" class="md-nav__link">
         
   
   
@@ -759,7 +759,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/CHANGELOG-V4/" class="md-nav__link">
+      <a href="../../../charts/smilecdr/CHANGELOG-V4/" class="md-nav__link">
         
   
   
@@ -782,7 +782,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/CHANGELOG-V3/" class="md-nav__link">
+      <a href="../../../charts/smilecdr/CHANGELOG-V3/" class="md-nav__link">
         
   
   
@@ -805,7 +805,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/CHANGELOG-V2/" class="md-nav__link">
+      <a href="../../../charts/smilecdr/CHANGELOG-V2/" class="md-nav__link">
         
   
   
@@ -828,7 +828,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../charts/smilecdr/CHANGELOG-V1/" class="md-nav__link">
+      <a href="../../../charts/smilecdr/CHANGELOG-V1/" class="md-nav__link">
         
   
   
@@ -910,7 +910,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/branching-model/" class="md-nav__link">
+      <a href="../../../contributing/branching-model/" class="md-nav__link">
         
   
   
@@ -933,7 +933,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/release-process/" class="md-nav__link">
+      <a href="../../../contributing/release-process/" class="md-nav__link">
         
   
   
@@ -976,8 +976,6 @@
       
   
   
-    
-  
   
   
     
@@ -999,23 +997,22 @@
     
     
       
-        
-        
-      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../../quickstart-aws/" class="md-nav__link ">
               
   
   
@@ -1028,13 +1025,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Quickstart
@@ -1050,7 +1047,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../eks-cluster/" class="md-nav__link">
+      <a href="../../../quickstart-aws/eks-cluster/" class="md-nav__link">
         
   
   
@@ -1073,7 +1070,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../existing-vpc/" class="md-nav__link">
+      <a href="../../../quickstart-aws/existing-vpc/" class="md-nav__link">
         
   
   
@@ -1093,32 +1090,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Prepare AWS Resources
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../quickstart-aws/aws-dependencies/" class="md-nav__link">
         
   
   
@@ -1129,95 +1104,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#amazon-certificate-manager-certificate" class="md-nav__link">
-    <span class="md-ellipsis">
-      Amazon Certificate Manager Certificate
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#private-container-registry-credentials" class="md-nav__link">
-    <span class="md-ellipsis">
-      Private Container Registry Credentials
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Private Container Registry Credentials">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#account-wide-shared-repository-secret" class="md-nav__link">
-    <span class="md-ellipsis">
-      Account-wide shared repository secret
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#per-environment-repository-secret" class="md-nav__link">
-    <span class="md-ellipsis">
-      Per environment repository secret
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#repository-secret-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      Repository Secret Format
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#amazon-ecr" class="md-nav__link">
-    <span class="md-ellipsis">
-      Amazon ECR
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dns-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      DNS Configuration
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1230,7 +1116,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deploy-terraform/" class="md-nav__link">
+      <a href="../../../quickstart-aws/deploy-terraform/" class="md-nav__link">
         
   
   
@@ -1257,6 +1143,8 @@
       
   
   
+    
+  
   
   
     
@@ -1274,22 +1162,23 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../guide/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   
@@ -1302,13 +1191,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             User Guide
@@ -1340,10 +1229,13 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
@@ -1352,7 +1244,7 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
         
           
-          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
             
   
   
@@ -1379,7 +1271,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/helm-repo/" class="md-nav__link">
+      <a href="../../helm-repo/" class="md-nav__link">
         
   
   
@@ -1431,7 +1323,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../guide/secrets/" class="md-nav__link ">
+            <a href="../../secrets/" class="md-nav__link ">
               
   
   
@@ -1466,7 +1358,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/secrets/configuring-secrets/" class="md-nav__link">
+      <a href="../../secrets/configuring-secrets/" class="md-nav__link">
         
   
   
@@ -1489,7 +1381,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/secrets/extra-secrets/" class="md-nav__link">
+      <a href="../../secrets/extra-secrets/" class="md-nav__link">
         
   
   
@@ -1520,7 +1412,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/serviceaccount/" class="md-nav__link">
+      <a href="../../serviceaccount/" class="md-nav__link">
         
   
   
@@ -1543,7 +1435,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/values-files-management/" class="md-nav__link">
+      <a href="../../values-files-management/" class="md-nav__link">
         
   
   
@@ -1571,6 +1463,8 @@
                 
   
   
+    
+  
   
   
     
@@ -1612,20 +1506,21 @@
       
       
         
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
+          
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../guide/smilecdr/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -1638,13 +1533,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
             Smile CDR
@@ -1660,7 +1555,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/requirements/" class="md-nav__link">
+      <a href="../requirements/" class="md-nav__link">
         
   
   
@@ -1683,7 +1578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/cdrversions/" class="md-nav__link">
+      <a href="../cdrversions/" class="md-nav__link">
         
   
   
@@ -1706,7 +1601,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/install/" class="md-nav__link">
+      <a href="../install/" class="md-nav__link">
         
   
   
@@ -1726,8 +1621,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1748,13 +1645,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_5" checked>
         
           
           <label class="md-nav__link" for="__nav_3_3_5" id="__nav_3_3_5_label" tabindex="0">
@@ -1770,7 +1665,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_3_5">
             <span class="md-nav__icon md-icon"></span>
             Database
@@ -1784,7 +1679,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/database-overview/" class="md-nav__link">
+      <a href="../database-overview/" class="md-nav__link">
         
   
   
@@ -1807,7 +1702,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/database-external/" class="md-nav__link">
+      <a href="../database-external/" class="md-nav__link">
         
   
   
@@ -1827,10 +1722,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../guide/smilecdr/database-local/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Local Database
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1841,6 +1758,86 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#databasecrunchypgoconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      database.crunchypgo.config
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#databasecrunchypgousers" class="md-nav__link">
+    <span class="md-ellipsis">
+      database.crunchypgo.users
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crunchydata-database-name-suffixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      CrunchyData Database Name Suffixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1853,7 +1850,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/database-examples/" class="md-nav__link">
+      <a href="../database-examples/" class="md-nav__link">
         
   
   
@@ -1917,7 +1914,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../guide/smilecdr/modules/" class="md-nav__link ">
+            <a href="../modules/" class="md-nav__link ">
               
   
   
@@ -1952,7 +1949,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/modules/modules/" class="md-nav__link">
+      <a href="../modules/modules/" class="md-nav__link">
         
   
   
@@ -1975,7 +1972,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/modules/cdrnode/" class="md-nav__link">
+      <a href="../modules/cdrnode/" class="md-nav__link">
         
   
   
@@ -1998,7 +1995,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/modules/license/" class="md-nav__link">
+      <a href="../modules/license/" class="md-nav__link">
         
   
   
@@ -2021,7 +2018,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/modules/hl7v2/" class="md-nav__link">
+      <a href="../modules/hl7v2/" class="md-nav__link">
         
   
   
@@ -2101,7 +2098,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/messagebroker/" class="md-nav__link">
+      <a href="../messagebroker/" class="md-nav__link">
         
   
   
@@ -2183,7 +2180,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/ingress/" class="md-nav__link">
+      <a href="../ingress/" class="md-nav__link">
         
   
   
@@ -2206,7 +2203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/tls-encryption/" class="md-nav__link">
+      <a href="../tls-encryption/" class="md-nav__link">
         
   
   
@@ -2286,7 +2283,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/envvars/" class="md-nav__link">
+      <a href="../envvars/" class="md-nav__link">
         
   
   
@@ -2368,7 +2365,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/storage/files/" class="md-nav__link">
+      <a href="../storage/files/" class="md-nav__link">
         
   
   
@@ -2391,7 +2388,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/storage/volumeConfig/" class="md-nav__link">
+      <a href="../storage/volumeConfig/" class="md-nav__link">
         
   
   
@@ -2471,7 +2468,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/logging/" class="md-nav__link">
+      <a href="../logging/" class="md-nav__link">
         
   
   
@@ -2555,7 +2552,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/tuning/jvm/" class="md-nav__link">
+      <a href="../tuning/jvm/" class="md-nav__link">
         
   
   
@@ -2578,7 +2575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/tuning/resources/" class="md-nav__link">
+      <a href="../tuning/resources/" class="md-nav__link">
         
   
   
@@ -2601,7 +2598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/tuning/podscheduling/" class="md-nav__link">
+      <a href="../tuning/podscheduling/" class="md-nav__link">
         
   
   
@@ -2632,7 +2629,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/updating/" class="md-nav__link">
+      <a href="../updating/" class="md-nav__link">
         
   
   
@@ -2704,7 +2701,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/smilecdr/operations/smileutil/" class="md-nav__link">
+      <a href="../operations/smileutil/" class="md-nav__link">
         
   
   
@@ -2795,7 +2792,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../examples/" class="md-nav__link ">
+            <a href="../../../examples/" class="md-nav__link ">
               
   
   
@@ -2830,7 +2827,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/minimal/" class="md-nav__link">
+      <a href="../../../examples/minimal/" class="md-nav__link">
         
   
   
@@ -2853,7 +2850,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/external-db/" class="md-nav__link">
+      <a href="../../../examples/external-db/" class="md-nav__link">
         
   
   
@@ -2876,7 +2873,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/external-db-multi/" class="md-nav__link">
+      <a href="../../../examples/external-db-multi/" class="md-nav__link">
         
   
   
@@ -2899,7 +2896,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/modules-simple/" class="md-nav__link">
+      <a href="../../../examples/modules-simple/" class="md-nav__link">
         
   
   
@@ -2922,7 +2919,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/modules-advanced/" class="md-nav__link">
+      <a href="../../../examples/modules-advanced/" class="md-nav__link">
         
   
   
@@ -2945,7 +2942,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/extra-files-helm/" class="md-nav__link">
+      <a href="../../../examples/extra-files-helm/" class="md-nav__link">
         
   
   
@@ -2968,7 +2965,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/extra-files-external/" class="md-nav__link">
+      <a href="../../../examples/extra-files-external/" class="md-nav__link">
         
   
   
@@ -2991,7 +2988,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/previousrootversion/" class="md-nav__link">
+      <a href="../../../examples/previousrootversion/" class="md-nav__link">
         
   
   
@@ -3014,7 +3011,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/aws-dependencies/" class="md-nav__link">
+      <a href="../../../examples/aws-dependencies/" class="md-nav__link">
         
   
   
@@ -3037,7 +3034,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/quickstart/" class="md-nav__link">
+      <a href="../../../examples/quickstart/" class="md-nav__link">
         
   
   
@@ -3087,46 +3084,55 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#amazon-certificate-manager-certificate" class="md-nav__link">
+  <a href="#requirements" class="md-nav__link">
     <span class="md-ellipsis">
-      Amazon Certificate Manager Certificate
+      Requirements
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#private-container-registry-credentials" class="md-nav__link">
+  <a href="#basic-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Private Container Registry Credentials
+      Basic Configuration
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Private Container Registry Credentials">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#account-wide-shared-repository-secret" class="md-nav__link">
+  <a href="#databasecrunchypgoconfig" class="md-nav__link">
     <span class="md-ellipsis">
-      Account-wide shared repository secret
+      database.crunchypgo.config
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#per-environment-repository-secret" class="md-nav__link">
+  <a href="#databasecrunchypgousers" class="md-nav__link">
     <span class="md-ellipsis">
-      Per environment repository secret
+      database.crunchypgo.users
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#repository-secret-format" class="md-nav__link">
+  <a href="#crunchydata-database-name-suffixes" class="md-nav__link">
     <span class="md-ellipsis">
-      Repository Secret Format
+      CrunchyData Database Name Suffixes
     </span>
   </a>
   
@@ -3134,24 +3140,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#amazon-ecr" class="md-nav__link">
-    <span class="md-ellipsis">
-      Amazon ECR
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dns-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      DNS Configuration
-    </span>
-  </a>
   
 </li>
       
@@ -3175,44 +3163,187 @@
     
       
     
-    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/quickstart-aws/aws-dependencies.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/tree/main/docs/guide/smilecdr/database-local.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
     </a>
   
 
 
-<h1 id="prepare-aws-resources">Prepare AWS Resources<a class="headerlink" href="#prepare-aws-resources" title="Permanent link">&para;</a></h1>
-<p>Before deploying Smile CDR using this Terraform Module and Helm Chart, you will still need to create some resources.</p>
-<p>Due to the nature of these resources, it's not feasible to include them in any automations at this time.</p>
-<h2 id="amazon-certificate-manager-certificate">Amazon Certificate Manager Certificate<a class="headerlink" href="#amazon-certificate-manager-certificate" title="Permanent link">&para;</a></h2>
-<p>As this example terminates TLS at the AWS Network Load Balancer, a suitable TLS certificate needs to be made available in Amazon Certificate Manager (ACM).</p>
-<p>If this dependency is not available, then you will not be able to access the environment after it's deployed.</p>
+<h1 id="using-a-cluster-local-database">Using A Cluster Local Database<a class="headerlink" href="#using-a-cluster-local-database" title="Permanent link">&para;</a></h1>
+<p>This chart supports automatic creation of an in-cluster Postgres database using the CrunchyData Postgres Operator (PGO).</p>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<p>In order to use this feature, you will need to ensure that your K8s cluster already has the operator installed
+(Operator installation instructions <a href="https://access.crunchydata.com/documentation/postgres-operator/v5/installation/">here</a>).</p>
+<h2 id="basic-configuration">Basic Configuration<a class="headerlink" href="#basic-configuration" title="Permanent link">&para;</a></h2>
+<p>After the PGO operator is installed and configured in your Kubernetes cluster, you can enable this feature using the following yaml fragment for your database configuration:</p>
+<p><strong><code>my-values.yaml</code></strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">database</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">crunchypgo</span><span class="p">:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">internal</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div></p>
+<p>By default, this will create a 2 instance HA PostgreSQL cluster, each with 1cpu, 2GiB memory and 10GiB
+storage.</p>
+<h2 id="advanced-configuration">Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Permanent link">&para;</a></h2>
+<p>When enabling crunchypgo using the above example, the database is configured using configuration provided in the default values file as follows:</p>
+<p><strong><code>default-values.yaml</code></strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">database</span><span class="p">:</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">crunchypgo</span><span class="p">:</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">      </span><span class="c1"># -- PostgreSQL version to use</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="nt">postgresVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">14</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="c1"># -- Number of Postgres instances to run (For HA)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">      </span><span class="nt">instanceReplicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">      </span><span class="c1"># -- PostgrSQL cpu allocation</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">      </span><span class="nt">instanceCPU</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">      </span><span class="c1"># -- PostgrSQL memory allocation</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">      </span><span class="nt">instanceMemory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2Gi</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">      </span><span class="c1"># -- PostgrSQL storage allocation</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">      </span><span class="nt">instanceSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10Gi</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">      </span><span class="c1"># -- PostgrSQL backups storage allocation</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">      </span><span class="nt">backupsSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10Gi</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">      </span><span class="c1"># If you need faster disk for the PostgreSQL cluster, you can specify a higher performance</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">      </span><span class="c1"># `storageClass` in your cluster and reference it here. e.g.</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">      </span><span class="c1">#storageClass: gp3-fast</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="nt">users</span><span class="p">:</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">      </span><span class="c1"># - PostgreSQL username</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">smilecdr</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">      </span><span class="c1"># -- Smile CDR module that will use this user/database</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">      </span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">audit</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">      </span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">audit</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">transaction</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">      </span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">transaction</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">persistence</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">      </span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">persistence</span>
+</code></pre></div></p>
+<h3 id="databasecrunchypgoconfig"><code>database.crunchypgo.config</code><a class="headerlink" href="#databasecrunchypgoconfig" title="Permanent link">&para;</a></h3>
+<p>The following settings can be updated, allowing you to tune the database size and performance.</p>
+<ul>
+<li>instanceReplicas</li>
+<li>instanceCPU</li>
+<li>instanceMemory</li>
+<li>instanceSize</li>
+<li>backupsSize</li>
+</ul>
+<h4 id="backups">Backups<a class="headerlink" href="#backups" title="Permanent link">&para;</a></h4>
+<p>Backups are enabled by default as it's a feature of the Cruncht PGO Operator.</p>
+<p>When using the default backup mechanism, extra pods will be created to contain the backup repository.</p>
+<p>This backup behaviour can be altered by passing in a custom configuration under the <code>pgBackRestConfig</code> as follows:</p>
+<p><strong><code>default-values.yaml</code></strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">database</span><span class="p">:</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">crunchypgo</span><span class="p">:</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">      </span><span class="nt">pgBackRestConfig</span><span class="p">:</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">        </span><span class="nt">configuration</span><span class="p">:</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">          </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="nt">repos</span><span class="p">:</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">          </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</code></pre></div></p>
+<p>Refer to the <a href="https://access.crunchydata.com/documentation/postgres-operator/latest/tutorials/backups-disaster-recovery/backups">Crunchy PGO Backup Configuration</a> for more information on configuring backups.</p>
+<h3 id="databasecrunchypgousers"><code>database.crunchypgo.users</code><a class="headerlink" href="#databasecrunchypgousers" title="Permanent link">&para;</a></h3>
+<p>The <code>database.crunchypgo.users</code> section is used to configure users, databases and how they map to Smile CDR modules that require database connections.</p>
+<p>As a best security practice, each module in a default install of Smile CDR will have its own database and associated user. As such, the following users are created.</p>
+<table>
+<thead>
+<tr>
+<th>User Name</th>
+<th>Database Name</th>
+<th>Module</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>smilecdr</td>
+<td>clustermgr-db</td>
+<td>clustermgr</td>
+</tr>
+<tr>
+<td>audit</td>
+<td>audit-db</td>
+<td>audit</td>
+</tr>
+<tr>
+<td>transaction</td>
+<td>transaction-db</td>
+<td>transaction</td>
+</tr>
+<tr>
+<td>persistence</td>
+<td>persistence-db</td>
+<td>persistence</td>
+</tr>
+</tbody>
+</table>
+<h3 id="crunchydata-database-name-suffixes">CrunchyData Database Name Suffixes<a class="headerlink" href="#crunchydata-database-name-suffixes" title="Permanent link">&para;</a></h3>
+<p>When using CrunchyData PGO for experimenting with different Smile CDR configurations, it is often convenient to experiment with a fresh (empty) database,
+or flip back and forth between multiple database configurations.</p>
+<p>There are multiple ways this could be done:</p>
+<ul>
+<li>Deprovision/Reprovision the Db cluster - Destructive and time consuming</li>
+<li>Manually drop and recreate databases - Destructive and time consuming. Also requires DB tooling and connectivity.</li>
+<li>Reconfigure the database definitions in the <code>crunchypgo</code> section of the values file</li>
+</ul>
+<p>These methods have shortcomings that can slow down progress of testing initiatives.</p>
+<ul>
+<li>All of these options can be time consuming and error prone</li>
+<li>Any dropped and recreated databases will naturally lose any data</li>
+<li>Manually reconfiguring, although non-destructive, can get tedious and error-prone when dealing with configurations that have many databases,
+especially if you wish to 'flip' back and forth between different database configurations.</li>
+</ul>
+<p>As a convenience function, it is possible to quickly alter the database names, either individually or as an entire group.
+This can be done by using <code>dbName</code> or <code>dbSuffix</code>. The default suffix is <code>-db</code> and <code>-</code> will be prefixed on any provided suffix.</p>
+<h4 id="my-valuesyaml"><code>my-values.yaml</code><a class="headerlink" href="#my-valuesyaml" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">database</span><span class="p">:</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">crunchypgo</span><span class="p">:</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">internal</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nt">users</span><span class="p">:</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="c1"># Unaltered DB name will be `clustermgr-db`</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">smilecdr</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">      </span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="c1"># Overridden DB name with disabled suffix will be `my-persistence-db-name`</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">smilecdr-pers</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">      </span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">persistence</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">      </span><span class="nt">dbName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-persistence-db-name</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">      </span><span class="nt">dbSuffix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="c1"># Default DB name with overridden suffix will be `audit-mydbsuffix`</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">smilecdr-audit</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">      </span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">audit</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">      </span><span class="nt">dbSuffix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;-mydbsuffix&quot;</span>
+</code></pre></div>
+<p>To reduce needing to specify the db suffix for multiple databases, the default suffix can be changed by setting <code>defaultDbSuffix</code> at the root level of the <code>crunchypgo</code> configuration as follows:</p>
 <blockquote>
-<p>Note: Other ingress and TLS options may be provided for this guide at a future date.</p>
+<p><strong>Note</strong>You can still override the suffix for a single DB, as can be seen below with the <code>audit</code> and <code>persistence</code> modules below.</p>
 </blockquote>
-<h2 id="private-container-registry-credentials">Private Container Registry Credentials<a class="headerlink" href="#private-container-registry-credentials" title="Permanent link">&para;</a></h2>
-<p>As the Smile CDR container images are hosted on a private container registry, credentials are required by Kubernetes so that it can pull images before starting pods. There are multiple options for exposing the Smile CDR images to your EKS cluster.</p>
-<p>If you use the Smile Digital Health container repository, or if you copy the Smile CDR images to your own password-protected container registry, then you will need to create a <code>dockerconfigjson</code> style secret in AWS Secrets Manager.</p>
-<p>There are two ways that this can be achieved.</p>
-<h3 id="account-wide-shared-repository-secret">Account-wide shared repository secret<a class="headerlink" href="#account-wide-shared-repository-secret" title="Permanent link">&para;</a></h3>
-<p>If you pre-provision an AWS Secrets Manager secret in the same AWS account, then you can provide the ARN of this secret when you configure your environment in the following section.</p>
-<p>The Terraform module will automatically add this Secret to the IAM Policies used by the Smile CDR pods.</p>
-<h3 id="per-environment-repository-secret">Per environment repository secret<a class="headerlink" href="#per-environment-repository-secret" title="Permanent link">&para;</a></h3>
-<p>If you do not specify an AWS Secrets Manager Secret ARN, an empty secret will be automatically created in the same region.</p>
-<p>In this case, you will need to manually update the secret in the AWS Console before the Smile CDR pods will be able to pull the image and start.</p>
-<h3 id="repository-secret-format">Repository Secret Format<a class="headerlink" href="#repository-secret-format" title="Permanent link">&para;</a></h3>
-<p>In either of the above scenarios, the secret should use the standard <code>dockerconfigjson</code> format that is used by Kubernetes. More information on this is available <a href="https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/">here</a></p>
-<p>To create suitable output to paste into the secret, you can run the following command locally:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>kubectl create secret docker-registry regcred --dry-run=client --docker-server=my.registry.com --docker-username=username --docker-password=password --docker-email=email@example.com -oyaml --output=&quot;jsonpath={.data.\.dockerconfigjson}&quot; | base64 --decode
+<h4 id="my-valuesyaml_1"><code>my-values.yaml</code><a class="headerlink" href="#my-valuesyaml_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">database</span><span class="p">:</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">crunchypgo</span><span class="p">:</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nt">internal</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="nt">defaultDbSuffix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test2</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nt">users</span><span class="p">:</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="c1"># DB name will be `clustermgr-test2`</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">smilecdr</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">      </span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clustermgr</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="c1"># DB name will be `audit-test1`</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">smilecdr-audit</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">      </span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">audit</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">      </span><span class="nt">dbSuffix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test1</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="c1"># DB name will be `transaction-test2`</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">smilecdr-txlogs</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">      </span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">transaction</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">    </span><span class="c1"># DB name will be `persistence`</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">smilecdr-pers</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">      </span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">persistence</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">      </span><span class="nt">dbSuffix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
 </code></pre></div>
-<p>This will output the following, which can be pasted directly into an AWS Secrets Manager secret under the <code>dockerconfigjson</code> key.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>{&quot;auths&quot;:{&quot;my.registry.com&quot;:{&quot;username&quot;:&quot;username&quot;,&quot;password&quot;:&quot;password&quot;,&quot;email&quot;:&quot;email@example.com&quot;,&quot;auth&quot;:&quot;dXNlcm5hbWU6cGFzc3dvcmQ=&quot;}}}
-</code></pre></div>
-<h2 id="amazon-ecr">Amazon ECR<a class="headerlink" href="#amazon-ecr" title="Permanent link">&para;</a></h2>
-<p>If you choose to copy the Smile CDR images to Amazon ECR, you do not need to create any Secrets Manager secrets as authentication is performed using IAM Policies attached to IAM Roles used by the Pods.</p>
-<h2 id="dns-configuration">DNS Configuration<a class="headerlink" href="#dns-configuration" title="Permanent link">&para;</a></h2>
-<p>If you wish to have the Terraform module automatically create DNS entries for your new environments, then you will need to have a Route53 Hosted Zone in the same AWS account that you are deploying Smile CDR inside.</p>
 
 
 
@@ -3271,10 +3402,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.top", "content.action.view", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.expand", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.top", "content.action.view", "content.tabs.link"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
       
     
   </body>
