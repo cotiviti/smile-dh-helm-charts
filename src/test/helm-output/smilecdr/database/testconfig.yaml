@@ -47,8 +47,13 @@ tests:
     - ../default-test-values.yaml
     - ../default-test-disabled-features.yaml
     - values-multiInternalCrunchy.yaml
-  singleExternalIAM:
-    outputFile: output-singleExternalIAM.yaml
+  iamSecretsManager:
+    outputFile: output-iamSecretsManager.yaml
     valueFiles:
     - ../default-test-values.yaml
-    - values-singleExternalIAM.yaml
+    - values-iamSecretsManager.yaml
+  legacyIamSecretsManager:
+    outputFile: output-legacyIamSecretsManager.yaml
+    valueFiles:
+    - ../default-test-values.yaml
+    - values-legacyIamSecretsManager.yaml

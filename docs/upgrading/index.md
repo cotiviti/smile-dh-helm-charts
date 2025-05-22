@@ -94,6 +94,7 @@ This section outlines key changes and required actions when upgrading from Smile
 
 #### Overview of Changes
 - Default Smile CDR version updated from `2025.02.R03` to `2025.05.R01`.
+- Updated configurations for IAM or Secrets Manager database authentication.
 
 ---
 
@@ -131,9 +132,12 @@ As a reminder, always [Pin Your Smile CDR Version](#pin-your-smile-cdr-version) 
 ##### Upgrade-related Changes
 Review the following action items to address any potentially breaking changes.
 
-!!! warning
-    **REMINDER! - [Pin Your Smile CDR Version](#pin-your-smile-cdr-version)<br>**
-    As a reminder, always [Pin Your Smile CDR Version](#pin-your-smile-cdr-version) when upgrading the Helm Chart, in order to prevent unexpected changes to your Smile CDR release.
+###### Updated configurations for IAM or Secrets Manager database authentication.
+* Although the required configuration change should take effect without any intervention, logs should be reviewed to ensure that any RDS connections using IAM or Secrets Manager are still working as expected.
+* If there are any issues, make sure you have correctly set your Smile CDR version in your values file by setting `cdrVersion` to `2025.05.R01` or higher.
+* If you wish to still use the old mechanism, you should pin your Smile CDR version using `cdrVersion` to `2025.02.*` or earlier. See the [version matrix](./version-matrix.md) for more info on supported versions.
+* See [here](../guide/smilecdr/database-external.md#using-iam-or-direct-secrets-manager-authentication) for information on configuring IAM authentication.
+* See [here](https://smilecdr.com/docs/v/2025.08.PRE/database_administration/rds_auth.html#aws-advanced-jdbc-driver) for information on the associated changes to Smile CDR
 
 No additional changes are required to upgrade from v4.x to v5.0
 
