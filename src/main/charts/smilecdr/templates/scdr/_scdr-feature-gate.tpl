@@ -32,6 +32,7 @@
 
 {{- define "smilecdr.features.matrix" -}}
   {{- $features := dict
+    "f002" (dict "name" "AwsAdvancedJDBCDriver" "min" "2025.05")
     "f001" (dict "name" "NodeEnvironmentType" "min" "2024.08")
   -}}
   {{- $features | toYaml -}}

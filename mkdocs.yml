@@ -138,7 +138,11 @@ nav:
       - 'Requirements': guide/smilecdr/requirements.md
       - 'Versions': guide/smilecdr/cdrversions.md
       - 'Installation': guide/smilecdr/install.md
-      - 'Database': guide/smilecdr/database.md
+      - 'Database':
+        - 'Overview': guide/smilecdr/database-overview.md
+        - 'External Database': guide/smilecdr/database-external.md
+        - 'Local Database': guide/smilecdr/database-local.md
+        - 'Examples': guide/smilecdr/database-examples.md
       - 'CDR Modules':
         - guide/smilecdr/modules/index.md
         - 'Modules': guide/smilecdr/modules/modules.md
