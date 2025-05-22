@@ -357,7 +357,25 @@ Currently, this is the canonical module source for the following template helper
         {{- if and (eq $theDBConnectionSpec.connectionConfig.authentication.type "iam") (has $theModuleName $theDBConnectionSpec.modules) -}}
           {{- if eq $theDBConnectionSpec.connectionConfig.authentication.iamProvider "aws" -}}
             {{- /* Enable IAM authentication */ -}}
-            {{- $_ := set $theModuleSpec.config "db.auth_using_iam" true -}}
+            {{- if (include "smilecdr.features.getFeatureDetails" (list "f002" $.Values.cdrVersionInternal) | fromYaml).canUse -}}
+              {{- /* If Smile CDR version is using the AWS Advanced JDBC Driver (Feature: `f002`) */ -}}
+              {{- $dbUrl := replace "jdbc:postgresql" "jdbc:aws-wrapper:postgresql" (get $theModuleSpec.config "db.url") -}}
+              {{- $iamProps := "wrapperPlugins=iam&user=#{env['DB_USER']}" -}}
+              {{- if contains "?" $dbUrl -}}
+                {{- $dbUrl = printf "%s&%s" $dbUrl $iamProps -}}
+              {{- else -}}
+                {{- $dbUrl = printf "%s?%s" $dbUrl $iamProps -}}
+              {{- end -}}
+              {{- $_ := set $theModuleSpec.config "db.url" $dbUrl -}}
+              {{- /* Do not provide user or password when using IAM auth with AWS Advanced JDBC Driver */ -}}
+              {{- $_ := unset $theModuleSpec.config "db.user" -}}
+              {{- $_ := unset $theModuleSpec.config "db.password" -}}
+            {{- else -}}
+              {{- /* Fallback to the pre `2025.05` method. */ -}}
+              {{- $_ := set $theModuleSpec.config "db.auth_using_iam" true -}}
+              {{- /* Do not provide password when using IAM auth */ -}}
+              {{- $_ := unset $theModuleSpec.config "db.password" -}}
+            {{- end -}}
             {{- /* Set this to 15 mins max as per https://smilecdr.com/docs/database_administration/iam_auth.html */ -}}
             {{- /* If it's already defined in this module, use that value if it's under the iam Token Lifetime value */ -}}
             {{- $connMaxlifetimeMillis := $theDBConnectionSpec.connectionConfig.authentication.iamTokenLifetimeMillis -}}
@@ -367,8 +385,6 @@ Currently, this is the canonical module source for the following template helper
               {{- $connMaxlifetimeMillis = min $unFlattenedConfig.db.connectionpool.maxlifetime.millis $theDBConnectionSpec.connectionConfig.iamTokenLifetimeMillis -}}
             {{- end -}}
             {{- $_ := set $theModuleSpec.config "db.connectionpool.maxlifetime.millis" $connMaxlifetimeMillis -}}
-            {{- /* Do not provide password when using IAM auth */ -}}
-            {{- $_ := unset $theModuleSpec.config "db.password" -}}
           {{- else -}}
             {{- fail (printf "IAM not supported by `%s` provider." $theDBConnectionSpec.connectionConfig.authentication.iamProvider) -}}
           {{- end -}}
@@ -378,20 +394,32 @@ Currently, this is the canonical module source for the following template helper
       {{- range $theDBConnectionSpec := $extDBConnections -}}
         {{- if and (eq $theDBConnectionSpec.connectionConfig.authentication.type "secretsmanager") (has $theModuleName $theDBConnectionSpec.modules) -}}
           {{- if eq $theDBConnectionSpec.connectionConfig.authentication.secretsManagerProvider "aws" -}}
-            {{- /* Enable Secrets Manager authentication */ -}}
-            {{- $_ := set $theModuleSpec.config "db.secrets_manager" "AWS" -}}
-            {{- $_ := set $theModuleSpec.config "db.username" $theDBConnectionSpec.connectionConfig.authentication.secretArn  -}}
-            {{- /* $_ := set $theModuleSpec.config "db.url" "jdbc-secretsmanager:postgresql://#{env['DB_URL']}:#{env['DB_PORT']}/#{env['DB_DATABASE']}?sslmode=require" */ -}}
-            {{- /* TODO: Update Secrets Manager configuration as so:
-                * If using Secrets Manager secrets with the appropriate structure, all DB connection details can be provided from the secret. You do not need to mount the secret into the pod.
-                * It's also possible to provide DB connection details using a Secret mounted via SSCSI
-                * It's also possible to provide DB connection details directly in the values file.
-                Of course, using Secrets Manager would be the preferred option here as no connection configuration needs to be brought into the pod, other than the Secret ARN
-                This means there are various options of configuration that will work with this.
-                */ -}}
-            {{- $_ := set $theModuleSpec.config "db.url" $theDBConnectionSpec.connectionConfig.authentication.secretArn -}}
-            {{- /* Do not provide password when using SecretsManager auth */ -}}
-            {{- $_ := unset $theModuleSpec.config "db.password" -}}
+            {{- if (include "smilecdr.features.getFeatureDetails" (list "f002" $.Values.cdrVersionInternal) | fromYaml).canUse -}}
+              {{- /* If Smile CDR version is using the AWS Advanced JDBC Driver (Feature: `f002`) */ -}}
+              {{- $dbUrl := replace "jdbc:postgresql" "jdbc:aws-wrapper:postgresql" (get $theModuleSpec.config "db.url") -}}
+              {{- $secretProps := printf "wrapperPlugins=awsSecretsManager&secretsManagerSecretId=%s" $theDBConnectionSpec.connectionConfig.authentication.secretArn -}}
+              {{- if contains "?" $dbUrl -}}
+                {{- $dbUrl = printf "%s&%s" $dbUrl $secretProps -}}
+              {{- else -}}
+                {{- $dbUrl = printf "%s?%s" $dbUrl $secretProps -}}
+              {{- end -}}
+              {{- $_ := set $theModuleSpec.config "db.url" $dbUrl -}}
+              {{- /* Do not enable the secrets manager option, or provide
+                   * user or password when using Secrets Manager auth with
+                   * the AWS Advanced JDBC Driver.
+                   */ -}}
+              {{- $_ := unset $theModuleSpec.config "db.secrets_manager" -}}
+              {{- $_ := unset $theModuleSpec.config "db.username" -}}
+              {{- $_ := unset $theModuleSpec.config "db.password" -}}
+            {{- else -}}
+              {{- /* Fallback to the pre `2025.05` method */ -}}
+              {{- $_ := set $theModuleSpec.config "db.secrets_manager" "AWS" -}}
+              {{- $_ := set $theModuleSpec.config "db.url" $theDBConnectionSpec.connectionConfig.authentication.secretArn -}}
+              {{- $_ := set $theModuleSpec.config "db.username" $theDBConnectionSpec.connectionConfig.authentication.secretArn -}}
+              {{- /* Do not provide password when using Secrets Manager auth */ -}}
+              {{- $_ := unset $theModuleSpec.config "db.password" -}}
+            {{- end -}}
+
           {{- else -}}
             {{- fail (printf "Secretsmanager secrets not supported by `%s` provider." $theDBConnectionSpec.connectionConfig.authentication.secretsManagerProvider) -}}
           {{- end -}}
