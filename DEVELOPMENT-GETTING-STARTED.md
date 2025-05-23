@@ -6,7 +6,7 @@ Welcome to the Smile Digital Health Helm Charts repository! This guide is design
 
 ## Repository Location
 
-The official repository for the Smile CDR Helm Chart is:
+The official repository for the Smile CDR Helm Chart is [https://gitlab.com/smilecdr-public/smile-dh-helm-charts](https://gitlab.com/smilecdr-public/smile-dh-helm-charts)
 
 **WARNING DO NOT clone this repository!**
 
@@ -52,6 +52,8 @@ To contribute effectively, you'll need certain command-line tools installed. The
 | [Shellcheck](https://www.shellcheck.net/)          | Lints shell scripts                                  |
 | [Pre-commit](https://pre-commit.com/)              | Automates local checks for commit message format, code linting, etc.   |
 
+You will install these tools in the [Initial Repository & Workstation Setup](#initial-repository--workstation-setup) section below
+
 ---
 
 ## Contribution Workflow Overview
@@ -68,51 +70,52 @@ To make contributions, you must follow the below steps:
 
 >**Note:** Contribution cannot be done directly to the official repository. A forked repo as per the above MUST be used.
 
-In order to follow this workflow, you must have your local clone set up with the correct `origin` and `upstream` remotes.
+In order to follow this workflow, you must have your local development workstation set up with the correct `origin` and `upstream` remotes as per the below instructions.
 
 ---
 
 ## Initial Repository & Workstation Setup
 
-Before working on features, you should fork the official repository. You will then clone this forked repository to your local workstation.
-* This forked repository will be set up as the `origin` remote on your workstation.
-* The official Smile Digital Health Helm Charts repository will then be configured on your workstation as the `upstream` remote.
+### Fork The Smile CDR Helm Charts Repository
+Before working on features, you should fork the official Smile CDR Helm Charts repository. This forked repository will be used to facilitate the creation of Merge Requests for your feature branches.
+
+* This forked repository will be configured as the `origin` remote on your local development workstation.
+* The official Smile Digital Health Helm Charts repository will be configured as the `upstream` remote on your local development workstation.
 <!-- * It is not essential for this forked repository to be fully up to date with the official repository. -->
 
-With this configuration, you will be able to follow the contribution workflows documented below.
+With this configuration, you will be able to follow the contribution workflow documented below.
 
-### Forked Repositories
 You can either create a fork in your organization if you are working in a team with multiple contributors (recommended), or you can create a new private fork of the repository if you are an individual contributor.
 
 #### Use Existing Repository Fork
-If working in a team, you should seek to use an existing fork if available.
+If working in a team, you should seek to use an existing fork of the repository if available.
 
 #### Create New Repository Fork
-If no existing fork is available then you should create one:
-* **Fork The Repository**: [https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/forks/new](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/forks/new)
+If no existing fork is available then you should create one here:
+[https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/forks/new](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/forks/new)
 
-Do not worry about any messages in your forked repository about it not being synced. This is a GitLab quirk that can be safely ignored when using these contribution workflows.
+>Note: Do not worry about messages in your forked repository about it not being synced with the upstream. This is a GitLab quirk that can be safely ignored when using the workflow described here.
 
 <!-- **WARNING!** You ***SHOULD NOT*** use the GitLab UI as a reference for the current status of the release branches in your forked repo as it can be misleading. This is because the GitLab UI currently compares branches on forked repositories with the default branch of the upstream repository and ***not*** the respective release branch. This results in a message that makes it seem that the release branch (e.g. `next-major`) in your forked repo is not in sync with the upstream repo, even if it is. You ***MUST NOT*** use the GitLab sync button in such scenarios as it will incorrectly pull changes from `upstream/main` into your feature or release branch, which can cause confusion. -->
 
 ### Clone Forked Repository
 
-The first time you work on this repository on your local workstation, you need to correctly configure your git remotes so that you can create your feature branches from the appropriate release branch.
+The first time you work on this repository on your local workstation, you need to correctly configure your git remotes so that you can create your feature branches from the appropriate release branch of the official repository.
 
 * Clone your forked repository to your local workstation
    ```
-      git clone https://gitlab.com/my-namespace/smile-dh-helm-charts.git
+   git clone https://gitlab.com/my-namespace/smile-dh-helm-charts.git
    ```
-   > This will configure your forked repository as the `origin` remote
+   > This will configure your forked repository as the `origin` remote on your workstation.
 
 * Add a git remote for the upstream repository
    ```
    cd smile-dh-helm-charts
    git remote add upstream https://gitlab.com/smilecdr-public/smile-dh-helm-charts.git
    ```
-   > This will configure the official repository as the `upstream` remote
+   > This will configure the official repository as the `upstream` remote on your workstation.
 
-### Tools Quick Setup (macOS / Linux)
+### Set Up Development Tools (macOS / Linux)
 
 If you are using [Homebrew](https://brew.sh/), run:
 
@@ -134,9 +137,10 @@ pip install -r commitizen-requirements.txt -r mkdocs-requirements.txt
 
 To verify that the tools are installed and functioning correctly:
 
-* Check out a suitable branch. e.g. `next-major`
+* Switch to a suitable branch. e.g. `next-major`
    ```sh
-   git checkout upstream/next-major
+   git fetch upstream
+   git switch next-major
    ```
 
 * Run the pre-commit checks
