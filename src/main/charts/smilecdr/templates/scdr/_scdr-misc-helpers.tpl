@@ -329,6 +329,7 @@ Use this for generating deprecation notices and other warnings about the configu
       {{- $warningMessage = printf "%s\n * %s" $warningMessage $file -}}
     {{- end -}}
   {{- end -}}
+
   {{- /* Check for per-node issues */ -}}
   {{- range $theCdrNodeName, $theCdrNodeCtx := include "smilecdr.cdrNodes" . | fromYaml -}}
     {{- $theCdrNodeSpec := $theCdrNodeCtx.Values -}}
@@ -366,6 +367,7 @@ Use this for generating deprecation notices and other warnings about the configu
       {{- $warningMessage = printf "%s\n\nWARNING:    %s\n%s" $warningMessage $cdrNodeChartWarning.title ($cdrNodeChartWarning.message | indent 12) -}}
     {{- end -}}
   {{- end -}}
+
   {{- /* Check for using old image pull credentials */ -}}
   {{- if hasKey .Values.image "credentials" -}}
     {{- $warningMessage = printf "%s\n\nDEPRECATED: `image.credentials`" $warningMessage -}}
@@ -373,7 +375,13 @@ Use this for generating deprecation notices and other warnings about the configu
     {{- $warningMessage = printf "%s\n            removed in a future version of the Helm Chart. Please use `image.imagePullSecrets` instead." $warningMessage -}}
     {{- $warningMessage = printf "%s\n            Refer to the docs for more info on how to configure image pull secrets." $warningMessage -}}
   {{- end -}}
-  {{- /* Check for module mis-configurations. */ -}}
+
+  {{- /* Need to set cdrVersionInternal here so that feature checks
+       * in modules do not fail
+       */ -}}
+  {{- $cdrVersionInfo := (include "smilecdr.cdrVersion" . | fromYaml ) -}}
+  {{- $_ := set .Values "cdrVersionInternal" $cdrVersionInfo.internalVersion -}}
+
   {{- $modules := include "smilecdr.modules" . | fromYaml -}}
   {{- range $k, $v := $modules -}}
     {{- $moduleConfig := $v.config -}}
