@@ -1,8 +1,12 @@
-# DESIGN.md
+# Smile CDR Helm Chart Design
 
 ## Overview
 
-This Helm chart uses a non-traditional architecture compared to many simpler charts that rely primarily on direct variable substitution and straightforward conditional templating. Instead, it constructs a rich, nested internal representation of the intended deployment architecture before generating actual Kubernetes resources. This design was driven by the need to support complex configuration, platform variability, and dynamic resource generation — all within the constraints of Helm’s Go templating engine.
+This Helm chart uses a non-traditional architecture compared to many simpler charts that rely primarily on direct variable substitution and straightforward conditional templating.
+
+Instead, it constructs a rich, nested internal representation of the intended deployment architecture before generating actual Kubernetes resources.
+
+This design choice was driven by the need to support complex configuration, platform variability, and dynamic resource generation — all within the constraints of Helm’s Go templating engine.
 
 This document provides new developers with insight into the design philosophy, structure, and rationale behind the chart. It aims to bridge the gap for those coming from simpler Helm charts and to prepare you for working safely within this system.
 
