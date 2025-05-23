@@ -8,39 +8,73 @@ If the previous release has just been published, ensure that the `next-major` br
 
 * Merge-back `main` into `next-major` - Currently performed by a repo maintainer after a release is published.
 
-### Create Initial Feature Branch For New Release
+### Create GitLab Issue for New Release
 
-As this process is normally initiated when preparing a new Helm Chart version for a future Smile CDR GA release, it's common for this inital branch to follow the format `add-support-for-smilecdr-yyyy-mm`. e.g. If creating the new release for Smile CDR `2025.05.*` you would do the following:
+The major release creation process should be started by creating a new GitLab issue with the following details
+* Create Issue: Go [here](https://gitlab.com/smilecdr-public/smile-dh-helm-charts/-/issues/new) to create the new issue.
+* Title:
+  ```
+  Smile CDR - Add support for Smile CDR YYYY.MM GA release
+  ```
+* Description:
+  ```
+  Add support for upcoming Smile CDR YYYY.MM quarterly GA release.
+  This change should bump the Helm Chart version from vx to v9
+  ```
+* Labels:
+   * SmileCDR
+* Milestone:
+   Select the milestone `Version x (YYYY.MM) Release. Create the milestone if it does not already exist.
+
+### Create Feature Branch For New Release
+
+The release branch should be created from the `upstream/next-major` branch and should follow the format `NNN-add-support-for-smile-cdr-YYYY-MM-ga-release`, where `NNN` is the GitLab issue created above and `YYYY-MM` id the next Smile CDR quarterly release.
+
+e.g. If the issue number was `123` and you are creating the new release for the Smile CDR `2025.05` quarterly release, you would do the following:
 
 ```
-git checkout -b nnn-add-support-for-smilecdr-2025-05
+git checkout -b 123-add-support-for-smile-cdr-2025-05-ga-release upstream/next-major
 ```
 
 ### Update Version References
 
-When starting a new Helm Chart version that defaults to a new version of Smile CDR, there are a few locations where the version information needs to be updated.
+When starting a new Helm Chart release, the referenced Smile CDR quarterly release needs to be updated.
 
-#### `src/main/charts/smilecdr/Chart.yaml`
-Set `appVersion` to the appropriate Smile CDR version. e.g.
+There are a few locations where this information needs to be updated.
+
+#### Update Helm Chart Definition
+Location: `src/main/charts/smilecdr/Chart.yaml`
+
+Set `appVersion` to the latest available version for the given Smile CDR quarterly GA release. e.g.
 ``` yaml
 appVersion: "2025.05.PRE-RC13"
 ```
-To find the appropriate version, refer to the Smile CDR releases website. e.g. [`2025.05` releases](https://releases.smilecdr.com/releases/2025/5/)
+Always use the latest currently available version for the Smile CDR quarterly release.
 
-#### `src/main/charts/smilecdr/templates/scdr/_scdr-feature-gate.tpl`
-Add appropriate entry in the `smilecdr.releases` template. This is used by the version checking and feature gating functionality of the Helm Chart. e.g.
+Refer to the Smile CDR releases website to find this information. e.g. Published `2025.05` releases can be found [here](https://releases.smilecdr.com/releases/2025/5/).
+
+>**Warning!**: Do **NOT** use a future version that is not yet published. Doing so will cause the Helm Chart to fail during deployment.
+
+#### Update Feature Gates
+Location:  `src/main/charts/smilecdr/templates/scdr/_scdr-feature-gate.tpl`
+
+Add an appropriate entry in the `smilecdr.releases` template. This is used by the version checking and feature gating functionality of the Helm Chart.
+
+Use the same version that was used in `appVersion` above.
+
+e.g.
 ``` go
 {{- /* Smile CDR Version Matrix
      *
      */ -}}
 {{- define "smilecdr.releases" -}}
   {{- $releases := dict
-    "2025.05" (dict "name" "" "latest" "PRE-RC13") <-- Add this line to support `2025.05.PRE-RC-13` and above
-    "2025.02" (dict "name" "" "latest" "R03")
-    "2024.11" (dict "name" "" "latest" "R05")
-    "2024.08" (dict "name" "" "latest" "R05")
-    "2024.05" (dict "name" "" "latest" "R05")
-    "2024.02" (dict "name" "" "latest" "R07")
+    "2025.05" (dict "name" "Fortification" "latest" "PRE-RC13") <-- Add this line to support `2025.05.PRE-RC-13` and above
+    "2025.02" (dict "name" "Transfiguration" "latest" "R03")
+    "2024.11" (dict "name" "Despina" "latest" "R05")
+    "2024.08" (dict "name" "Copernicus" "latest" "R05")
+    "2024.05" (dict "name" "Borealis" "latest" "R05")
+    "2024.02" (dict "name" "Apollo" "latest" "R07")
   -}}
   {{- $releases | toYaml -}}
 {{- end }}
@@ -48,9 +82,71 @@ Add appropriate entry in the `smilecdr.releases` template. This is used by the v
 
 ### Update Documentation References
 
-Although most of the versions displayed in the documentation are generated dynamically based on the most recent Git tag on the current branch, you do need to update the following:
+Most of the versions displayed in the documentation are generated dynamically based on the most recent Git tag on the current branch.
 
-#### `mkdocs.yml`
+However, you do need to update the following:
+
+#### Add Migration Guide
+Location: `docs/upgrading/index.md`
+
+A new item should be created under the 'Migration Guides' section that covers any steps required for migrating to this version of the Helm Chart.
+
+Copy an existing section, or use the following markdown as a guideline:
+
+   ```
+      ### `v4.x` to `v5.x`
+
+      This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart version `v4.x` to `v5.x`.
+
+      ---
+
+      #### Overview of Changes
+      - Default Smile CDR GA release updated from `YYYY.MM` to `YYYY.MM`.
+
+      ---
+
+      #### Actionable Items
+      ##### Check Helm Chart Warnings
+
+      Before any upgrade, check the output of your `helm install` command for any warnings.
+
+      These warnings may include misconfigurations or deprecation warnings that may affect your upgrade.
+
+      ??? note "Displaying Helm Chart warnings when deploying with Terraform"
+         If deploying using the Terraform `helm_release` resource, you may not see the warnings during deployment as they are not displayed by default.
+
+         In order to check the warnings, you can get the Helm release notes directly like so:
+         ```
+         helm -n my-namespace list # <- to get list of releases
+         helm -n my-namespace get notes <release-name>
+         ```
+
+      If you see the following output, it is safe to upgrade the Helm Chart
+      ```
+      ***************************
+      **** NO CHART WARNINGS ****
+      ***************************
+      ```
+
+      ##### Pin Your Smile CDR Version
+      **ALWAYS Pin Your Smile CDR Version!**
+
+      As a reminder, always [Pin Your Smile CDR Version](#pin-your-smile-cdr-version) when upgrading the Helm Chart, in order to prevent unexpected changes to your Smile CDR release.
+
+      !!! warning
+         Failure to pin your Smile CDR version ***will*** result in unexpected upgrades to the version of Smile CDR being deployed.
+
+      ##### Upgrade-related Changes
+      Review the following action items to address any potentially breaking changes.
+
+      No additional changes are required to upgrade from v4.x to v5.0
+   ```
+
+>Note: This documentation should be updated as features are added, if they require upgrade actions.
+
+#### Add Changelog Link
+Location: `mkdocs.yml`
+
 Add a new item in the Changelog section for the upcoming release. e.g.
 ``` yaml
 ...
@@ -62,13 +158,14 @@ Add a new item in the Changelog section for the upcoming release. e.g.
         - "Version 1.x": charts/smilecdr/CHANGELOG-V1.md
 ```
 
->Note: You do NOT need to create the actual changelog file (e.g. `charts/smilecdr/CHANGELOG-V5.md`) as it will be created and updated by the automated release process.
+>Note: You do **NOT** need to create the actual changelog file (e.g. `charts/smilecdr/CHANGELOG-V5.md`) as it will be created and updated by the automated release process.
 
+#### Update MkDocs Version Macro
+Location: `mkdocs/macros/main.py`
 
-#### `mkdocs/macros/main.py`
-The current and past `stable` channel releases cannot be determined dynamically, so must be manually added in the `version_info` object MkDocs macro file.
+The current and past `stable` channel releases cannot be determined dynamically by the included MkDocs macros. They must be hard coded manually by adding them to the `version_info` object.
 
-<!-- >**Note:** This can either be updated when initially creating the new release, or in the final 'release preparation' branch (See below) -->
+Even if the Smile CDR GA release has not already been published, you should still use `R01` for the default version. This information is only used for displaying stable channel releases in the documentation.
 
 ``` python
 version_info = [
@@ -84,11 +181,13 @@ version_info = [
    ...
 ]
 ```
->**Note:** It's safe to use R01 for the default version here even if it's not yet released as it's only used for displaying stable channel releases in the documentation.
 
 ### Prepare Initial Commit For Release
 
-Create the initial commit for the new release branch. It's important that this commit includes a breaking change so that the Semantic Versioning process bumps the major version.
+Create the initial commit for the new release branch. The format and contents of this commit need to be correct in order for the automated release process to function correctly.
+
+It must contain a suitable message that will be visible as the first feature in this release and it must be a 'Breaking Change' so that the automated release process bumps the Helm Chart major version.
+
 
 * Update test outputs, review and stage changes:
    ```
@@ -104,11 +203,13 @@ Create the initial commit for the new release branch. It's important that this c
 * Commit
    >**Note:** This should be a multi-line commit as follows!
    ```
-   git commit -am "feat(smilecdr): add support for Smile CDR `YYYY.MM` GA release
+   git commit -am "feat(smilecdr): Add support for Smile CDR `YYYY.MM` GA release
 
-   This commit bumps the Helm Chart major version to vx.0.0
+   Update the default Smile CDR version in preparation for the `YYYY.MM` quarterly GA release.
 
-   Breaking Change: Default release of Smile CDR changed from `YYYY.MM.PP` to `YYYY.MM.PP`"
+   The 'default' test output was updated due to the changed version.
+
+   Breaking Change: Default GA release of Smile CDR changed from `YYYY.MM` to `YYYY.MM`"
    ```
 
 * (Optional) Re-run pre-commit check:
@@ -118,20 +219,23 @@ Create the initial commit for the new release branch. It's important that this c
    ```
 
 * Push to origin (Your forked repository)
+   ```
+   git push origin
+   ```
 
 ### Create Merge Request in Upstream Repository
 
 Open an MR in GitLab:
-- Source: `my-namespace/smile-dh-helm-charts:208-improve-developer-documentation`
-- Target: `smilecdr-public/smile-dh-helm-charts:next-major`
+* Source: `my-namespace/smile-dh-helm-charts:208-improve-developer-documentation`
+* Target: `smilecdr-public/smile-dh-helm-charts:next-major`
 
 After your Merge Request has been created, someone with the maintainer role will run the merge pipeline to verify that there are no regressions with the new code.
-   - The merge request will be reviewed by an approved reviewer
-   - The merge pipeline will be initiated by a repo maintainer
-   - Once pipelines pass and the changes have been accepted, a repo maintainer will complete the merge request
-   - The automatic release process will run, releasing a new version of the Helm Chart if required
-   - The automatic documentation update process will run, updating the live documentation site
-   - The `upstream/next-major` branch will now have the correct version for future feature branches.
+* The merge request will be reviewed by a repo maintainer
+* The merge pipeline will be initiated by a repo maintainer
+* Once pipelines pass and the changes have been accepted, a repo maintainer will complete the merge request
+* The automatic release process will run, releasing a new version of the Helm Chart if required
+* The automatic documentation update process will run, updating the live documentation site
+* The `upstream/next-major` branch is now ready for contributions via feature branches.
 
 ## 📘 2. Update Code and Documentation
 
@@ -158,7 +262,7 @@ git checkout -b nnn-prepare-v5-release upstream/next-major
 
 ### Update Version References
 
-Before publishing to the `stable` release channel, ensure no pre-release versions remain in the code.
+Before publishing to the `stable` release channel, ensure no references to pre-release versions of Smile CDR remain in the code.
 
 #### `src/main/charts/smilecdr/Chart.yaml`
 Update `appVersion` to the appropriate Smile CDR version. Ensure it is no longer pointing to a pre-release version of Smile CDR.
@@ -219,71 +323,10 @@ version_info = [
 ]
 ```
 
-#### Update Migration Guide
+#### Review Migration Guide
 **Source**: `docs/upgrading/index.md`
 
-A new item should be created under the 'Migration Guides' section that covers any steps required for migrating to this version of the Helm Chart.
-
-Copy an existing section, or use the following markdown as a guideline:
-
-   ```
-      ### `v4.x` to `v5.x`
-
-      This section outlines key changes and required actions when upgrading from Smile CDR Helm Chart version `v4.x` to `v5.x`.
-
-      ---
-
-      #### Overview of Changes
-      - Default Smile CDR version updated from `2025.02.xx` to `2025.05.R01`.
-      - Feature 1
-      - Fearure 2
-
-      ##### Feature 1 (Informational)
-      < Brief info about feature 1 >
-
-      ##### Feature 2 (Informational)
-      < Brief info about feature 2 >
-
-      ---
-
-      #### Actionable Items
-      ##### Check Helm Chart Warnings
-
-      Before any upgrade, check the output of your `helm install` command for any warnings.
-
-      These warnings may include misconfigurations or deprecation warnings that may affect your upgrade.
-
-      ??? note "Displaying Helm Chart warnings when deploying with Terraform"
-         If deploying using the Terraform `helm_release` resource, you may not see the warnings during deployment as they are not displayed by default.
-
-         In order to check the warnings, you can get the Helm release notes directly like so:
-         ```
-         helm -n my-namespace list # <- to get list of releases
-         helm -n my-namespace get notes <release-name>
-         ```
-
-      If you see the following output, it is safe to upgrade the Helm Chart
-      ```
-      ***************************
-      **** NO CHART WARNINGS ****
-      ***************************
-      ```
-
-      ##### Pin Your Smile CDR Version
-      **ALWAYS Pin Your Smile CDR Version!**
-
-      As a reminder, always [Pin Your Smile CDR Version](#pin-your-smile-cdr-version) when upgrading the Helm Chart, in order to prevent unexpected changes to your Smile CDR release.
-
-      !!! warning
-         Failure to pin your Smile CDR version ***will*** result in unexpected upgrades to the version of Smile CDR being deployed.
-
-      ##### Upgrade-related Changes
-      Review the following action items to address any potentially breaking changes.
-
-      ###### Breaking Change 1
-      < Add information about potentially breaking change >
-      < Include any instructions that should be followed because of this change >
-   ```
+Review the 'Migration Guides' section for this upgrade to ensure that it covers any extra steps required for migrating to this version of the Helm Chart.
 
 ### Check Smile CDR Release for Filesystem Changes
 There are certain files that the Helm Chart generates dynamically rather than using the defaults that are included with Smile CDR packages.
@@ -319,7 +362,7 @@ Create the final commit for the release. Note that unlike the initial commit for
 * Commit
    >**Note:** This should be a multi-line commit as follows!
    ```
-   git commit -am "chore(smilecdr): prepare release for v5.0
+   git commit -am "chore(smilecdr): Prepare release for v5.0
 
    This commit finalizes changes for releasing the Smile CDR Helm Chart v5.0.0"
    ```
@@ -339,12 +382,12 @@ Open an MR in GitLab:
 - Target: `smilecdr-public/smile-dh-helm-charts:next-major`
 
 After your Merge Request has been created, someone with the maintainer role will run the merge pipeline to verify that there are no regressions with the new code.
-   - The merge request will be reviewed by an approved reviewer
-   - The merge pipeline will be initiated by a repo maintainer
-   - Once pipelines pass and the changes have been accepted, a repo maintainer will complete the merge request
-   - The automatic release process will run, releasing a new version of the Helm Chart if required
-   - The automatic documentation update process will run, updating the live documentation site
-   - The `upstream/next-major` branch will now have the correct version for future feature branches.
+* The merge request will be reviewed by a repo maintainer
+* The merge pipeline will be initiated by a repo maintainer
+* Once pipelines pass and the changes have been accepted, a repo maintainer will complete the merge request
+* The automatic release process will run, releasing a new version of the Helm Chart if required
+* The automatic documentation update process will run, updating the live documentation site
+* The `upstream/next-major` branch will now have the correct version for future feature branches.
 
 ### Create Merge Request to `main` Branch
 
@@ -355,10 +398,10 @@ Open an MR in GitLab:
 - Target: `smilecdr-public/smile-dh-helm-charts:main`
 
 After the Merge Request is created, the merge pipeline will automatically run to verify that there are no regressions with the new code.
-   - Once pipelines pass and the changes have been accepted, a repo maintainer will complete the merge request
-   - The automatic release process will run, releasing the new major version of the Helm Chart
-   - The automatic documentation update process will run, updating the 'latest' documentation site
-   - The `upstream/main` branch will now reflect the new Helm Chart version.
+* Once pipelines pass and the changes have been accepted, a repo maintainer will complete the merge request
+* The automatic release process will run, releasing the new major version of the Helm Chart
+* The automatic documentation update process will run, updating the 'latest' documentation site
+* The `upstream/main` branch will now reflect the new Helm Chart version.
 
 ### Mergeback `main` to `next-major`
 
