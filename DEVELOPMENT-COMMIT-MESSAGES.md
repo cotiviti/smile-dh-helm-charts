@@ -14,7 +14,7 @@ This means that by investing in a little more effort upfront when creating commi
 ### Meaningful Git History
 
 Disorganised commit messages can make it challenging to follow the history of a Git repository.
-[This XKCD comic](https://xkcd.com/1296/) captures the essence of this problem quite nicely :) 
+[This XKCD comic](https://xkcd.com/1296/) captures the essence of this problem quite nicely :)
 
 ![image](https://imgs.xkcd.com/comics/git_commit.png)
 

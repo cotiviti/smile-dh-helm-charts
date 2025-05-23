@@ -43,7 +43,7 @@ To propose and implement changes:
       ```
    - You can also update the test outputs using:
       ```sh
-      make helm-check-outputs
+      make helm-update-outputs
       ```
    >Warning: When updating test outputs, you need to thoroughly review the changes to ensure there are no unexpected outputs.
 
