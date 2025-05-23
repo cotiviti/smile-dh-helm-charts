@@ -2,7 +2,7 @@
 
 ### ⚠ BREAKING CHANGES
 
-* **smilecdr:** Default release of Smile CDR changed from from `2025.02.R03` to `2025.05.R01`
+* **smilecdr:** Default release of Smile CDR changed from `2025.02.R03` to `2025.05.R01`
 
 ### Features
 
