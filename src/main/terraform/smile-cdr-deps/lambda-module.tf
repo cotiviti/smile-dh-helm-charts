@@ -19,6 +19,7 @@ module "lambda_function" {
   vpc_subnet_ids         = local.private_subnet_ids
   vpc_security_group_ids = local.lambda_security_group_ids
 
+  role_permissions_boundary = var.permission_boundary_arn
 
   attach_policies = true
   policies = local.lambda_role_policy_arns
