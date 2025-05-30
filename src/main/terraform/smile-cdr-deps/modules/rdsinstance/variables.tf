@@ -1,4 +1,7 @@
 # Vars we will need
+variable "permission_boundary_arn" {
+  type = string
+}
 
 variable "name" {
   # Want to keep the params to a minimum so it's easy to call
