@@ -22,6 +22,8 @@ module "aurora_database" {
   source  = "terraform-aws-modules/rds-aurora/aws"
   version = "9.3.1"
 
+  iam_role_permissions_boundary = var.permission_boundary_arn
+
   name           = lower(local.clustername)
   # cluster_use_name_prefix = true
   engine         = local.rds_aurora_engine
