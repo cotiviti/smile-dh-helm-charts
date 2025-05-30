@@ -1,3 +1,7 @@
+variable "permission_boundary_arn" {
+  type = string
+}
+
 variable "eks_cluster_name" {
   description = "Name of the EKS cluster to install Smile CDR"
   type        = string
