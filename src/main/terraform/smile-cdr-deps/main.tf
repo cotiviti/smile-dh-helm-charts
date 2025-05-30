@@ -161,6 +161,8 @@ module "managed_database" {
   resourcenames_suffix = coalesce(each.value.name_suffix, local.resourcenames_suffix)
   clustername_override = each.value.name_override
 
+  permission_boundary_arn = var.permission_boundary_arn
+
   vpc_id = local.db_vpc_id
   publicly_accessible = each.value.publicly_accessible
   public_cidr_blocks = each.value.public_cidr_blocks
