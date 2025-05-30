@@ -11,6 +11,8 @@ module "smile_cdr_irsa_role" {
 
   role_policy_arns = local.scdr_role_policy_arns
 
+  role_permissions_boundary_arn = var.permission_boundary_arn
+
   oidc_providers = {
     ex = {
       provider_arn               = local.eks_cluster_oidc_provider_arn
